@@ -1,137 +1,49 @@
 // loginForm.scss
 @import "../../scss/color.scss";
+// @import "../../scss//common.scss";
 
-$box-shadow-color: rgba(0, 0, 0, 0.2); // Adjust the color and opacity as needed
-
-.cardWrapper {
-  background-color: var(---primary-color) !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  width: 100% !important;
-  height: 100vh !important;
-}
-
-.stackWrapper {
+.authincation {
+  background: var(--rgba-primary-1);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+  min-height: var(--vh10);
+}  
+.h-100{
+  height: var(--percent100);
 }
 
-.boxWrapper {
-  background-color:  var(---primary-red);
-  width: 550px;
-  height: 510px;
-  border-radius: 5px !important;
-  justify-content: center;
-  box-shadow: 0 0 10px $box-shadow-color; // Add box shadow here
 
+.container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+  width: var(--width);
+  padding-right: var( --bs-gutter-x, var(--percent15));
+  padding-left: var( --bs-gutter-x, var(--percent15));
+  margin-right: auto;
+  margin-left: auto;
 }
-
-.containerWrapper {
-  margin-top: 2;
+.row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  margin-top: calc(var(--bs-gutter-yval) * -1) !important;
+  margin-right: calc(var(--bs-gutter-xvl) / -2) !important;
+  margin-left: calc(var(--bs-gutter-xval) / -2) !important;
+}
+.align-items-center {
+    align-items: var(--center);
 }
 
-.logoImage {
-  width: 100%;         // Set the width to 100% of the parent container
-  margin-top: 8%;      // Add top margin (adjust as needed)
-  height: auto;        // Allow the height to adjust to maintain aspect ratio
-  max-height: 100px;   // Set a maximum height to control the size
+.justify-content-center {
+    justify-content: var(--center);
 }
 
-
-.titleText {
-  margin-top: 5px !important;
-  font-weight: 600 !important;
-  line-height: 1.2;
-  font-size: 1rem !important;
-  margin-bottom: 0.3rem !important;
-  color:  var(--title)
-}
-
-.formWrapper {
-  margin-top: 1rem;
-  font-size: 16px;
-  font-weight: 500;
-
-  > div {
-    margin-top: 20px;
-    margin-right: 20px;
-
-
-    label {
-      font-weight: 600;
-      font-size: 15px;
-    }
-
-    input {
-      width: 450px !important;
-      padding: 11px 15px !important;
-      border: 2px solid  var(--title);;
-      border-radius: 12px !important;
-      background-color:  var(---primary-red);
-    }
-  }
-}
-
-.gridWrapper {
-  max-width: 100% !important;
-  margin-top: 20px !important;
-}
-
-
-.buttonWrapper {
-
-  margin: 0px 20px;
-  margin-top: 13px !important;
-  border-color: var(--primary) !important;
-  background-color: var(--primary);
-  &:hover {
-    background-color:  var( --primary-hover)  !important;;
-
-  }
   
-   border-radius: 15px !important;
-  height: 100%;
-  width: 100% !important;
-  font-family: "Inter Serif";
-  font-weight: 600 !important;
+//media Query
+@media (min-width: 1200px) {
+  .container, .container-sm, .container-md, .container-lg, .container-xl {
+      max-width: 1140px;
+  }
 }
-.text-danger {
-    color: var(---primar-red) !important;
-font-size: 13px; 
-margin-top: 8px;
-margin-left: 2px !important;
+@media (min-width: 768px) {
+  .col-md-6 {
+      flex: 0 0 auto;
+     width: var(--percent50); 
+  }
 }
-.border-danger {
-    border-color: var(---primar-red) !important; }
-
-.labelText{
-  font-weight: 600 !important;
-}
-.inputForm {
-  width: 100% !important;
-  padding: 5px 12px !important;
-  border-radius: 12px !important;
-  background-color: var(---primary-White);  
-}
-.Checkbox{
-  color: var(--primary) !important;
-    // width: 1.25rem !important;
-    // height: 1.25rem !important;
-}
-
-.copyright {
-  padding: 0 1.875rem;
-  color: #9fa4a6;
-  margin-top: 1.875rem; 
-}
-  .copyright p {
-    font-size: 0.75rem; }
-  .copyright strong {
-    display: block;
-    font-size: 0.875rem; }
-   
