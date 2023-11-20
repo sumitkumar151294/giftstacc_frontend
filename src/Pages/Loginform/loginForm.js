@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import "./loginForm.scss";
 import image from "../../Assets/logo (1).png";
-import { CssBaseline } from "@mui/material";
+import { onLoginSubmit } from "../../Store/Slices/loginSlice";
+import { useDispatch } from "react-redux";
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -39,7 +39,6 @@ const LoginPage = () => {
   };
 
   const handleSubmit = (e) => {
-    const validEmail = localStorage.getItem("loginDetails");
     debugger;
     e.preventDefault();
     let isValid = true;
@@ -59,8 +58,7 @@ const LoginPage = () => {
     setErrors(newErrors);
 
     if (isValid) {
-      localStorage.setItem(loginData.email, "loginDetails");
-      console.log(loginData, "sgf");
+      dispatch(onLoginSubmit(loginData));
     }
   };
   const loginDetails = {
@@ -76,81 +74,85 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="cardWrapper">
-        <div className="stackWrapper">
-          <div className="boxWrapper">
-            <div component="main" maxWidth="xs">
-              <div className="containerWrapper">
-                <img className="logoImage" src={loginDetails.imageUrl} />
-                <div className="titleText">{loginDetails.headerText}</div>
-                <form onSubmit={handleSubmit}>
-                  <div noValidate className="formWrapper">
-                    <div>
-                      <label className="labelText" htmlFor="email">
-                        {loginDetails.email}
-                      </label>
-                      <br />
-                      <input
-                        type="text"
-                        placeholder={loginDetails.emailPlaceholder}
-                        className={` ${
-                          errors.email ? "border-danger" : "inputForm"
-                        }`}
-                        onChange={(e) => handleChange(e, "email")}
-                      />
-                      <br />
-                      <p className="text-danger">{errors.email}</p>
-                      <label
-                        className="labelText"
-                        htmlFor="password"
-                        style={{ marginTop: "15px" }}
-                      >
-                        {loginDetails.password}
-                      </label>
-                      <br />
-                      <input
-                        type="password"
-                        placeholder={loginDetails.passwordPlaceholder}
-                        className={` ${
-                          errors.password ? "border-danger" : "inputForm"
-                        }`}
-                        onChange={(e) => handleChange(e, "password")}
-                      />
-                      <p className="text-danger">{errors.password}</p>
-                    </div>
-                    <div className="gridWrapper">
-                      <div>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              className="Checkbox"
-                              required
-                              color="primary"
-                            />
-                          }
-                          label={loginDetails.remember}
-                          className="checkboxWrapper"
-                        />
+      <div class="authincation h-100">
+        <div class="container h-100">
+          <div class="row justify-content-center h-100 align-items-center">
+            <div class="col-md-6">
+              <div class="authincation-content">
+                <div class="row no-gutters">
+                  <div class="col-xl-12">
+                    <div class="auth-form">
+                      <div class="text-center mb-3">
+                        <a href="#">
+                          <img
+                            class="w-100"
+                            // src={loginDetails.imageUrl}
+                            alt=""
+                          />
+                        </a>
                       </div>
+                      <h4 class="text-center mb-4">Sign into your account</h4>
+                      <form action="index.html">
+                        <div class="mb-3">
+                          <label class="mb-1">
+                            <strong>Email</strong>
+                          </label>
+                          <input
+                            type="email"
+                            class="form-control"
+                            value="hello@example.com"
+                          />
+                        </div>
+                        <div class="mb-3">
+                          <label class="mb-1">
+                            <strong>Password</strong>
+                          </label>
+                          <input
+                            type="password"
+                            class="form-control"
+                            value="Password"
+                          />
+                        </div>
+                        <div class="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
+                          <div class="mb-3">
+                            <div class="form-check custom-checkbox ms-1">
+                              <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="basic_checkbox_1"
+                              />
+                              <label
+                                class="form-check-label"
+                                for="basic_checkbox_1"
+                              >
+                                Remember my preference
+                              </label>
+                            </div>
+                          </div>
+                          <div class="mb-3 d-none">
+                            <a href="">Forgot Password?</a>
+                          </div>
+                        </div>
+                        <div class="text-center">
+                          <button
+                            type="submit"
+                            class="btn btn-primary btn-block"
+                          >
+                            Sign Me In
+                          </button>
+                        </div>
+                      </form>
                     </div>
-                    <button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      className="buttonWrapper"
-                    >
-                      {loginDetails.sign}
-                    </button>
                   </div>
-                </form>
-              </div>
-              <div className="footer">
-                <div class="copyright">
-                  <p>Copyright © CC 2023 </p>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="copyright">
+          <p>Copyright © CC 2023 </p>
         </div>
       </div>
     </>
