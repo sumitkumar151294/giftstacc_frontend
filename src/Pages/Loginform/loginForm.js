@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./loginForm.scss";
-import image from "../../Assets/logo (1).png";
+import "./loginForm.css";
+import image from "../../assets/img/logo.png";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 const LoginPage = () => {
@@ -86,7 +86,7 @@ const LoginPage = () => {
                         <a href="#">
                           <img
                             class="w-100"
-                            // src={loginDetails.imageUrl}
+                            src={loginDetails.imageUrl}
                             alt=""
                           />
                         </a>
