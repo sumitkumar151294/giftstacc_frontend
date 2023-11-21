@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="LC Reward Gift - Client Dashboard" />
+	<meta property="og:title" content="LC Reward Gift - Client Dashboard" />
+	<meta property="og:description" content="LC Reward Gift - Client Dashboard" />
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- PAGE TITLE HERE -->
+	<title>LC Reward Gift - Client Dashboard</title>
+	
+	<!-- FAVICONS ICON -->
+	<link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
+	<link href="vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+	<!-- Style css -->
+    <link href="css/style.css" rel="stylesheet">
+<link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
+" rel="stylesheet">
+</head>
+
+
+<style>
+
+.DZ-theme-btn.DZ-bt-buy-now{
+
+display:none!important;
+
+}
+
+
+.DZ-theme-btn.DZ-bt-support-now{
+
+display:none!important;
+
+}
+
+</style>
+
+<body>
+
+   
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <a href="#" class="brand-logo">
+            		<img class="w-100" src="https://beta.shop-loyalty.com/images/logo.png">
+
+
+            </a>
+            <div class="nav-control">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+		
+		
+		<!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-between">
+                        <div class="header-left">
+							<div class="nav-item">
+								<div class="input-group search-area">
+									<input type="text" class="form-control" placeholder="Search here">
+									<span class="input-group-text"><a href="javascript:void(0)"><i class="flaticon-381-search-2"></i></a></span>
+								</div>
+							</div>
+                        </div>
+                        <ul class="navbar-nav header-right ">
+							
+							
+						
+							<li class="nav-item dropdown  header-profile">
+								<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
+									<img src="img/user-profile.png" width="56" alt=""/>
+								</a>
+								
+							</li>
+							
+                        </ul>
+                    </div>
+				</nav>
+			</div>
+		</div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+       <!--**********************************
+            Sidebar start
+        ***********************************-->
+     <div class="deznav">
+            <div class="deznav-scroll">
+                <ul class="metismenu" id="menu">
+
+                     <li><a class="ai-icon" href="index.html" aria-expanded="false">
+                            <img class="w-20px" src="img/dashboard.png">
+                            <span class="nav-text">Dashbaord</span>
+                        </a>
+                       
+                    </li>
+
+                    <li><a href="supplierbrandlist.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/product-cate.png">
+                            <span class="nav-text">Supplier Brand List</span>
+                        </a>
+                    </li>
+
+                    <li><a href="createcata.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/product-cate.png">
+                            <span class="nav-text">Create Categories</span>
+                        </a>
+                    </li>
+
+                    <li><a class="ai-icon" href="clientmaster.html" aria-expanded="false">
+                            <img class="w-20px" src="img/clientmaster.png">
+                            <span class="nav-text">Client Master</span>
+                        </a>
+                       
+                    </li>
+                   
+                     <li><a class="ai-icon" href="vendormaster.html" aria-expanded="false">
+                            <img class="w-20px" src="img/vendor.png">
+                            <span class="nav-text">Supplier Master</span>
+                        </a>
+                       
+                    </li>
+
+
+                   
+                   
+
+                     <li><a class="ai-icon" href="usermaster.html" aria-expanded="false">
+                            <img class="w-20px" src="img/clientmaster.png">
+                            <span class="nav-text">User Master</span>
+                        </a>
+                       
+                    </li>
+
+                    <li><a class="ai-icon" href="rolemaster.html" aria-expanded="false">
+                            <img class="w-20px" src="img/role.png">
+                            <span class="nav-text">Role Master</span>
+                        </a>
+                       
+                    </li>
+                   
+                     
+                   
+                   
+
+                     <li><a href="productcatalouge.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/product.png">
+                            <span class="nav-text">Product Catalouge</span>
+                        </a>
+                    </li>
+
+                    <li><a href="orders.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/orders.png">
+                            <span class="nav-text">Orders</span>
+                        </a>
+                    </li>
+
+                    <li><a href="CMS.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/CMS.png">
+                            <span class="nav-text">CMS</span>
+                        </a>
+                    </li>
+
+                     <li><a href="blog.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/blog.png">
+                            <span class="nav-text">Blog Master</span>
+                        </a>
+                    </li>
+
+
+                     <li><a href="faq.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/FAQ.png">
+                            <span class="nav-text">FAQ'S Master</span>
+                        </a>
+                    </li>
+
+
+                     <li><a href="contactlist.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/contact.png">
+                            <span class="nav-text">Contacted List Master</span>
+                        </a>
+                    </li>
+
+                     <li><a href="customerlist.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/customer.png">
+                            <span class="nav-text">Customer List</span>
+                        </a>
+                    </li>
+                    
+                     <li><a href="emailtemplates.html" class="ai-icon" aria-expanded="false">
+                            <img class="w-20px" src="img/email.png">
+                            <span class="nav-text">Email Templates</span>
+                        </a>
+                    </li>
+                  
+                  
+                   
+                   
+                </ul>
+                
+            </div>
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+        ***********************************-->
+		
+		<!--**********************************
+            Content body start
+        ***********************************-->
+       
+			  <div class="content-body">
+            <div class="container-fluid">
+				
+                <!-- row -->
+                <div class="row">
+                    <div class="col-xl-12 col-xxl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Client Master</h4>
+                            </div>
+                            <div class="card-body ">
+								<div class="container mt-3">
+  <form>
+    <div class="row">
+      
+      <div class="col-sm-4 form-group mb-2">
+        <label for="name-f">Contact Name</label>
+        <input type="text" class="form-control" name="fname" id="name-f" placeholder="" required>
+      </div>
+     <div class="col-sm-4 form-group mb-2">
+        <label for="name-l">Contact Number</label>
+        <input type="text" class="form-control" name="lname" id="name-l" placeholder="" required>
+      </div>
+      <div class="col-sm-4 form-group mb-2">
+        <label for="email">Contact Email</label>
+        <input type="email" class="form-control" name="email" id="email" placeholder="" required>
+      </div>
+
+      
+
+       <div class="col-sm-4 form-group mb-2">
+        <label for="pass">Database IP Address</label>
+        <input type="Password" name="password" class="form-control" id="pass" placeholder="" required>
+      </div>
+
+
+       <div class="col-sm-4 form-group mb-2 d-none">
+        <label for="pass">DB Name</label>
+        <input type="Password" name="password" class="form-control" id="pass" placeholder="" required>
+      </div>
+
+      <div class="col-sm-4 form-group mb-2 d-none">
+        <label for="pass">DB Username</label>
+        <input type="Password" name="password" class="form-control" id="pass" placeholder="" required>
+      </div>
+
+
+      <div class="col-sm-4 form-group mb-2 d-none">
+        <label for="pass">DB Password</label>
+        <input type="Password" name="password" class="form-control" id="pass" placeholder="" required>
+      </div>
+
+
+      
+
+
+
+  <div class="col-sm-4 form-group mb-2">
+        <label for="status">Status</label>
+        <select class="form-select" aria-label="Default select example">
+  <option selected>Select</option>
+  <option value="Active">Active</option>
+  <option value="Non-Active">Non-Active</option>
+
+</select>
+      </div>
+
+<div class="col-sm-4 form-group mb-2">
+        <label for="name-f">Color</label>
+        <input type="color" class="form-control" name="fname" id="name-f" placeholder="" required>
+      </div>
+
+      <div class="col-sm-6 form-group mb-2">
+        <label for="pass">Logo Link</label>
+        <input type="Password" name="password" class="form-control" id="pass" placeholder="" required>
+      </div>
+
+      <div class="col-sm-6 form-group mb-2">
+        <label for="status">Select Theme</label>
+        <select class="form-select" aria-label="Default select example">
+  <option selected>Select Theme</option>
+  <option value="Active">Theme 1</option>
+  <option value="Non-Active">Theme 2</option>
+    <option value="Non-Active">Theme 3</option>
+
+  <option value="Non-Active">Theme 4</option>
+
+
+</select>
+      </div>
+
+
+
+
+      
+
+
+      <div class="row mt-2" >
+        <h3 style="border-bottom:1px solid #ededed;">Razorpay Payment Gateway</h2>
+
+        <div class="col-lg-6 mt-2">
+            <div class="row p-0">
+                <h4>Staging</h4>
+                <div class="col-sm-12 form-group mb-2">
+        <input type="text" class="form-control" name="fname" id="name-f" placeholder="Key" required>
+      </div>
+
+      <div class="col-sm-12 form-group mb-2">
+        <input type="text" class="form-control" name="fname" id="name-f" placeholder="Secret Key" required>
+      </div>
+            </div>
+        </div>
+
+
+         <div class="col-lg-6 mt-2">
+            <div class="row p-0">
+                <h4>Production</h4>
+                <div class="col-sm-12 form-group mb-2">
+        <input type="text" class="form-control" name="fname" id="name-f" placeholder="Key" required>
+      </div>
+
+      <div class="col-sm-12 form-group mb-2">
+        <input type="text" class="form-control" name="fname" id="name-f" placeholder="Secret Key" required>
+      </div>
+            </div>
+        </div>
+
+      </div>
+     
+
+      <div class="col-sm-12 form-group mb-0 mt-2">
+        <button class="btn btn-primary float-right pad-aa" data-bs-toggle="modal" data-bs-target="#basicModal">Add <i class="fa fa-arrow-right"></i></button>
+      </div>
+
+    </div>
+  </form>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+  <div class="container-fluid pt-0">
+            <div class="row">
+        <div class="col-lg-12">
+                        <div class="card">
+                             <div class="card-header">
+                                <h4 class="card-title">Client List</h4>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table header-border table-responsive-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Contact Name</th>
+                                                  <th>Contact Number</th>
+                                                  <th>Contact Email</th>
+                                                <th>Client ID</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Jaswant Rawat<a href="javascript:void();"></a>
+                                                </td>
+                                                <td>9650531790</td>
+                                                <td><span class="text-muted">jaswant@way2webworld.com</span>
+                                                </td>
+                                                <td>#98878</td>
+                                                <td><span class="badge badge-success">Active</span>
+                                                </td>
+                                                <td><div class="d-flex">
+                                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                        <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                    </div></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Manish Gautam<a href="javascript:void();"></a>
+                                                </td>
+                                                <td>7838345657</td>
+                                                <td><span class="text-muted">manishgautam.1@way.webworld.com</span>
+                                                </td>
+                                                <td>#98788</td>
+                                                <td><span class="badge badge-danger">Non-Active</span>
+                                                </td>
+                                                <td><div class="d-flex">
+                                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                        <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                    </div></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Naveen Jha<a href="javascript:void();"></a>
+                                                </td>
+                                                <td>9876680901</td>
+                                                <td><span class="text-muted">naveenjha@way2webworld.com</span>
+                                                </td>
+                                                <td>#78899</td>
+                                                <td><span class="badge badge-success">Active</span>
+                                                </td>
+                                                <td><div class="d-flex">
+                                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                        <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                    </div></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Vithal Chaudhary<a href="javascript:void();"></a>
+                                                </td>
+                                                <td>7890654321</td>
+                                                <td><span class="text-muted">vithalchaudhary@way2webworld.com</span>
+                                                </td>
+                                                <td>#98766</td>
+                                                <td><span class="badge badge-danger">Non-Active</span>
+                                                </td>
+                                                <td><div class="d-flex">
+                                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                        <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                    </div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        </div>
+    </div>
+<h4>These popup are taken from sweetalerts you can check the url - <a href="https://sweetalert2.github.io/#examples">Click Here</a></h4>
+<button class="show-example-btn" aria-label="Try me! Example: A custom positioned dialog" onclick="executeExample()">
+            Submit Pop Up
+          </button>
+
+          <button class="show-example-btn" aria-label="Try me! Example: A custom positioned dialog" onclick="executeExample2()">
+Update Pop Up          </button>
+
+
+          <button class="show-example-btn" aria-label="Try me! Example: A custom positioned dialog" onclick="executeExample3()">
+Delete Pop Up          </button>
+
+
+          
+        </div>
+
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+      
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+		
+            <div class="copyright">
+                <p>Copyright © LC Reward Dev &amp; Developed by <a href="#" target="_blank">Way2web World</a> 2023</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+
+		
+
+
+	</div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+
+
+
+
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+   <script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js
+"></script>
+    <script src="vendor/global/global.min.js"></script>
+	<script src="vendor/chart.js/Chart.bundle.min.js"></script>
+	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	
+	
+	<!-- Apex Chart -->
+	<script src="vendor/apexchart/apexchart.js"></script>
+	
+	<!-- Chart piety plugin files -->
+    <script src="vendor/peity/jquery.peity.min.js"></script>
+	
+	<!-- Dashboard 1 -->
+	<script src="js/dashboard/dashboard-1.js"></script>
+
+    <script src="js/custom.min.js"></script>
+	<script src="js/deznav-init.js"></script>
+    <script type="text/javascript">
+        function executeExample()
+        {
+            Swal.fire({
+  position: 'top-center',
+  icon: 'success',
+  title: 'Your Request has been Submitted',
+  showConfirmButton: false,
+  timer: 1500
+})
+        }
+    
+</script>
+
+<script type="text/javascript">
+        function executeExample2()
+        {
+            Swal.fire({
+  position: 'top-center',
+  icon: 'success',
+  title: 'Your Request has been Updated',
+  showConfirmButton: false,
+  timer: 1500
+})
+        }
+    
+</script>
+
+
+<script type="text/javascript">
+        function executeExample3()
+        {
+           Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+  }
+})
+        }
+    
+</script>
+
+
+</body>
+
+</html>
