@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./loginForm.css";
-import image from "../../assets/img/logo.png";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
@@ -40,7 +39,6 @@ const LoginPage = () => {
   };
 
   const handleSubmit = (e) => {
-    debugger;
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -48,8 +46,7 @@ const LoginPage = () => {
     // Check if fields are empty and set corresponding error messages
 
     for (const key in loginData) {
-      debugger;
-      if (loginData[key] === "") {
+        if (loginData[key] === "") {
         newErrors[key] = "This field is Required ";
         isValid = false;
       } else {
@@ -63,7 +60,7 @@ const LoginPage = () => {
     }
   };
   const loginDetails = {
-    imageUrl: image,
+    imageUrl: "",
     headerText: "Sign into your account",
     emailPlaceholder: "hello@example.com",
     email: "Email",
@@ -73,9 +70,8 @@ const LoginPage = () => {
     sign: "Sign Me In",
   };
   useEffect(() => {
-    debugger
     dispatch(onTranslationSubmit());
-  }, [])
+  }, []);
 
   return (
     <>
@@ -89,23 +85,60 @@ const LoginPage = () => {
                     <div class="col-xl-12">
                       <div class="auth-form">
                         <div class="text-center mb-3">
-                          <a href="#"><img class="w-100" src="https://beta.shop-loyalty.com/images/logo.png" alt="" /></a>
+                          <a href="#">
+                            <img
+                              class="w-100"
+                              src="https://beta.shop-loyalty.com/images/logo.png"
+                              alt=""
+                            />
+                          </a>
                         </div>
                         <h4 class="text-center mb-4">Sign into your account</h4>
-                        <form action="index.html">
+                        <form onSubmit={(e) => handleSubmit(e)}>
                           <div class="mb-3">
-                            <label class="mb-1"><strong>Email</strong></label>
-                            <input type="email" class="form-control" value="hello@example.com" />
+                            <label class="mb-1">
+                              <strong>Email</strong>
+                            </label>
+                            <input
+                              type="email"
+                              className={` ${
+                                errors.email ? "border-danger" : "form-control"
+                              }`}
+                              placeholder="hello@example.com"
+                              onChange={(e) => handleChange(e, "email")}
+                            />
+                            <p className="text-danger">{errors.email}</p>
                           </div>
                           <div class="mb-3">
-                            <label class="mb-1"><strong>Password</strong></label>
-                            <input type="password" class="form-control" value="Password" />
+                            <label class="mb-1">
+                              <strong>Password</strong>
+                            </label>
+                            <input
+                              type="password"
+                              className={` ${
+                                errors.password
+                                  ? "border-danger"
+                                  : "form-control"
+                              }`}
+                              onChange={(e) => handleChange(e, "password")}
+                              placeholder="Password"
+                            />
+                            <p className="text-danger">{errors.password}</p>
                           </div>
                           <div class="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
                             <div class="mb-3">
                               <div class="form-check custom-checkbox ms-1">
-                                <input type="checkbox" class="form-check-input" id="basic_checkbox_1" />
-                                <label class="form-check-label" for="basic_checkbox_1">Remember my preference</label>
+                                <input
+                                  type="checkbox"
+                                  class="form-check-input"
+                                  id="basic_checkbox_1"
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="basic_checkbox_1"
+                                >
+                                  Remember my preference
+                                </label>
                               </div>
                             </div>
                             <div class="mb-3 d-none">
@@ -113,10 +146,14 @@ const LoginPage = () => {
                             </div>
                           </div>
                           <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-block">Sign Me In</button>
+                            <button
+                              type="submit"
+                              class="btn btn-primary btn-block"
+                            >
+                              Sign Me In
+                            </button>
                           </div>
                         </form>
-
                       </div>
                     </div>
                   </div>
@@ -127,14 +164,13 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <div class="footer" >
-
-        <div class="copyright" >
+      <div class="footer">
+        <div class="copyright">
           <p>Copyright © CC 2023 </p>
         </div>
       </div>
     </>
-  )
+  );
 };
 
 export default LoginPage;

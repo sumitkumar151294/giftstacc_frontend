@@ -18,6 +18,7 @@
   --primary: #0072fd;
   --secondary: #624FD1;
   --primary-hover: #fc410c;
+  --primary-red:red;
   --primary-dark: #a02502;
   --rgba-primary-1: rgba(253, 104, 62, 0.1);
   --rgba-primary-2: rgba(253, 104, 62, 0.2);
@@ -29,7 +30,6 @@
   --rgba-primary-8: rgba(253, 104, 62, 0.8);
   --rgba-primary-9: rgba(253, 104, 62, 0.9);
   --font-family: 'Inter', sans-serif;
-
   --title: #000;
 }
 
@@ -12896,26 +12896,6 @@ label {
   50% {
     transform: translateX(-31px);
   }
-}
-
-.footer {
-  padding-left: 17.1875rem;
-  background-color: #FBFBFB;
-}
-
-.footer .copyright {
-  padding: 0.9375rem;
-}
-
-.footer .copyright p {
-  text-align: center;
-  margin: 0;
-  color: black;
-  font-size: 0.875rem;
-}
-
-.footer .copyright a {
-  color: var(--primary);
 }
 
 [data-sidebar-style="mini"] .nav-control,

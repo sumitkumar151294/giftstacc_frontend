@@ -133,3 +133,37 @@
   display: inline-block;
   margin-bottom: 0.9375rem;
 }
+
+.border-danger {
+  background: #fff;
+  width: 100%;
+  border: 3px solid var(--primary-red);
+  padding: 0.3125rem 1.25rem;
+  color: var(--primary-red);
+  height: 3rem;
+  border-radius: 1rem;
+}
+
+@media only screen and (max-width: 1400px) {
+  .border-danger {
+    height: 3rem !important;
+  }
+}
+.footer {
+  background-color: #fbfbfb;
+}
+
+.footer .copyright {
+  padding: 0.9375rem;
+}
+
+.footer .copyright p {
+  text-align: center;
+  margin: 0;
+  color: black;
+  font-size: 0.875rem;
+}
+
+.footer .copyright a {
+  color: var(--primary);
+}
