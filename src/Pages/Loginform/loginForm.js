@@ -3,8 +3,11 @@ import "./loginForm.css";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import InputField from "../../Componenets/InputField/InputField";
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const loginDetails = useSelector((state) => state.translationReducer);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -46,7 +49,7 @@ const LoginPage = () => {
     // Check if fields are empty and set corresponding error messages
 
     for (const key in loginData) {
-        if (loginData[key] === "") {
+      if (loginData[key] === "") {
         newErrors[key] = "This field is Required ";
         isValid = false;
       } else {
@@ -59,16 +62,7 @@ const LoginPage = () => {
       dispatch(onLoginSubmit(loginData));
     }
   };
-  const loginDetails = {
-    imageUrl: "",
-    headerText: "Sign into your account",
-    emailPlaceholder: "hello@example.com",
-    email: "Email",
-    password: "Password",
-    passwordPlaceholder: "*****",
-    remember: "Remember my preference",
-    sign: "Sign Me In",
-  };
+
   useEffect(() => {
     dispatch(onTranslationSubmit());
   }, []);
@@ -83,78 +77,82 @@ const LoginPage = () => {
                 <div class="authincation-content">
                   <div class="row no-gutters">
                     <div class="col-xl-12">
-                      <div class="auth-form">
-                        <div class="text-center mb-3">
-                          <a href="#">
-                            <img
-                              class="w-100"
-                              src="https://beta.shop-loyalty.com/images/logo.png"
-                              alt=""
-                            />
-                          </a>
-                        </div>
-                        <h4 class="text-center mb-4">Sign into your account</h4>
-                        <form onSubmit={(e) => handleSubmit(e)}>
-                          <div class="mb-3">
-                            <label class="mb-1">
-                              <strong>Email</strong>
-                            </label>
-                            <input
-                              type="email"
-                              className={` ${
-                                errors.email ? "border-danger" : "form-control"
-                              }`}
-                              placeholder="hello@example.com"
-                              onChange={(e) => handleChange(e, "email")}
-                            />
-                            <p className="text-danger">{errors.email}</p>
-                          </div>
-                          <div class="mb-3">
-                            <label class="mb-1">
-                              <strong>Password</strong>
-                            </label>
-                            <input
-                              type="password"
-                              className={` ${
-                                errors.password
-                                  ? "border-danger"
-                                  : "form-control"
-                              }`}
-                              onChange={(e) => handleChange(e, "password")}
-                              placeholder="Password"
-                            />
-                            <p className="text-danger">{errors.password}</p>
-                          </div>
-                          <div class="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
-                            <div class="mb-3">
-                              <div class="form-check custom-checkbox ms-1">
-                                <input
-                                  type="checkbox"
-                                  class="form-check-input"
-                                  id="basic_checkbox_1"
+                      {Array.isArray(loginDetails.data) &&
+                        loginDetails.data.map((item) => (
+                          <div class="auth-form">
+                            <div class="text-center mb-3">
+                              <a href="#">
+                                <img
+                                  class="w-100"
+                                  src="https://beta.shop-loyalty.com/images/logo.png"
+                                  alt=""
                                 />
-                                <label
-                                  class="form-check-label"
-                                  for="basic_checkbox_1"
-                                >
-                                  Remember my preference
+                              </a>
+                            </div>
+                            <h4 class="text-center mb-4">
+                              Sign into your account
+                            </h4>
+                            <form onSubmit={(e) => handleSubmit(e)}>
+                              <div class="mb-3">
+                                <label class="mb-1">
+                                  <strong>Email</strong>
                                 </label>
+                                <InputField
+                                  type="email"
+                                  className="form-control"
+                                  placeholder="hello@example.com"
+                                  onChange={(e) => handleChange(e, "email")}
+                                  error={errors.email}
+                                />
+                                <p className="text-danger">{errors.email}</p>
                               </div>
-                            </div>
-                            <div class="mb-3 d-none">
-                              <a href="">Forgot Password?</a>
-                            </div>
+                              <div class="mb-3">
+                                <label class="mb-1">
+                                  <strong>Password</strong>
+                                </label>
+                                <input
+                                  type="password"
+                                  className={` ${
+                                    errors.password
+                                      ? "border-danger"
+                                      : "form-control"
+                                  }`}
+                                  onChange={(e) => handleChange(e, "password")}
+                                  placeholder="Password"
+                                />
+                                <p className="text-danger">{errors.password}</p>
+                              </div>
+                              <div class="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
+                                <div class="mb-3">
+                                  <div class="form-check custom-checkbox ms-1">
+                                    <input
+                                      type="checkbox"
+                                      class="form-check-input"
+                                      id="basic_checkbox_1"
+                                    />
+                                    <label
+                                      class="form-check-label"
+                                      for="basic_checkbox_1"
+                                    >
+                                      Remember my preference
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="mb-3 d-none">
+                                  <a href="">Forgot Password?</a>
+                                </div>
+                              </div>
+                              <div class="text-center">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary btn-block"
+                                >
+                                  Sign Me In
+                                </button>
+                              </div>
+                            </form>
                           </div>
-                          <div class="text-center">
-                            <button
-                              type="submit"
-                              class="btn btn-primary btn-block"
-                            >
-                              Sign Me In
-                            </button>
-                          </div>
-                        </form>
-                      </div>
+                        ))}
                     </div>
                   </div>
                 </div>
