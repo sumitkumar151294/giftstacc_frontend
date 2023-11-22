@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./loginForm.css";
-import image from "../../assets/img/logo.png";
+// import image from "../../assets/img/logo.png";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
@@ -63,7 +63,7 @@ const LoginPage = () => {
     }
   };
   const loginDetails = {
-    imageUrl: image,
+    imageUrl: "",
     headerText: "Sign into your account",
     emailPlaceholder: "hello@example.com",
     email: "Email",
