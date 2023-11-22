@@ -1,14 +1,14 @@
 .authincation {
   background: var(--rgba-primary-1);
   display: flex;
-  min-height: 100vh;
+  min-height: var(--vh100);
 }
 
 .authincation .login-aside {
   background: #fff;
   padding-top: 5rem;
   max-width: 35rem;
-  width: 100%;
+  width: var(--w100);
   z-index: 1;
   position: relative;
 }
@@ -17,12 +17,12 @@
   content: "";
   clip-path: polygon(0% 100%, 100% 0%, 0% 0%);
   width: 8.75rem;
-  height: 100%;
+  height: var(--h100);
   position: absolute;
   right: -8.75rem;
   z-index: -1;
   top: 0;
-  background: #fff;
+  background: var(--primary-white);
   box-shadow: 0.125rem 0rem 1.875rem rgba(0, 0, 0, 0.15);
 }
 
@@ -43,7 +43,7 @@
 
 @media only screen and (max-width: 991px) {
   .authincation .login-aside {
-    max-width: 100%;
+    max-width: var(--w100);
     padding-top: 0;
   }
 
@@ -59,7 +59,7 @@
 }
 
 .authincation-content {
-  background: #fff;
+  background: var(--primary-white);
   box-shadow: 0 0 2.1875rem 0 rgba(154, 161, 171, 0.15);
   border-radius: 0.3125rem;
 }
@@ -80,18 +80,18 @@
 }
 
 .authincation-content.style-1 .user-icon {
-  height: 6.25rem;
+  height: var(--rem-6);
   background: var(--primary);
-  width: 6.25rem;
+  width: var(--rem-6);
   text-align: center;
-  border-radius: 6.25rem;
-  line-height: 6.25rem;
+  border-radius: var(--rem-6);
+  line-height: var(--rem-6);
   margin-left: auto;
   font-size: 3.75rem;
   text-align: center;
-  color: white;
+  color: var(--primary-white);
   margin-right: auto;
-  margin-top: -6.25rem;
+  margin-top: -var(--rem-6);
   margin-bottom: 1.25rem;
 }
 
@@ -99,7 +99,7 @@
   background: transparent;
   box-shadow: none;
   max-width: 33.125rem;
-  width: 100%;
+  width: var(--w100);
 }
 
 .authincation-content.style-2 .form-control {
@@ -136,7 +136,7 @@
 
 .border-danger {
   background: #fff;
-  width: 100%;
+  width: var(--w100);
   border: 3px solid var(--primary-red);
   padding: 0.3125rem 1.25rem;
   color: var(--primary-red);
@@ -154,13 +154,13 @@
 }
 
 .footer .copyright {
-  padding: 0.9375rem;
+  /* padding: 0.9375rem; */
 }
 
 .footer .copyright p {
   text-align: center;
-  margin: 0;
-  color: black;
+  /* margin: 0; */
+  color: var(--primary-black);
   font-size: 0.875rem;
 }
 
