@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import InputField from "../../Componenets/InputField/InputField";
+import SignIn from "../../Componenets/Buttons/SignIn/SignIn";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const loginDetails = useSelector((state) => state.translationReducer);
@@ -106,7 +107,7 @@ const LoginPage = () => {
                             <label class="mb-1">
                               <strong>Password</strong>
                             </label>
-                            <input
+                            <InputField
                               type="password"
                               className={` ${
                                 errors.password
@@ -139,12 +140,7 @@ const LoginPage = () => {
                             </div>
                           </div>
                           <div class="text-center">
-                            <button
-                              type="submit"
-                              class="btn btn-primary btn-block"
-                            >
-                              Sign Me In
-                            </button>
+                          <SignIn text="Sign In Me" />
                           </div>
                         </form>
                       </div>
