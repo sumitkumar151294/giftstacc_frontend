@@ -5,7 +5,7 @@
 }
 
 .authincation .login-aside {
-  background: #fff;
+  background: var(--primary-white);
   padding-top: 5rem;
   max-width: 35rem;
   width: var(--w100);
@@ -16,20 +16,20 @@
 .authincation .login-aside:after {
   content: "";
   clip-path: polygon(0% 100%, 100% 0%, 0% 0%);
-  width: 8.75rem;
+  width: var(--rem-8-75);
   height: var(--h100);
   position: absolute;
-  right: -8.75rem;
+  right: -(var(--rem-8-75));
   z-index: -1;
-  top: 0;
+  top: var(--rem-0);
   background: var(--primary-white);
-  box-shadow: 0.125rem 0rem 1.875rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0.125rem 0rem var(--rem-1-875) var(--rgba-primary-10);
 }
 
 .authincation .login-aside .aside-image {
   min-height: 28.125rem;
-  margin: auto 0;
-  min-width: 0;
+  margin: auto var(--rem-0);
+  min-width: var(--rem-0);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -44,7 +44,7 @@
 @media only screen and (max-width: 991px) {
   .authincation .login-aside {
     max-width: var(--w100);
-    padding-top: 0;
+    padding-top: var(--rem-0);
   }
 
   .authincation .login-aside:after {
@@ -60,23 +60,23 @@
 
 .authincation-content {
   background: var(--primary-white);
-  box-shadow: 0 0 2.1875rem 0 rgba(154, 161, 171, 0.15);
-  border-radius: 0.3125rem;
+  box-shadow: 0 0 2.1875rem 0 var(--rgba-primary-11);
+  border-radius: var(--rem-0-3125);
 }
 
 [data-theme-version="dark"] .authincation-content {
-  background: #212130;
+  background: var(--primary-black-2);
   box-shadow: none;
 }
 
 .authincation-content.style-1 {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--rgba-primary-12);
   backdrop-filter: blur(20px);
 }
 
 .authincation-content.style-1 .form-control {
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 0.3125rem;
+  background: var(--rgba-primary-13);
+  border-radius: var(--rem-0-3125);
 }
 
 .authincation-content.style-1 .user-icon {
@@ -91,8 +91,8 @@
   text-align: center;
   color: var(--primary-white);
   margin-right: auto;
-  margin-top: -var(--rem-6);
-  margin-bottom: 1.25rem;
+  margin-top: -(var(--rem-6));
+  margin-bottom: var(--rem-1-25);
 }
 
 .authincation-content.style-2 {
@@ -103,58 +103,58 @@
 }
 
 .authincation-content.style-2 .form-control {
-  border: 0;
-  border-radius: 0.3125rem;
-  box-shadow: 0rem 0rem 0.9375rem rgba(0, 0, 0, 0.08);
+  border: var(--rem-0);
+  border-radius: var(--rem-0-3125);
+  box-shadow: var(--rem-0) var(--rem-0) var(--rem-0-9375) var(--rgba-primary-14);
 }
 
 @media only screen and (max-width: 575px) {
   .authincation-content.style-2 .auth-form {
-    padding: 1.875rem 0rem;
+    padding: var(--rem-1-875) var(--rem-0);
   }
 }
 
 .auth-form {
-  padding: 3.125rem 3.125rem;
+  padding: var(--rem-3-125) var(--rem-3-125);
 }
 
 @media only screen and (max-width: 575px) {
   .auth-form {
-    padding: 1.875rem;
+    padding: var(--rem-1-875);
   }
 }
 
 .auth-form .btn {
-  height: 3.125rem;
+  height: var(--rem-3-125);
   font-weight: 700;
 }
 
 .auth-form .page-back {
   display: inline-block;
-  margin-bottom: 0.9375rem;
+  margin-bottom: var(--rem-0-9375);
 }
 
 .border-danger {
-  background: #fff;
+  background: var(--primary-white);
   width: var(--w100);
   border: 3px solid var(--primary-red);
-  padding: 0.3125rem 1.25rem;
+  padding: var(--rem-0-3125) var(--rem-1-25);
   color: var(--primary-red);
-  height: 3rem;
+  height: var(--rem-3);
   border-radius: 1rem;
 }
 
 @media only screen and (max-width: 1400px) {
   .border-danger {
-    height: 3rem !important;
+    height: var(--rem-3) !important;
   }
 }
 .footer {
-  background-color: #fbfbfb;
+  background-color: var(--primary-white-2);
 }
 
 .footer .copyright {
-  /* padding: 0.9375rem; */
+  /* padding: var(--rem-0-9375); */
 }
 
 .footer .copyright p {
