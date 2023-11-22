@@ -19,6 +19,8 @@
   --secondary: #624FD1;
   --primary-hover: #fc410c;
   --primary-red:red;
+  --primary-white:#fff;
+  --primary-black:#000;
   --primary-dark: #a02502;
   --rgba-primary-1: rgba(253, 104, 62, 0.1);
   --rgba-primary-2: rgba(253, 104, 62, 0.2);
@@ -31,6 +33,12 @@
   --rgba-primary-9: rgba(253, 104, 62, 0.9);
   --font-family: 'Inter', sans-serif;
   --title: #000;
+  /* width */
+  --vh100:100vh;
+  --w100:100%;
+  --h100:100%;
+  /* rem */
+  --rem-6:6.25rem;
 }
 
 .gradient_one {
