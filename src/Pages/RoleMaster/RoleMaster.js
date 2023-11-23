@@ -7,11 +7,10 @@ const RoleMaster = () => {
     
     return (
         <>
-            <div class="content-body">
+            <div className="content-body">
                 <RoleMasterItems />
                 <RoleMasterModule />
             </div>
-
         </>
     )
 }

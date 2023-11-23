@@ -45,41 +45,41 @@ const RoleMasterModule = () => {
     ];
     return (
         <>
-            <div class="container-fluid pt-0">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Role Module Access List</h4>
+            <div className="container-fluid pt-0">
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="card">
+                            <div className="card-header">
+                                <h4 className="card-title">Role Module Access List</h4>
                             </div>
-                            
-                            <div class="card-body position-relative">
+
+                            <div className="card-body position-relative">
                                 {!isLoading ? (
                                     <div style={{ height: "400px" }}>
-                                        <Loader classType={"absoluteLoader"} />
+                                        <Loader classNameType={"absoluteLoader"} />
                                     </div>
                                 ) : (
-                                    <div class="table-responsive">
-                                        <table class="table header-border table-responsive-sm">
-                                            <thead>
+                                    <div className="table-responsive">
+                                        <table className="table header-border table-responsive-sm">
+                                            <thead key='thead'>
                                                 <tr>
                                                     <th>Role Name</th>
                                                     <th>Modules</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody key='tbody'>
                                                 {roleData.map((data) => (
                                                     <tr>
-                                                        <td>{data.roleName}<a href="javascript:void();"></a>
+                                                        <td>{data.roleName}
                                                         </td>
 
-                                                        <td><div class="d-flex">
+                                                        <td><div className="d-flex">
                                                             {data.modules.map((items) => (
-                                                                <span class="badge badge-success mr-10">{items}</span>
+                                                                <span className="badge badge-success mr-10">{items}</span>
                                                             ))}
                                                         </div></td>
-                                                        <td><a class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a></td>
+                                                        <td><a className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
                                                     </tr>
                                                 ))}
                                             </tbody>
