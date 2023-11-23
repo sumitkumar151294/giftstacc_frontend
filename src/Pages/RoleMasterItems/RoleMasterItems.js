@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Loader from "../../../Componenets/Loader/Loader";
-import './RoleMaster.css'
+import Loader from "../../Componenets/Loader/Loader";
+import '../RoleMaster/RoleMaster.css'
 // import { onRoleMasterSubmit } from "../../redux/modules/Admin/roleMasterSlice";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 
 const RoleMasterItems = () => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState("true");
     const [isformLoading, setIsFormLoading] = useState("true");
 
