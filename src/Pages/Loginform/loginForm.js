@@ -8,7 +8,7 @@ import InputField from "../../Componenets/InputField/InputField";
 import Button from "../../Componenets/Buttons/Button/Button";
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const loginDetails = useSelector((state) => state.translationReducer);
+  const translationData = useSelector((state) => state.translationReducer);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -80,19 +80,18 @@ const LoginPage = () => {
                     <div class="col-xl-12">
                       <div class="auth-form">
                         <div class="text-center mb-3">
-                          <a href="#">
-                            <img
-                              class="w-100"
-                              src="https://beta.shop-loyalty.com/images/logo.png"
-                              alt=""
-                            />
-                          </a>
+                          <img
+                            class="w-100"
+                            src="https://beta.shop-loyalty.com/images/logo.png"
+                            alt=""
+                          />
                         </div>
                         <h4 class="text-center mb-4">Sign into your account</h4>
                         <form onSubmit={(e) => handleSubmit(e)}>
                           <div class="mb-3">
                             <label class="mb-1">
                               <strong>Email</strong>
+                              <span class="text-danger">*</span>
                             </label>
                             <InputField
                               type="email"
@@ -101,26 +100,32 @@ const LoginPage = () => {
                               onChange={(e) => handleChange(e, "email")}
                               error={errors.email}
                             />
-                            <p className="text-danger">{errors.email}</p>
+                            {/* <p className="text-danger">{errors.email}</p> */}
                           </div>
                           <div class="mb-3">
                             <label class="mb-1">
                               <strong>Password</strong>
+                              <span class="text-danger">*</span>
                             </label>
                             <InputField
                               type="password"
-                              className={` ${
-                                errors.password
-                                  ? "border-danger"
-                                  : "form-control"
-                              }`}
+                              className={` ${errors.password
+                                ? "border-danger"
+                                : "form-control"
+                                }`}
                               onChange={(e) => handleChange(e, "password")}
                               placeholder="Password"
                             />
-                            <p className="text-danger">{errors.password}</p>
+                            {/* <p className="text-danger">{errors.password}</p> */}
                           </div>
                           <div class="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
                             <div class="mb-3">
+                              <span
+                                class="form-check-label"
+                                for="basic_checkbox_1"
+                              >
+                                All the * fields are required.
+                              </span>
                               <div class="form-check custom-checkbox ms-1">
                                 <input
                                   type="checkbox"
@@ -152,7 +157,6 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-
       <div class="footer">
         <div class="copyright">
           <p>Copyright © CC 2023 </p>
@@ -161,5 +165,4 @@ const LoginPage = () => {
     </>
   );
 };
-
 export default LoginPage;

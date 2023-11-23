@@ -12746,7 +12746,7 @@ a.active {
 
 label {
   margin-bottom: 0.5rem;
-  font-size: 15px;
+  font-size: inherit;
   color: black;
 }
 
