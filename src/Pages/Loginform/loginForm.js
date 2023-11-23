@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import InputField from "../../Componenets/InputField/InputField";
-import SignIn from "../../Componenets/Buttons/SignIn/SignIn";
+import Button from "../../Componenets/Buttons/Button/Button";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const loginDetails = useSelector((state) => state.translationReducer);
@@ -140,7 +140,7 @@ const LoginPage = () => {
                             </div>
                           </div>
                           <div class="text-center">
-                          <SignIn text="Sign In Me" />
+                            <Button text="Sign In Me" />
                           </div>
                         </form>
                       </div>
