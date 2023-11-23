@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import Loader from "../../Componenets/Loader/Loader";
 import '../RoleMaster/RoleMaster.css'
-// import { onRoleMasterSubmit } from "../../redux/modules/Admin/roleMasterSlice";
-// import { useDispatch } from "react-redux";
-
 
 const RoleMasterModule = () => {
     const [isLoading, setIsLoading] = useState("true");
-    const [isformLoading, setIsFormLoading] = useState("true");
 
     const roleData = [
         {
@@ -56,7 +52,7 @@ const RoleMasterModule = () => {
                             <div class="card-header">
                                 <h4 class="card-title">Role Module Access List</h4>
                             </div>
-
+                            
                             <div class="card-body position-relative">
                                 {!isLoading ? (
                                     <div style={{ height: "400px" }}>
@@ -85,9 +81,7 @@ const RoleMasterModule = () => {
                                                         </div></td>
                                                         <td><a class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a></td>
                                                     </tr>
-
                                                 ))}
-
                                             </tbody>
                                         </table>
                                     </div>

@@ -18,6 +18,7 @@
   --secondary: #624FD1;
   --primary-hover: #fc410c;
   --primary-dark: #a02502;
+  --primary-black-2: #212130;
   --rgba-primary-1: rgba(253, 104, 62, 0.1);
   --rgba-primary-2: rgba(253, 104, 62, 0.2);
   --rgba-primary-3: rgba(253, 104, 62, 0.3);
@@ -27,6 +28,12 @@
   --rgba-primary-7: rgba(253, 104, 62, 0.7);
   --rgba-primary-8: rgba(253, 104, 62, 0.8);
   --rgba-primary-9: rgba(253, 104, 62, 0.9);
+  --rgba-primary-10: rgba(0, 0, 0, 0.15);
+  --rgba-primary-11: rgba(154, 161, 171, 0.15);
+  --rgba-primary-12: rgba(255, 255, 255, 0.5);
+  --rgba-primary-13: rgba(255, 255, 255, 0.6);
+  --rgba-primary-14: rgba(0, 0, 0, 0.08);
+  --rgba-primary-15:rgba(154, 161, 171, 0.15);
   --font-family: 'Inter', sans-serif;
   
   --title: #000; }
