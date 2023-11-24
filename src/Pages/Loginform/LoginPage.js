@@ -77,7 +77,6 @@ const LoginPage = () => {
     setErrors(newErrors);
 
     if (isValid) {
-      debugger;
       dispatch(onLoginSubmit(loginData));
       setShowSnackbar(true); // Set showSnackbar to true when the form is submitted
     }
