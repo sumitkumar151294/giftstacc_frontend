@@ -128,7 +128,9 @@ const UserDetails = () => {
                                         <form onSubmit={handleSubmit}>
                                             <div className="row">
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">Email</label>
+                                                    <label for="name-f">Email
+                                                    <span class="text-danger">*</span>
+                                                    </label>
                                                     <input
                                                         type="email"
                                                         className="form-control"
@@ -140,7 +142,9 @@ const UserDetails = () => {
                                                     <p className="text-danger">{errors.email}</p>
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">Mobile</label>
+                                                    <label for="name-f">Mobile
+                                                    <span class="text-danger">*</span>
+                                                    </label>
                                                     <input
                                                         type="text"
                                                         className="form-control"
@@ -152,7 +156,9 @@ const UserDetails = () => {
                                                     <p className="text-danger">{errors.mobile}</p>
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">Username</label>
+                                                    <label for="name-f">Username
+                                                    <span class="text-danger">*</span>
+                                                    </label>
                                                     <input
                                                         type="text"
                                                         className="form-control"
@@ -164,7 +170,9 @@ const UserDetails = () => {
                                                     <p className="text-danger">{errors.userName}</p>
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">Password</label>
+                                                    <label for="name-f">Password
+                                                    <span class="text-danger">*</span>
+                                                    </label>
                                                     <input
                                                         type="password"
                                                         className="form-control"
