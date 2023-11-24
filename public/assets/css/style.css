@@ -18,10 +18,10 @@
   --primary: #0072fd;
   --secondary: #624FD1;
   --primary-hover: #fc410c;
-  --primary-red:red;
-  --primary-white:#fff;
-  --primary-white-2:#fbfbfb;
-  --primary-black:#000;
+  --primary-red: red;
+  --primary-white: #fff;
+  --primary-white-2: #fbfbfb;
+  --primary-black: #000;
   --primary-dark: #a02502;
   --primary-black-2: #212130;
   --rgba-primary-1: rgba(253, 104, 62, 0.1);
@@ -38,13 +38,13 @@
   --rgba-primary-12: rgba(255, 255, 255, 0.5);
   --rgba-primary-13: rgba(255, 255, 255, 0.6);
   --rgba-primary-14: rgba(0, 0, 0, 0.08);
-  --rgba-primary-15:rgba(154, 161, 171, 0.15);
+  --rgba-primary-15: rgba(154, 161, 171, 0.15);
   --font-family: 'Inter', sans-serif;
   --title: #000;
   /* width */
-  --vh100:100vh;
-  --w100:100%;
-  --h100:100%;
+  --vh100: 100vh;
+  --w100: 100%;
+  --h100: 100%;
   /* rem */
   /* --rem-0:0rem;
   --rem-6:6.25rem;
@@ -18534,7 +18534,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   padding: 0.5rem 2.1875rem;
   border-radius: 2rem;
   padding-left: 0.625rem;
-  font-family: font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-transition: all 0.5s;
   -ms-transition: all 0.5s;
   transition: all 0.5s;
@@ -44911,23 +44911,12 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 
-.padd {
-  background: #f8f8f8;
-  padding: 10px;
-  padding-left: 30px;
-  border-radius: 10px;
-  color: black;
-}
+
 
 .fnt-17 {
   font-size: 17px !important;
 }
 
-.top-top {
-  border: 1px solid #ededed;
-  padding: 10px;
-  border-radius: 5px;
-}
 
 .br {
   border: 1px solid #ededed;

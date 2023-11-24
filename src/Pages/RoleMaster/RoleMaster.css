@@ -1,0 +1,30 @@
+.top-top {
+    border: 1px solid #ededed;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.padd {
+    background: #f8f8f8;
+    padding: 10px;
+    padding-left: 30px;
+    border-radius: 10px;
+    color: black;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}
+
+
+@media only screen and (max-width: 1199px) {
+    [data-header-position="fixed"] .content-body {
+        padding-top: 5rem;
+    }
+}
+
+@media only screen and (max-width: 1400px) {
+    .content-body {
+        margin-left: 0rem;
+    }
+}
