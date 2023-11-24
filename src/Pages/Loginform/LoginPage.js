@@ -6,9 +6,11 @@ import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import InputField from "../../Componenets/InputField/InputField";
 import Button from "../../Componenets/Buttons/Button/Button";
+import Snackbar from "../../Componenets/Snackbar/Snackbar";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const translationData = useSelector((state) => state.translationReducer);
+  const [showSnackbar, setShowSnackbar] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -61,6 +63,7 @@ const LoginPage = () => {
 
     if (isValid) {
       dispatch(onLoginSubmit(loginData));
+      setShowSnackbar(true); // Set showSnackbar to true when the form is submitted
     }
   };
 
@@ -70,28 +73,30 @@ const LoginPage = () => {
 
   return (
     <>
-      <div class="vh-100">
-        <div class="authincation h-100">
-          <div class="container h-100">
-            <div class="row justify-content-center h-100 align-items-center">
-              <div class="col-md-6">
-                <div class="authincation-content">
-                  <div class="row no-gutters">
-                    <div class="col-xl-12">
-                      <div class="auth-form">
-                        <div class="text-center mb-3">
+      <div className="vh-100">
+        <div className="authincation h-100">
+          <div className="container h-100">
+            <div className="row justify-content-center h-100 align-items-center">
+              <div className="col-md-6">
+                <div className="authincation-content">
+                  <div className="row no-gutters">
+                    <div className="col-xl-12">
+                      <div className="auth-form">
+                        <div className="text-center mb-3">
                           <img
-                            class="w-100"
+                            className="w-100"
                             src="https://beta.shop-loyalty.com/images/logo.png"
                             alt=""
                           />
                         </div>
-                        <h4 class="text-center mb-4">Sign into your account</h4>
+                        <h4 className="text-center mb-4">
+                          Sign into your account
+                        </h4>
                         <form onSubmit={(e) => handleSubmit(e)}>
-                          <div class="mb-3">
-                            <label class="mb-1">
+                          <div className="mb-3">
+                            <label className="mb-1">
                               <strong>Email</strong>
-                              <span class="text-danger">*</span>
+                              <span className="text-danger">*</span>
                             </label>
                             <InputField
                               type="email"
@@ -104,10 +109,10 @@ const LoginPage = () => {
                             />
                             <p className="text-danger">{errors.email}</p>
                           </div>
-                          <div class="mb-3">
-                            <label class="mb-1">
+                          <div className="mb-3">
+                            <label className="mb-1">
                               <strong>Password</strong>
-                              <span class="text-danger">*</span>
+                              <span className="text-danger">*</span>
                             </label>
                             <InputField
                               type="password"
@@ -119,35 +124,34 @@ const LoginPage = () => {
                               onChange={(e) => handleChange(e, "password")}
                               placeholder="Password"
                             />
-                            {/* <p className="text-danger">{errors.password}</p> */}
                           </div>
-                          <div class="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
-                            <div class="mb-3">
+                          <div className="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
+                            <div className="mb-3">
                               <span
-                                class="form-check-label"
+                                className="form-check-label"
                                 for="basic_checkbox_1"
                               >
                                 All the * fields are required.
                               </span>
-                              <div class="form-check custom-checkbox ms-1">
+                              <div className="form-check custom-checkbox ms-1">
                                 <input
                                   type="checkbox"
-                                  class="form-check-input"
+                                  className="form-check-input"
                                   id="basic_checkbox_1"
                                 />
                                 <label
-                                  class="form-check-label"
+                                  className="form-check-label"
                                   for="basic_checkbox_1"
                                 >
                                   Remember my preference
                                 </label>
                               </div>
                             </div>
-                            <div class="mb-3 d-none">
+                            <div className="mb-3 d-none">
                               <a href="">Forgot Password?</a>
                             </div>
                           </div>
-                          <div class="text-center">
+                          <div className="text-center">
                             <Button text="Sign In Me" />
                           </div>
                         </form>
@@ -156,12 +160,17 @@ const LoginPage = () => {
                   </div>
                 </div>
               </div>
+              <Snackbar
+                className="Snackbar"
+                showSnackbar={showSnackbar}
+                setShowSnackbar={setShowSnackbar}
+              />
             </div>
           </div>
         </div>
       </div>
-      <div class="footer">
-        <div class="copyright">
+      <div className="footer">
+        <div className="copyright">
           <p>Copyright © CC 2023 </p>
         </div>
       </div>
