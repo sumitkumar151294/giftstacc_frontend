@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 
-const Snackbar = ({ showSnackbar, setShowSnackbar }) => {
+const Snackbar = ({ showSnackbar, setShowSnackbar, loginDetails }) => {
   useEffect(() => {
     if (showSnackbar) {
       const timeoutId = setTimeout(() => {
         setShowSnackbar(false);
-      }, 200000);
+      }, 2000);
       return () => {
         clearTimeout(timeoutId);
       };
@@ -25,7 +25,7 @@ const Snackbar = ({ showSnackbar, setShowSnackbar }) => {
             onClick={() => setShowSnackbar(false)}
             aria-label="btn-close"
           ></button>
-          Success! Message has been sent.
+          {loginDetails}{" "}
         </div>
       )}
     </>
