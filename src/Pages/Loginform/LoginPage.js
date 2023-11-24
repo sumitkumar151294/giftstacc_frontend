@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./loginForm.css";
+import "./LoginPage.css";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
@@ -51,7 +51,7 @@ const LoginPage = () => {
 
     for (const key in loginData) {
       if (loginData[key] === "") {
-        newErrors[key] = "This field is Required ";
+        newErrors[key] = " ";
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -95,12 +95,14 @@ const LoginPage = () => {
                             </label>
                             <InputField
                               type="email"
-                              className="form-control"
+                              className={` ${
+                                errors.email ? "border-danger" : "form-control"
+                              }`}
                               placeholder="hello@example.com"
                               onChange={(e) => handleChange(e, "email")}
                               error={errors.email}
                             />
-                            {/* <p className="text-danger">{errors.email}</p> */}
+                            <p className="text-danger">{errors.email}</p>
                           </div>
                           <div class="mb-3">
                             <label class="mb-1">
@@ -109,10 +111,11 @@ const LoginPage = () => {
                             </label>
                             <InputField
                               type="password"
-                              className={` ${errors.password
-                                ? "border-danger"
-                                : "form-control"
-                                }`}
+                              className={` ${
+                                errors.password
+                                  ? "border-danger"
+                                  : "form-control"
+                              }`}
                               onChange={(e) => handleChange(e, "password")}
                               placeholder="Password"
                             />
