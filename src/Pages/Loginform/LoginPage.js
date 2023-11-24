@@ -52,11 +52,11 @@ const LoginPage = () => {
     // If the checkbox is checked, store the loginData in localStorage
     if (checked) {
       localStorage.setItem("userEmail", loginData.email);
-      // localStorage.setItem("userPassword", loginData.password);
+      localStorage.setItem("userPassword", loginData.password);
     } else {
       // If the checkbox is unchecked, remove the loginData from localStorage
       localStorage.removeItem("userEmail");
-      // localStorage.removeItem("userPassword");
+      localStorage.removeItem("userPassword");
     }
   };
   const handleSubmit = (e) => {
