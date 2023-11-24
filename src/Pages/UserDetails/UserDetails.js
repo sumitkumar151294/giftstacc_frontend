@@ -2,15 +2,25 @@ import React, { useState } from "react";
 // import { onUserSubmit } from "../../../../customer-Capital/src/redux/modules/Admin/userSlice";
 import { useDispatch } from 'react-redux';
 import InputField from "../../Componenets/InputField/InputField";
+// import Button from "../../Componenets/Buttons/Button/Button";
+// import Snackbar from "../../Componenets/Snackbar/Snackbar";
 import '../UserMaster/UserMaster.css'
 
 // import { Link } from "react-router-dom";
 // import Loader from "../../Componenets/Loader/Loader";
 
 const UserDetails = () => {
+    const dispatch = useDispatch();
+    // const translationData = useSelector((state) => state.translationReducer);
+//   const userDetails = useSelector(
+//     (state) => state.userReducer?.data?.message
+//   );
 
-    const [isLoading, setIsLoading] = useState(true);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+    // const [isLoading, setIsLoading] = useState(true);
     const [isformLoading, setIsFormLoading] = useState(true);
+    // const translationData = useSelector((state) => state.translationReducer);
     const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: 'Admin' });
     const [errors, setErrors] = useState({ userName: '', password: '', mobile: '', email: '', role: '' }); // Initialize 'role' error state
     const [formData, setFormData] = useState({
@@ -26,7 +36,7 @@ const UserDetails = () => {
         },
     });
 
-    const handleInputChange = (e) => {
+    const handleChange = (e,fieldName) => {
         const { name, value, type, checked } = e.target;
         if (type === "checkbox") {
             setFormData({
@@ -42,23 +52,40 @@ const UserDetails = () => {
                 [name]: value,
             });
         }
-    };
 
-    const dispatch = useDispatch();
+        if (fieldName === "email") {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isValidEmail = emailRegex.test(value);
+      
+            setErrors({
+              ...errors,
+              [fieldName]: isValidEmail ? "" : "Invalid email address",
+            });
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "",
+            });
+          }
+        };
+   
+
+   
+    
 
     
-    const handleChange = (e, fieldName) => {
-        setUserData({
-            ...userData,
-            [fieldName]: e.target.value,
-        });
+    // const handleChange = (e, fieldName) => {
+    //     setUserData({
+    //         ...userData,
+    //         [fieldName]: e.target.value,
+    //     });
 
-        // Remove the error message when the user starts typing
-        setErrors({
-            ...errors,
-            [fieldName]: "",
-        });
-    };
+    //     // Remove the error message when the user starts typing
+    //     setErrors({
+    //         ...errors,
+    //         [fieldName]: "",
+    //     });
+    // };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -66,14 +93,14 @@ const UserDetails = () => {
         const newErrors = { ...errors };
 
         // Check if fields are empty and set corresponding error messages
-        for (const key in userData) {
-            if (userData[key] === "") {
-                newErrors[key] = "This field is required";
-                isValid = false;
-            } else {
-                newErrors[key] = "";
-            }
-        }
+        // for (const key in userData) {
+        //     if (userData[key] === "") {
+        //         newErrors[key] = " ";
+        //         isValid = false;
+        //     } else {
+        //         newErrors[key] = "";
+        //     }
+        // }
 
         // Email and Phone validation using the regexEmail and regexPhone pattern
         const regexEmail = /[a-zA-Z0-9]+([\_\.\-{1}])?[a-zA-Z0-9]+\@[a-zAZ0-9]+(\.[a-zA-Z\.]+)/g;
@@ -106,7 +133,7 @@ const UserDetails = () => {
             };
 
             // Print the combined data to the console
-            console.log('Submission Data:', submissionData);
+            // console.log('Submission Data:', submissionData);
 
             // dispatch(onUserSubmit(submissionData));
         }
@@ -143,7 +170,7 @@ const UserDetails = () => {
                                                         placeholder=""
                                                         error={errors.email}
                                                     />
-                                                    {/* <p className="text-danger">{errors.email}</p> */}
+                                                    <p className="text-danger">{errors.email}</p>
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Mobile
@@ -207,7 +234,7 @@ const UserDetails = () => {
                                                                         value={checked}
                                                                         id={`flexCheckDefault-${module}`}
                                                                         checked={checked}
-                                                                        onChange={handleInputChange}
+                                                                        onChange={handleChange}
                                                                     />
                                                                     <label
                                                                         className="form-check-label"
