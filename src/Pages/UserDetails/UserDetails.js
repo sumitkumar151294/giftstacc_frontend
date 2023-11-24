@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 // import { onUserSubmit } from "../../../../customer-Capital/src/redux/modules/Admin/userSlice";
 import { useDispatch } from 'react-redux';
+import InputField from "../../Componenets/InputField/InputField";
 import '../UserMaster/UserMaster.css'
+
 // import { Link } from "react-router-dom";
 // import Loader from "../../Componenets/Loader/Loader";
 
@@ -44,6 +46,7 @@ const UserDetails = () => {
 
     const dispatch = useDispatch();
 
+    
     const handleChange = (e, fieldName) => {
         setUserData({
             ...userData,
@@ -131,57 +134,61 @@ const UserDetails = () => {
                                                     <label for="name-f">Email
                                                     <span class="text-danger">*</span>
                                                     </label>
-                                                    <input
+                                                    <InputField
                                                         type="email"
                                                         className="form-control"
                                                         name="fname"
                                                         onChange={(e) => handleChange(e, "email")}
                                                         id="name-f"
                                                         placeholder=""
+                                                        error={errors.email}
                                                     />
-                                                    <p className="text-danger">{errors.email}</p>
+                                                    {/* <p className="text-danger">{errors.email}</p> */}
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Mobile
                                                     <span class="text-danger">*</span>
                                                     </label>
-                                                    <input
+                                                    <InputField
                                                         type="text"
                                                         className="form-control"
                                                         name="fname"
                                                         id="name-f"
                                                         onChange={(e) => handleChange(e, "mobile")}
                                                         placeholder=""
+                                                        error={errors.mobile}
                                                     />
-                                                    <p className="text-danger">{errors.mobile}</p>
+                                                    {/* <p className="text-danger">{errors.mobile}</p> */}
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Username
                                                     <span class="text-danger">*</span>
                                                     </label>
-                                                    <input
+                                                    <InputField
                                                         type="text"
                                                         className="form-control"
                                                         name="fname"
                                                         id="name-f"
                                                         placeholder=""
                                                         onChange={(e) => handleChange(e, "userName")}
+                                                        error={errors.userName}
                                                     />
-                                                    <p className="text-danger">{errors.userName}</p>
+                                                    {/* <p className="text-danger">{errors.userName}</p> */}
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Password
                                                     <span class="text-danger">*</span>
                                                     </label>
-                                                    <input
+                                                    <InputField
                                                         type="password"
                                                         className="form-control"
                                                         name="fname"
                                                         id="name-f"
                                                         placeholder=""
                                                         onChange={(e) => handleChange(e, "password")}
+                                                        error={errors.password}
                                                     />
-                                                    <p className="text-danger">{errors.password}</p>
+                                                    {/* <p className="text-danger">{errors.password}</p> */}
                                                 </div>
                                                 <div className="col-lg-12 br pt-2">
                                                     <label for="name-f">Client</label>
