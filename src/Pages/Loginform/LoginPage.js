@@ -10,6 +10,10 @@ import Snackbar from "../../Componenets/Snackbar/Snackbar";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const translationData = useSelector((state) => state.translationReducer);
+  const loginDetails = useSelector(
+    (state) => state.loginReducer?.data?.message
+  );
+
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
@@ -43,7 +47,18 @@ const LoginPage = () => {
       });
     }
   };
-
+  const handleCheckboxChange = (e) => {
+    const { checked } = e.target;
+    // If the checkbox is checked, store the loginData in localStorage
+    if (checked) {
+      localStorage.setItem("userEmail", loginData.email);
+      // localStorage.setItem("userPassword", loginData.password);
+    } else {
+      // If the checkbox is unchecked, remove the loginData from localStorage
+      localStorage.removeItem("userEmail");
+      // localStorage.removeItem("userPassword");
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -62,6 +77,7 @@ const LoginPage = () => {
     setErrors(newErrors);
 
     if (isValid) {
+      debugger;
       dispatch(onLoginSubmit(loginData));
       setShowSnackbar(true); // Set showSnackbar to true when the form is submitted
     }
@@ -138,6 +154,7 @@ const LoginPage = () => {
                                   type="checkbox"
                                   className="form-check-input"
                                   id="basic_checkbox_1"
+                                  onChange={handleCheckboxChange}
                                 />
                                 <label
                                   className="form-check-label"
@@ -147,9 +164,7 @@ const LoginPage = () => {
                                 </label>
                               </div>
                             </div>
-                            <div className="mb-3 d-none">
-                              <a href="">Forgot Password?</a>
-                            </div>
+                            <div className="mb-3 d-none">Forgot Password?</div>
                           </div>
                           <div className="text-center">
                             <Button text="Sign In Me" />
@@ -163,6 +178,7 @@ const LoginPage = () => {
               <Snackbar
                 className="Snackbar"
                 showSnackbar={showSnackbar}
+                loginDetails={loginDetails}
                 setShowSnackbar={setShowSnackbar}
               />
             </div>
