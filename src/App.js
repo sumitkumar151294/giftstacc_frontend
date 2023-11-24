@@ -1,8 +1,7 @@
-
 import RouteConfiq from './Routing/routes';
 function App() {
   return (
-    <RouteConfiq/>
+    <RouteConfiq />
   );
 }
 export default App;

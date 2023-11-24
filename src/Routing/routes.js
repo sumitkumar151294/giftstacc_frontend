@@ -1,12 +1,13 @@
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
-import LoginPage from "../Pages/Loginform/loginForm";
 import ClientMaster from "../Pages/ClientMaster/ClientMaster";
+import LoginPage from "../Pages/LoginForm/LoginForm"
+import Layout from "../Layout/Layout";
 function RouteConfiq() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/clientMaster" element={<ClientMaster />} />
+        <Route path="/Lc-admin/clientMaster" element={<Layout Component={ClientMaster} />} />
       </Routes>
     </Router>
   );
