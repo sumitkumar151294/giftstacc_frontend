@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import "../ClientMaster/ClientMaster.css";
+import "../ClientMaster/ClientMaster.css";
 import ClientList from "./ClientList/ClientList";
 import ClientMasterForm from "./ClientMasterForm/ClientMasterForm";
 const ClientMaster = () => {

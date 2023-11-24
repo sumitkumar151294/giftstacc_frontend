@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import "../ClientMaster/ClientMaster.css";
+ import "../ClientMasterForm/ClientMasterForm.css";
 import { useDispatch } from "react-redux";
 // import { onClientMasterSubmit } from "../../redux/modules/Admin/clientMasterSlice";
 // import Loader from "../Loader/Loader";
@@ -8,16 +8,16 @@ import Dropdown from "../../../Componenets/Dropdown/Dropdown";
 
 const ClientMaster = () => {
     const statusoptions = [
-        { value: "Active", label: 'Active' },
-        { value: "Active", label: 'Non-Active' },
+        { value: "Active3", label: 'Active' },
+        { value: "Active4", label: 'Non-Active' },
 
     ];
 
     const options = [
         { value: 'Active1', label: 'Theme 1' },
-        { value: 'Non-Active', label: 'Theme 2' },
-        { value: 'Non-Active', label: 'Theme 3' },
-        { value: 'Non-Active', label: 'Theme 4' },
+        { value: 'Non-Active1', label: 'Theme 2' },
+        { value: 'Non-Active2', label: 'Theme 3' },
+        { value: 'Non-Active4', label: 'Theme 4' },
     ];
 
     const clientMasterList = [
@@ -76,13 +76,17 @@ const ClientMaster = () => {
             setErrors({
                 ...errors,
                 [fieldName]: isValidEmail ? "" : "Invalid email address",
-            });
-        } else {
-            setErrors({
-                ...errors,
-                [fieldName]: "",
-            });
-        }
+            });}
+          else  if (fieldName === "number") {
+                const phoneRegex = /^\d{10}$/;
+                const isValidnumber = phoneRegex.test(e.target.value);
+    
+                setErrors({
+                    ...errors,
+                    [fieldName]: isValidnumber ? "" : "please enter 10 digit only",
+                });
+           
+        } 
 
 
         // Remove the error message when the user starts typing
@@ -161,8 +165,10 @@ const ClientMaster = () => {
                                                     id="contact-number"
                                                     value={clientData.number}
                                                     error={errors.number}
+                                                    maxLength={10}
                                                     onChange={(e) => handleChange(e, 'number')}
                                                 />
+                                                 { <p className="text-danger">{errors.number}</p>}
                                             </div>
                                             <div class="col-sm-4 form-group mb-2">
                                                 <label for="contact-email">Contact Email
@@ -177,7 +183,7 @@ const ClientMaster = () => {
                                                     error={errors.email}
                                                     onChange={(e) => handleChange(e, 'email')}
                                                 />
-                                               
+                                               { <p className="text-danger">{errors.email}</p>}
                                             </div>
 
                                             <div class="col-sm-4 form-group mb-2">

@@ -5,8 +5,8 @@ const Layout = (props) => {
     const { Component } = props;
     return (
         <>
-            <Header />
-            <Sidebar />
+            {/* <Header />
+            <Sidebar /> */}
             <Component />
         </>
     )
