@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Loader from "../../Componenets/Loader/Loader";
 import '../RoleMaster/RoleMaster.css'
-import Error from "../../Common/Error/Error";
+import NoRecord from "../../Componenets/NoRecord/NoRecord"
 
 const RoleMasterModule = () => {
     const [isLoading, setIsLoading] = useState("true");
@@ -53,40 +53,43 @@ const RoleMasterModule = () => {
                             <div className="card-header">
                                 <h4 className="card-title">Role Module Access List</h4>
                             </div>
-                            {/* <div className="card-body position-relative">
-                                {!isLoading ? (
-                                    <div style={{ height: "400px" }}>
-                                        <Loader classNameType={"absoluteLoader"} />
-                                    </div>
-                                ) : (
-                                    <div className="table-responsive">
-                                        <table className="table header-border table-responsive-sm">
-                                            <thead key='thead'>
-                                                <tr>
-                                                    <th>Role Name</th>
-                                                    <th>Modules</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody key='tbody'>
-                                                {roleData.map((data) => (
+                            {roleData ? (
+                                <div className="card-body position-relative">
+                                    {!isLoading ? (
+                                        <div style={{ height: "400px" }}>
+                                            <Loader classNameType={"absoluteLoader"} />
+                                        </div>
+                                    ) : (
+                                        <div className="table-responsive">
+                                            <table className="table header-border table-responsive-sm">
+                                                <thead key='thead'>
                                                     <tr>
-                                                        <td>{data.roleName}
-                                                        </td>
-                                                        <td><div className="d-flex">
-                                                            {data.modules.map((items) => (
-                                                                <span className="badge badge-success mr-10">{items}</span>
-                                                            ))}
-                                                        </div></td>
-                                                        <td><a className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
+                                                        <th>Role Name</th>
+                                                        <th>Modules</th>
+                                                        <th>Action</th>
                                                     </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )}
-                            </div> */}
-                            <Error />
+                                                </thead>
+                                                <tbody key='tbody'>
+                                                    {roleData.map((data) => (
+                                                        <tr>
+                                                            <td>{data.roleName}
+                                                            </td>
+                                                            <td><div className="d-flex">
+                                                                {data.modules.map((items) => (
+                                                                    <span className="badge badge-success mr-10">{items}</span>
+                                                                ))}
+                                                            </div></td>
+                                                            <td><a className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <NoRecord />
+                            )}
                         </div>
                     </div>
                 </div>
