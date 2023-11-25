@@ -6,15 +6,24 @@ import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import InputField from "../../Componenets/InputField/InputField";
 import Button from "../../Componenets/Button/Button";
-import Snackbar from "../../Componenets/Snackbar/Snackbar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const LoginPage = () => {
   const dispatch = useDispatch();
   const translationData = useSelector((state) => state.translationReducer);
+
   const loginDetails = useSelector(
     (state) => state.loginReducer?.data?.message
   );
+  const notify = () => {
+    if (loginDetails === "Login Successfully.") {
+      toast.success(loginDetails);
+    } else {
+      toast.error(loginDetails);
+    }
+  };
 
-  const [showSnackbar, setShowSnackbar] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -65,7 +74,6 @@ const LoginPage = () => {
     const newErrors = { ...errors };
 
     // Check if fields are empty and set corresponding error messages
-
     for (const key in loginData) {
       if (loginData[key] === "") {
         newErrors[key] = " ";
@@ -78,7 +86,6 @@ const LoginPage = () => {
 
     if (isValid) {
       dispatch(onLoginSubmit(loginData));
-      setShowSnackbar(true); // Set showSnackbar to true when the form is submitted
     }
   };
 
@@ -166,7 +173,8 @@ const LoginPage = () => {
                             <div className="mb-3 d-none">Forgot Password?</div>
                           </div>
                           <div className="text-center">
-                            <Button text="Sign In Me" />
+                            <Button onClick={notify} text="Sign In Me" />
+                            <ToastContainer />
                           </div>
                         </form>
                       </div>
@@ -174,12 +182,6 @@ const LoginPage = () => {
                   </div>
                 </div>
               </div>
-              <Snackbar
-                className="Snackbar"
-                showSnackbar={showSnackbar}
-                loginDetails={loginDetails}
-                setShowSnackbar={setShowSnackbar}
-              />
             </div>
           </div>
         </div>
