@@ -22,7 +22,6 @@ export const loginSlice = createSlice({
     },
 
     onLoginSubmitSuccess: (state, { payload }) => {
-        debugger
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,

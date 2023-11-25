@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import "./LoginForm.css";
+import "./LoginPage.css";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import InputField from "../../Componenets/InputField/InputField";
-import Button from "../../Componenets/Buttons/Button/Button";
+import Button from "../../Componenets/Button/Button";
 import Snackbar from "../../Componenets/Snackbar/Snackbar";
 const LoginPage = () => {
   const dispatch = useDispatch();
