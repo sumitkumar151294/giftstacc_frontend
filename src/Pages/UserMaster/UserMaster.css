@@ -9,3 +9,12 @@
     margin-left:0rem;
 }
 }
+.border-danger {
+    background: var(--primary-white);
+    width: var(--w100);
+    border: 3px solid var(--primary-red);
+    padding: 0.3125rem 1.25rem;
+    color: var(--bs-dark);
+    height: 3rem;
+    border-radius: 1rem;
+  }

@@ -12,11 +12,11 @@ import '../UserMaster/UserMaster.css'
 const UserDetails = () => {
     const dispatch = useDispatch();
     // const translationData = useSelector((state) => state.translationReducer);
-//   const userDetails = useSelector(
-//     (state) => state.userReducer?.data?.message
-//   );
+    //   const userDetails = useSelector(
+    //     (state) => state.userReducer?.data?.message
+    //   );
 
-  const [showSnackbar, setShowSnackbar] = useState(false);
+    const [showSnackbar, setShowSnackbar] = useState(false);
 
     // const [isLoading, setIsLoading] = useState(true);
     const [isformLoading, setIsFormLoading] = useState(true);
@@ -36,8 +36,14 @@ const UserDetails = () => {
         },
     });
 
-    const handleChange = (e,fieldName) => {
+    const handleChange = (e, fieldName) => {
         const { name, value, type, checked } = e.target;
+        const newUserdetailData = {
+            ...userData,
+            [fieldName]: value,
+        };
+        setUserData(newUserdetailData)
+
         if (type === "checkbox") {
             setFormData({
                 ...formData,
@@ -53,27 +59,64 @@ const UserDetails = () => {
             });
         }
 
+        // if (!regexPhone.test(userData.mobile)) {
+        //     debugger
+        //     newErrors.mobile = "Invalid phone number format";
+        //     isValid = false;
+        // }
+        // if (fieldName === "mobile") {
+           
+        //     const regexPhone = /^[0-9]{10}$/;
+        //     const isValidMobile = regexPhone.test(value);
+
+        //     setErrors({
+        //         ...errors,
+        //         [fieldName]: isValidMobile ? "" : "Invalid phone number",
+        //     });
+        // } else {
+        //     setErrors({
+        //         ...errors,
+        //         [fieldName]: "",
+        //     });
+        // }
+
+
         if (fieldName === "email") {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
             const isValidEmail = emailRegex.test(value);
-      
-            setErrors({
-              ...errors,
-              [fieldName]: isValidEmail ? "" : "Invalid email address",
-            });
-          } else {
-            setErrors({
-              ...errors,
-              [fieldName]: "",
-            });
-          }
-        };
-   
 
-   
-    
+            setErrors({
+                ...errors,
+                [fieldName]: isValidEmail ? "" : "Invalid email address",
+            });
+        } else {
+            setErrors({
+                ...errors,
+                [fieldName]: "",
+            });
+        }
 
-    
+        if (fieldName === "mobile") {
+            const mobileRegex = /^[0-9]{10}$/;
+            const isValidMobile = mobileRegex.test(value);
+
+            setErrors({
+                ...errors,
+                [fieldName]: isValidMobile ? "" : "Invalid phone number",
+            });
+        } else {
+            setErrors({
+                ...errors,
+                [fieldName]: "",
+            });
+        }
+    };
+
+
+
+
+
+
     // const handleChange = (e, fieldName) => {
     //     setUserData({
     //         ...userData,
@@ -88,33 +131,33 @@ const UserDetails = () => {
     // };
 
     const handleSubmit = (e) => {
+        debugger
         e.preventDefault();
         let isValid = true;
         const newErrors = { ...errors };
 
         // Check if fields are empty and set corresponding error messages
-        // for (const key in userData) {
-        //     if (userData[key] === "") {
-        //         newErrors[key] = " ";
-        //         isValid = false;
-        //     } else {
-        //         newErrors[key] = "";
-        //     }
-        // }
+
+        for (const key in userData) {
+            debugger
+            if (userData[key] === "") {
+                newErrors[key] = " ";
+                isValid = false;
+            } else {
+                newErrors[key] = "";
+            }
+        }
+        setErrors(newErrors);
 
         // Email and Phone validation using the regexEmail and regexPhone pattern
-        const regexEmail = /[a-zA-Z0-9]+([\_\.\-{1}])?[a-zA-Z0-9]+\@[a-zAZ0-9]+(\.[a-zA-Z\.]+)/g;
-        const regexPhone = /^\(?([0-9]{3})\)?([0-9]{3})?([0-9]{4})$/g;
+        // const regexEmail = /[a-zA-Z0-9]+([\_\.\-{1}])?[a-zA-Z0-9]+\@[a-zAZ0-9]+(\.[a-zA-Z\.]+)/g;
 
-        if (!regexEmail.test(userData.email)) {
-            newErrors.email = "Invalid email format";
-            isValid = false;
-        }
+        // if (!regexEmail.test(userData.email)) {
+        //     newErrors.email = "Invalid email format";
+        //     isValid = false;
+        // }
 
-        if (!regexPhone.test(userData.mobile)) {
-            newErrors.mobile = "Invalid phone number format";
-            isValid = false;
-        }
+
 
         // Check if a role has been selected
         if (userData.role === '') {
@@ -126,17 +169,17 @@ const UserDetails = () => {
 
         setErrors(newErrors);
 
-        if (isValid) {
-            const submissionData = {
-                formData: userData,
-                checkboxData: formData.modules,
-            };
+        // if (isValid) {
+            // const submissionData = {
+            //     formData: userData,
+            //     checkboxData: formData.modules,
+            // };
 
             // Print the combined data to the console
             // console.log('Submission Data:', submissionData);
 
             // dispatch(onUserSubmit(submissionData));
-        }
+        // }
     };
 
     return (
@@ -155,18 +198,18 @@ const UserDetails = () => {
                                     </div>
                                 ) : (
                                     <div className="container mt-3">
-                                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={(e) => handleSubmit(e)}>
                                             <div className="row">
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Email
-                                                    <span class="text-danger">*</span>
+                                                        <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="email"
-                                                        className="form-control"
-                                                        name="fname"
+                                                        className={` ${errors.email ? "border-danger" : "form-control"
+                                                            }`}
                                                         onChange={(e) => handleChange(e, "email")}
-                                                        id="name-f"
+                                                        // id="name-f"
                                                         placeholder=""
                                                         error={errors.email}
                                                     />
@@ -174,22 +217,23 @@ const UserDetails = () => {
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Mobile
-                                                    <span class="text-danger">*</span>
+                                                        <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="text"
-                                                        className="form-control"
+                                                        className={` ${errors.mobile ? "border-danger" : "form-control"
+                                                            }`}
                                                         name="fname"
                                                         id="name-f"
                                                         onChange={(e) => handleChange(e, "mobile")}
                                                         placeholder=""
                                                         error={errors.mobile}
                                                     />
-                                                    {/* <p className="text-danger">{errors.mobile}</p> */}
+                                                    <p className="text-danger">{errors.mobile}</p>
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Username
-                                                    <span class="text-danger">*</span>
+                                                        <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="text"
@@ -204,7 +248,7 @@ const UserDetails = () => {
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Password
-                                                    <span class="text-danger">*</span>
+                                                        <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="password"
