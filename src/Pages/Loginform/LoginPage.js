@@ -16,13 +16,6 @@ const LoginPage = () => {
   const loginDetails = useSelector(
     (state) => state.loginReducer?.data?.message
   );
-  const notify = () => {
-    if (loginDetails === "Login Successfully.") {
-      toast.success(loginDetails);
-    } else {
-      toast.error(loginDetails);
-    }
-  };
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -85,6 +78,19 @@ const LoginPage = () => {
     setErrors(newErrors);
 
     if (isValid) {
+      try {
+        dispatch(onLoginSubmit(loginData));
+        const notify = () => {
+          if (loginDetails === "Login Successfully.") {
+            toast.success(loginDetails);
+          } else {
+            toast.error(loginDetails);
+          }
+        };
+        notify();
+      } catch (error) {
+        console.error("Login error:", error);
+      }
       dispatch(onLoginSubmit(loginData));
     }
   };
@@ -173,7 +179,7 @@ const LoginPage = () => {
                             <div className="mb-3 d-none">Forgot Password?</div>
                           </div>
                           <div className="text-center">
-                            <Button onClick={notify} text="Sign In Me" />
+                            <Button onClick={handleSubmit} text="Sign In Me" />
                             <ToastContainer />
                           </div>
                         </form>
