@@ -9,7 +9,6 @@ import Button from "../../Componenets/Button/Button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../Componenets/Loader/Loader";
-
 const LoginPage = () => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
@@ -26,9 +25,13 @@ const LoginPage = () => {
     password: "",
   });
 
-  useEffect(() => {
-    dispatch(onTranslationSubmit());
-  }, []);
+  // useEffect(()=>{
+  //   if (translationData.status_code === 400) {
+  //     setShowLoader(false);
+  //   } else {
+  //     setShowLoader(true);
+  //   }
+  // },[setShowLoader])
   const labelValue =
     translationData && Array.isArray(translationData.data)
       ? translationData.data
@@ -100,8 +103,8 @@ const LoginPage = () => {
 
     if (isValid) {
       try {
-        dispatch(onLoginSubmit(loginData));
         setShowLoader(true);
+        dispatch(onLoginSubmit(loginData));
         const notify = () => {
           if (loginDetails === "Login Successfully.") {
             setShowLoader(false);
@@ -140,9 +143,14 @@ const LoginPage = () => {
                         <form onSubmit={(e) => handleSubmit(e)}>
                           <div className="mb-3">
                             <label className="mb-1">
-                              <strong>{labelValue}</strong>
+                              {labelValue === "" ? (
+                                <Loader />
+                              ) : (
+                                <strong>{labelValue}</strong>
+                              )}
                               <span className="text-danger">*</span>
                             </label>
+
                             <InputField
                               type="email"
                               className={` ${
