@@ -8,15 +8,15 @@ import InputField from "../../Componenets/InputField/InputField";
 import Button from "../../Componenets/Button/Button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../../Componenets/Loader/Loader";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const [showLoder, setShowLoader] = useState(false);
   const translationData = useSelector((state) => state.translationReducer);
-
   const loginDetails = useSelector(
     (state) => state.loginReducer?.data?.message
   );
-
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -25,6 +25,29 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    dispatch(onTranslationSubmit());
+  }, []);
+  const labelValue =
+    translationData && Array.isArray(translationData.data)
+      ? translationData.data
+          .filter(
+            (item) =>
+              item.clientId === 1 &&
+              item.resourceType === "UIClient" &&
+              item.resourceKey === "email_label"
+          )
+          .map((item) => item.resourceValue)[0]
+      : "";
+
+  const placeholderValue =
+    translationData && Array.isArray(translationData.data)
+      ? translationData.data.find(
+          (item) =>
+            item.clientId === 1 && item.resourceKey === "email_placeholder"
+        )?.resourceValue
+      : "";
 
   const handleChange = (e, fieldName) => {
     const { value } = e.target;
@@ -49,24 +72,22 @@ const LoginPage = () => {
       });
     }
   };
+
   const handleCheckboxChange = (e) => {
     const { checked } = e.target;
-    // If the checkbox is checked, store the loginData in localStorage
     if (checked) {
       localStorage.setItem("userEmail", loginData.email);
       localStorage.setItem("userPassword", loginData.password);
     } else {
-      // If the checkbox is unchecked, remove the loginData from localStorage
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userPassword");
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
-
-    // Check if fields are empty and set corresponding error messages
     for (const key in loginData) {
       if (loginData[key] === "") {
         newErrors[key] = " ";
@@ -80,24 +101,20 @@ const LoginPage = () => {
     if (isValid) {
       try {
         dispatch(onLoginSubmit(loginData));
+        setShowLoader(true);
         const notify = () => {
           if (loginDetails === "Login Successfully.") {
+            setShowLoader(false);
             toast.success(loginDetails);
           } else {
+            setShowLoader(false);
             toast.error(loginDetails);
           }
         };
         notify();
-      } catch (error) {
-        console.error("Login error:", error);
-      }
-      dispatch(onLoginSubmit(loginData));
+      } catch (error) {}
     }
   };
-
-  useEffect(() => {
-    dispatch(onTranslationSubmit());
-  }, []);
 
   return (
     <>
@@ -123,7 +140,7 @@ const LoginPage = () => {
                         <form onSubmit={(e) => handleSubmit(e)}>
                           <div className="mb-3">
                             <label className="mb-1">
-                              <strong>Email</strong>
+                              <strong>{labelValue}</strong>
                               <span className="text-danger">*</span>
                             </label>
                             <InputField
@@ -131,7 +148,7 @@ const LoginPage = () => {
                               className={` ${
                                 errors.email ? "border-danger" : "form-control"
                               }`}
-                              placeholder="hello@example.com"
+                              placeholder={placeholderValue}
                               onChange={(e) => handleChange(e, "email")}
                               error={errors.email}
                             />
@@ -153,6 +170,7 @@ const LoginPage = () => {
                               placeholder="Password"
                             />
                           </div>
+                          {showLoder && <Loader />}
                           <div className="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
                             <div className="mb-3">
                               <span
@@ -162,7 +180,7 @@ const LoginPage = () => {
                                 All the * fields are required.
                               </span>
                               <div className="form-check custom-checkbox ms-1">
-                                <input
+                                <InputField
                                   type="checkbox"
                                   className="form-check-input"
                                   id="basic_checkbox_1"
