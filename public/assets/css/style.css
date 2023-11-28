@@ -33387,6 +33387,8 @@ table {
   background: #68e365;
   color: #fff;
   border-color: #68e365;
+  width: 30%;
+  margin-left:75%;
 }
 
 .alert.alert-warning.solid {
