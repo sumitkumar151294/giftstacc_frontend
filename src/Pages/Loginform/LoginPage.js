@@ -143,11 +143,11 @@ const LoginPage = () => {
                         <form onSubmit={(e) => handleSubmit(e)}>
                           <div className="mb-3">
                             <label className="mb-1">
-                              {labelValue === "" ? (
+                              {/* {labelValue === "" ? (
                                 <Loader />
-                              ) : (
-                                <strong>{labelValue}</strong>
-                              )}
+                              ) : ( */}
+                              <strong>Email</strong>
+                              {/* )} */}
                               <span className="text-danger">*</span>
                             </label>
 
@@ -156,7 +156,7 @@ const LoginPage = () => {
                               className={` ${
                                 errors.email ? "border-danger" : "form-control"
                               }`}
-                              placeholder={placeholderValue}
+                              placeholder="abc@gmail.com"
                               onChange={(e) => handleChange(e, "email")}
                               error={errors.email}
                             />
