@@ -62,7 +62,7 @@ const Sidebar = () => {
                     </li>
 
                     <li className={location.pathname === "/LC-admin/brandcatalogue" ? "mm-active" : ""} >
-                        <Link to="/LC-admin/brandcatalouge" class="ai-icon" aria-expanded="false">
+                        <Link to="/LC-admin/brandcatalogue" class="ai-icon" aria-expanded="false">
                             <img class="w-20px" src={product} alt="file not exist" />
                             <span class="nav-text ps-1">Brand Catalouge</span>
                         </Link>
