@@ -111,6 +111,12 @@ const ClientMaster = () => {
     }
 
     // Remove the error message when the user starts typing
+    else{
+      setErrors({
+        ...errors,
+        [fieldName]: "",
+      });
+  }
   };
 
   const handleSubmit = (e) => {
@@ -136,7 +142,6 @@ const ClientMaster = () => {
 
   return (
     <>
-      {" "}
       {!isLoading ? (
         <Loader />
       ) : (
