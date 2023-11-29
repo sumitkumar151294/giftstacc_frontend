@@ -30,7 +30,7 @@ const Auth = () => {
     } else {
       setShowLoader(true);
     }
-  }, []);
+  }, [loginAuthData]);
 
   return <>{showLoader ? <Loader /> : <RouteConfiq />}</>;
 };
