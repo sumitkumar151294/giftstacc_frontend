@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchData } from '../../Store/Slices/rolemasterSlice';
 import Loader from "../../Componenets/Loader/Loader";
 import '../RoleMaster/RoleMaster.css'
 
 const RoleMasterItems = () => {
-    const [isformLoading, setIsFormLoading] = useState("true");
+    
+    const dispatch = useDispatch();
+    const isformLoading = useSelector((state) => state.formData.loading);
     const [formData, setFormData] = useState({
         roleName: "",
         modules: {
@@ -57,7 +61,10 @@ const RoleMasterItems = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        dispatch(fetchData(formData));
     };
+
+    
     return (
         <>
             <div className="container-fluid">
@@ -68,7 +75,7 @@ const RoleMasterItems = () => {
                                 <h4 className="card-title">Role Master</h4>
                             </div>
                             <div className="card-body position-relative">
-                                {!isformLoading ? (
+                                {isformLoading ? (
                                     <div style={{ height: "400px" }}>
                                         <Loader classNameType={"absoluteLoader"} />
                                     </div>
@@ -148,7 +155,7 @@ const RoleMasterItems = () => {
                                                         )}
                                                     </div>
                                                     <div className="col-sm-4 mt-4 mb-4">
-                                                        <button className="btn btn-primary float-right pad-aa">
+                                                        <button type="submit" className="btn btn-primary float-right pad-aa">
                                                             Submit
                                                         </button>
                                                     </div>

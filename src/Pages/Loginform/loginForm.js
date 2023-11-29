@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./LoginForm.css";
+import "./loginForm.css";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
