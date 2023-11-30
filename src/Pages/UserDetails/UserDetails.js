@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 // import { onUserSubmit } from "../../../../customer-Capital/src/redux/modules/Admin/userSlice";
+import { onUserSubmit } from "../../Store/Slices/userMasterSlice";
 import { useDispatch } from 'react-redux';
 import InputField from "../../Componenets/InputField/InputField";
 // import Button from "../../Componenets/Buttons/Button/Button";
@@ -60,7 +61,6 @@ const UserDetails = () => {
         }
 
         // if (!regexPhone.test(userData.mobile)) {
-        //     debugger
         //     newErrors.mobile = "Invalid phone number format";
         //     isValid = false;
         // }
@@ -131,7 +131,6 @@ const UserDetails = () => {
     // };
 
     const handleSubmit = (e) => {
-        debugger
         e.preventDefault();
         let isValid = true;
         const newErrors = { ...errors };
@@ -139,7 +138,6 @@ const UserDetails = () => {
         // Check if fields are empty and set corresponding error messages
 
         for (const key in userData) {
-            debugger
             if (userData[key] === "") {
                 newErrors[key] = " ";
                 isValid = false;
@@ -169,17 +167,17 @@ const UserDetails = () => {
 
         setErrors(newErrors);
 
-        // if (isValid) {
-            // const submissionData = {
-            //     formData: userData,
-            //     checkboxData: formData.modules,
-            // };
+        if (isValid) {
+            const submissionData = {
+                formData: userData,
+                checkboxData: formData.modules,
+            };
 
             // Print the combined data to the console
-            // console.log('Submission Data:', submissionData);
+            console.log('Submission Data:', submissionData);
 
-            // dispatch(onUserSubmit(submissionData));
-        // }
+            dispatch(onUserSubmit(submissionData));
+        }
     };
 
     return (
