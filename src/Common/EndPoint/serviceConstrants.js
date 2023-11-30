@@ -1,6 +1,6 @@
 const API = {
   loginApi: "/login",
-  translationApi: "/translation-content?clientId=1",
+  translationApi: "/translation-content",
   loginAuth: "/auth",
 };
 export default API;

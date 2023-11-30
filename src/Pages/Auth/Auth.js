@@ -2,56 +2,36 @@ import { useEffect, useState } from "react";
 import { onLoginAuthSubmit } from "../../Store/Slices/loginAuthSlice";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useDispatch, useSelector } from "react-redux";
+import RouteConfiq from "../../Routing/routes";
 import Loader from "../../Componenets/Loader/Loader";
 const Auth = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
-  const translationData = useSelector((state) => state.translationReducer);
-
-  useEffect(()=>{
+  useEffect(() => {
+    setShowLoader(true);
     dispatch(
-      //generateAuthToken - name 
       onLoginAuthSubmit({
-        clientId: "1",
-        partnerCode: "2",
-        accessKey: "2",
-        secretKey: "2",
+        clientId: 5,
+        partnerCode: "UIClient",
+        accessKey: 1,
+        secretKey: 1,
       })
     );
-  },[])
-
-  useEffect(()=>{
-    if (loginAuthData?.status_code === 200){
-      dispatch(onTranslationSubmit());
-    }
-  },[loginAuthData])
-
-  useEffect(()=>{
-    if (translationData.status_code === 400) {
+  }, []);
+  useEffect(() => {
+    if (loginAuthData?.status_code === 200) {
+      const bearerToken = loginAuthData?.message;
+      const tokenIdIndex = bearerToken.indexOf("Token:");
+      const token = bearerToken.substring(tokenIdIndex + 7).trim();
+      localStorage.setItem("jwt", token);
       setShowLoader(false);
+      dispatch(onTranslationSubmit());
     } else {
       setShowLoader(true);
     }
-  },[translationData])
-  // useEffect(() => {
-  
-  //   debugger
-  //   if (loginAuthData?.status_code === 200) {
-  //     setShowLoader(false);
-  //   } else {
-  //     setShowLoader(true);
-  //   }
+  }, [loginAuthData]);
 
-  //   localStorage.setItem("jwtToken", loginAuthData?.message);
-  //   debugger
-  //   dispatch(onTranslationSubmit());
-  //   if (translationData.status_code === 400) {
-  //     setShowLoader(false);
-  //   } else {
-  //     setShowLoader(true);
-  //   }
-  // }, [setShowLoader, dispatch]);
-  return <>{showLoader && <Loader />}</>;
+  return <>{showLoader ? <Loader /> : <RouteConfiq />}</>;
 };
 export default Auth;

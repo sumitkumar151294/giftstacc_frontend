@@ -3,8 +3,8 @@ import {
   onLoginAuthSubmit,
   onLoginAuthSuccess,
   onLoginAuthError,
-} from "../../Store/Slices/loginAuthSlice";
-import { loginAuthApi } from "../../Context/loginAuthApi";
+} from "../Store/Slices/loginAuthSlice";
+import { loginAuthApi } from "../Context/loginAuthApi";
 
 function* LoginAuth({ payload }) {
   try {
