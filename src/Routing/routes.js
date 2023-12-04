@@ -4,7 +4,7 @@ function RouteConfiq() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/Lc-Admin/login" element={<LoginPage />} />
       </Routes>
     </Router>
   );

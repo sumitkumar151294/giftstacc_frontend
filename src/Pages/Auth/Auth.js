@@ -4,17 +4,20 @@ import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RouteConfiq from "../../Routing/routes";
 import Loader from "../../Componenets/Loader/Loader";
+import Error from "../../Componenets/Error/Error";
+
 const Auth = () => {
   const dispatch = useDispatch();
-  const [showLoader, setShowLoader] = useState(false);
+  const[show,setShow]=useState(true)
+  const [showLoader, setShowLoader] = useState(true);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
+  const translationData = useSelector((state) => state.translationReducer);
+
   useEffect(() => {
-    const id = loginAuthData?.data?.data;
-    const clientId = id?.clientId;
     setShowLoader(true);
     dispatch(
       onLoginAuthSubmit({
-        clientId: clientId,
+        clientId: 5,
         partnerCode: "UIClient",
         accessKey: 1,
         secretKey: 1,
@@ -32,9 +35,27 @@ const Auth = () => {
       dispatch(onTranslationSubmit());
     } else {
       setShowLoader(true);
+     if(loginAuthData?.status_code === 400){
+      setShowLoader(false);
+
+     }
     }
   }, [loginAuthData]);
+  useEffect(() => {
+    if (translationData.status_code === 200) {
+      setShowLoader(false);
+    } else {
+      setShowLoader(true);
+      if(translationData.status_code === 400){
+        setShowLoader(false);
 
-  return <>{showLoader ? <Loader /> : <RouteConfiq />}</>;
+      }
+     
+    }
+  }, [translationData]);
+
+  return <>
+  {showLoader ? <Error/> :<RouteConfiq/> }</>;
+  
 };
 export default Auth;
