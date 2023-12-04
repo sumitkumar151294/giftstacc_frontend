@@ -9,10 +9,6 @@ function RouteConfiq() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/Lc-admin/usermaster" element={<Layout Component={UserMaster} />} />
-        <Route path="/usermaster" element={<UserMaster />} />
-
-        
-
       </Routes>
     </Router>
   );
