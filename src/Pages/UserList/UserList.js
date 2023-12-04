@@ -15,6 +15,28 @@ const UserList = () => {
             username: 'Dummy User',
             clients: ['Client 1', 'Client 2'],
         },
+        {
+            roleName: 'Data Analyst',
+            email: 'DataAnalyst@gmail.com',
+            mobile: '2323232323',
+            username: 'Dummy User',
+            clients: ['Client 1', 'Client 2'],
+        },
+        {
+            roleName: 'Accountant	',
+            email: 'Accountant@gmail.com',
+            mobile: '9876543210',
+            username: 'Dummy User',
+            clients: ['Client 1', 'Client 2'],
+        },
+        {
+            roleName: 'Manager',
+            email: 'thisisdummy@gmail.com',
+            mobile: '9876543210',
+            username: 'Dummy User',
+            clients: ['Client 1', 'Client 2'],
+        },
+        
     ];
 
     return (

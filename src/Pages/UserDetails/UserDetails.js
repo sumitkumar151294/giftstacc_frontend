@@ -23,6 +23,7 @@ const UserDetails = () => {
     // const translationData = useSelector((state) => state.translationReducer);
     const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: 'Admin' });
     const [errors, setErrors] = useState({ userName: '', password: '', mobile: '', email: '', role: '' }); // Initialize 'role' error state
+    const [formError, setFormError] = useState('');
     const [formData, setFormData] = useState({
         modules: {
             client1: false,
@@ -168,6 +169,20 @@ const UserDetails = () => {
         }
 
         setErrors(newErrors);
+
+        const isFormValid = Object.values(userData).every((field) => field.trim() !== '');
+        console.log(isFormValid);
+
+    if (isFormValid) {
+      // Handle form submission logic here
+      // e.g., send the data to the server, perform other actions, etc.
+      console.log('Form submitted:', userData);
+      setFormError('');
+
+    } else {
+      // Display an error message
+      setFormError('All fields are required');
+    }
 
         // if (isValid) {
             // const submissionData = {
@@ -356,9 +371,11 @@ const UserDetails = () => {
                                                     </div>
                                                     <p className="text-danger">{errors.role}</p>
                                                     <div className="col-sm-4 mt-2 mb-4">
+                                                    {formError && <p style={{ color: 'red' , fontSize:'large', marginLeft:'5px' }}>{formError}</p>}
                                                         <button className="btn btn-primary float-right pad-aa" >
                                                             Submit <i className="fa fa-arrow-right"></i>
                                                         </button>
+
                                                     </div>
                                                 </div>
                                             </div>
