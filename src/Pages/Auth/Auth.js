@@ -9,10 +9,12 @@ const Auth = () => {
   const [showLoader, setShowLoader] = useState(false);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
   useEffect(() => {
+    const id = loginAuthData?.data?.data;
+    const clientId = id?.clientId;
     setShowLoader(true);
     dispatch(
       onLoginAuthSubmit({
-        clientId: 5,
+        clientId: clientId,
         partnerCode: "UIClient",
         accessKey: 1,
         secretKey: 1,
@@ -21,10 +23,11 @@ const Auth = () => {
   }, []);
   useEffect(() => {
     if (loginAuthData?.status_code === 200) {
-      const bearerToken = loginAuthData?.message;
-      const tokenIdIndex = bearerToken.indexOf("Token:");
-      const token = bearerToken.substring(tokenIdIndex + 7).trim();
+      const bearerToken = loginAuthData?.data?.data;
+      const token = bearerToken?.token;
+      const clientId = bearerToken?.clientId;
       localStorage.setItem("jwt", token);
+      localStorage.setItem("clientId", clientId);
       setShowLoader(false);
       dispatch(onTranslationSubmit());
     } else {

@@ -1,6 +1,10 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { translationApi } from "../Context/translationApi";
-import { onTranslationSubmitError,onTranslationSubmitSuccess,onTranslationSubmit } from "../Store/Slices/translationSlice";
+import {
+  onTranslationSubmitError,
+  onTranslationSubmitSuccess,
+  onTranslationSubmit,
+} from "../Store/Slices/translationSlice";
 
 function* Translation() {
   try {
