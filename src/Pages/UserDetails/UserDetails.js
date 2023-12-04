@@ -177,7 +177,7 @@ const UserDetails = () => {
       // Handle form submission logic here
       // e.g., send the data to the server, perform other actions, etc.
       console.log('Form submitted:', userData);
-      setFormError('');
+      setFormError('')
 
     } else {
       // Display an error message
