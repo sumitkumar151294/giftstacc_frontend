@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CSVLink } from "react-csv";
 import Loader from "../../../Componenets/Loader/Loader";
+import { useDispatch, useSelector } from 'react-redux';
+import { onGetSupplierList } from '../../../Store/Slices/supplierMasterSlice';
 
 const SupplierList = () => {
     const [isLoading, setIsLoading] = useState("true");
@@ -103,7 +105,12 @@ const SupplierList = () => {
                 value.toString().toLowerCase().includes(searchQuery.toLowerCase())
         )
     );
-
+    const dispatch = useDispatch();
+    useEffect(()=>{
+     dispatch(onGetSupplierList());
+    }, []);
+    let data = useSelector((state)=>state.supplierMasterReducer.data);
+    console.log("data", data);
     return (
         <>
             <div className="container-fluid pt-0">
