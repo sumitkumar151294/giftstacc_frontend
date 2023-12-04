@@ -25,19 +25,19 @@ const LoginPage = () => {
     password: "",
   });
 
-  // useEffect(()=>{
-  //   if (translationData.status_code === 400) {
-  //     setShowLoader(false);
-  //   } else {
-  //     setShowLoader(true);
-  //   }
-  // },[setShowLoader])
+  useEffect(() => {
+    if (translationData.status_code === 200) {
+      setShowLoader(false);
+    } else {
+      setShowLoader(true);
+    }
+  }, [setShowLoader]);
   const labelValue =
     translationData && Array.isArray(translationData.data)
       ? translationData.data
           .filter(
             (item) =>
-              item.clientId === 1 &&
+              item.clientId === 5 &&
               item.resourceType === "UIClient" &&
               item.resourceKey === "email_label"
           )
@@ -143,11 +143,11 @@ const LoginPage = () => {
                         <form onSubmit={(e) => handleSubmit(e)}>
                           <div className="mb-3">
                             <label className="mb-1">
-                              {/* {labelValue === "" ? (
+                              {labelValue === "" ? (
                                 <Loader />
-                              ) : ( */}
-                              <strong>Email</strong>
-                              {/* )} */}
+                              ) : (
+                                <strong>{labelValue}</strong>
+                              )}
                               <span className="text-danger">*</span>
                             </label>
 
