@@ -8,8 +8,7 @@ import Error from "../../Componenets/Error/Error";
 
 const Auth = () => {
   const dispatch = useDispatch();
-  const[show,setShow]=useState(true)
-  const [showLoader, setShowLoader] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
   const translationData = useSelector((state) => state.translationReducer);
 
@@ -35,10 +34,6 @@ const Auth = () => {
       dispatch(onTranslationSubmit());
     } else {
       setShowLoader(true);
-     if(loginAuthData?.status_code === 400){
-      setShowLoader(false);
-
-     }
     }
   }, [loginAuthData]);
   useEffect(() => {
@@ -46,16 +41,9 @@ const Auth = () => {
       setShowLoader(false);
     } else {
       setShowLoader(true);
-      if(translationData.status_code === 400){
-        setShowLoader(false);
-
-      }
-     
     }
   }, [translationData]);
 
-  return <>
-  {showLoader ? <Error/> :<RouteConfiq/> }</>;
-  
+  return <>{showLoader ? <Loader /> : <RouteConfiq />}</>;
 };
 export default Auth;
