@@ -46,9 +46,37 @@ export const userMasterSlice = createSlice({
         error: {},
       };
     },
+
+    onGetUser: (state) => {
+      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false };
+    },
+    onGetUserSuccess: (state, { payload }) => {
+      const { data = {}, message = '', status_code } = payload;
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data,
+        error: {},
+        message,
+        status_code
+      };
+    },
+    onGetUserError: (state, { payload }) => {
+      const { data = {}, message = '', status_code } = payload;
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        data:data,
+        message,
+        status_code
+      };
+    },
+
   },
 });
-export const { onUserSubmit, onUserSubmitError, onUserSubmitSuccess } =
+export const { onUserSubmit, onUserSubmitError, onUserSubmitSuccess, onGetUser, onGetUserSuccess, onGetUserError } =
   userMasterSlice.actions;
 
 export default userMasterSlice.reducer;
