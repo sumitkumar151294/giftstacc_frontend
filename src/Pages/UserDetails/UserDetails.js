@@ -5,7 +5,6 @@ import InputField from "../../Componenets/InputField/InputField";
 // import Button from "../../Componenets/Buttons/Button/Button";
 // import Snackbar from "../../Componenets/Snackbar/Snackbar";
 import '../UserMaster/UserMaster.css'
-
 // import { Link } from "react-router-dom";
 // import Loader from "../../Componenets/Loader/Loader";
 const UserDetails = () => {
@@ -16,7 +15,6 @@ const UserDetails = () => {
     //   );
 
     const [showSnackbar, setShowSnackbar] = useState(false);
-
     // const [isLoading, setIsLoading] = useState(true);
     const [isformLoading, setIsFormLoading] = useState(true);
     // const translationData = useSelector((state) => state.translationReducer);
@@ -35,7 +33,6 @@ const UserDetails = () => {
             client8: false,
         },
     });
-
     const handleChange = (e, fieldName) => {
         const { name, value, type, checked } = e.target;
         const newUserdetailData = {
@@ -43,7 +40,6 @@ const UserDetails = () => {
             [fieldName]: value,
         };
         setUserData(newUserdetailData)
-
         if (type === "checkbox") {
             setFormData({
                 ...formData,
@@ -58,29 +54,6 @@ const UserDetails = () => {
                 [name]: value,
             });
         }
-
-        // if (!regexPhone.test(userData.mobile)) {
-        //     debugger
-        //     newErrors.mobile = "Invalid phone number format";
-        //     isValid = false;
-        // }
-        // if (fieldName === "mobile") {
-
-        //     const regexPhone = /^[0-9]{10}$/;
-        //     const isValidMobile = regexPhone.test(value);
-
-        //     setErrors({
-        //         ...errors,
-        //         [fieldName]: isValidMobile ? "" : "Invalid phone number",
-        //     });
-        // } else {
-        //     setErrors({
-        //         ...errors,
-        //         [fieldName]: "",
-        //     });
-        // }
-
-
         if (fieldName === "email") {
             const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
             const isValidEmail = emailRegex.test(value);
@@ -89,17 +62,10 @@ const UserDetails = () => {
                 ...errors,
                 [fieldName]: isValidEmail ? "" : "Invalid email address",
             });
-        } else {
-            setErrors({
-                ...errors,
-                [fieldName]: "",
-            });
         }
-
-        if (fieldName === "mobile") {
+        else if (fieldName === "mobile") {
             const mobileRegex = /^[0-9]{10}$/;
             const isValidMobile = mobileRegex.test(value);
-
             setErrors({
                 ...errors,
                 [fieldName]: isValidMobile ? "" : "Invalid phone number",
@@ -111,33 +77,12 @@ const UserDetails = () => {
             });
         }
     };
-
-
-
-
-
-
-    // const handleChange = (e, fieldName) => {
-    //     setUserData({
-    //         ...userData,
-    //         [fieldName]: e.target.value,
-    //     });
-
-    //     // Remove the error message when the user starts typing
-    //     setErrors({
-    //         ...errors,
-    //         [fieldName]: "",
-    //     });
-    // };
-
     const handleSubmit = (e) => {
         debugger
         e.preventDefault();
         let isValid = true;
         const newErrors = { ...errors };
-
         // Check if fields are empty and set corresponding error messages
-
         for (const key in userData) {
             debugger
             if (userData[key] === "") {
@@ -148,17 +93,6 @@ const UserDetails = () => {
             }
         }
         setErrors(newErrors);
-
-        // Email and Phone validation using the regexEmail and regexPhone pattern
-        // const regexEmail = /[a-zA-Z0-9]+([\_\.\-{1}])?[a-zA-Z0-9]+\@[a-zAZ0-9]+(\.[a-zA-Z\.]+)/g;
-
-        // if (!regexEmail.test(userData.email)) {
-        //     newErrors.email = "Invalid email format";
-        //     isValid = false;
-        // }
-
-
-
         // Check if a role has been selected
         if (userData.role === '') {
             newErrors.role = 'Please select a role';
@@ -166,38 +100,45 @@ const UserDetails = () => {
         } else {
             newErrors.role = ''; // Clear the role error if a role is selected
         }
-
         setErrors(newErrors);
-
-        const isFormValid = Object.values(userData).every((field) => field.trim() !== '');
-        console.log(isFormValid);
-
-        if (isFormValid) {
-            // Handle form submission logic here
-            // e.g., send the data to the server, perform other actions, etc.
-            console.log('Form submitted:', userData);
-            setFormError('')
-
-        } else {
-            // Display an error message
-            setFormError('All fields are required');
-        }
+        // if (isValid) {
+        //     const submissionData = {
+        //         formData: userData,
+        //         checkboxData: formData.modules,
+        //     };
+        //     // Print the combined data to the console
+        //     console.log('Submission Data:', submissionData);
+        //     // dispatch(onUserSubmit(submissionData));
+        // }
 
         
+        const newFormErrors = {};
+        Object.entries(userData).forEach(([key, value]) => {
 
-        // if (isValid) {
-        // const submissionData = {
-        //     formData: userData,
-        //     checkboxData: formData.modules,
-        // };
+             if (fieldName === "email") {
+            const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+            const isValidEmail = emailRegex.test(value);
 
-        // Print the combined data to the console
-        // console.log('Submission Data:', submissionData);
+              newFormErrors[key] = 'This field is required';
+            }
+          });
+          console.log((Object.keys(newFormErrors).length))
 
-        // dispatch(onUserSubmit(submissionData));
-        // }
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+          } else {
+            // Handle form submission logic here
+            // e.g., send the data to the server, perform other actions, etc.
+            const submissionData = {
+                        formData: userData,
+                        checkboxData: formData.modules,
+                    };
+                //     // Print the combined data to the console
+                    console.log('Submission Data:', submissionData);
+          }
+
+    
     };
-
     return (
         <>
             <div className="container-fluid">
@@ -222,11 +163,9 @@ const UserDetails = () => {
                                                     </label>
                                                     <InputField
                                                         type="email"
-                                                        name='username'
                                                         className={` ${errors.email ? "border-danger" : "form-control"
                                                             }`}
                                                         onChange={(e) => handleChange(e, "email")}
-                                                        // id="name-f"
                                                         placeholder=""
                                                         error={errors.email}
                                                     />
@@ -240,8 +179,6 @@ const UserDetails = () => {
                                                         type="text"
                                                         className={` ${errors.mobile ? "border-danger" : "form-control"
                                                             }`}
-                                                        name="fname"
-                                                        id="name-f"
                                                         onChange={(e) => handleChange(e, "mobile")}
                                                         placeholder=""
                                                         error={errors.mobile}
@@ -261,7 +198,6 @@ const UserDetails = () => {
                                                         onChange={(e) => handleChange(e, "userName")}
                                                         error={errors.userName}
                                                     />
-                                                    {/* <p className="text-danger">{errors.userName}</p> */}
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Password
@@ -276,11 +212,9 @@ const UserDetails = () => {
                                                         onChange={(e) => handleChange(e, "password")}
                                                         error={errors.password}
                                                     />
-                                                    {/* <p className="text-danger">{errors.password}</p> */}
                                                 </div>
                                                 <div className="col-lg-12 br pt-2">
                                                     <label for="name-f">Client</label>
-
                                                     <div className="row ml-4">
                                                         {Object.entries(formData.modules).map(
                                                             ([module, checked]) => (
@@ -318,8 +252,7 @@ const UserDetails = () => {
                                                 </div>
                                                 <div className="col-lg-12 br pt-2">
                                                     <label for="name-f">Role</label>
-
-                                                    <div className="row ml-4">
+                                                    <div className="row ml-4 mb-10">
                                                         <div className="form-check mt-2 col-lg-3">
                                                             <input
                                                                 id="ctl00_rbtnlist_0"
@@ -332,7 +265,6 @@ const UserDetails = () => {
                                                             />
                                                             <label className="form-check-label" for="ctl00_rbtnlist_0">Admin</label>
                                                         </div>
-
                                                         <div className="form-check mt-2 col-lg-3">
                                                             <input
                                                                 id="ctl00_rbtnlist_0"
@@ -345,7 +277,6 @@ const UserDetails = () => {
                                                             />
                                                             <label className="form-check-label" for="ctl00_rbtnlist_0">Data Analyst</label>
                                                         </div>
-
                                                         <div className="form-check mt-2 col-lg-3">
                                                             <input
                                                                 id="ctl00_rbtnlist_0"
@@ -371,13 +302,18 @@ const UserDetails = () => {
                                                             <label className="form-check-label" for="ctl00_rbtnlist_0">Manager</label>
                                                         </div>
                                                     </div>
-                                                    <p className="text-danger">{errors.role}</p>
+                                                    <span
+                                                        className="form-check-label"
+                                                        for="basic_checkbox_1"
+                                                        style={{ marginLeft: '5px', marginTop: '10px' }}
+                                                    >
+                                                        All the * fields are required.
+                                                    </span>
                                                     <div className="col-sm-4 mt-2 mb-4">
                                                         {formError && <p style={{ color: 'red', fontSize: 'large', marginLeft: '5px' }}>{formError}</p>}
                                                         <button className="btn btn-primary float-right pad-aa" >
                                                             Submit <i className="fa fa-arrow-right"></i>
                                                         </button>
-
                                                     </div>
                                                 </div>
                                             </div>
