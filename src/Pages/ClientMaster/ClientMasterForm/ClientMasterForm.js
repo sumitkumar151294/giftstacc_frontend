@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "../ClientMasterForm/ClientMasterForm.css";
-import Loader from "../../../Componenets/Loader/Loader";
 import InputField from "../../../Componenets/InputField/InputField";
 import Dropdown from "../../../Componenets/Dropdown/Dropdown";
+import Loader from "../../../Componenets/Loader/Loader";
 
 const ClientMaster = () => {
   const statusoptions = [
@@ -47,7 +47,7 @@ const ClientMaster = () => {
       status: "Non-Active",
     },
   ];
-  const [isLoading, setIsLoading] = useState("true");
+  // const [isLoading, setIsLoading] = useState("true");
   const [isformLoading, setIsFormLoading] = useState("true");
   const [error, setError] = useState(false);
   const [clientData, setClientData] = useState({
@@ -107,12 +107,12 @@ const ClientMaster = () => {
     }
 
     // Remove the error message when the user starts typing
-    else{
+    else {
       setErrors({
         ...errors,
         [fieldName]: "",
       });
-  }
+    }
   };
 
   const handleSubmit = (e) => {
@@ -137,17 +137,19 @@ const ClientMaster = () => {
   };
   return (
     <>
-      {!isLoading ? (
-        <Loader />
-      ) : (
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-xl-12 col-xxl-12">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">Client Master</h4>
-                </div>
-                <div class="card-body position-relative">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-12 col-xxl-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Client Master</h4>
+              </div>
+              <div class="card-body position-relative">
+                {!isformLoading ? (
+                  <div style={{ height: "400px" }}>
+                    <Loader classType={"absoluteLoader"} />
+                  </div>
+                ) : (
                   <div class="container mt-3">
                     <form onSubmit={handleSubmit}>
                       <div class="row">
@@ -391,12 +393,12 @@ const ClientMaster = () => {
                       </div>
                     </form>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

@@ -24,7 +24,17 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const emailLabel = GetTranslationData("UIClient", "email_label");
+  const emailLabel = GetTranslationData("UIAdmin", "email_label");
+  const emailPlaceholder = GetTranslationData("UIAdmin", "email_placeholder");
+  const passwordLabel = GetTranslationData("UIAdmin", "password_label");
+  const passwordPlaceholder = GetTranslationData(
+    "UIAdmin",
+    "password_placeholder"
+  );
+  const sign = GetTranslationData("UIAdmin", "sign");
+  const req_field = GetTranslationData("UIAdmin", "req_field");
+  const remember = GetTranslationData("UIAdmin", "remember");
+  const sign_me = GetTranslationData("UIAdmin", "sign_me");
 
   const handleChange = (e, fieldName) => {
     const { value } = e.target;
@@ -75,6 +85,8 @@ const LoginPage = () => {
       } else if (key === "email" && newErrors[key] !== "") {
         // Preserve the email validation error if it exists
         isValid = false;
+      } else if (key === "email" && newErrors[key] !== "") {
+        isValid = false;
       } else {
         newErrors[key] = "";
       }
@@ -117,85 +129,72 @@ const LoginPage = () => {
                             alt=""
                           />
                         </div>
-                        <h4 className="text-center mb-4">
-                          Sign into your account
-                        </h4>
-                        {emailLabel === "" ? (
-                          <Loader />
-                        ) : (
-                          <form onSubmit={(e) => handleSubmit(e)}>
-                            <div className="mb-3">
-                              <label className="mb-1">
-                                <strong>{emailLabel}</strong>
-                                <span className="text-danger">*</span>
-                              </label>
+                        <h4 className="text-center mb-4">{sign}</h4>
 
-                              <InputField
-                                type="email"
-                                className={` ${
-                                  errors.email
-                                    ? "border-danger"
-                                    : "form-control"
-                                }`}
-                                placeholder="abc@gmail.com"
-                                onChange={(e) => handleChange(e, "email")}
-                                error={errors.email}
-                              />
-                              <p className="text-danger">{errors.email}</p>
-                            </div>
+                        <form onSubmit={(e) => handleSubmit(e)}>
+                          <div className="mb-3">
+                            <label className="mb-1">
+                              <strong>{emailLabel}</strong>
+                              <span className="text-danger">*</span>
+                            </label>
+
+                            <InputField
+                              type="email"
+                              className={` ${
+                                errors.email ? "border-danger" : "form-control"
+                              }`}
+                              placeholder={emailPlaceholder}
+                              onChange={(e) => handleChange(e, "email")}
+                              error={errors.email}
+                            />
+                            <p className="text-danger">{errors.email}</p>
+                          </div>
+                          <div className="mb-3">
+                            <label className="mb-1">
+                              <strong>{passwordLabel}</strong>
+                              <span className="text-danger">*</span>
+                            </label>
+                            <InputField
+                              type="password"
+                              className={` ${
+                                errors.password
+                                  ? "border-danger"
+                                  : "form-control"
+                              }`}
+                              onChange={(e) => handleChange(e, "password")}
+                              placeholder={passwordPlaceholder}
+                            />
+                          </div>
+                          {showLoder && <Loader />}
+                          <div className="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
                             <div className="mb-3">
-                              <label className="mb-1">
-                                <strong>Password</strong>
-                                <span className="text-danger">*</span>
-                              </label>
-                              <InputField
-                                type="password"
-                                className={` ${
-                                  errors.password
-                                    ? "border-danger"
-                                    : "form-control"
-                                }`}
-                                onChange={(e) => handleChange(e, "password")}
-                                placeholder="Password"
-                              />
-                            </div>
-                            {showLoder && <Loader />}
-                            <div className="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
-                              <div className="mb-3">
-                                <span
+                              <span
+                                className="form-check-label"
+                                for="basic_checkbox_1"
+                              >
+                                {req_field}
+                              </span>
+                              <div className="form-check custom-checkbox ms-1">
+                                <InputField
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  id="basic_checkbox_1"
+                                  onChange={handleCheckboxChange}
+                                />
+                                <label
                                   className="form-check-label"
                                   for="basic_checkbox_1"
                                 >
-                                  All the * fields are required.
-                                </span>
-                                <div className="form-check custom-checkbox ms-1">
-                                  <InputField
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="basic_checkbox_1"
-                                    onChange={handleCheckboxChange}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    for="basic_checkbox_1"
-                                  >
-                                    Remember my preference
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="mb-3 d-none">
-                                Forgot Password?
+                                  {remember}
+                                </label>
                               </div>
                             </div>
-                            <div className="text-center">
-                              <Button
-                                onClick={handleSubmit}
-                                text="Sign In Me"
-                              />
-                              <ToastContainer />
-                            </div>
-                          </form>
-                        )}
+                          </div>
+                          <div className="text-center">
+                            <Button onClick={handleSubmit} text={sign_me} />
+                            <ToastContainer />
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
