@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "../ClientMasterForm/ClientMasterForm.css";
-import { useDispatch } from "react-redux";
-// import { onClientMasterSubmit } from "../../redux/modules/Admin/clientMasterSlice";
 import Loader from "../../../Componenets/Loader/Loader";
 import InputField from "../../../Componenets/InputField/InputField";
 import Dropdown from "../../../Componenets/Dropdown/Dropdown";
@@ -84,9 +82,7 @@ const ClientMaster = () => {
     password: "",
     userName: "",
   });
-
   // const dispatch = useDispatch();
-
   const handleChange = (e, fieldName) => {
     setClientData({
       ...clientData,
@@ -139,7 +135,6 @@ const ClientMaster = () => {
       //   dispatch(onClientMasterSubmit(clientData));
     }
   };
-
   return (
     <>
       {!isLoading ? (
@@ -204,7 +199,6 @@ const ClientMaster = () => {
                           />
                           {<p className="text-danger">{errors.email}</p>}
                         </div>
-
                         <div class="col-sm-4 form-group mb-2">
                           <label for="ipAddress">
                             Database IP Address
@@ -250,7 +244,6 @@ const ClientMaster = () => {
                             onChange={(e) => handleChange(e, "password")}
                           />
                         </div>
-
                         <div class="col-sm-4 form-group mb-2">
                           <label for="status">
                             Status
@@ -265,7 +258,6 @@ const ClientMaster = () => {
                           />
                           <p>Selected Option: {clientData.status}</p>
                         </div>
-
                         <div class="col-sm-4 form-group mb-2">
                           <label for="color">
                             Color
@@ -281,7 +273,6 @@ const ClientMaster = () => {
                             onChange={(e) => handleChange(e, "color")}
                           />
                         </div>
-
                         <div class="col-sm-6 form-group mb-2">
                           <label for="logo">
                             Logo Link
@@ -297,14 +288,12 @@ const ClientMaster = () => {
                             onChange={(e) => handleChange(e, "logoLink")}
                           />
                         </div>
-
                         <div class="col-sm-6 form-group mb-2">
                           <label for="status">
                             Select Theme
                             <span class="text-danger">*</span>
                           </label>
                           <Dropdown
-                            // value={selectedOption}
                             onChange={(e) => handleChange(e, "theme")}
                             error={errors.theme}
                             ariaLabel="Default select example"
@@ -313,12 +302,10 @@ const ClientMaster = () => {
                           />
                           <p>Selected Option: {clientData.theme}</p>
                         </div>
-
                         <div class="row mt-2">
                           <h3 style={{ borderBottom: "1px solid #ededed" }}>
                             Razorpay Payment Gateway
                           </h3>
-
                           <div class="col-lg-6 mt-2">
                             <div class="row p-0">
                               <h4>
@@ -339,7 +326,6 @@ const ClientMaster = () => {
                                   }
                                 />
                               </div>
-
                               <div class="col-sm-12 form-group mb-2">
                                 <InputField
                                   type="text"
@@ -377,7 +363,6 @@ const ClientMaster = () => {
                                   }
                                 />
                               </div>
-
                               <div class="col-sm-12 form-group mb-2">
                                 <InputField
                                   type="text"
@@ -395,7 +380,6 @@ const ClientMaster = () => {
                             </div>
                           </div>
                         </div>
-
                         <div class="col-sm-12 form-group mb-0 mt-2">
                           <button
                             type="submit"

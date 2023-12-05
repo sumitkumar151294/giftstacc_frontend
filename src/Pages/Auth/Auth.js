@@ -4,10 +4,14 @@ import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RouteConfiq from "../../Routing/routes";
 import Loader from "../../Componenets/Loader/Loader";
+import Error from "../../Componenets/Error/Error";
+
 const Auth = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
+  const translationData = useSelector((state) => state.translationReducer);
+
   useEffect(() => {
     setShowLoader(true);
     dispatch(
@@ -21,16 +25,24 @@ const Auth = () => {
   }, []);
   useEffect(() => {
     if (loginAuthData?.status_code === 200) {
-      const bearerToken = loginAuthData?.message;
-      const tokenIdIndex = bearerToken.indexOf("Token:");
-      const token = bearerToken.substring(tokenIdIndex + 7).trim();
+      const bearerToken = loginAuthData?.data?.data;
+      const token = bearerToken?.token;
+      const clientId = bearerToken?.clientId;
       localStorage.setItem("jwt", token);
+      localStorage.setItem("clientId", clientId);
       setShowLoader(false);
       dispatch(onTranslationSubmit());
     } else {
       setShowLoader(true);
     }
   }, [loginAuthData]);
+  useEffect(() => {
+    if (translationData.status_code === 200) {
+      setShowLoader(false);
+    } else {
+      setShowLoader(true);
+    }
+  }, [translationData]);
 
   return <>{showLoader ? <Loader /> : <RouteConfiq />}</>;
 };
