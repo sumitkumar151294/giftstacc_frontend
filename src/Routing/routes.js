@@ -6,7 +6,7 @@ function RouteConfiq() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/Lc-Admin/login" element={<LoginPage />} />
         <Route path="/LC-admin/rolemaster" element={<Layout Component={RoleMaster} />} />
       </Routes>
     </Router>
