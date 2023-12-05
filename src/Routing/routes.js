@@ -12,5 +12,4 @@ function RouteConfiq() {
     </Router>
   );
 }
-
 export default RouteConfiq;

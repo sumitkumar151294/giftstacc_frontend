@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Loader from "../../Componenets/Loader/Loader";
 import '../RoleMaster/RoleMaster.css'
-
 const RoleMasterItems = () => {
     const [isformLoading, setIsFormLoading] = useState("true");
     const [formData, setFormData] = useState({
@@ -22,7 +21,6 @@ const RoleMasterItems = () => {
             emailTemplates: false,
         },
     });
-
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         if (name === "selectAll") {
@@ -50,11 +48,9 @@ const RoleMasterItems = () => {
             });
         }
     };
-
     const isSelectAllChecked = Object.values(formData.modules).every(
         (module) => module
     );
-
     const handleSubmit = (e) => {
         e.preventDefault();
     };
@@ -70,7 +66,7 @@ const RoleMasterItems = () => {
                             <div className="card-body position-relative">
                                 {!isformLoading ? (
                                     <div style={{ height: "400px" }}>
-                                        <Loader classNameType={"absoluteLoader"} />
+                                        <Loader classType={"absoluteLoader"} />
                                     </div>
                                 ) : (
                                     <div className="container mt-3">
@@ -89,7 +85,6 @@ const RoleMasterItems = () => {
                                                     />
                                                 </div>
                                             </div>
-
                                             <div className="row top-top">
                                                 <div className="col-lg-4">
                                                     <div className="form-check mb-2 padd">
@@ -110,7 +105,6 @@ const RoleMasterItems = () => {
                                                         </label>
                                                     </div>
                                                 </div>
-
                                                 <div className="col-lg-12 br pt-2">
                                                     <label htmlFor="name-f">Module Access</label>
                                                     <div className="row ml-4">
@@ -165,5 +159,4 @@ const RoleMasterItems = () => {
         </>
     )
 }
-
 export default RoleMasterItems

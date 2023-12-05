@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import Loader from "../../Componenets/Loader/Loader";
 import '../RoleMaster/RoleMaster.css'
 import NoRecord from "../../Componenets/NoRecord/NoRecord"
-
 const RoleMasterModule = () => {
     const [isLoading, setIsLoading] = useState("true");
-
     const roleData = [
         {
             roleName: "Admin",
@@ -57,7 +55,7 @@ const RoleMasterModule = () => {
                                 <div className="card-body position-relative">
                                     {!isLoading ? (
                                         <div style={{ height: "400px" }}>
-                                            <Loader classNameType={"absoluteLoader"} />
+                                            <Loader classType={"absoluteLoader"} />
                                         </div>
                                     ) : (
                                         <div className="table-responsive">
@@ -97,5 +95,4 @@ const RoleMasterModule = () => {
         </>
     )
 }
-
 export default RoleMasterModule

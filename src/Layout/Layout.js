@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from '../Layout/Sidebar/Sidebar';
 import Header from '../Layout/Header/Header';
+import Footer from './Footer/Footer';
 const Layout = (props) => {
     const { Component } = props;
     return (
@@ -9,6 +10,7 @@ const Layout = (props) => {
                 <Header />
                 <Sidebar />
                 <Component />
+                <Footer />
             </div>
         </>
     )
