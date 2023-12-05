@@ -7,11 +7,11 @@ export const GetTranslationData = (resourceType, resourceKey) => {
     translationData && Array.isArray(translationData.data)
       ? translationData.data.find(
           (item) =>
-            item.clientId === 5 &&
+            item.clientId === 0 &&
             item.resourceType === resourceType &&
             item.resourceKey === resourceKey
         )?.resourceValue
       : "";
 
-  return value;
+  return value;
 };

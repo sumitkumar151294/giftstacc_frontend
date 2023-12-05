@@ -9,41 +9,66 @@ import Error from "../../Componenets/Error/Error";
 const Auth = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
+  const [showError, setShowError] = useState(false);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
   const translationData = useSelector((state) => state.translationReducer);
+  const adminAccessKey = process.env.REACT_APP_ADMIN_ACCESS_KEY;
+  const adminSecretKey = process.env.REACT_APP_ADMIN_SECRET_KEY;
+  const clientKey = process.env.REACT_APP_ADMIN_CLIENT_KEY;
+  const partnerKey = process.env.REACT_APP_ADMIN_PARTNER_KEY;
+  const currentUrl =window.location.href ;
+  const adminUrl =process.env.REACT_APP_ADMIN_API_URL
 
   useEffect(() => {
     setShowLoader(true);
+      if(currentUrl === adminUrl){
     dispatch(
       onLoginAuthSubmit({
-        clientId: 5,
-        partnerCode: "UIClient",
-        accessKey: 1,
-        secretKey: 1,
+        clientId: clientKey,
+        partnerCode: partnerKey,
+        accessKey: adminAccessKey,
+        secretKey: adminSecretKey,
       })
     );
-  }, []);
+  }}, []);
+
   useEffect(() => {
     if (loginAuthData?.status_code === 200) {
-      const bearerToken = loginAuthData?.data?.data;
-      const token = bearerToken?.token;
-      const clientId = bearerToken?.clientId;
-      localStorage.setItem("jwt", token);
-      localStorage.setItem("clientId", clientId);
       setShowLoader(false);
+      setShowError(false);
       dispatch(onTranslationSubmit());
     } else {
-      setShowLoader(true);
+      setTimeout(() => {
+        setShowLoader(false);
+        setShowError(true);
+      }, 5000);
     }
-  }, [loginAuthData]);
+  }, [loginAuthData, showError]);
+
   useEffect(() => {
     if (translationData.status_code === 200) {
       setShowLoader(false);
+      setShowError(false);
     } else {
       setShowLoader(true);
     }
-  }, [translationData]);
+  }, [translationData, showError]);
 
-  return <>{showLoader ? <Loader /> : <RouteConfiq />}</>;
+  return (
+    <>
+      {showLoader ? (
+        <Loader />
+      ) : (
+        <>
+          {showError ? (
+            <Error />
+          ) : (
+            <RouteConfiq />
+          )}
+        </>
+      )}
+    </>
+  );
 };
+
 export default Auth;
