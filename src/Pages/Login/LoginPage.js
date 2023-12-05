@@ -10,27 +10,17 @@ import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../Componenets/Loader/Loader";
 import Footer from "../../Layout/Footer/Footer";
 import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
+
 const LoginPage = () => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
-  const loginDetails = useSelector(
-    (state) => state.loginReducer?.data?.message
-  );
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-  });
+  const loginDetails = useSelector((state) => state.loginReducer?.data?.message);
+  const [loginData, setLoginData] = useState({ email: "",password: ""});
+  const [errors, setErrors] = useState({ email: "",password: "" });
   const emailLabel = GetTranslationData("UIAdmin", "email_label");
   const emailPlaceholder = GetTranslationData("UIAdmin", "email_placeholder");
   const passwordLabel = GetTranslationData("UIAdmin", "password_label");
-  const passwordPlaceholder = GetTranslationData(
-    "UIAdmin",
-    "password_placeholder"
-  );
+  const passwordPlaceholder = GetTranslationData( "UIAdmin","password_placeholder" );
   const sign = GetTranslationData("UIAdmin", "sign");
   const req_field = GetTranslationData("UIAdmin", "req_field");
   const remember = GetTranslationData("UIAdmin", "remember");
@@ -101,7 +91,7 @@ const LoginPage = () => {
           }
         };
         notify();
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
@@ -134,9 +124,8 @@ const LoginPage = () => {
 
                             <InputField
                               type="email"
-                              className={` ${
-                                errors.email ? "border-danger" : "form-control"
-                              }`}
+                              className={` ${errors.email ? "border-danger" : "form-control"
+                                }`}
                               placeholder={emailPlaceholder}
                               onChange={(e) => handleChange(e, "email")}
                               error={errors.email}
@@ -150,11 +139,10 @@ const LoginPage = () => {
                             </label>
                             <InputField
                               type="password"
-                              className={` ${
-                                errors.password
+                              className={` ${errors.password
                                   ? "border-danger"
                                   : "form-control"
-                              }`}
+                                }`}
                               onChange={(e) => handleChange(e, "password")}
                               placeholder={passwordPlaceholder}
                             />
