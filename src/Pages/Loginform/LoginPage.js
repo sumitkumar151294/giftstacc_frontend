@@ -39,7 +39,7 @@ const LoginPage = () => {
   const handleChange = (e, fieldName) => {
     // Destructure the value from the event object
     const { value } = e.target;
-    // Create a new object with the updated field value
+    // Create a new object with updated field value
     const newLoginData = {
       ...loginData,
       [fieldName]: value,
