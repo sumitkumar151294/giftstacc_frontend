@@ -5,9 +5,11 @@ const Layout = (props) => {
     const { Component } = props;
     return (
         <>
+            <div id='main-wrapper'>
             <Header />
             <Sidebar />
             <Component />
+            </div>
         </>
     )
 }

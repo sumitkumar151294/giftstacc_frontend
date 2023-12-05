@@ -8,8 +8,6 @@ function RouteConfiq() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/LC-admin/supplierbrandlist" element={<Layout Component={SupplierBrandList} />} />
-        <Route path="/supplierbrandlist" element={<SupplierBrandList />} />
-
       </Routes>
     </Router>
   );
