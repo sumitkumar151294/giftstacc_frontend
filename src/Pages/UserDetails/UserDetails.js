@@ -8,7 +8,6 @@ import '../UserMaster/UserMaster.css'
 
 // import { Link } from "react-router-dom";
 // import Loader from "../../Componenets/Loader/Loader";
-
 const UserDetails = () => {
     const dispatch = useDispatch();
     // const translationData = useSelector((state) => state.translationReducer);
@@ -66,7 +65,7 @@ const UserDetails = () => {
         //     isValid = false;
         // }
         // if (fieldName === "mobile") {
-           
+
         //     const regexPhone = /^[0-9]{10}$/;
         //     const isValidMobile = regexPhone.test(value);
 
@@ -173,27 +172,29 @@ const UserDetails = () => {
         const isFormValid = Object.values(userData).every((field) => field.trim() !== '');
         console.log(isFormValid);
 
-    if (isFormValid) {
-      // Handle form submission logic here
-      // e.g., send the data to the server, perform other actions, etc.
-      console.log('Form submitted:', userData);
-      setFormError('')
+        if (isFormValid) {
+            // Handle form submission logic here
+            // e.g., send the data to the server, perform other actions, etc.
+            console.log('Form submitted:', userData);
+            setFormError('')
 
-    } else {
-      // Display an error message
-      setFormError('All fields are required');
-    }
+        } else {
+            // Display an error message
+            setFormError('All fields are required');
+        }
+
+        
 
         // if (isValid) {
-            // const submissionData = {
-            //     formData: userData,
-            //     checkboxData: formData.modules,
-            // };
+        // const submissionData = {
+        //     formData: userData,
+        //     checkboxData: formData.modules,
+        // };
 
-            // Print the combined data to the console
-            // console.log('Submission Data:', submissionData);
+        // Print the combined data to the console
+        // console.log('Submission Data:', submissionData);
 
-            // dispatch(onUserSubmit(submissionData));
+        // dispatch(onUserSubmit(submissionData));
         // }
     };
 
@@ -213,7 +214,7 @@ const UserDetails = () => {
                                     </div>
                                 ) : (
                                     <div className="container mt-3">
-                        <form onSubmit={(e) => handleSubmit(e)}>
+                                        <form onSubmit={(e) => handleSubmit(e)}>
                                             <div className="row">
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Email
@@ -221,6 +222,7 @@ const UserDetails = () => {
                                                     </label>
                                                     <InputField
                                                         type="email"
+                                                        name='username'
                                                         className={` ${errors.email ? "border-danger" : "form-control"
                                                             }`}
                                                         onChange={(e) => handleChange(e, "email")}
@@ -371,7 +373,7 @@ const UserDetails = () => {
                                                     </div>
                                                     <p className="text-danger">{errors.role}</p>
                                                     <div className="col-sm-4 mt-2 mb-4">
-                                                    {formError && <p style={{ color: 'red' , fontSize:'large', marginLeft:'5px' }}>{formError}</p>}
+                                                        {formError && <p style={{ color: 'red', fontSize: 'large', marginLeft: '5px' }}>{formError}</p>}
                                                         <button className="btn btn-primary float-right pad-aa" >
                                                             Submit <i className="fa fa-arrow-right"></i>
                                                         </button>
