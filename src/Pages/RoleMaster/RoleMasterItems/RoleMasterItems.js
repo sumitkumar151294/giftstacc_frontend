@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Loader from "../../Componenets/Loader/Loader";
-import '../RoleMaster/RoleMaster.css'
+import '../RoleMaster.css'
+import Loader from "../../../Componenets/Loader/Loader";
 const RoleMasterItems = () => {
     const [isformLoading, setIsFormLoading] = useState("true");
     const [formData, setFormData] = useState({

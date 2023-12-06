@@ -1,7 +1,7 @@
 import React from "react";
-import RoleMasterItems from "../RoleMasterItems/RoleMasterItems";
-import RoleMasterModule from "../RoleMasterModule/RoleMasterModule";
 import './RoleMaster.css'
+import RoleMasterItems from "../RoleMaster/RoleMasterItems/RoleMasterItems";
+import RoleMasterModule from "../RoleMaster/RoleMasterModule/RoleMasterModule";
 const RoleMaster = () => {
     return (
         <>

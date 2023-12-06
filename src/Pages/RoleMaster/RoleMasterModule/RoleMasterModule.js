@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Loader from "../../Componenets/Loader/Loader";
-import '../RoleMaster/RoleMaster.css'
-import NoRecord from "../../Componenets/NoRecord/NoRecord"
+import '../RoleMaster.css'
+import NoRecord from "../../../Componenets/NoRecord/NoRecord"
+import Loader from "../../../Componenets/Loader/Loader";
 const RoleMasterModule = () => {
     const [isLoading, setIsLoading] = useState("true");
     const roleData = [
