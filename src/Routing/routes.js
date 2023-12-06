@@ -1,7 +1,7 @@
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
-import LoginPage from "../Pages/Loginform/LoginPage";
 import RoleMaster from "../Pages/RoleMaster/RoleMaster";
 import Layout from "../Layout/Layout"
+import LoginPage from "../Pages/Login/LoginPage";
 function RouteConfiq() {
   return (
     <Router>
