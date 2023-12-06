@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../RoleMaster.css'
 import Loader from "../../../Componenets/Loader/Loader";
+import { onGetModule } from "../../../Store/Slices/moduleSlice";
+import { useDispatch } from "react-redux";
 const RoleMasterItems = () => {
+    const dispatch = useDispatch();
     const [isformLoading, setIsFormLoading] = useState("true");
     const [formData, setFormData] = useState({
         roleName: "",
@@ -54,6 +57,9 @@ const RoleMasterItems = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
     };
+    useEffect(() => {
+        dispatch(onGetModule())
+    }, [])
     return (
         <>
             <div className="container-fluid">
