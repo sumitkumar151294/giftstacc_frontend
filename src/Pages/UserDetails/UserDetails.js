@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import { onUserSubmit } from "../../../../customer-Capital/src/redux/modules/Admin/userSlice";
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import InputField from "../../Componenets/InputField/InputField";
 // import Button from "../../Componenets/Buttons/Button/Button";
 // import Snackbar from "../../Componenets/Snackbar/Snackbar";
@@ -8,13 +8,13 @@ import '../UserMaster/UserMaster.css'
 // import { Link } from "react-router-dom";
 // import Loader from "../../Componenets/Loader/Loader";
 const UserDetails = () => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     // const translationData = useSelector((state) => state.translationReducer);
     //   const userDetails = useSelector(
     //     (state) => state.userReducer?.data?.message
     //   );
 
-    const [showSnackbar, setShowSnackbar] = useState(false);
+    // const [showSnackbar, setShowSnackbar] = useState(false);
     // const [isLoading, setIsLoading] = useState(true);
     const [isformLoading, setIsFormLoading] = useState(true);
     // const translationData = useSelector((state) => state.translationReducer);
@@ -78,17 +78,18 @@ const UserDetails = () => {
         }
     };
     const handleSubmit = (e) => {
-        debugger
         e.preventDefault();
         let isValid = true;
-        const newErrors = { ...errors };
+        const newErrors = {};
         // Check if fields are empty and set corresponding error messages
         for (const key in userData) {
             debugger
             if (userData[key] === "") {
+                debugger
                 newErrors[key] = " ";
                 isValid = false;
-            } else {
+            }
+            else {
                 newErrors[key] = "";
             }
         }
@@ -101,43 +102,32 @@ const UserDetails = () => {
             newErrors.role = ''; // Clear the role error if a role is selected
         }
         setErrors(newErrors);
-        // if (isValid) {
-        //     const submissionData = {
-        //         formData: userData,
-        //         checkboxData: formData.modules,
-        //     };
-        //     // Print the combined data to the console
-        //     console.log('Submission Data:', submissionData);
-        //     // dispatch(onUserSubmit(submissionData));
-        // }
-
-        
-        const newFormErrors = {};
-        Object.entries(userData).forEach(([key, value]) => {
-
-             if (fieldName === "email") {
-            const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-            const isValidEmail = emailRegex.test(value);
-
-              newFormErrors[key] = 'This field is required';
-            }
-          });
-          console.log((Object.keys(newFormErrors).length))
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-          } else {
-            // Handle form submission logic here
-            // e.g., send the data to the server, perform other actions, etc.
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        const mobileRegex = /^[0-9]{10}$/;
+        if (!emailRegex.test(userData.email)) {
+            isValid = false;
+        }
+        else if (!mobileRegex.test(userData.mobile)) {
+            isValid = false;
+        }
+        else {
+            newErrors.email = '';
+        }
+        setErrors(newErrors);
+        console.log(isValid)
+        if (isValid) {
             const submissionData = {
-                        formData: userData,
-                        checkboxData: formData.modules,
-                    };
-                //     // Print the combined data to the console
-                    console.log('Submission Data:', submissionData);
-          }
+                formData: userData,
+                checkboxData: formData.modules,
+            };
 
-    
+            // Print the combined data to the console
+            console.log('Submission Data:', submissionData);
+            // Dispatch the form submission action if needed
+            // dispatch(onUserSubmit(submissionData));
+        }
+
+
     };
     return (
         <>
@@ -162,7 +152,7 @@ const UserDetails = () => {
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
-                                                        type="email"
+                                                        type="text"
                                                         className={` ${errors.email ? "border-danger" : "form-control"
                                                             }`}
                                                         onChange={(e) => handleChange(e, "email")}
