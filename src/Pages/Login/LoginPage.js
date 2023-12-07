@@ -37,11 +37,14 @@ const LoginPage = () => {
   const sign_me = GetTranslationData("UIAdmin", "sign_me");
 
   const handleChange = (e, fieldName) => {
+    // Destructure the value from the event object
     const { value } = e.target;
+    // Create a new object with updated field value
     const newLoginData = {
       ...loginData,
       [fieldName]: value,
     };
+    // Update the state with the new login data
     setLoginData(newLoginData);
 
     if (fieldName === "email") {
@@ -72,18 +75,16 @@ const LoginPage = () => {
   };
 
   const handleSubmit = (e) => {
+    // Prevent the default form submission behavior
     e.preventDefault();
+    // Initialize a variable to track form validation status
     let isValid = true;
+    // Create a copy of the errors state
     const newErrors = { ...errors };
-
-    // Check if fields are empty and set corresponding error messages
-
+    // Iterate through each key in loginData
     for (const key in loginData) {
       if (loginData[key] === "") {
-        newErrors[key] = " "; // or you can set it to a default message like "Field is required"
-        isValid = false;
-      } else if (key === "email" && newErrors[key] !== "") {
-        // Preserve the email validation error if it exists
+        newErrors[key] = " ";
         isValid = false;
       } else if (key === "email" && newErrors[key] !== "") {
         isValid = false;
@@ -91,12 +92,15 @@ const LoginPage = () => {
         newErrors[key] = "";
       }
     }
+    // Update the errors state with the new error messages
     setErrors(newErrors);
 
     if (isValid) {
+      // If the form is valid, proceed with login submission
       try {
         setShowLoader(true);
         dispatch(onLoginSubmit(loginData));
+        // Define a function to show a toast notification based on loginDetails
         const notify = () => {
           if (loginDetails === "Login Successfully.") {
             setShowLoader(false);

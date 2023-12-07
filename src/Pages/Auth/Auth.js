@@ -20,18 +20,18 @@ const Auth = () => {
   const adminUrl =process.env.REACT_APP_ADMIN_API_URL
 
   useEffect(() => {
-    setShowLoader(true);
-      if(currentUrl === adminUrl){
+        setShowLoader(true);
+  if(currentUrl === adminUrl){
     dispatch(
       onLoginAuthSubmit({
-        clientId: clientKey,
-        partnerCode: partnerKey,
-        accessKey: adminAccessKey,
+      clientId: clientKey,
+      partnerCode: partnerKey,
+      accessKey: adminAccessKey,
         secretKey: adminSecretKey,
       })
     );
   }}, []);
-
+  
   useEffect(() => {
     if (loginAuthData?.status_code === 200) {
       setShowLoader(false);

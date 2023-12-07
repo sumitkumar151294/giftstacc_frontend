@@ -5,6 +5,7 @@ import ClientMasterForm from "./ClientMasterForm/ClientMasterForm";
 const ClientMaster = () => {
   return (
     <>
+    
       <div className="content-body">
         <ClientMasterForm />
         <ClientList />

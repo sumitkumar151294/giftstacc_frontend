@@ -123,9 +123,14 @@ const ClientMaster = () => {
     // Check if fields are empty and set corresponding error messages
     for (const key in clientData) {
       if (clientData[key] === "") {
-        newErrors[key] = "The Field is required";
+        newErrors[key] = " ";
         isValid = false;
-      } else {
+      }
+      else if (key === "email" && newErrors[key] !== "") {
+        isValid = false;}
+        else if (key === "number" && newErrors[key] !== "") {
+          isValid = false;}
+         else {
         newErrors[key] = "";
       }
     }
@@ -393,7 +398,7 @@ const ClientMaster = () => {
                       </div>
                     </form>
                   </div>
-                )}
+               )} 
               </div>
             </div>
           </div>
