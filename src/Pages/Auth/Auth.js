@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RouteConfiq from "../../Routing/routes";
 import Loader from "../../Componenets/Loader/Loader";
 import Error from "../../Componenets/Error/Error";
+import apiConfigs from "./apiConfigs";
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -12,26 +13,30 @@ const Auth = () => {
   const [showError, setShowError] = useState(false);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
   const translationData = useSelector((state) => state.translationReducer);
-  const adminAccessKey = process.env.REACT_APP_ADMIN_ACCESS_KEY;
-  const adminSecretKey = process.env.REACT_APP_ADMIN_SECRET_KEY;
-  const clientKey = process.env.REACT_APP_ADMIN_CLIENT_KEY;
-  const partnerKey = process.env.REACT_APP_ADMIN_PARTNER_KEY;
-  const currentUrl =window.location.href ;
-  const adminUrl =process.env.REACT_APP_ADMIN_API_URL
+  const currentUrl = window.location.href;
 
   useEffect(() => {
-        setShowLoader(true);
-  if(currentUrl === adminUrl){
-    dispatch(
-      onLoginAuthSubmit({
-      clientId: clientKey,
-      partnerCode: partnerKey,
-      accessKey: adminAccessKey,
-        secretKey: adminSecretKey,
-      })
+    setShowLoader(true);
+    // Find the configuration that matches the current URL
+    const matchingConfig = apiConfigs.find((config) =>
+      currentUrl.includes(config.API_URL)
     );
-  }}, []);
-  
+
+    if (matchingConfig) {
+      const { ACCESS_KEY, SECRET_KEY, CLIENT_KEY, PARTNER_KEY } =
+        matchingConfig;
+
+      dispatch(
+        onLoginAuthSubmit({
+          clientId: CLIENT_KEY,
+          partnerCode: PARTNER_KEY,
+          accessKey: ACCESS_KEY,
+          secretKey: SECRET_KEY,
+        })
+      );
+    }
+  }, [currentUrl]);
+
   useEffect(() => {
     if (loginAuthData?.status_code === 200) {
       setShowLoader(false);
@@ -56,17 +61,7 @@ const Auth = () => {
 
   return (
     <>
-      {showLoader ? (
-        <Loader />
-      ) : (
-        <>
-          {showError ? (
-            <Error />
-          ) : (
-            <RouteConfiq />
-          )}
-        </>
-      )}
+      {showLoader ? <Loader /> : <>{showError ? <Error /> : <RouteConfiq />}</>}
     </>
   );
 };
