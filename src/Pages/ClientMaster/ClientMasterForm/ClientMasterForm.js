@@ -102,7 +102,7 @@ const ClientMaster = () => {
 
       setErrors({
         ...errors,
-        [fieldName]: isValidnumber ? "" : "please enter 10 digit only",
+        [fieldName]: isValidnumber ? "" : "Please enter 10 digit only",
       });
     }
 

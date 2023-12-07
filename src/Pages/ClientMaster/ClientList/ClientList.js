@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./ClientList.css";
 import { Link } from "react-router-dom";
 import Loader from "../../../Componenets/Loader/Loader";
+import NoRecord from "../../../Componenets/NoRecord/NoRecord";
 
 const ClientList = () => {
   const clientMasterList = [
@@ -72,13 +73,14 @@ const ClientList = () => {
                     </div>
                   </div>
                 </div>
-                {isLoading ? (
+                {!clientMasterList ? (
+                <div class="card-body">
+                   {isLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
            
-                <div class="card-body">
                   <div class="table-responsive">
                     <table class="table header-border table-responsive-sm">
                       <thead>
@@ -143,8 +145,11 @@ const ClientList = () => {
                       </tbody>
                     </table>
                   </div>
+                   )}
                 </div>
-                 )}
+                 ) : (
+                  <NoRecord />
+              )}
               </div>
             </div>
           </div>
