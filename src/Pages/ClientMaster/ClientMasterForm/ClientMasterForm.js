@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../ClientMasterForm/ClientMasterForm.css";
+import "../ClientMasterForm/ClientMasterForm.scss";
 import InputField from "../../../Componenets/InputField/InputField";
 import Dropdown from "../../../Componenets/Dropdown/Dropdown";
 import Loader from "../../../Componenets/Loader/Loader";
@@ -47,7 +47,6 @@ const ClientMaster = () => {
       status: "Non-Active",
     },
   ];
-  // const [isLoading, setIsLoading] = useState("true");
   const [isformLoading, setIsFormLoading] = useState("true");
   const [error, setError] = useState(false);
   const [clientData, setClientData] = useState({
@@ -125,12 +124,11 @@ const ClientMaster = () => {
       if (clientData[key] === "") {
         newErrors[key] = " ";
         isValid = false;
-      }
-      else if (key === "email" && newErrors[key] !== "") {
-        isValid = false;}
-        else if (key === "number" && newErrors[key] !== "") {
-          isValid = false;}
-         else {
+      } else if (key === "email" && newErrors[key] !== "") {
+        isValid = false;
+      } else if (key === "number" && newErrors[key] !== "") {
+        isValid = false;
+      } else {
         newErrors[key] = "";
       }
     }
@@ -398,7 +396,7 @@ const ClientMaster = () => {
                       </div>
                     </form>
                   </div>
-               )} 
+                )}
               </div>
             </div>
           </div>

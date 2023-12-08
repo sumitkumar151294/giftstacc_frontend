@@ -3011,9 +3011,6 @@ textarea.form-control-lg {
   z-index: 3;
 }
 
-.only-high {
-  height: 3.5em !important;
-}
 
 .input-group-text {
   display: flex;

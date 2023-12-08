@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Dropdown from "../../../Componenets/Dropdown/Dropdown";
 import Loader from "../Loader/Loader";
+import "../ClientBrandlist/clientbrandlist.scss";
 const supplieroptions = [
   { value: "First Client", label: "All" },
   { value: "First Client", label: "Quicksilver" },
