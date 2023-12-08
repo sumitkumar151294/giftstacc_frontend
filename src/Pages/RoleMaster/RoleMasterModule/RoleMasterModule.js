@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import '../RoleMaster.css'
 import NoRecord from "../../../Componenets/NoRecord/NoRecord"
 import Loader from "../../../Componenets/Loader/Loader";
+import { useDispatch } from "react-redux";
+import { onUpdateUserRole } from "../../../Store/Slices/userRoleSlice";
 const RoleMasterModule = (props) => {
     const [isLoading, setIsLoading] = useState("true");
+    const dispatch =useDispatch();
+    const handleUpdate = () =>{
+        dispatch(onUpdateUserRole());
+    }
     return (
         <>
             <div className="container-fluid pt-0">
@@ -39,7 +45,7 @@ const RoleMasterModule = (props) => {
                                                                     <span className="badge badge-success mr-10">{items}</span>
                                                                 ))} */}
                                                             </div></td>
-                                                            <td><a className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
+                                                            <td><a  onClick={handleUpdate} className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
                                                         </tr>
                                                     ))}
                                                 </tbody>

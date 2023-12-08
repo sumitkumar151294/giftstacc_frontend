@@ -8,3 +8,7 @@ export const callUserRolePostApi = async (payload) => {
   const { data = {} } = await axiosInstance.post(API.userRoleApi, payload);
   return data;
 };
+export const callUserRoleUpdateApi = async (payload) => {
+  const { data = {} } = await axiosInstance.post(API.updateUserRoleApi, payload);
+  return data;
+};

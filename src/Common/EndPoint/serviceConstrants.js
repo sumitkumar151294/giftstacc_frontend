@@ -4,5 +4,6 @@ const API = {
   loginAuth: "/auth",
   moduleApi: "/module-master",
   userRoleApi: "/user-role",
+  updateUserRoleApi: "/user-role/update"
 };
 export default API;
