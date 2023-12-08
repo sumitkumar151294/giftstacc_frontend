@@ -3,7 +3,7 @@ import { CSVLink } from "react-csv";
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from 'react-redux';
 import { onGetSupplierList } from '../../../Store/Slices/supplierMasterSlice';
-
+import  NoRecord  from '../../../Componenets/NoRecord/NoRecord';
 const SupplierList = () => {
     const [isLoading, setIsLoading] = useState("true");
     const [vendorData, setVendorData] = useState({
@@ -143,7 +143,7 @@ const SupplierList = () => {
                                     </CSVLink>
                                 </div>
                             </div>
-
+                            {!vendorList ? (
                             <div className="card-body position-relative">
                                 {!isLoading ? (
                                     <div style={{ height: "200px" }}>
@@ -218,6 +218,10 @@ const SupplierList = () => {
                                     </div>
                                 )}
                             </div>
+                               ) : (
+                                <NoRecord />
+                              )}
+                           
                         </div>
                     </div>
                 </div>
