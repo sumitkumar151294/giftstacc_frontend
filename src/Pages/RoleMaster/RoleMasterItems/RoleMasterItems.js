@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import '../RoleMaster.css'
 import Loader from "../../../Componenets/Loader/Loader";
 import { onGetModule } from "../../../Store/Slices/moduleSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { onGetUserRole, onPostUserRole } from "../../../Store/Slices/userRoleSlice";
 const RoleMasterItems = () => {
     const dispatch = useDispatch();
     const [isformLoading, setIsFormLoading] = useState("true");
@@ -56,10 +57,15 @@ const RoleMasterItems = () => {
     );
     const handleSubmit = (e) => {
         e.preventDefault();
+        dispatch(onPostUserRole(formData));
     };
     useEffect(() => {
+        // module master get api call 
         dispatch(onGetModule())
     }, [])
+    // to get module master data 
+    const getModuleData = useSelector((state) => state.moduleReducer);
+    console.log("module data", getModuleData);
     return (
         <>
             <div className="container-fluid">

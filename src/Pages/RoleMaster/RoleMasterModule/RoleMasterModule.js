@@ -2,46 +2,8 @@ import React, { useState } from "react";
 import '../RoleMaster.css'
 import NoRecord from "../../../Componenets/NoRecord/NoRecord"
 import Loader from "../../../Componenets/Loader/Loader";
-const RoleMasterModule = () => {
+const RoleMasterModule = (props) => {
     const [isLoading, setIsLoading] = useState("true");
-    const roleData = [
-        {
-            roleName: "Admin",
-            modules: [
-                "Module Access 1",
-                "Module Access 2",
-                "Module Access 3",
-                "Module Access 4",
-            ],
-        },
-        {
-            roleName: "Data Analyst",
-            modules: [
-                "Module Access 1",
-                "Module Access 2",
-                "Module Access 3",
-                "Module Access 4",
-                "Module Access 4",
-                "Module Access 4",
-            ],
-        },
-        {
-            roleName: "Accountant",
-            modules: ["Module Access 1", "Module Access 2", "Module Access 3"],
-        },
-        {
-            roleName: "Manager",
-            modules: [
-                "Module Access 1",
-                "Module Access 2",
-                "Module Access 3",
-                "Module Access 4",
-                "Module Access 4",
-                "Module Access 4",
-                "Module Access 4",
-            ],
-        },
-    ];
     return (
         <>
             <div className="container-fluid pt-0">
@@ -51,7 +13,7 @@ const RoleMasterModule = () => {
                             <div className="card-header">
                                 <h4 className="card-title">Role Module Access List</h4>
                             </div>
-                            {roleData ? (
+                            {props.roleAccessListData ? (
                                 <div className="card-body position-relative">
                                     {!isLoading ? (
                                         <div style={{ height: "400px" }}>
@@ -68,14 +30,14 @@ const RoleMasterModule = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody key='tbody'>
-                                                    {roleData.map((data) => (
+                                                    {props.roleAccessListData?.data?.data?.map((data) => (
                                                         <tr>
-                                                            <td>{data.roleName}
+                                                            <td>{data.name}
                                                             </td>
                                                             <td><div className="d-flex">
-                                                                {data.modules.map((items) => (
+                                                                {/* {data.modules.map((items) => (
                                                                     <span className="badge badge-success mr-10">{items}</span>
-                                                                ))}
+                                                                ))} */}
                                                             </div></td>
                                                             <td><a className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
                                                         </tr>
