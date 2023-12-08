@@ -3,7 +3,7 @@ import RouteConfiq from "./Routing/routes";
 function App() {
   return (
     <>
-      <RouteConfiq />
+      <Auth/>
     </>
   );
 }
