@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./LoginPage.css";
+import "./LoginPage.scss";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
