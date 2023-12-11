@@ -542,10 +542,6 @@
 				chartTimeline1();
 				chartTimeline2();
 				chartTimeline3();
-<<<<<<< HEAD
-
-=======
->>>>>>> 4a7e79183e44a8270183551796f821657f8649ce
 			},
 
 			resize: function () {
