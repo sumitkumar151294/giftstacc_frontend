@@ -6,55 +6,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { onGetUserRole, onPostUserRole } from "../../../Store/Slices/userRoleSlice";
 const RoleMasterItems = () => {
     const dispatch = useDispatch();
+    // to get module master data 
+    const getModuleData = useSelector((state) => state.moduleReducer.data.data);
+    console.log("module data", getModuleData);
     const [isformLoading, setIsFormLoading] = useState("true");
+    const [isChecked, setIsChecked] =useState(false)
+    const [isCheckAll, setIsCheck] =useState([]);
+    const [moduleAccess, setModuleAccess] = useState([]);
     const [formData, setFormData] = useState({
         roleName: "",
-        modules: {
-            vendorMaster: false,
-            allocatedMaster: false,
-            clientMaster: false,
-            userMaster: false,
-            productCategories: false,
-            productCatalogue: false,
-            orders: false,
-            cms: false,
-            blogMaster: false,
-            faqMaster: false,
-            contactedListMaster: false,
-            customerList: false,
-            emailTemplates: false,
-        },
     });
     const handleInputChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        if (name === "selectAll") {
-            const updatedModules = { ...formData.modules };
-            console.log(updatedModules);
-            for (const key in updatedModules) {
-                updatedModules[key] = checked;
-            }
-            setFormData({
-                ...formData,
-                modules: updatedModules,
-            });
-        } else if (type === "checkbox") {
-            setFormData({
-                ...formData,
-                modules: {
-                    ...formData.modules,
-                    [name]: checked,
-                },
-            });
-        } else {
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
-        }
+        const { name, value,} = e.target;
+       
+        
+        setFormData({
+            ...formData,
+            [name]: value
+        });
     };
-    const isSelectAllChecked = Object.values(formData.modules).every(
-        (module) => module
-    );
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(onPostUserRole(formData));
@@ -63,9 +34,7 @@ const RoleMasterItems = () => {
         // module master get api call 
         dispatch(onGetModule())
     }, [])
-    // to get module master data 
-    const getModuleData = useSelector((state) => state.moduleReducer);
-    console.log("module data", getModuleData);
+
     return (
         <>
             <div className="container-fluid">
@@ -104,9 +73,9 @@ const RoleMasterItems = () => {
                                                             className="form-check-input"
                                                             type="checkbox"
                                                             name="selectAll"
-                                                            value={formData.modules.selectAll}
+                                                            value=""
                                                             id="flexCheckDefault1"
-                                                            checked={isSelectAllChecked}
+                                                            checked=''
                                                             onChange={handleInputChange}
                                                         />
                                                         <label
@@ -120,26 +89,26 @@ const RoleMasterItems = () => {
                                                 <div className="col-lg-12 br pt-2">
                                                     <label htmlFor="name-f">Module Access</label>
                                                     <div className="row ml-4">
-                                                        {Object.entries(formData.modules).map(
-                                                            ([module, checked]) => (
+                                                        {getModuleData?.map(
+                                                            (value) => (
                                                                 <div
                                                                     className="form-check mt-2 col-lg-3"
-                                                                    key={module}
+                                                                    key={value.id}
                                                                 >
                                                                     <input
                                                                         className="form-check-input"
                                                                         type="checkbox"
-                                                                        name={module}
-                                                                        value={checked}
-                                                                        id={`flexCheckDefault-${module}`}
-                                                                        checked={checked}
+                                                                        name={value.name}
+                                                                        value={value.id}
+                                                                        id={`flexCheckDefault-${value.id}`}
                                                                         onChange={handleInputChange}
+                                                                        isChecked={isChecked}
                                                                     />
                                                                     <label
                                                                         className="form-check-label"
-                                                                        htmlFor={`flexCheckDefault-${module}`}
+                                                                        htmlFor={`flexCheckDefault-${value.id}`}
                                                                     >
-                                                                        {module
+                                                                        {value.name
                                                                             .replace(/([A-Z])/g, " $1")
                                                                             .split(" ")
                                                                             .map(
