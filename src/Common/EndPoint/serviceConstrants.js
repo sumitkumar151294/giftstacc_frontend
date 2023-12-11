@@ -1,6 +1,10 @@
 const API = {
   loginApi: "/login",
-  translationApi: "/translation-content?clientId=1",
+  translationApi: "/translation-content",
+  loginAuth: "/auth",
+  moduleApi: "/module-master",
+  userRoleApi: "/user-role",
+  updateUserRoleApi: "/user-role/update",
   userMasterApi: "/userMaster",
 };
 export default API;
