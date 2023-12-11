@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { onUserSubmit, onUserSubmitSuccess, onUserSubmitError, onGetUser, onGetUserSuccess, onGetUserError } from "../../Store/Slices/userMasterSlice";
-import { callUserMasterApi, callUserMasterGetApi } from "../../Context/userMasterApi";
+import { onUserSubmit, onUserSubmitSuccess, onUserSubmitError, onGetUser, onGetUserSuccess, onGetUserError } from "../Store/Slices/userMasterSlice";
+import { callUserMasterApi, callUserMasterGetApi } from "../Context/userMasterApi";
 
 function* userMaster({ payload }) {
   try {

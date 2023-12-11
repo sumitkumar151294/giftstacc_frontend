@@ -4,8 +4,8 @@ import translationSaga from './translationSaga';
 import loginAuthSaga from './loginAuthSaga';
 import moduleSaga from './moduleSaga';
 import userRoleSaga from './userRoleSaga';
-import userMasterSaga from './sagas/userMasterSaga';
 import supplierMasterSaga from './sagas/supplierMasterSaga';
+import userMasterSaga from './userMasterSaga';
 export default function* rootSaga() {
   yield all([
     loginSaga(),

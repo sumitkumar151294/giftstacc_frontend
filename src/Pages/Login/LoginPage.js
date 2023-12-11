@@ -11,8 +11,10 @@ import Loader from "../../Componenets/Loader/Loader";
 import Footer from "../../Layout/Footer/Footer";
 import image from "../../Assets/logo.png";
 import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
+import { useNavigate } from "react-router";
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showLoder, setShowLoader] = useState(false);
   const loginDetails = useSelector(
     (state) => state.loginReducer?.data?.message
@@ -118,6 +120,7 @@ const LoginPage = () => {
     if (loginDetails === "Login Successfully.") {
       setShowLoader(false);
       toast.success(loginDetails);
+      navigate('/Lc-admin/rolemaster');
     } else {
       setShowLoader(false);
       toast.error(loginDetails);
