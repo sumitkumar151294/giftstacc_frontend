@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import Loader from "../../../Componenets/Loader/Loader";
+import { useDispatch, useSelector } from 'react-redux';
+import { onVendorSubmit } from '../../../Store/Slices/supplierMasterSlice';
 
 
 const SupplierMasterFrom = () => {
+  const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState("true");
   const [vendorData, setVendorData] = useState({
     name: "",
@@ -63,7 +66,7 @@ const SupplierMasterFrom = () => {
     setErrors(newErrors);
 
     if (isValid) {
-      //   dispatch(onVendorSubmit(vendorData));
+        dispatch(onVendorSubmit(vendorData));
     }
   };
   return (
