@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const loginSlice = createSlice({
-  name: "login",
+export const loginAuthSlice = createSlice({
+  name: "loginAuth",
   initialState: {
     isLoading: false,
     isError: false,
@@ -10,7 +10,7 @@ export const loginSlice = createSlice({
     message: "",
   },
   reducers: {
-    onLoginSubmit: (state) => {
+    onLoginAuthSubmit: (state) => {
       return {
         ...state,
         isLoading: true,
@@ -21,7 +21,7 @@ export const loginSlice = createSlice({
       };
     },
 
-    onLoginSubmitSuccess: (state, { payload }) => {
+    onLoginAuthSuccess: (state, { payload }) => {
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
@@ -34,7 +34,7 @@ export const loginSlice = createSlice({
       };
     },
 
-    onLoginSubmitError: (state, { payload }) => {
+    onLoginAuthError: (state, { payload }) => {
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
@@ -48,7 +48,7 @@ export const loginSlice = createSlice({
     },
   },
 });
-export const { onLoginSubmit, onLoginSubmitError, onLoginSubmitSuccess } =
-  loginSlice.actions;
+export const { onLoginAuthSubmit, onLoginAuthError, onLoginAuthSuccess } =
+loginAuthSlice.actions;
 
-export default loginSlice.reducer;
+export default loginAuthSlice.reducer;
