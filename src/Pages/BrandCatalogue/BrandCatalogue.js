@@ -1,4 +1,5 @@
 import React from 'react'
+import './BrandCatalogue.scss'
 import { Link } from 'react-router-dom';
 import img from '../../Assets/img/pizz1.jpg'
 const BrandCatalogue = () => {
@@ -106,7 +107,6 @@ const BrandCatalogue = () => {
                                                 {brandData.map((data) => (
                                                     <tr>
                                                         <td><img src={img}
-
                                                             style={{ width: '50px' }}
                                                         /><br />
                                                         </td>
