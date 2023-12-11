@@ -18,6 +18,10 @@
   --primary: #0072fd;
   --secondary: #624FD1;
   --primary-hover: #fc410c;
+  --primary-red: red;
+  --primary-white: #fff;
+  --primary-white-2: #fbfbfb;
+  --primary-black: #000;
   --primary-dark: #a02502;
   --rgba-primary-1: rgba(253, 104, 62, 0.1);
   --rgba-primary-2: rgba(253, 104, 62, 0.2);
@@ -33,15 +37,14 @@
   --rgba-primary-12: rgba(255, 255, 255, 0.5);
   --rgba-primary-13: rgba(255, 255, 255, 0.6);
   --rgba-primary-14: rgba(0, 0, 0, 0.08);
-  --rgba-primary-15:rgba(154, 161, 171, 0.15);
-  --rgba-primary-16:rgb(255, 0, 0);
+  --rgba-primary-15: rgba(154, 161, 171, 0.15);
   --font-family: 'Inter', sans-serif;
 
   --title: #000;
   /* width */
-  --vh100:100vh;
-  --w100:100%;
-  --h100:100%;
+  --vh100: 100vh;
+  --w100: 100%;
+  --h100: 100%;
   /* rem */
   /* --rem-0:0rem;
   --rem-6:6.25rem;
@@ -2661,6 +2664,25 @@ textarea.form-control-lg {
   background-position: right 0.75rem center;
   background-size: 16px 12px;
   border: 3px solid #616161;
+  border-radius: 0.75rem;
+  appearance: auto;
+  font-size: 17px;
+}
+
+.form-select-error {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.25rem 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000000;
+  background-color: #fff;
+  background-image: url(data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e);
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  border: 3px solid red !important;
   border-radius: 0.75rem;
   appearance: auto;
   font-size: 17px;
@@ -7799,9 +7821,6 @@ fieldset:disabled .btn {
   margin: 3rem !important;
 }
 
-.m-auto {
-  margin: auto !important;
-}
 
 .mx-0 {
   margin-right: 0 !important;
@@ -18548,7 +18567,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   padding: 0.5rem 2.1875rem;
   border-radius: 2rem;
   padding-left: 0.625rem;
-  font-family: font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-transition: all 0.5s;
   -ms-transition: all 0.5s;
   transition: all 0.5s;
@@ -34549,14 +34568,7 @@ button:focus {
   border-radius: 2.5rem !important;
 }
 
-.btn-icon-end {
-  border-left: 0.0625rem solid white;
-  display: inline-block;
-  margin: -.8rem 0 -.8rem 1rem;
-  padding: 0.4375rem 0 0.4375rem 1rem;
-  margin: -1rem -0.25rem -1rem 1rem;
-  padding: 1rem 0 1rem 1.25rem;
-}
+
 
 .btn-icon-start {
   background: #fff;
@@ -34583,13 +34595,7 @@ button:focus {
   }
 }
 
-[direction="rtl"] .btn-icon-end {
-  border-left: 0rem solid white;
-  display: inline-block;
-  margin: -.8rem 1rem -.8rem 0;
-  padding: 0.4375rem 1rem 0.4375rem 0;
-  border-right: 0.0625rem solid white;
-}
+
 
 .toggle-dropdown::after {
   margin-left: 0.755em;
@@ -44927,23 +44933,12 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 
-.padd {
-  background: #f8f8f8;
-  padding: 10px;
-  padding-left: 30px;
-  border-radius: 10px;
-  color: black;
-}
+
 
 .fnt-17 {
   font-size: 17px !important;
 }
 
-.top-top {
-  border: 1px solid #ededed;
-  padding: 10px;
-  border-radius: 5px;
-}
 
 .br {
   border: 1px solid #ededed;
@@ -44988,11 +44983,6 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   padding: 10px 30px;
   border: white;
 }
-
-.mrr {
-  margin-right: 10px;
-}
-
 
 .can-toggle {
   position: relative;

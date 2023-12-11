@@ -542,7 +542,6 @@
 				chartTimeline1();
 				chartTimeline2();
 				chartTimeline3();
-
 			},
 
 			resize: function () {

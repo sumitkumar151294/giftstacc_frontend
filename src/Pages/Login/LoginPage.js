@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./LoginPage.css";
+import "./LoginPage.scss";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
@@ -9,9 +9,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../Componenets/Loader/Loader";
 import Footer from "../../Layout/Footer/Footer";
+import image from "../../Assets/logo.png";
 import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
+import { useNavigate } from "react-router";
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showLoder, setShowLoader] = useState(false);
   const loginDetails = useSelector(
     (state) => state.loginReducer?.data?.message
@@ -48,7 +51,7 @@ const LoginPage = () => {
     setLoginData(newLoginData);
 
     if (fieldName === "email") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
       const isValidEmail = emailRegex.test(value);
 
       setErrors({
@@ -74,13 +77,16 @@ const LoginPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // Prevent the default form submission behavior
     e.preventDefault();
+
     // Initialize a variable to track form validation status
     let isValid = true;
+
     // Create a copy of the errors state
     const newErrors = { ...errors };
+
     // Iterate through each key in loginData
     for (const key in loginData) {
       if (loginData[key] === "") {
@@ -92,28 +98,34 @@ const LoginPage = () => {
         newErrors[key] = "";
       }
     }
+
     // Update the errors state with the new error messages
     setErrors(newErrors);
 
     if (isValid) {
-      // If the form is valid, proceed with login submission
       try {
         setShowLoader(true);
-        dispatch(onLoginSubmit(loginData));
+
+        // Wait for the dispatch to complete
+        await dispatch(onLoginSubmit(loginData));
+
         // Define a function to show a toast notification based on loginDetails
-        const notify = () => {
-          if (loginDetails === "Login Successfully.") {
-            setShowLoader(false);
-            toast.success(loginDetails);
-          } else {
-            setShowLoader(false);
-            toast.error(loginDetails);
-          }
-        };
-        notify();
-      } catch (error) {}
+      } catch (error) {
+        // Handle any errors during dispatch
+        console.error(error);
+      }
     }
   };
+  useEffect(() => {
+    if (loginDetails === "Login Successfully.") {
+      setShowLoader(false);
+      toast.success(loginDetails);
+      navigate('/Lc-admin/rolemaster');
+    } else {
+      setShowLoader(false);
+      toast.error(loginDetails);
+    }
+  }, [loginDetails]);
 
   return (
     <>
@@ -127,11 +139,7 @@ const LoginPage = () => {
                     <div className="col-xl-12">
                       <div className="auth-form">
                         <div className="text-center mb-3">
-                          <img
-                            className="w-100"
-                            src="https://beta.shop-loyalty.com/images/logo.png"
-                            alt=""
-                          />
+                          <img className="w-100" src={image} alt="" />
                         </div>
                         <h4 className="text-center mb-4">{sign}</h4>
 
@@ -195,7 +203,7 @@ const LoginPage = () => {
                             </div>
                           </div>
                           <div className="text-center">
-                            <Button onClick={handleSubmit} text={sign_me} />
+                            <Button text={sign_me} />
                             <ToastContainer />
                           </div>
                         </form>

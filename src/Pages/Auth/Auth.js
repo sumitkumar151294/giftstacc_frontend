@@ -21,7 +21,7 @@ const Auth = () => {
     const matchingConfig = apiConfigs.find((config) =>
       currentUrl.includes(config.API_URL)
     );
-
+    // get data from present url
     if (matchingConfig) {
       const { ACCESS_KEY, SECRET_KEY, CLIENT_KEY, PARTNER_KEY } =
         matchingConfig;
@@ -48,7 +48,19 @@ const Auth = () => {
         setShowError(true);
       }, 5000);
     }
-  }, [loginAuthData, showError]);
+  }, [loginAuthData]);
+
+  useEffect(() => {
+    if (loginAuthData?.status_code === 200) {
+      setShowLoader(false);
+      setShowError(false);
+    } else {
+      setTimeout(() => {
+        setShowLoader(false);
+        setShowError(true);
+      }, 5000);
+    }
+  }, [showError]);
 
   useEffect(() => {
     if (translationData.status_code === 200) {
