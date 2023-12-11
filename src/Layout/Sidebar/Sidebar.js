@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
 import dashboard from "../../Assets/img/Dashboard.png";
-import vendor from "../../Assets/img/vendor.png";
-import clientmaster from "../../Assets/img/clientmaster.png";
-import role from "../../Assets/img/role.png";
-import productcate from "../../Assets/img/product-cate.png";
-import product from "../../Assets/img/product.png";
-import orders from "../../Assets/img/orders.png";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetModule } from "../../Store/Slices/moduleSlice";
