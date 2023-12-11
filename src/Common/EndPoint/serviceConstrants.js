@@ -6,5 +6,6 @@ const API = {
   userRoleApi: "/user-role",
   updateUserRoleApi: "/user-role/update",
   userMasterApi: "/userMaster",
+  supplierMasterApi: "/supplier-master",
 };
 export default API;

@@ -5,6 +5,7 @@ import loginAuthSaga from './loginAuthSaga';
 import moduleSaga from './moduleSaga';
 import userRoleSaga from './userRoleSaga';
 import userMasterSaga from './sagas/userMasterSaga';
+import supplierMasterSaga from './sagas/supplierMasterSaga';
 export default function* rootSaga() {
   yield all([
     loginSaga(),
@@ -12,6 +13,7 @@ export default function* rootSaga() {
     loginAuthSaga(),
     moduleSaga(),
     userRoleSaga(),
-    userMasterSaga()
+    userMasterSaga(),
+    supplierMasterSaga(),
   ]);
 }

@@ -6,6 +6,7 @@ import loginAuthReducer from './Slices/loginAuthSlice';
 import moduleReducer from './Slices/moduleSlice';
 import userRoleReducer from './Slices/userRoleSlice';
 import userMasterReducer from "./Slices/userMasterSlice";
+import supplierMasterReducer from './Slices/supplierMasterSlice';
     
 const reducers = combineReducers({
     loginReducer:loginReducer,
@@ -14,6 +15,7 @@ const reducers = combineReducers({
     moduleReducer:moduleReducer,
     userRoleReducer:userRoleReducer,
     userMasterReducer:userMasterReducer,
+    supplierMasterReducer:supplierMasterReducer
 });
 
 export default reducers;
