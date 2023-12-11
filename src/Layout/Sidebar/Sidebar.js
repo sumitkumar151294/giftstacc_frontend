@@ -6,6 +6,7 @@ import role from "../../Assets/img/role.png";
 import productcate from "../../Assets/img/product-cate.png";
 import product from "../../Assets/img/product.png";
 import orders from "../../Assets/img/orders.png";
+import clist from "../../Assets/img/clists.png"
 
 import { Link, useLocation } from "react-router-dom";
 
@@ -22,19 +23,19 @@ const Sidebar = () => {
                         </Link>
                     </li>
 
-                    <li className={location.pathname === "/LC-admin/supplymaster" ? "mm-active" : ""}>
+                    {/* <li className={location.pathname === "/LC-admin/supplymaster" ? "mm-active" : ""}>
                         <Link class="ai-icon" to="/LC-admin/supplymaster" aria-expanded="false" >
                             <img class="w-20px" src={vendor} alt="file not exist" />
                             <span class="nav-text ps-1">Supplier Master</span>
                         </Link>
-                    </li>
-
+                    </li> */}
+{/* 
                     <li className={location.pathname === "/LC-admin/supplierbrandlist" ? "mm-active" : ""}>
                         <Link to="/LC-admin/supplierbrandlist" class="ai-icon" aria-expanded="false"    >
                             <img class="w-20px" src={productcate} alt="file not exist" />
                             <span class="nav-text ps-1">Supplier Brand List</span>
                         </Link>
-                    </li>
+                    </li> */}
                     <li className={location.pathname === "/LC-admin/createcategories" ? "mm-active" : ""}>
                         <Link class="ai-icon" to="/LC-admin/createcategories" aria-expanded="false"    >
                             <img class="w-20px" src={productcate} alt="file not exist" />
@@ -72,6 +73,13 @@ const Sidebar = () => {
                         <Link to="/LC-admin/orders" class="ai-icon" aria-expanded="false">
                             <img class="w-20px" src={orders} alt="file not exist" />
                             <span class="nav-text ps-1">Orders</span>
+                        </Link>
+                    </li>
+
+                    <li className={location.pathname === "/Lc-admin/cms" ? "mm-active" : ""}  >
+                        <Link class="ai-icon" to="/Lc-admin/cms" aria-expanded="false">
+                            <img class="w-20px" src={clist} alt="file not exist" />
+                            <span class="nav-text ps-1">CMS</span>
                         </Link>
                     </li>
                 </ul>
