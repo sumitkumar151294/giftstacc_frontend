@@ -1,0 +1,13 @@
+.footer {
+    background-color: var(--primary-white-2);
+  }
+  
+  .footer .copyright p {
+    text-align: center;
+    color: var(--primary-black);
+    font-size: 0.875rem;
+  }
+  
+  .footer .copyright a {
+    color: var(--primary);
+  }
