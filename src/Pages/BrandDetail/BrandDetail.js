@@ -1,7 +1,7 @@
 import React from 'react';
 import img from '../../Assets/img/pizz1.jpg';
-import './ProductDetail.css'
-const ProductDetail = () => {
+import './BrandDetail.css'
+const BrandDetail = () => {
 
     const brandDetail = [
         {
@@ -152,4 +152,4 @@ const ProductDetail = () => {
         </>
     )
 }
-export default ProductDetail
+export default BrandDetail;
