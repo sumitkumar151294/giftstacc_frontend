@@ -3,21 +3,9 @@
     padding-top: 5rem;
 }
 }
-
-/* @media only screen and (max-width: 1400px){
-.content-body {
-    margin-left:0rem;
+  .border-danger{
+    border: 3px solid var(--primary-red) !important;
 }
-} */
-.border-danger {
-    background: var(--primary-white);
-    width: var(--w100);
-    border: 3px solid var(--primary-red);
-    padding: 0.3125rem 1.25rem;
-    color: var(--bs-dark);
-    height: 3rem;
-    border-radius: 1rem;
-  }
 
   .mb-4{
     margin-bottom: 1.5rem ;

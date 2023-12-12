@@ -25,7 +25,7 @@ const Sidebar = () => {
                         {getModuleData?.data?.data?.map((item) =>
                             <li className={location.pathname === "/LC-admin" ? "mm-active" : ""}>
                                 <Link class="ai-icon" to={item.routePath} aria-expanded="false">
-                                    <img class="w-20px" src={dashboard} alt="file not exist" />
+                                    <img className="w-20px" src={`data:image/png;base64, ${item.icon}`} alt="file not exist" />
                                     <span class="nav-text ps-1">{item.name}</span>
                                 </Link>
                             </li>)

@@ -22,7 +22,6 @@ const Auth = () => {
       currentUrl.includes(config.API_URL)
     );
     // get data from present url
-    debugger
     if (matchingConfig) {
       const { ACCESS_KEY, SECRET_KEY, CLIENT_KEY, PARTNER_KEY } =
         matchingConfig;

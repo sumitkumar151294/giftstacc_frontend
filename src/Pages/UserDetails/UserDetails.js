@@ -1,24 +1,22 @@
-import React, { useState } from "react";
-// import { onUserSubmit } from "../../../../customer-Capital/src/redux/modules/Admin/userSlice";
-// import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { onUserSubmit } from "../../Store/Slices/userMasterSlice";
+import { useDispatch, useSelector } from 'react-redux';
 import InputField from "../../Componenets/InputField/InputField";
-// import Button from "../../Componenets/Buttons/Button/Button";
-// import Snackbar from "../../Componenets/Snackbar/Snackbar";
 import '../UserMaster/UserMaster.css'
-// import { Link } from "react-router-dom";
-// import Loader from "../../Componenets/Loader/Loader";
+import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
+import Loader from "../../Componenets/Loader/Loader";
 const UserDetails = () => {
-    // const dispatch = useDispatch();
-    // const translationData = useSelector((state) => state.translationReducer);
-    //   const userDetails = useSelector(
-    //     (state) => state.userReducer?.data?.message
-    //   );
-
-    // const [showSnackbar, setShowSnackbar] = useState(false);
-    // const [isLoading, setIsLoading] = useState(true);
+    const dispatch = useDispatch();
+    const translationData = useSelector((state) => state.translationReducer);
+    const userDetails = useSelector(
+        (state) => state.userReducer?.data?.message
+    );
+    const [showSnackbar, setShowSnackbar] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isformLoading, setIsFormLoading] = useState(true);
+    const [showLoder, setShowLoader] = useState(false);
     // const translationData = useSelector((state) => state.translationReducer);
-    const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: 'Admin' });
+    const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: '' });
     const [errors, setErrors] = useState({ userName: '', password: '', mobile: '', email: '', role: '' }); // Initialize 'role' error state
     const [formError, setFormError] = useState('');
     const [formData, setFormData] = useState({
@@ -33,8 +31,16 @@ const UserDetails = () => {
             client8: false,
         },
     });
+
+    useEffect(() => {
+        // user-role get api call 
+        dispatch(onGetUserRole());
+    }, []);
+    // to get role module access list 
+    const roleList = useSelector((state) => state.userRoleReducer);
+
     const handleChange = (e, fieldName) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value, type, checked } = e.target;debugger
         const newUserdetailData = {
             ...userData,
             [fieldName]: value,
@@ -48,16 +54,10 @@ const UserDetails = () => {
                     [name]: checked,
                 },
             });
-        } else {
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
-        }
-        if (fieldName === "email") {
+        } 
+       else if (fieldName === "email") {
             const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
             const isValidEmail = emailRegex.test(value);
-
             setErrors({
                 ...errors,
                 [fieldName]: isValidEmail ? "" : "Invalid email address",
@@ -83,9 +83,7 @@ const UserDetails = () => {
         const newErrors = {};
         // Check if fields are empty and set corresponding error messages
         for (const key in userData) {
-            debugger
             if (userData[key] === "") {
-                debugger
                 newErrors[key] = " ";
                 isValid = false;
             }
@@ -116,21 +114,35 @@ const UserDetails = () => {
         setErrors(newErrors);
         console.log(isValid)
         if (isValid) {
+            setShowLoader(true);
+            const UsersData = {
+                ...userData,
+                accessClientIds:["1","3"],
+                adminRoleId:1,
+                adminRoleCode:1,
+                clientRoleId:2,
+                clientRoleCode:2
+            }
             const submissionData = {
-                formData: userData,
-                checkboxData: formData.modules,
+                formData: UsersData,
+                // checkboxData: formData.modules,
             };
 
             // Print the combined data to the console
             console.log('Submission Data:', submissionData);
             // Dispatch the form submission action if needed
-            // dispatch(onUserSubmit(submissionData));
+            dispatch(onUserSubmit(UsersData));
         }
+        // const dataOnSubmit = useSelector((state)=>state)
+        // useEffect(()=>{
+
+        // })
 
 
     };
     return (
         <>
+        {showLoder && <Loader/>}
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-xl-12 col-xxl-12">
@@ -141,7 +153,7 @@ const UserDetails = () => {
                             <div className="card-body position-relative">
                                 {!isformLoading ? (
                                     <div style={{ height: "400px" }}>
-                                        {/* <Loader classNameType={"absoluteLoader"} /> */}
+                                        <Loader classNameType={"absoluteLoader"} />
                                     </div>
                                 ) : (
                                     <div className="container mt-3">
@@ -153,8 +165,7 @@ const UserDetails = () => {
                                                     </label>
                                                     <InputField
                                                         type="text"
-                                                        className={` ${errors.email ? "border-danger" : "form-control"
-                                                            }`}
+                                                        className={` ${errors.email ? "border-danger" : "form-control"}`}
                                                         onChange={(e) => handleChange(e, "email")}
                                                         placeholder=""
                                                         error={errors.email}
@@ -167,8 +178,7 @@ const UserDetails = () => {
                                                     </label>
                                                     <InputField
                                                         type="text"
-                                                        className={` ${errors.mobile ? "border-danger" : "form-control"
-                                                            }`}
+                                                        className={` ${errors.mobile ? "border-danger" : "form-control"}`}
                                                         onChange={(e) => handleChange(e, "mobile")}
                                                         placeholder=""
                                                         error={errors.mobile}
@@ -181,8 +191,7 @@ const UserDetails = () => {
                                                     </label>
                                                     <InputField
                                                         type="text"
-                                                        className="form-control"
-                                                        name="fname"
+                                                        className={` ${errors.userName ? "border-danger" : "form-control"}`} name="fname"
                                                         id="name-f"
                                                         placeholder=""
                                                         onChange={(e) => handleChange(e, "userName")}
@@ -195,7 +204,7 @@ const UserDetails = () => {
                                                     </label>
                                                     <InputField
                                                         type="password"
-                                                        className="form-control"
+                                                        className={` ${errors.password ? "border-danger" : "form-control"}`}
                                                         name="fname"
                                                         id="name-f"
                                                         placeholder=""
@@ -219,7 +228,7 @@ const UserDetails = () => {
                                                                         value={checked}
                                                                         id={`flexCheckDefault-${module}`}
                                                                         checked={checked}
-                                                                        onChange={handleChange}
+                                                                        onChange={(e) =>handleChange(e,'check')}
                                                                     />
                                                                     <label
                                                                         className="form-check-label"
@@ -243,54 +252,19 @@ const UserDetails = () => {
                                                 <div className="col-lg-12 br pt-2">
                                                     <label for="name-f">Role</label>
                                                     <div className="row ml-4 mb-10">
-                                                        <div className="form-check mt-2 col-lg-3">
-                                                            <input
-                                                                id="ctl00_rbtnlist_0"
-                                                                type="radio"
-                                                                className="form-check-input"
-                                                                name="role"
-                                                                value="Admin"
-                                                                checked={userData.role === "Admin"}
-                                                                onChange={(e) => handleChange(e, "role")}
-                                                            />
-                                                            <label className="form-check-label" for="ctl00_rbtnlist_0">Admin</label>
-                                                        </div>
-                                                        <div className="form-check mt-2 col-lg-3">
-                                                            <input
-                                                                id="ctl00_rbtnlist_0"
-                                                                type="radio"
-                                                                className="form-check-input"
-                                                                name="role"
-                                                                value="Data Analyst"
-                                                                checked={userData.role === "Data Analyst"}
-                                                                onChange={(e) => handleChange(e, "role")}
-                                                            />
-                                                            <label className="form-check-label" for="ctl00_rbtnlist_0">Data Analyst</label>
-                                                        </div>
-                                                        <div className="form-check mt-2 col-lg-3">
-                                                            <input
-                                                                id="ctl00_rbtnlist_0"
-                                                                type="radio"
-                                                                className="form-check-input"
-                                                                name="role"
-                                                                value="Accountant"
-                                                                checked={userData.role === "Accountant"}
-                                                                onChange={(e) => handleChange(e, "role")}
-                                                            />
-                                                            <label className="form-check-label" for="ctl00_rbtnlist_0">Accountant</label>
-                                                        </div>
-                                                        <div className="form-check mt-2 col-lg-3">
-                                                            <input
-                                                                id="ctl00_rbtnlist_0"
-                                                                type="radio"
-                                                                className="form-check-input"
-                                                                name="role"
-                                                                value="Manager"
-                                                                checked={userData.role === "Manager"}
-                                                                onChange={(e) => handleChange(e, "role")}
-                                                            />
-                                                            <label className="form-check-label" for="ctl00_rbtnlist_0">Manager</label>
-                                                        </div>
+                                                        {roleList?.data?.data?.map((item) =>
+                                                            <div className="form-check mt-2 col-lg-3">
+                                                                <input
+                                                                    id={item.id}
+                                                                    type="radio"
+                                                                    className="form-check-input"
+                                                                    name="role"
+                                                                    value={item.id}
+                                                                    onChange={(e) => handleChange(e, "role")}
+                                                                />
+                                                                <label className="form-check-label" for={item.id}>{item.name}</label>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                     <span
                                                         className="form-check-label"
