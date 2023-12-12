@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import user from "../../Assets/img/user-profile.png";
 
-const Header = () => {
+const Header = ({setSideBar, sidebar}) => {
+  const [hamburgerClass, setHamburgerClass] = useState(false)
+  const handleShowSideBar = () =>{
+    setHamburgerClass(!hamburgerClass)
+    setSideBar(!sidebar)
+  }
   return (
     <>
       <div class="nav-header">
@@ -12,7 +17,7 @@ const Header = () => {
           />
         </a>
         <div class="nav-control">
-          <div class="hamburger">
+          <div class={`hamburger ${hamburgerClass? 'is-active': ''}`} onClick={handleShowSideBar}>
             <span class="line"></span>
             <span class="line"></span>
             <span class="line"></span>
