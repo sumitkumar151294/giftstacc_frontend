@@ -27,6 +27,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email")
 
   const handleChange = (e, fieldName) => {
     // Destructure the value from the event object
@@ -45,7 +46,7 @@ const LoginPage = () => {
 
       setErrors({
         ...errors,
-        [fieldName]: isValidEmail ? "" : "Invalid email address",
+        [fieldName]: isValidEmail ? "" : invalidEmail,
       });
     } else {
       setErrors({
@@ -96,7 +97,7 @@ const LoginPage = () => {
         setShowLoader(true);
 
         // Wait for the dispatch to complete
-        await dispatch(onLoginSubmit(loginData));
+        dispatch(onLoginSubmit(loginData));
 
         // Define a function to show a toast notification based on loginDetails
       } catch (error) {
