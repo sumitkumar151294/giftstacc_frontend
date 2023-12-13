@@ -13,7 +13,7 @@ function RouteConfiq() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/Lc-Admin/login" element={<LoginPage />} />
+        <Route path="/Lc-admin/login" element={<LoginPage />} />
         <Route path="/Lc-admin/rolemaster" element={<Layout Component={RoleMaster} />} />
         <Route path="/Lc-admin/usermaster" element={<Layout Component={UserMaster} />} />
         <Route path="/LC-admin/suppliermaster" element={<Layout Component={SupplierMaster} />} />

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RouteConfiq from "../../Routing/routes";
 import Loader from "../../Componenets/Loader/Loader";
 import Error from "../../Componenets/Error/Error";
-import apiConfigs from "./apiConfigs";
+import { config } from "../../Common/Client/ClientConfig";
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -17,9 +17,10 @@ const Auth = () => {
 
   useEffect(() => {
     setShowLoader(true);
+    console.log('its config', process.env.REACT_APP_ADMIN_API_URL)
     // Find the configuration that matches the current URL
-    const matchingConfig = apiConfigs.find((config) =>
-      currentUrl.includes(config.API_URL)
+    const matchingConfig = config.find((item) =>
+      currentUrl.includes(item.API_URL)
     );
     // get data from present url
     if (matchingConfig) {
