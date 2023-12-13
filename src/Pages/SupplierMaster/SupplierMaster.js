@@ -7,7 +7,7 @@ const SupplierMaster = () => {
   const dispatch = useDispatch();
   return (
     <>
-      <div class="content-body">
+      <div className="content-body">
         <SupplierMasterFrom />
         <SupplierList />
       </div>
