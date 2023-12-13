@@ -2,23 +2,16 @@ import React, { useEffect, useState } from "react";
 import { onUserSubmit } from "../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import InputField from "../../Componenets/InputField/InputField";
-import '../UserMaster/UserMaster.css'
+import '../UserMaster/UserMaster.scss'
+import { ToastContainer, toast } from "react-toastify";
 import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
 import Loader from "../../Componenets/Loader/Loader";
 const UserDetails = () => {
     const dispatch = useDispatch();
-    const translationData = useSelector((state) => state.translationReducer);
-    const userDetails = useSelector(
-        (state) => state.userReducer?.data?.message
-    );
-    const [showSnackbar, setShowSnackbar] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isformLoading, setIsFormLoading] = useState(true);
-    const [showLoder, setShowLoader] = useState(false);
-    // const translationData = useSelector((state) => state.translationReducer);
+    const loading = useSelector((state) => state.userMasterReducer.isLoading);
     const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: '' });
     const [errors, setErrors] = useState({ userName: '', password: '', mobile: '', email: '', role: '' }); // Initialize 'role' error state
-    const [formError, setFormError] = useState('');
+    const [onUpdate, setOnUpdate] = useState(false);
     const [formData, setFormData] = useState({
         modules: {
             client1: false,
@@ -31,16 +24,16 @@ const UserDetails = () => {
             client8: false,
         },
     });
-
+    const onSubmitData = useSelector((state) => state.userMasterReducer.data)
     useEffect(() => {
-        // user-role get api call 
+        // user-role get api call
         dispatch(onGetUserRole());
     }, []);
     // to get role module access list 
     const roleList = useSelector((state) => state.userRoleReducer);
 
     const handleChange = (e, fieldName) => {
-        const { name, value, type, checked } = e.target;debugger
+        const { name, value, type, checked } = e.target; debugger
         const newUserdetailData = {
             ...userData,
             [fieldName]: value,
@@ -54,8 +47,8 @@ const UserDetails = () => {
                     [name]: checked,
                 },
             });
-        } 
-       else if (fieldName === "email") {
+        }
+        else if (fieldName === "email") {
             const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
             const isValidEmail = emailRegex.test(value);
             setErrors({
@@ -78,6 +71,7 @@ const UserDetails = () => {
         }
     };
     const handleSubmit = (e) => {
+
         e.preventDefault();
         let isValid = true;
         const newErrors = {};
@@ -114,35 +108,37 @@ const UserDetails = () => {
         setErrors(newErrors);
         console.log(isValid)
         if (isValid) {
-            setShowLoader(true);
+            // setShowLoader(true)
+            setOnUpdate(true);
             const UsersData = {
                 ...userData,
-                accessClientIds:["1","3"],
-                adminRoleId:1,
-                adminRoleCode:1,
-                clientRoleId:2,
-                clientRoleCode:2
+                accessClientIds: ["1", "3"],
+                adminRoleId: 1,
+                adminRoleCode: 1,
+                clientRoleId: 2,
+                clientRoleCode: 2,
+                firstName: "John",
+                lastName: "Doe"
             }
-            const submissionData = {
-                formData: UsersData,
-                // checkboxData: formData.modules,
-            };
-
-            // Print the combined data to the console
-            console.log('Submission Data:', submissionData);
             // Dispatch the form submission action if needed
             dispatch(onUserSubmit(UsersData));
         }
-        // const dataOnSubmit = useSelector((state)=>state)
-        // useEffect(()=>{
-
-        // })
-
-
     };
+  
+    useEffect(() => {
+        if (onUpdate) {
+            if (onSubmitData.message === "User Added Successfully.") {
+                toast.success(onSubmitData.message);
+                document.getElementById("userForm").reset();
+            }
+            else {
+                toast.error(onSubmitData.message);
+            }
+        }
+    }, [onSubmitData]);
+    
     return (
         <>
-        {showLoder && <Loader/>}
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-xl-12 col-xxl-12">
@@ -151,13 +147,13 @@ const UserDetails = () => {
                                 <h4 className="card-title">User Master</h4>
                             </div>
                             <div className="card-body position-relative">
-                                {!isformLoading ? (
+                                {loading ? (
                                     <div style={{ height: "400px" }}>
                                         <Loader classNameType={"absoluteLoader"} />
                                     </div>
                                 ) : (
                                     <div className="container mt-3">
-                                        <form onSubmit={(e) => handleSubmit(e)}>
+                                        <form id="userForm" onSubmit={(e) => handleSubmit(e)}>
                                             <div className="row">
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">Email
@@ -228,7 +224,7 @@ const UserDetails = () => {
                                                                         value={checked}
                                                                         id={`flexCheckDefault-${module}`}
                                                                         checked={checked}
-                                                                        onChange={(e) =>handleChange(e,'check')}
+                                                                        onChange={(e) => handleChange(e, 'check')}
                                                                     />
                                                                     <label
                                                                         className="form-check-label"
@@ -274,10 +270,10 @@ const UserDetails = () => {
                                                         All the * fields are required.
                                                     </span>
                                                     <div className="col-sm-4 mt-2 mb-4">
-                                                        {formError && <p style={{ color: 'red', fontSize: 'large', marginLeft: '5px' }}>{formError}</p>}
                                                         <button className="btn btn-primary float-right pad-aa" >
                                                             Submit <i className="fa fa-arrow-right"></i>
                                                         </button>
+                                                        <ToastContainer />
                                                     </div>
                                                 </div>
                                             </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import '../UserMaster/UserMaster.css'
+import '../UserMaster/UserMaster.scss'
 import { Link } from "react-router-dom";
 import { onGetUser } from "../../Store/Slices/userMasterSlice";
 
@@ -74,7 +74,7 @@ const UserList = () => {
                                                     <td>{item.roleName}</td>
                                                     <td>{item.email}</td>
                                                     <td>{item.mobile}</td>
-                                                    <td>{item.username}</td>
+                                                    <td>{`${item.firstName} ${item.lastName}`}</td>
                                                     <td>
                                                         {/* <div className="d-flex">
                                                             {item.clients.map((client, idx) => (
