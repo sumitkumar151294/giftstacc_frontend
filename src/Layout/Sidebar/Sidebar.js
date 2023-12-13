@@ -35,27 +35,27 @@ const Sidebar = () => {
 
 
     return (
-        <div class="deznav">
-            <div class="deznav-scroll">
+        <div className="deznav">
+            <div className="deznav-scroll">
                 {isSidebarLoading ? (
                     <div style={{ height: "400px" }}>
                         <Loader classType={"absoluteLoader"} />
                     </div>
                 ) : (
-                    <ul class="metismenu" id="menu">
+                    <ul className="metismenu" id="menu">
                         {getModuleData?.data?.data?.map((item) =>
 
                             <li className={location.pathname === "/LC-admin" ? "mm-active" : ""}>
-                                <Link class="ai-icon" to={item.routePath} aria-expanded="false">
+                                <Link className="ai-icon" to={item.routePath} aria-expanded="false">
                                     <img className="w-20px" src={`data:image/png;base64, ${item.icon}`} alt="file not exist" />
-                                    <span class="nav-text ps-1">{item.name}</span>
+                                    <span className="nav-text ps-1">{item.name}</span>
                                 </Link>
                             </li>)
                         }
                         <li className={location.pathname === "/LC-admin" ? "mm-active" : ""}>
-                            <Link class="ai-icon" onClick={handleLogout} aria-expanded="false">
+                            <Link className="ai-icon" onClick={handleLogout} aria-expanded="false">
                                 <img className="w-20px" src={Logout} alt="file not exist" />
-                                <span class="nav-text ps-1">Logout</span>
+                                <span className="nav-text ps-1">Logout</span>
                             </Link>
                         </li>
                     </ul>
