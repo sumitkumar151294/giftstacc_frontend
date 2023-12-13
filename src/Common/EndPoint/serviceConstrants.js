@@ -7,5 +7,9 @@ const API = {
   updateUserRoleApi: "/user-role/update",
   userMasterApi: "/user",
   supplierMasterApi: "/supplier-master",
+  getClient: "/client",
+  postClient: "/client-master",
+
+
 };
 export default API;

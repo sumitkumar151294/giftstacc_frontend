@@ -1,43 +1,70 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ClientList.scss";
 import { Link } from "react-router-dom";
 import Loader from "../../../Componenets/Loader/Loader";
 import NoRecord from "../../../Componenets/NoRecord/NoRecord";
-
+import ClientMasterForm from "../ClientMasterForm/ClientMasterForm";
+import { useDispatch, useSelector } from "react-redux";
+import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
+import { CSVLink } from "react-csv";
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 const ClientList = () => {
-  const clientMasterList = [
-    {
-      name: "Jaswant Rawat",
-      mobile: "9650531790",
-      email: "jaswant@way2webworld.com",
-      id: "#98878",
-      status: "Active",
-    },
-    {
-      name: "Manish Gautam",
-      mobile: "7838345657",
-      email: "manishgautam.1@way.webworld.com",
-      id: "#98788",
-      status: "Non-Active",
-    },
-    {
-      name: "Naveen Jha",
-      mobile: "9876680901",
-      email: "naveenjha@way2webworld.com",
-      id: "#78899",
-      status: "Active",
-    },
-    {
-      name: "Vithal Chaudhary",
-      mobile: "7890654321",
-      email: "vithalchaudhary@way2webworld.com",
-      id: "#98766",
-      status: "Non-Active",
-    },
+  const dispatch = useDispatch();
+  const [data, setData] = useState();
+  const [showLoder, setShowLoader] = useState(false);
+  const clientList = useSelector((state) => state.clientMasterReducer.data);
+  const [searchQuery, setSearchQuery] = useState("");
+  const contactName =GetTranslationData("UIAdmin", "contact_Name_label");
+  const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
+  const brands = GetTranslationData("UIAdmin", "brands_label");
+  const contactNumber=GetTranslationData(
+    "UIAdmin",
+    "contact_Number_label"
+  )
+  const email=GetTranslationData(
+    "UIAdmin",
+    "contact_Email_label"
+  )
+const clientID=GetTranslationData(
+  "UIAdmin",
+  "client ID_label"
+)
+const login=GetTranslationData("UIAdmin", "login_label")
+const action=GetTranslationData("UIAdmin", "action_label")
+const status=GetTranslationData("UIAdmin", "Status_label")
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+  useEffect(() => {
+    dispatch(onClientMasterSubmit());
+  }, []);
+  const handleEdit = (data) => {
+    const prefilled = data;
+    setData(prefilled);
+  };
+  const headers = [
+    { label: "name", key: "name" },
+    { label: "number", key: "number" },
+    { label: "email", key: "email" },
+    { label: "id", key: "id" },
+    { label: "status", key: "status" },
   ];
-  const [isLoading, setIsLoading] = useState("true");
+  const filteredClientList = Array.isArray(clientList)
+    ? clientList.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      )
+    : [];
+  useEffect(() => {
+    setShowLoader(false);
+  }, []);
   return (
     <>
+      <ClientMasterForm data={data} />
       <div class="container-fluid pt-0">
         <div class="row">
           <div class="col-lg-12">
@@ -45,14 +72,18 @@ const ClientList = () => {
               <div class="container-fluid mt-2 mb-2">
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div class="card-header">
-                    <h4 class="card-title">Client List</h4>
+                    <h4 class="card-title">
+                      {GetTranslationData("UIAdmin", "client List_label")}
+                    </h4>
                   </div>
                   <div class="customer-search mb-sm-0 mb-3">
                     <div class="input-group search-area">
                       <input
                         type="text"
                         class="form-control only-high"
-                        placeholder="Search here......"
+                        placeholder={searchLabel}
+                        value={searchQuery}
+                        onChange={handleSearch}
                       />
                       <span class="input-group-text">
                         <a href="javascript:void(0)">
@@ -63,91 +94,109 @@ const ClientList = () => {
                   </div>
 
                   <div class="d-flex align-items-center flex-wrap">
-                    <a
-                      href="javascript:void(0);"
-                      class="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                    >
-                      <i class="fa fa-file-excel me-2"></i>Export
-                    </a>
+                    {clientList && clientList.length > 0 && (
+                      <CSVLink data={clientList} headers={headers}>
+                        <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                          <i className="fa fa-file-excel me-2"></i>
+                          export
+                        </button>
+                      </CSVLink>
+                    )}
                   </div>
                 </div>
               </div>
-              {clientMasterList ? (
-                <div class="card-body">
-                  {!isLoading ? (
-                    <div style={{ height: "400px" }}>
-                      <Loader classType={"absoluteLoader"} />
-                    </div>
-                  ) : (
-                    <div class="table-responsive">
-                      <table class="table header-border table-responsive-sm">
-                        <thead>
-                          <tr>
-                            <th>Contact Name</th>
-                            <th>Contact Number</th>
-                            <th>Contact Email</th>
-                            <th>Client ID</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                            <th>Login</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {clientMasterList.map((data) => (
+              <div class="card-body">
+                {showLoder ? (
+                  <div style={{ height: "400px" }}>
+                    <Loader classType={"absoluteLoader"} />
+                  </div>
+                ) : (
+                  <>
+                    {Array.isArray(filteredClientList) &&
+                    filteredClientList.length > 0 ? (
+                      <div class="table-responsive">
+                        <table class="table header-border table-responsive-sm">
+                          <thead>
                             <tr>
-                              <td>
-                                {data.name}
-                                <a href="javascript:void();"></a>
-                              </td>
-                              <td>{data.mobile}</td>
-                              <td>
-                                <span class="text-muted">{data.email}</span>
-                              </td>
-                              <td>{data.id}</td>
-                              <td>
-                                <span class="badge badge-success">
-                                  {data.status}
-                                </span>
-                              </td>
-                              <td>
-                                <div class="d-flex">
-                                  <a
-                                    href="#"
-                                    class="btn btn-primary shadow btn-xs sharp me-1"
-                                  >
-                                    <i class="fas fa-pencil-alt"></i>
-                                  </a>
-                                  <a
-                                    href="#"
-                                    class="btn btn-danger shadow btn-xs sharp"
-                                  >
-                                    <i class="fa fa-trash"></i>
-                                  </a>
-                                </div>
-                              </td>
-                              <td>
-                                <a class="btn btn-secondary btn-sm float-right">
-                                  <i class="fa fa-user"></i>&nbsp;Login
-                                </a>
-                              </td>
-                              <td>
-                                <Link
-                                  to="/LC-admin/clientbrandlist"
-                                  class="btn btn-primary btn-sm float-right"
-                                >
-                                  <i class="fa fa-eye"></i>&nbsp;Brands
-                                </Link>
-                              </td>
+                              <th>
+                                {contactName}
+                              </th>
+                              <th>
+                                {contactNumber}
+                              </th>
+                              <th>
+                                {email}
+                              </th>
+                              <th>
+                                {clientID}
+                              </th>
+                              <th>
+                                {status}
+                              </th>
+                              <th>
+                                {action}
+                              </th>
+                              <th>
+                                {login}
+                              </th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <NoRecord />
-              )}
+                          </thead>
+                          <tbody>
+                            {filteredClientList.map((data) => (
+                              <tr key={data.id}>
+                                <td>
+                                  {data.name}
+                                  <a href="javascript:void();"></a>
+                                </td>
+                                <td>{data.number}</td>
+                                <td>
+                                  <span class="text-muted">{data.email}</span>
+                                </td>
+                                <td>{data.id}</td>
+                                <td>
+                                  <span class="badge badge-success">
+                                    {data.status}
+                                  </span>
+                                </td>
+                                <td>
+                                  <div class="d-flex">
+                                    <a
+                                      class="btn btn-primary shadow btn-xs sharp me-1"
+                                      onClick={() => handleEdit(data)}
+                                    >
+                                      <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a class="btn btn-danger shadow btn-xs sharp">
+                                      <i class="fa fa-trash"></i>
+                                    </a>
+                                  </div>
+                                </td>
+                                <td>
+                                  <Link to="/LC-admin/login">
+                                    <a className="btn btn-secondary btn-sm float-right">
+                                      <i className="fa fa-user"></i>&nbsp; {login}
+                                    </a>
+                                  </Link>
+                                </td>
+                                <td>
+                                  <Link
+                                    to="/LC-admin/clientbrandlist"
+                                    class="btn btn-primary btn-sm float-right"
+                                  >
+                                    <i class="fa fa-eye"></i>&nbsp;{brands}
+                                  </Link>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <NoRecord />
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
