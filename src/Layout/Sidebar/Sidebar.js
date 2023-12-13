@@ -5,6 +5,7 @@ import { onGetModule } from "../../Store/Slices/moduleSlice";
 import Loader from "../../Componenets/Loader/Loader";
 import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
+
 const Sidebar = () => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -44,11 +45,10 @@ const Sidebar = () => {
                 ) : (
                     <ul className="metismenu" id="menu">
                         {getModuleData?.data?.data?.map((item) =>
-
                             <li className={location.pathname === "/LC-admin" ? "mm-active" : ""}>
-                                <Link className="ai-icon" to={item.routePath} aria-expanded="false">
-                                    <img className="w-20px" src={`data:image/png;base64, ${item.icon}`} alt="file not exist" />
-                                    <span className="nav-text ps-1">{item.name}</span>
+                                <Link class="ai-icon" to={item.routePath} aria-expanded="false">
+                                   <img src={require('../../Assets/icon/client.svg').default} alt ='fasdfads'/>
+                                    <span class="nav-text ps-1">{item.name}</span>
                                 </Link>
                             </li>)
                         }
