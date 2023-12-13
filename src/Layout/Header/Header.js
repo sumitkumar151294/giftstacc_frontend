@@ -1,12 +1,34 @@
 import React, { useState } from "react";
 import user from "../../Assets/img/user-profile.png";
 
-const Header = ({setSideBar, sidebar}) => {
+const Header = ({ setSideBar, sidebar }) => {
   const [hamburgerClass, setHamburgerClass] = useState(false)
-  const handleShowSideBar = () =>{
+  const handleShowSideBar = () => {
     setHamburgerClass(!hamburgerClass)
     setSideBar(!sidebar)
   }
+
+  // For transition of sidebar - Start
+  const sidebarView = window.innerWidth;
+  const sideMobileview = sidebarView <= 425;
+  const sideTabView = sidebarView > 425 && sidebarView <= 1200;
+  const body = document.querySelector('body');
+  if (body) {
+    body.setAttribute('data-sidebar-style', sideMobileview ? 'overlay' : sideTabView ? 'mini' : 'full');
+    body.setAttribute('data-typography', 'opensans');
+    body.setAttribute('data-layout', 'vertical');
+    body.setAttribute('data-theme-version', 'light');
+    body.setAttribute('data-headerbg', 'color_1');
+    body.setAttribute('data-nav-headerbg', 'color_1');
+    body.setAttribute('data-sidebar-position', 'fixed');
+    body.setAttribute('data-sidebarbg', 'color_1');
+    body.setAttribute('data-container', 'wide');
+    body.setAttribute('data-header-position', 'fixed');
+    body.setAttribute('data-primary', 'color_1');
+    body.setAttribute('direction', 'ltr');
+  }
+  // For transition of sidebar - End
+
   return (
     <>
       <div class="nav-header">
@@ -17,7 +39,7 @@ const Header = ({setSideBar, sidebar}) => {
           />
         </a>
         <div class="nav-control">
-          <div class={`hamburger ${hamburgerClass? 'is-active': ''}`} onClick={handleShowSideBar}>
+          <div class={`hamburger ${hamburgerClass ? 'is-active' : ''}`} onClick={handleShowSideBar}>
             <span class="line"></span>
             <span class="line"></span>
             <span class="line"></span>
