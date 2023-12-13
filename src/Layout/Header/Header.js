@@ -31,31 +31,31 @@ const Header = ({ setSideBar, sidebar }) => {
 
   return (
     <>
-      <div class="nav-header">
-        <a href="/#/LC-admin" class="brand-logo">
+      <div className="nav-header">
+        <a className="brand-logo">
           <img
-            class="w-100"
+            className="w-100"
             src="https://beta.shop-loyalty.com/images/logo.png"
           />
         </a>
-        <div class="nav-control">
-          <div class={`hamburger ${hamburgerClass ? 'is-active' : ''}`} onClick={handleShowSideBar}>
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
+        <div className="nav-control">
+          <div className={`hamburger ${hamburgerClass ? 'is-active' : ''}`} onClick={handleShowSideBar}>
+            <span className="line"></span>
+            <span className="line"></span>
+            <span className="line"></span>
           </div>
         </div>
       </div>
 
-      <div class="header">
-        <div class="header-content">
-          <nav class="navbar navbar-expand">
-            <div class="collapse navbar-collapse justify-content-between">
-              <div class="header-left"></div>
-              <ul class="navbar-nav header-right ">
-                <li class="nav-item dropdown  header-profile">
+      <div className="header">
+        <div className="header-content">
+          <nav className="navbar navbar-expand">
+            <div className="collapse navbar-collapse justify-content-between">
+              <div className="header-left"></div>
+              <ul className="navbar-nav header-right ">
+                <li className="nav-item dropdown  header-profile">
                   <a
-                    class="nav-link"
+                    className="nav-link"
                     href="javascript:void(0);"
                     role="button"
                     data-bs-toggle="dropdown"

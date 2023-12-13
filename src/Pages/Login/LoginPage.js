@@ -171,7 +171,7 @@ const LoginPage = () => {
                             <div className="mb-3">
                               <span
                                 className="form-check-label"
-                                for="basic_checkbox_1"
+                                htmlFor="basic_checkbox_1"
                               >
                                 {GetTranslationData("UIAdmin", "req_field")}
                               </span>
@@ -184,7 +184,7 @@ const LoginPage = () => {
                                 />
                                 <label
                                   className="form-check-label"
-                                  for="basic_checkbox_1"
+                                  htmlFor="basic_checkbox_1"
                                 >
                                   {GetTranslationData("UIAdmin", "remember")}
                                 </label>

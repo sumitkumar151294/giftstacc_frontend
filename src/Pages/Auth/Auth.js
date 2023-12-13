@@ -17,7 +17,6 @@ const Auth = () => {
 
   useEffect(() => {
     setShowLoader(true);
-    console.log('its config', process.env.REACT_APP_ADMIN_API_URL)
     // Find the configuration that matches the current URL
     const matchingConfig = config.find((item) =>
       currentUrl.includes(item.API_URL)
