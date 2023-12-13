@@ -34,6 +34,18 @@ export const userMasterSlice = createSlice({
       };
     },
 
+    onUserSubmitReset: (state) => {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: {},
+        message:"",
+        status_code:"",
+        error: {},
+      };
+    },
+
     onUserSubmitError: (state, { payload }) => {
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
@@ -76,7 +88,7 @@ export const userMasterSlice = createSlice({
 
   },
 });
-export const { onUserSubmit, onUserSubmitError, onUserSubmitSuccess, onGetUser, onGetUserSuccess, onGetUserError } =
+export const { onUserSubmit, onUserSubmitReset, onUserSubmitError, onUserSubmitSuccess, onGetUser, onGetUserSuccess, onGetUserError } =
   userMasterSlice.actions;
 
 export default userMasterSlice.reducer;
