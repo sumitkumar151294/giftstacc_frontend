@@ -8,6 +8,7 @@ import UserMaster from "../Pages/UserMaster/UserMaster";
 import CreateCategories from "../Pages/CreateCategories/CreateCategories";
 import ClientMaster from "../Pages/ClientMaster/ClientMaster";
 import HomePage from "../Componenets/HomePage/HomePage";
+// import FAQSMaster from "../Pages/FAQSMaster/FAQSMaster";
 function RouteConfiq() {
   return (
     <Router>
@@ -20,6 +21,8 @@ function RouteConfiq() {
         <Route path="/LC-admin/supplierbrandlist" element={<Layout Component={SupplierBrandList} />} />
         <Route path="/LC-admin/createcategories" element={<Layout Component={CreateCategories} />} />
         <Route path="/Lc-admin/clientMaster" element={<Layout Component={ClientMaster} />} />
+        {/* <Route path="/Lc-admin/faq" element={<Layout Component={FAQSMaster} />} /> */}
+
       </Routes>
     </Router>
   );
