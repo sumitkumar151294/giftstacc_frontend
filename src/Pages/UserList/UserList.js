@@ -1,48 +1,52 @@
 import React, { useEffect, useState } from "react";
 // import { onUserSubmit } from "../../../../customer-Capital/src/redux/modules/Admin/userSlice";
 import { useDispatch } from 'react-redux';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import '../UserMaster/UserMaster.scss'
 import { Link } from "react-router-dom";
-import { onGetUser } from "../../Store/Slices/userMasterSlice";
-// import Loader from "../../Componenets/Loader/Loader";
+// import { onGetUser } from "../../Store/Slices/userMasterSlice";
 
 const UserList = () => {
     const dispatch = useDispatch();
    useEffect(()=>{
     dispatch(onGetUser());
    }, []);
+   const userList = useSelector((state)=>state.userMasterReducer
+   )
+   console.log("user", userList);
     
-    const userList = [
-        {
-            roleName: 'Admin',
-            email: 'thisisdummy@gmail.com',
-            mobile: '9876543210',
-            username: 'Dummy User',
-            clients: ['Client 1', 'Client 2'],
-        },
-        {
-            roleName: 'Data Analyst',
-            email: 'DataAnalyst@gmail.com',
-            mobile: '2323232323',
-            username: 'Dummy User',
-            clients: ['Client 1', 'Client 2'],
-        },
-        {
-            roleName: 'Accountant	',
-            email: 'Accountant@gmail.com',
-            mobile: '9876543210',
-            username: 'Dummy User',
-            clients: ['Client 1', 'Client 2'],
-        },
-        {
-            roleName: 'Manager',
-            email: 'thisisdummy@gmail.com',
-            mobile: '9876543210',
-            username: 'Dummy User',
-            clients: ['Client 1', 'Client 2'],
-        },
+    // const userList = [
+    //     {
+    //         roleName: 'Admin',
+    //         email: 'thisisdummy@gmail.com',
+    //         mobile: '9876543210',
+    //         username: 'Dummy User',
+    //         clients: ['Client 1', 'Client 2'],
+    //     },
+    //     {
+    //         roleName: 'Data Analyst',
+    //         email: 'DataAnalyst@gmail.com',
+    //         mobile: '2323232323',
+    //         username: 'Dummy User',
+    //         clients: ['Client 1', 'Client 2'],
+    //     },
+    //     {
+    //         roleName: 'Accountant	',
+    //         email: 'Accountant@gmail.com',
+    //         mobile: '9876543210',
+    //         username: 'Dummy User',
+    //         clients: ['Client 1', 'Client 2'],
+    //     },
+    //     {
+    //         roleName: 'Manager',
+    //         email: 'thisisdummy@gmail.com',
+    //         mobile: '9876543210',
+    //         username: 'Dummy User',
+    //         clients: ['Client 1', 'Client 2'],
+    //     },
         
-    ];
+    // ];
 
     return (
         <>
@@ -68,20 +72,20 @@ const UserList = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {userList.map((item, index) => (
+                                            {userList?.data?.data?.map((item, index) => (
                                                 <tr key={index}>
                                                     <td>{item.roleName}</td>
                                                     <td>{item.email}</td>
                                                     <td>{item.mobile}</td>
-                                                    <td>{item.username}</td>
+                                                    <td>{`${item.firstName} ${item.lastName}`}</td>
                                                     <td>
-                                                        <div className="d-flex">
+                                                        {/* <div className="d-flex">
                                                             {item.clients.map((client, idx) => (
                                                                 <span key={idx} className="badge badge-secondary mr-10">
                                                                     {client}
                                                                 </span>
                                                             ))}
-                                                        </div>
+                                                        </div> */}
                                                     </td>
                                                     <td>
                                                         <Link to='/LC-admin/usermaster' className="btn btn-primary shadow btn-xs sharp me-1">

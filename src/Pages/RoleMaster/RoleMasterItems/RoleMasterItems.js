@@ -29,7 +29,6 @@ const RoleMasterItems = () => {
         const { name, value, type, checked } = e.target;
         if (name === "selectAll") {
             const updatedModules = { ...formData.modules };
-            console.log(updatedModules);
             for (const key in updatedModules) {
                 updatedModules[key] = checked;
             }
@@ -65,7 +64,6 @@ const RoleMasterItems = () => {
     }, [])
     // to get module master data 
     const getModuleData = useSelector((state) => state.moduleReducer);
-    console.log("module data", getModuleData);
     return (
         <>
             <div className="container-fluid">

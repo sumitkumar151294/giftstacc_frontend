@@ -5,7 +5,11 @@ const API = {
   moduleApi: "/module-master",
   userRoleApi: "/user-role",
   updateUserRoleApi: "/user-role/update",
-  userMasterApi: "/userMaster",
+  userMasterApi: "/user",
   supplierMasterApi: "/supplier-master",
+  getClient: "/client",
+  postClient: "/client-master",
+
+
 };
 export default API;
