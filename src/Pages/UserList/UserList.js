@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import '../UserMaster/UserMaster.scss'
 import { Link } from "react-router-dom";
-// import { onGetUser } from "../../Store/Slices/userMasterSlice";
+import { onGetUser } from "../../Store/Slices/userMasterSlice";
 
 const UserList = () => {
     const dispatch = useDispatch();
