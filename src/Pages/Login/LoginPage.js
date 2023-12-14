@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import bcrypt from 'bcryptjs';
 import "./LoginPage.scss";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
@@ -56,11 +57,14 @@ const LoginPage = () => {
     }
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = async (e) => {
     const { checked } = e.target;
+  
     if (checked) {
+      const hashedPassword = await bcrypt.hash(loginData.password, 10);
+  
       localStorage.setItem("userEmail", loginData.email);
-      localStorage.setItem("userPassword", loginData.password);
+      localStorage.setItem("userPassword", hashedPassword);
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userPassword");
