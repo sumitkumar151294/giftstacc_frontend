@@ -4,6 +4,7 @@ import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from 'react-redux';
 import { onGetSupplierList } from '../../../Store/Slices/supplierMasterSlice';
 import  NoRecord  from '../../../Componenets/NoRecord/NoRecord';
+import './SupplierList.scss'
 const SupplierList = () => {
     const [isLoading, setIsLoading] = useState("true");
     const [vendorData, setVendorData] = useState({
@@ -119,23 +120,23 @@ const SupplierList = () => {
                         <div className="card">
                             <div className="card-header">
                                 <h4 className="card-title">Supplier List</h4>
-                                <div class="customer-search mb-sm-0 mb-3">
-                                    <div class="input-group search-area">
+                                <div className="customer-search mb-sm-0 mb-3">
+                                    <div className="input-group search-area">
                                         <input
                                             type="text"
-                                            class="form-control only-high"
+                                            className="form-control only-high"
                                             placeholder="Search here......"
                                             value={searchQuery}
                                             onChange={handleSearch}
                                         />
-                                        <span class="input-group-text">
+                                        <span className="input-group-text">
                                             <a href="javascript:void(0)">
-                                                <i class="flaticon-381-search-2"></i>
+                                                <i className="flaticon-381-search-2"></i>
                                             </a>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center flex-wrap">
+                                <div className="d-flex align-items-center flex-wrap">
                                     <CSVLink data={vendorList} headers={headers}>
                                         <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
                                             <i className="fa fa-file-excel me-2"></i>export
@@ -147,7 +148,7 @@ const SupplierList = () => {
                             <div className="card-body position-relative">
                                 {!isLoading ? (
                                     <div style={{ height: "200px" }}>
-                                        <Loader classType={"absoluteLoader"} />
+                                        <Loader classNameType={"absoluteLoader"} />
                                     </div>
                                 ) : (
                                     <div className="table-responsive">

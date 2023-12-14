@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 // import { onUserSubmit } from "../../../../customer-Capital/src/redux/modules/Admin/userSlice";
 import { useDispatch } from 'react-redux';
-import '../UserMaster/UserMaster.css'
+import '../UserMaster/UserMaster.scss'
 import { Link } from "react-router-dom";
 import { onGetUser } from "../../Store/Slices/userMasterSlice";
 // import Loader from "../../Componenets/Loader/Loader";

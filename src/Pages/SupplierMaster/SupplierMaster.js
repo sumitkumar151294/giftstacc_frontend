@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import SupplierMasterFrom from "./SupplierMasterForm/SupplierMasterFrom";
+import SupplierMasterDetails from "./SupplierMasterDetails/SupplierMasterDetails";
 import SupplierList from "./SupplierList/SupplierList";
 
 const SupplierMaster = () => {
@@ -8,7 +8,7 @@ const SupplierMaster = () => {
   return (
     <>
       <div class="content-body">
-        <SupplierMasterFrom />
+        <SupplierMasterDetails />
         <SupplierList />
       </div>
     </>

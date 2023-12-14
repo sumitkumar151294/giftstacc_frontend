@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import './UserDetails.scss';
 // import { onUserSubmit } from "../../../../customer-Capital/src/redux/modules/Admin/userSlice";
 // import { useDispatch } from 'react-redux';
 import InputField from "../../Componenets/InputField/InputField";
 // import Button from "../../Componenets/Buttons/Button/Button";
 // import Snackbar from "../../Componenets/Snackbar/Snackbar";
-import '../UserMaster/UserMaster.css'
+import '../UserMaster/UserMaster.scss'
 // import { Link } from "react-router-dom";
 // import Loader from "../../Componenets/Loader/Loader";
 const UserDetails = () => {

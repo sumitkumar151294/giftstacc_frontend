@@ -1,5 +1,5 @@
 import React from 'react'
-import './SupplierBrandList.css';
+import './SupplierBrandList.scss';
 
 const SupplierBrandList = () => {
     const brandData = [
@@ -76,7 +76,7 @@ const SupplierBrandList = () => {
                 <div className="container-fluid mt-2 mb-2">
                   <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                     <div className="card-header">
-                      <h4 className="card-title txt-admin">Supplier Brands</h4>
+                      <h4 className="card-title">Supplier Brands</h4>
                     </div>
                     <div className="customer-search mb-sm-0 mb-3">
                       <div className="input-group search-area">
@@ -103,7 +103,7 @@ const SupplierBrandList = () => {
                   </div>
                 </div>
 
-                <div className="card-body ">
+                <div className="card-body">
                   <form>
                     <div className="row">
                       <div className="col-sm-3 form-group mb-2">
@@ -138,9 +138,9 @@ const SupplierBrandList = () => {
 
                   <div className="row">
                     <div className="col-lg-12">
-                      <div className="">
+                      <div >
                         <div className="card-header">
-                          <h4 className="card-title txt-admin">Supplier Brand Lists</h4>
+                          <h4 className="card-title">Supplier Brand Lists</h4>
                         </div>
 
                         <div className="card-body">
