@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import '../UserMaster/UserMaster.scss'
 import { Link } from "react-router-dom";
 import { onGetUser } from "../../Store/Slices/userMasterSlice";
+import UserDetails from "../UserDetails/UserDetails";
 
 const UserList = () => {
     const dispatch = useDispatch();
+    const[prefilledValues,setPrefilledValues]=useState();
    useEffect(()=>{
     dispatch(onGetUser());
    }, []);
-   const userList = useSelector((state)=>state.userMasterReducer
-   )
+   const userList = useSelector((state)=>state.userMasterReducer)
+  
    console.log("user", userList);
     
     // const userList = [
@@ -44,9 +46,14 @@ const UserList = () => {
     //     },
         
     // ];
+    const handleEdit=(data)=>{
+        const prefilled =data;
+        setPrefilledValues(prefilled)}
 
     return (
         <>
+                <UserDetails  prefilledValues={prefilledValues}/>
+
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">
@@ -71,23 +78,23 @@ const UserList = () => {
                                         <tbody>
                                             {userList?.data?.data?.map((item, index) => (
                                                 <tr key={index}>
-                                                    <td>{item.roleName}</td>
+                                                    <td>{item.adminRoleId}</td>
                                                     <td>{item.email}</td>
                                                     <td>{item.mobile}</td>
                                                     <td>{`${item.firstName} ${item.lastName}`}</td>
                                                     <td>
-                                                        {/* <div className="d-flex">
-                                                            {item.clients.map((client, idx) => (
+                                                        <div className="d-flex">
+                                                            {Array.isArray(userList.data) && userList.data?.map((client, idx) => (
                                                                 <span key={idx} className="badge badge-secondary mr-10">
-                                                                    {client}
+                                                                    {client.role}
                                                                 </span>
                                                             ))}
-                                                        </div> */}
+                                                        </div>
                                                     </td>
                                                     <td>
-                                                        <Link to='/LC-admin/usermaster' className="btn btn-primary shadow btn-xs sharp me-1">
+                                                        <button className="btn btn-primary shadow btn-xs sharp me-1" onClick={()=>handleEdit(item)}>
                                                             <i className="fas fa-pencil-alt"></i>
-                                                        </Link>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}
