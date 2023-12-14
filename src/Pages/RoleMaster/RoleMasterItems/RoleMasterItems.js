@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import '../RoleMaster.css'
+import '../RoleMaster.scss'
 import Loader from "../../../Componenets/Loader/Loader";
 import { onGetModule } from "../../../Store/Slices/moduleSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -97,7 +97,7 @@ const RoleMasterItems = () => {
                                             </div>
                                             <div className="row top-top">
                                                 <div className="col-lg-4">
-                                                    <div className="form-check mb-2 padd">
+                                                    <div className="form-check mb-2 pad-left">
                                                         <input
                                                             className="form-check-input"
                                                             type="checkbox"

@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from 'react-redux';
 import { onVendorSubmit } from '../../../Store/Slices/supplierMasterSlice';
+import './SupplierMasterDetails.scss'
 
-
-const SupplierMasterFrom = () => {
+const SupplierMasterDetails = () => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState("true");
   const [vendorData, setVendorData] = useState({
@@ -245,4 +245,4 @@ const SupplierMasterFrom = () => {
   )
 }
 
-export default SupplierMasterFrom
+export default SupplierMasterDetails

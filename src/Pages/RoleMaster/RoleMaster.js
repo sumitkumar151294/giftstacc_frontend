@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import './RoleMaster.css'
+import './RoleMaster.scss'
 import RoleMasterItems from "../RoleMaster/RoleMasterItems/RoleMasterItems";
 import RoleMasterModule from "../RoleMaster/RoleMasterModule/RoleMasterModule";
 import { useDispatch, useSelector } from "react-redux";

@@ -4,7 +4,7 @@
     border-radius: 5px;
 }
 
-.padd {
+.pad-left{
     background: #f8f8f8;
     padding: 10px;
     padding-left: 30px;
@@ -12,9 +12,32 @@
     color: black;
 }
 
+
+.fnt-17 {
+    font-size: 17px !important;
+  }
+
+  .pt-2 {
+    padding-top: 0.5rem !important;
+  }
+
+  .col-lg-3 {
+    flex: 0 0 auto;
+    width: 25%;
+  }
+
+  .mt-4 {
+    margin-top: 1.5rem !important;
+  }
+  
 .mr-10 {
     margin-right: 10px;
 }
+
+.col-lg-4 {
+    flex: 0 0 auto;
+    width: 33.3333333333%;
+  }
 
 @media only screen and (max-width: 1199px) {
     [data-header-position="fixed"] .content-body {

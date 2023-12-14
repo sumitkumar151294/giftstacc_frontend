@@ -1,3 +1,13 @@
+import React, { useState } from "react";
+import './UserDetails.scss';
+// import { onUserSubmit } from "../../../../customer-Capital/src/redux/modules/Admin/userSlice";
+// import { useDispatch } from 'react-redux';
+import InputField from "../../Componenets/InputField/InputField";
+// import Button from "../../Componenets/Buttons/Button/Button";
+// import Snackbar from "../../Componenets/Snackbar/Snackbar";
+import '../UserMaster/UserMaster.scss'
+// import { Link } from "react-router-dom";
+// import Loader from "../../Componenets/Loader/Loader";
 import React, { useEffect, useState } from "react";
 import { onUserSubmit } from "../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from 'react-redux';
