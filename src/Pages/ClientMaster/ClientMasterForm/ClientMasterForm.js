@@ -4,7 +4,7 @@ import InputField from "../../../Componenets/InputField/InputField";
 import Dropdown from "../../../Componenets/Dropdown/Dropdown";
 import Loader from "../../../Componenets/Loader/Loader";
 import {
-  onClientMasterSubmit,
+  onUpdateClientMasterSubmit,
   onPostClientMasterSubmit,
 } from "../../../Store/Slices/clientMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,7 @@ const ClientMaster = (props) => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
@@ -35,6 +36,9 @@ const ClientMaster = (props) => {
   const production = GetTranslationData("UIAdmin", "production_key_label");
   const secretKey = GetTranslationData("UIAdmin", "secretkey_placeholder");
   const add = GetTranslationData("UIAdmin", "add_label");
+  const update = GetTranslationData("UIAdmin", "update_label");
+  const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
+  const validNumber = GetTranslationData("UIAdmin", "number_Digit_Label");
 
   const statusoptions = [
     { value: "Active", label: "Active" },
@@ -133,7 +137,7 @@ const ClientMaster = (props) => {
 
       setErrors({
         ...errors,
-        [fieldName]: isValidEmail ? "" : "Invalid email address",
+        [fieldName]: isValidEmail ? "" : invalidEmail,
       });
     } else if (fieldName === "number") {
       const phoneRegex = /^\d{10}$/;
@@ -141,7 +145,7 @@ const ClientMaster = (props) => {
 
       setErrors({
         ...errors,
-        [fieldName]: isValidnumber ? "" : "Please enter 10 digit only",
+        [fieldName]: isValidnumber ? "" : validNumber,
       });
     }
 
@@ -175,18 +179,34 @@ const ClientMaster = (props) => {
     setErrors(newErrors);
 
     if (isValid) {
-      try {
-        setShowToast(true);
-        setShowLoader(true);
-        clientData.number = parseInt(clientData.number);
+      if (!props.data) {
+        try {
+          setShowToast(true);
+          setShowLoader(true);
+          clientData.number = parseInt(clientData.number);
 
-        // Wait for the dispatch to complete
-        await dispatch(onPostClientMasterSubmit(clientData));
+          // Wait for the dispatch to complete
+          await dispatch(onPostClientMasterSubmit(clientData));
 
-        // Define a function to show a toast notification based on loginDetails
-      } catch (error) {
-        // Handle any errors during dispatch
-        console.error(error);
+          // Define a function to show a toast notification based on loginDetails
+        } catch (error) {
+          // Handle any errors during dispatch
+          console.error(error);
+        }
+      } else if (props.data) {
+        try {
+          setShowUpdate(true);
+          setShowLoader(true);
+          clientData.number = parseInt(clientData.number);
+
+          // Wait for the dispatch to complete
+          await dispatch(onUpdateClientMasterSubmit(clientData));
+
+          // Define a function to show a toast notification based on loginDetails
+        } catch (error) {
+          // Handle any errors during dispatch
+          console.error(error);
+        }
       }
     }
   };
@@ -194,10 +214,18 @@ const ClientMaster = (props) => {
     if (showToast) {
       if (clientMasterDetails.message === "Added Successfully.") {
         setShowLoader(false);
+        // dispatch(onClientMasterSubmit());
         toast.success(clientMasterDetails.message);
       } else {
         setShowLoader(false);
         toast.error(clientMasterDetails.message);
+      }
+    }
+    if (showUpdate) {
+      if (clientMasterDetails.message === "Update Successfully.") {
+        setShowLoader(false);
+        // dispatch(onClientMasterSubmit());
+        toast.success(clientMasterDetails.message);
       }
     }
   }, [clientMasterDetails.message]);
@@ -496,7 +524,8 @@ const ClientMaster = (props) => {
                             type="submit"
                             class="btn btn-primary float-right pad-aa"
                           >
-                            {add}
+                            {props.data ? update : add}
+
                             <i class="fa fa-arrow-right"></i>
                           </button>
                           <ToastContainer />

@@ -82,7 +82,7 @@ const ClientList = () => {
 
   return (
     <>
-      <ClientMasterForm data={data} />
+      <ClientMasterForm clientList={clientList} data={data} />
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
