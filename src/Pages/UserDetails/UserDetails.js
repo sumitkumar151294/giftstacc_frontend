@@ -7,54 +7,66 @@ import { ToastContainer, toast } from "react-toastify";
 import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
 import Loader from "../../Componenets/Loader/Loader";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
-
+import {GetTranslationData} from "../../../src/Componenets/GetTranslationData/GetTranslationData "
 const UserDetails = (prefilledValues) => {
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.userMasterReducer.isLoading);
-    const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds:[]});
-    const [errors, setErrors] = useState({ userName: '', password: '', mobile: '', email: '', role: '',}); // Initialize 'role' error state
+    const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: [], firstName:"", lastName:"" });
+    const [errors, setErrors] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: "", firstName:"", lastName:"" }); // Initialize 'role' error state
     const [onUpdate, setOnUpdate] = useState(false);
     const onSubmitData = useSelector((state) => state.userMasterReducer.data)
     const roleList = useSelector((state) => state.userRoleReducer);
     const clientList = useSelector((state) => state.clientMasterReducer.data)
     // console.log("CLIENT", clientList);
+    const userMaster = GetTranslationData("UIAdmin", "user_Master_label");
+    const email = GetTranslationData("UIAdmin", "email_label");
+    const mobile = GetTranslationData("UIAdmin", "mobile_label");
+    const username = GetTranslationData("UIAdmin", "usernamee_label");
+    const password = GetTranslationData("UIAdmin", "password_label");
+    const client = GetTranslationData("UIAdmin", "client_label");
+    const role = GetTranslationData("UIAdmin", "role_name_label");
+    const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+    const submit = GetTranslationData("UIAdmin", "submit_label");
+    const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
+    const invalidMobile = GetTranslationData("UIAdmin", "number_Digit_Label");
     useEffect(() => {
         // user-role get api call
         dispatch(onGetUserRole());
         dispatch(onClientMasterSubmit());
+        
         // dispatch(onGetUser())
     }, []);
-    useEffect(()=>{
+    useEffect(() => {
         setUserData({
-            userName:  prefilledValues.prefilledValues?.firstName  + prefilledValues.prefilledValues?.lastName  || "" , password:   prefilledValues.prefilledValues?.password || "", mobile: prefilledValues.prefilledValues?.mobile || "", email: prefilledValues.prefilledValues?.email || "", role: '', accessClientIds:[]
+            userName: prefilledValues.prefilledValues?.firstName || "", password: prefilledValues.prefilledValues?.password || "", mobile: prefilledValues.prefilledValues?.mobile || "", email: prefilledValues.prefilledValues?.email || "", role: '', accessClientIds: [], firstName: prefilledValues.prefilledValues?.firstName || "",lastName: prefilledValues.prefilledValues?.lastName || "",
         })
-    },[prefilledValues.prefilledValues])
+    }, [prefilledValues.prefilledValues])
     // to get role module access list 
-   
+
 
     const handleChange = (e, fieldName) => {
-        const { name, value, type, checked,} = e.target;
+        const { name, value, type, checked, } = e.target;
         let newUserdetailData;
-        if(fieldName==='check'){
+        if (fieldName === 'check') {
             let accessClientIds = userData.accessClientIds
             accessClientIds.push(value)
-             newUserdetailData = {
+            newUserdetailData = {
                 ...userData,
                 accessClientIds,
             };
-        }else{
-         newUserdetailData = {
-            ...userData,
-            [fieldName]: value,
-        };
-    }
+        } else {
+            newUserdetailData = {
+                ...userData,
+                [fieldName]: value,
+            };
+        }
         setUserData(newUserdetailData)
         if (fieldName === "email") {
             const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
             const isValidEmail = emailRegex.test(value);
             setErrors({
                 ...errors,
-                [fieldName]: isValidEmail ? "" : "Invalid email address",
+                [fieldName]: isValidEmail ? "" : invalidEmail,
             });
         }
         else if (fieldName === "mobile") {
@@ -62,7 +74,7 @@ const UserDetails = (prefilledValues) => {
             const isValidMobile = mobileRegex.test(value);
             setErrors({
                 ...errors,
-                [fieldName]: isValidMobile ? "" : "Invalid phone number",
+                [fieldName]: isValidMobile ? "" : invalidMobile,
             });
         }
         else {
@@ -101,6 +113,14 @@ const UserDetails = (prefilledValues) => {
             newErrors.role = ''; // Clear the role error if a role is selected
         }
         setErrors(newErrors);
+        // Check if a client has been selected
+        if (userData.accessClientIds.length === 0) {
+            newErrors.accessClientIds = 'Please select a client';
+            isValid = false;
+        } else {
+            newErrors.accessClientIds = ''; // Clear the client error if a client is selected
+        }
+        setErrors(newErrors);
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         const mobileRegex = /^[0-9]{10}$/;
         if (!emailRegex.test(userData.email)) {
@@ -124,8 +144,8 @@ const UserDetails = (prefilledValues) => {
                 adminRoleCode: 1,
                 clientRoleId: 2,
                 clientRoleCode: 2,
-                firstName: userData.userName,
-                lastName: userData.userName,
+                // firstName: userData.userName,
+                // lastName: userData.userName,
             }
             // Dispatch the form submission action if needed
             dispatch(onUserSubmit(UsersData));
@@ -136,8 +156,7 @@ const UserDetails = (prefilledValues) => {
         if (onUpdate) {
             if (onSubmitData.message === "User Added Successfully.") {
                 toast.success(onSubmitData.message);
-                setUserData({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds:[] })
-                // dispatch(onGetUser());
+                setUserData({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: [] ,  firstName:"", lastName:""})
             }
             else {
                 toast.error(onSubmitData.message);
@@ -152,7 +171,7 @@ const UserDetails = (prefilledValues) => {
                     <div className="col-xl-12 col-xxl-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4 className="card-title">User Master</h4>
+                                <h4 className="card-title">{userMaster}</h4>
                             </div>
                             <div className="card-body position-relative">
                                 {loading ? (
@@ -164,7 +183,7 @@ const UserDetails = (prefilledValues) => {
                                         <form id="userForm" onSubmit={(e) => handleSubmit(e)}>
                                             <div className="row">
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">Email
+                                                    <label for="name-f">{email}
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
@@ -178,7 +197,7 @@ const UserDetails = (prefilledValues) => {
                                                     <p className="text-danger">{errors.email}</p>
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">Mobile
+                                                    <label for="name-f">{mobile}
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
@@ -192,7 +211,7 @@ const UserDetails = (prefilledValues) => {
                                                     <p className="text-danger">{errors.mobile}</p>
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">Username
+                                                    <label for="name-f">{username}
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
@@ -206,7 +225,7 @@ const UserDetails = (prefilledValues) => {
                                                     />
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">Password
+                                                    <label for="name-f">{password}
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
@@ -220,10 +239,40 @@ const UserDetails = (prefilledValues) => {
                                                         value={userData.password}
                                                     />
                                                 </div>
+                                                <div className="col-sm-4 form-group mb-2">
+                                                    <label for="name-f">First Name
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <InputField
+                                                        type="text"
+                                                        className={` ${errors.firstName ? "border-danger" : "form-control"}`}
+                                                        name="fname"
+                                                        id="name-f"
+                                                        placeholder=""
+                                                        onChange={(e) => handleChange(e, "firstName")}
+                                                        error={errors.firstName}
+                                                        value={userData.firstName}
+                                                    />
+                                                </div>
+                                                <div className="col-sm-4 form-group mb-2">
+                                                    <label for="name-f">Last Name
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <InputField
+                                                        type="text"
+                                                        className={` ${errors.lastName ? "border-danger" : "form-control"}`}
+                                                        name="lname"
+                                                        id="name-f"
+                                                        placeholder=""
+                                                        onChange={(e) => handleChange(e, "lastName")}
+                                                        error={errors.lastName}
+                                                        value={userData.lastName}
+                                                    />
+                                                </div>
                                                 <div className="col-lg-12 br pt-2">
-                                                    <label for="name-f">Client</label>
+                                                    <label for="name-f">{client}</label>
                                                     <div className="row ml-4">
-                                                        {Array.isArray(clientList) && clientList?.map((item) => 
+                                                        {Array.isArray(clientList) && clientList?.map((item) =>
                                                             <div
                                                                 className="form-check mt-2 col-lg-3"
                                                                 key={item.id}
@@ -234,7 +283,7 @@ const UserDetails = (prefilledValues) => {
                                                                     name={item.name}
                                                                     value={item.id}
                                                                     id={`flexCheckDefault-${item.id}`}
-                                                                    checked = {item.id}
+                                                                    checked={item.id}
                                                                     onChange={(e) => handleChange(e, 'check')}
                                                                 />
                                                                 <label
@@ -252,12 +301,12 @@ const UserDetails = (prefilledValues) => {
                                                                         .join(" ")}
                                                                 </label>
                                                             </div>
-                                                        
+
                                                         )}
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-12 br pt-2">
-                                                    <label for="name-f">Role</label>
+                                                    <label for="name-f">{role}</label>
                                                     <div className="row ml-4 mb-10">
                                                         {roleList?.data?.data?.map((item) =>
                                                             <div className="form-check mt-2 col-lg-3">
@@ -278,11 +327,11 @@ const UserDetails = (prefilledValues) => {
                                                         for="basic_checkbox_1"
                                                         style={{ marginLeft: '5px', marginTop: '10px' }}
                                                     >
-                                                        All the * fields are required.
+                                                        {requiredLevel}
                                                     </span>
                                                     <div className="col-sm-4 mt-2 mb-4">
                                                         <button className="btn btn-primary float-right pad-aa" >
-                                                            Submit <i className="fa fa-arrow-right"></i>
+                                                            {submit} <i className="fa fa-arrow-right"></i>
                                                         </button>
                                                         <ToastContainer />
                                                     </div>
