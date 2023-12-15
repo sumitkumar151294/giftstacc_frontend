@@ -15,58 +15,83 @@ const ClientMaster = (props) => {
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
+  const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
+  const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
+  const email = GetTranslationData("UIAdmin", "contact_Email_label");
+  const ipAddress = GetTranslationData("UIAdmin", "IP Address_label");
+  const userName = GetTranslationData("UIAdmin", "usernamee_label");
+  const password = GetTranslationData("UIAdmin", "password_label");
+  const status = GetTranslationData("UIAdmin", "Status_label");
+  const selectOption = GetTranslationData("UIAdmin", "select_Option");
+  const color = GetTranslationData("UIAdmin", "Color_label");
+  const logo = GetTranslationData("UIAdmin", "Logo Link_label");
+  const theme = GetTranslationData("UIAdmin", "Select Theme_label");
+  const razorpay = GetTranslationData(
+    "UIAdmin",
+    "razorpay Payment Gateway_label"
+  );
+  const staging = GetTranslationData("UIAdmin", "staging_label");
+  const key = GetTranslationData("UIAdmin", "key_placeholder");
+  const production = GetTranslationData("UIAdmin", "production_key_label");
+  const secretKey = GetTranslationData("UIAdmin", "secretkey_placeholder");
+  const add = GetTranslationData("UIAdmin", "add_label");
+
   const statusoptions = [
-    { value: "Active3", label: "Active" },
-    { value: "Active4", label: "Non-Active" },
+    { value: "Active", label: "Active" },
+    { value: "Non-Active", label: "Non-Active" },
   ];
 
   const options = [
-    { value: "Active1", label: "Theme 1" },
-    { value: "Non-Active1", label: "Theme 2" },
-    { value: "Non-Active2", label: "Theme 3" },
-    { value: "Non-Active4", label: "Theme 4" },
+    { value: "Theme 1", label: "Theme 1" },
+    { value: "Theme 2", label: "Theme 2" },
+    { value: "Theme 3", label: "Theme 3" },
+    { value: "Theme 4", label: "Theme 4" },
   ];
 
   const [clientData, setClientData] = useState({
     name: "",
-    number: "",
+    number: 1111,
     email: "",
-    ipAddress: "",
+    userName: "",
+    password: "",
+    status: "",
     color: "",
-    logoLink: "",
-    theme: "",
+    lgogLink: "",
+    dbipAddress: "",
+    dbLoginId: "",
+    dbLoginPwd: "",
     stagingKey: "",
     stagingSecretKey: "",
     productionKey: "",
     productionSecretKey: "",
-    status: "",
-    password: "",
-    userName: "",
+    theme: "",
+    isActive: true,
   });
   const [errors, setErrors] = useState({
     name: "",
     number: "",
     email: "",
-    ipAddress: "",
+    userName: "",
+    password: "",
+    status: "",
     color: "",
-    logoLink: "",
-    theme: "",
+    lgogLink: "",
+    dbipAddress: "",
     stagingKey: "",
     stagingSecretKey: "",
     productionKey: "",
     productionSecretKey: "",
-    status: "",
-    password: "",
-    userName: "",
+    theme: "",
   });
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setClientData({
       name: props.data?.name || "",
       number: props.data?.number || "",
       email: props.data?.email || "",
-      ipAddress: props.data?.dbipAddress || "",
+      dbipAddress: props.data?.dbipAddress || "",
       color: props.data?.color || "",
-      logoLink: props.data?.lgogLink || "",
+      lgogLink: props.data?.lgogLink || "",
       theme: props.data?.theme || "",
       stagingKey: props.data?.stagingKey || "",
       stagingSecretKey: props.data?.stagingSecretKey || "",
@@ -75,26 +100,26 @@ const ClientMaster = (props) => {
       status: props.data?.status || "",
       password: props.data?.password || "",
       userName: props.data?.userName || "",
-      dbLoginPwd: props.data?.dbLoginPwd || "", // Corrected order
-      dbLoginId: props.data?.dbLoginId || "", // Corrected order
-      isActive: props.data?.isActive || "",
+      dbLoginPwd: props.data?.dbLoginPwd || "ds", // Corrected order
+      dbLoginId: props.data?.dbLoginId || "ds", // Corrected order
+      isActive: props.data?.isActive || true,
     });
 
     setErrors({
       name: "",
       number: "",
       email: "",
-      ipAddress: "",
+      userName: "",
+      password: "",
+      status: "",
       color: "",
-      logoLink: "",
-      theme: "",
+      lgogLink: "",
+      dbipAddress: "",
       stagingKey: "",
       stagingSecretKey: "",
       productionKey: "",
       productionSecretKey: "",
-      status: "",
-      password: "",
-      userName: "",
+      theme: "",
     });
   }, [props.data]); // Include props.data directly in the dependency array
   const handleChange = (e, fieldName) => {
@@ -170,13 +195,13 @@ const ClientMaster = (props) => {
       if (clientMasterDetails.message === "Added Successfully.") {
         setShowLoader(false);
         toast.success(clientMasterDetails.message);
-        // dispatch(onClientMasterSubmit());
       } else {
         setShowLoader(false);
         toast.error(clientMasterDetails.message);
       }
     }
   }, [clientMasterDetails.message]);
+
   return (
     <>
       <div class="container-fluid">
@@ -199,10 +224,7 @@ const ClientMaster = (props) => {
                       <div class="row">
                         <div class="col-sm-4 form-group mb-2">
                           <label for="contact-name">
-                            {GetTranslationData(
-                              "UIAdmin",
-                              "contact_Name_label"
-                            )}
+                            {contactName}
                             <span class="text-danger">*</span>
                           </label>
                           <InputField
@@ -219,16 +241,13 @@ const ClientMaster = (props) => {
                         </div>
                         <div class="col-sm-4 form-group mb-2">
                           <label for="contact-number">
-                            {GetTranslationData(
-                              "UIAdmin",
-                              "contact_Number_label"
-                            )}
+                            {contactNumber}
                             <span class="text-danger">*</span>
                           </label>
                           <InputField
                             type="number"
                             className={` ${
-                              errors.name ? "border-danger" : "form-control"
+                              errors.number ? "border-danger" : "form-control"
                             }`}
                             name="contactNumber"
                             id="contact-number"
@@ -241,16 +260,13 @@ const ClientMaster = (props) => {
                         </div>
                         <div class="col-sm-4 form-group mb-2">
                           <label for="contact-email">
-                            {GetTranslationData(
-                              "UIAdmin",
-                              "contact_Email_label"
-                            )}{" "}
+                            {email}
                             <span class="text-danger">*</span>
                           </label>
                           <InputField
                             type="email"
                             className={` ${
-                              errors.name ? "border-danger" : "form-control"
+                              errors.email ? "border-danger" : "form-control"
                             }`}
                             name="contactEmail"
                             id="contact-email"
@@ -262,30 +278,31 @@ const ClientMaster = (props) => {
                         </div>
                         <div class="col-sm-4 form-group mb-2">
                           <label for="ipAddress">
-                            {GetTranslationData("UIAdmin", "IP Address_label")}
-                            <span class="text-danger">*</span>
+                            {ipAddress} <span class="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
                             className={` ${
-                              errors.name ? "border-danger" : "form-control"
+                              errors.dbipAddress
+                                ? "border-danger"
+                                : "form-control"
                             }`}
                             name="ipAddress"
                             id="ipAddress"
-                            value={clientData.ipAddress}
-                            error={errors.ipAddress}
-                            onChange={(e) => handleChange(e, "ipAddress")}
+                            value={clientData.dbipAddress}
+                            error={errors.dbipAddress}
+                            onChange={(e) => handleChange(e, "dbipAddress")}
                           />
                         </div>
                         <div class="col-sm-4 form-group mb-2">
                           <label for="contact-name">
-                            {GetTranslationData("UIAdmin", "usernamee_label")}
+                            {userName}
                             <span class="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
                             className={` ${
-                              errors.name ? "border-danger" : "form-control"
+                              errors.userName ? "border-danger" : "form-control"
                             }`}
                             name="username"
                             id="user-name"
@@ -296,13 +313,13 @@ const ClientMaster = (props) => {
                         </div>
                         <div class="col-sm-4 form-group mb-2">
                           <label for="contact-name">
-                            {GetTranslationData("UIAdmin", "password_label")}
+                            {password}
                             <span class="text-danger">*</span>
                           </label>
                           <InputField
                             type="password"
                             className={` ${
-                              errors.name ? "border-danger" : "form-control"
+                              errors.password ? "border-danger" : "form-control"
                             }`}
                             name="password"
                             id="password"
@@ -313,7 +330,7 @@ const ClientMaster = (props) => {
                         </div>
                         <div class="col-sm-4 form-group mb-2">
                           <label for="status">
-                            {GetTranslationData("UIAdmin", "Status_label")}
+                            {status}
                             <span class="text-danger">*</span>
                           </label>
                           <Dropdown
@@ -324,19 +341,19 @@ const ClientMaster = (props) => {
                             options={statusoptions}
                           />
                           <p>
-                            {GetTranslationData("UIAdmin", "select_Option")}{" "}
+                            {selectOption}
                             {clientData.status}
                           </p>
                         </div>
                         <div class="col-sm-4 form-group mb-2">
                           <label for="color">
-                            {GetTranslationData("UIAdmin", "Color_label")}
+                            {color}
                             <span class="text-danger">*</span>
                           </label>
                           <InputField
                             type="color"
                             className={` ${
-                              errors.name ? "border-danger" : "form-control"
+                              errors.color ? "border-danger" : "form-control"
                             }`}
                             name="color"
                             id="color"
@@ -347,27 +364,24 @@ const ClientMaster = (props) => {
                         </div>
                         <div class="col-sm-6 form-group mb-2">
                           <label for="logo">
-                            {GetTranslationData("UIAdmin", "Logo Link_label")}
+                            {logo}
                             <span class="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
                             className={` ${
-                              errors.name ? "border-danger" : "form-control"
+                              errors.lgogLink ? "border-danger" : "form-control"
                             }`}
                             name="logo"
                             id="logo"
-                            error={errors.logoLink}
-                            value={clientData.logoLink}
-                            onChange={(e) => handleChange(e, "logoLink")}
+                            error={errors.lgogLink}
+                            value={clientData.lgogLink}
+                            onChange={(e) => handleChange(e, "lgogLink")}
                           />
                         </div>
                         <div class="col-sm-6 form-group mb-2">
                           <label for="status">
-                            {GetTranslationData(
-                              "UIAdmin",
-                              "Select Theme_label"
-                            )}
+                            {theme}
                             <span class="text-danger">*</span>
                           </label>
                           <Dropdown
@@ -378,37 +392,31 @@ const ClientMaster = (props) => {
                             options={options}
                           />
                           <p>
-                            {GetTranslationData("UIAdmin", "select_Option")}
+                            {selectOption}
                             {clientData.theme}
                           </p>
                         </div>
                         <div class="row mt-2">
                           <h3 style={{ borderBottom: "1px solid #ededed" }}>
-                            {GetTranslationData(
-                              "UIAdmin",
-                              "razorpay Payment Gateway_label"
-                            )}
+                            {razorpay}
                           </h3>
                           <div class="col-lg-6 mt-2">
                             <div class="row p-0">
                               <h4>
-                                {GetTranslationData("UIAdmin", "staging_label")}
+                                {staging}
                                 <span class="text-danger">*</span>
                               </h4>
                               <div class="col-sm-12 form-group mb-2">
                                 <InputField
                                   type="text"
                                   className={` ${
-                                    errors.name
+                                    errors.stagingKey
                                       ? "border-danger"
                                       : "form-control"
                                   }`}
                                   name="stagingKey"
                                   id="staging-key"
-                                  placeholder={GetTranslationData(
-                                    "UIAdmin",
-                                    "key_placeholder"
-                                  )}
+                                  placeholder={key}
                                   value={clientData.stagingKey}
                                   error={errors.stagingKey}
                                   onChange={(e) =>
@@ -420,7 +428,7 @@ const ClientMaster = (props) => {
                                 <InputField
                                   type="text"
                                   className={` ${
-                                    errors.name
+                                    errors.stagingSecretKey
                                       ? "border-danger"
                                       : "form-control"
                                   }`}
@@ -428,10 +436,7 @@ const ClientMaster = (props) => {
                                   id="staging-secret-key"
                                   error={errors.stagingSecretKey}
                                   value={clientData.stagingSecretKey}
-                                  placeholder={GetTranslationData(
-                                    "UIAdmin",
-                                    "secretkey_placeholder"
-                                  )}
+                                  placeholder={secretKey}
                                   onChange={(e) =>
                                     handleChange(e, "stagingSecretKey")
                                   }
@@ -443,26 +448,21 @@ const ClientMaster = (props) => {
                           <div class="col-lg-6 mt-2">
                             <div class="row p-0">
                               <h4>
-                                {GetTranslationData(
-                                  "UIAdmin",
-                                  "production_key_label"
-                                )}
+                                {production}
+
                                 <span class="text-danger">*</span>
                               </h4>
                               <div class="col-sm-12 form-group mb-2">
                                 <InputField
                                   type="text"
                                   className={` ${
-                                    errors.name
+                                    errors.productionKey
                                       ? "border-danger"
                                       : "form-control"
                                   }`}
                                   name="productionKey"
                                   id="production-key"
-                                  placeholder={GetTranslationData(
-                                    "UIAdmin",
-                                    "key_placeholder"
-                                  )}
+                                  placeholder={key}
                                   error={errors.productionKey}
                                   value={clientData.productionKey}
                                   onChange={(e) =>
@@ -474,16 +474,13 @@ const ClientMaster = (props) => {
                                 <InputField
                                   type="text"
                                   className={` ${
-                                    errors.name
+                                    errors.productionSecretKey
                                       ? "border-danger"
                                       : "form-control"
                                   }`}
                                   name="productionSecretKey"
                                   id="production-secret-key"
-                                  placeholder={GetTranslationData(
-                                    "UIAdmin",
-                                    "secretkey_placeholder"
-                                  )}
+                                  placeholder={secretKey}
                                   error={errors.productionSecretKey}
                                   value={clientData.productionSecretKey}
                                   onChange={(e) =>
@@ -499,7 +496,7 @@ const ClientMaster = (props) => {
                             type="submit"
                             class="btn btn-primary float-right pad-aa"
                           >
-                            {GetTranslationData("UIAdmin", "add_label")}
+                            {add}
                             <i class="fa fa-arrow-right"></i>
                           </button>
                           <ToastContainer />
