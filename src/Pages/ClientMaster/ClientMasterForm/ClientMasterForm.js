@@ -96,9 +96,9 @@ const ClientMaster = (props) => {
       name: props.data?.name || "",
       number: props.data?.number || "",
       email: props.data?.email || "",
-      dbipAddress: props.data?.dbipAddress,
+      dbipAddress: props.data?.dbipAddress || "",
       id: props.data?.id,
-      color: props.data?.color || "",
+      color: props.data?.color,
       lgogLink: props.data?.lgogLink || "",
       theme: props.data?.theme || "",
       stagingKey: props.data?.stagingKey || "",
@@ -205,7 +205,7 @@ const ClientMaster = (props) => {
           clientData.number = parseInt(clientData.number);
 
           // Wait for the dispatch to complete
-         dispatch(onUpdateClientMasterSubmit(clientData));
+          dispatch(onUpdateClientMasterSubmit(clientData));
 
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
@@ -221,25 +221,27 @@ const ClientMaster = (props) => {
         setShowLoader(false);
         dispatch(onClientMasterSubmit());
         toast.success(clientMasterDetails.postMessage);
-        setClientData({ name: "",
-        number: "",
-        email: "",
-        userName: "",
-        password: "",
-        status: "",
-        color: "",
-        lgogLink: "",
-        dbipAddress: "",
-        dbLoginId: "",
-        dbLoginPwd: "",
-        stagingKey: "",
-        stagingSecretKey: "",
-        productionKey: "",
-        productionSecretKey: "",
-        theme: "",
-        id: props.data?.id,
-        enabled: true,
-        deleted: true,})
+        setClientData({
+          name: "",
+          number: "",
+          email: "",
+          userName: "",
+          password: "",
+          status: "",
+          color: "",
+          lgogLink: "",
+          dbipAddress: "",
+          dbLoginId: "",
+          dbLoginPwd: "",
+          stagingKey: "",
+          stagingSecretKey: "",
+          productionKey: "",
+          productionSecretKey: "",
+          theme: "",
+          id: props.data?.id,
+          enabled: true,
+          deleted: true,
+        });
       } else {
         setShowLoader(false);
         toast.error(clientMasterDetails.postMessage);
@@ -250,25 +252,27 @@ const ClientMaster = (props) => {
         setShowLoader(false);
         dispatch(onClientMasterSubmit());
         toast.success(clientMasterDetails.postMessage);
-        setClientData({ name: "",
-        number: "",
-        email: "",
-        userName: "",
-        password: "",
-        status: "",
-        color: "",
-        lgogLink: "",
-        dbipAddress: "",
-        dbLoginId: "",
-        dbLoginPwd: "",
-        stagingKey: "",
-        stagingSecretKey: "",
-        productionKey: "",
-        productionSecretKey: "",
-        theme: "",
-        id: props.data?.id,
-        enabled: true,
-        deleted: true,})
+        setClientData({
+          name: "",
+          number: "",
+          email: "",
+          userName: "",
+          password: "",
+          status: "",
+          color: "",
+          lgogLink: "",
+          dbipAddress: "",
+          dbLoginId: "",
+          dbLoginPwd: "",
+          stagingKey: "",
+          stagingSecretKey: "",
+          productionKey: "",
+          productionSecretKey: "",
+          theme: "",
+          id: props.data?.id,
+          enabled: true,
+          deleted: true,
+        });
       }
     }
   }, [clientMasterDetails.postMessage]);
