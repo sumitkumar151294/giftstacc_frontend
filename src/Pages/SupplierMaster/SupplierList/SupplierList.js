@@ -30,6 +30,18 @@ const SupplierList = () => {
     status: "",
     amount: "",
   });
+  const supplierList = GetTranslationData("UIAdmin", "supplierList");
+  const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
+  const export_label = GetTranslationData("UIAdmin", "export_label");
+  const supplierName = GetTranslationData("UIAdmin", "supplierName");
+  const supplierClientID = GetTranslationData("UIAdmin", "supplierClientID");
+  const userName = GetTranslationData("UIAdmin", "usernamee_label");
+  const password = GetTranslationData("UIAdmin", "password_label");
+  const minThresholdAmount = GetTranslationData("UIAdmin", "minThresholdAmount");
+  const status = GetTranslationData("UIAdmin", "Status_label");
+  const action = GetTranslationData("UIAdmin", "action_label");
+
+
 
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer.data.data
@@ -106,7 +118,7 @@ const SupplierList = () => {
                         <input
                           type="text"
                           className="form-control only-high"
-                          placeholder={search}
+                          placeholder={search_here_label}
                           value={searchQuery}
                           onChange={handleSearch}
                         />
@@ -124,7 +136,7 @@ const SupplierList = () => {
                                                     {filteredVendorList.length > 0 && (
 
                           <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                            <i className="fa fa-file-excel me-2"></i>{exportLabel}
+                            <i className="fa fa-file-excel me-2"></i>{export_label}
                           </button>
                                                     )}
                         </CSVLink>
@@ -140,10 +152,10 @@ const SupplierList = () => {
                           <thead>
                             <tr>
                               <th>{supplierName}</th>
-                              <th>{supplierClient}</th>
+                              <th>{supplierClientID}</th>
                               <th>{userName}</th>
                               <th>{password}</th>
-                              <th>{amount}</th>
+                              <th>{minThresholdAmount}</th>
                               <th>{status}</th>
                               <th>{action}</th>
                             </tr>
