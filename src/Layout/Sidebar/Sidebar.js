@@ -17,6 +17,7 @@ const Sidebar = () => {
         e.preventDefault();
         dispatch(onLogout());
         localStorage.clear();
+        sessionStorage.clear();
         navigate('/');
     }
     // get module data 

@@ -1,5 +1,5 @@
 import React from 'react'
-import './Loader.css'
+import './Loader.scss'
 const Loader = ({classType}) => {
     return (
         <div className={classType} id="preloader">

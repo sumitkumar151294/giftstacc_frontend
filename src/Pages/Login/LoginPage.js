@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import bcrypt from 'bcryptjs';
 import "./LoginPage.scss";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
@@ -57,14 +56,11 @@ const LoginPage = () => {
     }
   };
 
-  const handleCheckboxChange = async (e) => {
+  const handleCheckboxChange = (e) => {
     const { checked } = e.target;
-  
     if (checked) {
-      const hashedPassword = await bcrypt.hash(loginData.password, 10);
-  
       localStorage.setItem("userEmail", loginData.email);
-      localStorage.setItem("userPassword", hashedPassword);
+      localStorage.setItem("userPassword", loginData.password);
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userPassword");
@@ -114,9 +110,11 @@ const LoginPage = () => {
     if (loginDetails === "Login Successfully.") {
       setShowLoader(false);
       toast.success(loginDetails);
+      sessionStorage.setItem('login', true)
       navigate('/Lc-admin/rolemaster');
     } else {
       setShowLoader(false);
+      sessionStorage.removeItem('login')
       toast.error(loginDetails);
     }
   }, [loginDetails]);
@@ -136,14 +134,12 @@ const LoginPage = () => {
                           <img className="w-100" src={image} alt="" />
                         </div>
                         <h4 className="text-center mb-4">{GetTranslationData("UIAdmin", "sign")}</h4>
-
                         <form onSubmit={(e) => handleSubmit(e)}>
                           <div className="mb-3">
                             <label className="mb-1">
                               <strong>{GetTranslationData("UIAdmin", "email_label")}</strong>
                               <span className="text-danger">*</span>
                             </label>
-
                             <InputField
                               type="email"
                               className={` ${
