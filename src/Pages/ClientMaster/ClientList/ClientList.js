@@ -43,7 +43,7 @@ const ClientList = () => {
 
   useEffect(() => {
     dispatch(onClientMasterSubmit());
-  }, [dispatch]);
+  }, []);
 
   const handleEdit = (data) => {
     const prefilled = data;

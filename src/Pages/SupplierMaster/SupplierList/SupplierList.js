@@ -8,17 +8,6 @@ import SupplierMasterDetails from "../../SupplierMaster/SupplierMasterDetails/Su
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 const SupplierList = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const action = GetTranslationData("UIAdmin", "action_label");
-  const update = GetTranslationData("UIAdmin", "update_label");
-  const supplierName = GetTranslationData("UIAdmin", "Supplier_name_Label");
-  const supplierClient = GetTranslationData("UIAdmin", "supplier_Client_Label");
-  const amount = GetTranslationData("UIAdmin", "Min._Threshold_Amount_Label","");
-  const supplierList = GetTranslationData("UIAdmin", "Supplier_List_Label","");
-  const userName = GetTranslationData("UIAdmin", "usernamee_label");
-  const status = GetTranslationData("UIAdmin", "Status_label");
-  const password = GetTranslationData("UIAdmin", "password_label");
-  const search = GetTranslationData("UIAdmin", "search_here_label");
-  const exportLabel = GetTranslationData("UIAdmin", "export_label");
   const [vendorData, setVendorData] = useState({
     name: "",
     secret: "",

@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 const ClientMaster = (props) => {
-  debugger;
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -92,7 +91,6 @@ const ClientMaster = (props) => {
     theme: "",
   });
   useEffect(() => {
-    debugger;
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setClientData({
       name: props.data?.name || "",
@@ -165,7 +163,7 @@ const ClientMaster = (props) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -193,7 +191,7 @@ const ClientMaster = (props) => {
           clientData.number = parseInt(clientData.number);
 
           // Wait for the dispatch to complete
-          await dispatch(onPostClientMasterSubmit(clientData));
+          dispatch(onPostClientMasterSubmit(clientData));
 
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
@@ -201,14 +199,13 @@ const ClientMaster = (props) => {
           console.error(error);
         }
       } else if (props.data) {
-        debugger;
         try {
           setShowUpdate(true);
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
 
           // Wait for the dispatch to complete
-          await dispatch(onUpdateClientMasterSubmit(clientData));
+         dispatch(onUpdateClientMasterSubmit(clientData));
 
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
