@@ -9,6 +9,9 @@ import NoRecord from "../../Componenets/NoRecord/NoRecord"
 import Loader from "../../Componenets/Loader/Loader";
 
 const UserList = () => {
+    const [page, setPage] = useState(1); // Current page
+    const [rowsPerPage] = useState(5);
+
     const dispatch = useDispatch();
     const [prefilledValues, setPrefilledValues] = useState();
     useEffect(() => {
@@ -21,15 +24,10 @@ const UserList = () => {
     const username = GetTranslationData("UIAdmin", "usernamee_label");
     const clients = GetTranslationData("UIAdmin", "clients_name_label");
     const action = GetTranslationData("UIAdmin", "action_label");
-    // const clientList = useSelector((state) => state.clientMasterReducer.data)
     const userList = useSelector((state) => state.userMasterReducer)
+    const client = useSelector((state) => state.clientMasterReducer.data)
     const loading = useSelector((state) => state.userMasterReducer.isLoading);
-    console.log("loginfg", loading);
-    const [page, setPage] = useState(1); // Current page
-    const [rowsPerPage] = useState(5);
-    console.log("user", userList.data.data);
     const roleList = useSelector((state) => state.userRoleReducer?.data?.data);
-    // console.log("roleList in list", roleList);
     const handleEdit = (data) => {
         const prefilled = data;
         setPrefilledValues(prefilled)
@@ -45,11 +43,25 @@ const UserList = () => {
         return result ? result.name : "Not Found";
     };
 
+    // here get client name by matching with id 
+    function getClientByIndex(data, client) {
+        const result = [];
+        if (Array.isArray(data)) {
+            client.forEach(index => {
+                const numericIndex = parseInt(index, 10);
+                const item = data.find(entry => entry && entry.id === numericIndex);
+
+                if (item) {
+                    result.push(item.name);
+                }
+            });
+        }
+        return result;
+    }
 
     return (
         <>
             <UserDetails prefilledValues={prefilledValues} />
-
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">
@@ -62,7 +74,7 @@ const UserList = () => {
                                     <Loader classNameType={"absoluteLoader"} />
                                 </div>
                             ) : (
-                                userList?.data?.data ?
+                                Array.isArray(userList?.data?.data) && userList?.data?.data.length > 0 ?
                                     (<div className="card-body">
                                         <div className="table-responsive">
                                             <table className="table header-border table-responsive-sm">
@@ -82,17 +94,17 @@ const UserList = () => {
                                                             <td>{getNameById(item.adminRoleId)}</td>
                                                             <td>{item.email}</td>
                                                             <td>{item.mobile}</td>
-                                                            <td>{item.firstName}</td>
+                                                            <td>{`${item.firstName}${item.lastName}`}</td>
                                                             <td>
-                                                                {/* <div className="d-flex">
-                                                            {Array.isArray(userList.data.data) && userList?.data?.data?.map((client) => (
-                                                                    client.accessClientIds?.map((fg, i)=>(
-                                                                <span  className="badge badge-secondary mr-10">
-                                                                    {fg[i]}
-                                                                </span>
-                                                                ))
-                                                            ))}
-                                                        </div> */}
+                                                                {Array.isArray(item.accessClientIds) && item.accessClientIds.length > 0 && (
+                                                                    <div className="d-flex">
+                                                                        {item.accessClientIds.map((clientId, index) => (
+                                                                            <span key={index} className="badge badge-secondary mr-10">
+                                                                                {getClientByIndex(client, [clientId])}
+                                                                            </span>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
                                                             </td>
                                                             <td>
                                                                 <button className="btn btn-primary shadow btn-xs sharp me-1" onClick={() => handleEdit(item)}>

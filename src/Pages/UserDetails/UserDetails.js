@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { onGetUser, onUserSubmit } from "../../Store/Slices/userMasterSlice";
+import { onUserSubmit } from "../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import InputField from "../../Componenets/InputField/InputField";
 import '../UserMaster/UserMaster.scss'
@@ -7,12 +7,12 @@ import { ToastContainer, toast } from "react-toastify";
 import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
 import Loader from "../../Componenets/Loader/Loader";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
-import {GetTranslationData} from "../../../src/Componenets/GetTranslationData/GetTranslationData "
+import { GetTranslationData } from "../../../src/Componenets/GetTranslationData/GetTranslationData "
 const UserDetails = (prefilledValues) => {
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.userMasterReducer.isLoading);
-    const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: [], firstName:"", lastName:"" });
-    const [errors, setErrors] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: "", firstName:"", lastName:"" }); // Initialize 'role' error state
+    const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: [], firstName: "", lastName: "" });
+    const [errors, setErrors] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: "", firstName: "", lastName: "" }); // Initialize 'role' error state
     const [onUpdate, setOnUpdate] = useState(false);
     const onSubmitData = useSelector((state) => state.userMasterReducer.data)
     const roleList = useSelector((state) => state.userRoleReducer);
@@ -29,21 +29,30 @@ const UserDetails = (prefilledValues) => {
     const submit = GetTranslationData("UIAdmin", "submit_label");
     const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
     const invalidMobile = GetTranslationData("UIAdmin", "number_Digit_Label");
+    const firstName = GetTranslationData("UIAdmin", "first-name");
+    const lastName = GetTranslationData("UIAdmin", "last-name");
+    const update = GetTranslationData("UIAdmin", "update_label");
+
     useEffect(() => {
         // user-role get api call
         dispatch(onGetUserRole());
         dispatch(onClientMasterSubmit());
-        
-        // dispatch(onGetUser())
     }, []);
     useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         setUserData({
-            userName: prefilledValues.prefilledValues?.firstName || "", password: prefilledValues.prefilledValues?.password || "", mobile: prefilledValues.prefilledValues?.mobile || "", email: prefilledValues.prefilledValues?.email || "", role: '', accessClientIds: [], firstName: prefilledValues.prefilledValues?.firstName || "",lastName: prefilledValues.prefilledValues?.lastName || "",
+            userName: prefilledValues.prefilledValues?.firstName || "",
+            password: prefilledValues.prefilledValues?.password || "",
+            mobile: prefilledValues.prefilledValues?.mobile || "",
+            email: prefilledValues.prefilledValues?.email || "",
+            role: '',
+            accessClientIds: [],
+            firstName: prefilledValues.prefilledValues?.firstName || "",
+            lastName: prefilledValues.prefilledValues?.lastName || "",
         })
     }, [prefilledValues.prefilledValues])
+
     // to get role module access list 
-
-
     const handleChange = (e, fieldName) => {
         const { name, value, type, checked, } = e.target;
         let newUserdetailData;
@@ -60,6 +69,7 @@ const UserDetails = (prefilledValues) => {
                 [fieldName]: value,
             };
         }
+        
         setUserData(newUserdetailData)
         if (fieldName === "email") {
             const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -85,7 +95,6 @@ const UserDetails = (prefilledValues) => {
         }
     };
     const handleSubmit = (e) => {
-
         e.preventDefault();
         let isValid = true;
         const newErrors = { ...errors };
@@ -135,17 +144,14 @@ const UserDetails = (prefilledValues) => {
         setErrors(newErrors);
         console.log(isValid)
         if (isValid) {
-            // setShowLoader(true)
             setOnUpdate(true);
             const UsersData = {
                 ...userData,
-                // accessClientIds: ["1", "3"],
-                adminRoleId: userData.role,
+                adminRoleId: parseInt(userData.role),
                 adminRoleCode: 1,
                 clientRoleId: 2,
                 clientRoleCode: 2,
-                // firstName: userData.userName,
-                // lastName: userData.userName,
+                mobile: parseInt(userData.mobile)
             }
             // Dispatch the form submission action if needed
             dispatch(onUserSubmit(UsersData));
@@ -156,7 +162,7 @@ const UserDetails = (prefilledValues) => {
         if (onUpdate) {
             if (onSubmitData.message === "User Added Successfully.") {
                 toast.success(onSubmitData.message);
-                setUserData({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: [] ,  firstName:"", lastName:""})
+                setUserData({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: [], firstName: "", lastName: "" })
             }
             else {
                 toast.error(onSubmitData.message);
@@ -180,7 +186,7 @@ const UserDetails = (prefilledValues) => {
                                     </div>
                                 ) : (
                                     <div className="container mt-3">
-                                        <form id="userForm" onSubmit={(e) => handleSubmit(e)}>
+                                        <form onSubmit={(e) => handleSubmit(e)}>
                                             <div className="row">
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label for="name-f">{email}
@@ -240,7 +246,7 @@ const UserDetails = (prefilledValues) => {
                                                     />
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">First Name
+                                                    <label for="name-f">{firstName}
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
@@ -255,7 +261,7 @@ const UserDetails = (prefilledValues) => {
                                                     />
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">Last Name
+                                                    <label for="name-f">{lastName}
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <InputField
@@ -301,7 +307,6 @@ const UserDetails = (prefilledValues) => {
                                                                         .join(" ")}
                                                                 </label>
                                                             </div>
-
                                                         )}
                                                     </div>
                                                 </div>
@@ -331,7 +336,7 @@ const UserDetails = (prefilledValues) => {
                                                     </span>
                                                     <div className="col-sm-4 mt-2 mb-4">
                                                         <button className="btn btn-primary float-right pad-aa" >
-                                                            {submit} <i className="fa fa-arrow-right"></i>
+                                                            {prefilledValues.prefilledValues ? update : submit} <i className="fa fa-arrow-right"></i>
                                                         </button>
                                                         <ToastContainer />
                                                     </div>
