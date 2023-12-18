@@ -221,6 +221,25 @@ const ClientMaster = (props) => {
         setShowLoader(false);
         dispatch(onClientMasterSubmit());
         toast.success(clientMasterDetails.postMessage);
+        setClientData({ name: "",
+        number: "",
+        email: "",
+        userName: "",
+        password: "",
+        status: "",
+        color: "",
+        lgogLink: "",
+        dbipAddress: "",
+        dbLoginId: "",
+        dbLoginPwd: "",
+        stagingKey: "",
+        stagingSecretKey: "",
+        productionKey: "",
+        productionSecretKey: "",
+        theme: "",
+        id: props.data?.id,
+        enabled: true,
+        deleted: true,})
       } else {
         setShowLoader(false);
         toast.error(clientMasterDetails.postMessage);
@@ -231,6 +250,25 @@ const ClientMaster = (props) => {
         setShowLoader(false);
         dispatch(onClientMasterSubmit());
         toast.success(clientMasterDetails.postMessage);
+        setClientData({ name: "",
+        number: "",
+        email: "",
+        userName: "",
+        password: "",
+        status: "",
+        color: "",
+        lgogLink: "",
+        dbipAddress: "",
+        dbLoginId: "",
+        dbLoginPwd: "",
+        stagingKey: "",
+        stagingSecretKey: "",
+        productionKey: "",
+        productionSecretKey: "",
+        theme: "",
+        id: props.data?.id,
+        enabled: true,
+        deleted: true,})
       }
     }
   }, [clientMasterDetails.postMessage]);
