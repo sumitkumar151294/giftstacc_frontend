@@ -17,6 +17,7 @@ const Sidebar = () => {
         e.preventDefault();
         dispatch(onLogout());
         localStorage.clear();
+        sessionStorage.clear();
         navigate('/');
     }
     // get module data 
@@ -34,6 +35,12 @@ const Sidebar = () => {
         }
     }, [getModuleData])
 
+    // function to add active class on Li
+    const hanleClick = (e) =>{
+        document.querySelectorAll('.mm-active').forEach(e => {e.classList.remove('mm-active')});
+        e.target.closest('.nav-icn').classList.add('mm-active')
+    }
+
 
     return (
         <div className="deznav">
@@ -45,16 +52,16 @@ const Sidebar = () => {
                 ) : (
                     <ul className="metismenu" id="menu">
                         {getModuleData?.data?.data?.map((item, index) => (
-                            <li key={index} className={location.pathname === "/LC-admin" ? "mm-active" : ""}>
+                            <li key={index} className="nav-icn" onClick={(e)=>hanleClick(e)}>
                                 <Link className="ai-icon" to={item.routePath} aria-expanded="false">
-                                    <img src={require('../../Assets/icon/client.svg').default} alt='fasdfads' />
+                                    <img src={require(`../../Assets/icon/${item.icon}.svg`)} alt={item.icon} />
                                     <span className="nav-text ps-1">{item.name}</span>
                                 </Link>
                             </li>))}
 
 
-                        <li className={location.pathname === "/LC-admin" ? "mm-active" : ""}>
-                            <Link className="ai-icon" onClick={handleLogout} aria-expanded="false">
+                        <li>
+                            <Link className="ai-icon " onClick={handleLogout} aria-expanded="false">
                                 <img className="w-20px" src={Logout} alt="file not exist" />
                                 <span className="nav-text ps-1">Logout</span>
                             </Link>
