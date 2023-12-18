@@ -25,7 +25,6 @@ function* ClientMaster() {
   }
 }
 function* postClientMaster(payload) {
-    console.log(payload,"payload")
     try {
         const postClientMasterResponse = yield call(postClientMasterApi,payload.payload);
       if (postClientMasterResponse.status === 5) {

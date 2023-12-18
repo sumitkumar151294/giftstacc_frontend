@@ -10,7 +10,6 @@ import Loader from "../../Componenets/Loader/Loader";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { GetTranslationData } from "../../../src/Componenets/GetTranslationData/GetTranslationData "
 const UserDetails = ({prefilledValues}) => {
-    debugger
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.userMasterReducer.isLoading);
     const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: [], firstName: "", lastName: "" });
@@ -143,7 +142,6 @@ const UserDetails = ({prefilledValues}) => {
             newErrors.email = '';
         }
         setErrors(newErrors);
-        console.log(isValid)
         if (isValid) {
             setOnUpdate(true);
             const UsersData = {
