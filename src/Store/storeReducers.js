@@ -5,6 +5,7 @@ import translationReducer from './Slices/translationSlice';
 import loginAuthReducer from './Slices/loginAuthSlice';
 import moduleReducer from './Slices/moduleSlice';
 import userRoleReducer from './Slices/userRoleSlice';
+import userRoleModuleAccessReducer from './Slices/userRoleModuleAccessSlice';
 import userMasterReducer from "./Slices/userMasterSlice";
 import supplierMasterReducer from './Slices/supplierMasterSlice';
 import clientMasterReducer from './Slices/clientMasterSlice';
@@ -15,6 +16,7 @@ const reducers = combineReducers({
     loginAuthReducer:loginAuthReducer,
     moduleReducer:moduleReducer,
     userRoleReducer:userRoleReducer,
+    userRoleModuleAccessReducer: userRoleModuleAccessReducer,
     userMasterReducer:userMasterReducer,
     supplierMasterReducer:supplierMasterReducer,
     clientMasterReducer:clientMasterReducer

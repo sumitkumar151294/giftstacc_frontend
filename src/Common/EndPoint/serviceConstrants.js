@@ -4,6 +4,7 @@ const API = {
   loginAuth: "/auth",
   moduleApi: "/module-master",
   userRoleApi: "/user-role",
+  userRoleModuleAccess:"/user-role-module-access",
   updateUserRoleApi: "/user-role/update",
   userMasterApi: "/user",
   supplierMasterApi: "/supplier-master",
