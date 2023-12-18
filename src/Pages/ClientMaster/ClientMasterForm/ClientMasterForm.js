@@ -217,23 +217,23 @@ const ClientMaster = (props) => {
   };
   useEffect(() => {
     if (showToast) {
-      if (clientMasterDetails.message === "Added Successfully.") {
+      if (clientMasterDetails.postMessage === "Added Successfully.") {
         setShowLoader(false);
         dispatch(onClientMasterSubmit());
-        toast.success(clientMasterDetails.message);
+        toast.success(clientMasterDetails.postMessage);
       } else {
         setShowLoader(false);
-        toast.error(clientMasterDetails.message);
+        toast.error(clientMasterDetails.postMessage);
       }
     }
     if (showUpdate) {
-      if (clientMasterDetails.message === "Update Successfully.") {
+      if (clientMasterDetails.postMessage === "Update Successfully.") {
         setShowLoader(false);
         dispatch(onClientMasterSubmit());
-        toast.success(clientMasterDetails.message);
+        toast.success(clientMasterDetails.postMessage);
       }
     }
-  }, [clientMasterDetails.message]);
+  }, [clientMasterDetails.postMessage]);
 
   return (
     <>
