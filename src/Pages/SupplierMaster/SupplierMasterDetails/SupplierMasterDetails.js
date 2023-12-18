@@ -1,34 +1,56 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from "react";
 import Loader from "../../../Componenets/Loader/Loader";
-import { useDispatch, useSelector } from 'react-redux';
-import { onVendorSubmit } from '../../../Store/Slices/supplierMasterSlice';
-import './SupplierMasterDetails.scss'
+import { useDispatch, useSelector } from "react-redux";
+import {
+  onGetSupplierList,
+  onVendorSubmit,
+} from "../../../Store/Slices/supplierMasterSlice";
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 
-const SupplierMasterDetails = () => {
+const SupplierMasterDetails = ({ data }) => {
   const dispatch = useDispatch();
-  const [isformLoading, setIsFormLoading] = useState("true");
-  const [vendorData, setVendorData] = useState({
-    name: "",
-    secret: "",
-    id: "",
-    username: "",
-    password: "",
-    endPoint: "",
-    code: "",
-    status: "",
-    amount: "",
-  });
-  const [errors, setErrors] = useState({
-    name: "",
-    secret: "",
-    id: "",
-    username: "",
-    password: "",
-    endPoint: "",
-    code: "",
-    status: "",
-    amount: "",
-  });
+  const [isformLoading, setIsFormLoading] = useState(true);
+  const [vendorData, setVendorData] = useState({});
+  const [errors, setErrors] = useState({});
+  const supplyPostData = useSelector((state) => state.supplierMasterReducer);
+  const update = GetTranslationData("UIAdmin", "update_label");
+  const submit = GetTranslationData("UIAdmin", "submit_label");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+    // Update the state when the data prop changes
+    setVendorData({
+      name: data?.name || "",
+      secret: "",
+      id: data?.id || "",
+      username: "",
+      password: "",
+      endPoint: "",
+      code: "",
+      status: "",
+      amount: "",
+    });
+
+    // You may also want to reset errors here if needed
+    setErrors({
+      name: "",
+      secret: "",
+      id: "",
+      username: "",
+      password: "",
+      endPoint: "",
+      code: "",
+      status: "",
+      amount: "",
+    });
+
+    if (supplyPostData.status_code === 200) {
+      setIsFormLoading(false);
+      dispatch(onGetSupplierList());
+    }
+  }, [data]);
+
   const handleChange = (e, fieldName) => {
     setVendorData({
       ...vendorData,
@@ -57,16 +79,10 @@ const SupplierMasterDetails = () => {
         newErrors[key] = "";
       }
     }
-    // Email validation using the regexEmail pattern
-    // const regexEmail = /[a-zA-Z0-9]+([\_\.\-{1}])?[a-zA-Z0-9]+\@[a-zA-Z0-9]+(\.[a-zA-Z\.]+)/g;
-    // if (!regexEmail.test(vendorData.secret)) {
-    //     newErrors.secret = 'Invalid email format';
-    //     isValid = false;
-    // }
     setErrors(newErrors);
-
     if (isValid) {
-        dispatch(onVendorSubmit(vendorData));
+      setIsFormLoading(true);
+      dispatch(onVendorSubmit(vendorData));
     }
   };
   return (
@@ -88,12 +104,15 @@ const SupplierMasterDetails = () => {
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className={`col-sm-4 form-group mb-2 $`}>
-                          <label htmlFor="name-f">Supplier Name <span className='text-danger'>*</span></label>
+                          <label htmlFor="name-f">
+                            Supplier Name <span className="text-danger">*</span>
+                          </label>
                           <input
                             type="text"
-                            value={vendorData.name}
-                            className={` ${errors.name ? "border-danger" : "form-control"
-                              }`}
+                            value={vendorData?.name}
+                            className={` ${
+                              errors.name ? "border-danger" : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -102,12 +121,16 @@ const SupplierMasterDetails = () => {
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-l">Supplier Client ID <span className='text-danger'>*</span></label>
+                          <label htmlFor="name-l">
+                            Supplier Client ID{" "}
+                            <span className="text-danger">*</span>
+                          </label>
                           <input
                             type="text"
-                            value={vendorData.id}
-                            className={` ${errors.id ? "border-danger" : "form-control"
-                              }`}
+                            value={vendorData?.id}
+                            className={` ${
+                              errors.id ? "border-danger" : "form-control"
+                            }`}
                             name="lname"
                             id="name-l"
                             placeholder=""
@@ -116,55 +139,63 @@ const SupplierMasterDetails = () => {
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="text">Supplier Client Secret <span className='text-danger'>*</span></label>
+                          <label htmlFor="text">
+                            Supplier Client Secret{" "}
+                            <span className="text-danger">*</span>
+                          </label>
                           <input
                             type="text"
-                            className={` ${errors.secret ? "border-danger" : "form-control"
-                              }`}
-                            // name="text"
-                            // id="text"
+                            className={` ${
+                              errors.secret ? "border-danger" : "form-control"
+                            }`}
+                            name="text"
+                            value={vendorData.secret}
+                            id="text"
                             placeholder=""
                             onChange={(e) => handleChange(e, "secret")}
                           />
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="text">Username <span className='text-danger'>*</span></label>
+                          <label htmlFor="text">
+                            Username <span className="text-danger">*</span>
+                          </label>
                           <input
                             type="text"
                             value={vendorData.username}
-                            className={` ${errors.username
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.username ? "border-danger" : "form-control"
+                            }`}
                             placeholder=""
                             onChange={(e) => handleChange(e, "username")}
                           />
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="password-1">Password <span className='text-danger'>*</span></label>
+                          <label htmlFor="password-1">
+                            Password <span className="text-danger">*</span>
+                          </label>
                           <input
                             type="password"
                             value={vendorData.password}
-                            className={` ${errors.password
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
-                            name='password'
-                            id='password-1'
+                            className={` ${
+                              errors.password ? "border-danger" : "form-control"
+                            }`}
+                            name="password"
+                            id="password-1"
                             placeholder=""
                             onChange={(e) => handleChange(e, "password")}
                           />
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="status">Status <span className='text-danger'>*</span></label>
+                          <label htmlFor="status">
+                            Status <span className="text-danger">*</span>
+                          </label>
                           <select
-                            className={` ${errors.status
-                              ? "form-select-error"
-                              : "form-select"
-                              }`}
+                            className={` ${
+                              errors.status ? "border-danger" : "form-control"
+                            }`}
                             aria-label="Default select example"
                             name="status"
                             value={vendorData.status}
@@ -179,13 +210,15 @@ const SupplierMasterDetails = () => {
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="zip">End Point <span className='text-danger'>*</span></label>
+                          <label htmlFor="zip">
+                            End Point <span className="text-danger">*</span>
+                          </label>
                           <input
                             type="text"
-                            className={` ${errors.endPoint
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            value={vendorData.endPoint}
+                            className={` ${
+                              errors.endPoint ? "border-danger" : "form-control"
+                            }`}
                             name="Zip"
                             id="zip"
                             placeholder=""
@@ -194,33 +227,45 @@ const SupplierMasterDetails = () => {
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="pass">Authorization Code <span className='text-danger'>*</span></label>
+                          <label htmlFor="pass">
+                            Authorization Code{" "}
+                            <span className="text-danger">*</span>
+                          </label>
                           <input
                             type="password"
                             name="password"
-                            className={` ${errors.code ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.code ? "border-danger" : "form-control"
+                            }`}
                             id="pass"
+                            value={vendorData.AuthCode}
                             placeholder=""
                             onChange={(e) => handleChange(e, "code")}
                           />
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="amount">Min. Threshold Amount <span className='text-danger'>*</span></label>
+                          <label htmlFor="amount">
+                            Min. Threshold Amount{" "}
+                            <span className="text-danger">*</span>
+                          </label>
                           <input
                             type="text"
                             name="text"
                             value={vendorData.amount}
-                            className={` ${errors.amount ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.amount ? "border-danger" : "form-control"
+                            }`}
                             id="amount"
                             placeholder=""
                             onChange={(e) => handleChange(e, "amount")}
                           />
                         </div>
 
-                        <span className="form-check-label" for="basic_checkbox_1"   >
+                        <span
+                          className="form-check-label"
+                          for="basic_checkbox_1"
+                        >
                           All the * fields are required.
                         </span>
 
@@ -229,7 +274,8 @@ const SupplierMasterDetails = () => {
                             type="submit"
                             className="btn btn-primary float-right pad-aa"
                           >
-                            Submit <i className="fa fa-arrow-right"></i>
+                            {data.name ? update : submit}{" "}
+                            <i className="fa fa-arrow-right"></i>
                           </button>
                         </div>
                       </div>
@@ -242,7 +288,7 @@ const SupplierMasterDetails = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SupplierMasterDetails
+export default SupplierMasterDetails;
