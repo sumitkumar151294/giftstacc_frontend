@@ -58,12 +58,7 @@ const RoleMasterItems = () => {
         e.preventDefault();
         dispatch(onPostUserRole(formData));
     };
-    useEffect(() => {
-        // module master get api call 
-        dispatch(onGetModule())
-    }, [])
     // to get module master data 
-    const getModuleData = useSelector((state) => state.moduleReducer);
     return (
         <>
             <div className="container-fluid">

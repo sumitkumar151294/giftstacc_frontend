@@ -9,7 +9,8 @@ import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
 import Loader from "../../Componenets/Loader/Loader";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { GetTranslationData } from "../../../src/Componenets/GetTranslationData/GetTranslationData "
-const UserDetails = (prefilledValues) => {
+const UserDetails = ({prefilledValues}) => {
+    debugger
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.userMasterReducer.isLoading);
     const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: [], firstName: "", lastName: "" });
@@ -41,16 +42,16 @@ const UserDetails = (prefilledValues) => {
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         setUserData({
-            userName: prefilledValues.prefilledValues?.firstName || "",
-            password: prefilledValues.prefilledValues?.password || "",
-            mobile: prefilledValues.prefilledValues?.mobile || "",
-            email: prefilledValues.prefilledValues?.email || "",
+            userName: prefilledValues?.firstName || "",
+            password: prefilledValues?.password || "",
+            mobile: prefilledValues?.mobile || "",
+            email: prefilledValues?.email || "",
             role: '',
             accessClientIds: [],
-            firstName: prefilledValues.prefilledValues?.firstName || "",
-            lastName: prefilledValues.prefilledValues?.lastName || "",
+            firstName: prefilledValues?.firstName || "",
+            lastName: prefilledValues?.lastName || "",
         })
-    }, [prefilledValues.prefilledValues])
+    }, [prefilledValues])
 
     // to get role module access list 
     const handleChange = (e, fieldName) => {
@@ -289,7 +290,7 @@ const UserDetails = (prefilledValues) => {
                                                                     name={item.name}
                                                                     value={item.id}
                                                                     id={`flexCheckDefault-${item.id}`}
-                                                                    checked={item.id}
+                                                                    checked={prefilledValues?.accessClientIds?.includes(parseInt(item.id))}
                                                                     onChange={(e) => handleChange(e, 'check')}
                                                                 />
                                                                 <label
@@ -336,7 +337,7 @@ const UserDetails = (prefilledValues) => {
                                                     </span>
                                                     <div className="col-sm-4 mt-2 mb-4">
                                                         <button className="btn btn-primary float-right pad-aa" >
-                                                            {prefilledValues.prefilledValues ? update : submit} <i className="fa fa-arrow-right"></i>
+                                                            {prefilledValues ? update : submit} <i className="fa fa-arrow-right"></i>
                                                         </button>
                                                         <ToastContainer />
                                                     </div>

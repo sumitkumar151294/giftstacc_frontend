@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Loader from '../../../Componenets/Loader/Loader';
 import { useDispatch } from "react-redux";
+import { GetTranslationData } from '../../../Componenets/GetTranslationData/GetTranslationData ';
 // import { onCategorySubmit } from "../../redux/modules/Admin/categorySlice";
 
 const BrandMapping = () => {
@@ -18,6 +19,16 @@ const BrandMapping = () => {
         status: "",
         brand: "",
     });
+    const createUpdateBrandMapping = GetTranslationData("UIAdmin", "createUpdateBrandMapping");
+    const categoryName = GetTranslationData("UIAdmin", "categoryName");
+    const Supplier_name_Label = GetTranslationData("UIAdmin", "Supplier_name_Label");
+    const supplierBrand = GetTranslationData("UIAdmin", "supplierBrand");
+    const select = GetTranslationData("UIAdmin", "select");
+    const selectStatus = GetTranslationData("UIAdmin", "selectStatus");
+    const required_label = GetTranslationData("UIAdmin", "required_label");
+    const active = GetTranslationData("UIAdmin", "active");
+    const inActive = GetTranslationData("UIAdmin", "inActive");
+  const submit = GetTranslationData("UIAdmin", "submit_label");
 
     const dispatch = useDispatch();
 
@@ -64,7 +75,7 @@ const BrandMapping = () => {
                         <div className="card">
                             <div className="card-header">
                                 <h4 className="card-title txt-admin txtt ">
-                                    Create And Update & Brand Mapping
+                                    {createUpdateBrandMapping}
                                 </h4>
                             </div>
                             <div className="card-body position-relative">
@@ -77,7 +88,7 @@ const BrandMapping = () => {
                                         <form onSubmit={handleSubmit}>
                                             <div className="row">
                                                 <div className="col-sm-3 form-group mb-2">
-                                                    <label htmlFor="name-f">Category Name <span className='text-danger'>*</span></label>
+                                                    <label htmlFor="name-f">{categoryName}<span className='text-danger'>*</span></label>
                                                     <input
                                                         type="text"
                                                         className={` ${errors.categoryName
@@ -91,7 +102,7 @@ const BrandMapping = () => {
                                                     />
                                                 </div>
                                                 <div className="col-sm-3 form-group mb-2">
-                                                    <label htmlFor="vendor-category">Supplier Name <span className='text-danger'>*</span></label>
+                                                    <label htmlFor="vendor-category">{Supplier_name_Label}<span className='text-danger'>*</span></label>
                                                     <select
                                                         className={` ${errors.vendorCategory
                                                             ? "form-select-error"
@@ -102,7 +113,7 @@ const BrandMapping = () => {
                                                         onChange={(e) => handleChange(e, "vendorCategory")}
                                                         aria-label="Default select example"
                                                     >
-                                                        <option value="">Select</option>
+                                                        <option value="">{select}</option>
                                                         <option value="E-Commerce">E-Commerce</option>
                                                         <option value="Electronics">Electronics</option>
                                                         <option value="Kitchen Appliances">
@@ -114,7 +125,7 @@ const BrandMapping = () => {
                                                 </div>
                                                 <div className="col-sm-3 form-group mb-2">
                                                     <label htmlFor="vendor-category">
-                                                        Supplier Brand <span className='text-danger'>*</span>
+                                                        {supplierBrand}<span className='text-danger'>*</span>
                                                     </label>
                                                     <select
                                                         className={` ${errors.brand
@@ -126,7 +137,7 @@ const BrandMapping = () => {
                                                         onChange={(e) => handleChange(e, "brand")}
                                                         aria-label="Default select example"
                                                     >
-                                                        <option value="">Select</option>
+                                                        <option value="">{select}</option>
                                                         <option value="E-Commerce">E-Commerce</option>
                                                         <option value="Electronics">Electronics</option>
                                                         <option value="Kitchen Appliances">
@@ -137,7 +148,7 @@ const BrandMapping = () => {
                                                     </select>
                                                 </div>
                                                 <div className="col-sm-3 form-group mb-2">
-                                                    <label htmlFor="status">Select Status <span className='text-danger'>*</span></label>
+                                                    <label htmlFor="status">{selectStatus}<span className='text-danger'>*</span></label>
                                                     <select
                                                         className={` ${errors.status
                                                             ? "form-select-error"
@@ -148,18 +159,18 @@ const BrandMapping = () => {
                                                         onChange={(e) => handleChange(e, "status")}
                                                         aria-label="Default select example"
                                                     >
-                                                        <option value="">Select</option>
-                                                        <option value="Active">Active</option>
-                                                        <option value="In-Active">In-Active</option>
+                                                        <option value="">{select}</option>
+                                                        <option value="Active">{active}</option>
+                                                        <option value="In-Active">{inActive}</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <span className="form-check-label" for="basic_checkbox_1">
-                                                All the * fields are required.
+                                               {required_label}
                                             </span>
                                             <div class="col-sm-4 mt-2 mb-4">
                                                 <button class="btn btn-primary float-right pad-aa">
-                                                    Submit <i class="fa fa-arrow-right"></i>
+                                                    {submit} <i class="fa fa-arrow-right"></i>
                                                 </button>
                                             </div>
                                         </form>

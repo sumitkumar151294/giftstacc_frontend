@@ -6,6 +6,7 @@ import Loader from "../../../Componenets/Loader/Loader";
 import {
   onUpdateClientMasterSubmit,
   onPostClientMasterSubmit,
+  onClientMasterSubmit,
 } from "../../../Store/Slices/clientMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -54,7 +55,7 @@ const ClientMaster = (props) => {
 
   const [clientData, setClientData] = useState({
     name: "",
-    number: 1111,
+    number: "",
     email: "",
     userName: "",
     password: "",
@@ -69,7 +70,9 @@ const ClientMaster = (props) => {
     productionKey: "",
     productionSecretKey: "",
     theme: "",
-    isActive: true,
+    id: props.data?.id,
+    enabled: true,
+    deleted: true,
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -94,7 +97,8 @@ const ClientMaster = (props) => {
       number: props.data?.number || "",
       email: props.data?.email || "",
       dbipAddress: props.data?.dbipAddress || "",
-      color: props.data?.color || "",
+      id: props.data?.id,
+      color: props.data?.color,
       lgogLink: props.data?.lgogLink || "",
       theme: props.data?.theme || "",
       stagingKey: props.data?.stagingKey || "",
@@ -104,9 +108,10 @@ const ClientMaster = (props) => {
       status: props.data?.status || "",
       password: props.data?.password || "",
       userName: props.data?.userName || "",
-      dbLoginPwd: props.data?.dbLoginPwd || "ds", // Corrected order
-      dbLoginId: props.data?.dbLoginId || "ds", // Corrected order
-      isActive: props.data?.isActive || true,
+      dbLoginPwd: props.data?.dbLoginPwd || "ds",
+      dbLoginId: props.data?.dbLoginId || "ds",
+      enabled: true,
+      deleted: true,
     });
 
     setErrors({
@@ -158,7 +163,7 @@ const ClientMaster = (props) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -186,7 +191,7 @@ const ClientMaster = (props) => {
           clientData.number = parseInt(clientData.number);
 
           // Wait for the dispatch to complete
-          await dispatch(onPostClientMasterSubmit(clientData));
+          dispatch(onPostClientMasterSubmit(clientData));
 
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
@@ -200,7 +205,7 @@ const ClientMaster = (props) => {
           clientData.number = parseInt(clientData.number);
 
           // Wait for the dispatch to complete
-          await dispatch(onUpdateClientMasterSubmit(clientData));
+          dispatch(onUpdateClientMasterSubmit(clientData));
 
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
@@ -212,23 +217,65 @@ const ClientMaster = (props) => {
   };
   useEffect(() => {
     if (showToast) {
-      if (clientMasterDetails.message === "Added Successfully.") {
+      if (clientMasterDetails.postMessage === "Added Successfully.") {
         setShowLoader(false);
-        // dispatch(onClientMasterSubmit());
-        toast.success(clientMasterDetails.message);
+        dispatch(onClientMasterSubmit());
+        toast.success(clientMasterDetails.postMessage);
+        setClientData({
+          name: "",
+          number: "",
+          email: "",
+          userName: "",
+          password: "",
+          status: "",
+          color: "",
+          lgogLink: "",
+          dbipAddress: "",
+          dbLoginId: "",
+          dbLoginPwd: "",
+          stagingKey: "",
+          stagingSecretKey: "",
+          productionKey: "",
+          productionSecretKey: "",
+          theme: "",
+          id: props.data?.id,
+          enabled: true,
+          deleted: true,
+        });
       } else {
         setShowLoader(false);
-        toast.error(clientMasterDetails.message);
+        toast.error(clientMasterDetails.postMessage);
       }
     }
     if (showUpdate) {
-      if (clientMasterDetails.message === "Update Successfully.") {
+      if (clientMasterDetails.postMessage === "Update Successfully.") {
         setShowLoader(false);
-        // dispatch(onClientMasterSubmit());
-        toast.success(clientMasterDetails.message);
+        dispatch(onClientMasterSubmit());
+        toast.success(clientMasterDetails.postMessage);
+        setClientData({
+          name: "",
+          number: "",
+          email: "",
+          userName: "",
+          password: "",
+          status: "",
+          color: "",
+          lgogLink: "",
+          dbipAddress: "",
+          dbLoginId: "",
+          dbLoginPwd: "",
+          stagingKey: "",
+          stagingSecretKey: "",
+          productionKey: "",
+          productionSecretKey: "",
+          theme: "",
+          id: props.data?.id,
+          enabled: true,
+          deleted: true,
+        });
       }
     }
-  }, [clientMasterDetails.message]);
+  }, [clientMasterDetails.postMessage]);
 
   return (
     <>
@@ -364,6 +411,7 @@ const ClientMaster = (props) => {
                           <Dropdown
                             onChange={(e) => handleChange(e, "status")}
                             error={errors.status}
+                            value={clientData.status}
                             ariaLabel="Default select example"
                             className="form-select"
                             options={statusoptions}
@@ -415,6 +463,8 @@ const ClientMaster = (props) => {
                           <Dropdown
                             onChange={(e) => handleChange(e, "theme")}
                             error={errors.theme}
+                            value={clientData.theme}
+                            key={clientData.theme}
                             ariaLabel="Default select example"
                             className="form-select"
                             options={options}
