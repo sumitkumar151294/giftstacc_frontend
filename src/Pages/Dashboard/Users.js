@@ -4,103 +4,6 @@ import ReactApexChart from 'react-apexcharts';
 const Users = () => {
     const [isLoading, setIsLoading] = useState('false')
 
-  var revenueChart = {
-    options: {
-      series: [
-        {
-          name: 'Net Profit',
-          data: [20, 30, 20, 30, 20, 30, 20, 30],
-          // radius: 12,
-        },
-      ],
-      chart: {
-        type: 'area',
-        height: 230,
-        toolbar: {
-          show: false,
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '55%',
-          endingShape: 'rounded',
-        },
-      },
-      colors: ['var(--primary)'],
-      dataLabels: {
-        enabled: false,
-      },
-      markers: {
-        shape: 'circle',
-      },
-      legend: {
-        show: false,
-      },
-      stroke: {
-        show: true,
-        width: 4,
-        curve: 'smooth',
-        colors: ['var(--primary)'],
-      },
-      grid: {
-        borderColor: '#eee',
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: false,
-          },
-        },
-      },
-      xaxis: {
-        categories: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
-        labels: {
-          style: {
-            colors: '#7E7F80',
-            fontSize: '13px',
-            fontFamily: 'Poppins',
-            fontWeight: 100,
-            cssClass: 'apexcharts-xaxis-label',
-          },
-        },
-        crosshairs: {
-          show: false,
-        },
-      },
-      yaxis: {
-        show: true,
-        labels: {
-          offsetX: -15,
-          style: {
-            colors: '#7E7F80',
-            fontSize: '14px',
-            fontFamily: 'Poppins',
-            fontWeight: 100,
-          },
-          formatter: function (y) {
-            return y.toFixed(0) + '';
-          },
-        },
-      },
-      fill: {
-        type: 'solid',
-        opacity: 1,
-        colors: 'var(--primary)',
-      },
-      tooltip: {
-        y: {
-          formatter: function (val) {
-            return '$ ' + val + ' thousands';
-          },
-        },
-      },
-    },
-  };
-
   const chartTimeline = {
     options: {
       chart: {
@@ -218,27 +121,6 @@ const Users = () => {
     ],
   };
 
-  const donutChartData = [5, 3];
-  const productDonutChartData =[5, 1];
-  const customerDonutChartData =[5, 3];
-  const orderDonutChartData =[5, 2];
-  const donutChartOptions = {
-    labels: ['Progress', 'Remaining'],
-    plotOptions: {
-      pie: {
-        customScale: 1.0,
-        innerRadius: 35, // Set the inner radius
-        radius: 10
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      show: false, // Hide legend
-    },
-    colors: ['rgb(0, 114, 253)', 'rgb(247, 245, 255)'], // Set colors
-  };
   return (
     <>
 <div className="col-xl-12 col-xxl-12">
@@ -254,13 +136,13 @@ const Users = () => {
                         <div className="card-action coin-tabs mt-3 mt-sm-0">
                           <ul className="nav nav-tabs" role="tablist">
                             <li className="nav-item">
-                              <a className="nav-link active" data-bs-toggle="tab" href="#Monthly" role="tab">Monthly</a>
+                              <a className="nav-link active" data-bs-toggle="tab" href="" role="tab">Monthly</a>
                             </li>
                             <li className="nav-item">
-                              <a className="nav-link " data-bs-toggle="tab" href="#Daily" role="tab">Daily</a>
+                              <a className="nav-link " data-bs-toggle="tab" href="" role="tab">Daily</a>
                             </li>
                             <li className="nav-item">
-                              <a className="nav-link" data-bs-toggle="tab" href="#Today" role="tab">Today</a>
+                              <a className="nav-link" data-bs-toggle="tab" href="" role="tab">Today</a>
                             </li>
                           </ul>
                         </div>
