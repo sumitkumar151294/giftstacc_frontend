@@ -3,18 +3,44 @@ import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onGetSupplierList,
+  onUpdateSupplierList,
   onVendorSubmit,
 } from "../../../Store/Slices/supplierMasterSlice";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+import { ToastContainer, toast } from "react-toastify";
+import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
 
 const SupplierMasterDetails = ({ data }) => {
   const dispatch = useDispatch();
-  const [isformLoading, setIsFormLoading] = useState(true);
+  const [isformLoading, setIsFormLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
   const [vendorData, setVendorData] = useState({});
   const [errors, setErrors] = useState({});
   const supplyPostData = useSelector((state) => state.supplierMasterReducer);
   const update = GetTranslationData("UIAdmin", "update_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
+  const required = GetTranslationData("UIAdmin", "required_label");
+  const supplierMaster = GetTranslationData("UIAdmin", "supplier_Master_Label");
+  const supplierName = GetTranslationData("UIAdmin", "Supplier_name_Label");
+  const supplierSecretClient = GetTranslationData(
+    "UIAdmin",
+    "Supplier_Client_Secret_Label"
+  );
+  const supplierClient = GetTranslationData("UIAdmin", "supplier_Client_Label");
+  const endPoint = GetTranslationData("UIAdmin", "End_Point_Label");
+  const authorization = GetTranslationData(
+    "UIAdmin",
+    "Authorization_Code_Label"
+  );
+  const amount = GetTranslationData(
+    "UIAdmin",
+    "Min._Threshold_Amount_Label",
+    ""
+  );
+  const userName = GetTranslationData("UIAdmin", "usernamee_label");
+  const status = GetTranslationData("UIAdmin", "Status_label");
+  const password = GetTranslationData("UIAdmin", "password_label");
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -65,7 +91,7 @@ const SupplierMasterDetails = ({ data }) => {
   };
 
   //  Submit Button for handle  input fields data
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -73,7 +99,7 @@ const SupplierMasterDetails = ({ data }) => {
     // Check if fields are empty and set corresponding error messages
     for (const key in vendorData) {
       if (vendorData[key] === "") {
-        newErrors[key] = "This field is Required ";
+        newErrors[key] = " ";
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -81,10 +107,49 @@ const SupplierMasterDetails = ({ data }) => {
     }
     setErrors(newErrors);
     if (isValid) {
-      setIsFormLoading(true);
-      dispatch(onVendorSubmit(vendorData));
+      if (!data.name) {
+        try {
+          setShowToast(true);
+          // setIsFormLoading(true);
+          dispatch(onVendorSubmit(vendorData));
+        } catch (error) {
+          // Handle any errors during dispatch
+          console.error(error);
+        }
+      } else if (data.name) {
+        try {
+          setShowUpdate(true);
+          // setIsFormLoading(true);
+          await dispatch(onUpdateSupplierList(vendorData));
+
+          // Define a function to show a toast notification based on loginDetails
+        } catch (error) {
+          // Handle any errors during dispatch
+          console.error(error);
+        }
+      }
     }
   };
+
+  useEffect(() => {
+    if (showToast) {
+      if (supplyPostData.message === "Added Successfully.") {
+        // setIsFormLoading(false);
+        dispatch(onGetSupplierList());
+        toast.success(supplyPostData.message);
+      }
+    } else {
+      // setIsFormLoading(false);
+      toast.error(supplyPostData.message);
+    }
+    if (showUpdate) {
+      if (supplyPostData.message === "Update Successfully.") {
+        // setIsFormLoading(false);
+        dispatch(onClientMasterSubmit());
+        toast.success(supplyPostData.message);
+      }
+    }
+  }, [supplyPostData.message]);
   return (
     <>
       <div class="container-fluid">
@@ -92,10 +157,10 @@ const SupplierMasterDetails = ({ data }) => {
           <div class="col-xl-12 col-xxl-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Supplier Master</h4>
+                <h4 class="card-title">{supplierMaster}</h4>
               </div>
               <div class="card-body position-relative">
-                {!isformLoading ? (
+                {isformLoading ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -105,7 +170,8 @@ const SupplierMasterDetails = ({ data }) => {
                       <div className="row">
                         <div className={`col-sm-4 form-group mb-2 $`}>
                           <label htmlFor="name-f">
-                            Supplier Name <span className="text-danger">*</span>
+                            {supplierName}{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
@@ -122,7 +188,7 @@ const SupplierMasterDetails = ({ data }) => {
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-l">
-                            Supplier Client ID{" "}
+                            {supplierClient}{" "}
                             <span className="text-danger">*</span>
                           </label>
                           <input
@@ -140,7 +206,7 @@ const SupplierMasterDetails = ({ data }) => {
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="text">
-                            Supplier Client Secret{" "}
+                            {supplierSecretClient}{" "}
                             <span className="text-danger">*</span>
                           </label>
                           <input
@@ -158,7 +224,7 @@ const SupplierMasterDetails = ({ data }) => {
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="text">
-                            Username <span className="text-danger">*</span>
+                            {userName} <span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
@@ -173,7 +239,7 @@ const SupplierMasterDetails = ({ data }) => {
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="password-1">
-                            Password <span className="text-danger">*</span>
+                            {password} <span className="text-danger">*</span>
                           </label>
                           <input
                             type="password"
@@ -190,7 +256,7 @@ const SupplierMasterDetails = ({ data }) => {
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="status">
-                            Status <span className="text-danger">*</span>
+                            {status} <span className="text-danger">*</span>
                           </label>
                           <select
                             className={` ${
@@ -211,7 +277,7 @@ const SupplierMasterDetails = ({ data }) => {
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="zip">
-                            End Point <span className="text-danger">*</span>
+                            {endPoint} <span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
@@ -228,7 +294,7 @@ const SupplierMasterDetails = ({ data }) => {
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="pass">
-                            Authorization Code{" "}
+                            {authorization}{" "}
                             <span className="text-danger">*</span>
                           </label>
                           <input
@@ -246,8 +312,7 @@ const SupplierMasterDetails = ({ data }) => {
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="amount">
-                            Min. Threshold Amount{" "}
-                            <span className="text-danger">*</span>
+                            {amount} <span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
@@ -266,7 +331,7 @@ const SupplierMasterDetails = ({ data }) => {
                           className="form-check-label"
                           for="basic_checkbox_1"
                         >
-                          All the * fields are required.
+                          {required}
                         </span>
 
                         <div className="col-sm-12 form-group mb-0 mt-2">
@@ -277,6 +342,7 @@ const SupplierMasterDetails = ({ data }) => {
                             {data.name ? update : submit}{" "}
                             <i className="fa fa-arrow-right"></i>
                           </button>
+                          <ToastContainer />
                         </div>
                       </div>
                     </form>

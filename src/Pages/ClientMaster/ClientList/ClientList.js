@@ -51,7 +51,7 @@ const ClientList = () => {
   };
 
   const headers = [
-    { label: "name", key: "name" },
+    { label: clientList, key: "name" },
     { label: "number", key: "number" },
     { label: "email", key: "email" },
     { label: "id", key: "id" },

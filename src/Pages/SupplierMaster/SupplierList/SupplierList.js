@@ -5,8 +5,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
 import NoRecord from "../../../Componenets/NoRecord/NoRecord";
 import SupplierMasterDetails from "../../SupplierMaster/SupplierMasterDetails/SupplierMasterDetails";
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 const SupplierList = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const action = GetTranslationData("UIAdmin", "action_label");
+  const update = GetTranslationData("UIAdmin", "update_label");
+  const supplierName = GetTranslationData("UIAdmin", "Supplier_name_Label");
+  const supplierClient = GetTranslationData("UIAdmin", "supplier_Client_Label");
+  const amount = GetTranslationData("UIAdmin", "Min._Threshold_Amount_Label","");
+  const supplierList = GetTranslationData("UIAdmin", "Supplier_List_Label","");
+  const userName = GetTranslationData("UIAdmin", "usernamee_label");
+  const status = GetTranslationData("UIAdmin", "Status_label");
+  const password = GetTranslationData("UIAdmin", "password_label");
+  const search = GetTranslationData("UIAdmin", "search_here_label");
+  const exportLabel = GetTranslationData("UIAdmin", "export_label");
   const [vendorData, setVendorData] = useState({
     name: "",
     secret: "",
@@ -88,13 +100,13 @@ const SupplierList = () => {
               <div className="col-lg-12">
                 <div className="card">
                   <div className="card-header">
-                    <h4 className="card-title">Supplier List</h4>
+                    <h4 className="card-title">{supplierList}</h4>
                     <div className="customer-search mb-sm-0 mb-3">
                       <div className="input-group search-area">
                         <input
                           type="text"
                           className="form-control only-high"
-                          placeholder="Search here......"
+                          placeholder={search}
                           value={searchQuery}
                           onChange={handleSearch}
                         />
@@ -112,7 +124,7 @@ const SupplierList = () => {
                                                     {filteredVendorList.length > 0 && (
 
                           <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                            <i className="fa fa-file-excel me-2"></i>export
+                            <i className="fa fa-file-excel me-2"></i>{exportLabel}
                           </button>
                                                     )}
                         </CSVLink>
@@ -127,13 +139,13 @@ const SupplierList = () => {
                         <table className="table header-border table-responsive-sm">
                           <thead>
                             <tr>
-                              <th>Supplier Name</th>
-                              <th>Supplier Client ID</th>
-                              <th>Username</th>
-                              <th>Password</th>
-                              <th>Min. Threshold Amount</th>
-                              <th>Status</th>
-                              <th>Action</th>
+                              <th>{supplierName}</th>
+                              <th>{supplierClient}</th>
+                              <th>{userName}</th>
+                              <th>{password}</th>
+                              <th>{amount}</th>
+                              <th>{status}</th>
+                              <th>{action}</th>
                             </tr>
                           </thead>
                           <tbody>
