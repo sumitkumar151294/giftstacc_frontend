@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../RoleMaster.css'
+import '../RoleMaster.scss'
 import NoRecord from "../../../Componenets/NoRecord/NoRecord"
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch } from "react-redux";

@@ -1,13 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { getClientMasterApi } from '../Context/clientMasterApi';
 import { postClientMasterApi } from '../Context/clientMasterApi';
+import { updateClientMasterApi } from '../Context/clientMasterApi';
 import {
   onClientMasterSubmit,
   onClientMasterSubmitError,
   onClientMasterSubmitSuccess,
   onPostClientMasterSubmitSuccess,
   onPostClientMasterSubmitError,
-  onPostClientMasterSubmit
+  onPostClientMasterSubmit,onUpdateClientMasterSubmit,onUpdateClientMasterSubmitSuccess,onUpdateClientMasterSubmitError
 } from '../Store/Slices/clientMasterSlice';
 
 function* ClientMaster() {
@@ -37,10 +38,25 @@ function* postClientMaster(payload) {
       yield put(onClientMasterSubmitError({ data: {}, message, status_code: 400 }));
     }
   }
+  function* updateClientMaster(payload) {
+    try {
+        const updateClientMasterResponse = yield call(updateClientMasterApi,payload.payload);
+      if (updateClientMasterResponse.status === 5) {
+            yield put(onUpdateClientMasterSubmitSuccess({ data: updateClientMasterResponse.result.data, message: updateClientMasterResponse.result.message}));
+      } else {
+            yield put(onUpdateClientMasterSubmitSuccess({ data: updateClientMasterResponse.result.data, message: updateClientMasterResponse.result.message,  }));
+      }
+    } catch (error) {
+        const message = error.response || 'Something went wrong';
+      yield put(onUpdateClientMasterSubmitError({ data: {}, message, status_code: 400 }));
+    }
+  }
   
 
 export default function* clientMasterSaga() {
   yield takeLatest(onClientMasterSubmit.type, ClientMaster);
   yield takeLatest(onPostClientMasterSubmit.type, postClientMaster);
+  yield takeLatest(onUpdateClientMasterSubmit.type, updateClientMaster);
+
 
 }

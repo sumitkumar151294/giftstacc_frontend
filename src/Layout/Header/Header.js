@@ -56,7 +56,6 @@ const Header = ({ setSideBar, sidebar }) => {
                 <li className="nav-item dropdown  header-profile">
                   <a
                     className="nav-link"
-                    href="javascript:void(0);"
                     role="button"
                     data-bs-toggle="dropdown"
                   >

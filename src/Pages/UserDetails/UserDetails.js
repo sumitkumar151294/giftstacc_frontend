@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { onUserSubmit } from "../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +18,6 @@ const UserDetails = (prefilledValues) => {
     const onSubmitData = useSelector((state) => state.userMasterReducer.data)
     const roleList = useSelector((state) => state.userRoleReducer);
     const clientList = useSelector((state) => state.clientMasterReducer.data)
-    // console.log("CLIENT", clientList);
     const userMaster = GetTranslationData("UIAdmin", "user_Master_label");
     const email = GetTranslationData("UIAdmin", "email_label");
     const mobile = GetTranslationData("UIAdmin", "mobile_label");
@@ -69,7 +69,7 @@ const UserDetails = (prefilledValues) => {
                 [fieldName]: value,
             };
         }
-        
+
         setUserData(newUserdetailData)
         if (fieldName === "email") {
             const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;

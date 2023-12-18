@@ -9,7 +9,6 @@ const API = {
   supplierMasterApi: "/supplier-master",
   getClient: "/client",
   postClient: "/client-master",
-
-
+  updateClient: "/client-master/update",
 };
 export default API;
