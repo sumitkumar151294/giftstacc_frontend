@@ -3,6 +3,7 @@ import category from '../../Assets/img/category.png'
 import product from '../../Assets/img/product1.png'
 import customer from '../../Assets/img/customer1.png'
 import ReactApexChart from 'react-apexcharts';
+import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
 export const Chart = () => {
     const [isLoading, setIsLoading] = useState('false')
 
@@ -27,6 +28,15 @@ export const Chart = () => {
     },
     colors: ['rgb(0, 114, 253)', 'rgb(247, 245, 255)'], // Set colors
   };
+  // To Get the label from api
+  const categories = GetTranslationData("UIAdmin", "categories");
+  const products = GetTranslationData("UIAdmin", "products");
+  const customers = GetTranslationData("UIAdmin", "customers");
+  const orders = GetTranslationData("UIAdmin", "orders");
+
+
+  
+
   return (
     <>
 <div className="col-xl-6">
@@ -35,7 +45,7 @@ export const Chart = () => {
                   <div className="card">
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <div className="menu">
-                        <span className="font-w500 fs-16 d-block mb-2">Categories</span>
+                        <span className="font-w500 fs-16 d-block mb-2">{categories}</span>
                         <h2>45</h2>
                       </div>
                       <div className="d-inline-block position-relative donut-chart-sale">
@@ -59,7 +69,7 @@ export const Chart = () => {
                   <div className="card">
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <div className="menu">
-                        <span className="font-w500 fs-16 d-block mb-2">Products</span>
+                        <span className="font-w500 fs-16 d-block mb-2">{products}</span>
                         <h2>85</h2>
                       </div>
                       <div className="d-inline-block position-relative donut-chart-sale">
@@ -85,7 +95,7 @@ export const Chart = () => {
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <div className="menu">
                         <span className="font-w500 fs-16 d-block mb-2">
-                          Customers
+                          {customers}
                         </span>
                         <h2>247</h2>
                       </div>
@@ -111,7 +121,7 @@ export const Chart = () => {
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <div className="menu">
                         <span className="font-w500 fs-16 d-block mb-2">
-                          Orders
+                          {orders}
                         </span>
                         <h2>872</h2>
                       </div>

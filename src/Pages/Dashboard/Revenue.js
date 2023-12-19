@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
+import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
 
 const Revenue = () => {
     const [isLoading, setIsLoading] = useState('false')
@@ -100,6 +101,8 @@ const Revenue = () => {
       },
     },
   };
+
+  const todayrevenue = GetTranslationData("UIAdmin", "todayrevenue");
   return (
     <>
  
@@ -107,7 +110,7 @@ const Revenue = () => {
               <div className="card">
                 <div className="card-header border-0 flex-wrap pb-0">
                   <div className="mb-sm-0 mb-2">
-                    <h4 className="fs-20">Today’s Revenue</h4>
+                    <h4 className="fs-20">{todayrevenue}</h4>
                     <span>Graph data is based on full system manners</span>
                   </div>
                   <div>

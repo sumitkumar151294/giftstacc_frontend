@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
+import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
 
 const Users = () => {
     const [isLoading, setIsLoading] = useState('false')
@@ -120,6 +121,11 @@ const Users = () => {
       },
     ],
   };
+  const activeuser = GetTranslationData("UIAdmin", "activeuser");
+  const months = GetTranslationData("UIAdmin", "months");
+  const daily = GetTranslationData("UIAdmin", "daily");
+  const today = GetTranslationData("UIAdmin", "today");
+
 
   return (
     <>
@@ -129,20 +135,20 @@ const Users = () => {
                   <div className="card">
                     <div className="card-header border-0  flex-wrap">
                       <div>
-                        <h4 className="fs-20 mb-1">Active User's</h4>
+                        <h4 className="fs-20 mb-1">{activeuser}</h4>
                         <span>Graph data is based on full system manners</span>
                       </div>
                       <div className="d-flex">
                         <div className="card-action coin-tabs mt-3 mt-sm-0">
                           <ul className="nav nav-tabs" role="tablist">
                             <li className="nav-item">
-                              <a className="nav-link active" data-bs-toggle="tab" href="" role="tab">Monthly</a>
+                              <a className="nav-link active" data-bs-toggle="tab" href="" role="tab">{months}</a>
                             </li>
                             <li className="nav-item">
-                              <a className="nav-link " data-bs-toggle="tab" href="" role="tab">Daily</a>
+                              <a className="nav-link " data-bs-toggle="tab" href="" role="tab">{daily}</a>
                             </li>
                             <li className="nav-item">
-                              <a className="nav-link" data-bs-toggle="tab" href="" role="tab">Today</a>
+                              <a className="nav-link" data-bs-toggle="tab" href="" role="tab">{today}</a>
                             </li>
                           </ul>
                         </div>
