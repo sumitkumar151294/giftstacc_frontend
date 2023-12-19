@@ -8,6 +8,7 @@ import supplierMasterSaga from './sagas/supplierMasterSaga';
 import userMasterSaga from './userMasterSaga';
 import clientMasterSaga from './clientmasterSaga';
 import userRoleModuleAccessSaga from './userRoleModulesAccessSaga';
+import createCategorySaga from './createCategorySaga';
 export default function* rootSaga() {
   yield all([
     loginSaga(),
@@ -18,6 +19,7 @@ export default function* rootSaga() {
     userMasterSaga(),
     supplierMasterSaga(),
     clientMasterSaga(),
-    userRoleModuleAccessSaga()
+    userRoleModuleAccessSaga(),
+    createCategorySaga()
   ]);
 }

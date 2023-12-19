@@ -12,5 +12,6 @@ const API = {
   getClient: "/client",
   postClient: "/client-master",
   updateClient: "/client-master/update",
+  createCategory: "/create-category"
 };
 export default API;
