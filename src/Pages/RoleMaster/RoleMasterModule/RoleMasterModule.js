@@ -10,6 +10,12 @@ const RoleMasterModule = (props) => {
     const handleUpdate = () =>{
         dispatch(onUpdateUserRole());
     }
+    // To get the label from DB 
+    const roleModuleAccessList = GetTranslationData("UIAdmin", "role-module-access-list");
+    const roleName = GetTranslationData("UIAdmin", "role-name");
+    const modules = GetTranslationData("UIAdmin", "modules");
+    const action = GetTranslationData("UIAdmin", "action");
+
     return (
         <>
             <div className="container-fluid pt-0">
@@ -17,7 +23,7 @@ const RoleMasterModule = (props) => {
                     <div className="col-lg-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4 className="card-title">Role Module Access List</h4>
+                                <h4 className="card-title">{roleModuleAccessList}</h4>
                             </div>
                             {props.roleAccessListData ? (
                                 <div className="card-body position-relative">
@@ -30,9 +36,9 @@ const RoleMasterModule = (props) => {
                                             <table className="table header-border table-responsive-sm">
                                                 <thead key='thead'>
                                                     <tr>
-                                                        <th>Role Name</th>
-                                                        <th>Modules</th>
-                                                        <th>Action</th>
+                                                        <th>{roleName}</th>
+                                                        <th>{modules}</th>
+                                                        <th>{action}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody key='tbody'>
