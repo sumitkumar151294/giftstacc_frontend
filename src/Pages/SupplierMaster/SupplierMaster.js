@@ -9,7 +9,6 @@ const SupplierMaster = () => {
   useEffect(() => {
     setLoading(true);
   }, [loading]);
-  console.log(loading);
   return (
     <>
       <div class="content-body">

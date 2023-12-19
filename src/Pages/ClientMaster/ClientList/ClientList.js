@@ -23,8 +23,8 @@ const ClientList = () => {
   const [showLoader, setShowLoader] = useState(false);
   const clientList = useSelector((state) => state.clientMasterReducer.data);
   const [searchQuery, setSearchQuery] = useState("");
-  const [page, setPage] = useState(1); // Current page
-  const [rowsPerPage] = useState(5); // Number of entries per page
+  const [page, setPage] = useState(1);
+  const [rowsPerPage] = useState(5);
 
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
@@ -38,7 +38,7 @@ const ClientList = () => {
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-    setPage(1); // Reset page to 1 when searching
+    setPage(1);
   };
 
   useEffect(() => {
@@ -104,13 +104,12 @@ const ClientList = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                        <a href="javascript:void(0)">
+                        <a href="#">
                           <i className="flaticon-381-search-2"></i>
                         </a>
                       </span>
                     </div>
                   </div>
-
                   <div className="d-flex align-items-center flex-wrap">
                     {clientList && clientList.length > 0 && (
                       <CSVLink data={clientList} headers={headers}>
@@ -154,7 +153,7 @@ const ClientList = () => {
                                 <TableRow key={data.id}>
                                   <TableCell>
                                     {data.name}
-                                    <a href="javascript:void();"></a>
+                                    <a href="#"></a>
                                   </TableCell>
                                   <TableCell>{data.number}</TableCell>
                                   <TableCell>
@@ -192,9 +191,10 @@ const ClientList = () => {
                                   <td>
                                     <Link
                                       to="/LC-admin/clientbrandlist"
-                                      class="btn btn-primary btn-sm float-right"
+                                      className="btn btn-primary btn-sm float-right"
                                     >
-                                      <i class="fa fa-eye"></i>&nbsp;{brands}
+                                      <i className="fa fa-eye"></i>&nbsp;
+                                      {brands}
                                     </Link>
                                   </td>
                                 </TableRow>

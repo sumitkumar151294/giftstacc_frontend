@@ -40,19 +40,16 @@ const ClientMaster = (props) => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
   const validNumber = GetTranslationData("UIAdmin", "number_Digit_Label");
-
   const statusoptions = [
     { value: "Active", label: "Active" },
     { value: "Non-Active", label: "Non-Active" },
   ];
-
   const options = [
     { value: "Theme 1", label: "Theme 1" },
     { value: "Theme 2", label: "Theme 2" },
     { value: "Theme 3", label: "Theme 3" },
     { value: "Theme 4", label: "Theme 4" },
   ];
-
   const [clientData, setClientData] = useState({
     name: "",
     number: "",
@@ -113,7 +110,6 @@ const ClientMaster = (props) => {
       enabled: true,
       deleted: true,
     });
-
     setErrors({
       name: "",
       number: "",
@@ -130,7 +126,8 @@ const ClientMaster = (props) => {
       productionSecretKey: "",
       theme: "",
     });
-  }, [props.data]); // Include props.data directly in the dependency array
+  }, [props.data]);
+
   const handleChange = (e, fieldName) => {
     setClientData({
       ...clientData,
@@ -139,7 +136,6 @@ const ClientMaster = (props) => {
     if (fieldName === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const isValidEmail = emailRegex.test(e.target.value);
-
       setErrors({
         ...errors,
         [fieldName]: isValidEmail ? "" : invalidEmail,
@@ -147,7 +143,6 @@ const ClientMaster = (props) => {
     } else if (fieldName === "number") {
       const phoneRegex = /^\d{10}$/;
       const isValidnumber = phoneRegex.test(e.target.value);
-
       setErrors({
         ...errors,
         [fieldName]: isValidnumber ? "" : validNumber,
@@ -189,28 +184,21 @@ const ClientMaster = (props) => {
           setShowToast(true);
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
-
           // Wait for the dispatch to complete
           dispatch(onPostClientMasterSubmit(clientData));
-
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
           // Handle any errors during dispatch
-          console.error(error);
         }
       } else if (props.data) {
         try {
           setShowUpdate(true);
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
-
           // Wait for the dispatch to complete
           dispatch(onUpdateClientMasterSubmit(clientData));
-
-          // Define a function to show a toast notification based on loginDetails
         } catch (error) {
           // Handle any errors during dispatch
-          console.error(error);
         }
       }
     }
@@ -219,8 +207,8 @@ const ClientMaster = (props) => {
     if (showToast) {
       if (clientMasterDetails.postMessage === "Added Successfully.") {
         setShowLoader(false);
-        dispatch(onClientMasterSubmit());
         toast.success(clientMasterDetails.postMessage);
+        dispatch(onClientMasterSubmit());
         setClientData({
           name: "",
           number: "",
@@ -279,28 +267,28 @@ const ClientMaster = (props) => {
 
   return (
     <>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-12 col-xxl-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12 col-xxl-12">
+            <div className="card">
+              <div className="card-header">
+                <h4 className="card-title">
                   {GetTranslationData("UIAdmin", "client_master_label")}
                 </h4>
               </div>
-              <div class="card-body position-relative">
+              <div className="card-body position-relative">
                 {showLoder ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div class="container mt-3">
+                  <div className="container mt-3">
                     <form onSubmit={handleSubmit}>
-                      <div class="row">
-                        <div class="col-sm-4 form-group mb-2">
-                          <label for="contact-name">
+                      <div className="row">
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="contact-name">
                             {contactName}
-                            <span class="text-danger">*</span>
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
@@ -314,10 +302,10 @@ const ClientMaster = (props) => {
                             onChange={(e) => handleChange(e, "name")}
                           />
                         </div>
-                        <div class="col-sm-4 form-group mb-2">
-                          <label for="contact-number">
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="contact-number">
                             {contactNumber}
-                            <span class="text-danger">*</span>
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="number"
@@ -326,17 +314,17 @@ const ClientMaster = (props) => {
                             }`}
                             name="contactNumber"
                             id="contact-number"
-                            value={parseInt(clientData.number)}
+                            value={clientData.number}
                             error={errors.number}
                             maxLength={10}
                             onChange={(e) => handleChange(e, "number")}
                           />
                           {<p className="text-danger">{errors.number}</p>}
                         </div>
-                        <div class="col-sm-4 form-group mb-2">
-                          <label for="contact-email">
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="contact-email">
                             {email}
-                            <span class="text-danger">*</span>
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="email"
@@ -351,9 +339,9 @@ const ClientMaster = (props) => {
                           />
                           {<p className="text-danger">{errors.email}</p>}
                         </div>
-                        <div class="col-sm-4 form-group mb-2">
-                          <label for="ipAddress">
-                            {ipAddress} <span class="text-danger">*</span>
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="ipAddress">
+                            {ipAddress} <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
@@ -369,10 +357,10 @@ const ClientMaster = (props) => {
                             onChange={(e) => handleChange(e, "dbipAddress")}
                           />
                         </div>
-                        <div class="col-sm-4 form-group mb-2">
-                          <label for="contact-name">
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="contact-name">
                             {userName}
-                            <span class="text-danger">*</span>
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
@@ -386,10 +374,10 @@ const ClientMaster = (props) => {
                             onChange={(e) => handleChange(e, "userName")}
                           />
                         </div>
-                        <div class="col-sm-4 form-group mb-2">
-                          <label for="contact-name">
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="contact-name">
                             {password}
-                            <span class="text-danger">*</span>
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="password"
@@ -403,10 +391,10 @@ const ClientMaster = (props) => {
                             onChange={(e) => handleChange(e, "password")}
                           />
                         </div>
-                        <div class="col-sm-4 form-group mb-2">
-                          <label for="status">
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="status">
                             {status}
-                            <span class="text-danger">*</span>
+                            <span className="text-danger">*</span>
                           </label>
                           <Dropdown
                             onChange={(e) => handleChange(e, "status")}
@@ -421,10 +409,10 @@ const ClientMaster = (props) => {
                             {clientData.status}
                           </p>
                         </div>
-                        <div class="col-sm-4 form-group mb-2">
-                          <label for="color">
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="color">
                             {color}
-                            <span class="text-danger">*</span>
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="color"
@@ -438,10 +426,10 @@ const ClientMaster = (props) => {
                             onChange={(e) => handleChange(e, "color")}
                           />
                         </div>
-                        <div class="col-sm-6 form-group mb-2">
-                          <label for="logo">
+                        <div className="col-sm-6 form-group mb-2">
+                          <label htmlFor="logo">
                             {logo}
-                            <span class="text-danger">*</span>
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
@@ -455,10 +443,10 @@ const ClientMaster = (props) => {
                             onChange={(e) => handleChange(e, "lgogLink")}
                           />
                         </div>
-                        <div class="col-sm-6 form-group mb-2">
-                          <label for="status">
+                        <div className="col-sm-6 form-group mb-2">
+                          <label htmlFor="status">
                             {theme}
-                            <span class="text-danger">*</span>
+                            <span className="text-danger">*</span>
                           </label>
                           <Dropdown
                             onChange={(e) => handleChange(e, "theme")}
@@ -474,17 +462,17 @@ const ClientMaster = (props) => {
                             {clientData.theme}
                           </p>
                         </div>
-                        <div class="row mt-2">
+                        <div className="row mt-2">
                           <h3 style={{ borderBottom: "1px solid #ededed" }}>
                             {razorpay}
                           </h3>
-                          <div class="col-lg-6 mt-2">
-                            <div class="row p-0">
+                          <div className="col-lg-6 mt-2">
+                            <div className="row p-0">
                               <h4>
                                 {staging}
-                                <span class="text-danger">*</span>
+                                <span className="text-danger">*</span>
                               </h4>
-                              <div class="col-sm-12 form-group mb-2">
+                              <div className="col-sm-12 form-group mb-2">
                                 <InputField
                                   type="text"
                                   className={` ${
@@ -502,7 +490,7 @@ const ClientMaster = (props) => {
                                   }
                                 />
                               </div>
-                              <div class="col-sm-12 form-group mb-2">
+                              <div className="col-sm-12 form-group mb-2">
                                 <InputField
                                   type="text"
                                   className={` ${
@@ -523,14 +511,14 @@ const ClientMaster = (props) => {
                             </div>
                           </div>
 
-                          <div class="col-lg-6 mt-2">
-                            <div class="row p-0">
+                          <div className="col-lg-6 mt-2">
+                            <div className="row p-0">
                               <h4>
                                 {production}
 
-                                <span class="text-danger">*</span>
+                                <span className="text-danger">*</span>
                               </h4>
-                              <div class="col-sm-12 form-group mb-2">
+                              <div className="col-sm-12 form-group mb-2">
                                 <InputField
                                   type="text"
                                   className={` ${
@@ -548,7 +536,7 @@ const ClientMaster = (props) => {
                                   }
                                 />
                               </div>
-                              <div class="col-sm-12 form-group mb-2">
+                              <div className="col-sm-12 form-group mb-2">
                                 <InputField
                                   type="text"
                                   className={` ${
@@ -569,14 +557,14 @@ const ClientMaster = (props) => {
                             </div>
                           </div>
                         </div>
-                        <div class="col-sm-12 form-group mb-0 mt-2">
+                        <div className="col-sm-12 form-group mb-0 mt-2">
                           <button
                             type="submit"
-                            class="btn btn-primary float-right pad-aa"
+                            className="btn btn-primary float-right pad-aa"
                           >
                             {props.data ? update : add}
 
-                            <i class="fa fa-arrow-right"></i>
+                            <i className="fa fa-arrow-right"></i>
                           </button>
                           <ToastContainer />
                         </div>

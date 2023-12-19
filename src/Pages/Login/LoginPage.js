@@ -102,7 +102,6 @@ const LoginPage = () => {
         // Define a function to show a toast notification based on loginDetails
       } catch (error) {
         // Handle any errors during dispatch
-        console.error(error);
       }
     }
   };

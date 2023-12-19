@@ -9,6 +9,7 @@ import {
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import { ToastContainer, toast } from "react-toastify";
 import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
+import InputField from "../../../Componenets/InputField/InputField";
 
 const SupplierMasterDetails = ({ data }) => {
   const dispatch = useDispatch();
@@ -107,7 +108,6 @@ const SupplierMasterDetails = ({ data }) => {
           dispatch(onVendorSubmit(vendorData));
         } catch (error) {
           // Handle any errors during dispatch
-          console.error(error);
         }
       } else if (data.name) {
         try {
@@ -118,7 +118,6 @@ const SupplierMasterDetails = ({ data }) => {
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
           // Handle any errors during dispatch
-          console.error(error);
         }
       }
     }
@@ -165,7 +164,7 @@ const SupplierMasterDetails = ({ data }) => {
                           <label htmlFor="name-f">
                             {supplierName} <span className="text-danger">*</span>
                           </label>
-                          <input
+                          <InputField
                             type="text"
                             value={vendorData?.name}
                             className={` ${errors.name ? "border-danger" : "form-control"
@@ -182,7 +181,7 @@ const SupplierMasterDetails = ({ data }) => {
                             {supplierClientID}
                             <span className="text-danger">*</span>
                           </label>
-                          <input
+                          <InputField
                             type="text"
                             value={vendorData?.id}
                             className={` ${errors.id ? "border-danger" : "form-control"
@@ -199,7 +198,7 @@ const SupplierMasterDetails = ({ data }) => {
                             {supplierClientSecret}
                             <span className="text-danger">*</span>
                           </label>
-                          <input
+                          <InputField
                             type="text"
                             className={` ${errors.secret ? "border-danger" : "form-control"
                               }`}
@@ -215,7 +214,7 @@ const SupplierMasterDetails = ({ data }) => {
                           <label htmlFor="text"> {userName}
                             <span className="text-danger">*</span>
                           </label>
-                          <input
+                          <InputField
                             type="text"
                             value={vendorData.username}
                             className={` ${errors.username ? "border-danger" : "form-control"
@@ -229,7 +228,7 @@ const SupplierMasterDetails = ({ data }) => {
                           <label htmlFor="password-1">
                             {password} <span className="text-danger">*</span>
                           </label>
-                          <input
+                          <InputField
                             type="password"
                             value={vendorData.password}
                             className={` ${errors.password ? "border-danger" : "form-control"
@@ -265,7 +264,7 @@ const SupplierMasterDetails = ({ data }) => {
                           <label htmlFor="zip">
                             {endPoint} <span className="text-danger">*</span>
                           </label>
-                          <input
+                          <InputField
                             type="text"
                             value={vendorData.endPoint}
                             className={` ${errors.endPoint ? "border-danger" : "form-control"
@@ -282,7 +281,7 @@ const SupplierMasterDetails = ({ data }) => {
                            {authorizationCode}
                             <span className="text-danger">*</span>
                           </label>
-                          <input
+                          <InputField
                             type="password"
                             name="password"
                             className={` ${errors.code ? "border-danger" : "form-control"
@@ -299,7 +298,7 @@ const SupplierMasterDetails = ({ data }) => {
                             {minThresholdAmount}
                             <span className="text-danger">*</span>
                           </label>
-                          <input
+                          <InputField
                             type="text"
                             name="text"
                             value={vendorData.amount}

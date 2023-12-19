@@ -26,11 +26,12 @@ const SupplierList = () => {
   const supplierClientID = GetTranslationData("UIAdmin", "supplierClientID");
   const userName = GetTranslationData("UIAdmin", "usernamee_label");
   const password = GetTranslationData("UIAdmin", "password_label");
-  const minThresholdAmount = GetTranslationData("UIAdmin", "minThresholdAmount");
+  const minThresholdAmount = GetTranslationData(
+    "UIAdmin",
+    "minThresholdAmount"
+  );
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
-
-
 
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer.data.data
@@ -56,7 +57,6 @@ const SupplierList = () => {
         await dispatch(onGetSupplierList());
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
         setIsLoading(false);
       }
     };
@@ -112,7 +112,7 @@ const SupplierList = () => {
                           onChange={handleSearch}
                         />
                         <span className="input-group-text">
-                          <a href="javascript:void(0)">
+                          <a href="#">
                             <i className="flaticon-381-search-2"></i>
                           </a>
                         </span>
@@ -122,19 +122,18 @@ const SupplierList = () => {
                     <div className="d-flex align-items-center flex-wrap">
                       {supplierMasterData && supplierMasterData.length > 0 && (
                         <CSVLink data={supplierMasterData} headers={headers}>
-                                                    {filteredVendorList.length > 0 && (
-
-                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                            <i className="fa fa-file-excel me-2"></i>{export_label}
-                          </button>
-                                                    )}
+                          {filteredVendorList.length > 0 && (
+                            <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                              <i className="fa fa-file-excel me-2"></i>
+                              {export_label}
+                            </button>
+                          )}
                         </CSVLink>
                       )}
                     </div>
                   </div>
-                
-                 
-                 { filteredVendorList?.length > 0 ? (
+
+                  {filteredVendorList?.length > 0 ? (
                     <div className="card-body position-relative">
                       <div className="table-responsive">
                         <table className="table header-border table-responsive-sm">

@@ -4,6 +4,7 @@ import Loader from "../../../Componenets/Loader/Loader";
 import { onGetModule } from "../../../Store/Slices/moduleSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetUserRole, onPostUserRole } from "../../../Store/Slices/userRoleSlice";
+import InputField from "../../../Componenets/InputField/InputField";
 const RoleMasterItems = () => {
     const dispatch = useDispatch();
     const [isformLoading, setIsFormLoading] = useState("true");
@@ -79,7 +80,7 @@ const RoleMasterItems = () => {
                                             <div className="row">
                                                 <div className="col-sm-4 form-group mb-2">
                                                     <label htmlFor="name-f">Role Name</label>
-                                                    <input
+                                                    <InputField
                                                         type="text"
                                                         className="form-control"
                                                         name="roleName"
@@ -93,7 +94,7 @@ const RoleMasterItems = () => {
                                             <div className="row top-top">
                                                 <div className="col-lg-4">
                                                     <div className="form-check mb-2 pad-left">
-                                                        <input
+                                                        <InputField
                                                             className="form-check-input"
                                                             type="checkbox"
                                                             name="selectAll"
@@ -119,7 +120,7 @@ const RoleMasterItems = () => {
                                                                     className="form-check mt-2 col-lg-3"
                                                                     key={module}
                                                                 >
-                                                                    <input
+                                                                    <InputField
                                                                         className="form-check-input"
                                                                         type="checkbox"
                                                                         name={module}
