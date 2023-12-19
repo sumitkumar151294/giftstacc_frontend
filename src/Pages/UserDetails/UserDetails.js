@@ -9,7 +9,8 @@ import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
 import Loader from "../../Componenets/Loader/Loader";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { GetTranslationData } from "../../../src/Componenets/GetTranslationData/GetTranslationData "
-const UserDetails = ({prefilledValues}) => {
+const UserDetails = ({ prefilledValues }) => {
+    debugger
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.userMasterReducer.isLoading);
     const [userData, setUserData] = useState({ userName: '', password: '', mobile: '', email: '', role: '', accessClientIds: [], firstName: "", lastName: "" });
@@ -56,9 +57,16 @@ const UserDetails = ({prefilledValues}) => {
     const handleChange = (e, fieldName) => {
         const { name, value, type, checked, } = e.target;
         let newUserdetailData;
-        if (fieldName === 'check') {
+        if (fieldName === 'check' && checked === true) {
             let accessClientIds = userData.accessClientIds
             accessClientIds.push(value)
+            newUserdetailData = {
+                ...userData,
+                accessClientIds,
+            };
+        } else if(fieldName === 'check' && checked === false){
+            let accessClientIds = userData.accessClientIds
+            accessClientIds = accessClientIds.filter(accessClientIds => accessClientIds !== value);
             newUserdetailData = {
                 ...userData,
                 accessClientIds,
@@ -188,8 +196,8 @@ const UserDetails = ({prefilledValues}) => {
                                         <form onSubmit={(e) => handleSubmit(e)}>
                                             <div className="row">
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">{email}
-                                                        <span class="text-danger">*</span>
+                                                    <label htmlFor="email">{email}
+                                                        <span className="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="text"
@@ -202,8 +210,8 @@ const UserDetails = ({prefilledValues}) => {
                                                     <p className="text-danger">{errors.email}</p>
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">{mobile}
-                                                        <span class="text-danger">*</span>
+                                                    <label htmlFor="mobile">{mobile}
+                                                        <span className="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="number"
@@ -216,13 +224,13 @@ const UserDetails = ({prefilledValues}) => {
                                                     <p className="text-danger">{errors.mobile}</p>
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">{username}
-                                                        <span class="text-danger">*</span>
+                                                    <label htmlFor="username">{username}
+                                                        <span className="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="text"
-                                                        className={` ${errors.userName ? "border-danger" : "form-control"}`} name="fname"
-                                                        id="name-f"
+                                                        className={` ${errors.userName ? "border-danger" : "form-control"}`}
+                                                        name="username"
                                                         placeholder=""
                                                         onChange={(e) => handleChange(e, "userName")}
                                                         error={errors.userName}
@@ -230,14 +238,13 @@ const UserDetails = ({prefilledValues}) => {
                                                     />
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">{password}
-                                                        <span class="text-danger">*</span>
+                                                    <label htmlFor="password">{password}
+                                                        <span className="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="password"
                                                         className={` ${errors.password ? "border-danger" : "form-control"}`}
-                                                        name="fname"
-                                                        id="name-f"
+                                                        name="password"
                                                         placeholder=""
                                                         onChange={(e) => handleChange(e, "password")}
                                                         error={errors.password}
@@ -245,14 +252,13 @@ const UserDetails = ({prefilledValues}) => {
                                                     />
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">{firstName}
-                                                        <span class="text-danger">*</span>
+                                                    <label htmlFor="fname">{firstName}
+                                                        <span className="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="text"
                                                         className={` ${errors.firstName ? "border-danger" : "form-control"}`}
                                                         name="fname"
-                                                        id="name-f"
                                                         placeholder=""
                                                         onChange={(e) => handleChange(e, "firstName")}
                                                         error={errors.firstName}
@@ -260,14 +266,13 @@ const UserDetails = ({prefilledValues}) => {
                                                     />
                                                 </div>
                                                 <div className="col-sm-4 form-group mb-2">
-                                                    <label for="name-f">{lastName}
-                                                        <span class="text-danger">*</span>
+                                                    <label htmlFor="lname">{lastName}
+                                                        <span className="text-danger">*</span>
                                                     </label>
                                                     <InputField
                                                         type="text"
                                                         className={` ${errors.lastName ? "border-danger" : "form-control"}`}
                                                         name="lname"
-                                                        id="name-f"
                                                         placeholder=""
                                                         onChange={(e) => handleChange(e, "lastName")}
                                                         error={errors.lastName}
@@ -275,7 +280,7 @@ const UserDetails = ({prefilledValues}) => {
                                                     />
                                                 </div>
                                                 <div className="col-lg-12 br pt-2">
-                                                    <label for="name-f">{client}</label>
+                                                    <label htmlFor="client">{client}</label>
                                                     <div className="row ml-4">
                                                         {Array.isArray(clientList) && clientList?.map((item) =>
                                                             <div
@@ -310,11 +315,11 @@ const UserDetails = ({prefilledValues}) => {
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-12 br pt-2">
-                                                    <label for="name-f">{role}</label>
+                                                    <label htmlFor="role">{role}</label>
                                                     <div className="row ml-4 mb-10">
                                                         {roleList?.data?.data?.map((item) =>
-                                                            <div className="form-check mt-2 col-lg-3">
-                                                                <input
+                                                            <div key={item.id} className="form-check mt-2 col-lg-3">
+                                                                <InputField
                                                                     id={item.id}
                                                                     type="radio"
                                                                     className="form-check-input"
@@ -322,13 +327,13 @@ const UserDetails = ({prefilledValues}) => {
                                                                     value={item.id}
                                                                     onChange={(e) => handleChange(e, "role")}
                                                                 />
-                                                                <label className="form-check-label" for={item.id}>{item.name}</label>
+                                                                <label className="form-check-label" htmlFor={item.id}>{item.name}</label>
                                                             </div>
                                                         )}
                                                     </div>
                                                     <span
                                                         className="form-check-label"
-                                                        for="basic_checkbox_1"
+                                                        htmlFor="basic_checkbox_1"
                                                         style={{ marginLeft: '5px', marginTop: '10px' }}
                                                     >
                                                         {requiredLevel}
