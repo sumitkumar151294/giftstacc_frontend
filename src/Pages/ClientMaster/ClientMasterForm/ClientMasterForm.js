@@ -28,6 +28,17 @@ const ClientMaster = (props) => {
   const color = GetTranslationData("UIAdmin", "Color_label");
   const logo = GetTranslationData("UIAdmin", "Logo Link_label");
   const theme = GetTranslationData("UIAdmin", "Select Theme_label");
+  const fieldName = GetTranslationData("UIAdmin", "field_Name_Label");
+  const fieldValue = GetTranslationData("UIAdmin", "field_Value_Label");
+  const userId = GetTranslationData("UIAdmin", "database_User_ID_Label");
+  const userPassword = GetTranslationData(
+    "UIAdmin",
+    "database_User_Pass_Label"
+  );
+  const mode = GetTranslationData("UIAdmin", "mode_Label");
+  const themeDetails = GetTranslationData("UIAdmin", "Theme_Details_Label");
+  const DatabaseCredentials = GetTranslationData("UIAdmin", " Database_Label");
+
   const razorpay = GetTranslationData(
     "UIAdmin",
     "razorpay Payment Gateway_label"
@@ -264,6 +275,9 @@ const ClientMaster = (props) => {
       }
     }
   }, [clientMasterDetails.postMessage]);
+  const handleAddMore = () => {
+    console.log("nblkjb");
+  };
 
   return (
     <>
@@ -285,7 +299,7 @@ const ClientMaster = (props) => {
                   <div className="container mt-3">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
-                        <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-6 form-group mb-2">
                           <label htmlFor="contact-name">
                             {contactName}
                             <span className="text-danger">*</span>
@@ -302,7 +316,7 @@ const ClientMaster = (props) => {
                             onChange={(e) => handleChange(e, "name")}
                           />
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-6 form-group ">
                           <label htmlFor="contact-number">
                             {contactNumber}
                             <span className="text-danger">*</span>
@@ -321,7 +335,7 @@ const ClientMaster = (props) => {
                           />
                           {<p className="text-danger">{errors.number}</p>}
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-6 form-group ">
                           <label htmlFor="contact-email">
                             {email}
                             <span className="text-danger">*</span>
@@ -339,59 +353,8 @@ const ClientMaster = (props) => {
                           />
                           {<p className="text-danger">{errors.email}</p>}
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="ipAddress">
-                            {ipAddress} <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            className={` ${
-                              errors.dbipAddress
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
-                            name="ipAddress"
-                            id="ipAddress"
-                            value={clientData.dbipAddress}
-                            error={errors.dbipAddress}
-                            onChange={(e) => handleChange(e, "dbipAddress")}
-                          />
-                        </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="contact-name">
-                            {userName}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            className={` ${
-                              errors.userName ? "border-danger" : "form-control"
-                            }`}
-                            name="username"
-                            id="user-name"
-                            value={clientData.userName}
-                            error={errors.userName}
-                            onChange={(e) => handleChange(e, "userName")}
-                          />
-                        </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="contact-name">
-                            {password}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="password"
-                            className={` ${
-                              errors.password ? "border-danger" : "form-control"
-                            }`}
-                            name="password"
-                            id="password"
-                            value={clientData.password}
-                            error={errors.password}
-                            onChange={(e) => handleChange(e, "password")}
-                          />
-                        </div>
-                        <div className="col-sm-4 form-group mb-2">
+
+                        <div className="col-sm-6 form-group mb-2">
                           <label htmlFor="status">
                             {status}
                             <span className="text-danger">*</span>
@@ -399,17 +362,15 @@ const ClientMaster = (props) => {
                           <Dropdown
                             onChange={(e) => handleChange(e, "status")}
                             error={errors.status}
-                            value={clientData.status}
-                            ariaLabel="Default select example"
+                            value={clientData.status || ""}
                             className="form-select"
                             options={statusoptions}
                           />
-                          <p>
-                            {selectOption}
-                            {clientData.status}
-                          </p>
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
+                        <h3 style={{ borderBottom: "1px solid #ededed" }}>
+                          {themeDetails}{" "}
+                        </h3>
+                        <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="color">
                             {color}
                             <span className="text-danger">*</span>
@@ -443,7 +404,7 @@ const ClientMaster = (props) => {
                             onChange={(e) => handleChange(e, "lgogLink")}
                           />
                         </div>
-                        <div className="col-sm-6 form-group mb-2">
+                        <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="status">
                             {theme}
                             <span className="text-danger">*</span>
@@ -451,25 +412,86 @@ const ClientMaster = (props) => {
                           <Dropdown
                             onChange={(e) => handleChange(e, "theme")}
                             error={errors.theme}
-                            value={clientData.theme}
+                            value={clientData.theme || ""}
                             key={clientData.theme}
-                            ariaLabel="Default select example"
                             className="form-select"
                             options={options}
                           />
-                          <p>
-                            {selectOption}
-                            {clientData.theme}
-                          </p>
                         </div>
+                        <div className="row mt-3">
+                          <h3 style={{ borderBottom: "1px solid #ededed" }}>
+                            {DatabaseCredentials}
+                          </h3>
+
+                          <div className="col-sm-4 form-group mb-2">
+                            <h4>
+                              {ipAddress} <span className="text-danger">*</span>
+                            </h4>
+                            <InputField
+                              type="text"
+                              className={` ${
+                                errors.dbipAddress
+                                  ? "border-danger"
+                                  : "form-control"
+                              }`}
+                              name="ipAddress"
+                              id="ipAddress"
+                              value={clientData.dbipAddress}
+                              error={errors.dbipAddress}
+                              placeholder={key}
+                              onChange={(e) => handleChange(e, "dbipAddress")}
+                            />
+                          </div>
+                          <div className="col-sm-4 form-group mb-2">
+                            <h4 htmlFor="contact-name">
+                              {userId}
+                              <span className="text-danger">*</span>
+                            </h4>
+                            <InputField
+                              type="text"
+                              className={` ${
+                                errors.userName
+                                  ? "border-danger"
+                                  : "form-control"
+                              }`}
+                              name="username"
+                              id="user-name"
+                              value={clientData.userName}
+                              error={errors.userName}
+                              placeholder={key}
+                              onChange={(e) => handleChange(e, "userName")}
+                            />
+                          </div>
+                          <div className="col-sm-4 form-group mb-2">
+                            <h4 htmlFor="contact-name">
+                              {userPassword}
+                              <span className="text-danger">*</span>
+                            </h4>
+                            <InputField
+                              type="password"
+                              className={` ${
+                                errors.password
+                                  ? "border-danger"
+                                  : "form-control"
+                              }`}
+                              name="password"
+                              id="password"
+                              value={clientData.password}
+                              error={errors.password}
+                              placeholder={key}
+                              onChange={(e) => handleChange(e, "password")}
+                            />
+                          </div>
+                        </div>
+
                         <div className="row mt-2">
                           <h3 style={{ borderBottom: "1px solid #ededed" }}>
                             {razorpay}
                           </h3>
-                          <div className="col-lg-6 mt-2">
+                          <div className="col-lg-3 mt-2">
                             <div className="row p-0">
                               <h4>
-                                {staging}
+                                {fieldName}{" "}
                                 <span className="text-danger">*</span>
                               </h4>
                               <div className="col-sm-12 form-group mb-2">
@@ -490,32 +512,13 @@ const ClientMaster = (props) => {
                                   }
                                 />
                               </div>
-                              <div className="col-sm-12 form-group mb-2">
-                                <InputField
-                                  type="text"
-                                  className={` ${
-                                    errors.stagingSecretKey
-                                      ? "border-danger"
-                                      : "form-control"
-                                  }`}
-                                  name="stagingSecretKey"
-                                  id="staging-secret-key"
-                                  error={errors.stagingSecretKey}
-                                  value={clientData.stagingSecretKey}
-                                  placeholder={secretKey}
-                                  onChange={(e) =>
-                                    handleChange(e, "stagingSecretKey")
-                                  }
-                                />
-                              </div>
                             </div>
                           </div>
 
-                          <div className="col-lg-6 mt-2">
+                          <div className="col-lg-3 mt-2">
                             <div className="row p-0">
                               <h4>
-                                {production}
-
+                                {fieldValue}{" "}
                                 <span className="text-danger">*</span>
                               </h4>
                               <div className="col-sm-12 form-group mb-2">
@@ -536,24 +539,38 @@ const ClientMaster = (props) => {
                                   }
                                 />
                               </div>
+                            </div>
+                          </div>
+                          <div className="col-lg-3 mt-2">
+                            <div className="row p-0">
+                              <h4>
+                                {mode} <span className="text-danger">*</span>
+                              </h4>
                               <div className="col-sm-12 form-group mb-2">
-                                <InputField
+                                <Dropdown
                                   type="text"
-                                  className={` ${
-                                    errors.productionSecretKey
-                                      ? "border-danger"
-                                      : "form-control"
-                                  }`}
-                                  name="productionSecretKey"
-                                  id="production-secret-key"
-                                  placeholder={secretKey}
-                                  error={errors.productionSecretKey}
-                                  value={clientData.productionSecretKey}
-                                  onChange={(e) =>
-                                    handleChange(e, "productionSecretKey")
-                                  }
+                                  // className={` ${
+                                  //   errors.stagingKey
+                                  //     ? "border-danger"
+                                  //     : "form-control"
+                                  // }`}
+                                  name="stagingKey"
+                                  id="staging-key"
+                                  placeholder={key}
+                                  value={clientData.stagingKey}
+                                  error={errors.stagingKey}
+                                  onChange={(e) => handleChange(e, "theme")}
+                                  className="form-select"
+                                  options={options}
                                 />
                               </div>
+                            </div>
+                          </div>
+                          <div className="col-lg-3 mt-4">
+                            <div className="col-sm-12 form-group mb-7">
+                              <button class="btn btn-primary btn-sm float-right pad-aa mt-2">
+                                Add More <i class="fa fa-plus"></i>
+                              </button>
                             </div>
                           </div>
                         </div>
