@@ -4,7 +4,7 @@ import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
 import NoRecord from "../../../Componenets/NoRecord/NoRecord";
-import SupplierMasterDetails from "../../SupplierMaster/SupplierMasterDetails/SupplierMasterDetails";
+import SupplierMasterDetails from "../SupplierMasterDetails/SupplierMasterDetails";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 const SupplierList = () => {
   const [isLoading, setIsLoading] = useState(true);

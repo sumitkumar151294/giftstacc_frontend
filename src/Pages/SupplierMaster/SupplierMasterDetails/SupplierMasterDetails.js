@@ -10,6 +10,7 @@ import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetT
 import { ToastContainer, toast } from "react-toastify";
 import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
 import InputField from "../../../Componenets/InputField/InputField";
+import './SupplierMasterDetails.scss'
 
 const SupplierMasterDetails = ({ data }) => {
   const dispatch = useDispatch();
@@ -156,11 +157,11 @@ const SupplierMasterDetails = ({ data }) => {
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
-                ) : (
+                ) :
                   <div class="container mt-3">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
-                        <div className={`col-sm-4 form-group mb-2 $`}>
+                        <div className="col-sm-8 form-group mb-2">
                           <label htmlFor="name-f">
                             {supplierName} <span className="text-danger">*</span>
                           </label>
@@ -176,7 +177,7 @@ const SupplierMasterDetails = ({ data }) => {
                           />
                         </div>
 
-                        <div className="col-sm-4 form-group mb-2">
+                        {/* <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-l">
                             {supplierClientID}
                             <span className="text-danger">*</span>
@@ -191,9 +192,9 @@ const SupplierMasterDetails = ({ data }) => {
                             placeholder=""
                             onChange={(e) => handleChange(e, "id")}
                           />
-                        </div>
+                        </div> */}
 
-                        <div className="col-sm-4 form-group mb-2">
+                        {/* <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="text">
                             {supplierClientSecret}
                             <span className="text-danger">*</span>
@@ -208,9 +209,9 @@ const SupplierMasterDetails = ({ data }) => {
                             placeholder=""
                             onChange={(e) => handleChange(e, "secret")}
                           />
-                        </div>
+                        </div> */}
 
-                        <div className="col-sm-4 form-group mb-2">
+                        {/* <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="text"> {userName}
                             <span className="text-danger">*</span>
                           </label>
@@ -222,9 +223,9 @@ const SupplierMasterDetails = ({ data }) => {
                             placeholder=""
                             onChange={(e) => handleChange(e, "username")}
                           />
-                        </div>
+                        </div> */}
 
-                        <div className="col-sm-4 form-group mb-2">
+                        {/* <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="password-1">
                             {password} <span className="text-danger">*</span>
                           </label>
@@ -238,15 +239,14 @@ const SupplierMasterDetails = ({ data }) => {
                             placeholder=""
                             onChange={(e) => handleChange(e, "password")}
                           />
-                        </div>
+                        </div> */}
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="status">
                             {status} <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={` ${errors.status ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${errors.status ? "border-danger" : "form-control" }`}
                             aria-label="Default select example"
                             name="status"
                             value={vendorData.status}
@@ -260,7 +260,7 @@ const SupplierMasterDetails = ({ data }) => {
                           </select>
                         </div>
 
-                        <div className="col-sm-4 form-group mb-2">
+                        {/* <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="zip">
                             {endPoint} <span className="text-danger">*</span>
                           </label>
@@ -274,9 +274,9 @@ const SupplierMasterDetails = ({ data }) => {
                             placeholder=""
                             onChange={(e) => handleChange(e, "endPoint")}
                           />
-                        </div>
+                        </div> */}
 
-                        <div className="col-sm-4 form-group mb-2">
+                        {/* <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="pass">
                            {authorizationCode}
                             <span className="text-danger">*</span>
@@ -291,7 +291,7 @@ const SupplierMasterDetails = ({ data }) => {
                             placeholder=""
                             onChange={(e) => handleChange(e, "code")}
                           />
-                        </div>
+                        </div> */}
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="amount">
@@ -302,12 +302,52 @@ const SupplierMasterDetails = ({ data }) => {
                             type="text"
                             name="text"
                             value={vendorData.amount}
-                            className={` ${errors.amount ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${errors.amount ? "border-danger" : "form-control"}`}
                             id="amount"
                             placeholder=""
                             onChange={(e) => handleChange(e, "amount")}
                           />
+                        </div>
+
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="amount">
+                            Balance Available Amount
+                            <span className="text-danger">*</span>
+                          </label>
+                          <InputField
+                            type="text"
+                            name="text"
+                            value={vendorData.amount}
+                            className={` ${errors.amount ? "border-danger" : "form-control"}`}
+                            id="amount"
+                            placeholder=""
+                            onChange={(e) => handleChange(e, "amount")}
+                          />
+                        </div>
+
+                        <div className="row">
+                          <div className="row mt-3">
+                            <h3 style={{ borderBottom: '1px solid #ededed' }}>Supplier API Details</h3>
+
+                            <div className="col-lg-4">
+                              <h4>Field Name <span className="text-danger">*</span></h4>
+                              <div className="col-sm-12 form-group mb-2">
+                                <InputField type="text" className="form-control" name="fname" id="name-f" placeholder="Key" required />
+                              </div>
+                            </div>
+
+                            <div className="col-lg-4">
+                              <h4>Field Value <span className="text-danger">*</span></h4>
+                              <div className="col-sm-12 form-group mb-2">
+                                <InputField type="text" className="form-control" name="fname" id="name-f" placeholder="Key" required />
+                              </div>
+                            </div>
+
+                            <div className="col-lg-3">
+                              <br />
+                              <button className="btn btn-primary btn-sm float-right pad-aa mt-2">Add More <i className="fa fa-plus"></i></button>
+                            </div>
+                          </div>
                         </div>
 
                         <span
@@ -329,8 +369,66 @@ const SupplierMasterDetails = ({ data }) => {
                         </div>
                       </div>
                     </form>
+
+                    {/* <form>
+                      <div className="row">
+                        <div className="col-sm-8 form-group mb-2">
+                          <label htmlFor="name-f">Supplier Name</label>
+                          <InputField type="text" className="form-control" name="fname" id="name-f" placeholder="" required />
+                        </div>
+
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="status">Status</label>
+                          <select className="form-select" aria-label="Default select example">
+                            <option selected>Select</option>
+                            <option value="Active">Active</option>
+                            <option value="Non-Active">Non-Active</option>
+                          </select>
+                        </div>
+
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="pass">Min. Threshold Amount</label>
+                          <InputField type="password" name="password" className="form-control" id="pass" placeholder="₹500000" required />
+                        </div>
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="pass">Balance Available Amount</label>
+                          <InputField type="password" name="password" className="form-control" id="pass" placeholder="₹500000" required />
+                        </div>
+
+                        <div className="row">
+                          <div className="row mt-3">
+                            <h3 style={{ borderBottom: '1px solid #ededed' }}>Supplier API Details</h3>
+
+                            <div className="col-lg-4">
+                              <h4>Field Name</h4>
+                              <div className="col-sm-12 form-group mb-2">
+                                <InputField type="text" className="form-control" name="fname" id="name-f" placeholder="Key" required />
+                              </div>
+                            </div>
+
+                            <div className="col-lg-4">
+                              <h4>Field Value</h4>
+                              <div className="col-sm-12 form-group mb-2">
+                                <InputField type="text" className="form-control" name="fname" id="name-f" placeholder="Key" required />
+                              </div>
+                            </div>
+
+                            <div className="col-lg-3">
+                              <br />
+                              <button className="btn btn-primary btn-sm float-right pad-aa mt-2">Add More <i className="fa fa-plus"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-sm-12 form-group mb-0 mt-2">
+                            <button className="btn btn-primary float-right pad-aa">Submit <i className="fa fa-arrow-right"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </form> */}
+
                   </div>
-                )}
+                }
               </div>
             </div>
           </div>
