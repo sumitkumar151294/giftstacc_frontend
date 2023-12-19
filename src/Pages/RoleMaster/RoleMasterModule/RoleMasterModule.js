@@ -4,6 +4,7 @@ import NoRecord from "../../../Componenets/NoRecord/NoRecord"
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch } from "react-redux";
 import { onUpdateUserRole } from "../../../Store/Slices/userRoleSlice";
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 const RoleMasterModule = (props) => {
     const [isLoading, setIsLoading] = useState("true");
     const dispatch =useDispatch();
