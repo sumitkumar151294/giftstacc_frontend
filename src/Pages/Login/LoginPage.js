@@ -16,6 +16,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showLoder, setShowLoader] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const loginDetails = useSelector(
     (state) => state.loginReducer?.data?.message
   );
@@ -70,7 +71,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     // Prevent the default form submission behavior
     e.preventDefault();
-
+    setIsSubmit(false);
     // Initialize a variable to track form validation status
     let isValid = true;
 
@@ -98,7 +99,7 @@ const LoginPage = () => {
 
         // Wait for the dispatch to complete
         dispatch(onLoginSubmit(loginData));
-
+        setIsSubmit(true);
         // Define a function to show a toast notification based on loginDetails
       } catch (error) {
         // Handle any errors during dispatch
@@ -106,12 +107,12 @@ const LoginPage = () => {
     }
   };
   useEffect(() => {
-    if (loginDetails === "Login Successfully.") {
+    if (loginDetails === "Login Successfully." && isSubmit) {
       setShowLoader(false);
       toast.success(loginDetails);
+      navigate('/Lc-admin/dashboard');
       sessionStorage.setItem('login', true)
-      navigate('/Lc-admin/role-master');
-    } else {
+    } else if (isSubmit) {
       setShowLoader(false);
       sessionStorage.removeItem('login')
       toast.error(loginDetails);
