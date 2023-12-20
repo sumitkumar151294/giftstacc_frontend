@@ -11,8 +11,10 @@ const RoleMasterItems = () => {
     const dispatch = useDispatch();
     const [isformLoading, setIsFormLoading] = useState("true");
     const getModule = useSelector((state) => state.moduleReducer);
-    const getRoleId = useSelector((state)=> state.userRoleReducer);
     const getModuleData = getModule?.data?.data;
+    console.log(getModuleData,"getModuleData");
+    const getRoleId = useSelector((state)=> state.userRoleReducer);
+    
  
     const [formData, setFormData] = useState({
         code: Math.floor(Math.random()*(999-100+1)+100),
@@ -83,19 +85,37 @@ const RoleMasterItems = () => {
         dispatch(onPostUserRoleModuleAccess())
     };
   // to get module role id from user role api and call the moduel access api
-      useEffect(() => {
-        if (getRoleId.data) {
-          const roleId = getRoleId.data.data?.id;
-          console.log("Role ID:", roleId);
+  useEffect(() => {
+    if (getRoleId.data) {
+      const roleId = getRoleId.data.data?.id;
+      console.log("Role ID:", roleId);
+  
+      const selectedModuleIds = Object.keys(formData.modules)
+      .filter((moduleId) => formData.modules[moduleId])
+      .map((moduleId) => Number(moduleId))
+      .filter(
+        (moduleId) =>
+          getModuleData &&
+          getModuleData.some((module) => module.id === moduleId)
+      );
+    
       
-          // Filter selected module ids
-          const selectedModuleIds = Object.entries(formData.modules)
-            .filter(([moduleId, isSelected]) => isSelected)
-            .map(([moduleId]) => moduleId);
-      
-          dispatch(onPostUserRoleModuleAccess(roleId, selectedModuleIds));
-        }
-      }, [getRoleId.data, formData.modules]);
+  
+      const accessData = {
+        roleId: roleId,
+        moduleId: selectedModuleIds[0],
+        viewAccess: true,
+        addAccess: true,
+        editAccess: true,
+      };
+      console.log(accessData,"accessData")
+  
+      dispatch(onPostUserRoleModuleAccess(accessData));
+    }
+  }, [getRoleId.data, formData.modules, getModuleData]);
+  
+  
+  
       
     return (
         <>
