@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Loader from '../../../Componenets/Loader/Loader';
 import { useDispatch, useSelector } from "react-redux";
 import { GetTranslationData } from '../../../Componenets/GetTranslationData/GetTranslationData ';
 import { onPostCategory } from '../../../Store/Slices/createCategorySlice';
 import InputField from '../../../Componenets/InputField/InputField';
 import Dropdown from '../../../Componenets/Dropdown/Dropdown';
+import { onGetSupplierList } from '../../../Store/Slices/supplierMasterSlice';
+import { onGetSupplierBrandList } from '../../../Store/Slices/supplierBrandListSlice';
 
 const BrandMapping = () => {
     const dispatch = useDispatch();
@@ -24,6 +26,16 @@ const BrandMapping = () => {
         supplierBrand: "",
     });
 
+    // call the get api for supplier master 
+    useEffect(() => {
+        dispatch(onGetSupplierList());
+    }, [])
+
+    //call the get api for supplier brand
+    useEffect(()=>{
+        dispatch(onGetSupplierBrandList());
+    },[])
+
     // To get supplier name from redux store 
     const getSupplierMasterData = useSelector((state) => state.supplierMasterReducer);
     const getSupplierName = getSupplierMasterData.data.data;
@@ -37,7 +49,13 @@ const BrandMapping = () => {
     const required_label = GetTranslationData("UIAdmin", "required_label");
     const submit = GetTranslationData("UIAdmin", "submit_label");
 
-
+    const brandOptions = [
+        { label: "Havels", value: "havels" },
+        { label: "Zara", value: "zara" },
+        { label: "Campus", value: "campus" },
+        { label: "Puma", value: "puma" },
+        { label: "Sony", value: "sony" },
+      ];
 
     const handleChange = (e, fieldName) => {
         setCreateCategory({
@@ -113,7 +131,7 @@ const BrandMapping = () => {
                                                         error={errors.supplierName}
                                                         ariaLabel="Select"
                                                         className={` ${errors.supplierName ? "border-danger" : "form-control"}`}
-                                                        options={getSupplierName.map(supplier => ({
+                                                        options={getSupplierName?.map(supplier => ({
                                                             label: supplier.name
                                                         }))}
                                                     />
@@ -127,7 +145,7 @@ const BrandMapping = () => {
                                                         error={errors.supplierBrand}
                                                         ariaLabel="Select"
                                                         className={` ${errors.supplierBrand ? "border-danger" : "form-control"}`}
-                                                    // options={statusoptions}
+                                                    options={brandOptions}
                                                     />
                                                 </div>
                                             </div>
