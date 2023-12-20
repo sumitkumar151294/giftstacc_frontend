@@ -97,10 +97,7 @@ const RoleMasterItems = () => {
             dispatch(onPostUserRoleModuleAccess(accessData));
         }
     }, [getRoleId.data]);
-
-
-
-
+    
     return (
         <>
             <div className="container-fluid">
