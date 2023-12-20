@@ -8,9 +8,12 @@ const API = {
   updateUserRoleApi: "/user-role/update",
   userMasterApi: "/user",
   supplierMasterApi: "/supplier-master",
+  supplierBrandListApi: "/supplier-brand-list/all",
   updateSupplierMasterApi: "/supplier-master/update",
   getClient: "/client",
   postClient: "/client-master",
   updateClient: "/client-master/update",
+  createCategory: "/create-category",
+
 };
 export default API;

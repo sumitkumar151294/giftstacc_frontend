@@ -5,27 +5,44 @@ import { onGetModule } from "../../../Store/Slices/moduleSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetUserRole, onPostUserRole } from "../../../Store/Slices/userRoleSlice";
 import InputField from "../../../Componenets/InputField/InputField";
+import { ToastContainer, toast } from "react-toastify";
+import { onPostUserRoleModuleAccess } from "../../../Store/Slices/userRoleModuleAccessSlice";
 const RoleMasterItems = () => {
     const dispatch = useDispatch();
     const [isformLoading, setIsFormLoading] = useState("true");
+    const getModule = useSelector((state) => state.moduleReducer);
+    const getRoleId = useSelector((state)=> state.userRoleReducer);
+    const getModuleData = getModule?.data?.data;
+ 
     const [formData, setFormData] = useState({
-        roleName: "",
-        modules: {
-            vendorMaster: false,
-            allocatedMaster: false,
-            clientMaster: false,
-            userMaster: false,
-            productCategories: false,
-            productCatalogue: false,
-            orders: false,
-            cms: false,
-            blogMaster: false,
-            faqMaster: false,
-            contactedListMaster: false,
-            customerList: false,
-            emailTemplates: false,
-        },
+        code: Math.floor(Math.random()*(999-100+1)+100),
+        name: "",
+        modules: {}
     });
+
+    const isSelectAllChecked = Object.values(formData.modules).every(
+        (module) => module
+    );
+    
+// To get the Module from API
+    useEffect(() => {
+        dispatch(onGetModule())
+    }, []);
+
+    useEffect(() => {
+        if (getModuleData) {
+          const modulesData = {};
+          getModuleData.forEach((module) => {
+            modulesData[module.name.toLowerCase()] = false;
+          });
+          setFormData({
+            ...formData,
+            modules: modulesData,
+          });
+          setIsFormLoading(true);
+        }
+      }, [getModuleData]);
+
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         if (name === "selectAll") {
@@ -52,14 +69,34 @@ const RoleMasterItems = () => {
             });
         }
     };
-    const isSelectAllChecked = Object.values(formData.modules).every(
-        (module) => module
-    );
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(onPostUserRole(formData));
+        if (formData.name.trim() === "") {
+            toast.error("Role Name is required.");
+            return;
+        }
+
+        const { name, code } = formData;
+        const nameValue = { name, code };
+        dispatch(onPostUserRole(nameValue));
+        dispatch(onPostUserRoleModuleAccess())
     };
-    // to get module master data 
+  // to get module role id from user role api and call the moduel access api
+      useEffect(() => {
+        if (getRoleId.data) {
+          const roleId = getRoleId.data.data?.id;
+          console.log("Role ID:", roleId);
+      
+          // Filter selected module ids
+          const selectedModuleIds = Object.entries(formData.modules)
+            .filter(([moduleId, isSelected]) => isSelected)
+            .map(([moduleId]) => moduleId);
+      
+          dispatch(onPostUserRoleModuleAccess(roleId, selectedModuleIds));
+        }
+      }, [getRoleId.data, formData.modules]);
+      
     return (
         <>
             <div className="container-fluid">
@@ -83,10 +120,10 @@ const RoleMasterItems = () => {
                                                     <InputField
                                                         type="text"
                                                         className="form-control"
-                                                        name="roleName"
+                                                        name="name"
                                                         id="name-f"
                                                         placeholder=""
-                                                        value={formData.roleName}
+                                                        value={formData.name}
                                                         onChange={handleInputChange}
                                                     />
                                                 </div>
@@ -151,6 +188,7 @@ const RoleMasterItems = () => {
                                                         <button className="btn btn-primary float-right pad-aa">
                                                             Submit
                                                         </button>
+                                                        <ToastContainer />
                                                     </div>
                                                 </div>
                                             </div>

@@ -1219,7 +1219,7 @@ progress {
 
   .col-sm-4 {
     flex: 0 0 auto;
-    width: 33.3333333333%;
+    width: 33.3333333333% !important ;
   }
 
   .col-sm-5 {
@@ -34980,9 +34980,9 @@ button:focus {
   box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
   height: calc(100% - 30px);
 }
-
+.card {
 @media only screen and (max-width: 35.9375rem) {
-  .card {
+  
     border-radius: 0.375rem;
     margin-bottom: 0.938rem;
     height: calc(100% - 0.938rem);
@@ -45145,10 +45145,6 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   border: 1px solid #ededed;
   padding: 12px;
   border-radius: 5px;
-}
-
-.clr-blk {
-  color: black !important;
 }
 
 .only-right {

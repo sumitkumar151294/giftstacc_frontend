@@ -8,8 +8,10 @@ import userRoleReducer from './Slices/userRoleSlice';
 import userRoleModuleAccessReducer from './Slices/userRoleModuleAccessSlice';
 import userMasterReducer from "./Slices/userMasterSlice";
 import supplierMasterReducer from './Slices/supplierMasterSlice';
+import supplierBrandListReducer from './Slices/supplierBrandListSlice';
 import clientMasterReducer from './Slices/clientMasterSlice';
-    
+import createCategoryReducer from './Slices/createCategorySlice';
+
 const reducers = combineReducers({
     loginReducer:loginReducer,
     translationReducer:translationReducer,
@@ -19,7 +21,9 @@ const reducers = combineReducers({
     userRoleModuleAccessReducer: userRoleModuleAccessReducer,
     userMasterReducer:userMasterReducer,
     supplierMasterReducer:supplierMasterReducer,
-    clientMasterReducer:clientMasterReducer
+    supplierBrandListReducer:supplierBrandListReducer,
+    clientMasterReducer:clientMasterReducer,
+    createCategoryReducer:createCategoryReducer
 });
 
 export default reducers;
