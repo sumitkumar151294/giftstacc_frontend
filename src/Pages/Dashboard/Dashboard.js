@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-// import '../HomeAdmin/Admin.css'
 import './Dashboard.scss'
 import Loader from '../../Componenets/Loader/Loader'
 import { Chart } from './Chart'

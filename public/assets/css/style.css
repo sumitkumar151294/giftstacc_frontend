@@ -45147,10 +45147,6 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   border-radius: 5px;
 }
 
-.clr-blk {
-  color: black !important;
-}
-
 .only-right {
   display: flex;
   justify-content: end;
