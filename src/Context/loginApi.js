@@ -4,3 +4,4 @@ export const callLoginApi = async (payload) => {
   const { data = {} } = await axiosInstance.post(API.loginApi,payload);
   return data;
 };
+
