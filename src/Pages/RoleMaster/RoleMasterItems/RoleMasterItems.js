@@ -26,10 +26,6 @@ const RoleMasterItems = () => {
         (module) => module
     );
     
-// To get the Module from API
-    useEffect(() => {
-        dispatch(onGetModule())
-    }, []);
 
     useEffect(() => {
         if (getModuleData) {
