@@ -110,7 +110,7 @@ const LoginPage = () => {
       setShowLoader(false);
       toast.success(loginDetails);
       sessionStorage.setItem('login', true)
-      navigate('/Lc-admin/rolemaster');
+      navigate('/Lc-admin/role-master');
     } else {
       setShowLoader(false);
       sessionStorage.removeItem('login')
