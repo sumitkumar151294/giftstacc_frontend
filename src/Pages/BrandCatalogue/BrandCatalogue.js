@@ -2,6 +2,8 @@ import React from 'react'
 import './BrandCatalogue.scss'
 import { Link } from 'react-router-dom';
 import img from '../../Assets/img/pizz1.jpg'
+import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
+
 const BrandCatalogue = () => {
     const brandData = [
         {
@@ -11,7 +13,7 @@ const BrandCatalogue = () => {
             minprice: '₹ 100',
             maxprice: '₹ 600',
             price: 'Range1',
-            action: '/LC-admin/productdetail'
+            action: '/Lc-admin/branddetail'
         },
         {
             image: '../../Assets/img/pizz1.jpg',
@@ -20,7 +22,7 @@ const BrandCatalogue = () => {
             minprice: '₹ 200',
             maxprice: '₹ 700',
             price: 'Range2',
-            action: '/LC-admin/productdetail'
+            action: '/Lc-admin/branddetail'
         },
         {
             image: '../../Assets/img/pizz1.jpg',
@@ -29,7 +31,7 @@ const BrandCatalogue = () => {
             minprice: '₹ 300',
             maxprice: '₹ 800',
             price: 'Range3',
-            action: '/LC-admin/productdetail'
+            action: '/Lc-admin/branddetail'
         },
         {
             image: '../../Assets/img/pizz1.jpg',
@@ -38,9 +40,25 @@ const BrandCatalogue = () => {
             minprice: '₹ 400',
             maxprice: '₹ 900',
             price: 'Range4',
-            action: '/LC-admin/productdetail'
+            action: '/Lc-admin/branddetail'
         }
     ]
+  const heading = GetTranslationData("UIAdmin", "heading");
+  const image = GetTranslationData("UIAdmin", "image");
+  const sku = GetTranslationData("UIAdmin", "sku");
+  const name = GetTranslationData("UIAdmin", "name");
+  const minprice = GetTranslationData("UIAdmin", "minprice");
+  const maxprice = GetTranslationData("UIAdmin", "maxprice");
+  const price = GetTranslationData("UIAdmin", "price");
+  const action = GetTranslationData("UIAdmin", "action");
+
+
+
+
+
+//   const heading = GetTranslationData("UIAdmin", "heading");
+
+
     return (
         <>
             <div class="content-body">
@@ -51,7 +69,7 @@ const BrandCatalogue = () => {
                                 <div class="container-fluid">
                                     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                         <div class="card-header">
-                                            <h4 class="card-title">Brand Catalogue</h4>
+                                            <h4 class="card-title">{heading}</h4>
                                         </div>
                                         <div class="customer-search mb-sm-0 mb-3">
                                             <div class="input-group search-area">
@@ -94,13 +112,13 @@ const BrandCatalogue = () => {
                                         <table class="table header-border table-responsive-sm">
                                             <thead>
                                                 <tr>
-                                                    <th>Image</th>
-                                                    <th>SKU</th>
-                                                    <th>Name</th>
-                                                    <th>Min Price</th>
-                                                    <th>Max Price</th>
-                                                    <th>Price</th>
-                                                    <th>Action</th>
+                                                    <th>{image}</th>
+                                                    <th>{sku}</th>
+                                                    <th>{name}</th>
+                                                    <th>{minprice}</th>
+                                                    <th>{maxprice}</th>
+                                                    <th>{price}</th>
+                                                    <th>{action}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

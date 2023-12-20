@@ -1,6 +1,8 @@
 import React from 'react';
 import img from '../../Assets/img/pizz1.jpg';
 import './BrandDetail.css'
+import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
+
 const BrandDetail = () => {
 
     const brandDetail = [
@@ -36,6 +38,14 @@ const BrandDetail = () => {
         }
     ]
 
+  const type = GetTranslationData("UIAdmin", "type");
+  const pricerange = GetTranslationData("UIAdmin", "pricerange");
+  const pricedenominations = GetTranslationData("UIAdmin", "pricedenominations");
+  const termsandconditions = GetTranslationData("UIAdmin", "termsandconditions");
+  const storelocator = GetTranslationData("UIAdmin", "storelocator")
+
+     
+
     return (
         <>
             <div className="content-body">
@@ -55,15 +65,15 @@ const BrandDetail = () => {
                                                         <span style={{ color: '#969ba0' }} >{data.id}</span>
                                                     </div>
                                                     <p className="mt-1 clr-blk">{data.description}</p>
-                                                    <h5 className="mb-0"><span className="fs-14 me-2">Type - </span><strong className="text-danger txt">{data.type}</strong></h5>
+                                                    <h5 className="mb-0"><span className="fs-14 me-2">{type} - </span><strong className="text-danger txt">{data.type}</strong></h5>
                                                     <div className="d-flex justify-content-between mt-2">
                                                         <div className="mt-3">
-                                                            <h6>Price Range</h6>
+                                                            <h6>{pricerange}</h6>
                                                             <h4>{data.pricerange}</h4>
                                                         </div>
                                                         <div>
 
-                                                            <h6>Price Denominations</h6>
+                                                            <h6>{pricedenominations}</h6>
                                                             {priceDenomination.map((data) => (
                                                                 <div className="d-flex justify-content-between">
                                                                     <button type="button" className="btn btn-rounded btn-secondary btn-sm mr-10">{data.pd1}</button>
@@ -93,55 +103,10 @@ const BrandDetail = () => {
                                             </div>
 ))}
                                             <div className="only-right mt-2">
-                                                <a href="" className="mr-10 on-link">*Terms and Conditions</a>
-                                                <a href="" className="mr-10 on-link">*Store Locator</a>
+                                                <a href="" className="mr-10 on-link">{termsandconditions}</a>
+                                                <a href="" className="mr-10 on-link">{storelocator}</a>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal fade" id="reviewModal">
-                            <div className="modal-dialog" role="document">
-                                <div className="modal-content">
-                                    <div className="modal-header">
-                                        <h5 className="modal-title">Review</h5>
-                                        <button type="button" className="btn-close" data-bs-dismiss="modal">
-                                        </button>
-                                    </div>
-                                    <div className="modal-body">
-                                        <form>
-                                            <div className="text-center mb-4">
-                                                <img className="img-fluid rounded" width="78" src="https://lezato.w3itexpert.com/laravel/demo/images/avatar/1.jpg" alt="DexignZone" />
-                                            </div>
-                                            <div className="mb-3">
-                                                <div className="rating-widget mb-4 text-center">
-                                                    <div className="rating-stars">
-                                                        <ul id="stars">
-                                                            <li className="star" title="Poor" data-value="1">
-                                                                <i className="fa fa-star fa-fw"></i>
-                                                            </li>
-                                                            <li className="star" title="Fair" data-value="2">
-                                                                <i className="fa fa-star fa-fw"></i>
-                                                            </li>
-                                                            <li className="star" title="Good" data-value="3">
-                                                                <i className="fa fa-star fa-fw"></i>
-                                                            </li>
-                                                            <li className="star" title="Excellent" data-value="4">
-                                                                <i className="fa fa-star fa-fw"></i>
-                                                            </li>
-                                                            <li className="star" title="WOW!!!" data-value="5">
-                                                                <i className="fa fa-star fa-fw"></i>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="mb-3">
-                                                <textarea className="form-control" placeholder="Comment" rows="5"></textarea>
-                                            </div>
-                                            <button className="btn btn-success btn-block">RATE</button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
