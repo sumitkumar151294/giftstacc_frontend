@@ -83,14 +83,20 @@ const RoleMasterItems = () => {
         dispatch(onPostUserRoleModuleAccess())
     };
   // to get module role id from user role api and call the moduel access api
-    useEffect(() => {
+      useEffect(() => {
         if (getRoleId.data) {
           const roleId = getRoleId.data.data?.id;
           console.log("Role ID:", roleId);
-          dispatch(onPostUserRoleModuleAccess({ roleId }));
+      
+          // Filter selected module ids
+          const selectedModuleIds = Object.entries(formData.modules)
+            .filter(([moduleId, isSelected]) => isSelected)
+            .map(([moduleId]) => moduleId);
+      
+          dispatch(onPostUserRoleModuleAccess(roleId, selectedModuleIds));
         }
-      }, [getRoleId.data]);
-  
+      }, [getRoleId.data, formData.modules]);
+      
     return (
         <>
             <div className="container-fluid">
