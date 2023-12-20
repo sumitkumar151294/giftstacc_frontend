@@ -8,12 +8,14 @@ import UserMaster from "../Pages/UserMaster/UserMaster";
 import CreateCategories from "../Pages/CreateCategories/CreateCategories";
 import ClientMaster from "../Pages/ClientMaster/ClientMaster";
 import HomePage from "../Componenets/HomePage/HomePage";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 function RouteConfiq() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/Lc-admin/login" element={<LoginPage />} />
+        <Route path="/Lc-admin/dashboard" element={<Layout Component={Dashboard} />} />
         <Route path="/Lc-admin/rolemaster" element={<Layout Component={RoleMaster} />} />
         <Route path="/Lc-admin/usermaster" element={<Layout Component={UserMaster} />} />
         <Route path="/LC-admin/suppliermaster" element={<Layout Component={SupplierMaster} />} />
