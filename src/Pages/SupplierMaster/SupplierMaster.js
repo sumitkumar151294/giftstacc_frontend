@@ -8,7 +8,7 @@ const SupplierMaster = () => {
   }, [loading]);
   return (
     <>
-      <div class="content-body">
+      <div className="content-body">
         <SupplierList />
       </div>
     </>
