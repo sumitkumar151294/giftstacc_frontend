@@ -1,6 +1,6 @@
 import React from 'react'
 
-const InputField = ({ type,name,id, placeholder, onChange, error, className, value }) => {
+const InputField = ({ type,name,id, placeholder, onChange, error, className, value, checked }) => {
     return (
         <div>   
             <input
@@ -9,7 +9,8 @@ const InputField = ({ type,name,id, placeholder, onChange, error, className, val
                 id={id}
                 className={` ${error ? "border-danger" : className}`}
                 placeholder={placeholder}
-                value={value}       
+                value={value}    
+                checked={checked}   
                 onChange={onChange}
             />
         </div>

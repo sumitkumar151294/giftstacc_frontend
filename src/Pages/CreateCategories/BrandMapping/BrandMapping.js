@@ -1,25 +1,61 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Loader from '../../../Componenets/Loader/Loader';
-import { useDispatch } from "react-redux";
-// import { onCategorySubmit } from "../../redux/modules/Admin/categorySlice";
+import { useDispatch, useSelector } from "react-redux";
+import { GetTranslationData } from '../../../Componenets/GetTranslationData/GetTranslationData ';
+import { onPostCategory } from '../../../Store/Slices/createCategorySlice';
+import InputField from '../../../Componenets/InputField/InputField';
+import Dropdown from '../../../Componenets/Dropdown/Dropdown';
+import { onGetSupplierList } from '../../../Store/Slices/supplierMasterSlice';
+import { onGetSupplierBrandList } from '../../../Store/Slices/supplierBrandListSlice';
 
 const BrandMapping = () => {
+    const dispatch = useDispatch();
     const [isformLoading, setIsFormLoading] = useState("true");
+
+    // To validate the input fields 
     const [errors, setErrors] = useState({
         categoryName: "",
-        vendorCategory: "",
-        status: "",
-        brand: "",
+        supplierName: "",
+        supplierBrand: "",
     });
 
+    // to post the data through api 
     const [createCategory, setCreateCategory] = useState({
         categoryName: "",
-        vendorCategory: "",
-        status: "",
-        brand: "",
+        supplierName: "",
+        supplierBrand: "",
     });
 
-    const dispatch = useDispatch();
+    // call the get api for supplier master 
+    useEffect(() => {
+        dispatch(onGetSupplierList());
+    }, [])
+
+    //call the get api for supplier brand
+    useEffect(()=>{
+        dispatch(onGetSupplierBrandList());
+    },[])
+
+    // To get supplier name from redux store 
+    const getSupplierMasterData = useSelector((state) => state.supplierMasterReducer);
+    const getSupplierName = getSupplierMasterData.data.data;
+
+    console.log(getSupplierName, "getSupplierName");
+    // To get the label of fields from the api 
+    const createUpdateBrandMapping = GetTranslationData("UIAdmin", "createUpdateBrandMapping");
+    const categoryName = GetTranslationData("UIAdmin", "categoryName");
+    const Supplier_name_Label = GetTranslationData("UIAdmin", "Supplier_name_Label");
+    const supplierBrand = GetTranslationData("UIAdmin", "supplierBrand");
+    const required_label = GetTranslationData("UIAdmin", "required_label");
+    const submit = GetTranslationData("UIAdmin", "submit_label");
+
+    const brandOptions = [
+        { label: "Havels", value: "havels" },
+        { label: "Zara", value: "zara" },
+        { label: "Campus", value: "campus" },
+        { label: "Puma", value: "puma" },
+        { label: "Sony", value: "sony" },
+      ];
 
     const handleChange = (e, fieldName) => {
         setCreateCategory({
@@ -52,7 +88,7 @@ const BrandMapping = () => {
         setErrors(newErrors);
 
         if (isValid) {
-            //   dispatch(onCategorySubmit(createCategory));
+            dispatch(onPostCategory(createCategory));
         }
     };
 
@@ -64,7 +100,7 @@ const BrandMapping = () => {
                         <div className="card">
                             <div className="card-header">
                                 <h4 className="card-title txt-admin txtt ">
-                                    Create And Update & Brand Mapping
+                                    {createUpdateBrandMapping}
                                 </h4>
                             </div>
                             <div className="card-body position-relative">
@@ -77,90 +113,50 @@ const BrandMapping = () => {
                                         <form onSubmit={handleSubmit}>
                                             <div className="row">
                                                 <div className="col-sm-3 form-group mb-2">
-                                                    <label htmlFor="name-f">Category Name <span className='text-danger'>*</span></label>
-                                                    <input
+                                                    <label htmlFor="name-f">{categoryName}<span className='text-danger'>*</span></label>
+                                                    <InputField
                                                         type="text"
-                                                        className={` ${errors.categoryName
-                                                            ? "form-select-error"
-                                                            : "form-select"
+                                                        className={` ${errors.categoryName ? "border-danger" : "form-control"
                                                             }`}
-                                                        name="categoryName"
+                                                        name="categoryNam"
                                                         id="name-f"
                                                         placeholder=""
                                                         onChange={(e) => handleChange(e, "categoryName")}
                                                     />
                                                 </div>
                                                 <div className="col-sm-3 form-group mb-2">
-                                                    <label htmlFor="vendor-category">Supplier Name <span className='text-danger'>*</span></label>
-                                                    <select
-                                                        className={` ${errors.vendorCategory
-                                                            ? "form-select-error"
-                                                            : "form-select"
-                                                            }`}
-                                                        id="vendor-category"
-                                                        name="vendorCategory"
-                                                        onChange={(e) => handleChange(e, "vendorCategory")}
-                                                        aria-label="Default select example"
-                                                    >
-                                                        <option value="">Select</option>
-                                                        <option value="E-Commerce">E-Commerce</option>
-                                                        <option value="Electronics">Electronics</option>
-                                                        <option value="Kitchen Appliances">
-                                                            Kitchen Appliances
-                                                        </option>
-                                                        <option value="Health">Health</option>
-                                                        <option value="Insurance">Insurance</option>
-                                                    </select>
+                                                    <label htmlFor="vendor-category">{Supplier_name_Label}<span className='text-danger'>*</span></label>
+                                                    <Dropdown
+                                                        onChange={(e) => handleChange(e, "supplierName")}
+                                                        error={errors.supplierName}
+                                                        ariaLabel="Select"
+                                                        className={` ${errors.supplierName ? "border-danger" : "form-control"}`}
+                                                        options={getSupplierName?.map(supplier => ({
+                                                            label: supplier.name
+                                                        }))}
+                                                    />
                                                 </div>
                                                 <div className="col-sm-3 form-group mb-2">
                                                     <label htmlFor="vendor-category">
-                                                        Supplier Brand <span className='text-danger'>*</span>
+                                                        {supplierBrand}<span className='text-danger'>*</span>
                                                     </label>
-                                                    <select
-                                                        className={` ${errors.brand
-                                                            ? "form-select-error"
-                                                            : "form-select"
-                                                            }`}
-                                                        id="vendor-category"
-                                                        name="vendorCategory"
-                                                        onChange={(e) => handleChange(e, "brand")}
-                                                        aria-label="Default select example"
-                                                    >
-                                                        <option value="">Select</option>
-                                                        <option value="E-Commerce">E-Commerce</option>
-                                                        <option value="Electronics">Electronics</option>
-                                                        <option value="Kitchen Appliances">
-                                                            Kitchen Appliances
-                                                        </option>
-                                                        <option value="Health">Health</option>
-                                                        <option value="Insurance">Insurance</option>
-                                                    </select>
-                                                </div>
-                                                <div className="col-sm-3 form-group mb-2">
-                                                    <label htmlFor="status">Select Status <span className='text-danger'>*</span></label>
-                                                    <select
-                                                        className={` ${errors.status
-                                                            ? "form-select-error"
-                                                            : "form-select"
-                                                            }`}
-                                                        id="status"
-                                                        name="status"
-                                                        onChange={(e) => handleChange(e, "status")}
-                                                        aria-label="Default select example"
-                                                    >
-                                                        <option value="">Select</option>
-                                                        <option value="Active">Active</option>
-                                                        <option value="In-Active">In-Active</option>
-                                                    </select>
+                                                    <Dropdown
+                                                        onChange={(e) => handleChange(e, "supplierBrand")}
+                                                        error={errors.supplierBrand}
+                                                        ariaLabel="Select"
+                                                        className={` ${errors.supplierBrand ? "border-danger" : "form-control"}`}
+                                                    options={brandOptions}
+                                                    />
                                                 </div>
                                             </div>
-                                            <span className="form-check-label" for="basic_checkbox_1">
-                                                All the * fields are required.
+                                            <span className="form-check-label" htmlFor="basic_checkbox_1">
+                                                {required_label}
                                             </span>
-                                            <div class="col-sm-4 mt-2 mb-4">
-                                                <button class="btn btn-primary float-right pad-aa">
-                                                    Submit <i class="fa fa-arrow-right"></i>
+                                            <div className="col-sm-4 mt-2 mb-4">
+                                                <button type="submit" className="btn btn-primary float-right pad-aa">
+                                                    {submit} <i className="fa fa-arrow-right"></i>
                                                 </button>
+                                                {/* <Button text={submit} /> */}
                                             </div>
                                         </form>
                                     </div>

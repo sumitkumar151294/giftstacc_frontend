@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const supplierMasterSlice = createSlice({
-  name: "supplierMaster",
+export const supplierBrandListSlice = createSlice({
+  name: "supplierBrandList",
   initialState: {
     isLoading: false,
     isError: false,
@@ -10,7 +10,7 @@ export const supplierMasterSlice = createSlice({
     message: "",
   },
   reducers: {
-    onVendorSubmit: (state) => {
+    onPostSupplierBrandList: (state) => {
       return {
         ...state,
         isLoading: true,
@@ -21,7 +21,7 @@ export const supplierMasterSlice = createSlice({
       };
     },
 
-    onVendorSubmitSuccess: (state, { payload }) => {
+    onPostSupplierBrandListSuccess: (state, { payload }) => {
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
@@ -34,7 +34,7 @@ export const supplierMasterSlice = createSlice({
       };
     },
 
-    onVendorSubmitError: (state, { payload }) => {
+    onPostSupplierBrandListError: (state, { payload }) => {
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
@@ -47,10 +47,10 @@ export const supplierMasterSlice = createSlice({
       };
     },
 
-    onGetSupplierList: (state) => {
+    onGetSupplierBrandList: (state) => {
       return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false };
     },
-    onGetSupplierListSuccess: (state, { payload }) => {
+    onGetSupplierBrandListSuccess: (state, { payload }) => {
       const { data = {}, message = '', status_code } = payload;
       return {
         ...state,
@@ -62,7 +62,7 @@ export const supplierMasterSlice = createSlice({
         status_code
       };
     },
-    onGetSupplierListError: (state, { payload }) => {
+    onGetSupplierBrandListError: (state, { payload }) => {
       const { data = {}, message = '', status_code } = payload;
       return {
         ...state,
@@ -73,36 +73,18 @@ export const supplierMasterSlice = createSlice({
         status_code
       };
     },
-    onUpdateSupplierList: (state) => {
-      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false };
-    },
-    onUpdateSupplierListSuccess: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
-        data,
-        error: {},
-        message,
-        status_code
-      };
-    },
-    onUpdateSupplierListError: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-        data:data,
-        message,
-        status_code
-      };
-    },
+
 
   },
 });
-export const {onUpdateSupplierList,onUpdateSupplierListSuccess,onUpdateSupplierListError, onVendorSubmit, onVendorSubmitSuccess, onVendorSubmitError, onGetSupplierList, onGetSupplierListSuccess, onGetSupplierListError } =
-supplierMasterSlice.actions;
+export const {
+  onPostSupplierBrandList,
+  onPostSupplierBrandListSuccess,
+  onPostSupplierBrandListError, 
+  onGetSupplierBrandList, 
+  onGetSupplierBrandListSuccess, 
+  onGetSupplierBrandListError, 
+ } =
+supplierBrandListSlice.actions;
 
-export default supplierMasterSlice.reducer;
+export default supplierBrandListSlice.reducer;
