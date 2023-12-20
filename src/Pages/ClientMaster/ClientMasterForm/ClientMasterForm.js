@@ -275,9 +275,6 @@ const ClientMaster = (props) => {
       }
     }
   }, [clientMasterDetails.postMessage]);
-  const handleAddMore = () => {
-    console.log("nblkjb");
-  };
 
   return (
     <>

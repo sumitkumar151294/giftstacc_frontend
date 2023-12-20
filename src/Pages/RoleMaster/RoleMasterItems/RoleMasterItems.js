@@ -12,12 +12,11 @@ const RoleMasterItems = () => {
     const [isformLoading, setIsFormLoading] = useState("true");
     const getModule = useSelector((state) => state.moduleReducer);
     const getModuleData = getModule?.data?.data;
-    console.log(getModuleData,"getModuleData");
-    const getRoleId = useSelector((state)=> state.userRoleReducer);
-    
- 
+    const getRoleId = useSelector((state) => state.userRoleReducer);
+
+
     const [formData, setFormData] = useState({
-        code: Math.floor(Math.random()*(999-100+1)+100),
+        code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
         name: "",
         modules: {}
     });
@@ -25,25 +24,25 @@ const RoleMasterItems = () => {
     const isSelectAllChecked = Object.values(formData.modules).every(
         (module) => module
     );
-    
-// To get the Module from API
+
+    // To get the Module from API
     useEffect(() => {
         dispatch(onGetModule())
     }, []);
 
     useEffect(() => {
         if (getModuleData) {
-          const modulesData = {};
-          getModuleData.forEach((module) => {
-            modulesData[module.name.toLowerCase()] = false;
-          });
-          setFormData({
-            ...formData,
-            modules: modulesData,
-          });
-          setIsFormLoading(true);
+            const modulesData = {};
+            getModuleData.forEach((module) => {
+                modulesData[module.name.toLowerCase()] = false;
+            });
+            setFormData({
+                ...formData,
+                modules: modulesData,
+            });
+            setIsFormLoading(true);
         }
-      }, [getModuleData]);
+    }, [getModuleData]);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -82,41 +81,26 @@ const RoleMasterItems = () => {
         const { name, code } = formData;
         const nameValue = { name, code };
         dispatch(onPostUserRole(nameValue));
-        dispatch(onPostUserRoleModuleAccess())
     };
-  // to get module role id from user role api and call the moduel access api
-  useEffect(() => {
-    if (getRoleId.data) {
-      const roleId = getRoleId.data.data?.id;
-      console.log("Role ID:", roleId);
-  
-      const selectedModuleIds = Object.keys(formData.modules)
-      .filter((moduleId) => formData.modules[moduleId])
-      .map((moduleId) => Number(moduleId))
-      .filter(
-        (moduleId) =>
-          getModuleData &&
-          getModuleData.some((module) => module.id === moduleId)
-      );
-    
-      
-  
-      const accessData = {
-        roleId: roleId,
-        moduleId: selectedModuleIds[0],
-        viewAccess: true,
-        addAccess: true,
-        editAccess: true,
-      };
-      console.log(accessData,"accessData")
-  
-      dispatch(onPostUserRoleModuleAccess(accessData));
-    }
-  }, [getRoleId.data, formData.modules, getModuleData]);
-  
-  
-  
-      
+    // to get module role id from user role api and call the moduel access api
+    useEffect(() => {
+        if (getRoleId.data) {
+            const roleId = getRoleId.data.data?.id;
+            console.log("Role ID:", roleId);
+            const accessData = {
+                roleId: roleId,
+                moduleId: 0,
+                viewAccess: true,
+                addAccess: true,
+                editAccess: true,
+            };
+            dispatch(onPostUserRoleModuleAccess(accessData));
+        }
+    }, [getRoleId.data]);
+
+
+
+
     return (
         <>
             <div className="container-fluid">
