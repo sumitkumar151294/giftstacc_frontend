@@ -40,7 +40,6 @@ const BrandMapping = () => {
     const getSupplierMasterData = useSelector((state) => state.supplierMasterReducer);
     const getSupplierName = getSupplierMasterData.data.data;
 
-    console.log(getSupplierName, "getSupplierName");
     // To get the label of fields from the api 
     const createUpdateBrandMapping = GetTranslationData("UIAdmin", "createUpdateBrandMapping");
     const categoryName = GetTranslationData("UIAdmin", "categoryName");

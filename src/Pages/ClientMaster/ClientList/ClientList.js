@@ -104,9 +104,7 @@ const ClientList = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                        <a href="#">
-                          <i className="flaticon-381-search-2"></i>
-                        </a>
+                        <i className="flaticon-381-search-2"></i>
                       </span>
                     </div>
                   </div>
