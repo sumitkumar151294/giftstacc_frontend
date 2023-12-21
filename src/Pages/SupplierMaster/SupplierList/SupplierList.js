@@ -135,7 +135,6 @@ const SupplierList = () => {
                       </div>
                     </div>
                  
-
                   {filteredVendorList?.length > 0 ? (
                     <div className="card-body position-relative">
                       <div className="table-responsive">

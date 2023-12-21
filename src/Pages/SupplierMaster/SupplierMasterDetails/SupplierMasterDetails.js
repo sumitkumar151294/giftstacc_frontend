@@ -33,7 +33,9 @@ const SupplierMasterDetails = ({ data }) => {
   const authorizationCode = GetTranslationData("UIAdmin", "authorizationCode ");
   const minThresholdAmount = GetTranslationData("UIAdmin", "minThresholdAmount");
   const required_label = GetTranslationData("UIAdmin", "required_label");
-
+  const [additionalFields, setAdditionalFields] = useState([
+    { fieldName: "", fieldValue: "" },
+  ]);
   const statusoptions = [
     { value: "Active", label: "Active" },
     { value: "Non-Active", label: "Non-Active" },
@@ -54,6 +56,8 @@ const SupplierMasterDetails = ({ data }) => {
       status: "",
       amount: "",
       availabelAmount: "",
+      fieldName: "",
+      fieldValue: "",
     });
 
     // You may also want to reset errors here if needed
@@ -68,6 +72,8 @@ const SupplierMasterDetails = ({ data }) => {
       status: "",
       amount: "",
       availabelAmount: "",
+      fieldName: "",
+      fieldValue: "",
     });
 
     if (supplyPostData.status_code === 200) {
@@ -75,7 +81,7 @@ const SupplierMasterDetails = ({ data }) => {
       dispatch(onGetSupplierList());
     }
   }, [data]);
-  
+
   const handleChange = (e, fieldName) => {
     setVendorData({
       ...vendorData,
@@ -148,11 +154,10 @@ const SupplierMasterDetails = ({ data }) => {
     }
   }, [supplyPostData.message]);
 
-  const [additionalFields, setAdditionalFields] = useState([
-    { fieldName: "", fieldValue: "" },
-  ]);
 
-  const handleAddMore = () => {
+
+  const handleAddMore = (e) => {
+    e.preventDefault();
     setAdditionalFields([...additionalFields, { fieldName: "", fieldValue: "" }]);
   };
 
@@ -214,8 +219,6 @@ const SupplierMasterDetails = ({ data }) => {
                             options={statusoptions}
                           />
                         </div>
-
-
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="amount">
                             {minThresholdAmount}
@@ -258,10 +261,10 @@ const SupplierMasterDetails = ({ data }) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className="form-control"
+                                    className={` ${errors.fieldName ? "border-danger" : "form-control"}`}
                                     name="fname"
                                     placeholder="Key"
-                                    value={field.fieldName}
+                                    value={vendorData.fieldName}
                                     onChange={(e) => handleAdditionalFieldChange(e, index, 'fieldName')}
                                   />
                                 </div>
@@ -272,10 +275,10 @@ const SupplierMasterDetails = ({ data }) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className="form-control"
+                                    className={` ${errors.fieldValue ? "border-danger" : "form-control"}`}
                                     name="fname"
                                     placeholder="Value"
-                                    value={field.fieldValue}
+                                    value={vendorData.fieldValue}
                                     onChange={(e) => handleAdditionalFieldChange(e, index, 'fieldValue')}
                                   />
                                 </div>
@@ -301,7 +304,7 @@ const SupplierMasterDetails = ({ data }) => {
                             <div className="col-sm-12 form-group mb-7">
                               <button
                                 className="btn btn-primary btn-sm float-right pad-aa mt-2"
-                                onClick={handleAddMore}
+                                onClick={(e) => handleAddMore(e)}
                               >
                                 Add More <i className="fa fa-plus"></i>
                               </button>
