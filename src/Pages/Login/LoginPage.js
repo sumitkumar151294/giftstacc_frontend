@@ -12,6 +12,8 @@ import Footer from "../../Layout/Footer/Footer";
 import image from "../../Assets/logo.png";
 import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
 import { useNavigate } from "react-router";
+import bcrypt from 'bcryptjs';
+
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,11 +59,15 @@ const LoginPage = () => {
     }
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = async (e) => {
     const { checked } = e.target;
     if (checked) {
+
+      // To encrypt the passoword 
+      const hashedPassword = await bcrypt.hash(loginData.password, 10);
+
       localStorage.setItem("userEmail", loginData.email);
-      localStorage.setItem("userPassword", loginData.password);
+      localStorage.setItem("userPassword", hashedPassword);
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userPassword");
@@ -142,9 +148,8 @@ const LoginPage = () => {
                             </label>
                             <InputField
                               type="email"
-                              className={` ${
-                                errors.email ? "border-danger" : "form-control"
-                              }`}
+                              className={` ${errors.email ? "border-danger" : "form-control"
+                                }`}
                               placeholder={GetTranslationData("UIAdmin", "email_placeholder")}
                               onChange={(e) => handleChange(e, "email")}
                               error={errors.email}
@@ -158,13 +163,12 @@ const LoginPage = () => {
                             </label>
                             <InputField
                               type="password"
-                              className={` ${
-                                errors.password
+                              className={` ${errors.password
                                   ? "border-danger"
                                   : "form-control"
-                              }`}
+                                }`}
                               onChange={(e) => handleChange(e, "password")}
-                              placeholder={GetTranslationData("UIAdmin","password_placeholder")}
+                              placeholder={GetTranslationData("UIAdmin", "password_placeholder")}
                             />
                           </div>
                           {showLoder && <Loader />}
