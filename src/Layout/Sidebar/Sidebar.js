@@ -55,7 +55,7 @@ const Sidebar = () => {
                         {getModuleData?.data?.data?.map((item, index) => (
                             <li key={index} className={`nav-icn ${item.routePath === currentUrl.pathname ? 'mm-active' : ''}`} onClick={(e)=>hanleClick(e)}>
                                 <Link className="ai-icon" to={item.routePath} aria-expanded="false">
-                                    <img src={require(`../../Assets/icon/${item.icon}.svg`)} alt={item.icon} />
+                                    {/* <img src={require(`../../Assets/icon/${item.icon}.svg`)} alt={item.icon} /> */}
                                     <span className="nav-text ps-1">{item.name}</span>
                                 </Link>
                             </li>))}
