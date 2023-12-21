@@ -1,80 +1,73 @@
-import React from "react";
-import dashboard from "../../Assets/img/Dashboard.png";
-import vendor from "../../Assets/img/vendor.png";
-import clientmaster from "../../Assets/img/clientmaster.png";
-import role from "../../Assets/img/role.png";
-import productcate from "../../Assets/img/product-cate.png";
-import product from "../../Assets/img/product.png";
-import orders from "../../Assets/img/orders.png";
-
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { onGetModule } from "../../Store/Slices/moduleSlice";
+import Loader from "../../Componenets/Loader/Loader";
+import Logout from "../../Assets/img/Logout.png";
+import { onLogout } from "../../Store/Slices/loginSlice";
+import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
 
 const Sidebar = () => {
-    const location = useLocation();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [isSidebarLoading, setIsSidebarLoading] = useState(false);
+    const logout =  GetTranslationData("UIAdmin", "logout")
+    const currentUrl = useLocation();
+    // To reset the redux store (logout the user)
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatch(onLogout());
+        localStorage.clear();
+        sessionStorage.clear();
+        navigate('/');
+    }
+    // get module data 
+    const getModuleData = useSelector((state) => state.moduleReducer);
+    useEffect(() => {
+        setIsSidebarLoading(true);
+        dispatch(onGetModule());
+    }, [])
+
+    useEffect(() => {
+        if (!getModuleData.isLoading) {
+            setIsSidebarLoading(false);
+        } else {
+            setIsSidebarLoading(true);
+        }
+    }, [getModuleData])
+
+    // function to add active class on Li
+    const hanleClick = (e) =>{
+        document.querySelectorAll('.mm-active').forEach(e => {e.classList.remove('mm-active')});
+        e.target.closest('.nav-icn').classList.add('mm-active')
+    }
+
+
     return (
-        <div class="deznav">
-            <div class="deznav-scroll">
-                <ul class="metismenu" id="menu">
-                    <li className={location.pathname === "/LC-admin" ? "mm-active" : ""}  >
-                        <Link class="ai-icon" to="/LC-admin" aria-expanded="false">
-                            <img class="w-20px" src={dashboard} alt="file not exist" />
-                            <span class="nav-text ps-1">Dashbaord</span>
-                        </Link>
-                    </li>
+        <div className="deznav">
+            <div className="deznav-scroll">
+                {isSidebarLoading ? (
+                    <div style={{ height: "400px" }}>
+                        <Loader classType={"absoluteLoader"} />
+                    </div>
+                ) : (
+                    <ul className="metismenu" id="menu">
+                        {getModuleData?.data?.data?.map((item, index) => (
+                            <li key={index} className={`nav-icn ${item.routePath === currentUrl.pathname ? 'mm-active' : ''}`} onClick={(e)=>hanleClick(e)}>
+                                <Link className="ai-icon" to={item.routePath} aria-expanded="false">
+                                    {/* <img src={require(`../../Assets/icon/${item.icon}.svg`)} alt={item.icon} /> */}
+                                    <span className="nav-text ps-1">{item.name}</span>
+                                </Link>
+                            </li>))}
+                        <li>
+                            <Link className="ai-icon " onClick={handleLogout} aria-expanded="false">
+                                <img className="w-20px" src={Logout} alt="file not exist" />
+                                <span className="nav-text ps-1"> {logout}</span>
+                            </Link>
+                        </li>
+                    </ul>
 
-                    <li className={location.pathname === "/LC-admin/supplymaster" ? "mm-active" : ""}>
-                        <Link class="ai-icon" to="/LC-admin/supplymaster" aria-expanded="false" >
-                            <img class="w-20px" src={vendor} alt="file not exist" />
-                            <span class="nav-text ps-1">Supplier Master</span>
-                        </Link>
-                    </li>
-
-                    <li className={location.pathname === "/LC-admin/supplierbrandlist" ? "mm-active" : ""}>
-                        <Link to="/LC-admin/supplierbrandlist" class="ai-icon" aria-expanded="false"    >
-                            <img class="w-20px" src={productcate} alt="file not exist" />
-                            <span class="nav-text ps-1">Supplier Brand List</span>
-                        </Link>
-                    </li>
-                    <li className={location.pathname === "/LC-admin/createcategories" ? "mm-active" : ""}>
-                        <Link class="ai-icon" to="/LC-admin/createcategories" aria-expanded="false"    >
-                            <img class="w-20px" src={productcate} alt="file not exist" />
-                            <span class="nav-text ps-1">Create Categories</span>
-                        </Link>
-                    </li>
-                    <li className={location.pathname === "/LC-admin/rolemaster" ? "mm-active" : ""}    >
-                        <Link class="ai-icon" to="/LC-admin/rolemaster" aria-expanded="false"    >
-                            <img class="w-20px" src={role} alt="file not exist" />
-                            <span class="nav-text ps-1">Role Master</span>
-                        </Link>
-                    </li>
-                    <li className={location.pathname === "/LC-admin/clientmaster" ? "mm-active" : ""} >
-                        <Link class="ai-icon" to="/LC-admin/clientmaster" aria-expanded="false" >
-                            <img class="w-20px" src={clientmaster} alt="file not exist" />
-                            <span class="nav-text ps-1">Client Master</span>
-                        </Link>
-                    </li>
-
-                    <li className={location.pathname === "/LC-admin/usermaster" ? "mm-active" : ""} >
-                        <Link class="ai-icon" to="/LC-admin/usermaster" aria-expanded="false">
-                            <img class="w-20px" src={clientmaster} alt="file not exist" />
-                            <span class="nav-text ps-1">User Master</span>
-                        </Link>
-                    </li>
-
-                    <li className={location.pathname === "/LC-admin/brandcatalogue" ? "mm-active" : ""} >
-                        <Link to="/LC-admin/brandcatalouge" class="ai-icon" aria-expanded="false">
-                            <img class="w-20px" src={product} alt="file not exist" />
-                            <span class="nav-text ps-1">Brand Catalouge</span>
-                        </Link>
-                    </li>
-
-                    <li className={location.pathname === "/LC-admin/orders" ? "mm-active" : ""}>
-                        <Link to="/LC-admin/orders" class="ai-icon" aria-expanded="false">
-                            <img class="w-20px" src={orders} alt="file not exist" />
-                            <span class="nav-text ps-1">Orders</span>
-                        </Link>
-                    </li>
-                </ul>
+                )}
             </div>
         </div>
     );
