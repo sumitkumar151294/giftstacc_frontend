@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  onGetSupplierList,
-  onUpdateSupplierList,
-  onVendorSubmit,
-} from "../../../Store/Slices/supplierMasterSlice";
+import { onGetSupplierList, onUpdateSupplierList, onVendorSubmit } from "../../../Store/Slices/supplierMasterSlice";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import { ToastContainer, toast } from "react-toastify";
 import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
 import InputField from "../../../Componenets/InputField/InputField";
+import './SupplierMasterDetails.scss'
+import Dropdown from "../../../Componenets/Dropdown/Dropdown";
 
 const SupplierMasterDetails = ({ data }) => {
   const dispatch = useDispatch();
@@ -35,6 +33,13 @@ const SupplierMasterDetails = ({ data }) => {
   const authorizationCode = GetTranslationData("UIAdmin", "authorizationCode ");
   const minThresholdAmount = GetTranslationData("UIAdmin", "minThresholdAmount");
   const required_label = GetTranslationData("UIAdmin", "required_label");
+  const [additionalFields, setAdditionalFields] = useState([
+    { fieldName: "", fieldValue: "" },
+  ]);
+  const statusoptions = [
+    { value: "Active", label: "Active" },
+    { value: "Non-Active", label: "Non-Active" },
+  ];
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -50,6 +55,9 @@ const SupplierMasterDetails = ({ data }) => {
       code: "",
       status: "",
       amount: "",
+      availabelAmount: "",
+      fieldName: "",
+      fieldValue: "",
     });
 
     // You may also want to reset errors here if needed
@@ -63,6 +71,9 @@ const SupplierMasterDetails = ({ data }) => {
       code: "",
       status: "",
       amount: "",
+      availabelAmount: "",
+      fieldName: "",
+      fieldValue: "",
     });
 
     if (supplyPostData.status_code === 200) {
@@ -142,25 +153,44 @@ const SupplierMasterDetails = ({ data }) => {
       }
     }
   }, [supplyPostData.message]);
+
+
+
+  const handleAddMore = (e) => {
+    e.preventDefault();
+    setAdditionalFields([...additionalFields, { fieldName: "", fieldValue: "" }]);
+  };
+
+  const handleDelete = (index) => {
+    const newFields = [...additionalFields];
+    newFields.splice(index, 1);
+    setAdditionalFields(newFields);
+  };
+
+  const handleAdditionalFieldChange = (e, index, field) => {
+    const newFields = [...additionalFields];
+    newFields[index][field] = e.target.value;
+    setAdditionalFields(newFields);
+  };
   return (
     <>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-12 col-xxl-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">{supplierMaster}</h4>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12 col-xxl-12">
+            <div className="card">
+              <div className="card-header">
+                <h4 className="card-title">{supplierMaster}</h4>
               </div>
-              <div class="card-body position-relative">
+              <div className="card-body position-relative">
                 {isformLoading ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
-                ) : (
-                  <div class="container mt-3">
+                ) :
+                  <div className="container mt-3">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
-                        <div className={`col-sm-4 form-group mb-2 $`}>
+                        <div className="col-sm-8 form-group mb-2">
                           <label htmlFor="name-f">
                             {supplierName} <span className="text-danger">*</span>
                           </label>
@@ -176,123 +206,19 @@ const SupplierMasterDetails = ({ data }) => {
                           />
                         </div>
 
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-l">
-                            {supplierClientID}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={vendorData?.id}
-                            className={` ${errors.id ? "border-danger" : "form-control"
-                              }`}
-                            name="lname"
-                            id="name-l"
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "id")}
-                          />
-                        </div>
-
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="text">
-                            {supplierClientSecret}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            className={` ${errors.secret ? "border-danger" : "form-control"
-                              }`}
-                            name="text"
-                            value={vendorData.secret}
-                            id="text"
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "secret")}
-                          />
-                        </div>
-
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="text"> {userName}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={vendorData.username}
-                            className={` ${errors.username ? "border-danger" : "form-control"
-                              }`}
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "username")}
-                          />
-                        </div>
-
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="password-1">
-                            {password} <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="password"
-                            value={vendorData.password}
-                            className={` ${errors.password ? "border-danger" : "form-control"
-                              }`}
-                            name="password"
-                            id="password-1"
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "password")}
-                          />
-                        </div>
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="status">
                             {status} <span className="text-danger">*</span>
                           </label>
-                          <select
-                            className={` ${errors.status ? "border-danger" : "form-control"
-                              }`}
-                            aria-label="Default select example"
-                            name="status"
-                            value={vendorData.status}
+                          <Dropdown
                             onChange={(e) => handleChange(e, "status")}
-                          >
-                            <option value="" disabled>
-                              {select}
-                            </option>
-                            <option value="Active">{active}</option>
-                            <option value="Non-Active">{nonActive}</option>
-                          </select>
-                        </div>
-
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="zip">
-                            {endPoint} <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={vendorData.endPoint}
-                            className={` ${errors.endPoint ? "border-danger" : "form-control"
-                              }`}
-                            name="Zip"
-                            id="zip"
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "endPoint")}
+                            error={errors.status}
+                            value={vendorData.status || ""}
+                            className="form-select"
+                            options={statusoptions}
                           />
                         </div>
-
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="pass">
-                           {authorizationCode}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="password"
-                            name="password"
-                            className={` ${errors.code ? "border-danger" : "form-control"
-                              }`}
-                            id="pass"
-                            value={vendorData.AuthCode}
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "code")}
-                          />
-                        </div>
-
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="amount">
                             {minThresholdAmount}
@@ -302,17 +228,94 @@ const SupplierMasterDetails = ({ data }) => {
                             type="text"
                             name="text"
                             value={vendorData.amount}
-                            className={` ${errors.amount ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${errors.amount ? "border-danger" : "form-control"}`}
                             id="amount"
                             placeholder=""
                             onChange={(e) => handleChange(e, "amount")}
                           />
                         </div>
 
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="availabelAmount">
+                            Balance Available Amount
+                            <span className="text-danger">*</span>
+                          </label>
+                          <InputField
+                            type="text"
+                            name="text"
+                            value={vendorData.availabelAmount}
+                            className={` ${errors.availabelAmount ? "border-danger" : "form-control"}`}
+                            id="availabelAmount"
+                            placeholder=""
+                            onChange={(e) => handleChange(e, "availabelAmount")}
+                          />
+                        </div>
+
+                        <div className="row mt-3">
+                          <h3 style={{ borderBottom: '1px solid #ededed' }}>Supplier API Details</h3>
+
+                          {additionalFields.map((field, index) => (
+                            <React.Fragment key={index}>
+                              <div className="col-lg-4">
+                                <h4>Field Name</h4>
+                                <div className="col-sm-12 form-group mb-2">
+                                  <InputField
+                                    type="text"
+                                    className={` ${errors.fieldName ? "border-danger" : "form-control"}`}
+                                    name="fname"
+                                    placeholder="Key"
+                                    value={vendorData.fieldName}
+                                    onChange={(e) => handleAdditionalFieldChange(e, index, 'fieldName')}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="col-lg-4">
+                                <h4>Field Value</h4>
+                                <div className="col-sm-12 form-group mb-2">
+                                  <InputField
+                                    type="text"
+                                    className={` ${errors.fieldValue ? "border-danger" : "form-control"}`}
+                                    name="fname"
+                                    placeholder="Value"
+                                    value={vendorData.fieldValue}
+                                    onChange={(e) => handleAdditionalFieldChange(e, index, 'fieldValue')}
+                                  />
+                                </div>
+                              </div>
+
+                              {index < additionalFields.length - 1 &&
+                                (<div className="col-lg-3">
+                                  <br />
+                                  <div className="col-sm-12 form-group mb-7">
+                                    <button
+                                      className="btn btn-danger btn-sm float-right pad-aa mt-2"
+                                      onClick={() => handleDelete(index)}
+                                    >
+                                      Delete <i className="fa fa-trash"></i>
+                                    </button>
+                                  </div>
+                                </div>)}
+                            </React.Fragment>
+                          ))}
+
+                          <div className="col-lg-3">
+                            <br />
+                            <div className="col-sm-12 form-group mb-7">
+                              <button
+                                className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                                onClick={(e) => handleAddMore(e)}
+                              >
+                                Add More <i className="fa fa-plus"></i>
+                              </button>
+                            </div>
+                          </div>
+
+                        </div>
+
                         <span
                           className="form-check-label"
-                          for="basic_checkbox_1"
+                          htmlFor="basic_checkbox_1"
                         >
                           {required_label}
                         </span>
@@ -329,8 +332,9 @@ const SupplierMasterDetails = ({ data }) => {
                         </div>
                       </div>
                     </form>
+
                   </div>
-                )}
+                }
               </div>
             </div>
           </div>
