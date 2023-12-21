@@ -1,153 +1,221 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ClientList.scss";
 import { Link } from "react-router-dom";
 import Loader from "../../../Componenets/Loader/Loader";
 import NoRecord from "../../../Componenets/NoRecord/NoRecord";
+import ClientMasterForm from "../ClientMasterForm/ClientMasterForm";
+import { useDispatch, useSelector } from "react-redux";
+import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
+import { CSVLink } from "react-csv";
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+import { Pagination } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 const ClientList = () => {
-  const clientMasterList = [
-    {
-      name: "Jaswant Rawat",
-      mobile: "9650531790",
-      email: "jaswant@way2webworld.com",
-      id: "#98878",
-      status: "Active",
-    },
-    {
-      name: "Manish Gautam",
-      mobile: "7838345657",
-      email: "manishgautam.1@way.webworld.com",
-      id: "#98788",
-      status: "Non-Active",
-    },
-    {
-      name: "Naveen Jha",
-      mobile: "9876680901",
-      email: "naveenjha@way2webworld.com",
-      id: "#78899",
-      status: "Active",
-    },
-    {
-      name: "Vithal Chaudhary",
-      mobile: "7890654321",
-      email: "vithalchaudhary@way2webworld.com",
-      id: "#98766",
-      status: "Non-Active",
-    },
+  const dispatch = useDispatch();
+  const [data, setData] = useState();
+  const [showLoader, setShowLoader] = useState(false);
+  const clientList = useSelector((state) => state.clientMasterReducer.data);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [rowsPerPage] = useState(5);
+
+  const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
+  const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
+  const brands = GetTranslationData("UIAdmin", "brands_label");
+  const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
+  const email = GetTranslationData("UIAdmin", "contact_Email_label");
+  const clientID = GetTranslationData("UIAdmin", "client ID_label");
+  const login = GetTranslationData("UIAdmin", "login_label");
+  const action = GetTranslationData("UIAdmin", "action_label");
+  const status = GetTranslationData("UIAdmin", "Status_label");
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setPage(1);
+  };
+
+  useEffect(() => {
+    dispatch(onClientMasterSubmit());
+  }, []);
+
+  const handleEdit = (data) => {
+    const prefilled = data;
+    setData(prefilled);
+  };
+
+  const headers = [
+    { label: clientList, key: "name" },
+    { label: "number", key: "number" },
+    { label: "email", key: "email" },
+    { label: "id", key: "id" },
+    { label: "status", key: "status" },
   ];
-  const [isLoading, setIsLoading] = useState("true");
+
+  const filteredClientList = Array.isArray(clientList)
+    ? clientList.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      )
+    : [];
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  useEffect(() => {
+    setShowLoader(false);
+  }, []);
+
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
   return (
     <>
-      <div class="container-fluid pt-0">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="container-fluid mt-2 mb-2">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div class="card-header">
-                    <h4 class="card-title">Client List</h4>
+      <ClientMasterForm clientList={clientList} data={data} />
+      <div className="container-fluid pt-0">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card">
+              <div className="container-fluid mt-2 mb-2">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="card-header">
+                    <h4 className="card-title">
+                      {GetTranslationData("UIAdmin", "client List_label")}
+                    </h4>
                   </div>
-                  <div class="customer-search mb-sm-0 mb-3">
-                    <div class="input-group search-area">
+                  <div className="customer-search mb-sm-0 mb-3">
+                    <div className="input-group search-area">
                       <input
                         type="text"
-                        class="form-control only-high"
-                        placeholder="Search here......"
+                        className="form-control only-high"
+                        placeholder={searchLabel}
+                        value={searchQuery}
+                        onChange={handleSearch}
                       />
-                      <span class="input-group-text">
-                        <a href="javascript:void(0)">
-                          <i class="flaticon-381-search-2"></i>
-                        </a>
+                      <span className="input-group-text">
+                        <i className="flaticon-381-search-2"></i>
                       </span>
                     </div>
                   </div>
-
-                  <div class="d-flex align-items-center flex-wrap">
-                    <a
-                      href="javascript:void(0);"
-                      class="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                    >
-                      <i class="fa fa-file-excel me-2"></i>Export
-                    </a>
+                  <div className="d-flex align-items-center flex-wrap">
+                    {clientList && clientList.length > 0 && (
+                      <CSVLink data={clientList} headers={headers}>
+                        {filteredClientList.length > 0 && (
+                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                            <i className="fa fa-file-excel me-2"></i>
+                            export
+                          </button>
+                        )}
+                      </CSVLink>
+                    )}
                   </div>
                 </div>
               </div>
-              {clientMasterList ? (
-                <div class="card-body">
-                  {!isLoading ? (
-                    <div style={{ height: "400px" }}>
-                      <Loader classType={"absoluteLoader"} />
-                    </div>
-                  ) : (
-                    <div class="table-responsive">
-                      <table class="table header-border table-responsive-sm">
-                        <thead>
-                          <tr>
-                            <th>Contact Name</th>
-                            <th>Contact Number</th>
-                            <th>Contact Email</th>
-                            <th>Client ID</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                            <th>Login</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {clientMasterList.map((data) => (
-                            <tr>
-                              <td>
-                                {data.name}
-                                <a href="javascript:void();"></a>
-                              </td>
-                              <td>{data.mobile}</td>
-                              <td>
-                                <span class="text-muted">{data.email}</span>
-                              </td>
-                              <td>{data.id}</td>
-                              <td>
-                                <span class="badge badge-success">
-                                  {data.status}
-                                </span>
-                              </td>
-                              <td>
-                                <div class="d-flex">
-                                  <a
-                                    href="#"
-                                    class="btn btn-primary shadow btn-xs sharp me-1"
-                                  >
-                                    <i class="fas fa-pencil-alt"></i>
-                                  </a>
-                                  <a
-                                    href="#"
-                                    class="btn btn-danger shadow btn-xs sharp"
-                                  >
-                                    <i class="fa fa-trash"></i>
-                                  </a>
-                                </div>
-                              </td>
-                              <td>
-                                <a class="btn btn-secondary btn-sm float-right">
-                                  <i class="fa fa-user"></i>&nbsp;Login
-                                </a>
-                              </td>
-                              <td>
-                                <Link
-                                  to="/LC-admin/clientbrandlist"
-                                  class="btn btn-primary btn-sm float-right"
-                                >
-                                  <i class="fa fa-eye"></i>&nbsp;Brands
-                                </Link>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <NoRecord />
-              )}
+              <div className="card-body">
+                {showLoader ? (
+                  <div style={{ height: "400px" }}>
+                    <Loader classType={"absoluteLoader"} />
+                  </div>
+                ) : (
+                  <>
+                    {Array.isArray(filteredClientList) &&
+                    filteredClientList.length > 0 ? (
+                      <>
+                        <Table className="table header-border table-responsive-sm">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>{contactName}</TableCell>
+                              <TableCell>{contactNumber}</TableCell>
+                              <TableCell>{email}</TableCell>
+                              <TableCell>{clientID}</TableCell>
+                              <TableCell>{status}</TableCell>
+                              <TableCell>{action}</TableCell>
+                              <TableCell>{login}</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {filteredClientList
+                              .slice(startIndex, endIndex)
+                              .map((data) => (
+                                <TableRow key={data.id}>
+                                  <TableCell>
+                                    {data.name}
+                                    <a href="#"></a>
+                                  </TableCell>
+                                  <TableCell>{data.number}</TableCell>
+                                  <TableCell>
+                                    <span className="text-muted">
+                                      {data.email}
+                                    </span>
+                                  </TableCell>
+                                  <TableCell>{data.id}</TableCell>
+                                  <TableCell>
+                                    <span className="badge badge-success">
+                                      {data.status}
+                                    </span>
+                                  </TableCell>
+                                  <TableCell>
+                                    <div className="d-flex">
+                                      <button
+                                        className="btn btn-primary shadow btn-xs sharp me-1"
+                                        onClick={() => handleEdit(data)}
+                                      >
+                                        <i className="fas fa-pencil-alt"></i>
+                                      </button>
+                                      <button className="btn btn-danger shadow btn-xs sharp">
+                                        <i className="fa fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Link to="/LC-admin/login">
+                                      <button className="btn btn-secondary btn-sm float-right">
+                                        <i className="fa fa-user"></i>&nbsp;{" "}
+                                        {login}
+                                      </button>
+                                    </Link>
+                                  </TableCell>
+                                  <td>
+                                    <Link
+                                      to="/LC-admin/clientbrandlist"
+                                      className="btn btn-primary btn-sm float-right"
+                                    >
+                                      <i className="fa fa-eye"></i>&nbsp;
+                                      {brands}
+                                    </Link>
+                                  </td>
+                                </TableRow>
+                              ))}
+                          </TableBody>
+                        </Table>
+                        <div className="pagination-container">
+                          <Pagination
+                            count={Math.ceil(
+                              filteredClientList.length / rowsPerPage
+                            )}
+                            page={page}
+                            onChange={handlePageChange}
+                            color="primary"
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <NoRecord />
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>

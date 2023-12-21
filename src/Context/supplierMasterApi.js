@@ -8,3 +8,7 @@ export const callSupplierMasterGetApi = async () => {
   const { data = {} } = await axiosInstance.get(API.supplierMasterApi);
   return data;
 };
+export const updateSupplierMasterApi = async (payload) => {
+  const { data = {} } = await axiosInstance.post(API.updateSupplierMasterApi,payload);
+  return data;
+};

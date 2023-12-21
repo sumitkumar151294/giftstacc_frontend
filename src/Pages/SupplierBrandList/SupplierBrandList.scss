@@ -1,0 +1,89 @@
+.m-auto {
+  margin: auto ;
+}
+
+.mrr {
+  margin-right: 10px;
+}
+
+.only-high {
+  height: 3.5em ;
+}
+
+.justify-content-end {
+  justify-content: flex-end ;
+}
+
+.w-11 {
+  width: 11em;
+}
+
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.can-toggle {
+  position: relative;
+}
+
+.group-btn {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border: 3px solid #000000;
+  padding: 0.6em;
+  background: #1947e1;
+  color: white;
+}
+
+.btn-icon-end {
+  border-left: 0.0625rem solid white;
+  display: inline-block;
+  margin: -0.8rem 0 -0.8rem 1rem;
+  padding: 0.4375rem 0 0.4375rem 1rem;
+  margin: -1rem -0.25rem -1rem 1rem;
+  padding: 1rem 0 1rem 1.25rem;
+}
+
+[direction="rtl"] .btn-icon-end {
+  border-left: 0rem solid white;
+  display: inline-block;
+  margin: -0.8rem 1rem -0.8rem 0;
+  padding: 0.4375rem 1rem 0.4375rem 0;
+  border-right: 0.0625rem solid white;
+}
+
+@media only screen and (max-width: 692px) {
+  d-flex-list {
+    display: inline-table !important;
+  }
+  .btn-margin {
+    margin: 5px;
+  }
+}
+
+@media only screen and (max-width: 692px) {
+  .btn-pad {
+    padding: 0.9em;
+  }
+}
+
+@media only screen and (max-width: 692px) {
+  .btn-pad {
+    padding: 0.9em;
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  .btn-pad {
+    padding: 0.9em;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-9 {
+    flex: 0 0 auto;
+    width: 75%;
+  }
+}
+

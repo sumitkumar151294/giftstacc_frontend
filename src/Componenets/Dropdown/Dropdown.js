@@ -9,7 +9,7 @@ const Dropdown = ({ value, onChange, error, ariaLabel, className, options }) => 
         aria-label={ariaLabel}
         className={` ${error ? "border-danger" : className}`}
       >
-        <option selected>Select an option</option>
+        <option >Select</option>
         {options?.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

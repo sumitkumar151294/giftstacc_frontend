@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import SupplierMasterFrom from "./SupplierMasterForm/SupplierMasterFrom";
 import SupplierList from "./SupplierList/SupplierList";
 
 const SupplierMaster = () => {
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+  }, [loading]);
   return (
     <>
-      <div class="content-body">
-        <SupplierMasterFrom />
+      <div className="content-body">
         <SupplierList />
       </div>
     </>

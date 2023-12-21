@@ -1,119 +1,175 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CSVLink } from "react-csv";
 import Loader from '../../../Componenets/Loader/Loader';
+import './CategoryList.scss'
+import { onGetCategory, onPostCategory } from '../../../Store/Slices/createCategorySlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { GetTranslationData } from '../../../Componenets/GetTranslationData/GetTranslationData ';
+import BrandMapping from '../BrandMapping/BrandMapping';
+import ScrollToTop from '../../../Componenets/ScrollToTop/ScrollToTop';
+import NoRecord from '../../../Componenets/NoRecord/NoRecord';
+import { Pagination } from '@mui/material';
 
 const CategoryList = () => {
-    const [isLoading, setIsLoading] = useState("true");
-    const headers = [
-        { label: "category", key: "category" },
-        { label: "supplier", key: "supplier" },
-        { label: "company", key: "company" },
-      ];
-    let tableData = [
-        {
-          category: "E-Commerce",
-          supplier: "Qucksilver",
-          company: "Amazon",
-        },
-        {
-          category: "E-Commerce",
-          supplier: "Supplier 2",
-          company: "Flipcart",
-        },
-        {
-          category: "Shopping",
-          supplier: "Supplier 3",
-          company: "Nykaa",
-        },
-        {
-          category: "Food",
-          supplier: "Supplier 4",
-          company: "KFC",
-        },
-      ];
+
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [rowsPerPage] = useState(5);
+
+  const headers = [
+    { label: "category", key: "category" },
+    { label: "supplier", key: "supplier" },
+    { label: "company", key: "company" },
+  ];
+
+
+  // To get the categories
+  useEffect(() => {
+    dispatch(onGetCategory());
+  }, []);
+
+  const handleDelete = () => {
+dispatch(onPostCategory(console.log("Delete the data")));
+  }
+
+  // To get the data from redux store 
+  const getCreateCategory = useSelector((state) => state.createCategoryReducer);
+  const getCategoryData = getCreateCategory.data.data;
+  // const getMessage = getCreateCategory.data.message;
+  
+  //To get the label form DB 
+
+  const categoryList = GetTranslationData('UIAdmin', 'categoryList');
+  const categoryName = GetTranslationData('UIAdmin', 'categoryName');
+  const supplierName = GetTranslationData('UIAdmin', 'supplierName');
+  const supplierBrand = GetTranslationData('UIAdmin', 'supplierBrand');
+  const action = GetTranslationData('UIAdmin', 'action_label');
+  const export_label = GetTranslationData('UIAdmin', 'export_label')
+  const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
+
+  
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setPage(1);
+  };
+
+  const filteredCategoryList = Array.isArray(getCategoryData)
+  ? getCategoryData.filter((item) =>
+      Object.values(item).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    )
+  : [];
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
   return (
     <>
-       <div class="container-fluid pt-0">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="container mt-2 mb-2">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div class="card-header">
-                    <h4 class="card-title  txt-admin txtt">Category List</h4>
+  <ScrollToTop />
+      <div className="container-fluid pt-0">
+
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card">
+              <div className="container mt-2 mb-2">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="card-header">
+                    <h4 className="card-title  txt-admin txtt">{categoryList}</h4>
                   </div>
-                  <div class="customer-search mb-sm-0 mb-3">
-                    <div class="input-group search-area">
+                  <div className="customer-search mb-sm-0 mb-3">
+                    <div className="input-group search-area">
                       <input
                         type="text"
-                        class="form-control only-high"
-                        placeholder="Search here......"
+                        className="form-control only-high"
+                        placeholder={searchLabel}
+                        value={searchQuery}
+                        onChange={handleSearch}
                       />
-                      <span class="input-group-text">
-                        <a href="javascript:void(0)">
-                          <i class="flaticon-381-search-2"></i>
-                        </a>
+                      <span className="input-group-text">
+                        <Link>
+                          <i className="flaticon-381-search-2"></i>
+                        </Link>
                       </span>
                     </div>
                   </div>
-                  <div class="d-flex align-items-center flex-wrap">
-                    <CSVLink data={tableData} headers={headers}>
-                      <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                        <i className="fa fa-file-excel me-2"></i>export
+                  <div className="d-flex align-items-center flex-wrap">
+                    {getCategoryData && getCategoryData.length > 0 && (
+                    <CSVLink data={''} headers={headers}>
+                      {filteredCategoryList.length > 0 && (
+                        <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                        <i className="fa fa-file-excel me-2"></i>{export_label}
                       </button>
+                      )}
                     </CSVLink>
+                     )}
                   </div>
                 </div>
               </div>
-              <div class="card-body position-relative">
+             
+              <div className="card-body position-relative">
                 {!isLoading ? (
-                  <div style={{ height: "300px" }}>
-                    <Loader classType={"absoluteLoader"} />
+                  <div style={{ height: "400px" }}>
+                    <Loader classNameType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div class="table-responsive">
-                    <table class="table header-border table-responsive-sm">
+                  <div className="table-responsive">
+                   <>
+                   <table className="table header-border table-responsive-sm">
                       <thead>
                         <tr>
-                          <th>Category Name</th>
-                          <th>Supplier Name</th>
-
-                          <th>Supplier Brand</th>
-                          <th>Action</th>
+                          <th>{categoryName}</th>
+                          <th>{supplierName}</th>
+                          <th>{supplierBrand}</th>
+                          <th>{action}</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {tableData.map((item) => (
-                          <tr>
-                            <td>{item.category}</td>
+                        {getCategoryData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item.categoryName}</td>
                             <td>
-                              {item.supplier}
-                              <a href="javascript:void();"></a>
+                              {item.supplierName} 
                             </td>
-                            <td>{item.company}</td>
+                            <td>{item.supplierBrand}</td>
 
                             <td>
-                              <div class="d-flex">
-                                <a
-                                  href="#"
-                                  class="btn btn-danger shadow btn-xs sharp"
-                                >
-                                  <i class="fa fa-trash"></i>
-                                </a>
+                              <div className="d-flex">
+                                <button onClick={handleDelete} className="btn btn-danger shadow btn-xs sharp">
+                                  <i className="fa fa-trash"></i>
+                                </button>
                               </div>
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
+                     <div className="pagination-container">
+                     <Pagination
+                       count={Math.ceil(
+                        filteredCategoryList.length / rowsPerPage
+                       )}
+                       page={page}
+                       onChange={handlePageChange}
+                       color="primary"
+                     />
+                   </div>
+                   </>
                   </div>
                 )}
               </div>
+              
             </div>
           </div>
         </div>
       </div>
-    </>
+         </>
   )
 }
 
