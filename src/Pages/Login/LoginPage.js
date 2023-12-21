@@ -12,6 +12,8 @@ import Footer from "../../Layout/Footer/Footer";
 import image from "../../Assets/logo.png";
 import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
 import { useNavigate } from "react-router";
+import bcrypt from 'bcryptjs';
+
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,11 +59,14 @@ const LoginPage = () => {
     }
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = async(e) => {
     const { checked } = e.target;
     if (checked) {
+// to encrypt the passoword 
+      const hashedPassword = await bcrypt.hash(loginData.password, 10);
+
       localStorage.setItem("userEmail", loginData.email);
-      localStorage.setItem("userPassword", loginData.password);
+      localStorage.setItem("userPassword", hashedPassword);
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userPassword");
