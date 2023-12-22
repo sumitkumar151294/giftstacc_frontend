@@ -7,6 +7,7 @@ import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlic
 import NoRecord from "../../Componenets/NoRecord/NoRecord";
 import { Pagination } from "@mui/material";
 import Dropdown from "../../Componenets/Dropdown/Dropdown";
+import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
 
 const SupplierBrandList = () => {
   const dispatch = useDispatch();
@@ -105,6 +106,7 @@ const SupplierBrandList = () => {
 
   return (
     <>
+    <ScrollToTop />
       <div className="content-body">
         <div className="container-fluid">
           <div className="row">
