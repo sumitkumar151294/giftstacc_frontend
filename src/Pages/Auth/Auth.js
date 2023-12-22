@@ -25,7 +25,6 @@ const Auth = () => {
     if (matchingConfig) {
       const { ACCESS_KEY, SECRET_KEY, CLIENT_KEY, PARTNER_KEY } =
         matchingConfig;
-
       dispatch(
         onLoginAuthSubmit({
           clientId: CLIENT_KEY,
@@ -73,7 +72,7 @@ const Auth = () => {
 
   return (
     <>
-      <RouteConfiq />
+     {showLoader ? <Loader /> : <>{showError ? <Error /> : <RouteConfiq />}</>}
     </>
   );
 };
