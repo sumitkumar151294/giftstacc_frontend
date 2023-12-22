@@ -5,6 +5,8 @@ import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch } from "react-redux";
 import { onUpdateUserRole } from "../../../Store/Slices/userRoleSlice";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+import { ScrollRestoration } from "react-router-dom";
+import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
 const RoleMasterModule = (props) => {
     const [isLoading, setIsLoading] = useState("true");
     const dispatch =useDispatch();
@@ -19,6 +21,7 @@ const RoleMasterModule = (props) => {
 
     return (
         <>
+        <ScrollToTop />
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">

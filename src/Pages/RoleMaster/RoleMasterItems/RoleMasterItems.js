@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../RoleMaster.scss";
 import Loader from "../../../Componenets/Loader/Loader";
-import { onGetModule } from "../../../Store/Slices/moduleSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onPostUserRole,
 } from "../../../Store/Slices/userRoleSlice";
 import InputField from "../../../Componenets/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
-import { onPostUserRoleModuleAccess } from "../../../Store/Slices/userRoleModuleAccessSlice";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
 const RoleMasterItems = () => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState("true");
@@ -20,13 +19,13 @@ const RoleMasterItems = () => {
   const [formData, setFormData] = useState({
     code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
     name: "",
-    modules: {},
+    modules: [],
   });
 
   const isSelectAllChecked = Object.values(formData.modules).every(
     (module) => module
   );
-  
+
 // To get the label from DB
 const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
 const roleName = GetTranslationData("UIAdmin", "role-name");
@@ -81,40 +80,13 @@ const submit = GetTranslationData("UIAdmin", "submit_label");
       toast.error("Role Name is required.");
       return;
     }
-
-    const { name, code } = formData;
-    const nameValue = { name, code };
-    dispatch(onPostUserRole(nameValue));
-    dispatch(onPostUserRoleModuleAccess());
+    dispatch(onPostUserRole(formData));
   };
-  // to get module role id from user role api and call the moduel access api
-  useEffect(() => {
-    if (getRoleId.data) {
-      const roleId = getRoleId.data.data?.id;
 
-      const selectedModuleIds = Object.keys(formData.modules)
-        .filter((moduleId) => formData.modules[moduleId])
-        .map((moduleId) => Number(moduleId))
-        .filter(
-          (moduleId) =>
-            getModuleData &&
-            getModuleData.some((module) => module.id === moduleId)
-        );
-
-      const accessData = {
-        roleId: roleId,
-        moduleId: selectedModuleIds[0],
-        viewAccess: true,
-        addAccess: true,
-        editAccess: true,
-      };
-
-      dispatch(onPostUserRoleModuleAccess(accessData));
-    }
-  }, [getRoleId.data, formData.modules, getModuleData]);
 
   return (
     <>
+    <ScrollToTop />
       <div className="container-fluid">
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
