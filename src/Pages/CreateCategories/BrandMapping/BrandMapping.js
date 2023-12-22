@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { onPostCategory } from "../../../Store/Slices/createCategorySlice";
@@ -7,6 +7,8 @@ import Dropdown from "../../../Componenets/Dropdown/Dropdown";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
+import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
+import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 
 
 const BrandMapping = () => {
@@ -27,8 +29,22 @@ const BrandMapping = () => {
   );
 
   // To get the supplier name from redux store 
+  useEffect(() => {
+    dispatch(onGetSupplierList())
+  }, [])
+
   const getSupplierName = useSelector(
     (state) => state.supplierMasterReducer.data.data
+  );
+
+  // To get the Supplier Brand from redux store 
+
+  useEffect(() => {
+    dispatch(onGetSupplierBrandList())
+  }, [])
+
+  const getSupplierBrand = useSelector(
+    (state) => state.supplierBrandListReducer.data.data
   );
 
   // To get the dropdown values of Supplier Name
@@ -37,10 +53,6 @@ const BrandMapping = () => {
     key: index
   }));
 
-  // To get the Supplier Brand from redux store 
-  const getSupplierBrand = useSelector(
-    (state) => state.supplierBrandListReducer.data.data
-  );
   // To get the dropdown values of Supplier Brands
   const supplierBrandOptions = getSupplierBrand?.map((supplierBrand, index) => ({
     label: supplierBrand.brands,
