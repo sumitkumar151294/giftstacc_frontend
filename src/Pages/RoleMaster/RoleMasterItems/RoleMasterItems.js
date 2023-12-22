@@ -4,12 +4,12 @@ import Loader from "../../../Componenets/Loader/Loader";
 import { onGetModule } from "../../../Store/Slices/moduleSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  onGetUserRole,
   onPostUserRole,
 } from "../../../Store/Slices/userRoleSlice";
 import InputField from "../../../Componenets/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { onPostUserRoleModuleAccess } from "../../../Store/Slices/userRoleModuleAccessSlice";
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 const RoleMasterItems = () => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState("true");
@@ -26,6 +26,13 @@ const RoleMasterItems = () => {
   const isSelectAllChecked = Object.values(formData.modules).every(
     (module) => module
   );
+  
+// To get the label from DB
+const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
+const roleName = GetTranslationData("UIAdmin", "role-name");
+const selectall = GetTranslationData("UIAdmin", "selectall");
+const moduleAccess = GetTranslationData("UIAdmin", "module-access");
+const submit = GetTranslationData("UIAdmin", "submit_label");
 
   useEffect(() => {
     if (getModuleData) {
@@ -113,7 +120,7 @@ const RoleMasterItems = () => {
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="card-header">
-                <h4 className="card-title">Role Master</h4>
+                <h4 className="card-title">{roleMasterLabel}</h4>
               </div>
               <div className="card-body position-relative">
                 {!isformLoading ? (
@@ -125,7 +132,7 @@ const RoleMasterItems = () => {
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-f">Role Name</label>
+                          <label htmlFor="name-f">{roleName}</label>
                           <InputField
                             type="text"
                             className="form-control"
@@ -153,12 +160,12 @@ const RoleMasterItems = () => {
                               className="form-check-label fnt-17"
                               htmlFor="flexCheckDefault1"
                             >
-                              Select All
+                             {selectall}
                             </label>
                           </div>
                         </div>
                         <div className="col-lg-12 br pt-2">
-                          <label htmlFor="name-f">Module Access</label>
+                          <label htmlFor="name-f">{moduleAccess}</label>
                           <div className="row ml-4">
                             {Object.entries(formData.modules).map(
                               ([module, checked]) => (
@@ -195,7 +202,7 @@ const RoleMasterItems = () => {
                           </div>
                           <div className="col-sm-4 mt-4 mb-4">
                             <button className="btn btn-primary float-right pad-aa">
-                              Submit
+                              {submit}
                             </button>
                             <ToastContainer />
                           </div>

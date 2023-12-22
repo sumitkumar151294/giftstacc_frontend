@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
 const RoleMaster = () => {
     const dispatch = useDispatch();
-    const roleAccessListData = useSelector((state) => state.userRoleReducer);  // to get role module access list 
+    const roleAccessListData = useSelector((state) => state.userRoleReducer.data);  
     useEffect(() => {
         // user-role get api call 
         dispatch(onGetUserRole());

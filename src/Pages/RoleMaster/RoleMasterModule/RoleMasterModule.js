@@ -26,7 +26,7 @@ const RoleMasterModule = (props) => {
                             <div className="card-header">
                                 <h4 className="card-title">{roleModuleAccessList}</h4>
                             </div>
-                            {/* {props.roleAccessListData ? (
+                         {props.roleAccessListData ? (
                                 <div className="card-body position-relative">
                                     {!isLoading ? (
                                         <div style={{ height: "400px" }}>
@@ -62,7 +62,7 @@ const RoleMasterModule = (props) => {
                                 </div>
                             ) : (
                                 <NoRecord />
-                            )} */}
+                            )} 
                         </div>
                     </div>
                 </div>
