@@ -4,6 +4,7 @@ import Loader from '../../Componenets/Loader/Loader'
 import { Chart } from './Chart'
 import Revenue from './Revenue'
 import Users from './Users'
+import ScrollToTop from '../../Componenets/ScrollToTop/ScrollToTop'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState('false')
@@ -15,6 +16,7 @@ const Dashboard = () => {
       ) : (
         <div className="container-fluid">
           <div className="row">
+            <ScrollToTop/>
             <Chart />
             <Revenue />
             <Users />            
