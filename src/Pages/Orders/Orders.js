@@ -1,6 +1,7 @@
 import React from "react";
 import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
 import './Orders.scss'
+import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
 
 const Orders = () => {
 
@@ -50,7 +51,7 @@ const Orders = () => {
     const ordermargin = GetTranslationData("UIAdmin", "ordermargin");
     const ordermarginvalue = GetTranslationData("UIAdmin", "ordermarginvalue");
     return (
-        <div class='content-body'>
+        <><ScrollToTop /><div class='content-body'>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-12 col-xxl-12">
@@ -136,7 +137,7 @@ const Orders = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div></>
     );
 };
 
