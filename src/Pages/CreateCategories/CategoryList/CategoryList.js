@@ -6,42 +6,36 @@ import { onGetCategory, onPostCategory } from '../../../Store/Slices/createCateg
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GetTranslationData } from '../../../Componenets/GetTranslationData/GetTranslationData ';
-import BrandMapping from '../BrandMapping/BrandMapping';
 import ScrollToTop from '../../../Componenets/ScrollToTop/ScrollToTop';
 import NoRecord from '../../../Componenets/NoRecord/NoRecord';
 import { Pagination } from '@mui/material';
+import { toast, ToastContainer } from 'react-toastify';
 
 const CategoryList = () => {
 
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
 
   const headers = [
-    { label: "category", key: "category" },
-    { label: "supplier", key: "supplier" },
-    { label: "company", key: "company" },
+    { label: "categoryName", key: "categoryName" },
+    { label: "supplierName", key: "supplierName" },
+    { label: "supplierBrand", key: "supplierBrand" },
   ];
-
 
   // To get the categories
   useEffect(() => {
     dispatch(onGetCategory());
   }, []);
 
-  const handleDelete = () => {
-dispatch(onPostCategory(console.log("Delete the data")));
-  }
 
   // To get the data from redux store 
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
   const getCategoryData = getCreateCategory.data.data;
-  // const getMessage = getCreateCategory.data.message;
-  
-  //To get the label form DB 
 
+  //To get the label form DB 
   const categoryList = GetTranslationData('UIAdmin', 'categoryList');
   const categoryName = GetTranslationData('UIAdmin', 'categoryName');
   const supplierName = GetTranslationData('UIAdmin', 'supplierName');
@@ -50,7 +44,7 @@ dispatch(onPostCategory(console.log("Delete the data")));
   const export_label = GetTranslationData('UIAdmin', 'export_label')
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
 
-  
+// To search the data 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -58,21 +52,30 @@ dispatch(onPostCategory(console.log("Delete the data")));
 
   const filteredCategoryList = Array.isArray(getCategoryData)
   ? getCategoryData.filter((item) =>
-      Object.values(item).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+    Object.values(item).some(
+      (value) =>
+        value &&
+        typeof value === "string" &&
+        value.toLowerCase().includes(searchQuery.toLowerCase())
     )
+  )
   : [];
-  const handlePageChange = (newPage) => {
+
+  // For Pagination
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
+  const handlePageChange = (event, newPage) => {
     setPage(newPage);
+  };
+
+  const handleDelete = () => {
+    toast.error("Data Deleted")
   };
 
   return (
     <>
-  <ScrollToTop />
+      <ScrollToTop />
       <div className="container-fluid pt-0">
 
         <div className="row">
@@ -101,75 +104,88 @@ dispatch(onPostCategory(console.log("Delete the data")));
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     {getCategoryData && getCategoryData.length > 0 && (
-                    <CSVLink data={''} headers={headers}>
-                      {filteredCategoryList.length > 0 && (
-                        <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                        <i className="fa fa-file-excel me-2"></i>{export_label}
-                      </button>
-                      )}
-                    </CSVLink>
-                     )}
+                      <CSVLink data={filteredCategoryList} headers={headers}>
+                        {filteredCategoryList.length > 0 && (
+                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                            <i className="fa fa-file-excel me-2"></i>{export_label}
+                          </button>
+                        )}
+                      </CSVLink>
+                    )}
                   </div>
                 </div>
               </div>
-             
-              <div className="card-body position-relative">
-                {!isLoading ? (
+
+              <div className="card-body">
+              {showLoader ? (
                   <div style={{ height: "400px" }}>
                     <Loader classNameType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="table-responsive">
-                   <>
-                   <table className="table header-border table-responsive-sm">
-                      <thead>
-                        <tr>
-                          <th>{categoryName}</th>
-                          <th>{supplierName}</th>
-                          <th>{supplierBrand}</th>
-                          <th>{action}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {getCategoryData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{item.categoryName}</td>
-                            <td>
-                              {item.supplierName} 
-                            </td>
-                            <td>{item.supplierBrand}</td>
+                  <>
+                    {Array.isArray(filteredCategoryList) &&
+                      filteredCategoryList.length > 0 ? (
+                      <>
+                        <div className="table-responsive">
 
-                            <td>
+                          <table className="table header-border table-responsive-sm">
+                            <thead>
+                              <tr>
+                                <th>{categoryName}</th>
+                                <th>{supplierName}</th>
+                                <th>{supplierBrand}</th>
+                                <th>{action}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {filteredCategoryList
+                                  .slice(startIndex, endIndex)
+                                  .map((item,index) => (
+                                <tr key={index}>
+                                  <td>{item.categoryName}</td>
+                                  <td>
+                                    {item.supplierName}
+                                  </td>
+                                  <td>{item.supplierBrand}</td>
+
+                                  <td>
                               <div className="d-flex">
-                                <button onClick={handleDelete} className="btn btn-danger shadow btn-xs sharp">
+                                <Link
+                                  onClick={handleDelete}
+                                  className="btn btn-danger shadow btn-xs sharp"
+                                >
                                   <i className="fa fa-trash"></i>
-                                </button>
+                                </Link>
+                                <ToastContainer/>
                               </div>
                             </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                     <div className="pagination-container">
-                     <Pagination
-                       count={Math.ceil(
-                        filteredCategoryList.length / rowsPerPage
-                       )}
-                       page={page}
-                       onChange={handlePageChange}
-                       color="primary"
-                     />
-                   </div>
-                   </>
-                  </div>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                          <div className="pagination-container">
+                            <Pagination
+                              count={Math.ceil(filteredCategoryList.length / rowsPerPage)}
+                              page={page}
+                              onChange={handlePageChange}
+                              color="primary"
+                            />
+                          </div>
+
+                        </div>
+                      </>
+                    ) : (
+                      <NoRecord />
+                    )}
+                  </>
                 )}
               </div>
-              
+
             </div>
           </div>
         </div>
       </div>
-         </>
+    </>
   )
 }
 

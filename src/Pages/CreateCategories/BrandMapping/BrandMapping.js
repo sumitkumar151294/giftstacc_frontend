@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { onPostCategory } from "../../../Store/Slices/createCategorySlice";
 import InputField from "../../../Componenets/InputField/InputField";
 import Dropdown from "../../../Componenets/Dropdown/Dropdown";
-import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
-import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
-import NoRecord from "../../../Componenets/NoRecord/NoRecord";
-import CategoryList from "../CategoryList/CategoryList";
+
 
 const BrandMapping = () => {
   const dispatch = useDispatch();
@@ -28,19 +25,29 @@ const BrandMapping = () => {
   const getMessage = useSelector(
     (state) => state.createCategoryReducer.message
   );
-  useEffect(() => {
-    dispatch(onGetSupplierList());
-  }, []);
 
-  useEffect(() => {
-    dispatch(onGetSupplierBrandList());
-  }, []);
-
-  const getSupplierMasterData = useSelector(
-    (state) => state.supplierMasterReducer
+  // To get the supplier name from redux store 
+  const getSupplierName = useSelector(
+    (state) => state.supplierMasterReducer.data.data
   );
-  const getSupplierName = getSupplierMasterData.data.data;
 
+  // To get the dropdown values of Supplier Name
+  const supplierNameOptions = getSupplierName?.map((supplier, index) => ({
+    label: supplier.name,
+    key: index
+  }));
+
+  // To get the Supplier Brand from redux store 
+  const getSupplierBrand = useSelector(
+    (state) => state.supplierBrandListReducer.data.data
+  );
+  // To get the dropdown values of Supplier Brands
+  const supplierBrandOptions = getSupplierBrand?.map((supplierBrand, index) => ({
+    label: supplierBrand.brands,
+    key: index
+  }));
+
+  // To get the labels form Api/Database
   const createUpdateBrandMapping = GetTranslationData(
     "UIAdmin",
     "createUpdateBrandMapping"
@@ -59,14 +66,6 @@ const BrandMapping = () => {
     "required_label"
   );
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
-
-  const brandOptions = [
-    { label: "Havels", value: "havels" },
-    { label: "Zara", value: "zara" },
-    { label: "Campus", value: "campus" },
-    { label: "Puma", value: "puma" },
-    { label: "Sony", value: "sony" },
-  ];
 
   const handleChange = (e, fieldName) => {
     setCreateCategory({
@@ -120,6 +119,7 @@ const BrandMapping = () => {
   return (
     <>
       <ScrollToTop />
+      <ToastContainer />
       <div className="container-fluid">
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
@@ -146,11 +146,10 @@ const BrandMapping = () => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.categoryName
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={` ${errors.categoryName
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
                             name="categoryNam"
                             id="name-f"
                             placeholder=""
@@ -167,14 +166,11 @@ const BrandMapping = () => {
                             onChange={(e) => handleChange(e, "supplierName")}
                             error={errors.supplierName}
                             ariaLabel="Select"
-                            className={` ${
-                              errors.supplierName
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
-                            options={getSupplierName?.map((supplier) => ({
-                              label: supplier.name,
-                            }))}
+                            className={` ${errors.supplierName
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
+                            options={supplierNameOptions}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -186,12 +182,11 @@ const BrandMapping = () => {
                             onChange={(e) => handleChange(e, "supplierBrand")}
                             error={errors.supplierBrand}
                             ariaLabel="Select"
-                            className={` ${
-                              errors.supplierBrand
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
-                            options={brandOptions}
+                            className={` ${errors.supplierBrand
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
+                            options={supplierBrandOptions}
                           />
                         </div>
                       </div>
@@ -218,7 +213,6 @@ const BrandMapping = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 };
