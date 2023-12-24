@@ -11,10 +11,9 @@ import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetT
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
 const RoleMasterItems = () => {
   const dispatch = useDispatch();
-  const [isformLoading, setIsFormLoading] = useState("true");
+  const [isformLoading, setIsFormLoading] = useState(true);
   const getModule = useSelector((state) => state.moduleReducer);
   const getModuleData = getModule?.data?.data;
-  const getRoleId = useSelector((state) => state.userRoleReducer);
 
   const [formData, setFormData] = useState({
     code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
@@ -22,23 +21,22 @@ const RoleMasterItems = () => {
     modules: [],
   });
 
-  const isSelectAllChecked = Object.values(formData.modules).every(
-    (module) => module
-  );
+  const isSelectAllChecked = formData.modules.length > 0 && formData.modules.every((module) => module.checked);
 
 // To get the label from DB
-const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
-const roleName = GetTranslationData("UIAdmin", "role-name");
-const selectall = GetTranslationData("UIAdmin", "selectall");
-const moduleAccess = GetTranslationData("UIAdmin", "module-access");
-const submit = GetTranslationData("UIAdmin", "submit_label");
+  const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
+  const roleName = GetTranslationData("UIAdmin", "role-name");
+  const selectall = GetTranslationData("UIAdmin", "selectall");
+  const moduleAccess = GetTranslationData("UIAdmin", "module-access");
+  const submit = GetTranslationData("UIAdmin", "submit_label");
 
   useEffect(() => {
     if (getModuleData) {
-      const modulesData = {};
-      getModuleData.forEach((module) => {
-        modulesData[module.name.toLowerCase()] = false;
-      });
+      const modulesData = getModuleData.map((module) => ({
+        id: module.id,
+        name: module.name,
+        checked: false,
+      }));
       setFormData({
         ...formData,
         modules: modulesData,
@@ -48,28 +46,29 @@ const submit = GetTranslationData("UIAdmin", "submit_label");
   }, [getModuleData]);
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, type, checked } = e.target;
+
     if (name === "selectAll") {
-      const updatedModules = { ...formData.modules };
-      for (const key in updatedModules) {
-        updatedModules[key] = checked;
-      }
+      const updatedModules = formData.modules.map((module) => ({
+        ...module,
+        checked,
+      }));
       setFormData({
         ...formData,
         modules: updatedModules,
       });
     } else if (type === "checkbox") {
+      const updatedModules = formData.modules.map((module) =>
+        module.name === name ? { ...module, checked } : module
+      );
       setFormData({
         ...formData,
-        modules: {
-          ...formData.modules,
-          [name]: checked,
-        },
+        modules: updatedModules,
       });
     } else {
       setFormData({
         ...formData,
-        [name]: value,
+        [name]: e.target.value,
       });
     }
   };
@@ -80,13 +79,23 @@ const submit = GetTranslationData("UIAdmin", "submit_label");
       toast.error("Role Name is required.");
       return;
     }
-    dispatch(onPostUserRole(formData));
-  };
+    // Here you can access selected module IDs using formData.modules
+    const selectedModuleIds = formData.modules
+      .filter((module) => module.checked)
+      .map((module) => module.id);
 
+    const postData = {
+      code:formData.code,
+      name: formData.name,
+      moduleIds: selectedModuleIds,
+    };
+
+    dispatch(onPostUserRole(postData));
+  };
 
   return (
     <>
-    <ScrollToTop />
+      <ScrollToTop />
       <div className="container-fluid">
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
@@ -123,7 +132,7 @@ const submit = GetTranslationData("UIAdmin", "submit_label");
                               className="form-check-input"
                               type="checkbox"
                               name="selectAll"
-                              value={formData.modules.selectAll}
+                              value={formData.modules.length > 0 && formData.modules.every((module) => module.checked)}
                               id="flexCheckDefault1"
                               checked={isSelectAllChecked}
                               onChange={handleInputChange}
@@ -132,45 +141,43 @@ const submit = GetTranslationData("UIAdmin", "submit_label");
                               className="form-check-label fnt-17"
                               htmlFor="flexCheckDefault1"
                             >
-                             {selectall}
+                              {selectall}
                             </label>
                           </div>
                         </div>
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{moduleAccess}</label>
                           <div className="row ml-4">
-                            {Object.entries(formData.modules).map(
-                              ([module, checked]) => (
-                                <div
-                                  className="form-check mt-2 col-lg-3"
-                                  key={module}
+                            {formData.modules.map(({ id, name, checked }) => (
+                              <div
+                                className="form-check mt-2 col-lg-3"
+                                key={id}
+                              >
+                                <InputField
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  name={name}
+                                  value={checked}
+                                  id={`flexCheckDefault-${id}`}
+                                  checked={checked}
+                                  onChange={handleInputChange}
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor={`flexCheckDefault-${id}`}
                                 >
-                                  <InputField
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    name={module}
-                                    value={checked}
-                                    id={`flexCheckDefault-${module}`}
-                                    checked={checked}
-                                    onChange={handleInputChange}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor={`flexCheckDefault-${module}`}
-                                  >
-                                    {module
-                                      .replace(/([A-Z])/g, " $1")
-                                      .split(" ")
-                                      .map(
-                                        (word) =>
-                                          word.charAt(0).toUpperCase() +
-                                          word.slice(1).toLowerCase()
-                                      )
-                                      .join(" ")}
-                                  </label>
-                                </div>
-                              )
-                            )}
+                                  {name
+                                    .replace(/([A-Z])/g, " $1")
+                                    .split(" ")
+                                    .map(
+                                      (word) =>
+                                        word.charAt(0).toUpperCase() +
+                                        word.slice(1).toLowerCase()
+                                    )
+                                    .join(" ")}
+                                </label>
+                              </div>
+                            ))}
                           </div>
                           <div className="col-sm-4 mt-4 mb-4">
                             <button className="btn btn-primary float-right pad-aa">
@@ -191,4 +198,5 @@ const submit = GetTranslationData("UIAdmin", "submit_label");
     </>
   );
 };
+
 export default RoleMasterItems;
