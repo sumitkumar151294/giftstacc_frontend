@@ -7,6 +7,7 @@ import { onGetUserRole, onUpdateUserRole } from "../../../Store/Slices/userRoleS
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import { ScrollRestoration } from "react-router-dom";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
+import { onGetUserRoleModuleAccess } from "../../../Store/Slices/userRoleModuleAccessSlice";
 const RoleMasterModule = () => {
     const [isLoading, setIsLoading] = useState("true");
     const dispatch =useDispatch();
@@ -18,14 +19,21 @@ const RoleMasterModule = () => {
     const roleName = GetTranslationData("UIAdmin", "role-name");
     const modules = GetTranslationData("UIAdmin", "modules");
     const action = GetTranslationData("UIAdmin", "action");
-
-    const roleAccessListData = useSelector((state) => state.userRoleReducer?.data?.data);  
-    console.log(roleAccessListData?.data,"roleAccessListData");
+    const roleAccessListData = useSelector((state) => state.userRoleReducer?.data?.data);
+    const moduleList = useSelector((state) => state.moduleReducer?.data?.data);    
     useEffect(() => {
         // user-role get api call 
         dispatch(onGetUserRole());
     }, []);
 
+    const getModuleName = (id) =>{
+        let moduleName = moduleList.filter((item)=>item.id===id)
+        if(moduleName.length>0){
+            return moduleName[0].name
+        }else{
+            return '';
+        }
+    }
     return (
         <>
         <ScrollToTop />
@@ -58,8 +66,8 @@ const RoleMasterModule = () => {
                                                             <td>{data.name}
                                                             </td>
                                                             <td><div className="d-flex">
-                                                                {data.modules?.map((items) => (
-                                                                    <span className="badge badge-success mr-10">{items}</span>
+                                                                {data.moduleIds?.map((items) => (
+                                                                    <span className="badge badge-success mr-10">{getModuleName(items)}</span>
                                                                 ))}
                                                             </div></td>
                                                             <td><a  onClick={handleUpdate} className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
