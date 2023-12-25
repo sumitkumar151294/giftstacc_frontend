@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import '../UserMaster/UserMaster.scss'
-import { onGetUser } from "../../Store/Slices/userMasterSlice";
+import '../../UserMaster/UserMaster.scss'
+import { onGetUser } from "../../../Store/Slices/userMasterSlice";
 import UserDetails from "../UserDetails/UserDetails";
-import { GetTranslationData } from "../../../src/Componenets/GetTranslationData/GetTranslationData "
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData "
 import { Pagination } from "@mui/material";
-import NoRecord from "../../Componenets/NoRecord/NoRecord"
-import Loader from "../../Componenets/Loader/Loader";
+import NoRecord from "../../../Componenets/NoRecord/NoRecord"
+import Loader from "../../../Componenets/Loader/Loader";
 
 const UserList = () => {
     const [page, setPage] = useState(1); // Current page

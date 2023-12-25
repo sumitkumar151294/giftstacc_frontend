@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { onUserSubmit } from "../../Store/Slices/userMasterSlice";
+import { onUserSubmit } from "../../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
-import InputField from "../../Componenets/InputField/InputField";
-import "../UserMaster/UserMaster.scss";
+import InputField from "../../../Componenets/InputField/InputField";
+import "../../UserMaster/UserMaster.scss";
 import { ToastContainer, toast } from "react-toastify";
-import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
-import Loader from "../../Componenets/Loader/Loader";
-import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
-import { GetTranslationData } from "../../../src/Componenets/GetTranslationData/GetTranslationData ";
+import { onGetUserRole } from "../../../Store/Slices/userRoleSlice";
+import Loader from "../../../Componenets/Loader/Loader";
+import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+
 const UserDetails = ({ prefilledValues }) => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.userMasterReducer.isLoading);
+  const [onUpdate, setOnUpdate] = useState(false);
   const [userData, setUserData] = useState({
     userName: "",
     password: "",
@@ -21,6 +22,7 @@ const UserDetails = ({ prefilledValues }) => {
     firstName: "",
     lastName: "",
   });
+  // Initialize 'role' error state
   const [errors, setErrors] = useState({
     userName: "",
     password: "",
@@ -30,11 +32,15 @@ const UserDetails = ({ prefilledValues }) => {
     accessClientIds: "",
     firstName: "",
     lastName: "",
-  }); // Initialize 'role' error state
-  const [onUpdate, setOnUpdate] = useState(false);
+  }); 
+
+  //To get the data from redux store
   const onSubmitData = useSelector((state) => state.userMasterReducer.data);
+  const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer);
   const clientList = useSelector((state) => state.clientMasterReducer.data);
+
+  //To get the labels from API
   const userMaster = GetTranslationData("UIAdmin", "user_Master_label");
   const email = GetTranslationData("UIAdmin", "email_label");
   const mobile = GetTranslationData("UIAdmin", "mobile_label");
@@ -49,12 +55,15 @@ const UserDetails = ({ prefilledValues }) => {
   const firstName = GetTranslationData("UIAdmin", "first-name");
   const lastName = GetTranslationData("UIAdmin", "last-name");
   const update = GetTranslationData("UIAdmin", "update_label");
+  const fieldRequired = GetTranslationData("UIAdmin", "required-field");
+
+// user-role get api call
 
   useEffect(() => {
-    // user-role get api call
     dispatch(onGetUserRole());
     dispatch(onClientMasterSubmit());
   }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setUserData({
@@ -209,7 +218,7 @@ const UserDetails = ({ prefilledValues }) => {
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {email}
-                            <span className="text-danger">*</span>
+                            <span className="text-danger">{fieldRequired}</span>
                           </label>
                           <InputField
                             type="text"
@@ -226,7 +235,7 @@ const UserDetails = ({ prefilledValues }) => {
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {mobile}
-                            <span className="text-danger">*</span>
+                            <span className="text-danger">{fieldRequired}</span>
                           </label>
                           <InputField
                             type="number"
@@ -243,7 +252,7 @@ const UserDetails = ({ prefilledValues }) => {
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {username}
-                            <span className="text-danger">*</span>
+                            <span className="text-danger">{fieldRequired}</span>
                           </label>
                           <InputField
                             type="text"
@@ -261,7 +270,7 @@ const UserDetails = ({ prefilledValues }) => {
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {password}
-                            <span className="text-danger">*</span>
+                            <span className="text-danger">{fieldRequired}</span>
                           </label>
                           <InputField
                             type="password"
@@ -279,7 +288,7 @@ const UserDetails = ({ prefilledValues }) => {
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {firstName}
-                            <span className="text-danger">*</span>
+                            <span className="text-danger">{fieldRequired}</span>
                           </label>
                           <InputField
                             type="text"
@@ -299,7 +308,7 @@ const UserDetails = ({ prefilledValues }) => {
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {lastName}
-                            <span className="text-danger">*</span>
+                            <span className="text-danger">{fieldRequired}</span>
                           </label>
                           <InputField
                             type="text"
