@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 const ClientMaster = (props) => {
+  debugger;
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -63,9 +64,10 @@ const ClientMaster = (props) => {
     name: "",
     number: "",
     email: "",
-    userName: "",
-    password: "",
     status: "",
+    id: props?.data?.id,
+    userName: "string",
+    password: "string",
     color: "",
     lgogLink: "",
     dbipAddress: "",
@@ -76,7 +78,6 @@ const ClientMaster = (props) => {
     productionKey: "",
     productionSecretKey: "",
     theme: "",
-    id: 2,
     fieldNameInput: "",
     fieldValue: "",
     mode: "",
@@ -87,16 +88,15 @@ const ClientMaster = (props) => {
     name: "",
     number: "",
     email: "",
-    userName: "",
-    password: "",
     status: "",
     color: "",
     lgogLink: "",
+    dbLoginPwd: "",
     dbipAddress: "",
-    stagingKey: "",
-    stagingSecretKey: "",
-    productionKey: "",
-    productionSecretKey: "",
+    stagingKey: "ds",
+    stagingSecretKey: "ds",
+    productionKey: "ds",
+    productionSecretKey: "ds",
     theme: "",
     fieldNameInput: "",
     fieldValue: "",
@@ -107,12 +107,14 @@ const ClientMaster = (props) => {
     setClientData({
       name: props.data?.name || "",
       number: props.data?.number || "",
+      id: props.data?.id,
+      userName: "string",
+      password: "string",
       email: props.data?.email || "",
       fieldNameInput: props.data?.fieldNameInput || "",
       fieldValue: props.data?.fieldValue || "",
       mode: props.data?.mode || "",
       dbipAddress: props.data?.dbipAddress || "",
-      id: 2,
       color: props.data?.color,
       lgogLink: props.data?.lgogLink || "",
       theme: props.data?.theme || "",
@@ -121,10 +123,8 @@ const ClientMaster = (props) => {
       productionKey: props.data?.productionKey || "sring",
       productionSecretKey: props.data?.productionSecretKey || "sring ",
       status: props.data?.status || "",
-      password: props.data?.password || "",
-      userName: props.data?.userName || "",
-      dbLoginPwd: props.data?.dbLoginPwd || "ds",
-      dbLoginId: props.data?.dbLoginId || "ds",
+      dbLoginPwd: props.data?.dbLoginPwd || "",
+      dbLoginId: props.data?.dbLoginId || "",
       enabled: true,
       deleted: true,
     });
@@ -132,8 +132,6 @@ const ClientMaster = (props) => {
       name: "",
       number: "",
       email: "",
-      userName: "",
-      password: "",
       status: "",
       color: "",
       lgogLink: "",
@@ -206,12 +204,6 @@ const ClientMaster = (props) => {
     setAdditionalFields(updatedFields);
   };
   const handleSubmit = (e) => {
-    const data = [
-      {
-        name: "ankit",
-        role: 1,
-      },
-    ];
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -238,7 +230,7 @@ const ClientMaster = (props) => {
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
           // Wait for the dispatch to complete
-          dispatch(onPostClientMasterSubmit(clientData + data));
+          dispatch(onPostClientMasterSubmit(clientData));
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
           // Handle any errors during dispatch
@@ -258,6 +250,7 @@ const ClientMaster = (props) => {
   };
   useEffect(() => {
     if (showToast) {
+      debugger;
       if (clientMasterDetails.postMessage === "Added Successfully.") {
         setShowLoader(false);
         toast.success(clientMasterDetails.postMessage);
@@ -279,7 +272,6 @@ const ClientMaster = (props) => {
           productionKey: "",
           productionSecretKey: "",
           theme: "",
-          id: "",
           fieldNameInput: "",
           fieldValue: "",
           mode: "",
@@ -292,10 +284,11 @@ const ClientMaster = (props) => {
       }
     }
     if (showUpdate) {
+      debugger;
       if (clientMasterDetails.postMessage === "Update Successfully.") {
         setShowLoader(false);
-        dispatch(onClientMasterSubmit());
         toast.success(clientMasterDetails.postMessage);
+        dispatch(onClientMasterSubmit());
         setClientData({
           name: "",
           number: "",
@@ -494,14 +487,16 @@ const ClientMaster = (props) => {
                           <InputField
                             type="text"
                             className={` ${
-                              errors.userName ? "border-danger" : "form-control"
+                              errors.dbLoginId
+                                ? "border-danger"
+                                : "form-control"
                             }`}
                             name="username"
                             id="user-name"
-                            value={clientData.userName}
-                            error={errors.userName}
+                            value={clientData.dbLoginId}
+                            error={errors.dbLoginId}
                             placeholder={key}
-                            onChange={(e) => handleChange(e, "userName")}
+                            onChange={(e) => handleChange(e, "dbLoginId")}
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
@@ -512,14 +507,16 @@ const ClientMaster = (props) => {
                           <InputField
                             type="password"
                             className={` ${
-                              errors.password ? "border-danger" : "form-control"
+                              errors.dbLoginPwd
+                                ? "border-danger"
+                                : "form-control"
                             }`}
                             name="password"
                             id="password"
-                            value={clientData.password}
-                            error={errors.password}
+                            value={clientData.dbLoginPwd}
+                            error={errors.dbLoginPwd}
                             placeholder={key}
-                            onChange={(e) => handleChange(e, "password")}
+                            onChange={(e) => handleChange(e, "dbLoginPwd")}
                           />
                         </div>
                       </div>
