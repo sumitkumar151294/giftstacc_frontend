@@ -7,7 +7,7 @@ import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlic
 import NoRecord from "../../Componenets/NoRecord/NoRecord";
 import { Pagination } from "@mui/material";
 import Dropdown from "../../Componenets/Dropdown/Dropdown";
-import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
+import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
 
 const SupplierBrandList = () => {
   const dispatch = useDispatch();
@@ -32,7 +32,6 @@ const SupplierBrandList = () => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
-
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
   }, []);
@@ -52,9 +51,6 @@ const SupplierBrandList = () => {
     setPage(1);
   };
 
-  const datas = {
-    statuscolor: "badge badge-success",
-  };
   const [page, setPage] = useState(1);
   const startIndex = (page - 1) * rowsPerPage;
 
@@ -66,6 +62,7 @@ const SupplierBrandList = () => {
     { label: "status", key: "status" },
     { label: "action", key: "action" },
   ];
+  const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
   const supplier = [
     { value: "all", label: "all" },
@@ -104,9 +101,32 @@ const SupplierBrandList = () => {
     },
   ];
 
+  const handleKeyPress = (e) => {
+    if (e.key === "e" || e.key === "+" || e.key === "-") {
+      e.preventDefault();
+    }
+  };
+  const [marginValue, setMarginValue] = useState();
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    // You can add additional validation if needed
+    setMarginValue(newValue);
+    console.log(newValue); // Log the value to the console
+  };
+  const handleUpdate = (data) => {
+    const updatedValues = {
+      id: data.id,
+      brands: data.brands,
+      supplier_Margin: marginValue,
+      status: data.status,
+      action: data.action,
+    };
+    dispatch(onUpdateSupplierList(updatedValues));
+  };
+
   return (
     <>
-    <ScrollToTop />
       <div className="content-body">
         <div className="container-fluid">
           <div className="row">
@@ -195,13 +215,9 @@ const SupplierBrandList = () => {
                                 <tbody>
                                   {filteredSupplierList
                                     .slice(startIndex, endIndex)
-                                    .map((data) => (
-                                      <tr>
-                                        <td>
-                                          {data.id}
-                                          <a href="#"></a>
-                                        </td>
-
+                                    .map((data, index) => (
+                                      <tr key={index}>
+                                        <td>{data.id}</td>
                                         <td>{data.brands}</td>
                                         <td>
                                           <div className="input-group mb-2 w-11">
@@ -210,10 +226,15 @@ const SupplierBrandList = () => {
                                               className="form-control htt"
                                               placeholder={data.supplier_Margin}
                                               pattern="/^-?\d+\.?\d*$/"
-                                              onKeyPress="if(this.value.length==2) return false;"
+                                              value={marginValue}
+                                              onChange={handleInputChange}
+                                              onKeyPress={handleKeyPress}
                                             />
                                             <div className="input-group-append">
                                               <button
+                                                onClick={() =>
+                                                  handleUpdate(data)
+                                                }
                                                 className="btn btn-outline-primary btn-sm group-btn btn-pad"
                                                 type="button"
                                               >
@@ -222,29 +243,38 @@ const SupplierBrandList = () => {
                                             </div>
                                           </div>
                                         </td>
-
                                         <td>
-                                          <span className={datas.statuscolor}>
+                                          <span
+                                            className={
+                                              data.status === true
+                                                ? "badge badge-success"
+                                                : "badge badge-danger"
+                                            }
+                                          >
                                             {data.status === true
                                               ? "Active"
                                               : "Inactive"}
                                           </span>
                                         </td>
-
                                         <td>
-                                          {" "}
                                           <div className="can-toggle">
-                                            <input id="d" type="checkbox" />
-
-                                            <label for="d">
+                                            <input
+                                              id={generateUniqueId(index)}
+                                              type="checkbox"
+                                              checked={data.status} // Set checked based on the status
+                                              onChange={() => {
+                                                // Handle toggle switch change
+                                              }}
+                                            />
+                                            <label
+                                              htmlFor={generateUniqueId(index)}
+                                            >
                                               <div
                                                 className="can-toggle__switch"
                                                 data-unchecked="Off"
                                                 data-checked={
-                                                  data.action === true
-                                                    ? "ON"
-                                                    : "OFF"
-                                                }
+                                                  data.status ? "ON" : "OFF"
+                                                } // Set label based on the status
                                               ></div>
                                             </label>
                                           </div>

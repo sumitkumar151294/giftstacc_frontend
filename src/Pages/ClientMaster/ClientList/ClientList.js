@@ -25,7 +25,7 @@ const ClientList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
-
+  const [hiddenRows, setHiddenRows] = useState([]);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const brands = GetTranslationData("UIAdmin", "brands_label");
@@ -48,6 +48,11 @@ const ClientList = () => {
   const handleEdit = (data) => {
     const prefilled = data;
     setData(prefilled);
+  };
+ 
+  const handleDelete = (data) => {
+    // Add the ID of the row to hiddenRows state
+    setHiddenRows((prevHiddenRows) => [...prevHiddenRows, data.id]);
   };
 
   const headers = [
@@ -148,8 +153,8 @@ const ClientList = () => {
                             {filteredClientList
                               .slice(startIndex, endIndex)
                               .map((data) => (
-                                <TableRow key={data.id}>
-                                  <TableCell>
+                                <TableRow key={data.id} style={{ display: hiddenRows.includes(data.id) ? 'none' : 'table-row' }}>
+                                <TableCell>
                                     {data.name}
                                     <a href="#"></a>
                                   </TableCell>
@@ -173,7 +178,7 @@ const ClientList = () => {
                                       >
                                         <i className="fas fa-pencil-alt"></i>
                                       </button>
-                                      <button className="btn btn-danger shadow btn-xs sharp">
+                                      <button className="btn btn-danger shadow btn-xs sharp" onClick={()=>handleDelete(data)}>
                                         <i className="fa fa-trash"></i>
                                       </button>
                                     </div>
