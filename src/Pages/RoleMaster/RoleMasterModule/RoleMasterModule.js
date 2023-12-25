@@ -9,9 +9,11 @@ import { ScrollRestoration } from "react-router-dom";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
 import { onGetUserRoleModuleAccess } from "../../../Store/Slices/userRoleModuleAccessSlice";
 import { Pagination } from "@mui/material";
+import RoleMasterItems from "../RoleMasterItems/RoleMasterItems";
 const RoleMasterModule = () => {
     const [isLoading, setIsLoading] = useState("true");
     const [page, setPage] = useState(1);
+    const [data, setData] = useState();
     const dispatch = useDispatch();
     const handleUpdate = () => {
         dispatch(onUpdateUserRole());
@@ -44,10 +46,15 @@ const RoleMasterModule = () => {
     const handlePageChange = (event, newPage) => {
         setPage(newPage);
     };
-
+    const handleEdit = (data) => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        const prefilled = data;
+        setData(prefilled);
+    }
     return (
         <>
             <ScrollToTop />
+            <RoleMasterItems data={data} />
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">
@@ -81,7 +88,7 @@ const RoleMasterModule = () => {
                                                                     <span className="badge badge-success mr-10">{getModuleName(items)}</span>
                                                                 ))}
                                                             </div></td>
-                                                            <td><a onClick={handleUpdate} className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
+                                                            <td><a onClick={() => handleEdit(data)} className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -91,8 +98,7 @@ const RoleMasterModule = () => {
                                                     count={Math.ceil(roleAccessListData.length / rowsPerPage)}
                                                     page={page}
                                                     onChange={handlePageChange}
-                                                    color="primary"
-                                                />
+                                                    color="primary" />
                                             </div>
                                         </div>
                                     )}

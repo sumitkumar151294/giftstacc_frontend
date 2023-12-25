@@ -9,12 +9,11 @@ import InputField from "../../../Componenets/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
-const RoleMasterItems = () => {
+const RoleMasterItems = ({data}) => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const getModule = useSelector((state) => state.moduleReducer);
   const getModuleData = getModule?.data?.data;
-
   const [formData, setFormData] = useState({
     code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
     name: "",
@@ -29,6 +28,8 @@ const RoleMasterItems = () => {
   const selectall = GetTranslationData("UIAdmin", "selectall");
   const moduleAccess = GetTranslationData("UIAdmin", "module-access");
   const submit = GetTranslationData("UIAdmin", "submit_label");
+  const update = GetTranslationData("UIAdmin", "update_label");
+
 
   useEffect(() => {
     if (getModuleData) {
@@ -37,14 +38,26 @@ const RoleMasterItems = () => {
         name: module.name,
         checked: false,
       }));
-      setFormData({
+        setFormData({
         ...formData,
-        modules: modulesData,
+                modules: modulesData,
       });
-      setIsFormLoading(true);
-    }
-  }, [getModuleData]);
+      if (data) {
+        const updatedModulesData = modulesData.map((module) => ({
+          ...module,
+          checked: data.moduleIds.includes(module.id),
+        }));
 
+        setFormData({
+          ...formData,
+          name: data?.name,
+          modules: updatedModulesData,
+        });
+      }
+        setIsFormLoading(true);
+    }
+  }, [getModuleData, data]);
+  
   const handleInputChange = (e) => {
     const { name, type, checked } = e.target;
 
@@ -92,7 +105,7 @@ const RoleMasterItems = () => {
 
     dispatch(onPostUserRole(postData));
   };
-
+const getName = formData.name;
   return (
     <>
       <ScrollToTop />
@@ -181,7 +194,8 @@ const RoleMasterItems = () => {
                           </div>
                           <div className="col-sm-4 mt-4 mb-4">
                             <button className="btn btn-primary float-right pad-aa">
-                              {submit}
+                              {/* {submit} */}
+                              {data ? update : submit}
                             </button>
                             <ToastContainer />
                           </div>
