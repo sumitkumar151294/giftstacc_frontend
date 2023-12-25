@@ -35,7 +35,7 @@ const ClientList = () => {
   const login = GetTranslationData("UIAdmin", "login_label");
   const action = GetTranslationData("UIAdmin", "action_label");
   const status = GetTranslationData("UIAdmin", "Status_label");
-
+  const exportLabel = GetTranslationData("UIAdmin", "export_label");
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -119,7 +119,7 @@ const ClientList = () => {
                         {filteredClientList.length > 0 && (
                           <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
                             <i className="fa fa-file-excel me-2"></i>
-                            export
+                            {exportLabel}
                           </button>
                         )}
                       </CSVLink>

@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 const ClientMaster = (props) => {
-  debugger;
+  
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -250,7 +250,7 @@ const ClientMaster = (props) => {
   };
   useEffect(() => {
     if (showToast) {
-      debugger;
+      
       if (clientMasterDetails.postMessage === "Added Successfully.") {
         setShowLoader(false);
         toast.success(clientMasterDetails.postMessage);
@@ -284,7 +284,7 @@ const ClientMaster = (props) => {
       }
     }
     if (showUpdate) {
-      debugger;
+      
       if (clientMasterDetails.postMessage === "Update Successfully.") {
         setShowLoader(false);
         toast.success(clientMasterDetails.postMessage);
