@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../RoleMaster.scss'
 import NoRecord from "../../../Componenets/NoRecord/NoRecord"
 import Loader from "../../../Componenets/Loader/Loader";
-import { useDispatch } from "react-redux";
-import { onUpdateUserRole } from "../../../Store/Slices/userRoleSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { onGetUserRole, onUpdateUserRole } from "../../../Store/Slices/userRoleSlice";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import { ScrollRestoration } from "react-router-dom";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
-const RoleMasterModule = (props) => {
+const RoleMasterModule = () => {
     const [isLoading, setIsLoading] = useState("true");
     const dispatch =useDispatch();
     const handleUpdate = () =>{
@@ -19,6 +19,13 @@ const RoleMasterModule = (props) => {
     const modules = GetTranslationData("UIAdmin", "modules");
     const action = GetTranslationData("UIAdmin", "action");
 
+    const roleAccessListData = useSelector((state) => state.userRoleReducer?.data?.data);  
+    console.log(roleAccessListData?.data,"roleAccessListData");
+    useEffect(() => {
+        // user-role get api call 
+        dispatch(onGetUserRole());
+    }, []);
+
     return (
         <>
         <ScrollToTop />
@@ -29,7 +36,7 @@ const RoleMasterModule = (props) => {
                             <div className="card-header">
                                 <h4 className="card-title">{roleModuleAccessList}</h4>
                             </div>
-                         {props.roleAccessListData ? (
+                         {roleAccessListData ? (
                                 <div className="card-body position-relative">
                                     {!isLoading ? (
                                         <div style={{ height: "400px" }}>
@@ -46,12 +53,12 @@ const RoleMasterModule = (props) => {
                                                     </tr>
                                                 </thead>
                                                 <tbody key='tbody'>
-                                                    {props.roleAccessListData?.data?.data?.map((data) => (
+                                                    {roleAccessListData?.map((data) => (
                                                         <tr>
                                                             <td>{data.name}
                                                             </td>
                                                             <td><div className="d-flex">
-                                                                {data.modules.map((items) => (
+                                                                {data.modules?.map((items) => (
                                                                     <span className="badge badge-success mr-10">{items}</span>
                                                                 ))}
                                                             </div></td>

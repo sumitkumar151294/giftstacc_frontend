@@ -79,7 +79,7 @@ const RoleMasterItems = () => {
       toast.error("Role Name is required.");
       return;
     }
-    // Here you can access selected module IDs using formData.modules
+
     const selectedModuleIds = formData.modules
       .filter((module) => module.checked)
       .map((module) => module.id);
