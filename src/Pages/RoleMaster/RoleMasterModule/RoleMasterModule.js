@@ -8,10 +8,12 @@ import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetT
 import { ScrollRestoration } from "react-router-dom";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
 import { onGetUserRoleModuleAccess } from "../../../Store/Slices/userRoleModuleAccessSlice";
+import { Pagination } from "@mui/material";
 const RoleMasterModule = () => {
     const [isLoading, setIsLoading] = useState("true");
-    const dispatch =useDispatch();
-    const handleUpdate = () =>{
+    const [page, setPage] = useState(1);
+    const dispatch = useDispatch();
+    const handleUpdate = () => {
         dispatch(onUpdateUserRole());
     }
     // To get the label from DB 
@@ -20,23 +22,32 @@ const RoleMasterModule = () => {
     const modules = GetTranslationData("UIAdmin", "modules");
     const action = GetTranslationData("UIAdmin", "action");
     const roleAccessListData = useSelector((state) => state.userRoleReducer?.data?.data);
-    const moduleList = useSelector((state) => state.moduleReducer?.data?.data);    
+    const moduleList = useSelector((state) => state.moduleReducer?.data?.data);
+
     useEffect(() => {
         // user-role get api call 
         dispatch(onGetUserRole());
     }, []);
 
-    const getModuleName = (id) =>{
-        let moduleName = moduleList.filter((item)=>item.id===id)
-        if(moduleName.length>0){
+    const getModuleName = (id) => {
+        let moduleName = moduleList?.filter((item) => item.id === id)
+        if (moduleName?.length > 0) {
             return moduleName[0].name
-        }else{
+        } else {
             return '';
         }
     }
+    const [rowsPerPage] = useState(5);
+    const startIndex = (page - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+
+    const handlePageChange = (event, newPage) => {
+        setPage(newPage);
+    };
+
     return (
         <>
-        <ScrollToTop />
+            <ScrollToTop />
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">
@@ -44,7 +55,7 @@ const RoleMasterModule = () => {
                             <div className="card-header">
                                 <h4 className="card-title">{roleModuleAccessList}</h4>
                             </div>
-                         {roleAccessListData ? (
+                            {roleAccessListData ? (
                                 <div className="card-body position-relative">
                                     {!isLoading ? (
                                         <div style={{ height: "400px" }}>
@@ -61,8 +72,8 @@ const RoleMasterModule = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody key='tbody'>
-                                                    {roleAccessListData?.map((data) => (
-                                                        <tr>
+                                                    {roleAccessListData.slice(startIndex, endIndex).map((data, index) => (
+                                                        <tr key={index}>
                                                             <td>{data.name}
                                                             </td>
                                                             <td><div className="d-flex">
@@ -70,17 +81,25 @@ const RoleMasterModule = () => {
                                                                     <span className="badge badge-success mr-10">{getModuleName(items)}</span>
                                                                 ))}
                                                             </div></td>
-                                                            <td><a  onClick={handleUpdate} className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
+                                                            <td><a onClick={handleUpdate} className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
                                             </table>
+                                            <div className="pagination-container">
+                                                <Pagination
+                                                    count={Math.ceil(roleAccessListData.length / rowsPerPage)}
+                                                    page={page}
+                                                    onChange={handlePageChange}
+                                                    color="primary"
+                                                />
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                             ) : (
                                 <NoRecord />
-                            )} 
+                            )}
                         </div>
                     </div>
                 </div>
