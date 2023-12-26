@@ -225,7 +225,7 @@ const SupplierMasterDetails = ({ data }) => {
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
-                            type="text"
+                            type="number"
                             name="text"
                             value={vendorData.amount}
                             className={` ${errors.amount ? "border-danger" : "form-control"}`}
@@ -241,7 +241,7 @@ const SupplierMasterDetails = ({ data }) => {
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
-                            type="text"
+                            type="number"
                             name="text"
                             value={vendorData.availabelAmount}
                             className={` ${errors.availabelAmount ? "border-danger" : "form-control"}`}
