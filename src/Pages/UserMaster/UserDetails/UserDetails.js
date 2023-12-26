@@ -348,7 +348,7 @@ const UserDetails = ({ prefilledValues }) => {
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{role}</label>
                           <div className="row ml-4 mb-10">
-                            {roleList?.data?.data?.map(( item) => (
+                            {roleList?.userRoleData?.data?.map(( item) => (
                               <div
                                 key={item?.id}
                                 className="form-check mt-2 col-lg-3"
