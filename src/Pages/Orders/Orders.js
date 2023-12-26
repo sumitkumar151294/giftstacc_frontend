@@ -51,7 +51,7 @@ const Orders = () => {
     const ordermargin = GetTranslationData("UIAdmin", "ordermargin");
     const ordermarginvalue = GetTranslationData("UIAdmin", "ordermarginvalue");
     return (
-        <><ScrollToTop /><div class='content-body'>
+        <><ScrollToTop /><div>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-12 col-xxl-12">

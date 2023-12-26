@@ -10,6 +10,7 @@ import ScrollToTop from '../../../Componenets/ScrollToTop/ScrollToTop';
 import NoRecord from '../../../Componenets/NoRecord/NoRecord';
 import { Pagination } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
+import BrandMapping from '../BrandMapping/BrandMapping';
 
 const CategoryList = () => {
 
@@ -76,6 +77,7 @@ const CategoryList = () => {
   return (
     <>
       <ScrollToTop />
+      <BrandMapping />
       <div className="container-fluid pt-0">
 
         <div className="row">

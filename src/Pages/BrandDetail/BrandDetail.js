@@ -48,7 +48,7 @@ const BrandDetail = () => {
 
     return (
         <>
-            <div className="content-body">
+            <div>
                 <div className="container-fluid">
 
                     <div className="row">

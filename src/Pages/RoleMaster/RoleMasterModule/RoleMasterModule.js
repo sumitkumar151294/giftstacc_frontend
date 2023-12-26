@@ -58,7 +58,7 @@ const RoleMasterModule = () => {
     return (
         <>
             <ScrollToTop />
-            <RoleMasterItems data={data} getRoleData={getRoleData} setIsLoading={setIsLoading}/>
+            <RoleMasterItems data={data}   setData={setData} getRoleData={getRoleData} setIsLoading={setIsLoading}/>
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">

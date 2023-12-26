@@ -11,10 +11,11 @@ import InputField from "../../../Componenets/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
+import { Button } from "@mui/material";
 const RoleMasterItems = ({
   data,
-  getRoleData,
-  setIsLoading
+  setIsLoading,
+  setData
 }) => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
@@ -156,8 +157,8 @@ const resetFiled = {
   
         await dispatch(onUpdateUserRole(updateData));
         setFormData(resetFiled);
-
         toast.success("Role updated successfully");
+        setData();
       }
       setTimeout(()=>{
         dispatch(onGetUserRole());
@@ -272,9 +273,8 @@ const resetFiled = {
                           )}
                           <div className="col-sm-4 mt-4 mb-4">
                             <button className="btn btn-primary float-right pad-aa">
-                              
-                              {/* {submit} */}
                               {data ? update : submit}
+                              
                             </button>
                             <ToastContainer />
                           </div>

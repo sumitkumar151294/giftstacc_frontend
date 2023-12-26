@@ -94,7 +94,6 @@ const BrandCatalogue = () => {
     }, [clientList]);
         return (
     <>
-      <div class="content-body">
         <div class="container-fluid">
           <div class="row">
             <div class="col-xl-12 col-xxl-12">
@@ -236,7 +235,6 @@ const BrandCatalogue = () => {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };
