@@ -78,9 +78,11 @@ const ClientMaster = (props) => {
     productionKey: "",
     productionSecretKey: "",
     theme: "",
-    fieldNameInput: "",
-    fieldValue: "",
-    mode: "",
+    paymentDetails:[{
+      fieldNameInput: "",
+      fieldValue: "",
+      mode: ""
+    }],
     enabled: true,
     deleted: true,
   });
@@ -96,6 +98,7 @@ const ClientMaster = (props) => {
     stagingKey: "ds",
     stagingSecretKey: "ds",
     productionKey: "ds",
+    dbLoginId: "",
     productionSecretKey: "ds",
     theme: "",
     fieldNameInput: "",
@@ -494,7 +497,7 @@ const ClientMaster = (props) => {
                           <InputField
                             type="text"
                             className={` ${
-                              errors.dbLoginId
+                              errors.user
                                 ? "border-danger"
                                 : "form-control"
                             }`}
