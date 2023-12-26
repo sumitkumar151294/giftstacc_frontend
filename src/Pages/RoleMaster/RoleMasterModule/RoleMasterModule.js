@@ -11,7 +11,7 @@ import { onGetUserRoleModuleAccess } from "../../../Store/Slices/userRoleModuleA
 import { Pagination } from "@mui/material";
 import RoleMasterItems from "../RoleMasterItems/RoleMasterItems";
 const RoleMasterModule = () => {
-    const [isLoading, setIsLoading] = useState("true");
+    const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [data, setData] = useState();
     const dispatch = useDispatch();
@@ -27,6 +27,7 @@ const RoleMasterModule = () => {
     useEffect(() => {
         // user-role get api call 
         dispatch(onGetUserRole());
+        setIsLoading(true);
     }, []);
 
     const getModuleName = (id) => {
@@ -49,6 +50,12 @@ const RoleMasterModule = () => {
         const prefilled = data;
         setData(prefilled);
     }
+    useEffect(()=>{
+        if(roleAccessListData){
+            console.log('roleAccessListData',roleAccessListData)
+            setIsLoading(false)
+        }
+    }, [roleAccessListData])
     return (
         <>
             <ScrollToTop />
@@ -60,13 +67,14 @@ const RoleMasterModule = () => {
                             <div className="card-header">
                                 <h4 className="card-title">{roleModuleAccessList}</h4>
                             </div>
-                            {roleAccessListData ? (
-                                <div className="card-body position-relative">
-                                    {!isLoading ? (
+                            <div className="card-body position-relative">
+                            {isLoading && (
                                         <div style={{ height: "400px" }}>
                                             <Loader classType={"absoluteLoader"} />
                                         </div>
-                                    ) : (
+                            )
+                            }
+                            {roleAccessListData?.length>0 ?  (
                                         <div className="table-responsive">
                                             <table className="table header-border table-responsive-sm">
                                                 <thead key='thead'>
@@ -99,11 +107,11 @@ const RoleMasterModule = () => {
                                                     color="primary" />
                                             </div>
                                         </div>
-                                    )}
-                                </div>
+                                    
                             ) : (
                                 <NoRecord />
                             )}
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -95,7 +95,7 @@ console.log(data,"data");
   };
 
 const resetFiled = {
-    code:"",
+    code:Math.floor(Math.random() * (999 - 100 + 1) + 100),
     name:"",
     modules: formData.modules.map((module) => ({ ...module, checked: false })),
 }
@@ -121,11 +121,9 @@ const resetFiled = {
       if(!data){
         await dispatch(onPostUserRole(postData));
         setFormData(resetFiled);
-        if(getRoleData.message === 'Added Successfully.'){
+       
           toast.success("Role created successfully");
-        }else{
-          toast.error("Role not created");
-        }
+        
       }
       
       
