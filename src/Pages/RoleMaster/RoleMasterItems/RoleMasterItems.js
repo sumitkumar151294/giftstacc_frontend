@@ -18,6 +18,7 @@ const RoleMasterItems = ({
 }) => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
+  const [checkBoxError, setCheckBoxError] = useState(false);
   const getModule = useSelector((state) => state.moduleReducer);
   const getModuleData = getModule?.data?.data;
   const [formData, setFormData] = useState({
@@ -25,7 +26,9 @@ const RoleMasterItems = ({
     name: "",
     modules: [],
   });
-console.log(data,"data");
+  const [errors, setErrors] = useState({
+    name: "",
+  });
   const isSelectAllChecked = formData.modules?.length > 0 && formData.modules.every((module) => module.checked);
   
 // To get the label from DB
@@ -35,6 +38,7 @@ console.log(data,"data");
   const moduleAccess = GetTranslationData("UIAdmin", "module-access");
   const submit = GetTranslationData("UIAdmin", "submit_label");
   const update = GetTranslationData("UIAdmin", "update_label");
+  const checkBox_Error = GetTranslationData("UIAdmin", "checkbox_error");
 
 
   useEffect(() => {
@@ -101,15 +105,27 @@ const resetFiled = {
 }
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const newErrors = { ...errors };
+    setErrors(newErrors);
     if (formData.name.trim() === "") {
-      toast.error("Role Name is required.");
+      newErrors.name = "Role Name is required."; 
+      setErrors(newErrors);
       return;
+    } else {
+      newErrors.name = "";
     }
-  
+
     const selectedModuleIds = formData.modules
       .filter((module) => module.checked)
       .map((module) => module.id);
-  
+
+      if (selectedModuleIds?.length === 0) {
+        setCheckBoxError(true);
+        return;
+      } else {
+        setCheckBoxError(false);
+      }
     const postData = {
       code: formData.code,
       name: formData.name,
@@ -177,11 +193,15 @@ const resetFiled = {
                           <label htmlFor="name-f">{roleName}</label>
                           <InputField
                             type="text"
-                            className="form-control"
+                            className={` ${errors.name
+                              ? "border-danger"
+                              : "form-control"
+                            }`}
                             name="name"
                             id="name-f"
                             placeholder=""
                             value={formData.name}
+                            error={errors.name}
                             onChange={handleInputChange}
                           />
                         </div>
@@ -237,11 +257,22 @@ const resetFiled = {
                                     )
                                     .join(" ")}
                                 </label>
+                               
                               </div>
                             ))}
+                            
                           </div>
+                          {checkBoxError && (
+                            <span
+                                className="form-check-label error-check"
+                                htmlFor="basic_checkbox_1"
+                              >
+                                {checkBox_Error}
+                              </span>
+                          )}
                           <div className="col-sm-4 mt-4 mb-4">
                             <button className="btn btn-primary float-right pad-aa">
+                              
                               {/* {submit} */}
                               {data ? update : submit}
                             </button>
