@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import user from "../../Assets/img/user-profile.png";
-
-const Header = ({ setSideBar, sidebar }) => {
+import "../Header/Header.scss";
+const Header = ({setSideBar, sidebar}) => {
   const [hamburgerClass, setHamburgerClass] = useState(false)
   const handleShowSideBar = () => {
     setHamburgerClass(!hamburgerClass)
@@ -32,14 +32,14 @@ const Header = ({ setSideBar, sidebar }) => {
   return (
     <>
       <div className="nav-header">
-        <a className="brand-logo">
+        <a href="/#/LC-admin" className="brand-logo">
           <img
             className="w-100"
             src="https://beta.shop-loyalty.com/images/logo.png"
           />
         </a>
         <div className="nav-control">
-          <div className={`hamburger ${hamburgerClass ? 'is-active' : ''}`} onClick={handleShowSideBar}>
+          <div className={`hamburger ${hamburgerClass? 'is-active': ''}`} onClick={handleShowSideBar}>
             <span className="line"></span>
             <span className="line"></span>
             <span className="line"></span>
@@ -56,6 +56,7 @@ const Header = ({ setSideBar, sidebar }) => {
                 <li className="nav-item dropdown  header-profile">
                   <a
                     className="nav-link"
+                    href="javascript:void(0);"
                     role="button"
                     data-bs-toggle="dropdown"
                   >
