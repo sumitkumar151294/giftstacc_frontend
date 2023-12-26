@@ -148,7 +148,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
     }
     setErrors(newErrors);
     // Check if a client has been selected
-    if (userData.accessClientIds.length === 0) {
+    if (userData.accessClientIds?.length === 0) {
       newErrors.accessClientIds = "Please select a client";
       isValid = false;
     } else {
