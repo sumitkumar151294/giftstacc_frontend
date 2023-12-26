@@ -52,7 +52,6 @@ const RoleMasterModule = () => {
     }
     useEffect(()=>{
         if(roleAccessListData){
-            console.log('roleAccessListData',roleAccessListData)
             setIsLoading(false)
         }
     }, [roleAccessListData])
@@ -90,8 +89,8 @@ const RoleMasterModule = () => {
                                                             <td>{data.name}
                                                             </td>
                                                             <td><div className="d-flex">
-                                                                {data.moduleIds?.map((items) => (
-                                                                    <span className="badge badge-success mr-10">{getModuleName(items)}</span>
+                                                                {data.moduleIds?.map((items,index) => (
+                                                                    <span className="badge badge-success mr-10" key={index}>{getModuleName(items)}</span>
                                                                 ))}
                                                             </div></td>
                                                             <td><a onClick={() => handleEdit(data)} className="btn btn-primary shadow btn-xs sharp me-1"><i className="fas fa-pencil-alt"></i></a></td>
