@@ -61,7 +61,7 @@ const UserList = () => {
 
     return (
         <>
-            <UserDetails prefilledValues={prefilledValues} />
+            <UserDetails prefilledValues={prefilledValues} setPrefilledValues = {setPrefilledValues} />
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">
