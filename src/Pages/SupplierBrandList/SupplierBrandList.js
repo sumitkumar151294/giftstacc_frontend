@@ -112,7 +112,6 @@ const SupplierBrandList = () => {
     const newValue = e.target.value;
     // You can add additional validation if needed
     setMarginValue(newValue);
-    console.log(newValue); // Log the value to the console
   };
   const handleUpdate = (data) => {
     const updatedValues = {
