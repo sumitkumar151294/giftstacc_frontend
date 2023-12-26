@@ -11,9 +11,9 @@ import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
 
 const SupplierBrandList = () => {
   const dispatch = useDispatch();
-  const SupplierBrandList = useSelector(
-    (state) => state.supplierBrandListReducer?.data?.data
-  );
+  const [supplierList, setSupplierList] = useState([])
+  const SupplierBrandList = useSelector((state) => state.supplierBrandListReducer?.data?.data);
+  const suppliers = useSelector((state) => state.supplierMasterReducer?.data)
   const supplierBrands = GetTranslationData("UIAdmin", "supplierBrands");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
@@ -64,14 +64,16 @@ const SupplierBrandList = () => {
   ];
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
-  const supplier = [
-    { value: "all", label: "all" },
 
-    { value: "Qwik cilver", label: "Qwik cilver" },
-    { value: "Non-Supplier 2", label: "Non-Supplier 2" },
-    { value: " Supplier 3", label: " Supplier 3" },
-  ];
-  const handleChange = (e) => {};
+  useEffect(() => {
+    let tempSupplier = [];
+    suppliers?.data?.map((item) => {
+      tempSupplier.push({ label: item.name, value: item.name })
+    })
+    setSupplierList(tempSupplier);
+  }, [suppliers]);
+
+  const handleChange = (e) => { };
 
   const userData = [
     {
@@ -174,7 +176,7 @@ const SupplierBrandList = () => {
                           className="form-select"
                           aria-label="Default select example"
                           onChange={(e) => handleChange(e, "status")}
-                          options={supplier}
+                          options={supplierList}
                         />
                       </div>
 
@@ -198,7 +200,7 @@ const SupplierBrandList = () => {
                           <h4 className="card-title">{supplierBrandLists}</h4>
                         </div>
                         {Array.isArray(filteredSupplierList) &&
-                        filteredSupplierList.length > 0 ? (
+                          filteredSupplierList.length > 0 ? (
                           <div className="card-body">
                             <div className="table-responsive">
                               <table className="table header-border table-responsive-sm">
