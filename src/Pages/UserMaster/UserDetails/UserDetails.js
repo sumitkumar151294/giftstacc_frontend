@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { onUserSubmit } from "../../../Store/Slices/userMasterSlice";
+import { onGetUser, onUserSubmit } from "../../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../../Componenets/InputField/InputField";
 import "../../UserMaster/UserMaster.scss";
@@ -14,7 +14,6 @@ const UserDetails = ({ prefilledValues }) => {
   const [onUpdate, setOnUpdate] = useState(false);
   const [userData, setUserData] = useState({
     userName: "",
-    password: "",
     mobile: "",
     email: "",
     role: "",
@@ -25,7 +24,6 @@ const UserDetails = ({ prefilledValues }) => {
   // Initialize 'role' error state
   const [errors, setErrors] = useState({
     userName: "",
-    password: "",
     mobile: "",
     email: "",
     role: "",
@@ -35,7 +33,7 @@ const UserDetails = ({ prefilledValues }) => {
   }); 
 
   //To get the data from redux store
-  const onSubmitData = useSelector((state) => state.userMasterReducer.data);
+  const onSubmitData = useSelector((state) => state.userMasterReducer.postdata);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer);
   const clientList = useSelector((state) => state.clientMasterReducer.data);
@@ -45,7 +43,6 @@ const UserDetails = ({ prefilledValues }) => {
   const email = GetTranslationData("UIAdmin", "email_label");
   const mobile = GetTranslationData("UIAdmin", "mobile_label");
   const username = GetTranslationData("UIAdmin", "usernamee_label");
-  const password = GetTranslationData("UIAdmin", "password_label");
   const client = GetTranslationData("UIAdmin", "client_label");
   const role = GetTranslationData("UIAdmin", "role_name_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
@@ -68,7 +65,6 @@ const UserDetails = ({ prefilledValues }) => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setUserData({
       userName: prefilledValues?.firstName || "",
-      password: prefilledValues?.password || "",
       mobile: prefilledValues?.mobile || "",
       email: prefilledValues?.email || "",
       role: "",
@@ -95,7 +91,6 @@ const UserDetails = ({ prefilledValues }) => {
         [fieldName]: value,
       };
     }
-
     setUserData(newUserdetailData);
     if (fieldName === "email") {
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -170,10 +165,15 @@ const UserDetails = ({ prefilledValues }) => {
         adminRoleCode: 1,
         clientRoleId: 2,
         clientRoleCode: 2,
+        password:"admin",
         mobile: parseInt(userData.mobile),
       };
       // Dispatch the form submission action if needed
-      dispatch(onUserSubmit(UsersData));
+
+    
+        dispatch(onUserSubmit(UsersData));
+    
+      
     }
   };
 
@@ -183,7 +183,6 @@ const UserDetails = ({ prefilledValues }) => {
         toast.success(onSubmitData.message);
         setUserData({
           userName: "",
-          password: "",
           mobile: "",
           email: "",
           role: "",
@@ -191,6 +190,9 @@ const UserDetails = ({ prefilledValues }) => {
           firstName: "",
           lastName: "",
         });
+        setTimeout(()=>{
+        dispatch(onGetUser());
+      }, 3000)
       } else {
         toast.error(onSubmitData.message);
       }
@@ -265,24 +267,6 @@ const UserDetails = ({ prefilledValues }) => {
                             onChange={(e) => handleChange(e, "userName")}
                             error={errors.userName}
                             value={userData.userName}
-                          />
-                        </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-f">
-                            {password}
-                            <span className="text-danger">{fieldRequired}</span>
-                          </label>
-                          <InputField
-                            type="password"
-                            className={` ${
-                              errors.password ? "border-danger" : "form-control"
-                            }`}
-                            name="fname"
-                            id="name-f"
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "password")}
-                            error={errors.password}
-                            value={userData.password}
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
