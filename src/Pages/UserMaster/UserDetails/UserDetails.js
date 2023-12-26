@@ -9,7 +9,7 @@ import Loader from "../../../Componenets/Loader/Loader";
 import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 
-const UserDetails = ({ prefilledValues }) => {
+const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
   const dispatch = useDispatch();
   const [onUpdate, setOnUpdate] = useState(false);
   const [userData, setUserData] = useState({
@@ -63,12 +63,13 @@ const UserDetails = ({ prefilledValues }) => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    debugger
     setUserData({
       userName: prefilledValues?.firstName || "",
       mobile: prefilledValues?.mobile || "",
       email: prefilledValues?.email || "",
-      role: "",
-      accessClientIds: [],
+      role: prefilledValues?.adminRoleId,
+      accessClientIds: prefilledValues?.accessClientIds,
       firstName: prefilledValues?.firstName || "",
       lastName: prefilledValues?.lastName || "",
     });
@@ -317,6 +318,7 @@ const UserDetails = ({ prefilledValues }) => {
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{client}</label>
                           <div className="row ml-4">
+                          
                             {Array.isArray(clientList) &&
                               clientList?.map((item) => (
                                 <div
@@ -329,9 +331,7 @@ const UserDetails = ({ prefilledValues }) => {
                                     name={item.name}
                                     value={item.id}
                                     id={`flexCheckDefault-${item.id}`}
-                                    checked={prefilledValues?.accessClientIds?.includes(
-                                      parseInt(item.id)
-                                    )}
+                                    checked={userData?.accessClientIds?.includes(`${item.id}`)}
                                     onChange={(e) => handleChange(e, "check")}
                                   />
                                   <label
@@ -366,6 +366,7 @@ const UserDetails = ({ prefilledValues }) => {
                                   className="form-check-input"
                                   name="role"
                                   value={item.id}
+                                  checked={userData?.role === item.id ? true :false}
                                   onChange={(e) => handleChange(e, "role")}
                                 />
                                 <label
