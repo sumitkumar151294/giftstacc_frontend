@@ -73,7 +73,6 @@ const BrandCatalogue = () => {
     : [];
    
     const handleChange = (e, fieldName) => {
-      debugger
       setSupplierList({
         ...supplierList,
         [fieldName]: e.target.value,
@@ -89,7 +88,6 @@ const BrandCatalogue = () => {
     useEffect(() => {
       let tempClient = [];
       Array.isArray(clientList) && clientList?.map((item) => {
-        debugger
         tempClient.push({ label: item.name, value: item.name })
       })
       setClientListData(tempClient);
