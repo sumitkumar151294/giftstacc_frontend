@@ -317,6 +317,13 @@ const ClientMaster = (props) => {
     }
   }, [clientMasterDetails.postMessage]);
 
+
+  const handleAddMoreData = (field,index, e) =>{
+    var data  = [...additionalFields];
+    data[index][field] = e.target.value;
+    setAdditionalFields(data)
+  }
+
   return (
     <>
       <div className="container-fluid">
@@ -545,11 +552,9 @@ const ClientMaster = (props) => {
                                     name="fieldNameInput"
                                     id="fieldNameInput"
                                     placeholder={key}
-                                    value={clientData.fieldNameInput}
+                                    value={additionalFields[index].fieldNameInput}
                                     error={errors.fieldNameInput}
-                                    onChange={(e) =>
-                                      handleChange(e, "fieldNameInput")
-                                    }
+                                    onChange={(e) => handleAddMoreData('fieldNameInput',index, e)}
                                   />
                                 </div>
                               </div>
@@ -573,10 +578,8 @@ const ClientMaster = (props) => {
                                     id="production-key"
                                     placeholder={key}
                                     error={errors.fieldValue}
-                                    value={clientData.fieldValue}
-                                    onChange={(e) =>
-                                      handleChange(e, "fieldValue")
-                                    }
+                                    value={additionalFields[index].fieldValue}
+                                    onChange={(e) => handleAddMoreData('fieldValue',index, e)}
                                   />
                                 </div>
                               </div>
@@ -597,9 +600,9 @@ const ClientMaster = (props) => {
                                     name="mode"
                                     id="mode"
                                     placeholder={key}
-                                    value={clientData.mode}
+                                    value={additionalFields[index]?.mode}
                                     error={errors.mode}
-                                    onChange={(e) => handleChange(e, "mode")}
+                                    onChange={(e) => handleAddMoreData('mode',index, e)}
                                     className="form-select"
                                     options={modes}
                                   />
