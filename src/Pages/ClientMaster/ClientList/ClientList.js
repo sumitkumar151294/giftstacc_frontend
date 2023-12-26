@@ -193,7 +193,7 @@ const ClientList = () => {
                                   </TableCell>
                                   <td>
                                     <Link
-                                      to="/LC-admin/clientbrandlist"
+                                      to="/LC-admin/client-brand-list"
                                       className="btn btn-primary btn-sm float-right"
                                     >
                                       <i className="fa fa-eye"></i>&nbsp;
