@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./BrandCatalogue.scss";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import img from "../../Assets/img/pizz1.jpg";
 import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
 import { onbrandCatalogueSubmit } from "../../Store/Slices/brandCatalogueSlice";
@@ -8,25 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import NoRecord from "../../Componenets/NoRecord/NoRecord";
 import Loader from "../../Componenets/Loader/Loader";
 import { Pagination } from "@mui/material";
+import Dropdown from "../../Componenets/Dropdown/Dropdown";
+import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 const BrandCatalogue = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
   const [page, setPage] = useState(1);
-  const [rowsPerPage] = useState(2);
-  const startIndex = (page - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
-  useEffect(() => {
-    setShowLoader(false);
-  }, [showLoader]);
-  useEffect(() => {
-    dispatch(onbrandCatalogueSubmit());
-  }, []);
-  const BrandCatalogueData = useSelector(
-    (state) => state.brandCatalogueReducer?.data
-  );
+  const [rowsPerPage] = useState(5);
   const heading = GetTranslationData("UIAdmin", "heading");
   const image = GetTranslationData("UIAdmin", "image");
   const sku = GetTranslationData("UIAdmin", "sku");
@@ -38,8 +27,36 @@ const BrandCatalogue = () => {
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const exportLabel = GetTranslationData("UIAdmin", "export_label");
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
-
   const [searchQuery, setSearchQuery] = useState("");
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const [supplierListData, setSupplierListData] = useState([]);
+  const [clientListData, setClientListData] = useState([]);
+
+  const supplierMasterData = useSelector(
+    (state) => state.supplierMasterReducer?.data?.data
+  );
+  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
+
+  const[supplierList,setSupplierList]=useState({
+    supplier:"",
+    client:""
+  });
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  useEffect(() => {
+    setShowLoader(false);
+  }, [showLoader]);
+  useEffect(() => {
+    dispatch(onbrandCatalogueSubmit());
+    dispatch(onGetSupplierList());
+    dispatch(onClientMasterSubmit());
+
+  }, []);
+  const BrandCatalogueData = useSelector(
+    (state) => state.brandCatalogueReducer?.data
+  );
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -54,7 +71,30 @@ const BrandCatalogue = () => {
         )
       )
     : [];
-  return (
+   
+    const handleChange = (e, fieldName) => {
+      debugger
+      setSupplierList({
+        ...supplierList,
+        [fieldName]: e.target.value,
+      });
+    }
+    useEffect(() => {
+      let tempSupplier = [];
+      supplierMasterData?.map((item) => {
+        tempSupplier.push({ label: item.name, value: item.name })
+      })
+      setSupplierListData(tempSupplier);
+    }, [supplierMasterData]);
+    useEffect(() => {
+      let tempClient = [];
+      Array.isArray(clientList) && clientList?.map((item) => {
+        debugger
+        tempClient.push({ label: item.name, value: item.name })
+      })
+      setClientListData(tempClient);
+    }, [clientList]);
+        return (
     <>
       <div class="content-body">
         <div class="container-fluid">
@@ -99,30 +139,23 @@ const BrandCatalogue = () => {
                   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                     <div class="col-sm-3 form-group mb-2">
                       <label for="name-f">Supplier</label>
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
-                        <option selected>Select</option>
-                        <option value="First Client">All</option>
-
-                        <option value="First Client">Quicksilver</option>
-                        <option value="Second Client">Supplier 2</option>
-                        <option value="Third Client">Supplier 3</option>
-                      </select>
+                      <Dropdown
+                          onChange={(e) => handleChange(e, "supplier")}
+                          value={supplierList.supplier || ""}
+                          // key={clientData.theme}
+                          className="form-select"
+                          options={supplierListData}
+                        />
                     </div>
                     <div class="col-sm-3 form-group mb-2">
                       <label for="name-f">Client</label>
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
-                        <option selected>Select</option>
-                        <option value="First Client">All</option>
-                        <option value="First Client">Client 1</option>
-                        <option value="Second Client">Client 2</option>
-                        <option value="Third Client">Client 3</option>
-                      </select>
+                      <Dropdown
+                          onChange={(e) => handleChange(e, "client")}
+                          value={supplierList?.client || ""}
+                          // key={clientData.theme}
+                          className="form-select"
+                          options={clientListData}
+                        />
                     </div>
                   </div>
                 </div>
@@ -162,7 +195,7 @@ const BrandCatalogue = () => {
                                       </td>
                                       <td>
                                         {data.sku}
-                                        <a href="javascript:void();"></a>
+                                        <a href="#"></a>
                                       </td>
                                       <td>{data.name}</td>
                                       <td>{data.min_price}</td>
@@ -171,7 +204,7 @@ const BrandCatalogue = () => {
                                       <td>
                                         {" "}
                                         <Link
-                                          to={data.action}
+                                          to={'/Lc-admin/brand-detail'}
                                           href="productdetail.html"
                                           class="btn btn-primary btn-sm bttn float-right"
                                         >

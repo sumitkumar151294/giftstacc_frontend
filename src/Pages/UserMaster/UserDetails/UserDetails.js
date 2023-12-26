@@ -78,19 +78,26 @@ const UserDetails = ({ prefilledValues }) => {
   const handleChange = (e, fieldName) => {
     const { name, value, type, checked } = e.target;
     let newUserdetailData;
-    if (fieldName === "check") {
-      let accessClientIds = userData.accessClientIds;
-      accessClientIds.push(value);
+    if (fieldName === 'check' && checked === true) {
+      let accessClientIds = userData.accessClientIds
+      accessClientIds.push(value)
       newUserdetailData = {
-        ...userData,
-        accessClientIds,
+          ...userData,
+          accessClientIds,
       };
-    } else {
+  } else if(fieldName === 'check' && checked === false){
+      let accessClientIds = userData.accessClientIds
+      accessClientIds = accessClientIds.filter(accessClientIds => accessClientIds !== value);
       newUserdetailData = {
-        ...userData,
-        [fieldName]: value,
+          ...userData,
+          accessClientIds,
       };
-    }
+  } else {
+      newUserdetailData = {
+          ...userData,
+          [fieldName]: value,
+      };
+  }
     setUserData(newUserdetailData);
     if (fieldName === "email") {
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;

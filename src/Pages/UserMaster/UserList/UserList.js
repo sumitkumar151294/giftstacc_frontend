@@ -27,7 +27,7 @@ const UserList = () => {
     const userList = useSelector((state) => state.userMasterReducer)
     const client = useSelector((state) => state.clientMasterReducer.data)
     const loading = useSelector((state) => state.userMasterReducer.isLoading);
-    const roleList = useSelector((state) => state.userRoleReducer?.data?.data);
+    const roleList = useSelector((state) => state.userRoleReducer?.userRoleData?.data);
     const handleEdit = (data) => {
         const prefilled = data;
         setPrefilledValues(prefilled)
