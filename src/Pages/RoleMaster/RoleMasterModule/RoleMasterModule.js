@@ -15,15 +15,13 @@ const RoleMasterModule = () => {
     const [page, setPage] = useState(1);
     const [data, setData] = useState();
     const dispatch = useDispatch();
-    const handleUpdate = () => {
-        dispatch(onUpdateUserRole());
-    }
     // To get the label from DB 
     const roleModuleAccessList = GetTranslationData("UIAdmin", "role-module-access-list");
     const roleName = GetTranslationData("UIAdmin", "role-name");
     const modules = GetTranslationData("UIAdmin", "modules");
     const action = GetTranslationData("UIAdmin", "action");
-    const roleAccessListData = useSelector((state) => state.userRoleReducer?.data?.data);
+    const getRoleData = useSelector((state) => state.userRoleReducer);
+    const roleAccessListData = getRoleData?.userRoleData?.data
     const moduleList = useSelector((state) => state.moduleReducer?.data?.data);
 
     useEffect(() => {
@@ -54,7 +52,7 @@ const RoleMasterModule = () => {
     return (
         <>
             <ScrollToTop />
-            <RoleMasterItems data={data} />
+            <RoleMasterItems data={data} getRoleData={getRoleData} setIsLoading={setIsLoading}/>
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">
@@ -79,7 +77,7 @@ const RoleMasterModule = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody key='tbody'>
-                                                    {roleAccessListData.slice(startIndex, endIndex).map((data, index) => (
+                                                    {Array.isArray(roleAccessListData) && roleAccessListData.slice(startIndex, endIndex).map((data, index) => (
                                                         <tr key={index}>
                                                             <td>{data.name}
                                                             </td>

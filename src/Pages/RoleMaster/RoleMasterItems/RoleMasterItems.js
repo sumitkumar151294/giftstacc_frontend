@@ -3,13 +3,19 @@ import "../RoleMaster.scss";
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  onGetUserRole,
   onPostUserRole,
+  onUpdateUserRole,
 } from "../../../Store/Slices/userRoleSlice";
 import InputField from "../../../Componenets/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
-const RoleMasterItems = ({data}) => {
+const RoleMasterItems = ({
+  data,
+  getRoleData,
+  setIsLoading
+}) => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const getModule = useSelector((state) => state.moduleReducer);
@@ -19,9 +25,9 @@ const RoleMasterItems = ({data}) => {
     name: "",
     modules: [],
   });
-
-  const isSelectAllChecked = formData.modules.length > 0 && formData.modules.every((module) => module.checked);
-
+console.log(data,"data");
+  const isSelectAllChecked = formData.modules?.length > 0 && formData.modules.every((module) => module.checked);
+  
 // To get the label from DB
   const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
   const roleName = GetTranslationData("UIAdmin", "role-name");
@@ -33,7 +39,7 @@ const RoleMasterItems = ({data}) => {
 
   useEffect(() => {
     if (getModuleData) {
-      const modulesData = getModuleData.map((module) => ({
+      const modulesData = getModuleData?.map((module) => ({
         id: module.id,
         name: module.name,
         checked: false,
@@ -43,14 +49,16 @@ const RoleMasterItems = ({data}) => {
                 modules: modulesData,
       });
       if (data) {
-        const updatedModulesData = modulesData.map((module) => ({
+        const updatedModulesData = modulesData?.map((module) => ({
           ...module,
           checked: data.moduleIds.includes(module.id),
         }));
 
         setFormData({
           ...formData,
+          id:data.id,
           name: data?.name,
+          code: data?.code,
           modules: updatedModulesData,
         });
       }
@@ -62,7 +70,7 @@ const RoleMasterItems = ({data}) => {
     const { name, type, checked } = e.target;
 
     if (name === "selectAll") {
-      const updatedModules = formData.modules.map((module) => ({
+      const updatedModules = formData.modules?.map((module) => ({
         ...module,
         checked,
       }));
@@ -71,7 +79,7 @@ const RoleMasterItems = ({data}) => {
         modules: updatedModules,
       });
     } else if (type === "checkbox") {
-      const updatedModules = formData.modules.map((module) =>
+      const updatedModules = formData.modules?.map((module) =>
         module.name === name ? { ...module, checked } : module
       );
       setFormData({
@@ -86,26 +94,68 @@ const RoleMasterItems = ({data}) => {
     }
   };
 
-  const handleSubmit = (e) => {
+const resetFiled = {
+    code:"",
+    name:"",
+    modules: formData.modules.map((module) => ({ ...module, checked: false })),
+}
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.name.trim() === "") {
       toast.error("Role Name is required.");
       return;
     }
-
+  
     const selectedModuleIds = formData.modules
       .filter((module) => module.checked)
       .map((module) => module.id);
-
+  
     const postData = {
-      code:formData.code,
+      code: formData.code,
       name: formData.name,
       moduleIds: selectedModuleIds,
     };
+  
+    try {
+      //To Submit the data 
+      if(!data){
+        await dispatch(onPostUserRole(postData));
+        setFormData(resetFiled);
+        if(getRoleData.message === 'Added Successfully.'){
+          toast.success("Role created successfully");
+        }else{
+          toast.error("Role not created");
+        }
+      }
+      
+      
+      // To update the data 
+      if (data) {
+        const updateData = {
+          id: formData.id,
+          code: formData.code,
+          name: formData.name,
+          description: "",
+          isClientPlatformRole: false,
+          moduleIds: selectedModuleIds,
+        };
+  
+        await dispatch(onUpdateUserRole(updateData));
+        setFormData(resetFiled);
 
-    dispatch(onPostUserRole(postData));
+        toast.success("Role updated successfully");
+      }
+      setTimeout(()=>{
+        dispatch(onGetUserRole());
+      },3000);
+      setIsLoading(true)
+      
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
   };
-const getName = formData.name;
+  
+  
   return (
     <>
       <ScrollToTop />
@@ -145,7 +195,7 @@ const getName = formData.name;
                               className="form-check-input"
                               type="checkbox"
                               name="selectAll"
-                              value={formData.modules.length > 0 && formData.modules.every((module) => module.checked)}
+                              value={formData?.modules?.length > 0 && formData?.modules.every((module) => module.checked)}
                               id="flexCheckDefault1"
                               checked={isSelectAllChecked}
                               onChange={handleInputChange}
@@ -161,7 +211,7 @@ const getName = formData.name;
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{moduleAccess}</label>
                           <div className="row ml-4">
-                            {formData.modules.map(({ id, name, checked }) => (
+                            {formData?.modules?.map(({ id, name, checked }) => (
                               <div
                                 className="form-check mt-2 col-lg-3"
                                 key={id}
