@@ -128,7 +128,7 @@ const SupplierBrandList = () => {
 
   return (
     <>
-      <div className="content-body">
+      <div>
         <div className="container-fluid">
           <div className="row">
             <div className="col-xl-12 col-xxl-12">
