@@ -171,7 +171,7 @@ const BrandCatalogue = () => {
                                       <td>
                                         {" "}
                                         <Link
-                                          to={data.action}
+                                          to={'/Lc-admin/brand-detail'}
                                           href="productdetail.html"
                                           class="btn btn-primary btn-sm bttn float-right"
                                         >
