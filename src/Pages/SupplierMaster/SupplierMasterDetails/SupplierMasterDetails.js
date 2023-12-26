@@ -172,6 +172,12 @@ const SupplierMasterDetails = ({ data }) => {
     newFields[index][field] = e.target.value;
     setAdditionalFields(newFields);
   };
+
+  const handleAddMoreData = (field,index, e) =>{
+    var data  = [...additionalFields];
+    data[index][field] = e.target.value;
+    setAdditionalFields(data)
+  }
   return (
     <>
       <div className="container-fluid">
@@ -264,8 +270,8 @@ const SupplierMasterDetails = ({ data }) => {
                                     className={` ${errors.fieldName ? "border-danger" : "form-control"}`}
                                     name="fname"
                                     placeholder="Key"
-                                    value={vendorData.fieldName}
-                                    onChange={(e) => handleAdditionalFieldChange(e, index, 'fieldName')}
+                                    value={additionalFields[index].fieldName}
+                                    onChange={(e) => handleAddMoreData('fieldName',index, e)}
                                   />
                                 </div>
                               </div>
@@ -278,8 +284,8 @@ const SupplierMasterDetails = ({ data }) => {
                                     className={` ${errors.fieldValue ? "border-danger" : "form-control"}`}
                                     name="fname"
                                     placeholder="Value"
-                                    value={vendorData.fieldValue}
-                                    onChange={(e) => handleAdditionalFieldChange(e, index, 'fieldValue')}
+                                    value={additionalFields[index].fieldValue}
+                                    onChange={(e) => handleAddMoreData('fieldValue',index, e)}
                                   />
                                 </div>
                               </div>
