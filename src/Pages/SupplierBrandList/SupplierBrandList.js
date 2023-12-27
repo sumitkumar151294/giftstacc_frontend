@@ -8,6 +8,7 @@ import NoRecord from "../../Componenets/NoRecord/NoRecord";
 import { Pagination } from "@mui/material";
 import Dropdown from "../../Componenets/Dropdown/Dropdown";
 import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
 
 const SupplierBrandList = () => {
   const dispatch = useDispatch();
@@ -128,6 +129,7 @@ const SupplierBrandList = () => {
 
   return (
     <>
+    <ScrollToTop/>  
       <div>
         <div className="container-fluid">
           <div className="row">

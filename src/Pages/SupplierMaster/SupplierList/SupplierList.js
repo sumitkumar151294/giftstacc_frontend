@@ -95,7 +95,7 @@ const SupplierList = () => {
         <>
           <SupplierMasterDetails data={vendorData} />
           <div className="container-fluid pt-0">
-            <div className="row mx-4">
+            <div className="row">
               <div className="col-lg-12">
                 <div className="card">
                   <div className="container-fluid">
