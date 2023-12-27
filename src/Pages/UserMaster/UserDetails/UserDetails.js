@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { onGetUser, onUserSubmit } from "../../../Store/Slices/userMasterSlice";
+import { onGetUser, onUserSubmit, onUserUpdate } from "../../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../../Componenets/InputField/InputField";
 import "../../UserMaster/UserMaster.scss";
@@ -30,7 +30,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
     accessClientIds: "",
     firstName: "",
     lastName: "",
-  }); 
+  });
 
   //To get the data from redux store
   const onSubmitData = useSelector((state) => state.userMasterReducer.postdata);
@@ -54,7 +54,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const fieldRequired = GetTranslationData("UIAdmin", "required-field");
 
-// user-role get api call
+  // user-role get api call
 
   useEffect(() => {
     dispatch(onGetUserRole());
@@ -63,13 +63,12 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    debugger
     setUserData({
       userName: prefilledValues?.firstName || "",
       mobile: prefilledValues?.mobile || "",
       email: prefilledValues?.email || "",
       role: prefilledValues?.adminRoleId,
-      accessClientIds: prefilledValues?.accessClientIds,
+      accessClientIds: prefilledValues?.accessClientIds || [],
       firstName: prefilledValues?.firstName || "",
       lastName: prefilledValues?.lastName || "",
     });
@@ -81,24 +80,24 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
     let newUserdetailData;
     if (fieldName === 'check' && checked === true) {
       let accessClientIds = userData.accessClientIds
-      accessClientIds.push(value)
+      accessClientIds?.push(value)
       newUserdetailData = {
-          ...userData,
-          accessClientIds,
+        ...userData,
+        accessClientIds,
       };
-  } else if(fieldName === 'check' && checked === false){
-      let accessClientIds = userData.accessClientIds
+    } else if (fieldName === 'check' && checked === false) {
+      let accessClientIds = [...userData.accessClientIds]
       accessClientIds = accessClientIds.filter(accessClientIds => accessClientIds !== value);
       newUserdetailData = {
-          ...userData,
-          accessClientIds,
+        ...userData,
+        accessClientIds,
       };
-  } else {
+    } else {
       newUserdetailData = {
-          ...userData,
-          [fieldName]: value,
+        ...userData,
+        [fieldName]: value,
       };
-  }
+    }
     setUserData(newUserdetailData);
     if (fieldName === "email") {
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -121,7 +120,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
       });
     }
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -165,23 +164,44 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
       newErrors.email = "";
     }
     setErrors(newErrors);
-    if (isValid) {
-      setOnUpdate(true);
-      const UsersData = {
-        ...userData,
-        adminRoleId: parseInt(userData.role),
-        adminRoleCode: 1,
-        clientRoleId: 2,
-        clientRoleCode: 2,
-        password:"admin",
-        mobile: parseInt(userData.mobile),
-      };
-      // Dispatch the form submission action if needed
 
-    
-        dispatch(onUserSubmit(UsersData));
-    
-      
+    try {
+      setOnUpdate(true);
+      if (isValid) {
+        if (!prefilledValues) {
+          const UsersData = {
+            ...userData,
+            adminRoleId: parseInt(userData.role),
+            adminRoleCode: 1,
+            clientRoleId: 2,
+            clientRoleCode: 2,
+            password: "admin",
+            mobile: parseInt(userData.mobile),
+          };
+          await dispatch(onUserSubmit(UsersData));
+        } else {
+          const updateUserData = {
+            id: prefilledValues.id,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            email: userData.email,
+            mobile: parseInt(userData.mobile),
+            adminRoleId: parseInt(userData.role),
+            accessClientIds: userData.accessClientIds,
+            adminRoleCode: 1,
+            clientRoleId: 2,
+            clientRoleCode: 2,
+          };
+          await dispatch(onUserUpdate(updateUserData));
+          toast.success("User Updated Successfully");
+        }
+      }
+      setTimeout(() => {
+        dispatch(onGetUser());
+      }, 1000);
+      setPrefilledValues();
+    } catch (error) {
+      console.error("Error submitting data:", error);
     }
   };
 
@@ -198,9 +218,6 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
           firstName: "",
           lastName: "",
         });
-        setTimeout(()=>{
-        dispatch(onGetUser());
-      }, 3000)
       } else {
         toast.error(onSubmitData.message);
       }
@@ -232,9 +249,8 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.email ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.email ? "border-danger" : "form-control"
+                              }`}
                             onChange={(e) => handleChange(e, "email")}
                             placeholder=""
                             error={errors.email}
@@ -249,9 +265,8 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="number"
-                            className={` ${
-                              errors.mobile ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.mobile ? "border-danger" : "form-control"
+                              }`}
                             onChange={(e) => handleChange(e, "mobile")}
                             placeholder=""
                             error={errors.mobile}
@@ -266,9 +281,8 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.userName ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.userName ? "border-danger" : "form-control"
+                              }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -284,11 +298,10 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.firstName
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={` ${errors.firstName
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -304,9 +317,8 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.lastName ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.lastName ? "border-danger" : "form-control"
+                              }`}
                             name="lname"
                             id="name-f"
                             placeholder=""
@@ -318,7 +330,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{client}</label>
                           <div className="row ml-4">
-                          
+
                             {Array.isArray(clientList) &&
                               clientList?.map((item) => (
                                 <div
@@ -355,7 +367,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{role}</label>
                           <div className="row ml-4 mb-10">
-                            {roleList?.userRoleData?.data?.map(( item) => (
+                            {roleList?.userRoleData?.data?.map((item) => (
                               <div
                                 key={item?.id}
                                 className="form-check mt-2 col-lg-3"
@@ -366,7 +378,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                                   className="form-check-input"
                                   name="role"
                                   value={item.id}
-                                  checked={userData?.role === item.id ? true :false}
+                                  checked={userData?.role === item.id ? true : false}
                                   onChange={(e) => handleChange(e, "role")}
                                 />
                                 <label

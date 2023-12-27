@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { CSVLink } from "react-csv";
 import Loader from '../../../Componenets/Loader/Loader';
 import './CategoryList.scss'
-import { onGetCategory, onPostCategory } from '../../../Store/Slices/createCategorySlice';
+import { onGetCategory } from '../../../Store/Slices/createCategorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GetTranslationData } from '../../../Componenets/GetTranslationData/GetTranslationData ';
@@ -17,7 +17,6 @@ const CategoryList = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [hiddenRows, setHiddenRows] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
 
@@ -36,7 +35,7 @@ const CategoryList = () => {
 
   // To get the data from redux store 
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
-  const getCategoryData = getCreateCategory.categoryData.data;
+  const getCategoryData = getCreateCategory?.categoryData?.data;
 
   //To get the label form DB 
   const categoryList = GetTranslationData('UIAdmin', 'categoryList');
@@ -47,28 +46,28 @@ const CategoryList = () => {
   const export_label = GetTranslationData('UIAdmin', 'export_label')
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
 
-// To search the data 
+  // To search the data 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
 
   const filteredCategoryList = Array.isArray(getCategoryData)
-  ? getCategoryData.filter((item) =>
-    Object.values(item).some(
-      (value) =>
-        value &&
-        typeof value === "string" &&
-        value.toLowerCase().includes(searchQuery.toLowerCase())
+    ? getCategoryData.filter((item) =>
+      Object.values(item).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     )
-  )
-  : [];
+    : [];
 
-  useEffect(()=>{
-    if(getCategoryData){
-        setIsLoading(false)
+  useEffect(() => {
+    if (getCategoryData) {
+      setIsLoading(false)
     }
-}, [getCategoryData])
+  }, [getCategoryData])
 
   // For Pagination
   const startIndex = (page - 1) * rowsPerPage;
@@ -79,13 +78,14 @@ const CategoryList = () => {
   };
 
   const handleDelete = (data) => {
-    setHiddenRows((prevHiddenRows) => [...prevHiddenRows, data.id]);
+    toast.error("Data deleted");
   };
+
 
   return (
     <>
       <ScrollToTop />
-      <BrandMapping setIsLoading={setIsLoading}/>
+      <BrandMapping setIsLoading={setIsLoading} />
       <div className="container-fluid pt-0">
 
         <div className="row">
@@ -129,64 +129,64 @@ const CategoryList = () => {
               </div>
 
               <div className="card-body">
-              {isLoading && (
-                                        <div style={{ height: "400px" }}>
-                                            <Loader classType={"absoluteLoader"} />
-                                        </div>
-                            )
-                            }
-                      {Array.isArray(filteredCategoryList) &&
-                      filteredCategoryList.length > 0 ? (
-                        <div className="table-responsive">
+                {isLoading && (
+                  <div style={{ height: "400px" }}>
+                    <Loader classType={"absoluteLoader"} />
+                  </div>
+                )
+                }
+                {Array.isArray(filteredCategoryList) &&
+                  filteredCategoryList.length > 0 ? (
+                  <div className="table-responsive">
 
-                          <table className="table header-border table-responsive-sm">
-                            <thead>
-                              <tr>
-                                <th>{categoryName}</th>
-                                <th>{supplierName}</th>
-                                <th>{supplierBrand}</th>
-                                <th>{action}</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                {filteredCategoryList
-                                  .slice(startIndex, endIndex)
-                                  .map((data) => (
-                                <tr key={data.id} style={{ display: hiddenRows.includes(data.id) ? 'none' : 'table-row' }}>
-                                  <td>{data.categoryName}</td>
-                                  <td>
-                                    {data.supplierName}
-                                  </td>
-                                  <td>{data.supplierBrand}</td>
+                    <table className="table header-border table-responsive-sm">
+                      <thead>
+                        <tr>
+                          <th>{categoryName}</th>
+                          <th>{supplierName}</th>
+                          <th>{supplierBrand}</th>
+                          <th>{action}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredCategoryList
+                          .slice(startIndex, endIndex)
+                          .map((data) => (
+                            <tr key={data.id}>
+                              <td>{data.categoryName}</td>
+                              <td>
+                                {data.supplierName}
+                              </td>
+                              <td>{data.supplierBrand}</td>
 
-                                  <td>
-                              <div className="d-flex">
-                                <Link
-                                  onClick={()=>handleDelete(data)}
-                                  className="btn btn-danger shadow btn-xs sharp"
-                                >
-                                  <i className="fa fa-trash"></i>
-                                </Link>
-                                <ToastContainer/>
-                              </div>
-                            </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                          <div className="pagination-container">
-                            <Pagination
-                              count={Math.ceil(filteredCategoryList.length / rowsPerPage)}
-                              page={page}
-                              onChange={handlePageChange}
-                              color="primary"
-                            />
-                          </div>
+                              <td>
+                                <div className="d-flex">
+                                  <Link
+                                    onClick={() => handleDelete(data)}
+                                    className="btn btn-danger shadow btn-xs sharp"
+                                  >
+                                    <i className="fa fa-trash"></i>
+                                  </Link>
+                                  <ToastContainer />
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                    <div className="pagination-container">
+                      <Pagination
+                        count={Math.ceil(filteredCategoryList.length / rowsPerPage)}
+                        page={page}
+                        onChange={handlePageChange}
+                        color="primary"
+                      />
+                    </div>
 
-                        </div>
-                    ) : (
-                      <NoRecord />
-                    )}
+                  </div>
+                ) : (
+                  <NoRecord />
+                )}
               </div>
 
             </div>

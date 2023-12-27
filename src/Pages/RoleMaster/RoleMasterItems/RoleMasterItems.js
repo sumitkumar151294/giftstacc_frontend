@@ -142,8 +142,6 @@ const resetFiled = {
           toast.success("Role created successfully");
         
       }
-      
-      
       // To update the data 
       if (data) {
         const updateData = {

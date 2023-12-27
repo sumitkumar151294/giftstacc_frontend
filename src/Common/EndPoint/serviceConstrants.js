@@ -7,6 +7,7 @@ const API = {
   userRoleModuleAccess:"/user-role-module-access",
   updateUserRoleApi: "/user-role/update",
   userMasterApi: "/user",
+  userMasterUpdateApi: "/user/update",
   supplierMasterApi: "/supplier-master",
   supplierBrandListApi: "/supplier-brand-list/all",
   updateSupplierMasterApi: "/supplier-master/update",
