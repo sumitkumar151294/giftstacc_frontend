@@ -11,6 +11,7 @@ import { Pagination } from "@mui/material";
 import Dropdown from "../../Componenets/Dropdown/Dropdown";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
+import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
 const BrandCatalogue = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
@@ -96,6 +97,7 @@ const BrandCatalogue = () => {
     }, [clientList]);
         return (
     <>
+    <ScrollToTop />
         <div class="container-fluid">
           <div class="row">
             <div class="col-xl-12 col-xxl-12">

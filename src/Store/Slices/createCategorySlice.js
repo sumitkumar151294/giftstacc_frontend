@@ -5,7 +5,7 @@ export const userRoleSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    data: {},
+    categoryData: {},
     error: {},
     message: "",
   },
@@ -15,7 +15,7 @@ export const userRoleSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        data: {},
+        categoryData: {},
         error: {},
         message: "",
       };
@@ -27,7 +27,7 @@ export const userRoleSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        data,
+        categoryData:data,
         message,
         status_code,
         error: {},
@@ -38,7 +38,7 @@ export const userRoleSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        data,
+        categoryData:data,
         message,
         status_code,
         isLoading: false,
@@ -52,7 +52,7 @@ export const userRoleSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        data: {},
+        postCategoryData: {},
         error: {},
         message: "",
       };
@@ -64,7 +64,7 @@ export const userRoleSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        data,
+        postCategoryData:data,
         message,
         status_code,
         error: {},
@@ -75,7 +75,7 @@ export const userRoleSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        data,
+        postCategoryData:data,
         message,
         status_code,
         isLoading: false,
