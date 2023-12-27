@@ -2,6 +2,7 @@ import React from 'react';
 import img from '../../Assets/img/pizz1.jpg';
 import './BrandDetail.css'
 import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
+import ScrollToTop from '../../Componenets/ScrollToTop/ScrollToTop';
 
 const BrandDetail = () => {
 
@@ -48,6 +49,7 @@ const BrandDetail = () => {
 
     return (
         <>
+        <ScrollToTop />
             <div>
                 <div className="container-fluid">
 

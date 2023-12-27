@@ -15,8 +15,9 @@ import BrandMapping from '../BrandMapping/BrandMapping';
 const CategoryList = () => {
 
   const dispatch = useDispatch();
-  const [showLoader, setShowLoader] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [hiddenRows, setHiddenRows] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
 
@@ -29,12 +30,13 @@ const CategoryList = () => {
   // To get the categories
   useEffect(() => {
     dispatch(onGetCategory());
+    setIsLoading(true)
   }, []);
 
 
   // To get the data from redux store 
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
-  const getCategoryData = getCreateCategory.data.data;
+  const getCategoryData = getCreateCategory.categoryData.data;
 
   //To get the label form DB 
   const categoryList = GetTranslationData('UIAdmin', 'categoryList');
@@ -62,6 +64,12 @@ const CategoryList = () => {
   )
   : [];
 
+  useEffect(()=>{
+    if(getCategoryData){
+        setIsLoading(false)
+    }
+}, [getCategoryData])
+
   // For Pagination
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -70,14 +78,14 @@ const CategoryList = () => {
     setPage(newPage);
   };
 
-  const handleDelete = () => {
-    toast.error("Data Deleted")
+  const handleDelete = (data) => {
+    setHiddenRows((prevHiddenRows) => [...prevHiddenRows, data.id]);
   };
 
   return (
     <>
       <ScrollToTop />
-      <BrandMapping />
+      <BrandMapping setIsLoading={setIsLoading}/>
       <div className="container-fluid pt-0">
 
         <div className="row">
@@ -85,9 +93,11 @@ const CategoryList = () => {
             <div className="card">
               <div className="container mt-2 mb-2">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+
                   <div className="card-header">
                     <h4 className="card-title  txt-admin txtt">{categoryList}</h4>
                   </div>
+
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
                       <input
@@ -119,15 +129,14 @@ const CategoryList = () => {
               </div>
 
               <div className="card-body">
-              {showLoader ? (
-                  <div style={{ height: "400px" }}>
-                    <Loader classNameType={"absoluteLoader"} />
-                  </div>
-                ) : (
-                  <>
-                    {Array.isArray(filteredCategoryList) &&
+              {isLoading && (
+                                        <div style={{ height: "400px" }}>
+                                            <Loader classType={"absoluteLoader"} />
+                                        </div>
+                            )
+                            }
+                      {Array.isArray(filteredCategoryList) &&
                       filteredCategoryList.length > 0 ? (
-                      <>
                         <div className="table-responsive">
 
                           <table className="table header-border table-responsive-sm">
@@ -142,18 +151,18 @@ const CategoryList = () => {
                             <tbody>
                                 {filteredCategoryList
                                   .slice(startIndex, endIndex)
-                                  .map((item,index) => (
-                                <tr key={index}>
-                                  <td>{item.categoryName}</td>
+                                  .map((data) => (
+                                <tr key={data.id} style={{ display: hiddenRows.includes(data.id) ? 'none' : 'table-row' }}>
+                                  <td>{data.categoryName}</td>
                                   <td>
-                                    {item.supplierName}
+                                    {data.supplierName}
                                   </td>
-                                  <td>{item.supplierBrand}</td>
+                                  <td>{data.supplierBrand}</td>
 
                                   <td>
                               <div className="d-flex">
                                 <Link
-                                  onClick={handleDelete}
+                                  onClick={()=>handleDelete(data)}
                                   className="btn btn-danger shadow btn-xs sharp"
                                 >
                                   <i className="fa fa-trash"></i>
@@ -175,12 +184,9 @@ const CategoryList = () => {
                           </div>
 
                         </div>
-                      </>
                     ) : (
                       <NoRecord />
                     )}
-                  </>
-                )}
               </div>
 
             </div>
