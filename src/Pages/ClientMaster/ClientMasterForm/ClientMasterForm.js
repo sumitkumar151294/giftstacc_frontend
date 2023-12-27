@@ -38,11 +38,7 @@ const ClientMaster = (props) => {
   const mode = GetTranslationData("UIAdmin", "mode_Label");
   const themeDetails = GetTranslationData("UIAdmin", "Theme_Details_Label");
   const DatabaseCredentials = GetTranslationData("UIAdmin", " Database_Label");
-
-  const razorpay = GetTranslationData(
-    "UIAdmin",
-    "razorpay Payment Gateway_label"
-  );
+  const razorpay = GetTranslationData("UIAdmin","razorpay Payment Gateway_label");
   const key = GetTranslationData("UIAdmin", "key_placeholder");
   const add = GetTranslationData("UIAdmin", "add_label");
   const update = GetTranslationData("UIAdmin", "update_label");
@@ -62,6 +58,13 @@ const ClientMaster = (props) => {
     { value: "Live", label: "Live" },
     { value: "Staging", label: "Staging" },
   ];
+  const [additionalFields, setAdditionalFields] = useState([
+    {
+      fieldNameInput: "",
+      fieldValue: "",
+      mode: "",
+    },
+  ]);
   const [clientData, setClientData] = useState({
     name: "",
     number: "",
@@ -104,6 +107,7 @@ const ClientMaster = (props) => {
     fieldValue: "",
     mode: "",
   });
+  
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setClientData({
@@ -149,6 +153,13 @@ const ClientMaster = (props) => {
     });
   }, [props.data]);
 
+  
+  const handleAddMoreData = (field,index, e) =>{
+    var data  = [...additionalFields];
+    data[index][field] = e.target.value;
+    setAdditionalFields(data) 
+  }
+
   const handleChange = (e, fieldName) => {
     setClientData({
       ...clientData,
@@ -178,13 +189,7 @@ const ClientMaster = (props) => {
       });
     }
   };
-  const [additionalFields, setAdditionalFields] = useState([
-    {
-      fieldNameInput: "",
-      fieldValue: "",
-      mode: "",
-    },
-  ]);
+  
   const [showDelete, setShowDelete] = useState(false);
 
   const handleAddMore = () => {
@@ -223,14 +228,17 @@ const ClientMaster = (props) => {
         newErrors[key] = "";
       }
     }
+
     setErrors(newErrors);
 
     if (isValid) {
+      
       if (!props.data) {
         try {
           setShowToast(true);
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
+          clientData.paymentdetails = additionalFields
           // Wait for the dispatch to complete
           dispatch(onPostClientMasterSubmit(clientData));
           // Define a function to show a toast notification based on loginDetails
@@ -273,13 +281,15 @@ const ClientMaster = (props) => {
           stagingSecretKey: "",
           productionKey: "",
           productionSecretKey: "",
-          theme: "",
-          fieldNameInput: "",
-          fieldValue: "",
-          mode: "",
           enabled: true,
           deleted: true,
         });
+        setAdditionalFields([{
+          fieldNameInput: "",
+          fieldValue: "",
+          mode: "",
+        }])
+        
       } else {
         setShowLoader(false);
         toast.error(clientMasterDetails.postMessage);
@@ -315,16 +325,12 @@ const ClientMaster = (props) => {
           enabled: true,
           deleted: true,
         });
+        
       }
     }
   }, [clientMasterDetails.postMessage]);
 
 
-  const handleAddMoreData = (field,index, e) =>{
-    var data  = [...additionalFields];
-    data[index][field] = e.target.value;
-    setAdditionalFields(data)
-  }
 
   return (
     <>
@@ -556,7 +562,10 @@ const ClientMaster = (props) => {
                                     placeholder={key}
                                     value={additionalFields[index].fieldNameInput}
                                     error={errors.fieldNameInput}
-                                    onChange={(e) => handleAddMoreData('fieldNameInput',index, e)}
+                                    onChange={(e) => 
+                                      {handleChange(e, "fieldNameInput")
+                                      handleAddMoreData('fieldNameInput',index, e)}
+                                    }
                                   />
                                 </div>
                               </div>
@@ -581,7 +590,9 @@ const ClientMaster = (props) => {
                                     placeholder={key}
                                     error={errors.fieldValue}
                                     value={additionalFields[index].fieldValue}
-                                    onChange={(e) => handleAddMoreData('fieldValue',index, e)}
+                                    onChange={(e) => 
+                                     {handleChange(e, "fieldValue")
+                                       handleAddMoreData('fieldValue',index, e)}}
                                   />
                                 </div>
                               </div>
@@ -594,18 +605,20 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <Dropdown
                                     type="text"
-                                    // className={` ${
-                                    //   errors.mode
-                                    //     ? "border-danger"
-                                    //     : "form-control"
-                                    // }`}
+                                    className={` ${
+                                      errors.mode
+                                        ? "border-danger"
+                                        : "form-select"
+                                    }`}
                                     name="mode"
                                     id="mode"
                                     placeholder={key}
                                     value={additionalFields[index]?.mode}
                                     error={errors.mode}
-                                    onChange={(e) => handleAddMoreData('mode',index, e)}
-                                    className="form-select"
+                                    onChange={(e) =>
+                                       {handleChange(e, "mode")
+                                        handleAddMoreData('mode',index, e)}}
+                                    // className="form-select"
                                     options={modes}
                                   />
                                 </div>
