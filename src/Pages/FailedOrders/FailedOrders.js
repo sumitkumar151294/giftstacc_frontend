@@ -1,6 +1,7 @@
 import React from 'react'
 import './FailedOrders.scss'
 import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
+import ScrollToTop from '../../Componenets/ScrollToTop/ScrollToTop';
 
 const FailedOrders = () => {
     const customerDetail1 = [
