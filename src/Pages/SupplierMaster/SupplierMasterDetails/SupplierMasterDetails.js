@@ -55,6 +55,7 @@ const SupplierMasterDetails = ({ data }) => {
       code: "",
       status: "",
       amount: "",
+      minThresholdAmount: "",
       availabelAmount: "",
       fieldName: "",
       fieldValue: "",
@@ -71,6 +72,7 @@ const SupplierMasterDetails = ({ data }) => {
       code: "",
       status: "",
       amount: "",
+      minThresholdAmount: "",
       availabelAmount: "",
       fieldName: "",
       fieldValue: "",
@@ -82,18 +84,29 @@ const SupplierMasterDetails = ({ data }) => {
     }
   }, [data]);
 
-  const handleChange = (e, fieldName) => {
-    setVendorData({
-      ...vendorData,
-      [fieldName]: e.target.value,
-    });
+ 
 
-    // Remove the error message when the user starts typing
-    setErrors({
-      ...errors,
-      [fieldName]: "",
-    });
+  const handleChange = (e, fieldName) => {
+    // Validate non-negativity for minThresholdAmount and availabelAmount
+    if ((fieldName === 'amount' || fieldName === 'availabelAmount') && e.target.value < 0) {
+      setErrors({
+        ...errors,
+        [fieldName]: "Value cannot be negative",
+      });
+    } else {
+      setVendorData({
+        ...vendorData,
+        [fieldName]: e.target.value,
+      });
+
+      // Remove the error message when the user starts typing
+      setErrors({
+        ...errors,
+        [fieldName]: "",
+      });
+    }
   };
+
 
   //  Submit Button for handle  input fields data
   const handleSubmit = async (e) => {
@@ -141,9 +154,10 @@ const SupplierMasterDetails = ({ data }) => {
         dispatch(onGetSupplierList());
         toast.success(supplyPostData.message);
       }
-    } else {
-      // setIsFormLoading(false);
-      toast.error(supplyPostData.message);
+      else {
+        // setIsFormLoading(false);
+        toast.error(supplyPostData.message);
+      }
     }
     if (showUpdate) {
       if (supplyPostData.message === "Update Successfully.") {
@@ -173,8 +187,8 @@ const SupplierMasterDetails = ({ data }) => {
     setAdditionalFields(newFields);
   };
 
-  const handleAddMoreData = (field,index, e) =>{
-    var data  = [...additionalFields];
+  const handleAddMoreData = (field, index, e) => {
+    var data = [...additionalFields];
     data[index][field] = e.target.value;
     setAdditionalFields(data)
   }
@@ -271,7 +285,7 @@ const SupplierMasterDetails = ({ data }) => {
                                     name="fname"
                                     placeholder="Key"
                                     value={additionalFields[index].fieldName}
-                                    onChange={(e) => handleAddMoreData('fieldName',index, e)}
+                                    onChange={(e) => handleAddMoreData('fieldName', index, e)}
                                   />
                                 </div>
                               </div>
@@ -285,7 +299,7 @@ const SupplierMasterDetails = ({ data }) => {
                                     name="fname"
                                     placeholder="Value"
                                     value={additionalFields[index].fieldValue}
-                                    onChange={(e) => handleAddMoreData('fieldValue',index, e)}
+                                    onChange={(e) => handleAddMoreData('fieldValue', index, e)}
                                   />
                                 </div>
                               </div>
