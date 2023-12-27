@@ -126,7 +126,7 @@ const FailedOrders = () => {
     const failedordersorderstatus = GetTranslationData("UIAdmin", "failedordersorderstatus");
     const failedordersdate = GetTranslationData("UIAdmin", "failedordersdate");
     const failedordersorderamount = GetTranslationData("UIAdmin", "failedordersorderamount");
-    const failedorderspaymentid = GetTranslationData("UIAdmin", "failedorderspaymentid");
+    const failedorderspaymentid = GetTranslationData("UIAdmin", "failedorderspaymentid"); <ScrollToTop />
     const failedorderspoints = GetTranslationData("UIAdmin", "failedorderspoints");
     const failedorderspaidamount = GetTranslationData("UIAdmin", "failedorderspaidamount");
     const failedorderssno = GetTranslationData("UIAdmin", "failedorderssno");
@@ -142,6 +142,7 @@ const FailedOrders = () => {
 
     return (
         <>
+        <ScrollToTop />
             <div className="content-body">
                 <div className="container-fluid">
                     <div className="row">

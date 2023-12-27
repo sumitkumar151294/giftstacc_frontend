@@ -77,7 +77,6 @@ const CategoryList = () => {
     <>
       <ScrollToTop />
       <div className="container-fluid pt-0">
-
         <div className="row">
           <div className="col-lg-12">
             <div className="card">
