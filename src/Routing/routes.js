@@ -12,6 +12,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
 import BrandDetail from "../Pages/BrandDetail/BrandDetail";
 import Orders from "../Pages/Orders/Orders";
+import FailedOrders from '../Pages/FailedOrders/FailedOrders'
 function RouteConfiq() {
   return (
     <Router>
@@ -28,6 +29,8 @@ function RouteConfiq() {
         <Route path="/Lc-admin/brand-catalogue" element={<Layout Component={BrandCatalogue} />} />
         <Route path="/Lc-admin/brand-detail" element={<Layout Component={BrandDetail} />} />
         <Route path="/Lc-admin/orders" element={<Layout Component={Orders} />} />
+        <Route path="/Lc-admin/failed-orders" element={<Layout Component={FailedOrders} />} />
+
       </Routes>
     </Router>
   );

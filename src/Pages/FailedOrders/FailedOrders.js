@@ -128,17 +128,17 @@ const FailedOrders = () => {
     const failedordersorderamount = GetTranslationData("UIAdmin", "failedordersorderamount");
     const failedorderspaymentid = GetTranslationData("UIAdmin", "failedorderspaymentid");
     const failedorderspoints = GetTranslationData("UIAdmin", "failedorderspoints");
-    const failedorderspaidamount = GetTranslationData("UIAdmin", "failedorders");
-    const failedorderssno = GetTranslationData("UIAdmin", "failedorders");
-    const failedordersbrandname = GetTranslationData("UIAdmin", "failedorders");
-    const failedordersfacevalue = GetTranslationData("UIAdmin", "failedorders");
-    const failedordersqty = GetTranslationData("UIAdmin", "failedorders");
-    const failedorderssku = GetTranslationData("UIAdmin", "failedorders");
-    const failedordersdisamount = GetTranslationData("UIAdmin", "failedorders");
-    const failedorderssuborderid = GetTranslationData("UIAdmin", "failedorders");
-    const failedordersreferenceid = GetTranslationData("UIAdmin", "failedorders");
-    const failedorderssuborderstatus = GetTranslationData("UIAdmin", "failedorders");
-    const failedordersamount = GetTranslationData("UIAdmin", "failedorders");
+    const failedorderspaidamount = GetTranslationData("UIAdmin", "failedorderspaidamount");
+    const failedorderssno = GetTranslationData("UIAdmin", "failedorderssno");
+    const failedordersbrandname = GetTranslationData("UIAdmin", "failedordersbrandname");
+    const failedordersfacevalue = GetTranslationData("UIAdmin", "failedordersfacevalue");
+    const failedordersqty = GetTranslationData("UIAdmin", "failedordersqty");
+    const failedorderssku = GetTranslationData("UIAdmin", "failedorderssku");
+    const failedordersdisamount = GetTranslationData("UIAdmin", "failedordersdisamount");
+    const failedorderssuborderid = GetTranslationData("UIAdmin", "failedorderssuborderid");
+    const failedordersreferenceid = GetTranslationData("UIAdmin", "failedordersreferenceid");
+    const failedorderssuborderstatus = GetTranslationData("UIAdmin", "failedorderssuborderstatus");
+    const failedordersamount = GetTranslationData("UIAdmin", "failedordersamount");
 
     return (
         <>
