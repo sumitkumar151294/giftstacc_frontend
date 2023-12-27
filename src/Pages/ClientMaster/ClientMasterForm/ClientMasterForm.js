@@ -29,6 +29,8 @@ const ClientMaster = (props) => {
   const fieldName = GetTranslationData("UIAdmin", "field_Name_Label");
   const fieldValue = GetTranslationData("UIAdmin", "field_Value_Label");
   const userId = GetTranslationData("UIAdmin", "database_User_ID_Label");
+  const add_More = GetTranslationData("UIAdmin", "add_More");
+  const delete_Button = GetTranslationData("UIAdmin", "delete_Button");
   const userPassword = GetTranslationData(
     "UIAdmin",
     "database_User_Pass_Label"
@@ -620,7 +622,7 @@ const ClientMaster = (props) => {
                                     className="btn btn-danger btn-sm float-right pad-aa mt-2"
                                     onClick={() => handleDelete(index)}
                                   >
-                                    Delete
+                                    {delete_Button}
                                     <i className="fa fa-trash"></i>{" "}
                                   </button>
                                 </div>
@@ -634,7 +636,7 @@ const ClientMaster = (props) => {
                               className="btn btn-primary btn-sm float-right pad-aa mt-2"
                               onClick={() => handleAddMore()}
                             >
-                              Add More <i className="fa fa-plus"></i>
+                              {add_More} <i className="fa fa-plus"></i>
                             </button>
                           </div>
                         </div>

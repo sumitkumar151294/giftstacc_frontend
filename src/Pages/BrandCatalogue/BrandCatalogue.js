@@ -27,6 +27,8 @@ const BrandCatalogue = () => {
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const exportLabel = GetTranslationData("UIAdmin", "export_label");
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
+  const supplier = GetTranslationData("UIAdmin", "supplier");
+  const client = GetTranslationData("UIAdmin", "client");
   const [searchQuery, setSearchQuery] = useState("");
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -135,7 +137,7 @@ const BrandCatalogue = () => {
                 <div class="container-fluid">
                   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                     <div class="col-sm-3 form-group mb-2">
-                      <label for="name-f">Supplier</label>
+                      <label for="name-f">{supplier}</label>
                       <Dropdown
                           onChange={(e) => handleChange(e, "supplier")}
                           value={supplierList.supplier || ""}
@@ -145,7 +147,7 @@ const BrandCatalogue = () => {
                         />
                     </div>
                     <div class="col-sm-3 form-group mb-2">
-                      <label for="name-f">Client</label>
+                      <label for="name-f">{client}</label>
                       <Dropdown
                           onChange={(e) => handleChange(e, "client")}
                           value={supplierList?.client || ""}
