@@ -79,7 +79,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
     const { name, value, type, checked } = e.target;
     let newUserdetailData;
     if (fieldName === 'check' && checked === true) {
-      let accessClientIds = userData.accessClientIds
+      let accessClientIds = [...userData.accessClientIds]
       accessClientIds?.push(value)
       newUserdetailData = {
         ...userData,
@@ -372,15 +372,26 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                                 key={item?.id}
                                 className="form-check mt-2 col-lg-3"
                               >
+                              {userData?.role === item.id ? 
                                 <input
                                   id={item.id}
                                   type="radio"
                                   className="form-check-input"
                                   name="role"
                                   value={item.id}
-                                  checked={userData?.role === item.id ? true : false}
+                                  checked={'checked'}
+                                  onChange={(e) => handleChange(e, "role")}
+                                />:
+                                 <input
+                                  id={item.id}
+                                  type="radio"
+                                  className="form-check-input"
+                                  name="role"
+                                  value={item.id}
+                                 
                                   onChange={(e) => handleChange(e, "role")}
                                 />
+                              }
                                 <label
                                   className="form-check-label"
                                   htmlFor={item.id}
