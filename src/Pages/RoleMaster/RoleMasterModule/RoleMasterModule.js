@@ -82,6 +82,7 @@ const RoleMasterModule = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody key='tbody'>
+                                                {console.log('roleAccessListData', roleAccessListData)}
                                                     {Array.isArray(roleAccessListData) && roleAccessListData.slice(startIndex, endIndex).map((data, index) => (
                                                         <tr key={index}>
                                                             <td>{data.name}

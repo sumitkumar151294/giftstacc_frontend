@@ -11,18 +11,18 @@ import InputField from "../../../Componenets/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
-import { Button } from "@mui/material";
 const RoleMasterItems = ({ data, setIsLoading, setData }) => {
+  console.log('data',data)
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
-  const [showClient, setShowClient] = useState();
   const getModule = useSelector((state) => state.moduleReducer);
   const getModuleData = getModule?.data?.data;
   const [formData, setFormData] = useState({
     code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
     name: "",
     modules: [],
+    isClientPlatformModule: false
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -67,6 +67,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
           name: data?.name,
           code: data?.code,
           modules: updatedModulesData,
+          isClientPlatformModule: data?.isClientPlatformRole
         });
       }
       setIsFormLoading(true);
@@ -75,20 +76,15 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
 
   const handleInputChange = (e) => {
     const { name, type, checked } = e.target;
+    debugger;
     if (name === "IsClientRole") {
-      const updatedModules = formData.modules?.map((module) => ({
-        ...module,
-        checked,
-      }));
-      setShowClient(checked);
-
       setFormData({
         ...formData,
-        modules: updatedModules,
+        isClientPlatformModule:checked
       });
     }
 
-    if (name === "selectAll") {
+     else if (name === "selectAll") {
       const updatedModules = formData.modules?.map((module) => ({
         ...module,
         checked,
@@ -97,7 +93,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
         ...formData,
         modules: updatedModules,
       });
-    } else if (type === "checkbox") {
+    } else if (type === "checkbox" && name !=="IsClientRole") {
       const updatedModules = formData.modules?.map((module) =>
         module.name === name ? { ...module, checked } : module
       );
@@ -117,6 +113,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
     code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
     name: "",
     modules: formData.modules.map((module) => ({ ...module, checked: false })),
+    isClientPlatformModule:false
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -152,7 +149,6 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
       if (!data) {
         await dispatch(onPostUserRole(postData));
         setFormData(resetFiled);
-
         toast.success("Role created successfully");
       }
 
@@ -163,7 +159,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
           code: formData.code,
           name: formData.name,
           description: "",
-          isClientPlatformRole: false,
+          isClientPlatformRole: formData.isClientPlatformModule,
           moduleIds: selectedModuleIds,
         };
 
@@ -216,17 +212,14 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
                           />
                         </div>
                         <div className="col-lg-4">
+                        {console.log(formData)}
                           <div className="form-check mt-4 pad-left">
                             <InputField
                               className="form-check-input"
                               type="checkbox"
                               name="IsClientRole"
-                              // value={
-                              //   formData?.modules?.length > 0 &&
-                              //   formData?.modules.every(
-                              //     (module) => module.checked
-                              //   )
-                              // }
+                              value={formData?.isClientPlatformModule}
+                              checked={formData?.isClientPlatformModule}
                               id="flexCheckDefault1"
                               onChange={handleInputChange}
                             />
@@ -253,13 +246,13 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
                                   (module) => module.checked
                                 )
                               }
-                              id="flexCheckDefault1"
+                              id="flexCheckDefault2"
                               checked={isSelectAllChecked}
                               onChange={handleInputChange}
                             />
                             <label
                               className="form-check-label fnt-17"
-                              htmlFor="flexCheckDefault1"
+                              htmlFor="flexCheckDefault2"
                             >
                               {selectall}
                             </label>
@@ -270,7 +263,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
                           <div className="row ml-4">
                             {formData?.modules?.map(
                               ({ id, name, checked, isClientPlatformModule }) =>
-                                showClient && isClientPlatformModule ? (
+                                formData.isClientPlatformModule && isClientPlatformModule ? (
                                   <div
                                     className="form-check mt-2 col-lg-3"
                                     key={id}
@@ -306,7 +299,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
                                     </label>
                                   </div>
                                 ) : (
-                                  !showClient && (
+                                  !formData.isClientPlatformModule && (
                                     <div
                                       className="form-check mt-2 col-lg-3"
                                       key={id}
