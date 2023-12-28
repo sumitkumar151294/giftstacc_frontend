@@ -203,7 +203,7 @@ const ClientList = () => {
                                     </div>
                                   </TableCell>
                                   <TableCell>
-                                    <Link to="/lc-admin/login">
+                                    <Link to="/lc-user-admin/login">
                                       <button className="btn btn-secondary btn-sm float-right">
                                         <i className="fa fa-user"></i>&nbsp;{" "}
                                         {login}
