@@ -87,7 +87,7 @@ const ClientMaster = (props) => {
     fieldValue: "",
     mode: "",
     enabled: true,
-    deleted: true,
+    deleted: false,
   });
   const [errors, setErrors] = useState({
     name: "",

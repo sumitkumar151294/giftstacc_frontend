@@ -24,6 +24,7 @@ const UserList = () => {
     const username = GetTranslationData("UIAdmin", "usernamee_label");
     const clients = GetTranslationData("UIAdmin", "clients_name_label");
     const action = GetTranslationData("UIAdmin", "action_label");
+    const not_Found = GetTranslationData("UIAdmin", "not_Found");
     const userList = useSelector((state) => state.userMasterReducer)
     const client = useSelector((state) => state.clientMasterReducer.data)
     const loading = useSelector((state) => state.userMasterReducer.isLoading);
@@ -40,7 +41,7 @@ const UserList = () => {
     // here get role name by match with id 
     const getNameById = (id) => {
         const result = roleList?.find(item => item.id === id);
-        return result ? result.name : "Not Found";
+        return result ? result.name : {not_Found};
     };
 
     // here get client name by matching with id 

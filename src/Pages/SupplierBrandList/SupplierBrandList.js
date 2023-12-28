@@ -12,15 +12,18 @@ import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
 
 const SupplierBrandList = () => {
   const dispatch = useDispatch();
-  const [supplierList, setSupplierList] = useState([])
-  const SupplierBrandList = useSelector((state) => state.supplierBrandListReducer?.data?.data);
-  const suppliers = useSelector((state) => state.supplierMasterReducer?.data)
+  const [supplierList, setSupplierList] = useState([]);
+  const SupplierBrandList = useSelector(
+    (state) => state.supplierBrandListReducer?.data?.data
+  );
+  const suppliers = useSelector((state) => state.supplierMasterReducer?.data);
   const supplierBrands = GetTranslationData("UIAdmin", "supplierBrands");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
   const select = GetTranslationData("UIAdmin", "select");
   const all = GetTranslationData("UIAdmin", "all");
+  const supplier_products = GetTranslationData("UIAdmin", "supplier_products");
   const supplierBrandLists = GetTranslationData(
     "UIAdmin",
     "supplierBrandLists"
@@ -65,16 +68,15 @@ const SupplierBrandList = () => {
   ];
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
-
   useEffect(() => {
     let tempSupplier = [];
     suppliers?.data?.map((item) => {
-      tempSupplier.push({ label: item.name, value: item.name })
-    })
+      tempSupplier.push({ label: item.name, value: item.name });
+    });
     setSupplierList(tempSupplier);
   }, [suppliers]);
 
-  const handleChange = (e) => { };
+  const handleChange = (e) => {};
 
   const userData = [
     {
@@ -129,7 +131,7 @@ const SupplierBrandList = () => {
 
   return (
     <>
-    <ScrollToTop/>  
+      <ScrollToTop />
       <div>
         <div className="container-fluid">
           <div className="row">
@@ -138,7 +140,7 @@ const SupplierBrandList = () => {
                 <div className="container-fluid mt-2 mb-2">
                   <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                     <div className="card-header">
-                      <h4 className="card-title">{supplierBrands}</h4>
+                      <h4 className="card-title">{supplier_products}</h4>
                     </div>
                     <div className="customer-search mb-sm-0 mb-3">
                       <div className="input-group search-area">
@@ -157,7 +159,11 @@ const SupplierBrandList = () => {
                     <div className="d-flex align-items-center flex-wrap">
                       {filteredSupplierList &&
                         filteredSupplierList.length > 0 && (
-                          <CSVLink data={SupplierBrandList} headers={headers}>
+                          <CSVLink
+                            data={SupplierBrandList}
+                            headers={headers}
+                            filename={"SupplierBrandList.csv"}
+                          >
                             <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
                               <i className="fa fa-file-excel me-2"></i>
                               {export_label}
@@ -172,7 +178,7 @@ const SupplierBrandList = () => {
                   <form>
                     <div className="row">
                       <div className="col-sm-3 form-group mb-2">
-                        <label for="name-f">{selectSuppliers}</label>
+                        <label htmlFor="name-f">{selectSuppliers}</label>
 
                         <Dropdown
                           className="form-select"
@@ -183,8 +189,8 @@ const SupplierBrandList = () => {
                       </div>
 
                       <div className="col-lg-9 d-flex-list justify-content-end m-auto mb-2">
-                        {userData.map((data) => (
-                          <span className="mrr">
+                        {userData.map((data,index) => (
+                          <span className="mrr" key={index}> 
                             <button type="button" className={data.className}>
                               {data.status}{" "}
                               <span className="btn-icon-end">{data.count}</span>
@@ -202,7 +208,7 @@ const SupplierBrandList = () => {
                           <h4 className="card-title">{supplierBrandLists}</h4>
                         </div>
                         {Array.isArray(filteredSupplierList) &&
-                          filteredSupplierList.length > 0 ? (
+                        filteredSupplierList.length > 0 ? (
                           <div className="card-body">
                             <div className="table-responsive">
                               <table className="table header-border table-responsive-sm">

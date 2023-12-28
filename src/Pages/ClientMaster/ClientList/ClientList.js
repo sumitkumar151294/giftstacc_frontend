@@ -5,7 +5,7 @@ import Loader from "../../../Componenets/Loader/Loader";
 import NoRecord from "../../../Componenets/NoRecord/NoRecord";
 import ClientMasterForm from "../ClientMasterForm/ClientMasterForm";
 import { useDispatch, useSelector } from "react-redux";
-import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
+import { onClientMasterSubmit, onUpdateClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
@@ -25,8 +25,7 @@ const ClientList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
-  const [hiddenRows, setHiddenRows] = useState([]);
-  const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
+    const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const brands = GetTranslationData("UIAdmin", "brands_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
@@ -49,10 +48,30 @@ const ClientList = () => {
     const prefilled = data;
     setData(prefilled);
   };
- 
-  const handleDelete = (data) => {
-    // Add the ID of the row to hiddenRows state
-    setHiddenRows((prevHiddenRows) => [...prevHiddenRows, data.id]);
+   const handleDelete = (data) => {
+    const deletedData = {
+      id: data?.id,
+      name: data?.name,
+      number: data?.number,
+      email: data?.email,
+      userName: data?.userName,
+      password: data?.password,
+      status: data?.status,
+      color: data?.color,
+      lgogLink: data?.lgogLink,
+      dbipAddress: data?.dbipAddress,
+      dbLoginId: data?.dbLoginId,
+      dbLoginPwd: data?.dbLoginPwd,
+      stagingKey: data?.stagingKey,
+      stagingSecretKey: data?.stagingSecretKey,
+      productionKey: data?.productionKey,
+      productionSecretKey: data?.productionSecretKey,
+      theme: data?.theme,
+      enabled: false,
+      deleted: true
+    }
+    // console.log(deletedData,"deletedData");
+    dispatch(onUpdateClientMasterSubmit)
   };
 
   const headers = [
@@ -115,7 +134,8 @@ const ClientList = () => {
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     {clientList && clientList.length > 0 && (
-                      <CSVLink data={clientList} headers={headers}>
+                      <CSVLink data={clientList} headers={headers}   filename={"ClientMaster.csv"}
+                      >
                         {filteredClientList.length > 0 && (
                           <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
                             <i className="fa fa-file-excel me-2"></i>
@@ -136,6 +156,7 @@ const ClientList = () => {
                   <>
                     {Array.isArray(filteredClientList) &&
                     filteredClientList.length > 0 ? (
+                      <div className="table-responsive">
                       <>
                         <Table className="table header-border table-responsive-sm">
                           <TableHead>
@@ -153,7 +174,7 @@ const ClientList = () => {
                             {filteredClientList
                               .slice(startIndex, endIndex)
                               .map((data) => (
-                                <TableRow key={data.id} style={{ display: hiddenRows.includes(data.id) ? 'none' : 'table-row' }}>
+                                <TableRow key={data.id}>
                                 <TableCell>
                                     {data.name}
                                     <a href="#"></a>
@@ -184,7 +205,7 @@ const ClientList = () => {
                                     </div>
                                   </TableCell>
                                   <TableCell>
-                                    <Link to="/LC-admin/login">
+                                    <Link to="/lc-user-admin/login">
                                       <button className="btn btn-secondary btn-sm float-right">
                                         <i className="fa fa-user"></i>&nbsp;{" "}
                                         {login}
@@ -193,7 +214,7 @@ const ClientList = () => {
                                   </TableCell>
                                   <td>
                                     <Link
-                                      to="/LC-admin/client-brand-list"
+                                      to="/lc-admin/client-brand-list"
                                       className="btn btn-primary btn-sm float-right"
                                     >
                                       <i className="fa fa-eye"></i>&nbsp;
@@ -215,6 +236,7 @@ const ClientList = () => {
                           />
                         </div>
                       </>
+                      </div>
                     ) : (
                       <NoRecord />
                     )}
