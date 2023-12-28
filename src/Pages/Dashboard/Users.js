@@ -125,6 +125,7 @@ const Users = () => {
   const months = GetTranslationData("UIAdmin", "months");
   const daily = GetTranslationData("UIAdmin", "daily");
   const today = GetTranslationData("UIAdmin", "today");
+  const graph_Data_Label = GetTranslationData("UIAdmin", "graph_Data_Label");
 
 
   return (
@@ -136,7 +137,7 @@ const Users = () => {
                     <div className="card-header border-0  flex-wrap">
                       <div>
                         <h4 className="fs-20 mb-1">{activeuser}</h4>
-                        <span>Graph data is based on full system manners</span>
+                        <span>{graph_Data_Label}</span>
                       </div>
                       <div className="d-flex">
                         <div className="card-action coin-tabs mt-3 mt-sm-0">

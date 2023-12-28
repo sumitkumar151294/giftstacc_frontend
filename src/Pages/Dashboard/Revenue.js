@@ -103,6 +103,9 @@ const Revenue = () => {
   };
 
   const todayrevenue = GetTranslationData("UIAdmin", "todayrevenue");
+  const graph_Data_Label = GetTranslationData("UIAdmin", "graph_Data_Label");
+  const day_Label = GetTranslationData("UIAdmin", "day_Label");
+
   return (
     <>
  
@@ -111,12 +114,12 @@ const Revenue = () => {
                 <div className="card-header border-0 flex-wrap pb-0">
                   <div className="mb-sm-0 mb-2">
                     <h4 className="fs-20">{todayrevenue}</h4>
-                    <span>Graph data is based on full system manners</span>
+                    <span>{graph_Data_Label}</span>
                   </div>
                   <div>
                     <h2 className="font-w700 mb-0">₹ 24,956</h2>
                     <p className="mb-0 font-w700">
-                      <span className="text-success">0,5% </span>than last day
+                      <span className="text-success">0,5% </span>{day_Label}
                     </p>
                   </div>
                 </div>
