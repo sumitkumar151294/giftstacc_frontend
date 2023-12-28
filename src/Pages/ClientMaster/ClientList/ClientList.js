@@ -25,7 +25,7 @@ const ClientList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
-  const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
+    const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const brands = GetTranslationData("UIAdmin", "brands_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
@@ -48,7 +48,7 @@ const ClientList = () => {
     const prefilled = data;
     setData(prefilled);
   };
-  const handleDelete = (data) => {
+   const handleDelete = (data) => {
     const deletedData = {
       id: data?.id,
       name: data?.name,
@@ -155,6 +155,7 @@ const ClientList = () => {
                   <>
                     {Array.isArray(filteredClientList) &&
                     filteredClientList.length > 0 ? (
+                      <div className="table-responsive">
                       <>
                         <Table className="table header-border table-responsive-sm">
                           <TableHead>
@@ -234,6 +235,7 @@ const ClientList = () => {
                           />
                         </div>
                       </>
+                      </div>
                     ) : (
                       <NoRecord />
                     )}
