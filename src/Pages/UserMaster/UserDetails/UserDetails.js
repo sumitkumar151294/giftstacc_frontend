@@ -34,6 +34,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
 
   //To get the data from redux store
   const onSubmitData = useSelector((state) => state.userMasterReducer.postdata);
+  const onUpdateData = useSelector((state)=>state.userMasterReducer.updatedUserData)
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer);
   const clientList = useSelector((state) => state.clientMasterReducer.data);
@@ -198,7 +199,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
       }
       setTimeout(() => {
         dispatch(onGetUser());
-      }, 1000);
+      }, 2000);
       setPrefilledValues();
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -207,8 +208,8 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
 
   useEffect(() => {
     if (onUpdate) {
-      if (onSubmitData.message === "User Added Successfully.") {
-        toast.success(onSubmitData.message);
+      if (onSubmitData?.message === "User Added Successfully.") {
+        toast.success(onSubmitData?.message);
         setUserData({
           userName: "",
           mobile: "",
@@ -218,7 +219,9 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
           firstName: "",
           lastName: "",
         });
-      } else {
+      } else if (onUpdateData?.message === "Update Successfully.") {
+        toast.success(onSubmitData?.message);
+      }else {
         toast.error(onSubmitData.message);
       }
     }

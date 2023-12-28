@@ -84,6 +84,42 @@ export const userRoleSlice = createSlice({
       };
     },
 
+    onUpdateCategory: (state) => {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        updatedCategoryData: {},  
+        error: {},
+        message: "",
+      };
+    },
+
+    onUpdateCategorySuccess: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        updatedCategoryData: data,  
+        message,
+        status_code,
+        error: {},
+      };
+    },
+
+    onUpdateCategoryError: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 400 } = payload;
+      return {
+        ...state,
+        updatedCategoryData: data,  
+        message,
+        status_code,
+        isLoading: false,
+        isError: true,
+        error: {},
+      };
+    },
   },
 });
 export const { 
@@ -93,6 +129,9 @@ export const {
   onPostCategory, 
   onPostCategorySuccess, 
   onPostCategoryError, 
+  onUpdateCategory,
+  onUpdateCategorySuccess,
+  onUpdateCategoryError
 } = userRoleSlice.actions;
 
 export default userRoleSlice.reducer;

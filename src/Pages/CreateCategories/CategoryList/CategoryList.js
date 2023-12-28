@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { CSVLink } from "react-csv";
 import Loader from '../../../Componenets/Loader/Loader';
 import './CategoryList.scss'
-import { onGetCategory } from '../../../Store/Slices/createCategorySlice';
+import { onGetCategory, onPostCategory, onUpdateCategory } from '../../../Store/Slices/createCategorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GetTranslationData } from '../../../Componenets/GetTranslationData/GetTranslationData ';
@@ -36,6 +36,7 @@ const CategoryList = () => {
   // To get the data from redux store 
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
   const getCategoryData = getCreateCategory?.categoryData?.data;
+
 
   //To get the label form DB 
   const categoryList = GetTranslationData('UIAdmin', 'categoryList');
@@ -77,8 +78,21 @@ const CategoryList = () => {
     setPage(newPage);
   };
 
+  //To delete the data 
   const handleDelete = (data) => {
-    toast.error("Data deleted");
+    const deletedData = {
+      id: data.id,
+      categoryName: data.categoryName,
+      supplierName: data.supplierName,
+      supplierBrand: data.supplierBrand,
+      deleted: true
+    }
+    dispatch(onUpdateCategory(deletedData))
+    setTimeout(() => {
+      dispatch(onGetCategory());
+      toast.success("Data Deleted")
+    }, 1000);
+    setIsLoading(true);
   };
 
 
