@@ -20,7 +20,7 @@ function RouteConfiq() {
         <Route path="/lc-admin/login" element={<LoginPage />} />
         <Route path="/lc-admin/dashboard" element={<Layout Component={Dashboard} />} />
         <Route path="/lc-admin/supplier-master" element={<Layout Component={SupplierMaster} />} />
-        <Route path="/lc-admin/supplier-brand-list" element={<Layout Component={SupplierBrandList} />} />
+        <Route path="/lc-admin/supplier-product-list" element={<Layout Component={SupplierBrandList} />} />
         <Route path="/lc-admin/create-categories" element={<Layout Component={CreateCategories} />} />
         <Route path="/lc-admin/role-master" element={<Layout Component={RoleMaster} />} />
         <Route path="/lc-admin/client-master" element={<Layout Component={ClientMaster} />} />
