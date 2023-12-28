@@ -116,7 +116,7 @@ const LoginPage = () => {
     if (loginDetails === "Login Successfully." && isSubmit) {
       setShowLoader(false);
       toast.success(loginDetails);
-      navigate('/Lc-admin/dashboard');
+      navigate('/lc-admin/dashboard');
       sessionStorage.setItem('login', true)
     } else if (isSubmit) {
       setShowLoader(false);

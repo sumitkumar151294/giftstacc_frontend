@@ -4,7 +4,7 @@ import "./HomePage.css"
 const HomePage = () => {
     const navigate = useNavigate();
     const handleGoToLogin=()=>{
-        navigate("/Lc-Admin/login")
+        navigate("/lc-Admin/login")
     }
     return (
         <div className='under_maintenance'>
