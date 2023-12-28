@@ -204,7 +204,6 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
       }, 2000);
       setPrefilledValues();
     } catch (error) {
-      console.error("Error submitting data:", error);
     }
   };
 

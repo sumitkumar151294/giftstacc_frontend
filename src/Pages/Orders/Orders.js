@@ -171,7 +171,6 @@ const Orders = () => {
                       <Dropdown
                         onChange={(e) => handleChange(e, "supplier")}
                         value={supplierList.supplier || ""}
-                        // key={clientData.theme}
                         className="form-select"
                         options={supplierListData}
                       />
@@ -181,7 +180,6 @@ const Orders = () => {
                       <Dropdown
                         onChange={(e) => handleChange(e, "client")}
                         value={supplierList?.client || ""}
-                        // key={clientData.theme}
                         className="form-select"
                         options={clientListData}
                       />

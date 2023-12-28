@@ -16,7 +16,6 @@ const Users = () => {
           show: false,
         },
         sparkline: {
-          // enabled: true
         },
         offsetX: -10,
       },
@@ -218,12 +217,6 @@ const Users = () => {
                     className="chart-timeline"
                   />
                 </div>
-                {/* <div className="tab-pane fade " id="Daily">
-                        <ReactApexChart options={chartTimeline.options} series={chartTimeline.series} type="bar" height={250} className="chart-timeline" />
-                      </div>
-                      <div className="tab-pane fade " id="Today">
-                        <ReactApexChart options={chartTimeline.options} series={chartTimeline.series} type="bar" height={250} className="chart-timeline" />
-                      </div> */}
               </div>
             </div>
           </div>

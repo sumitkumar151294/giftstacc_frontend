@@ -618,7 +618,6 @@ const ClientMaster = (props) => {
                                     onChange={(e) =>
                                        {handleChange(e, "mode")
                                         handleAddMoreData('mode',index, e)}}
-                                    // className="form-select"
                                     options={modes}
                                   />
                                 </div>

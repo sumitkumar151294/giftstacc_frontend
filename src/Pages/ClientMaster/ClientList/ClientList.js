@@ -70,7 +70,6 @@ const ClientList = () => {
       enabled: false,
       deleted: true
     }
-    // console.log(deletedData,"deletedData");
     dispatch(onUpdateClientMasterSubmit)
   };
 
