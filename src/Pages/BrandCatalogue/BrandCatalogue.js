@@ -108,17 +108,17 @@ const BrandCatalogue = () => {
   return (
     <>
       <ScrollToTop />
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-12 col-xxl-12">
-            <div class="card">
-              <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div class="card-header">
-                    <h4 class="card-title">{heading}</h4>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12 col-xxl-12">
+            <div className="card">
+              <div className="container-fluid">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="card-header">
+                    <h4 className="card-title">{heading}</h4>
                   </div>
-                  <div class="customer-search mb-sm-0 mb-3">
-                    <div class="input-group search-area">
+                  <div className="customer-search mb-sm-0 mb-3">
+                    <div className="input-group search-area">
                       <input
                         type="text"
                         className="form-control only-high"
@@ -126,14 +126,14 @@ const BrandCatalogue = () => {
                         value={searchQuery}
                         onChange={handleSearch}
                       />
-                      <span class="input-group-text">
+                      <span className="input-group-text">
                         <a href="#">
-                          <i class="flaticon-381-search-2"></i>
+                          <i className="flaticon-381-search-2"></i>
                         </a>
                       </span>
                     </div>
                   </div>
-                  <div class="d-flex align-items-center flex-wrap">
+                  <div className="d-flex align-items-center flex-wrap">
                     {BrandCatalogueData && BrandCatalogueData.length > 0 && (
                       <CSVLink
                         data={BrandCatalogueData}
@@ -151,41 +151,39 @@ const BrandCatalogue = () => {
                   </div>
                 </div>
               </div>
-              <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div class="col-sm-3 form-group mb-2">
+              <div className="container-fluid">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="col-sm-3 form-group mb-2">
                     <label for="name-f">{supplier}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "supplier")}
                       value={supplierList.supplier || ""}
-                      // key={clientData.theme}
                       className="form-select"
                       options={supplierListData}
                     />
                   </div>
-                  <div class="col-sm-3 form-group mb-2">
+                  <div className="col-sm-3 form-group mb-2">
                     <label for="name-f">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
                       value={supplierList?.client || ""}
-                      // key={clientData.theme}
                       className="form-select"
                       options={clientListData}
                     />
                   </div>
                 </div>
               </div>
-              <div class="card-body">
+              <div className="card-body">
                 {showLoader && filteredBrandCatalogueList.length < 0 ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
                   <>
-                    <div class="table-responsive">
+                    <div className="table-responsive">
                       {filteredBrandCatalogueList.length > 0 ? (
                         <>
-                          <table class="table header-border table-responsive-sm">
+                          <table className="table header-border table-responsive-sm">
                             <thead>
                               <tr>
                                 <th>{image}</th>
@@ -222,9 +220,9 @@ const BrandCatalogue = () => {
                                       <Link
                                         to={"/lc-admin/brand-detail"}
                                         href="productdetail.html"
-                                        class="btn btn-primary btn-sm bttn float-right"
+                                        className="btn btn-primary btn-sm bttn float-right"
                                       >
-                                        <i class="fa fa-info"></i>&nbsp;
+                                        <i className="fa fa-info"></i>&nbsp;
                                         {BrandDetail}
                                       </Link>
                                     </td>
