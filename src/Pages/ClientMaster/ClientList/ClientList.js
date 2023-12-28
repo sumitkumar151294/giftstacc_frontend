@@ -127,7 +127,7 @@ const ClientList = () => {
                   </div>
                 </div>
               </div>
-              <div className="card-body">
+              <div className="card-body ">
                 {showLoader ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
@@ -136,6 +136,7 @@ const ClientList = () => {
                   <>
                     {Array.isArray(filteredClientList) &&
                     filteredClientList.length > 0 ? (
+                      <div className="table-responsive">
                       <>
                         <Table className="table header-border table-responsive-sm">
                           <TableHead>
@@ -215,6 +216,7 @@ const ClientList = () => {
                           />
                         </div>
                       </>
+                      </div>
                     ) : (
                       <NoRecord />
                     )}
