@@ -46,6 +46,7 @@ const CategoryList = () => {
   const action = GetTranslationData('UIAdmin', 'action_label');
   const export_label = GetTranslationData('UIAdmin', 'export_label')
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
+  const categoryDeleteMessage = GetTranslationData("UIAdmin" , "category_deleted")
 
   // To search the data 
   const handleSearch = (e) => {
@@ -90,7 +91,7 @@ const CategoryList = () => {
     dispatch(onUpdateCategory(deletedData))
     setTimeout(() => {
       dispatch(onGetCategory());
-      toast.success("Data Deleted")
+      toast.success(categoryDeleteMessage);
     }, 1000);
     setIsLoading(true);
   };
