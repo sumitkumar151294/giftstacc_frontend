@@ -1,6 +1,5 @@
 import React from 'react'
-// import Loader from "../Loader/Loader";
-
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 
 const customerdetails = [
     {
@@ -39,29 +38,32 @@ const customerdetails = [
 
 
 const ClientBrandList = () => {
-    // const [isLoading, setIsLoading] = useState("true");
+
+  const clientbrandlist = GetTranslationData("UIAdmin", "clientbrandlist");
+  const clientbrandlistheading = GetTranslationData("UIAdmin", "clientbrandlistheading");
+  const clientbrandlistname = GetTranslationData("UIAdmin", "clientbrandlistname");
+  const clientbrandlistbrandname = GetTranslationData("UIAdmin", "clientbrandlistbrandname");
+  const clientbrandlistdiscount = GetTranslationData("UIAdmin", "clientbrandlistdiscount");
+  const clientbrandlistcommission = GetTranslationData("UIAdmin", "clientbrandlistcommission");
+  const clientbrandlistmargin = GetTranslationData("UIAdmin", "clientbrandlistmargin");
+  const clientbrandlistaction = GetTranslationData("UIAdmin", "clientbrandlistaction");
+  const exportLabel = GetTranslationData("UIAdmin", "export_label");
+  const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
+  const update = GetTranslationData("UIAdmin", "update_label");
+
+
+
 
     return (
         <>
-            <div class="content-body">
                 <div class="container-fluid">
-
-
                     <div class="row">
                         <div class="col-xl-12 col-xxl-12">
                             <div class="card">
-
-
-
                                 <div class="container-fluid mt-2 mb-2">
-
                                     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                         <div class="card-header">
-                                            <h4 class="card-title headdd">Client Brand List</h4>
-
-
-
-
+                                            <h4 class="card-title headdd">{clientbrandlist}</h4>
                                         </div>
                                         <div class="customer-search mb-sm-0 mb-3">
                                             <div class="input-group search-area">
@@ -70,98 +72,72 @@ const ClientBrandList = () => {
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center flex-wrap">
-                                            <a href="javascript:void(0);" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa fa-file-excel me-2"></i>Export</a>
-
+                                            <a href="javascript:void(0);" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa fa-file-excel me-2"></i>{exportLabel}</a>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="container-fluid mt-0">
-
                                     <div class="row">
                                         <div class="col-sm-3 form-group mb-2">
-                                            <label for="name-f">Supplier Brand (Filter)</label>
+                                            <label for="name-f">{clientbrandlistheading}</label>
                                             <select class="form-select" aria-label="Default select example">
-                                                <option selected="">Select Supplier</option>
+                                                <option selected="">{selectSuppliers}</option>
                                                 <option value="First Client">All</option>
-
                                                 <option value="First Client">Quicksilver</option>
                                                 <option value="Second Client">Supplier 2</option>
                                                 <option value="Third Client">Supplier 3</option>
-
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-
-                               
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table header-border table-responsive-sm">
                                             <thead>
                                                 <tr>
-                                                    <th>Supplier Name</th>
-                                                    <th>Supplier Brand Name</th>
-                                                    <th>Customer Discount%</th>
-                                                    <th>Client Commission%</th>
-                                                    <th>Supplier Margin%</th>
-
-                                                    <th>Action</th>
-
+                                                    <th>{clientbrandlistname}</th>
+                                                    <th>{clientbrandlistbrandname}</th>
+                                                    <th>{clientbrandlistdiscount}</th>
+                                                    <th>{clientbrandlistcommission}</th>
+                                                    <th>{clientbrandlistmargin}</th>
+                                                    <th>{clientbrandlistaction}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            {customerdetails.map((data)=>(
-                                                <tr>
-                                                    <td>{data.name}<a href="javascript:void();"></a>
-                                                    </td>
-                                                    <td>{data.brand}</td>
-                                                    <td><div class="input-group mb-2 w-11">
-                                                        <input type="number" class="form-control update-val" placeholder={data.discount} pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" />
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-primary btn-sm group-btn" type="button">Update</button>
-                                                        </div>
-                                                    </div></td>
-
-                                                    <td><div class="input-group mb-2 w-11">
-                                                        <input type="number" class="form-control update-val" placeholder={data.commision} pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" />
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-primary btn-sm group-btn" type="button">Update</button>
-                                                        </div>
-                                                    </div></td>
-
-                                                    <td>{data.margin}</td>
-
-
-
-
-                                                    <td> <div class="can-toggle">
-                                                        <input id="a" type="checkbox" />
-                                                        <label for="a">
-                                                            <div class="can-toggle__switch" data-checked="On" data-unchecked="off"></div>
-                                                        </label>
-                                                    </div></td>
-
-                                                </tr>
+                                                {customerdetails.map((data) => (
+                                                    <tr>
+                                                        <td>{data.name}<a href="javascript:void();"></a>
+                                                        </td>
+                                                        <td>{data.brand}</td>
+                                                        <td><div class="input-group mb-2 w-11">
+                                                            <input type="number" class="form-control update-val" placeholder={data.discount} pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" />
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-outline-primary btn-sm group-btn" type="button">{update}</button>
+                                                            </div>
+                                                        </div></td>
+                                                        <td><div class="input-group mb-2 w-11">
+                                                            <input type="number" class="form-control update-val" placeholder={data.commision} pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" />
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-outline-primary btn-sm group-btn" type="button">{update}</button>
+                                                            </div>
+                                                        </div></td>
+                                                        <td>{data.margin}</td>
+                                                        <td> <div class="can-toggle">
+                                                            <input id="a" type="checkbox" />
+                                                            <label for="a">
+                                                                <div class="can-toggle__switch" data-checked="On" data-unchecked="off"></div>
+                                                            </label>
+                                                        </div></td>
+                                                    </tr>
                                                 ))}
                                             </tbody>
                                         </table>
                                     </div>
-
-
                                 </div>
-
-
-
-
-
-
                             </div>
-
                         </div>
                     </div>
                 </div>
-            </div>
         </>
     )
 }

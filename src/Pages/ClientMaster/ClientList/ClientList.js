@@ -148,7 +148,7 @@ const ClientList = () => {
                 </div>
               </div>
               <div className="card-body">
-                {showLoader ? (
+                {showLoader ||  filteredClientList.length <= 0  ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
