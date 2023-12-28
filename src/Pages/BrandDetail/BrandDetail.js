@@ -2,6 +2,7 @@ import React from 'react';
 import img from '../../Assets/img/pizz1.jpg';
 import './BrandDetail.css'
 import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
+import ScrollToTop from '../../Componenets/ScrollToTop/ScrollToTop';
 
 const BrandDetail = () => {
 
@@ -28,27 +29,28 @@ const BrandDetail = () => {
 
     const description = [
         {
-            title1:'Terms and Conditions',
-            title2:'Redemption Terms',
-            heading1:'1 - Redemption Information',
-            heading2:'2 - In Store Information',
+            title1: 'Terms and Conditions',
+            title2: 'Redemption Terms',
+            heading1: '1 - Redemption Information',
+            heading2: '2 - In Store Information',
             TermsandConditions: 'An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms. An AmaAn Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms. An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.zon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms. An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms. An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.',
-            RedemptionInformation:'An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.',
-            InStoreInformation:'An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.'
+            RedemptionInformation: 'An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.',
+            InStoreInformation: 'An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.'
         }
     ]
 
-  const type = GetTranslationData("UIAdmin", "type");
-  const pricerange = GetTranslationData("UIAdmin", "pricerange");
-  const pricedenominations = GetTranslationData("UIAdmin", "pricedenominations");
-  const termsandconditions = GetTranslationData("UIAdmin", "termsandconditions");
-  const storelocator = GetTranslationData("UIAdmin", "storelocator")
+    const type = GetTranslationData("UIAdmin", "type");
+    const pricerange = GetTranslationData("UIAdmin", "pricerange");
+    const pricedenominations = GetTranslationData("UIAdmin", "pricedenominations");
+    const termsandconditions = GetTranslationData("UIAdmin", "termsandconditions");
+    const storelocator = GetTranslationData("UIAdmin", "storelocator")
 
-     
+
 
     return (
         <>
-            <div className="content-body">
+        <ScrollToTop />
+            <div>
                 <div className="container-fluid">
 
                     <div className="row">
@@ -87,24 +89,24 @@ const BrandDetail = () => {
                                                     </div>
                                                 </div>
                                             ))}
-{description.map((data)=>(
-                                            <div>
-                                                <div className="tc mt-2">
-                                                    <h6>{data.title1}</h6>
-                                                    <p>{data.TermsandConditions}</p>
+                                            {description.map((data) => (
+                                                <div>
+                                                    <div className="tc mt-2">
+                                                        <h6>{data.title1}</h6>
+                                                        <p>{data.TermsandConditions}</p>
+                                                    </div>
+                                                    <div className=" tc mt-2">
+                                                        <h6>{data.title2}</h6>
+                                                        <h6><strong>{data.heading1}</strong></h6>
+                                                        <p>{data.RedemptionInformation}</p>
+                                                        <h6><strong>{data.heading2}</strong></h6>
+                                                        <p>{data.InStoreInformation}</p>
+                                                    </div>
                                                 </div>
-                                                <div className=" tc mt-2">
-                                                    <h6>{data.title2}</h6>
-                                                    <h6><strong>{data.heading1}</strong></h6>
-                                                    <p>{data.RedemptionInformation}</p>
-                                                    <h6><strong>{data.heading2}</strong></h6>
-                                                    <p>{data.InStoreInformation}</p>
-                                                </div>
-                                            </div>
-))}
+                                            ))}
                                             <div className="only-right mt-2">
-                                                <a href="" className="mr-10 on-link">{termsandconditions}</a>
-                                                <a href="" className="mr-10 on-link">{storelocator}</a>
+                                                <a className="mr-10 on-link">{termsandconditions}</a>
+                                                <a className="mr-10 on-link">{storelocator}</a>
                                             </div>
                                         </div>
                                     </div>

@@ -29,6 +29,7 @@ const SupplierList = () => {
   const minThresholdAmount = GetTranslationData("UIAdmin", "minThresholdAmount");
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
+  const active = GetTranslationData("UIAdmin", "active");
 
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer.data.data
@@ -94,7 +95,7 @@ const SupplierList = () => {
         <>
           <SupplierMasterDetails data={vendorData} />
           <div className="container-fluid pt-0">
-            <div className="row mx-4">
+            <div className="row">
               <div className="col-lg-12">
                 <div className="card">
                   <div className="container-fluid">
@@ -164,7 +165,7 @@ const SupplierList = () => {
                                   </td>
                                   <td>{vendor.Password}</td>
                                   <td>{vendor.MinThresholdAmount}</td>
-                                  <td><span className="badge badge-success">Active</span></td>
+                                  <td><span className="badge badge-success">{active}</span></td>
                                   <td>
                                     <div className="d-flex">
                                       <a

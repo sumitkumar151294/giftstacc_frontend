@@ -11,4 +11,9 @@ export const callCreateCategoryPostApi = async (payload) => {
   return data;
 };
 
+export const callCreateCategoryUpdateApi = async (payload) => {
+  const { data = {} } = await axiosInstance.post(API.createCategoryUpdate,payload);
+  return data;
+};
+
 

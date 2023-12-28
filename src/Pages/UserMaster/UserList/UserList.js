@@ -27,7 +27,7 @@ const UserList = () => {
     const userList = useSelector((state) => state.userMasterReducer)
     const client = useSelector((state) => state.clientMasterReducer.data)
     const loading = useSelector((state) => state.userMasterReducer.isLoading);
-    const roleList = useSelector((state) => state.userRoleReducer?.data?.data);
+    const roleList = useSelector((state) => state.userRoleReducer?.userRoleData?.data);
     const handleEdit = (data) => {
         const prefilled = data;
         setPrefilledValues(prefilled)
@@ -61,7 +61,7 @@ const UserList = () => {
 
     return (
         <>
-            <UserDetails prefilledValues={prefilledValues} />
+            <UserDetails prefilledValues={prefilledValues} setPrefilledValues={setPrefilledValues} />
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">
@@ -74,7 +74,7 @@ const UserList = () => {
                                     <Loader classNameType={"absoluteLoader"} />
                                 </div>
                             ) : (
-                                Array.isArray(userList?.data?.data) && userList?.data?.data.length > 0 ?
+                                Array.isArray(userList?.getData?.data) && userList?.getData?.data.length > 0 ?
                                     (<div className="card-body">
                                         <div className="table-responsive">
                                             <table className="table header-border table-responsive-sm">
@@ -89,7 +89,7 @@ const UserList = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {userList?.data?.data?.slice(startIndex, endIndex).map((item, index) => (
+                                                    {userList?.getData?.data?.slice(startIndex, endIndex).map((item, index) => (
                                                         <tr key={index}>
                                                             <td>{getNameById(item.adminRoleId)}</td>
                                                             <td>{item.email}</td>
@@ -118,7 +118,7 @@ const UserList = () => {
                                             <div className="pagination-container">
                                                 <Pagination
                                                     count={Math.ceil(
-                                                        userList?.data?.data?.length / rowsPerPage
+                                                        userList?.getData?.data?.length / rowsPerPage
                                                     )}
                                                     page={page}
                                                     onChange={handlePageChange}

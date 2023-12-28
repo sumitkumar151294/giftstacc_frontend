@@ -3,11 +3,9 @@ import '../RoleMaster.scss'
 import NoRecord from "../../../Componenets/NoRecord/NoRecord"
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetUserRole, onUpdateUserRole } from "../../../Store/Slices/userRoleSlice";
+import { onGetUserRole } from "../../../Store/Slices/userRoleSlice";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
-import { ScrollRestoration } from "react-router-dom";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
-import { onGetUserRoleModuleAccess } from "../../../Store/Slices/userRoleModuleAccessSlice";
 import { Pagination } from "@mui/material";
 import RoleMasterItems from "../RoleMasterItems/RoleMasterItems";
 const RoleMasterModule = () => {
@@ -58,7 +56,7 @@ const RoleMasterModule = () => {
     return (
         <>
             <ScrollToTop />
-            <RoleMasterItems data={data} getRoleData={getRoleData} setIsLoading={setIsLoading}/>
+            <RoleMasterItems data={data}   setData={setData} getRoleData={getRoleData} setIsLoading={setIsLoading}/>
             <div className="container-fluid pt-0">
                 <div className="row">
                     <div className="col-lg-12">
@@ -84,6 +82,7 @@ const RoleMasterModule = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody key='tbody'>
+                                                {console.log('roleAccessListData', roleAccessListData)}
                                                     {Array.isArray(roleAccessListData) && roleAccessListData.slice(startIndex, endIndex).map((data, index) => (
                                                         <tr key={index}>
                                                             <td>{data.name}

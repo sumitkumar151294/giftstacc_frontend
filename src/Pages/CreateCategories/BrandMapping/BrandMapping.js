@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { onPostCategory } from "../../../Store/Slices/createCategorySlice";
+import { onGetCategory, onPostCategory } from "../../../Store/Slices/createCategorySlice";
 import InputField from "../../../Componenets/InputField/InputField";
 import Dropdown from "../../../Componenets/Dropdown/Dropdown";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,7 +11,9 @@ import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 
 
-const BrandMapping = () => {
+const BrandMapping = ({
+  setIsLoading
+}) => {
   const dispatch = useDispatch();
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -27,6 +29,11 @@ const BrandMapping = () => {
   const getMessage = useSelector(
     (state) => state.createCategoryReducer.message
   );
+  const resetCategoryFields = {
+    categoryName: "",
+    supplierName: "",
+    supplierBrand: "",
+  }
 
   // To get the supplier name from redux store 
   useEffect(() => {
@@ -113,11 +120,7 @@ const BrandMapping = () => {
       try {
         await dispatch(onPostCategory(createCategory));
         toast.success(getMessage);
-        setCreateCategory({
-          categoryName: "",
-          supplierName: "",
-          supplierBrand: "",
-        });
+        setCreateCategory(resetCategoryFields);
       } catch (error) {
         toast.error("An error occurred");
       } finally {
@@ -126,6 +129,10 @@ const BrandMapping = () => {
     } else {
       setIsFormLoading(false);
     }
+    setTimeout(()=>{
+      dispatch(onGetCategory());
+    },1000);
+    setIsLoading(true);
   };
 
   return (

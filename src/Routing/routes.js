@@ -30,6 +30,7 @@ function RouteConfiq() {
         <Route path="/Lc-admin/brand-detail" element={<Layout Component={BrandDetail} />} />
         <Route path="/Lc-admin/orders" element={<Layout Component={Orders} />} />
 
+
       </Routes>
     </Router>
   );
