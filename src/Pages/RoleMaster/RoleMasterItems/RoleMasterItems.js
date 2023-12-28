@@ -12,7 +12,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
 const RoleMasterItems = ({ data, setIsLoading, setData }) => {
-  console.log("data", data);
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
@@ -43,15 +42,8 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
   const client = GetTranslationData("UIAdmin", "client");
   const isClientRole = GetTranslationData("UIAdmin", "is_Client_role");
   const roleCreated = GetTranslationData("UIAdmin", "role_Create_Label");
-  console.log(roleCreated)
-
   const roleUpdated = GetTranslationData("UIAdmin", "role_Updated_Label");
-  console.log(roleUpdated)
-
   const roleRequired = GetTranslationData("UIAdmin", "role_Req_Label");
-  console.log(roleRequired)
-
-
 
   useEffect(() => {
     if (getModuleData) {
@@ -99,7 +91,9 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
     } else if (name === "selectAll") {
       const updatedModules = formData.modules.map((module) => ({
         ...module,
-        checked: formData.isClientPlatformModule ? module.isClientPlatformModule : checked,
+        checked: formData.isClientPlatformModule
+          ? module.isClientPlatformModule
+          : checked,
       }));
       setFormData({
         ...formData,
