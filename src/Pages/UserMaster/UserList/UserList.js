@@ -41,7 +41,7 @@ const UserList = () => {
     // here get role name by match with id 
     const getNameById = (id) => {
         const result = roleList?.find(item => item.id === id);
-        return result ? result.name : {not_Found};
+        return result ? result.name : not_Found;
     };
 
     // here get client name by matching with id 
