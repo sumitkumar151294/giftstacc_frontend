@@ -12,7 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
 const RoleMasterItems = ({ data, setIsLoading, setData }) => {
-  console.log('data',data)
+  console.log("data", data);
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
@@ -22,7 +22,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
     code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
     name: "",
     modules: [],
-    isClientPlatformModule: false
+    isClientPlatformModule: false,
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -42,6 +42,16 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
   const admin = GetTranslationData("UIAdmin", "admin_Label");
   const client = GetTranslationData("UIAdmin", "client");
   const isClientRole = GetTranslationData("UIAdmin", "is_Client_role");
+  const roleCreated = GetTranslationData("UIAdmin", "role_Create_Label");
+  console.log(roleCreated)
+
+  const roleUpdated = GetTranslationData("UIAdmin", "role_Updated_Label");
+  console.log(roleUpdated)
+
+  const roleRequired = GetTranslationData("UIAdmin", "role_Req_Label");
+  console.log(roleRequired)
+
+
 
   useEffect(() => {
     if (getModuleData) {
@@ -67,7 +77,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
           name: data?.name,
           code: data?.code,
           modules: updatedModulesData,
-          isClientPlatformModule: data?.isClientPlatformRole
+          isClientPlatformModule: data?.isClientPlatformRole,
         });
       }
       setIsFormLoading(true);
@@ -76,24 +86,26 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
 
   const handleInputChange = (e) => {
     const { name, type, checked } = e.target;
-    debugger;
+
     if (name === "IsClientRole") {
       setFormData({
         ...formData,
-        isClientPlatformModule:checked
+        isClientPlatformModule: checked,
+        modules: formData.modules.map((module) => ({
+          ...module,
+          checked: false, // Uncheck all other checkboxes when IsClientRole is checked
+        })),
       });
-    }
-
-     else if (name === "selectAll") {
-      const updatedModules = formData.modules?.map((module) => ({
+    } else if (name === "selectAll") {
+      const updatedModules = formData.modules.map((module) => ({
         ...module,
-        checked,
+        checked: formData.isClientPlatformModule ? module.isClientPlatformModule : checked,
       }));
       setFormData({
         ...formData,
         modules: updatedModules,
       });
-    } else if (type === "checkbox" && name !=="IsClientRole") {
+    } else if (type === "checkbox" && name !== "IsClientRole") {
       const updatedModules = formData.modules?.map((module) =>
         module.name === name ? { ...module, checked } : module
       );
@@ -113,7 +125,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
     code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
     name: "",
     modules: formData.modules.map((module) => ({ ...module, checked: false })),
-    isClientPlatformModule:false
+    isClientPlatformModule: false,
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -121,7 +133,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
     const newErrors = { ...errors };
     setErrors(newErrors);
     if (formData.name.trim() === "") {
-      newErrors.name = "Role Name is required.";
+      newErrors.name = roleRequired;
       setErrors(newErrors);
       return;
     } else {
@@ -149,7 +161,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
       if (!data) {
         await dispatch(onPostUserRole(postData));
         setFormData(resetFiled);
-        toast.success("Role created successfully");
+        toast.success(roleCreated);
       }
 
       // To update the data
@@ -165,7 +177,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
 
         await dispatch(onUpdateUserRole(updateData));
         setFormData(resetFiled);
-        toast.success("Role updated successfully");
+        toast.success(roleUpdated);
         setData();
       }
       setTimeout(() => {
@@ -212,7 +224,6 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
                           />
                         </div>
                         <div className="col-lg-4">
-                        {console.log(formData)}
                           <div className="form-check mt-4 pad-left">
                             <InputField
                               className="form-check-input"
@@ -263,7 +274,8 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
                           <div className="row ml-4">
                             {formData?.modules?.map(
                               ({ id, name, checked, isClientPlatformModule }) =>
-                                formData.isClientPlatformModule && isClientPlatformModule ? (
+                                formData.isClientPlatformModule &&
+                                isClientPlatformModule ? (
                                   <div
                                     className="form-check mt-2 col-lg-3"
                                     key={id}
