@@ -148,7 +148,7 @@ const ClientList = () => {
                 </div>
               </div>
               <div className="card-body">
-                {showLoader ? (
+                {showLoader ||  filteredClientList.length <= 0  ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -214,7 +214,7 @@ const ClientList = () => {
                                   </TableCell>
                                   <td>
                                     <Link
-                                      to="/lc-admin/clientbrandlist"
+                                      to="/lc-admin/client-brand-list"
                                       className="btn btn-primary btn-sm float-right"
                                     >
                                       <i className="fa fa-eye"></i>&nbsp;
