@@ -5,7 +5,7 @@ import Loader from "../../../Componenets/Loader/Loader";
 import NoRecord from "../../../Componenets/NoRecord/NoRecord";
 import ClientMasterForm from "../ClientMasterForm/ClientMasterForm";
 import { useDispatch, useSelector } from "react-redux";
-import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
+import { onClientMasterSubmit, onUpdateClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
@@ -25,7 +25,6 @@ const ClientList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
-  const [hiddenRows, setHiddenRows] = useState([]);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const brands = GetTranslationData("UIAdmin", "brands_label");
@@ -49,10 +48,31 @@ const ClientList = () => {
     const prefilled = data;
     setData(prefilled);
   };
- 
+ console.log("data",data)
   const handleDelete = (data) => {
-    // Add the ID of the row to hiddenRows state
-    setHiddenRows((prevHiddenRows) => [...prevHiddenRows, data.id]);
+    const deletedData = {
+      id: data?.id,
+      name: data?.name,
+      number: data?.number,
+      email: data?.email,
+      userName: data?.userName,
+      password: data?.password,
+      status: data?.status,
+      color: data?.color,
+      lgogLink: data?.lgogLink,
+      dbipAddress: data?.dbipAddress,
+      dbLoginId: data?.dbLoginId,
+      dbLoginPwd: data?.dbLoginPwd,
+      stagingKey: data?.stagingKey,
+      stagingSecretKey: data?.stagingSecretKey,
+      productionKey: data?.productionKey,
+      productionSecretKey: data?.productionSecretKey,
+      theme: data?.theme,
+      enabled: false,
+      deleted: true
+    }
+    // console.log(deletedData,"deletedData");
+    dispatch(onUpdateClientMasterSubmit)
   };
 
   const headers = [
@@ -153,7 +173,7 @@ const ClientList = () => {
                             {filteredClientList
                               .slice(startIndex, endIndex)
                               .map((data) => (
-                                <TableRow key={data.id} style={{ display: hiddenRows.includes(data.id) ? 'none' : 'table-row' }}>
+                                <TableRow key={data.id}>
                                 <TableCell>
                                     {data.name}
                                     <a href="#"></a>
@@ -184,7 +204,7 @@ const ClientList = () => {
                                     </div>
                                   </TableCell>
                                   <TableCell>
-                                    <Link to="/LC-admin/login">
+                                    <Link to="/lc-admin/login">
                                       <button className="btn btn-secondary btn-sm float-right">
                                         <i className="fa fa-user"></i>&nbsp;{" "}
                                         {login}
@@ -193,7 +213,7 @@ const ClientList = () => {
                                   </TableCell>
                                   <td>
                                     <Link
-                                      to="/LC-admin/clientbrandlist"
+                                      to="/lc-admin/clientbrandlist"
                                       className="btn btn-primary btn-sm float-right"
                                     >
                                       <i className="fa fa-eye"></i>&nbsp;

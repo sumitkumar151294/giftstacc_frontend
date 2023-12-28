@@ -33,7 +33,7 @@ const SupplierList = () => {
   const active = GetTranslationData("UIAdmin", "active");
 
   const supplierMasterData = useSelector(
-    (state) => state.supplierMasterReducer.data.data
+    (state) => state.supplierMasterReducer?.data.data
   );
 
   const headers = [
@@ -104,39 +104,39 @@ const SupplierList = () => {
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
                         <h4 className="card-title">{supplierList}</h4>
-                        </div>
-                        <div className="customer-search mb-sm-0 mb-3">
-                          <div className="input-group search-area">
-                            <input
-                              type="text"
-                              className="form-control only-high"
-                              placeholder={search_here_label}
-                              value={searchQuery}
-                              onChange={handleSearch}
-                            />
-                            <span className="input-group-text">
-                              <a href="#">
-                                <i className="flaticon-381-search-2"></i>
-                              </a>
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="d-flex align-items-center flex-wrap">
-                          {supplierMasterData && supplierMasterData.length > 0 && (
-                            <CSVLink data={supplierMasterData} headers={headers}>
-                              {filteredVendorList.length > 0 && (
-                                <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                                  <i className="fa fa-file-excel me-2"></i>
-                                  {export_label}
-                                </button>
-                              )}
-                            </CSVLink>
-                          )}
+                      </div>
+                      <div className="customer-search mb-sm-0 mb-3">
+                        <div className="input-group search-area">
+                          <input
+                            type="text"
+                            className="form-control only-high"
+                            placeholder={search_here_label}
+                            value={searchQuery}
+                            onChange={handleSearch}
+                          />
+                          <span className="input-group-text">
+                            <a href="#">
+                              <i className="flaticon-381-search-2"></i>
+                            </a>
+                          </span>
                         </div>
                       </div>
+
+                      <div className="d-flex align-items-center flex-wrap">
+                        {supplierMasterData && supplierMasterData.length > 0 && (
+                          <CSVLink data={supplierMasterData} headers={headers}>
+                            {filteredVendorList.length > 0 && (
+                              <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                                <i className="fa fa-file-excel me-2"></i>
+                                {export_label}
+                              </button>
+                            )}
+                          </CSVLink>
+                        )}
+                      </div>
                     </div>
-                 
+                  </div>
+
                   {filteredVendorList?.length > 0 ? (
                     <div className="card-body position-relative">
                       <div className="table-responsive">
@@ -160,7 +160,7 @@ const SupplierList = () => {
                                   <td>{vendor.id}</td>
                                   <td>
                                     <span className="text-muted">
-                                     1000
+                                      1000
                                     </span>
                                   </td>
                                   <td>500</td>
