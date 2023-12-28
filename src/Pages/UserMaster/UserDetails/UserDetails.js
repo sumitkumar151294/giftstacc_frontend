@@ -54,6 +54,8 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
   const lastName = GetTranslationData("UIAdmin", "last-name");
   const update = GetTranslationData("UIAdmin", "update_label");
   const fieldRequired = GetTranslationData("UIAdmin", "required-field");
+  const select_role = GetTranslationData("UIAdmin", "select_role");
+  const select_Client = GetTranslationData("UIAdmin", "select_Client");
 
   // user-role get api call
 
@@ -141,7 +143,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
     setErrors(newErrors);
     // Check if a role has been selected
     if (userData.role === "") {
-      newErrors.role = "Please select a role";
+      newErrors.role = {select_role};
       isValid = false;
     } else {
       newErrors.role = ""; // Clear the role error if a role is selected
@@ -149,7 +151,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
     setErrors(newErrors);
     // Check if a client has been selected
     if (userData.accessClientIds?.length === 0) {
-      newErrors.accessClientIds = "Please select a client";
+      newErrors.accessClientIds = {select_Client};
       isValid = false;
     } else {
       newErrors.accessClientIds = ""; // Clear the client error if a client is selected
