@@ -9,6 +9,7 @@ import Dropdown from "../../Componenets/Dropdown/Dropdown";
 import NoRecord from "../../Componenets/NoRecord/NoRecord";
 import Loader from "../../Componenets/Loader/Loader";
 import { Pagination } from "@mui/material";
+import { CSVLink } from "react-csv";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -75,6 +76,14 @@ const Orders = () => {
       marginvalue: "₹200",
     },
   ];
+  const headers = [
+    { label: "supplier", key: "supplier" },
+    { label: "brand", key: "brand" },
+    { label: "vouchers", key: "vouchers" },
+    { label: "amount", key: "amount" },
+    { label: "margin", key: "margin" },
+    { label: "marginvalue", key: "marginvalue" },
+  ];
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -122,6 +131,7 @@ const Orders = () => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+ 
   return (
     <>
       <ScrollToTop />
@@ -152,15 +162,16 @@ const Orders = () => {
                       </div>
                     </div>
                     <div class="d-flex align-items-center flex-wrap">
-                      {filteredOrderList.length > 0 && (
-                        <a
-                          href="#"
-                          class="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                        >
-                          <i class="fa fa-file-excel me-2"></i>
-                          {exportLabel}
-                        </a>
-                      )}
+                    {data && data.length > 0 && (
+                      <CSVLink data={data} headers={headers} filename={"orders.csv"}>
+                        {filteredOrderList.length > 0 && (
+                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                            <i className="fa fa-file-excel me-2"></i>
+                            {exportLabel}
+                          </button>
+                        )}
+                      </CSVLink>
+                    )}
                     </div>
                   </div>
                 </div>
