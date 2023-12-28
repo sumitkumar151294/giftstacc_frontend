@@ -26,7 +26,10 @@ const SupplierList = () => {
   const supplierClientID = GetTranslationData("UIAdmin", "supplierClientID");
   const userName = GetTranslationData("UIAdmin", "usernamee_label");
   const password = GetTranslationData("UIAdmin", "password_label");
-  const minThresholdAmount = GetTranslationData("UIAdmin", "minThresholdAmount");
+  const minThresholdAmount = GetTranslationData(
+    "UIAdmin",
+    "minThresholdAmount"
+  );
   const balance_Available = GetTranslationData("UIAdmin", "balance_Available");
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
@@ -79,13 +82,13 @@ const SupplierList = () => {
 
   const filteredVendorList = Array.isArray(supplierMasterData)
     ? supplierMasterData.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   return (
@@ -100,7 +103,6 @@ const SupplierList = () => {
               <div className="col-lg-12">
                 <div className="card">
                   <div className="container-fluid">
-
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
                         <h4 className="card-title">{supplierList}</h4>
@@ -123,16 +125,21 @@ const SupplierList = () => {
                       </div>
 
                       <div className="d-flex align-items-center flex-wrap">
-                        {supplierMasterData && supplierMasterData.length > 0 && (
-                          <CSVLink data={supplierMasterData} headers={headers}>
-                            {filteredVendorList.length > 0 && (
-                              <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                                <i className="fa fa-file-excel me-2"></i>
-                                {export_label}
-                              </button>
-                            )}
-                          </CSVLink>
-                        )}
+                        {supplierMasterData &&
+                          supplierMasterData.length > 0 && (
+                            <CSVLink
+                              data={supplierMasterData}
+                              headers={headers}
+                              filename={"SupplierMaster.csv"}
+                            >
+                              {filteredVendorList.length > 0 && (
+                                <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                                  <i className="fa fa-file-excel me-2"></i>
+                                  {export_label}
+                                </button>
+                              )}
+                            </CSVLink>
+                          )}
                       </div>
                     </div>
                   </div>
@@ -159,12 +166,14 @@ const SupplierList = () => {
                                   <td>{vendor.name}</td>
                                   <td>{vendor.id}</td>
                                   <td>
-                                    <span className="text-muted">
-                                      1000
-                                    </span>
+                                    <span className="text-muted">1000</span>
                                   </td>
                                   <td>500</td>
-                                  <td><span className="badge badge-success">{active}</span></td>
+                                  <td>
+                                    <span className="badge badge-success">
+                                      {active}
+                                    </span>
+                                  </td>
                                   <td>
                                     <div className="d-flex">
                                       <a
@@ -173,9 +182,7 @@ const SupplierList = () => {
                                       >
                                         <i className="fas fa-pencil-alt"></i>
                                       </a>
-                                      <a
-                                        className="btn btn-danger shadow btn-xs sharp"
-                                      >
+                                      <a className="btn btn-danger shadow btn-xs sharp">
                                         <i className="fa fa-trash"></i>
                                       </a>
                                     </div>

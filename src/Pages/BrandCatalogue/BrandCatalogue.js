@@ -12,6 +12,7 @@ import Dropdown from "../../Componenets/Dropdown/Dropdown";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
+import { CSVLink } from "react-csv";
 const BrandCatalogue = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
@@ -41,9 +42,9 @@ const BrandCatalogue = () => {
   );
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
 
-  const[supplierList,setSupplierList]=useState({
-    supplier:"",
-    client:""
+  const [supplierList, setSupplierList] = useState({
+    supplier: "",
+    client: "",
   });
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
@@ -55,11 +56,19 @@ const BrandCatalogue = () => {
     dispatch(onbrandCatalogueSubmit());
     dispatch(onGetSupplierList());
     dispatch(onClientMasterSubmit());
-
   }, []);
   const BrandCatalogueData = useSelector(
     (state) => state.brandCatalogueReducer?.data
   );
+  const headers = [
+    { label: "action", key: "action" },
+    { label: "id", key: "id" },
+    { label: "min_price", key: "min_price" },
+    { label: "max_price", key: "max_price" },
+    { label: "name", key: "name" },
+    { label: "price", key: "price" },
+    { label: "sku", key: "sku" },
+  ];
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -74,171 +83,177 @@ const BrandCatalogue = () => {
         )
       )
     : [];
-   
-    const handleChange = (e, fieldName) => {
-      setSupplierList({
-        ...supplierList,
-        [fieldName]: e.target.value,
+
+  const handleChange = (e, fieldName) => {
+    setSupplierList({
+      ...supplierList,
+      [fieldName]: e.target.value,
+    });
+  };
+  useEffect(() => {
+    let tempSupplier = [];
+    supplierMasterData?.map((item) => {
+      tempSupplier.push({ label: item.name, value: item.name });
+    });
+    setSupplierListData(tempSupplier);
+  }, [supplierMasterData]);
+  useEffect(() => {
+    let tempClient = [];
+    Array.isArray(clientList) &&
+      clientList?.map((item) => {
+        tempClient.push({ label: item.name, value: item.name });
       });
-    }
-    useEffect(() => {
-      let tempSupplier = [];
-      supplierMasterData?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.name })
-      })
-      setSupplierListData(tempSupplier);
-    }, [supplierMasterData]);
-    useEffect(() => {
-      let tempClient = [];
-      Array.isArray(clientList) && clientList?.map((item) => {
-        tempClient.push({ label: item.name, value: item.name })
-      })
-      setClientListData(tempClient);
-    }, [clientList]);
-        return (
+    setClientListData(tempClient);
+  }, [clientList]);
+  return (
     <>
-    <ScrollToTop />
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-xl-12 col-xxl-12">
-              <div className="card">
-                <div className="container-fluid">
-                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                    <div className="card-header">
-                      <h4 className="card-title">{heading}</h4>
-                    </div>
-                    <div className="customer-search mb-sm-0 mb-3">
-                      <div className="input-group search-area">
-                        <input
-                          type="text"
-                          className="form-control only-high"
-                          placeholder={searchLabel}
-                          value={searchQuery}
-                          onChange={handleSearch}
-                        />
-                        <span className="input-group-text">
-                          <a href="#">
-                            <i className="flaticon-381-search-2"></i>
-                          </a>
-                        </span>
-                      </div>
-                    </div>
-                    <div className="d-flex align-items-center flex-wrap">
-                      {filteredBrandCatalogueList.length > 0 && (
-                        <a
-                          href="#"
-                          className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                        >
-                          <i className="fa fa-file-excel me-2"></i>
-                          {exportLabel}
+      <ScrollToTop />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12 col-xxl-12">
+            <div className="card">
+              <div className="container-fluid">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="card-header">
+                    <h4 className="card-title">{heading}</h4>
+                  </div>
+                  <div className="customer-search mb-sm-0 mb-3">
+                    <div className="input-group search-area">
+                      <input
+                        type="text"
+                        className="form-control only-high"
+                        placeholder={searchLabel}
+                        value={searchQuery}
+                        onChange={handleSearch}
+                      />
+                      <span className="input-group-text">
+                        <a href="#">
+                          <i className="flaticon-381-search-2"></i>
                         </a>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center flex-wrap">
+                    {BrandCatalogueData && BrandCatalogueData.length > 0 && (
+                      <CSVLink
+                        data={BrandCatalogueData}
+                        headers={headers}
+                        filename={"BrandCatalogue.csv"}
+                      >
+                        {filteredBrandCatalogueList.length > 0 && (
+                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                            <i className="fa fa-file-excel me-2"></i>
+                            {exportLabel}
+                          </button>
+                        )}
+                      </CSVLink>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="container-fluid">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="col-sm-3 form-group mb-2">
+                    <label for="name-f">{supplier}</label>
+                    <Dropdown
+                      onChange={(e) => handleChange(e, "supplier")}
+                      value={supplierList.supplier || ""}
+                      className="form-select"
+                      options={supplierListData}
+                    />
+                  </div>
+                  <div className="col-sm-3 form-group mb-2">
+                    <label for="name-f">{client}</label>
+                    <Dropdown
+                      onChange={(e) => handleChange(e, "client")}
+                      value={supplierList?.client || ""}
+                      className="form-select"
+                      options={clientListData}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="card-body">
+                {showLoader && filteredBrandCatalogueList.length < 0 ? (
+                  <div style={{ height: "400px" }}>
+                    <Loader classType={"absoluteLoader"} />
+                  </div>
+                ) : (
+                  <>
+                    <div className="table-responsive">
+                      {filteredBrandCatalogueList.length > 0 ? (
+                        <>
+                          <table className="table header-border table-responsive-sm">
+                            <thead>
+                              <tr>
+                                <th>{image}</th>
+                                <th>{sku}</th>
+                                <th>{name}</th>
+                                <th>{minprice}</th>
+                                <th>{maxprice}</th>
+                                <th>{price}</th>
+                                <th>{action}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {filteredBrandCatalogueList
+                                .slice(startIndex, endIndex)
+                                .map((data) => (
+                                  <tr>
+                                    <td>
+                                      <img
+                                        src={img}
+                                        style={{ width: "50px" }}
+                                      />
+                                      <br />
+                                    </td>
+                                    <td>
+                                      {data.sku}
+                                      <a href="#"></a>
+                                    </td>
+                                    <td>{data.name}</td>
+                                    <td>{data.min_price}</td>
+                                    <td>{data.max_price}</td>
+                                    <td>{data.price}</td>
+                                    <td>
+                                      {" "}
+                                      <Link
+                                        to={"/lc-admin/brand-detail"}
+                                        href="productdetail.html"
+                                        className="btn btn-primary btn-sm bttn float-right"
+                                      >
+                                        <i className="fa fa-info"></i>&nbsp;
+                                        {BrandDetail}
+                                      </Link>
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                          <div className="pagination-container">
+                            <Pagination
+                              count={Math.ceil(
+                                filteredBrandCatalogueList.length / rowsPerPage
+                              )}
+                              page={page}
+                              onChange={handlePageChange}
+                              color="primary"
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <NoRecord />
                       )}
                     </div>
-                  </div>
-                </div>
-                <div className="container-fluid">
-                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                    <div className="col-sm-3 form-group mb-2">
-                      <label htmlFor="name-f">{supplier}</label>
-                      <Dropdown
-                          onChange={(e) => handleChange(e, "supplier")}
-                          value={supplierList.supplier || ""}
-                          className="form-select"
-                          options={supplierListData}
-                        />
-                    </div>
-                    <div className="col-sm-3 form-group mb-2">
-                      <label htmlFor="name-f">{client}</label>
-                      <Dropdown
-                          onChange={(e) => handleChange(e, "client")}
-                          value={supplierList?.client || ""}
-                          className="form-select"
-                          options={clientListData}
-                        />
-                    </div>
-                  </div>
-                </div>
-                <div className="card-body">
-                  {showLoader && filteredBrandCatalogueList.length < 0 ? (
-                    <div style={{ height: "400px" }}>
-                      <Loader classType={"absoluteLoader"} />
-                    </div>
-                  ) : (
-                    <>
-                      <div className="table-responsive">
-                        {filteredBrandCatalogueList.length > 0 ? (
-                          <>
-                            <table className="table header-border table-responsive-sm">
-                              <thead>
-                                <tr>
-                                  <th>{image}</th>
-                                  <th>{sku}</th>
-                                  <th>{name}</th>
-                                  <th>{minprice}</th>
-                                  <th>{maxprice}</th>
-                                  <th>{price}</th>
-                                  <th>{action}</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {filteredBrandCatalogueList
-                                  .slice(startIndex, endIndex)
-                                  .map((data) => (
-                                    <tr key={data.id}>
-                                      <td>
-                                        <img
-                                          src={img}
-                                          style={{ width: "50px" }}
-                                        />
-                                        <br />
-                                      </td>
-                                      <td>
-                                        {data.sku}
-                                        <a href="#"></a>
-                                      </td>
-                                      <td>{data.name}</td>
-                                      <td>{data.min_price}</td>
-                                      <td>{data.max_price}</td>
-                                      <td>{data.price}</td>
-                                      <td>
-                                        {" "}
-                                        <Link
-                                          to={'/lc-admin/brand-detail'}
-                                          href="productdetail.html"
-                                          className="btn btn-primary btn-sm bttn float-right"
-                                        >
-                                          <i className="fa fa-info"></i>&nbsp;{BrandDetail}
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  ))}
-                              </tbody>
-                            </table>
-                            <div className="pagination-container">
-                              <Pagination
-                                count={Math.ceil(
-                                  filteredBrandCatalogueList.length /
-                                    rowsPerPage
-                                )}
-                                page={page}
-                                onChange={handlePageChange}
-                                color="primary"
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <NoRecord />
-                        )}
-                      </div>
-                    </>
-                  )}
-                </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
+      </div>
     </>
   );
 };
 
-export default BrandCatalogue
+export default BrandCatalogue;

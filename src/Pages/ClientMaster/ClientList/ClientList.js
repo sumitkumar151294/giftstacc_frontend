@@ -133,7 +133,8 @@ const ClientList = () => {
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     {clientList && clientList.length > 0 && (
-                      <CSVLink data={clientList} headers={headers}>
+                      <CSVLink data={clientList} headers={headers}   filename={"ClientMaster.csv"}
+                      >
                         {filteredClientList.length > 0 && (
                           <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
                             <i className="fa fa-file-excel me-2"></i>
