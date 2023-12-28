@@ -27,6 +27,7 @@ const SupplierList = () => {
   const userName = GetTranslationData("UIAdmin", "usernamee_label");
   const password = GetTranslationData("UIAdmin", "password_label");
   const minThresholdAmount = GetTranslationData("UIAdmin", "minThresholdAmount");
+  const balance_Available = GetTranslationData("UIAdmin", "balance_Available");
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
   const active = GetTranslationData("UIAdmin", "active");
@@ -144,8 +145,7 @@ const SupplierList = () => {
                             <tr>
                               <th>{supplierName}</th>
                               <th>{supplierClientID}</th>
-                              <th>{userName}</th>
-                              <th>{password}</th>
+                              <th>{balance_Available}</th>
                               <th>{minThresholdAmount}</th>
                               <th>{status}</th>
                               <th>{action}</th>
@@ -160,11 +160,10 @@ const SupplierList = () => {
                                   <td>{vendor.id}</td>
                                   <td>
                                     <span className="text-muted">
-                                      {vendor.Username}
+                                     1000
                                     </span>
                                   </td>
-                                  <td>{vendor.Password}</td>
-                                  <td>{vendor.MinThresholdAmount}</td>
+                                  <td>500</td>
                                   <td><span className="badge badge-success">{active}</span></td>
                                   <td>
                                     <div className="d-flex">
