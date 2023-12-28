@@ -48,7 +48,6 @@ const ClientList = () => {
     const prefilled = data;
     setData(prefilled);
   };
- console.log("data",data)
   const handleDelete = (data) => {
     const deletedData = {
       id: data?.id,
