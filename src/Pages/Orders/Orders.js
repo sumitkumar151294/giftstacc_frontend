@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
-import "./Orders.scss";
+import React from "react";
+import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
+import './Orders.scss'
 import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
-import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
-import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Dropdown from "../../Componenets/Dropdown/Dropdown";
-import NoRecord from "../../Componenets/NoRecord/NoRecord";
-import Loader from "../../Componenets/Loader/Loader";
-import { Pagination } from "@mui/material";
 
 const Orders = () => {
 
@@ -57,8 +50,8 @@ const Orders = () => {
     const orderamount = GetTranslationData("UIAdmin", "orderamount");
     const ordermargin = GetTranslationData("UIAdmin", "ordermargin");
     const ordermarginvalue = GetTranslationData("UIAdmin", "ordermarginvalue");
+    const export_label = GetTranslationData("UIAdmin", "export_label");
     const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
-    const export_label = GetTranslationData("UIAdmin", "export_Label");
     return (
         <><ScrollToTop /><div>
             <div class="container-fluid">
@@ -77,7 +70,7 @@ const Orders = () => {
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center flex-wrap">
-                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-rounded me-3 mb-2"><i class="fa fa-file-excel me-2"></i>{}export</a>
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-rounded me-3 mb-2"><i class="fa fa-file-excel me-2"></i>{export_label}</a>
                                     </div>
                                 </div>
                             </div>
