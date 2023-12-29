@@ -1,6 +1,6 @@
 import React from "react";
 import img from "../../Assets/img/pizz1.jpg";
-import "./BrandDetail.css";
+import "./BrandDetail.scss";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 
