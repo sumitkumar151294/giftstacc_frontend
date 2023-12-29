@@ -22,7 +22,6 @@ export const loginSlice = createSlice({
     },
 
     onLoginSubmitSuccess: (state, { payload }) => {
-        debugger
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
@@ -47,9 +46,18 @@ export const loginSlice = createSlice({
         error: {},
       };
     },
+    onLogout: (state) => {
+      return {
+        data: {},
+        isError: false,
+        isLoading: false,
+        error: {},
+        message: "",
+      };
+    },
   },
 });
-export const { onLoginSubmit, onLoginSubmitError, onLoginSubmitSuccess } =
+export const { onLoginSubmit, onLoginSubmitError, onLoginSubmitSuccess,onLogout  } =
   loginSlice.actions;
 
 export default loginSlice.reducer;
