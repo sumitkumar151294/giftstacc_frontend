@@ -3,8 +3,8 @@ import { onLoginAuthSubmit } from "../../Store/Slices/loginAuthSlice";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RouteConfiq from "../../Routing/routes";
-import Loader from "../../Componenets/Loader/Loader";
-import Error from "../../Componenets/Error/Error";
+import Loader from "../../Components/Loader/Loader";
+import Error from "../../Components/Error/Error";
 import { config } from "../../Common/Client/ClientConfig";
 
 const Auth = () => {

@@ -5,7 +5,7 @@ export const userRoleSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    data: {},
+    categoryData: {},
     error: {},
     message: "",
   },
@@ -15,7 +15,7 @@ export const userRoleSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        data: {},
+        categoryData: {},
         error: {},
         message: "",
       };
@@ -27,7 +27,7 @@ export const userRoleSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        data,
+        categoryData:data,
         message,
         status_code,
         error: {},
@@ -38,7 +38,7 @@ export const userRoleSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        data,
+        categoryData:data,
         message,
         status_code,
         isLoading: false,
@@ -52,7 +52,7 @@ export const userRoleSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        data: {},
+        postCategoryData: {},
         error: {},
         message: "",
       };
@@ -64,7 +64,7 @@ export const userRoleSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        data,
+        postCategoryData:data,
         message,
         status_code,
         error: {},
@@ -75,7 +75,7 @@ export const userRoleSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        data,
+        postCategoryData:data,
         message,
         status_code,
         isLoading: false,
@@ -84,6 +84,42 @@ export const userRoleSlice = createSlice({
       };
     },
 
+    onUpdateCategory: (state) => {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        updatedCategoryData: {},  
+        error: {},
+        message: "",
+      };
+    },
+
+    onUpdateCategorySuccess: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        updatedCategoryData: data,  
+        message,
+        status_code,
+        error: {},
+      };
+    },
+
+    onUpdateCategoryError: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 400 } = payload;
+      return {
+        ...state,
+        updatedCategoryData: data,  
+        message,
+        status_code,
+        isLoading: false,
+        isError: true,
+        error: {},
+      };
+    },
   },
 });
 export const { 
@@ -93,6 +129,9 @@ export const {
   onPostCategory, 
   onPostCategorySuccess, 
   onPostCategoryError, 
+  onUpdateCategory,
+  onUpdateCategorySuccess,
+  onUpdateCategoryError
 } = userRoleSlice.actions;
 
 export default userRoleSlice.reducer;
