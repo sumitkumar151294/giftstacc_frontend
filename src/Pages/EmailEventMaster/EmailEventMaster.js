@@ -116,6 +116,8 @@ const EmailEventMaster = () => {
   const emaileventmastersno = GetTranslationData('UIAdmin', 'emaileventmastersno');
   const emaileventmasterdate = GetTranslationData('UIAdmin', 'emaileventmasterdate');
   const emaileventmasteraction = GetTranslationData('UIAdmin', 'emaileventmasteraction');
+  const meaning = GetTranslationData('UIAdmin', 'meaning');
+  const variable = GetTranslationData('UIAdmin', 'variable');
 
 
   return (
@@ -134,8 +136,8 @@ const EmailEventMaster = () => {
                   <div className="col-xl-7 col-xxl-7">
                     <div className="card">
                       <div className="card-body pt-0">
-                        <div class="col-sm-12 form-group mb-2">
-                          <label for="name-f">{emaileventmastername}</label>
+                        <div className="col-sm-12 form-group mb-2">
+                          <label htmlFor="name-f">{emaileventmastername}</label>
                           <input
                             type="text"
                             className="form-control"
@@ -206,7 +208,7 @@ const EmailEventMaster = () => {
                               placeholder="Search by Email....."
                             />
                             <span className="input-group-text">
-                              <a href="javascript:void(0)">
+                              <a href="">
                                 <i className="flaticon-381-search-2"></i>
                               </a>
                             </span>
@@ -218,14 +220,14 @@ const EmailEventMaster = () => {
                           <table className="table table-bordered table-striped">
                             <thead>
                               <tr>
-                                <th>Variable</th>
-                                <th>Meaning</th>
+                                <th>{variable}</th>
+                                <th>{meaning}</th>
                               </tr>
                             </thead>
                             {tableData.length > 0 ? (
                               <tbody>
-                                {tableData.map((item) => (
-                                  <tr>
+                                {tableData.map((item, index) => (
+                                  <tr key={index}>
                                     <td>{item.variable}</td>
                                     <td>{item.meaning}</td>
                                   </tr>
@@ -258,28 +260,27 @@ const EmailEventMaster = () => {
                       </thead>
                       {tableInfo.length > 0 ? (
                         <tbody>
-                          {tableInfo.map((item) => (
-                            <tr>
+                          {tableInfo.map((item,index) => (
+                            <tr key={index}>
                               <td>
                                 {item.id}
-                                <a href="javascript:void();"></a>
                               </td>
                               <td>{item.status}</td>
                               <td>{item.date}</td>
                               <td>{item.placeholders}%</td>
                               <td>
-                                <div class="d-flex">
+                                <div className="d-flex">
                                   <a
                                     href="#"
-                                    class="btn btn-primary shadow btn-xs sharp me-1"
+                                    className="btn btn-primary shadow btn-xs sharp me-1"
                                   >
-                                    <i class="fas fa-pencil-alt"></i>
+                                    <i className="fas fa-pencil-alt"></i>
                                   </a>
                                   <a
                                     href="#"
-                                    class="btn btn-danger shadow btn-xs sharp"
+                                    className="btn btn-danger shadow btn-xs sharp"
                                   >
-                                    <i class="fa fa-trash"></i>
+                                    <i className="fa fa-trash"></i>
                                   </a>
                                 </div>
                               </td>
