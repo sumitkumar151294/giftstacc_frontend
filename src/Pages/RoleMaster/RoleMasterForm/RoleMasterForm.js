@@ -11,7 +11,7 @@ import InputField from "../../../Componenets/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
-const RoleMasterItems = ({ data, setIsLoading, setData }) => {
+const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
@@ -206,9 +206,8 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
                           <label htmlFor="name-f">{roleName}</label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.name ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.name ? "border-danger" : "form-control"
+                              }`}
                             name="name"
                             id="name-f"
                             placeholder=""
@@ -269,7 +268,7 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
                             {formData?.modules?.map(
                               ({ id, name, checked, isClientPlatformModule }) =>
                                 formData.isClientPlatformModule &&
-                                isClientPlatformModule ? (
+                                  isClientPlatformModule ? (
                                   <div
                                     className="form-check mt-2 col-lg-3"
                                     key={id}
@@ -372,4 +371,4 @@ const RoleMasterItems = ({ data, setIsLoading, setData }) => {
   );
 };
 
-export default RoleMasterItems;
+export default RoleMasterForm;
