@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../Componenets/Loader/Loader";
 import Footer from "../../Layout/Footer/Footer";
-import image from "../../Assets/logo.png";
+import image from "../../Assets/img/logo.png";
 import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
 import { useNavigate } from "react-router";
 import bcrypt from 'bcryptjs';
