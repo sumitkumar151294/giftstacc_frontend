@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./ClientMasterList.scss";
+import "./ClientList.scss";
 import { Link } from "react-router-dom";
-import Loader from "../../../Components/Loader/Loader";
-import NoRecord from "../../../Components/NoRecord/NoRecord";
+import Loader from "../../../Componenets/Loader/Loader";
+import NoRecord from "../../../Componenets/NoRecord/NoRecord";
 import ClientMasterForm from "../ClientMasterForm/ClientMasterForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,9 +10,9 @@ import {
   onUpdateClientMasterSubmit,
 } from "../../../Store/Slices/clientMasterSlice";
 import { CSVLink } from "react-csv";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
-const ClientMasterList = () => {
+const ClientList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [showLoader, setShowLoader] = useState(false);
@@ -262,4 +262,4 @@ const ClientMasterList = () => {
   );
 };
 
-export default ClientMasterList;
+export default ClientList;
