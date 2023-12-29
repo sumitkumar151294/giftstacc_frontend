@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { onPostCategory } from "../../../Store/Slices/createCategorySlice";
+import { onGetCategory, onPostCategory } from "../../../Store/Slices/createCategorySlice";
 import InputField from "../../../Componenets/InputField/InputField";
 import Dropdown from "../../../Componenets/Dropdown/Dropdown";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,7 +11,9 @@ import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 
 
-const BrandMapping = () => {
+const BrandMapping = ({
+  setIsLoading
+}) => {
   const dispatch = useDispatch();
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -27,6 +29,11 @@ const BrandMapping = () => {
   const getMessage = useSelector(
     (state) => state.createCategoryReducer.message
   );
+  const resetCategoryFields = {
+    categoryName: "",
+    supplierName: "",
+    supplierBrand: "",
+  }
 
   // To get the supplier name from redux store 
   useEffect(() => {
@@ -78,6 +85,8 @@ const BrandMapping = () => {
     "required_label"
   );
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
+  const field_Required = GetTranslationData("UIAdmin", "field_Required");
+  const error_Occurred = GetTranslationData("UIAdmin", "error_Occurred");
 
   const handleChange = (e, fieldName) => {
     setCreateCategory({
@@ -100,7 +109,7 @@ const BrandMapping = () => {
 
     for (const key in createCategory) {
       if (createCategory[key] === "") {
-        newErrors[key] = "This field is required";
+        newErrors[key] = {field_Required};
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -113,19 +122,19 @@ const BrandMapping = () => {
       try {
         await dispatch(onPostCategory(createCategory));
         toast.success(getMessage);
-        setCreateCategory({
-          categoryName: "",
-          supplierName: "",
-          supplierBrand: "",
-        });
+        setCreateCategory(resetCategoryFields);
       } catch (error) {
-        toast.error("An error occurred");
+        toast.error({error_Occurred});
       } finally {
         setIsFormLoading(false);
       }
     } else {
       setIsFormLoading(false);
     }
+    setTimeout(()=>{
+      dispatch(onGetCategory());
+    },1000);
+    setIsLoading(true);
   };
 
   return (

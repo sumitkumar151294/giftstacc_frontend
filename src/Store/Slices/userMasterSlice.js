@@ -60,7 +60,7 @@ export const userMasterSlice = createSlice({
     },
 
     onGetUser: (state) => {
-      return { ...state, isLoading: true, data: {}, getmessage: '', error: {}, isError: false };
+      return { ...state, isLoading: true, getData: {}, getmessage: '', error: {}, isError: false };
     },
     onGetUserSuccess: (state, { payload }) => {
       const { data = {}, message = '', status_code } = payload;
@@ -68,7 +68,7 @@ export const userMasterSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        data,
+        getData:data,
         error: {},
         getmessage:message,
         status_code
@@ -80,15 +80,51 @@ export const userMasterSlice = createSlice({
         ...state,
         isLoading: false,
         isError: true,
-        data:data,
+        getData:data,
         getmessage:message,
         status_code
+      };
+    },
+    onUserUpdate: (state) => {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        updatedUserData: {},  
+        error: {},
+        message: "",
+      };
+    },
+
+    onUserUpdateSuccess: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        updatedUserData: data,  
+        message,
+        status_code,
+        error: {},
+      };
+    },
+
+    onUserUpdateError: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 400 } = payload;
+      return {
+        ...state,
+        updatedUserData: data,  
+        message,
+        status_code,
+        isLoading: false,
+        isError: true,
+        error: {},
       };
     },
 
   },
 });
-export const { onUserSubmit, onUserSubmitReset, onUserSubmitError, onUserSubmitSuccess, onGetUser, onGetUserSuccess, onGetUserError } =
+export const { onUserSubmit, onUserSubmitReset, onUserSubmitError, onUserSubmitSuccess, onGetUser, onGetUserSuccess, onGetUserError, onUserUpdate, onUserUpdateSuccess, onUserUpdateError } =
   userMasterSlice.actions;
 
 export default userMasterSlice.reducer;

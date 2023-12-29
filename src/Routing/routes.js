@@ -12,6 +12,8 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
 import BrandDetail from "../Pages/BrandDetail/BrandDetail";
 import Orders from "../Pages/Orders/Orders";
+import ClientBrandList from "../Pages/ClientMaster/ClientBrandList/ClientBrandList";
+import EmailEventMaster from "../Pages/EmailEventMaster/EmailEventMaster";
 function RouteConfiq() {
   return (
     <Router>
@@ -25,10 +27,14 @@ function RouteConfiq() {
         <Route path="/lc-admin/create-categories" element={<Layout Component={CreateCategories} />} />
         <Route path="/lc-admin/role-master" element={<Layout Component={RoleMaster} />} />
         <Route path="/lc-admin/client-master" element={<Layout Component={ClientMaster} />} />
+        <Route path="/lc-admin/client-brand-list" element={<Layout Component={ClientBrandList} />} />
         <Route path="/lc-admin/user-master" element={<Layout Component={UserMaster} />} />
         <Route path="/lc-admin/brand-catalogue" element={<Layout Component={BrandCatalogue} />} />
         <Route path="/lc-admin/brand-detail" element={<Layout Component={BrandDetail} />} />
         <Route path="/lc-admin/orders" element={<Layout Component={Orders} />} />
+        <Route path="/lc-admin/email-event-master" element={<Layout Component={EmailEventMaster} />} />
+
+        
       </Routes>
     </Router>
   );

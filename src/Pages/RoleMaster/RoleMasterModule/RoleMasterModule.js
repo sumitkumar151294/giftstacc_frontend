@@ -3,11 +3,9 @@ import '../RoleMaster.scss'
 import NoRecord from "../../../Componenets/NoRecord/NoRecord"
 import Loader from "../../../Componenets/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetUserRole, onUpdateUserRole } from "../../../Store/Slices/userRoleSlice";
+import { onGetUserRole } from "../../../Store/Slices/userRoleSlice";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
-import { ScrollRestoration } from "react-router-dom";
 import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
-import { onGetUserRoleModuleAccess } from "../../../Store/Slices/userRoleModuleAccessSlice";
 import { Pagination } from "@mui/material";
 import RoleMasterItems from "../RoleMasterItems/RoleMasterItems";
 const RoleMasterModule = () => {
