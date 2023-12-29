@@ -131,22 +131,22 @@ const Orders = () => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
- 
+
   return (
     <>
       <ScrollToTop />
       <div>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-xl-12 col-xxl-12">
-              <div class="card">
-                <div class="container-fluid">
-                  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                    <div class="card-header">
-                      <h4 class="card-title">{orders}</h4>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-xl-12 col-xxl-12">
+              <div className="card">
+                <div className="container-fluid">
+                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                    <div className="card-header">
+                      <h4 className="card-title">{orders}</h4>
                     </div>
-                    <div class="customer-search mb-sm-0 mb-3">
-                      <div class="input-group search-area">
+                    <div className="customer-search mb-sm-0 mb-3">
+                      <div className="input-group search-area">
                         <input
                           type="text"
                           className="form-control only-high"
@@ -154,55 +154,57 @@ const Orders = () => {
                           value={searchQuery}
                           onChange={handleSearch}
                         />
-                        <span class="input-group-text">
+                        <span className="input-group-text">
                           <a href="#">
-                            <i class="flaticon-381-search-2"></i>
+                            <i className="flaticon-381-search-2"></i>
                           </a>
                         </span>
                       </div>
                     </div>
-                    <div class="d-flex align-items-center flex-wrap">
-                    {data && data.length > 0 && (
-                      <CSVLink data={data} headers={headers} filename={"orders.csv"}>
-                        {filteredOrderList.length > 0 && (
-                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                            <i className="fa fa-file-excel me-2"></i>
-                            {exportLabel}
-                          </button>
-                        )}
-                      </CSVLink>
-                    )}
+                    <div className="d-flex align-items-center flex-wrap">
+                      {data && data.length > 0 && (
+                        <CSVLink
+                          data={data}
+                          headers={headers}
+                          filename={"orders.csv"}
+                        >
+                          {filteredOrderList.length > 0 && (
+                            <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                              <i className="fa fa-file-excel me-2"></i>
+                              {exportLabel}
+                            </button>
+                          )}
+                        </CSVLink>
+                      )}
                     </div>
                   </div>
                 </div>
-                <div class="container-fluid">
-                  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                    <div class="col-sm-3 form-group mb-2">
+                <div className="container-fluid">
+                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                    <div className="col-sm-3 form-group mb-2">
                       <label for="name-f">{supplier}</label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "supplier")}
                         value={supplierList.supplier || ""}
-                        // key={clientData.theme}
                         className="form-select"
                         options={supplierListData}
                       />
                     </div>
-                    <div class="col-sm-3 form-group mb-2">
+                    <div className="col-sm-3 form-group mb-2">
                       <label for="name-f">{client}</label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "client")}
                         value={supplierList?.client || ""}
-                        // key={clientData.theme}
                         className="form-select"
                         options={clientListData}
                       />
                     </div>
-                    <div class="col-xl-3">
-                      <div class="example">
-                        <p class="mb-1">{date}</p>
+                    <div className="col-xl-3">
+                      <div className="example">
+                        <p className="mb-1">{date}</p>
                         <input
                           type="text"
-                          class="form-control input-daterange-timepicker"
+                          className="form-control input-daterange-timepicker"
                           name="daterange"
                           value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
                         />
@@ -210,17 +212,17 @@ const Orders = () => {
                     </div>
                   </div>
                 </div>
-                <div class="card-body">
+                <div className="card-body">
                   {showLoader && filteredOrderList.length < 0 ? (
                     <div style={{ height: "400px" }}>
                       <Loader classType={"absoluteLoader"} />
                     </div>
                   ) : (
                     <>
-                      <div class="table-responsive">
+                      <div className="table-responsive">
                         {filteredOrderList.length > 0 ? (
                           <>
-                            <table class="table header-border table-responsive-sm">
+                            <table className="table header-border table-responsive-sm">
                               <thead>
                                 <tr>
                                   <th>{ordersupplier}</th>

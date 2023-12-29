@@ -86,8 +86,6 @@ const ClientMaster = (props) => {
     fieldNameInput: "",
     fieldValue: "",
     mode: "",
-    enabled: true,
-    deleted: false,
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -131,9 +129,7 @@ const ClientMaster = (props) => {
       status: props.data?.status || "",
       dbLoginPwd: props.data?.dbLoginPwd || "",
       dbLoginId: props.data?.dbLoginId || "",
-      enabled: true,
-      deleted: true,
-    });
+     });
     setErrors({
       name: "",
       number: "",
@@ -281,8 +277,6 @@ const ClientMaster = (props) => {
           stagingSecretKey: "",
           productionKey: "",
           productionSecretKey: "",
-          enabled: true,
-          deleted: true,
         });
         setAdditionalFields([{
           fieldNameInput: "",
@@ -322,8 +316,6 @@ const ClientMaster = (props) => {
           fieldValue: "",
           mode: "",
           id: "",
-          enabled: true,
-          deleted: true,
         });
         
       }
@@ -618,7 +610,6 @@ const ClientMaster = (props) => {
                                     onChange={(e) =>
                                        {handleChange(e, "mode")
                                         handleAddMoreData('mode',index, e)}}
-                                    // className="form-select"
                                     options={modes}
                                   />
                                 </div>
