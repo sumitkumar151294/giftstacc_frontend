@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./ClientList.scss";
+import "./ClientMasterList.scss";
 import { Link } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
@@ -12,7 +12,7 @@ import {
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
-const ClientList = () => {
+const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [showLoader, setShowLoader] = useState(false);
@@ -263,4 +263,4 @@ const ClientList = () => {
   );
 };
 
-export default ClientList;
+export default ClientMasterList;
