@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import user from "../../Assets/img/user-profile.png";
-
+import "./Header.scss"
 const Header = ({ setSideBar, sidebar }) => {
   const [hamburgerClass, setHamburgerClass] = useState(false)
   const handleShowSideBar = () => {
