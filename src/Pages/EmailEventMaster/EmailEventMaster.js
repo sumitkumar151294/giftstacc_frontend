@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
 import './EmailEventMaster.scss'
 import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
 
-// import { onEmailEventSubmit } from "../../redux/modules/UserAdmin/emailEventSlice";
-// import Loader from "../../Admin/Loader/Loader";
+
 
 const EmailEventMaster = () => {
-  const [isLoading, setIsLoading] = useState("true");
 
   const [name, setName] = useState({
     eventName: "",
@@ -34,7 +31,6 @@ const EmailEventMaster = () => {
       [fieldName]: "",
     });
   };
-  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e?.preventDefault();
     let isValid = true;
@@ -50,7 +46,6 @@ const EmailEventMaster = () => {
     }
     setErrors(newErrors);
 
-    // if (isValid) dispatch(onEmailEventSubmit(name));
   };
 
   const tableData = [
@@ -135,7 +130,6 @@ const EmailEventMaster = () => {
                     <h4 className="card-title">{emaileventmaster}</h4>
                   </div>
                 </div>
-
                 <div className="row">
                   <div className="col-xl-7 col-xxl-7">
                     <div className="card">
@@ -200,7 +194,6 @@ const EmailEventMaster = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="col-xl-5 col-xxl-5">
                     <div className="card">
                       <div className="card-header d-flex justify-content-between">
@@ -220,7 +213,6 @@ const EmailEventMaster = () => {
                           </div>
                         </div>
                       </div>
-
                       <div className="card-body">
                         <div className="klaa">
                           <table className="table table-bordered table-striped">
@@ -252,7 +244,6 @@ const EmailEventMaster = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="card-body">
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -274,7 +265,6 @@ const EmailEventMaster = () => {
                                 <a href="javascript:void();"></a>
                               </td>
                               <td>{item.status}</td>
-
                               <td>{item.date}</td>
                               <td>{item.placeholders}%</td>
                               <td>
