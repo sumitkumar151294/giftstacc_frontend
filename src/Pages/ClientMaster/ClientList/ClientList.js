@@ -16,12 +16,14 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 const ClientList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [showLoader, setShowLoader] = useState(false);
   const clientList = useSelector((state) => state.clientMasterReducer.data);
+  console.log(clientList,"clientList");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -68,10 +70,21 @@ const ClientList = () => {
       productionSecretKey: data?.productionSecretKey,
       theme: data?.theme,
       enabled: false,
-      deleted: true
+      deleted: true,
+      paymentDetails: [
+        {
+          id: 0,
+          keyName: "chirag",
+          keyValue: "1000",
+          keyMode: "live"
+        }
+      ]
     }
-    // console.log(deletedData,"deletedData");
-    dispatch(onUpdateClientMasterSubmit)
+    console.log(deletedData,"deletedData");
+    dispatch(onUpdateClientMasterSubmit(deletedData));
+    setTimeout(() => {
+      dispatch(onClientMasterSubmit());
+    }, 1000);
   };
 
   const headers = [
@@ -213,7 +226,7 @@ const ClientList = () => {
                                   </TableCell>
                                   <td>
                                     <Link
-                                      to="/lc-admin/clientbrandlist"
+                                      to="/lc-admin/client-master"
                                       className="btn btn-primary btn-sm float-right"
                                     >
                                       <i className="fa fa-eye"></i>&nbsp;
