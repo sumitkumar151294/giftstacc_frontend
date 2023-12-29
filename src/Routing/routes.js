@@ -6,7 +6,7 @@ import SupplierBrandList from "../Pages/SupplierBrandList/SupplierBrandList";
 import UserMaster from "../Pages/UserMaster/UserMaster";
 import CreateCategories from "../Pages/CreateCategories/CreateCategories";
 import ClientMaster from "../Pages/ClientMaster/ClientMaster";
-import HomePage from "../Componenets/HomePage/HomePage";
+import HomePage from "../Components/HomePage/HomePage";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
 import BrandDetail from "../Pages/BrandDetail/BrandDetail";

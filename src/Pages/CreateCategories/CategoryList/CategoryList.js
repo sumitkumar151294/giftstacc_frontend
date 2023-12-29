@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { CSVLink } from "react-csv";
-import Loader from '../../../Componenets/Loader/Loader';
+import Loader from '../../../Components/Loader/Loader';
 import './CategoryList.scss'
 import { onGetCategory, onPostCategory, onUpdateCategory } from '../../../Store/Slices/createCategorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { GetTranslationData } from '../../../Componenets/GetTranslationData/GetTranslationData ';
-import ScrollToTop from '../../../Componenets/ScrollToTop/ScrollToTop';
-import NoRecord from '../../../Componenets/NoRecord/NoRecord';
+import { GetTranslationData } from '../../../Components/GetTranslationData/GetTranslationData ';
+import ScrollToTop from '../../../Components/ScrollToTop/ScrollToTop';
+import NoRecord from '../../../Components/NoRecord/NoRecord';
 import { Pagination } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import BrandMapping from '../BrandMapping/BrandMapping';

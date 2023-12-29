@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import '../RoleMaster.scss'
-import NoRecord from "../../../Componenets/NoRecord/NoRecord"
-import Loader from "../../../Componenets/Loader/Loader";
+import NoRecord from "../../../Components/NoRecord/NoRecord"
+import Loader from "../../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetUserRole } from "../../../Store/Slices/userRoleSlice";
-import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
-import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { Pagination } from "@mui/material";
 import RoleMasterForm from "../RoleMasterForm/RoleMasterForm";
 const RoleMasterList = () => {

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import "./Orders.scss";
-import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Dropdown from "../../Componenets/Dropdown/Dropdown";
-import NoRecord from "../../Componenets/NoRecord/NoRecord";
-import Loader from "../../Componenets/Loader/Loader";
+import Dropdown from "../../Components/Dropdown/Dropdown";
+import NoRecord from "../../Components/NoRecord/NoRecord";
+import Loader from "../../Components/Loader/Loader";
 import { Pagination } from "@mui/material";
 import { CSVLink } from "react-csv";
 

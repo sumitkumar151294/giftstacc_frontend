@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Loader from "../../../Componenets/Loader/Loader";
+import Loader from "../../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetCategory, onPostCategory } from "../../../Store/Slices/createCategorySlice";
-import InputField from "../../../Componenets/InputField/InputField";
-import Dropdown from "../../../Componenets/Dropdown/Dropdown";
+import InputField from "../../../Components/InputField/InputField";
+import Dropdown from "../../../Components/Dropdown/Dropdown";
 import { ToastContainer, toast } from "react-toastify";
-import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
-import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 

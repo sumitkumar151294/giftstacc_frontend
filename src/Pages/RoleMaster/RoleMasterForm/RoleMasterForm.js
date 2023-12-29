@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "../RoleMaster.scss";
-import Loader from "../../../Componenets/Loader/Loader";
+import Loader from "../../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onGetUserRole,
   onPostUserRole,
   onUpdateUserRole,
 } from "../../../Store/Slices/userRoleSlice";
-import InputField from "../../../Componenets/InputField/InputField";
+import InputField from "../../../Components/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
-import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
-import ScrollToTop from "../../../Componenets/ScrollToTop/ScrollToTop";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);

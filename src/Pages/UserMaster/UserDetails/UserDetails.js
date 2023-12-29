@@ -5,13 +5,13 @@ import {
   onUserUpdate,
 } from "../../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
-import InputField from "../../../Componenets/InputField/InputField";
+import InputField from "../../../Components/InputField/InputField";
 import "../../UserMaster/UserMaster.scss";
 import { ToastContainer, toast } from "react-toastify";
 import { onGetUserRole } from "../../../Store/Slices/userRoleSlice";
-import Loader from "../../../Componenets/Loader/Loader";
+import Loader from "../../../Components/Loader/Loader";
 import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
-import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 
 const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
   const dispatch = useDispatch();
