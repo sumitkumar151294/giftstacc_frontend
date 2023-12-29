@@ -6,7 +6,7 @@ import Loader from "../../Componenets/Loader/Loader";
 import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
 import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
-
+import './Sidebar.scss'
 const Sidebar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
