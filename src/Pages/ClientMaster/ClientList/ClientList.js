@@ -12,14 +12,6 @@ import {
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-
 const ClientList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
@@ -52,27 +44,6 @@ const ClientList = () => {
     setData(prefilled);
   };
   const handleDelete = (data) => {
-    const deletedData = {
-      id: data?.id,
-      name: data?.name,
-      number: data?.number,
-      email: data?.email,
-      userName: data?.userName,
-      password: data?.password,
-      status: data?.status,
-      color: data?.color,
-      lgogLink: data?.lgogLink,
-      dbipAddress: data?.dbipAddress,
-      dbLoginId: data?.dbLoginId,
-      dbLoginPwd: data?.dbLoginPwd,
-      stagingKey: data?.stagingKey,
-      stagingSecretKey: data?.stagingSecretKey,
-      productionKey: data?.productionKey,
-      productionSecretKey: data?.productionSecretKey,
-      theme: data?.theme,
-      enabled: false,
-      deleted: true,
-    };
     dispatch(onUpdateClientMasterSubmit);
   };
 
