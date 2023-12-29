@@ -11,7 +11,7 @@ import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 
 
-const BrandMapping = ({
+const CategoryForm = ({
   setIsLoading
 }) => {
   const dispatch = useDispatch();
@@ -238,4 +238,4 @@ const BrandMapping = ({
   );
 };
 
-export default BrandMapping;
+export default CategoryForm;
