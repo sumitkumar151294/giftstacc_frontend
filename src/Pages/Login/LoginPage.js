@@ -3,14 +3,14 @@ import "./LoginPage.scss";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import InputField from "../../Componenets/InputField/InputField";
-import Button from "../../Componenets/Button/Button";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "../../Componenets/Loader/Loader";
+import Loader from "../../Components/Loader/Loader";
 import Footer from "../../Layout/Footer/Footer";
-import image from "../../Assets/logo.png";
-import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
+import image from "../../Assets/img/logo.png";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { useNavigate } from "react-router";
 import bcrypt from 'bcryptjs';
 
@@ -116,7 +116,7 @@ const LoginPage = () => {
     if (loginDetails === "Login Successfully." && isSubmit) {
       setShowLoader(false);
       toast.success(loginDetails);
-      navigate('/Lc-admin/dashboard');
+      navigate('/lc-admin/dashboard');
       sessionStorage.setItem('login', true)
     } else if (isSubmit) {
       setShowLoader(false);

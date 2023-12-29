@@ -1,14 +1,6 @@
 import React from "react";
-import UserList from "../UserList/UserList";
+import UserList from "./UserList/UserList";
 
-const UserMaster = () => {
-  return (
-    <>
-      <div className="content-body">
-        <UserList />
-      </div>
-    </>
-  );
-};
-
-export default UserMaster;
+export default function UserMaster() {
+  return <UserList />;
+}

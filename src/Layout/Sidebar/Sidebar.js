@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetModule } from "../../Store/Slices/moduleSlice";
-import Loader from "../../Componenets/Loader/Loader";
+import Loader from "../../Components/Loader/Loader";
 import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
-import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
-
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import './Sidebar.scss'
 const Sidebar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();

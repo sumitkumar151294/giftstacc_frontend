@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
 import "./SupplierBrandList.scss";
-import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
-import NoRecord from "../../Componenets/NoRecord/NoRecord";
+import NoRecord from "../../Components/NoRecord/NoRecord";
 import { Pagination } from "@mui/material";
-import Dropdown from "../../Componenets/Dropdown/Dropdown";
+import Dropdown from "../../Components/Dropdown/Dropdown";
+import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 
 const SupplierBrandList = () => {
   const dispatch = useDispatch();
+  const [supplierList, setSupplierList] = useState([]);
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer?.data?.data
   );
+  const suppliers = useSelector((state) => state.supplierMasterReducer?.data);
   const supplierBrands = GetTranslationData("UIAdmin", "supplierBrands");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
   const select = GetTranslationData("UIAdmin", "select");
   const all = GetTranslationData("UIAdmin", "all");
+  const supplier_products = GetTranslationData("UIAdmin", "supplier_products");
   const supplierBrandLists = GetTranslationData(
     "UIAdmin",
     "supplierBrandLists"
@@ -31,7 +36,6 @@ const SupplierBrandList = () => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
-
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
   }, []);
@@ -51,9 +55,6 @@ const SupplierBrandList = () => {
     setPage(1);
   };
 
-  const datas = {
-    statuscolor: "badge badge-success",
-  };
   const [page, setPage] = useState(1);
   const startIndex = (page - 1) * rowsPerPage;
 
@@ -65,14 +66,16 @@ const SupplierBrandList = () => {
     { label: "status", key: "status" },
     { label: "action", key: "action" },
   ];
+  const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
-  const supplier = [
-    { value: "all", label: "all" },
+  useEffect(() => {
+    let tempSupplier = [];
+    suppliers?.data?.map((item) => {
+      tempSupplier.push({ label: item.name, value: item.name });
+    });
+    setSupplierList(tempSupplier);
+  }, [suppliers]);
 
-    { value: "Qwik cilver", label: "Qwik cilver" },
-    { value: "Non-Supplier 2", label: "Non-Supplier 2" },
-    { value: " Supplier 3", label: " Supplier 3" },
-  ];
   const handleChange = (e) => {};
 
   const userData = [
@@ -103,9 +106,33 @@ const SupplierBrandList = () => {
     },
   ];
 
+  const handleKeyPress = (e) => {
+    if (e.key === "e" || e.key === "+" || e.key === "-") {
+      e.preventDefault();
+    }
+  };
+  const [marginValue, setMarginValue] = useState();
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    // You can add additional validation if needed
+    setMarginValue(newValue);
+  };
+  const handleUpdate = (data) => {
+    const updatedValues = {
+      id: data.id,
+      brands: data.brands,
+      supplier_Margin: marginValue,
+      status: data.status,
+      action: data.action,
+    };
+    dispatch(onUpdateSupplierList(updatedValues));
+  };
+
   return (
     <>
-      <div className="content-body">
+      <ScrollToTop />
+      <div>
         <div className="container-fluid">
           <div className="row">
             <div className="col-xl-12 col-xxl-12">
@@ -113,7 +140,7 @@ const SupplierBrandList = () => {
                 <div className="container-fluid mt-2 mb-2">
                   <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                     <div className="card-header">
-                      <h4 className="card-title">{supplierBrands}</h4>
+                      <h4 className="card-title">{supplier_products}</h4>
                     </div>
                     <div className="customer-search mb-sm-0 mb-3">
                       <div className="input-group search-area">
@@ -132,7 +159,11 @@ const SupplierBrandList = () => {
                     <div className="d-flex align-items-center flex-wrap">
                       {filteredSupplierList &&
                         filteredSupplierList.length > 0 && (
-                          <CSVLink data={SupplierBrandList} headers={headers}>
+                          <CSVLink
+                            data={SupplierBrandList}
+                            headers={headers}
+                            filename={"SupplierBrandList.csv"}
+                          >
                             <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
                               <i className="fa fa-file-excel me-2"></i>
                               {export_label}
@@ -147,19 +178,19 @@ const SupplierBrandList = () => {
                   <form>
                     <div className="row">
                       <div className="col-sm-3 form-group mb-2">
-                        <label for="name-f">{selectSuppliers}</label>
+                        <label htmlFor="name-f">{selectSuppliers}</label>
 
                         <Dropdown
                           className="form-select"
                           aria-label="Default select example"
                           onChange={(e) => handleChange(e, "status")}
-                          options={supplier}
+                          options={supplierList}
                         />
                       </div>
 
                       <div className="col-lg-9 d-flex-list justify-content-end m-auto mb-2">
-                        {userData.map((data) => (
-                          <span className="mrr">
+                        {userData.map((data,index) => (
+                          <span className="mrr" key={index}> 
                             <button type="button" className={data.className}>
                               {data.status}{" "}
                               <span className="btn-icon-end">{data.count}</span>
@@ -193,13 +224,9 @@ const SupplierBrandList = () => {
                                 <tbody>
                                   {filteredSupplierList
                                     .slice(startIndex, endIndex)
-                                    .map((data) => (
-                                      <tr>
-                                        <td>
-                                          {data.id}
-                                          <a href="#"></a>
-                                        </td>
-
+                                    .map((data, index) => (
+                                      <tr key={index}>
+                                        <td>{data.id}</td>
                                         <td>{data.brands}</td>
                                         <td>
                                           <div className="input-group mb-2 w-11">
@@ -208,10 +235,15 @@ const SupplierBrandList = () => {
                                               className="form-control htt"
                                               placeholder={data.supplier_Margin}
                                               pattern="/^-?\d+\.?\d*$/"
-                                              onKeyPress="if(this.value.length==2) return false;"
+                                              value={marginValue}
+                                              onChange={handleInputChange}
+                                              onKeyPress={handleKeyPress}
                                             />
                                             <div className="input-group-append">
                                               <button
+                                                onClick={() =>
+                                                  handleUpdate(data)
+                                                }
                                                 className="btn btn-outline-primary btn-sm group-btn btn-pad"
                                                 type="button"
                                               >
@@ -220,29 +252,38 @@ const SupplierBrandList = () => {
                                             </div>
                                           </div>
                                         </td>
-
                                         <td>
-                                          <span className={datas.statuscolor}>
+                                          <span
+                                            className={
+                                              data.status === true
+                                                ? "badge badge-success"
+                                                : "badge badge-danger"
+                                            }
+                                          >
                                             {data.status === true
                                               ? "Active"
                                               : "Inactive"}
                                           </span>
                                         </td>
-
                                         <td>
-                                          {" "}
                                           <div className="can-toggle">
-                                            <input id="d" type="checkbox" />
-
-                                            <label for="d">
+                                            <input
+                                              id={generateUniqueId(index)}
+                                              type="checkbox"
+                                              checked={data.status} // Set checked based on the status
+                                              onChange={() => {
+                                                // Handle toggle switch change
+                                              }}
+                                            />
+                                            <label
+                                              htmlFor={generateUniqueId(index)}
+                                            >
                                               <div
                                                 className="can-toggle__switch"
                                                 data-unchecked="Off"
                                                 data-checked={
-                                                  data.action === true
-                                                    ? "ON"
-                                                    : "OFF"
-                                                }
+                                                  data.status ? "ON" : "OFF"
+                                                } // Set label based on the status
                                               ></div>
                                             </label>
                                           </div>

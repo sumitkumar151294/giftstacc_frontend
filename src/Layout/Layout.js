@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from '../Layout/Sidebar/Sidebar';
 import Header from '../Layout/Header/Header';
 import Footer from './Footer/Footer';
+import './Layout.scss';
 import { onLogout } from '../Store/Slices/loginSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +25,10 @@ const Layout = (props) => {
             <div id="main-wrapper"  className={showSideBar? 'show menu-toggle' : 'show' }>
                 <Header setSideBar = {setShowSideBar}  sidebar = {showSideBar}/>
                 <Sidebar />
+                <div className="content-body">
                 <Component />
+                </div>
+               
                 <Footer />
             </div>
         </>

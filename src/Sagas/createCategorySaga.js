@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { callCreateCategoryGetApi, callCreateCategoryPostApi } from "../Context/createcategoryApi";
-import { onGetCategory, onGetCategoryError, onGetCategorySuccess, onPostCategory, onPostCategoryError, onPostCategorySuccess } from "../Store/Slices/createCategorySlice";
+import { callCreateCategoryGetApi, callCreateCategoryPostApi, callCreateCategoryUpdateApi } from "../Context/createcategoryApi";
+import { onGetCategory, onGetCategoryError, onGetCategorySuccess, onPostCategory, onPostCategoryError, onPostCategorySuccess, onUpdateCategory, onUpdateCategorySuccess, onUpdateCategoryError } from "../Store/Slices/createCategorySlice";
 
 function* GetCategory() {
   try {
@@ -49,7 +49,32 @@ function* PostCategory({ payload }) {
   }
 }
 
+function* UpdateCategory({ payload }) {
+  try {
+    const updateCategoryResponse = yield call(callCreateCategoryUpdateApi, payload);
+    if (updateCategoryResponse.status === 5) {
+      yield put(
+        onUpdateCategorySuccess({
+          data: updateCategoryResponse.result,
+          message: updateCategoryResponse.result.message,
+        })
+      );
+    } else {
+      yield put(
+        onUpdateCategoryError({
+          data: updateCategoryResponse.result,
+          message: updateCategoryResponse.result.message,
+        })
+      );
+    }
+  } catch (error) {
+    const message = error.response || "Something went wrong";
+    yield put(onUpdateCategoryError({ data: {}, message, status_code: 400 }));
+  }
+}
+
 export default function* createCategorySaga() {
   yield takeLatest(onGetCategory.type, GetCategory);
   yield takeLatest(onPostCategory.type, PostCategory);
+  yield takeLatest(onUpdateCategory.type, UpdateCategory);
 }
