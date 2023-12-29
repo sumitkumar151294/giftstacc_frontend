@@ -43,7 +43,7 @@ const ClientMasterList = () => {
     const prefilled = data;
     setData(prefilled);
   };
-   const handleDelete = (data) => {
+  const handleDelete = (data) => {
     const deletedData = {
       id: data?.id,
       name: data?.name,
@@ -69,10 +69,10 @@ const ClientMasterList = () => {
           id: 0,
           keyName: "chirag",
           keyValue: "1000",
-          keyMode: "live"
-        }
-      ]
-    }
+          keyMode: "live",
+        },
+      ],
+    };
     dispatch(onUpdateClientMasterSubmit(deletedData));
     setTimeout(() => {
       dispatch(onClientMasterSubmit());

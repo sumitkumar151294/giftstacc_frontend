@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetSupplierList, onUpdateSupplierList, onVendorSubmit } from "../../../Store/Slices/supplierMasterSlice";
+import {
+  onGetSupplierList,
+  onUpdateSupplierList,
+  onVendorSubmit,
+} from "../../../Store/Slices/supplierMasterSlice";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { ToastContainer, toast } from "react-toastify";
 import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
 import InputField from "../../../Components/InputField/InputField";
-import './SupplierMasterDetails.scss'
+import "./SupplierMasterDetails.scss";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
 
 const SupplierMasterDetails = ({ data }) => {
@@ -16,7 +20,10 @@ const SupplierMasterDetails = ({ data }) => {
   const supplierMaster = GetTranslationData("UIAdmin", "supplierMaster");
   const supplierName = GetTranslationData("UIAdmin", "supplierName");
   const status = GetTranslationData("UIAdmin", "Status_label");
-  const minThresholdAmount = GetTranslationData("UIAdmin", "minThresholdAmount");
+  const minThresholdAmount = GetTranslationData(
+    "UIAdmin",
+    "minThresholdAmount"
+  );
   const required_label = GetTranslationData("UIAdmin", "required_label");
   const field_Name_Label = GetTranslationData("UIAdmin", "field_Name_Label");
   const field_Value_Label = GetTranslationData("UIAdmin", "field_Value_Label");
@@ -25,9 +32,15 @@ const SupplierMasterDetails = ({ data }) => {
   const add_More = GetTranslationData("UIAdmin", "add_More");
   const delete_Button = GetTranslationData("UIAdmin", "delete_Button");
   const fieldNameNotEmpty = GetTranslationData("UIAdmin", "fieldNameNotEmpty");
-  const fieldValueNotEmpty = GetTranslationData("UIAdmin", "fieldValueNotEmpty");
+  const fieldValueNotEmpty = GetTranslationData(
+    "UIAdmin",
+    "fieldValueNotEmpty"
+  );
   const addedSuccessfully = GetTranslationData("UIAdmin", "addedSuccessfully");
-  const updateSuccessfully = GetTranslationData("UIAdmin", "updateSuccessfully");
+  const updateSuccessfully = GetTranslationData(
+    "UIAdmin",
+    "updateSuccessfully"
+  );
 
   const [isformLoading, setIsFormLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -52,35 +65,19 @@ const SupplierMasterDetails = ({ data }) => {
     // Update the state when the data prop changes
     setVendorData({
       name: data?.name || "",
-      // secret: "",
-      // id: data?.id || "",
-      // username: "",
-      // password: "",
-      // endPoint: "",
-      // code: "",
+
       status: "",
-      // amount: "",
       minThresholdAmount: "",
       availabelAmount: "",
-      // fieldName: "",
-      // fieldValue: "",
     });
 
     // You may also want to reset errors here if needed
     setErrors({
       name: "",
-      // secret: "",
-      // id: "",
-      // username: "",
-      // password: "",
-      // endPoint: "",
-      // code: "",
+
       status: "",
-      // amount: "",
       minThresholdAmount: "",
       availabelAmount: "",
-      // fieldName: "",
-      // fieldValue: "",
     });
 
     if (supplyPostData.status_code === 200) {
@@ -89,11 +86,12 @@ const SupplierMasterDetails = ({ data }) => {
     }
   }, [data]);
 
- 
-
   const handleChange = (e, fieldName) => {
     // Validate non-negativity for minThresholdAmount and availabelAmount
-    if ((fieldName === 'minThresholdAmount' || fieldName === 'availabelAmount') && e.target.value < 0) {
+    if (
+      (fieldName === "minThresholdAmount" || fieldName === "availabelAmount") &&
+      e.target.value < 0
+    ) {
       setErrors({
         ...errors,
         [fieldName]: "Value cannot be negative",
@@ -112,28 +110,26 @@ const SupplierMasterDetails = ({ data }) => {
     }
   };
 
-  
   const handleAddMoreData = (field, index, e) => {
     setAdditionalFields((prevFields) => {
       const newData = [...prevFields];
       newData[index] = { ...newData[index], [field]: e.target.value };
       return newData;
     });
-  
+
     setAdditionalFieldsError((prevErrors) => {
       const newErrors = [...prevErrors];
       newErrors[index] = { ...newErrors[index], [field]: "" };
       return newErrors;
     });
   };
-  
 
   //  Submit Button for handle  input fields data
   const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
-    const newAdditionalFieldsError = [ ...additionalFieldsError ];
+    const newAdditionalFieldsError = [...additionalFieldsError];
 
     // Check if fields are empty and set corresponding error messages
     for (const key in vendorData) {
@@ -144,7 +140,7 @@ const SupplierMasterDetails = ({ data }) => {
         newErrors[key] = "";
       }
     }
-   
+
     additionalFields.forEach((field, index) => {
       if (field.fieldName === "") {
         setAdditionalFieldsError((prevErrors) => {
@@ -152,27 +148,27 @@ const SupplierMasterDetails = ({ data }) => {
           newAdditionalFieldsError[index].fieldName = fieldNameNotEmpty;
           return newAdditionalFieldsError;
         });
-        
+
         isValid = false;
       }
-  
+
       if (field.fieldValue === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].fieldValue = fieldValueNotEmpty;
           return newAdditionalFieldsError;
         });
-        
+
         isValid = false;
       }
     });
     setErrors(newErrors);
-    setAdditionalFieldsError(newAdditionalFieldsError)
+    setAdditionalFieldsError(newAdditionalFieldsError);
     if (isValid) {
       if (!data.name) {
         try {
           setShowToast(true);
-          vendorData.supplierApiDetails = additionalFields
+          vendorData.supplierApiDetails = additionalFields;
           dispatch(onVendorSubmit(vendorData));
         } catch (error) {
           // Handle any errors during dispatch
@@ -180,7 +176,7 @@ const SupplierMasterDetails = ({ data }) => {
       } else if (data.name) {
         try {
           setShowUpdate(true);
-          vendorData.supplierApiDetails = additionalFields
+          vendorData.supplierApiDetails = additionalFields;
           await dispatch(onUpdateSupplierList(vendorData));
 
           // Define a function to show a toast notification based on loginDetails
@@ -196,8 +192,7 @@ const SupplierMasterDetails = ({ data }) => {
       if (supplyPostData.message === addedSuccessfully) {
         // dispatch(onGetSupplierList());
         toast.success(supplyPostData.message);
-      }
-      else {
+      } else {
         // toast.error(supplyPostData.message);
       }
     }
@@ -229,7 +224,6 @@ const SupplierMasterDetails = ({ data }) => {
     setAdditionalFields(newFields);
   };
 
- 
   return (
     <>
       <div className="container-fluid">
@@ -244,26 +238,27 @@ const SupplierMasterDetails = ({ data }) => {
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
-                ) :
+                ) : (
                   <div className="container mt-3">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-8 form-group mb-2">
                           <label htmlFor="name-f">
-                            {supplierName} <span className="text-danger">*</span>
+                            {supplierName}{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
                             value={vendorData?.name}
-                            className={` ${errors.name ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.name ? "border-danger" : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
                             onChange={(e) => handleChange(e, "name")}
                           />
                         </div>
-
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="status">
@@ -286,10 +281,16 @@ const SupplierMasterDetails = ({ data }) => {
                             type="number"
                             name="text"
                             value={vendorData.minThresholdAmount}
-                            className={` ${errors.minThresholdAmount ? "border-danger" : "form-control"}`}
+                            className={` ${
+                              errors.minThresholdAmount
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             id="amominThresholdAmountunt"
                             placeholder=""
-                            onChange={(e) => handleChange(e, "minThresholdAmount")}
+                            onChange={(e) =>
+                              handleChange(e, "minThresholdAmount")
+                            }
                           />
                         </div>
 
@@ -302,7 +303,11 @@ const SupplierMasterDetails = ({ data }) => {
                             type="number"
                             name="text"
                             value={vendorData.availabelAmount}
-                            className={` ${errors.availabelAmount ? "border-danger" : "form-control"}`}
+                            className={` ${
+                              errors.availabelAmount
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             id="availabelAmount"
                             placeholder=""
                             onChange={(e) => handleChange(e, "availabelAmount")}
@@ -310,7 +315,9 @@ const SupplierMasterDetails = ({ data }) => {
                         </div>
 
                         <div className="row mt-3">
-                          <h3 style={{ borderBottom: '1px solid #ededed' }}>{supplier_API}</h3>
+                          <h3 style={{ borderBottom: "1px solid #ededed" }}>
+                            {supplier_API}
+                          </h3>
 
                           {additionalFields?.map((field, index) => (
                             <React.Fragment key={index}>
@@ -319,11 +326,17 @@ const SupplierMasterDetails = ({ data }) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${additionalFieldsError[index]?.fieldName ? "border-danger" : "form-control"}`}
+                                    className={` ${
+                                      additionalFieldsError[index]?.fieldName
+                                        ? "border-danger"
+                                        : "form-control"
+                                    }`}
                                     name="fname"
                                     placeholder="Key"
                                     value={additionalFields[index].fieldName}
-                                    onChange={(e) => handleAddMoreData('fieldName', index, e)}
+                                    onChange={(e) =>
+                                      handleAddMoreData("fieldName", index, e)
+                                    }
                                   />
                                 </div>
                               </div>
@@ -333,27 +346,35 @@ const SupplierMasterDetails = ({ data }) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${additionalFieldsError[index]?.fieldValue ? "border-danger" : "form-control"}`}
+                                    className={` ${
+                                      additionalFieldsError[index]?.fieldValue
+                                        ? "border-danger"
+                                        : "form-control"
+                                    }`}
                                     name="fname"
                                     placeholder="Value"
                                     value={additionalFields[index].fieldValue}
-                                    onChange={(e) => handleAddMoreData('fieldValue', index, e)}
+                                    onChange={(e) =>
+                                      handleAddMoreData("fieldValue", index, e)
+                                    }
                                   />
                                 </div>
                               </div>
 
-                              {index < additionalFields.length - 1 &&
-                                (<div className="col-lg-3">
+                              {index < additionalFields.length - 1 && (
+                                <div className="col-lg-3">
                                   <br />
                                   <div className="col-sm-12 form-group mb-7">
                                     <button
                                       className="btn btn-danger btn-sm float-right pad-aa mt-2"
                                       onClick={() => handleDelete(index)}
                                     >
-                                      {delete_Button} <i className="fa fa-trash"></i>
+                                      {delete_Button}{" "}
+                                      <i className="fa fa-trash"></i>
                                     </button>
                                   </div>
-                                </div>)}
+                                </div>
+                              )}
                             </React.Fragment>
                           ))}
 
@@ -364,11 +385,10 @@ const SupplierMasterDetails = ({ data }) => {
                                 className="btn btn-primary btn-sm float-right pad-aa mt-2"
                                 onClick={(e) => handleAddMore(e)}
                               >
-                              {add_More} <i className="fa fa-plus"></i>
+                                {add_More} <i className="fa fa-plus"></i>
                               </button>
                             </div>
                           </div>
-
                         </div>
 
                         <span
@@ -390,9 +410,8 @@ const SupplierMasterDetails = ({ data }) => {
                         </div>
                       </div>
                     </form>
-
                   </div>
-                }
+                )}
               </div>
             </div>
           </div>

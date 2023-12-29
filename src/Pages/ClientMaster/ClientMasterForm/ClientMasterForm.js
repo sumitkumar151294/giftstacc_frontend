@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 const ClientMaster = (props) => {
-  
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -38,7 +37,10 @@ const ClientMaster = (props) => {
   const mode = GetTranslationData("UIAdmin", "mode_Label");
   const themeDetails = GetTranslationData("UIAdmin", "Theme_Details_Label");
   const DatabaseCredentials = GetTranslationData("UIAdmin", " Database_Label");
-  const razorpay = GetTranslationData("UIAdmin","razorpay Payment Gateway_label");
+  const razorpay = GetTranslationData(
+    "UIAdmin",
+    "razorpay Payment Gateway_label"
+  );
   const key = GetTranslationData("UIAdmin", "key_placeholder");
   const add = GetTranslationData("UIAdmin", "add_label");
   const update = GetTranslationData("UIAdmin", "update_label");
@@ -105,7 +107,7 @@ const ClientMaster = (props) => {
     fieldValue: "",
     mode: "",
   });
-  
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setClientData({
@@ -129,7 +131,7 @@ const ClientMaster = (props) => {
       status: props.data?.status || "",
       dbLoginPwd: props.data?.dbLoginPwd || "",
       dbLoginId: props.data?.dbLoginId || "",
-     });
+    });
     setErrors({
       name: "",
       number: "",
@@ -149,12 +151,11 @@ const ClientMaster = (props) => {
     });
   }, [props.data]);
 
-  
-  const handleAddMoreData = (field,index, e) =>{
-    var data  = [...additionalFields];
+  const handleAddMoreData = (field, index, e) => {
+    var data = [...additionalFields];
     data[index][field] = e.target.value;
-    setAdditionalFields(data) 
-  }
+    setAdditionalFields(data);
+  };
 
   const handleChange = (e, fieldName) => {
     setClientData({
@@ -185,9 +186,8 @@ const ClientMaster = (props) => {
       });
     }
   };
-  
-  const [showDelete, setShowDelete] = useState(false);
 
+  const [showDelete, setShowDelete] = useState(false);
   const handleAddMore = () => {
     setShowDelete(true);
     setAdditionalFields((prevFields) => [
@@ -228,13 +228,12 @@ const ClientMaster = (props) => {
     setErrors(newErrors);
 
     if (isValid) {
-      
       if (!props.data) {
         try {
           setShowToast(true);
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
-          clientData.paymentdetails = additionalFields
+          clientData.paymentdetails = additionalFields;
           // Wait for the dispatch to complete
           dispatch(onPostClientMasterSubmit(clientData));
           // Define a function to show a toast notification based on loginDetails
@@ -256,7 +255,6 @@ const ClientMaster = (props) => {
   };
   useEffect(() => {
     if (showToast) {
-      
       if (clientMasterDetails.postMessage === "Added Successfully.") {
         setShowLoader(false);
         toast.success(clientMasterDetails.postMessage);
@@ -278,19 +276,19 @@ const ClientMaster = (props) => {
           productionKey: "",
           productionSecretKey: "",
         });
-        setAdditionalFields([{
-          fieldNameInput: "",
-          fieldValue: "",
-          mode: "",
-        }])
-        
+        setAdditionalFields([
+          {
+            fieldNameInput: "",
+            fieldValue: "",
+            mode: "",
+          },
+        ]);
       } else {
         setShowLoader(false);
         toast.error(clientMasterDetails.postMessage);
       }
     }
     if (showUpdate) {
-      
       if (clientMasterDetails.postMessage === "Update Successfully.") {
         setShowLoader(false);
         toast.success(clientMasterDetails.postMessage);
@@ -317,12 +315,9 @@ const ClientMaster = (props) => {
           mode: "",
           id: "",
         });
-        
       }
     }
   }, [clientMasterDetails.postMessage]);
-
-
 
   return (
     <>
@@ -552,12 +547,18 @@ const ClientMaster = (props) => {
                                     name="fieldNameInput"
                                     id="fieldNameInput"
                                     placeholder={key}
-                                    value={additionalFields[index].fieldNameInput}
-                                    error={errors.fieldNameInput}
-                                    onChange={(e) => 
-                                      {handleChange(e, "fieldNameInput")
-                                      handleAddMoreData('fieldNameInput',index, e)}
+                                    value={
+                                      additionalFields[index].fieldNameInput
                                     }
+                                    error={errors.fieldNameInput}
+                                    onChange={(e) => {
+                                      handleChange(e, "fieldNameInput");
+                                      handleAddMoreData(
+                                        "fieldNameInput",
+                                        index,
+                                        e
+                                      );
+                                    }}
                                   />
                                 </div>
                               </div>
@@ -582,9 +583,10 @@ const ClientMaster = (props) => {
                                     placeholder={key}
                                     error={errors.fieldValue}
                                     value={additionalFields[index].fieldValue}
-                                    onChange={(e) => 
-                                     {handleChange(e, "fieldValue")
-                                       handleAddMoreData('fieldValue',index, e)}}
+                                    onChange={(e) => {
+                                      handleChange(e, "fieldValue");
+                                      handleAddMoreData("fieldValue", index, e);
+                                    }}
                                   />
                                 </div>
                               </div>
@@ -607,9 +609,10 @@ const ClientMaster = (props) => {
                                     placeholder={key}
                                     value={additionalFields[index]?.mode}
                                     error={errors.mode}
-                                    onChange={(e) =>
-                                       {handleChange(e, "mode")
-                                        handleAddMoreData('mode',index, e)}}
+                                    onChange={(e) => {
+                                      handleChange(e, "mode");
+                                      handleAddMoreData("mode", index, e);
+                                    }}
                                     options={modes}
                                   />
                                 </div>

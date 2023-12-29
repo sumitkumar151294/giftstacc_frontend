@@ -1,22 +1,21 @@
-import React, { useState } from 'react'
-import category from '../../Assets/img/category.png'
-import product from '../../Assets/img/product1.png'
-import customer from '../../Assets/img/customer1.png'
-import ReactApexChart from 'react-apexcharts';
-import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
+import React from "react";
+import category from "../../Assets/img/category.png";
+import product from "../../Assets/img/product1.png";
+import customer from "../../Assets/img/customer1.png";
+import ReactApexChart from "react-apexcharts";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 export const Chart = () => {
-
   const donutChartData = [5, 3];
   const productDonutChartData = [5, 1];
   const customerDonutChartData = [5, 3];
   const orderDonutChartData = [5, 2];
   const donutChartOptions = {
-    labels: ['Progress', 'Remaining'],
+    labels: ["Progress", "Remaining"],
     plotOptions: {
       pie: {
         customScale: 1.0,
         innerRadius: 35, // Set the inner radius
-        radius: 10
+        radius: 10,
       },
     },
     dataLabels: {
@@ -25,7 +24,7 @@ export const Chart = () => {
     legend: {
       show: false, // Hide legend
     },
-    colors: ['rgb(0, 114, 253)', 'rgb(247, 245, 255)'], // Set colors
+    colors: ["rgb(0, 114, 253)", "rgb(247, 245, 255)"], // Set colors
   };
   // To Get the label from api
   const categories = GetTranslationData("UIAdmin", "categories");
@@ -41,7 +40,9 @@ export const Chart = () => {
             <div className="card">
               <div className="card-body d-flex align-items-center justify-content-between">
                 <div className="menu">
-                  <span className="font-w500 fs-16 d-block mb-2">{categories}</span>
+                  <span className="font-w500 fs-16 d-block mb-2">
+                    {categories}
+                  </span>
                   <h2>45</h2>
                 </div>
                 <div className="d-inline-block position-relative donut-chart-sale">
@@ -65,7 +66,9 @@ export const Chart = () => {
             <div className="card">
               <div className="card-body d-flex align-items-center justify-content-between">
                 <div className="menu">
-                  <span className="font-w500 fs-16 d-block mb-2">{products}</span>
+                  <span className="font-w500 fs-16 d-block mb-2">
+                    {products}
+                  </span>
                   <h2>85</h2>
                 </div>
                 <div className="d-inline-block position-relative donut-chart-sale">
@@ -116,9 +119,7 @@ export const Chart = () => {
             <div className="card">
               <div className="card-body d-flex align-items-center justify-content-between">
                 <div className="menu">
-                  <span className="font-w500 fs-16 d-block mb-2">
-                    {orders}
-                  </span>
+                  <span className="font-w500 fs-16 d-block mb-2">{orders}</span>
                   <h2>872</h2>
                 </div>
                 <div className="d-inline-block position-relative donut-chart-sale">
@@ -140,7 +141,6 @@ export const Chart = () => {
           </div>
         </div>
       </div>
-
     </>
-  )
-}
+  );
+};

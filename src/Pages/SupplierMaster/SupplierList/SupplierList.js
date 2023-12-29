@@ -24,8 +24,6 @@ const SupplierList = () => {
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const supplierName = GetTranslationData("UIAdmin", "supplierName");
   const supplierClientID = GetTranslationData("UIAdmin", "supplierClientID");
-  const userName = GetTranslationData("UIAdmin", "usernamee_label");
-  const password = GetTranslationData("UIAdmin", "password_label");
   const minThresholdAmount = GetTranslationData(
     "UIAdmin",
     "minThresholdAmount"
