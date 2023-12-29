@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
-import Loader from "../../../Componenets/Loader/Loader";
+import Loader from "../../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
-import NoRecord from "../../../Componenets/NoRecord/NoRecord";
+import NoRecord from "../../../Components/NoRecord/NoRecord";
 import SupplierMasterDetails from "../SupplierMasterDetails/SupplierMasterDetails";
-import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 const SupplierList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [vendorData, setVendorData] = useState({

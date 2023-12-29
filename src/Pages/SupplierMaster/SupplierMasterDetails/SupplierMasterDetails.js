@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Loader from "../../../Componenets/Loader/Loader";
+import Loader from "../../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierList, onUpdateSupplierList, onVendorSubmit } from "../../../Store/Slices/supplierMasterSlice";
-import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { ToastContainer, toast } from "react-toastify";
 import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
-import InputField from "../../../Componenets/InputField/InputField";
+import InputField from "../../../Components/InputField/InputField";
 import './SupplierMasterDetails.scss'
-import Dropdown from "../../../Componenets/Dropdown/Dropdown";
+import Dropdown from "../../../Components/Dropdown/Dropdown";
 
 const SupplierMasterDetails = ({ data }) => {
   const dispatch = useDispatch();

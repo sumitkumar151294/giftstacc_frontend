@@ -1,5 +1,5 @@
 import React from 'react'
-import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 
 const customerdetails = [
     {

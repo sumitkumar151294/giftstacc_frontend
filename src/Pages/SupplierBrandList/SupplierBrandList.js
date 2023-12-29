@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./SupplierBrandList.scss";
-import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
-import NoRecord from "../../Componenets/NoRecord/NoRecord";
+import NoRecord from "../../Components/NoRecord/NoRecord";
 import { Pagination } from "@mui/material";
-import Dropdown from "../../Componenets/Dropdown/Dropdown";
+import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
-import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 
 const SupplierBrandList = () => {
   const dispatch = useDispatch();

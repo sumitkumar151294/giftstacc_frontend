@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../ClientMasterForm/ClientMasterForm.scss";
-import InputField from "../../../Componenets/InputField/InputField";
-import Dropdown from "../../../Componenets/Dropdown/Dropdown";
-import Loader from "../../../Componenets/Loader/Loader";
+import InputField from "../../../Components/InputField/InputField";
+import Dropdown from "../../../Components/Dropdown/Dropdown";
+import Loader from "../../../Components/Loader/Loader";
 import {
   onUpdateClientMasterSubmit,
   onPostClientMasterSubmit,
@@ -10,7 +10,7 @@ import {
 } from "../../../Store/Slices/clientMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { GetTranslationData } from "../../../Componenets/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 const ClientMaster = (props) => {
   
   const dispatch = useDispatch();

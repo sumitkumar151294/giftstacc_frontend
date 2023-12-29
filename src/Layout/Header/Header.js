@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import user from "../../Assets/img/user-profile.png";
 import "./Header.scss"
+import image from "../../Assets/img/logo.png";
 const Header = ({ setSideBar, sidebar }) => {
   const [hamburgerClass, setHamburgerClass] = useState(false)
   const handleShowSideBar = () => {
@@ -35,7 +36,7 @@ const Header = ({ setSideBar, sidebar }) => {
         <a className="brand-logo">
           <img
             className="w-100"
-            src="https://beta.shop-loyalty.com/images/logo.png"
+            src={image}
           />
         </a>
         <div className="nav-control">

@@ -3,7 +3,7 @@ import category from '../../Assets/img/category.png'
 import product from '../../Assets/img/product1.png'
 import customer from '../../Assets/img/customer1.png'
 import ReactApexChart from 'react-apexcharts';
-import { GetTranslationData } from '../../Componenets/GetTranslationData/GetTranslationData ';
+import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
 export const Chart = () => {
 
   const donutChartData = [5, 3];
