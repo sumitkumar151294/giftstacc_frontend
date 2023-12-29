@@ -174,7 +174,6 @@ const Users = () => {
                         <a
                           className="nav-link active"
                           data-bs-toggle="tab"
-                          href=""
                           role="tab"
                         >
                           {months}
@@ -184,7 +183,6 @@ const Users = () => {
                         <a
                           className="nav-link "
                           data-bs-toggle="tab"
-                          href=""
                           role="tab"
                         >
                           {daily}
@@ -194,7 +192,6 @@ const Users = () => {
                         <a
                           className="nav-link"
                           data-bs-toggle="tab"
-                          href=""
                           role="tab"
                         >
                           {today}
