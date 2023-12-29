@@ -134,7 +134,6 @@ const SupplierMasterDetails = ({ data }) => {
       if (!data.name) {
         try {
           setShowToast(true);
-          // setIsFormLoading(true);
           dispatch(onVendorSubmit(vendorData));
         } catch (error) {
           // Handle any errors during dispatch
@@ -142,7 +141,6 @@ const SupplierMasterDetails = ({ data }) => {
       } else if (data.name) {
         try {
           setShowUpdate(true);
-          // setIsFormLoading(true);
           await dispatch(onUpdateSupplierList(vendorData));
 
           // Define a function to show a toast notification based on loginDetails
@@ -156,18 +154,15 @@ const SupplierMasterDetails = ({ data }) => {
   useEffect(() => {
     if (showToast) {
       if (supplyPostData.message === "Added Successfully.") {
-        // setIsFormLoading(false);
         dispatch(onGetSupplierList());
         toast.success(supplyPostData.message);
       }
       else {
-        // setIsFormLoading(false);
         toast.error(supplyPostData.message);
       }
     }
     if (showUpdate) {
       if (supplyPostData.message === "Update Successfully.") {
-        // setIsFormLoading(false);
         dispatch(onClientMasterSubmit());
         toast.success(supplyPostData.message);
       }

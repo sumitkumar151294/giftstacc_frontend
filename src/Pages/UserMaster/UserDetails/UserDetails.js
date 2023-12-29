@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { onGetUser, onUserSubmit, onUserUpdate } from "../../../Store/Slices/userMasterSlice";
+import {
+  onGetUser,
+  onUserSubmit,
+  onUserUpdate,
+} from "../../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../../Componenets/InputField/InputField";
 import "../../UserMaster/UserMaster.scss";
@@ -34,7 +38,9 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
 
   //To get the data from redux store
   const onSubmitData = useSelector((state) => state.userMasterReducer.postdata);
-  const onUpdateData = useSelector((state)=>state.userMasterReducer.updatedUserData)
+  const onUpdateData = useSelector(
+    (state) => state.userMasterReducer.updatedUserData
+  );
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer);
   const clientList = useSelector((state) => state.clientMasterReducer.data);
@@ -54,9 +60,10 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
   const lastName = GetTranslationData("UIAdmin", "last-name");
   const update = GetTranslationData("UIAdmin", "update_label");
   const fieldRequired = GetTranslationData("UIAdmin", "required-field");
+  const select_role = GetTranslationData("UIAdmin", "select_role");
+  const select_Client = GetTranslationData("UIAdmin", "select_Client");
 
   // user-role get api call
-
   useEffect(() => {
     dispatch(onGetUserRole());
     dispatch(onClientMasterSubmit());
@@ -77,18 +84,20 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
 
   // to get role module access list
   const handleChange = (e, fieldName) => {
-    const { name, value, type, checked } = e.target;
+    const { value, checked } = e.target;
     let newUserdetailData;
-    if (fieldName === 'check' && checked === true) {
-      let accessClientIds = [...userData.accessClientIds]
-      accessClientIds?.push(value)
+    if (fieldName === "check" && checked === true) {
+      let accessClientIds = [...userData.accessClientIds];
+      accessClientIds?.push(value);
       newUserdetailData = {
         ...userData,
         accessClientIds,
       };
-    } else if (fieldName === 'check' && checked === false) {
-      let accessClientIds = [...userData.accessClientIds]
-      accessClientIds = accessClientIds.filter(accessClientIds => accessClientIds !== value);
+    } else if (fieldName === "check" && checked === false) {
+      let accessClientIds = [...userData.accessClientIds];
+      accessClientIds = accessClientIds.filter(
+        (accessClientIds) => accessClientIds !== value
+      );
       newUserdetailData = {
         ...userData,
         accessClientIds,
@@ -141,7 +150,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
     setErrors(newErrors);
     // Check if a role has been selected
     if (userData.role === "") {
-      newErrors.role = "Please select a role";
+      newErrors.role = { select_role };
       isValid = false;
     } else {
       newErrors.role = ""; // Clear the role error if a role is selected
@@ -149,7 +158,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
     setErrors(newErrors);
     // Check if a client has been selected
     if (userData.accessClientIds?.length === 0) {
-      newErrors.accessClientIds = "Please select a client";
+      newErrors.accessClientIds = { select_Client };
       isValid = false;
     } else {
       newErrors.accessClientIds = ""; // Clear the client error if a client is selected
@@ -202,7 +211,6 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
       }, 2000);
       setPrefilledValues();
     } catch (error) {
-      console.error("Error submitting data:", error);
     }
   };
 
@@ -221,7 +229,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
         });
       } else if (onUpdateData?.message === "Update Successfully.") {
         toast.success(onSubmitData?.message);
-      }else {
+      } else {
         toast.error(onSubmitData.message);
       }
     }
@@ -252,8 +260,9 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.email ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.email ? "border-danger" : "form-control"
+                            }`}
                             onChange={(e) => handleChange(e, "email")}
                             placeholder=""
                             error={errors.email}
@@ -268,8 +277,9 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="number"
-                            className={` ${errors.mobile ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.mobile ? "border-danger" : "form-control"
+                            }`}
                             onChange={(e) => handleChange(e, "mobile")}
                             placeholder=""
                             error={errors.mobile}
@@ -284,8 +294,9 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.userName ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.userName ? "border-danger" : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -301,10 +312,11 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.firstName
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.firstName
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -320,8 +332,9 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.lastName ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.lastName ? "border-danger" : "form-control"
+                            }`}
                             name="lname"
                             id="name-f"
                             placeholder=""
@@ -333,7 +346,6 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{client}</label>
                           <div className="row ml-4">
-
                             {Array.isArray(clientList) &&
                               clientList?.map((item) => (
                                 <div
@@ -346,7 +358,9 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                                     name={item.name}
                                     value={item.id}
                                     id={`flexCheckDefault-${item.id}`}
-                                    checked={userData?.accessClientIds?.includes(`${item.id}`)}
+                                    checked={userData?.accessClientIds?.includes(
+                                      `${item.id}`
+                                    )}
                                     onChange={(e) => handleChange(e, "check")}
                                   />
                                   <label
@@ -375,26 +389,26 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                                 key={item?.id}
                                 className="form-check mt-2 col-lg-3"
                               >
-                              {userData?.role === item.id ? 
-                                <input
-                                  id={item.id}
-                                  type="radio"
-                                  className="form-check-input"
-                                  name="role"
-                                  value={item.id}
-                                  checked={'checked'}
-                                  onChange={(e) => handleChange(e, "role")}
-                                />:
-                                 <input
-                                  id={item.id}
-                                  type="radio"
-                                  className="form-check-input"
-                                  name="role"
-                                  value={item.id}
-                                 
-                                  onChange={(e) => handleChange(e, "role")}
-                                />
-                              }
+                                {userData?.role === item.id ? (
+                                  <input
+                                    id={item.id}
+                                    type="radio"
+                                    className="form-check-input"
+                                    name="role"
+                                    value={item.id}
+                                    checked={"checked"}
+                                    onChange={(e) => handleChange(e, "role")}
+                                  />
+                                ) : (
+                                  <input
+                                    id={item.id}
+                                    type="radio"
+                                    className="form-check-input"
+                                    name="role"
+                                    value={item.id}
+                                    onChange={(e) => handleChange(e, "role")}
+                                  />
+                                )}
                                 <label
                                   className="form-check-label"
                                   htmlFor={item.id}

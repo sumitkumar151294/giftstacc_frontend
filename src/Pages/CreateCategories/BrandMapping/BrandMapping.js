@@ -85,6 +85,8 @@ const BrandMapping = ({
     "required_label"
   );
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
+  const field_Required = GetTranslationData("UIAdmin", "field_Required");
+  const error_Occurred = GetTranslationData("UIAdmin", "error_Occurred");
 
   const handleChange = (e, fieldName) => {
     setCreateCategory({
@@ -107,7 +109,7 @@ const BrandMapping = ({
 
     for (const key in createCategory) {
       if (createCategory[key] === "") {
-        newErrors[key] = "This field is required";
+        newErrors[key] = {field_Required};
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -122,7 +124,7 @@ const BrandMapping = ({
         toast.success(getMessage);
         setCreateCategory(resetCategoryFields);
       } catch (error) {
-        toast.error("An error occurred");
+        toast.error({error_Occurred});
       } finally {
         setIsFormLoading(false);
       }
