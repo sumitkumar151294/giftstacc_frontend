@@ -9,6 +9,8 @@ import UserList from "../Pages/UserMaster/UserList/UserList";
 import CategoryList from "../Pages/CreateCategories/CategoryList/CategoryList";
 import ClientMasterList from "../Pages/ClientMaster/ClientMasterList/ClientMasterList";
 import ClientBrandList from "../Pages/ClientMaster/ClientBrandList/ClientBrandList";
+import SupplierList from "../Pages/SupplierMaster/SupplierList/SupplierList";
+import SupplierBrandList from "../Pages/SupplierBrandList/SupplierBrandList";
 
 // Define the configuration for routes
 function RouteConfiq() {
@@ -19,8 +21,8 @@ function RouteConfiq() {
         <Route path="/lc-admin/login" element={<LoginPage />} />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route path="/lc-admin/dashboard" element={<Layout Component={Dashboard} />} />
-        <Route path="/lc-admin/supplier-master" element={<Layout Component={Progress} />} />
-        <Route path="/lc-admin/supplier-product-list" element={<Layout Component={Progress} />} />
+        <Route path="/lc-admin/supplier-master" element={<Layout Component={SupplierList} />} />
+        <Route path="/lc-admin/supplier-product-list" element={<Layout Component={SupplierBrandList} />} />
         <Route path="/lc-admin/create-categories" element={<Layout Component={CategoryList} />} />
         <Route path="/lc-admin/role-master" element={<Layout Component={RoleMasterList} />} />
         <Route path="/lc-admin/client-master" element={<Layout Component={ClientMasterList} />} />
