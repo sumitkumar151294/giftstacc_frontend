@@ -6,6 +6,7 @@ import "./Layout.scss";
 import { onLogout } from "../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Sidebar2 from "./Sidebar/Sidebar2";
 const Layout = (props) => {
   const { Component } = props;
   const [showSideBar, setShowSideBar] = useState(false);
@@ -27,7 +28,7 @@ const Layout = (props) => {
         className={showSideBar ? "show menu-toggle" : "show"}
       >
         <Header setSideBar={setShowSideBar} sidebar={showSideBar} />
-        <Sidebar />
+        <Sidebar2 />
         <div className="content-body">
           <Component />
         </div>
