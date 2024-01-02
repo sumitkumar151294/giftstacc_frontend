@@ -4,11 +4,13 @@ import translationSaga from './translationSaga';
 import loginAuthSaga from './loginAuthSaga';
 import moduleSaga from './moduleSaga';
 import userRoleSaga from './userRoleSaga';
-import userMasterSaga from './userMasterSaga';
-import createCategorySaga from './createCategorySaga';
 import supplierMasterSaga from './supplierMasterSaga';
-import supplierBrandListSaga from './supplierBrandListSaga';
+import userMasterSaga from './userMasterSaga';
 import clientMasterSaga from './clientmasterSaga';
+import userRoleModuleAccessSaga from './userRoleModulesAccessSaga';
+import createCategorySaga from './createCategorySaga';
+import supplierBrandListSaga from './supplierBrandListSaga';
+import BrandCatalogueSaga from './brandCatalogueSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -17,10 +19,12 @@ export default function* rootSaga() {
     loginAuthSaga(),
     moduleSaga(),
     userRoleSaga(),
-    createCategorySaga(),
     userMasterSaga(),
     supplierMasterSaga(),
     supplierBrandListSaga(),
-    clientMasterSaga()
+    clientMasterSaga(),
+    userRoleModuleAccessSaga(),
+    createCategorySaga(),
+    BrandCatalogueSaga()
   ]);
 }
