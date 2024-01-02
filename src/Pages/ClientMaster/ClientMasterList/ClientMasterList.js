@@ -12,6 +12,7 @@ import {
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
@@ -111,6 +112,7 @@ const ClientMasterList = () => {
 
   return (
     <>
+      <ScrollToTop />
       <ClientMasterForm clientList={clientList} data={data} />
       <div className="container-fluid pt-0">
         <div className="row">
@@ -225,7 +227,7 @@ const ClientMasterList = () => {
                                     </td>
                                     <td>
                                       <Link
-                                        to="/lc-admin/clientbrandlist"
+                                        to="/lc-admin/client-brand-list"
                                         className="btn btn-primary btn-sm float-right"
                                       >
                                         <i className="fa fa-eye"></i>&nbsp;
