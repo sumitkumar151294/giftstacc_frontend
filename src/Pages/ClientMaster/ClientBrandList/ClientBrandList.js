@@ -89,16 +89,14 @@ const ClientBrandList = () => {
                         placeholder="Search here......"
                       />
                       <span class="input-group-text">
-                        <a href="javascript:void(0)">
+                        <a>
                           <i class="flaticon-381-search-2"></i>
                         </a>
                       </span>
                     </div>
                   </div>
                   <div class="d-flex align-items-center flex-wrap">
-                    <a
-                      href="javascript:void(0);"
-                      class="btn btn-primary btn-rounded me-3 mb-2"
+                    <a class="btn btn-primary btn-rounded me-3 mb-2"
                     >
                       <i class="fa fa-file-excel me-2"></i>
                       {exportLabel}
