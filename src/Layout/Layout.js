@@ -28,7 +28,7 @@ const Layout = (props) => {
         className={showSideBar ? "show menu-toggle" : "show"}
       >
         <Header setSideBar={setShowSideBar} sidebar={showSideBar} />
-        <Sidebar2 />
+        <Sidebar />
         <div className="content-body">
           <Component />
         </div>

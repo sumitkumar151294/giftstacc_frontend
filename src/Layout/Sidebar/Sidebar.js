@@ -7,7 +7,7 @@ import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import "./Sidebar.scss";
-const Sidebar = () => {
+const Sidebar2 = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
@@ -91,4 +91,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Sidebar2;
