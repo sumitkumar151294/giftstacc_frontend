@@ -9,12 +9,12 @@ import {
   onUpdateSupplierListSuccess,
   onUpdateSupplierListError,
   onUpdateSupplierList,
-} from "../../Store/Slices/supplierMasterSlice";
+} from "../Store/Slices/supplierMasterSlice";
 import {
   callSupplierMasterPostApi,
   callSupplierMasterGetApi,
   updateSupplierMasterApi,
-} from "../../Context/supplierMasterApi";
+} from "../Context/supplierMasterApi";
 
 function* supplierMaster({ payload }) {
   try {

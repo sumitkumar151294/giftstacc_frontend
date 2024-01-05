@@ -4,7 +4,7 @@ import translationSaga from './translationSaga';
 import loginAuthSaga from './loginAuthSaga';
 import moduleSaga from './moduleSaga';
 import userRoleSaga from './userRoleSaga';
-import supplierMasterSaga from './sagas/supplierMasterSaga';
+import supplierMasterSaga from './supplierMasterSaga';
 import userMasterSaga from './userMasterSaga';
 import clientMasterSaga from './clientmasterSaga';
 import userRoleModuleAccessSaga from './userRoleModulesAccessSaga';
