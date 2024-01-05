@@ -6,9 +6,9 @@
     font-weight: 400;
     line-height: 1.5;
     color: #969ba0;
-    background-color: #fff;
+    background-color: var(--primary-white);
     background-clip: padding-box;
-    border: 1px solid #f5f5f5;
+    border: 1px solid var( --primary-white-2);
     appearance: none;
     border-radius: 0.75rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -32,7 +32,7 @@
 
 .form-control:focus {
     color: #969ba0;
-    background-color: #fff;
+    background-color: var(--primary-white);
     border-color: #feb49f;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(253, 104, 62, 0.25);
@@ -180,7 +180,7 @@
 }
 
 .form-control {
-    background: #fff;
+    background: var(--primary-white);
     border: 3px solid #616161;
     padding: 0.3125rem 1.25rem;
     color: #6e6e6e;
@@ -189,7 +189,7 @@
 }
 
 .form-control {
-    background: #fff;
+    background: var(--primary-white);
     border: 3px solid #616161;
     padding: 0.3125rem 1.25rem;
     color: #6e6e6e;
@@ -208,7 +208,7 @@
 .form-control:focus,
 .form-control.active {
     box-shadow: none;
-    background: #fff;
+    background: var(--primary-white);
     color: #6e6e6e;
 }
 
