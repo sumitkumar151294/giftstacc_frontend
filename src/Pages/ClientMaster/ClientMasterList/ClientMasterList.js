@@ -112,8 +112,8 @@ const ClientMasterList = () => {
 
   return (
     <>
-      <ScrollToTop />
       <ClientMasterForm clientList={clientList} data={data} />
+      <ScrollToTop />
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
