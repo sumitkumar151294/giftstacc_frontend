@@ -28,7 +28,7 @@
     justify-content: flex-start;
     align-items: center;
     font-size: 1.125rem;
-    color: #fff;
+    color: var(--primary-white);
     text-decoration: none;
     font-weight: 700;
   }}
@@ -55,7 +55,7 @@
   width: 1.625rem;
   z-index: 999;
   .line {
-    background: #000;
+    background: var(--primary-black);
     display: block;
     height: 0.1875rem;
     border-radius: 0.1875rem;
@@ -112,7 +112,7 @@
   background: var(--headerbg);
   z-index: 3;
   transition: all 0.2s ease;
-  border-bottom: 0.0625rem solid #EEEEEE;
+  border-bottom: 0.0625rem solid var(--primary-skin);
   .header-content {
     padding-right: 1.875rem;
     align-items: center;
@@ -160,7 +160,7 @@
   }
   .nav-link {
       position: relative;
-      background: #fff;
+      background: var(--primary-white);
       border-radius: 3rem;
       padding: 0.1875rem;
   }}
@@ -171,7 +171,7 @@
     display: flex;
     align-items: center;
     .nav-link {
-      color: #464a53;
+      color: var(--navlink);
       font-size: 1.125rem;
       &.header-profile {
         .nav-link {
@@ -213,7 +213,7 @@ ul {
   z-index: -1;
   margin: -0.1875rem;
   border-radius: inherit;
-  background: linear-gradient(to right, #0074fc, rgb(0 116 252));
+  background: linear-gradient(to right, var( --primary-blue), var( --primary-blue));
 }
 img, svg {
   vertical-align: middle;
@@ -227,12 +227,14 @@ img, svg {
   width: 0.0625rem;
   position: absolute;
   left: 0;
-  background: #E9E9E9;
+  background: var(--header-bg);
 }
 [data-sidebar-position="fixed"][data-layout="vertical"] .nav-header {
 position: fixed;
 border-top-left-radius: 0;
 border-top-right-radius: 0;
+background-color: var(--primary-white);
+
 }
 [data-sidebar-style="overlay"][data-layout="vertical"] .nav-header {
 border-radius: 0;
@@ -277,7 +279,7 @@ height: 100%;
 width: 100%;
 align-items: center;
 font-size: 1.125rem;
-color: #fff;
+color: var(--primary-white);
 text-decoration: none;
 
 font-weight: 700;
@@ -287,7 +289,7 @@ font-weight: 700;
   right: -3rem;
 }}
 .hamburger .line {
-background: #000;
+background: var(--primary-black);
 display: block;
 height: 0.1875rem;
 border-radius: 0.1875rem;
@@ -339,7 +341,7 @@ body {
 }}
 .navbar-expand .header-profile .nav-link {
 position: relative;
-background: #fff;
+background: var(--primary-white);
 border-radius: 3rem;
 padding: 0.1875rem;
 }
