@@ -200,11 +200,9 @@ margin-top: 0;
 .deznav {
   top: 5rem;
 }}
-// @media only screen and (max-width: 1600px){
 .deznav {
   width: 17rem;
 }
-// }
 @media only screen and (max-width: 1199px){
 .deznav {
   height: calc(100% - 70px);
@@ -272,17 +270,13 @@ border-radius: 6px;
 right: 2px;
 position: absolute;
 }
-// @media only screen and (max-width: 1600px){
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li {
   padding: 0 0.9375rem;
 }
-// }
-// @media only screen and (max-width: 1600px){
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li > a {
   font-size: 1rem;
   padding: 0.4375rem 0.625rem;
 }
-// }
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li > a {
 border-radius: 2rem;
 padding: 0.5rem 2.1875rem;
