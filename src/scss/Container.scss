@@ -61,7 +61,15 @@ body {
     height: 100%;
     position: relative;
     max-width: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
     font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #969ba0;
+    background-color: #FBFBFB;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
   @media only screen and (max-width: 991px) {
     body {
@@ -73,3 +81,14 @@ body {
       font-size: 0.875rem;
     }
   }
+
+.content-body .container-fluid,
+.content-body .container-sm,
+.content-body .container-md,
+.content-body .container-lg,
+.content-body .container-xl,
+.content-body .container-xxl {
+  padding-top: 1.3rem;
+  padding-right: 2.5rem;
+  padding-left: 2.5rem;
+}

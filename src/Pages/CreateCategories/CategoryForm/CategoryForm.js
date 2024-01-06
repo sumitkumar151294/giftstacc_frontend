@@ -148,18 +148,18 @@ const CategoryForm = ({ setIsLoading }) => {
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="card-header">
-                <h4 className="card-title txt-admin txtt ">
+                <h4 className="card-title">
                   {createUpdateBrandMapping}
                 </h4>
               </div>
 
-              <div className="card-body position-relative">
+              <div className="card-body">
                 {isFormLoading ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="container mt-3">
+                  <div className="container-fluid">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-3 form-group mb-2">
