@@ -12,6 +12,7 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
+import Button from "../../../Components/Button/Button";
 
 const CategoryForm = ({ setIsLoading }) => {
   const dispatch = useDispatch();
@@ -223,13 +224,7 @@ const CategoryForm = ({ setIsLoading }) => {
                         {requiredLabelTranslation}
                       </span>
                       <div className="col-sm-4 mt-2 mb-4">
-                        <button
-                          type="submit"
-                          className="btn btn-primary float-right pad-aa"
-                        >
-                          {submitTranslation}{" "}
-                          <i className="fa fa-arrow-right"></i>
-                        </button>
+                       <Button text={submitTranslation} icon="fa fa-arrow-right" />
                       </div>
                     </form>
                   </div>
