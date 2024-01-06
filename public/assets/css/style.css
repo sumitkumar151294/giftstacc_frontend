@@ -22,6 +22,8 @@
   --primary-white:#fff;
   --primary-white-2:#fbfbfb;
   --primary-black:#000;
+  --primary-skin:#EEEEEE;
+  --primary-blue:#0074fc;
   --primary-dark: #a02502;
   --primary-black-2: #212130;
   --primary-dark-blue: #0049e0;
@@ -42,6 +44,14 @@
   --rgba-primary-15:rgba(154, 161, 171, 0.15);
   --font-family: 'Inter', sans-serif;
   --title: #000;
+  --header-bg:#E9E9E9;
+  --navlink:#464a53;
+  --deznav-menu:#9fa4a6;
+  --anchor:#969ba0;
+  --deznav-li:#7f7184;
+  --psthumb-x:#aaa;
+  --psthumb-y:#DAE2F3;
+  --primary-dark-blue: #0049e0;
   /* width */
   --vh100:100vh;
   --w100:100%;

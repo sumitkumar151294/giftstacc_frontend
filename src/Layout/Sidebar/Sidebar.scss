@@ -303,3 +303,24 @@ border-radius: 2rem;
 padding: 0.1rem;
 transition: all 0.5s;
 }
+@media only screen and (min-width: 48rem){
+[data-sidebar-style="mini"][data-layout="vertical"] .deznav {
+    position: absolute !important;
+}}
+@media only screen and (min-width: 48rem) and (max-width: 63.9375rem){
+[data-sidebar-style="mini"] .deznav {
+    top: 5.5rem;
+}}
+@media only screen and (min-width: 48rem){
+[data-sidebar-style="mini"] .deznav {
+    width: 6.25rem;
+    overflow: visible;
+    position: absolute;
+    z-index: 2;
+    top: 6.5rem;
+}}
+.deznav .metismenu {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.9375rem;
+}
