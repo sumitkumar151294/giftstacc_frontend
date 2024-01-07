@@ -11,6 +11,7 @@ import InputField from "../../../Components/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
+import Button from '../../../Components/Button/Button';
 
 // Component for RoleMasterForm
 const RoleMasterForm = ({ data, setIsLoading, setData }) => {
@@ -197,13 +198,13 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
               <div className="card-header">
                 <h4 className="card-title">{roleMasterLabel}</h4>
               </div>
-              <div className="card-body position-relative">
+              <div className="card-body">
                 {!isformLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="container mt-3">
+                  <div className="container-fluid">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-4 form-group mb-2">
@@ -221,7 +222,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                           />
                         </div>
                         <div className="col-lg-4">
-                          <div className="form-check mt-4 pad-left">
+                          <div className="form-check mt-4 padd">
                             <InputField
                               className="form-check-input"
                               type="checkbox"
@@ -243,7 +244,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
 
                       <div className="row top-top">
                         <div className="col-lg-4">
-                          <div className="form-check mb-2 pad-left">
+                          <div className="form-check  mb-2 padd">
                             <InputField
                               className="form-check-input"
                               type="checkbox"
@@ -357,9 +358,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                             </span>
                           )}
                           <div className="col-sm-4 mt-4 mb-4">
-                            <button className="btn btn-primary float-right pad-aa">
-                              {data ? update : submit}
-                            </button>
+                          <Button text={data ? update : submit} icon="fa fa-arrow-right" />
                             <ToastContainer />
                           </div>
                         </div>
