@@ -16,3 +16,6 @@
     padding-left: calc(var(--bs-gutter-x)/2);
     padding-right: calc(var(--bs-gutter-x)/2);
   }
+  .flex-wrap {
+    flex-wrap: wrap !important;
+  }
