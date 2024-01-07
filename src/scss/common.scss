@@ -157,6 +157,17 @@ label {
     padding: 0.438rem 1rem;
     font-weight: 600;
   }
+  .btn-sm,
+.btn-group-sm>.btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.765625rem;
+  border-radius: 0.2rem;
+}
+.btn-sm,
+.btn-group-sm>.btn {
+  font-size: 0.813rem !important;
+  padding: 0.625rem 1rem;
+}
 
   //for the pagination
 
@@ -168,4 +179,9 @@ label {
 
   .btn-rounded {
     border-radius: 2.5rem !important;
+  }
+  @media only screen and (max-width: 1400px) {
+    .customer-search .input-group-text i {
+      font-size: 1.2rem;
+    }
   }
