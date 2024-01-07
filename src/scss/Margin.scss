@@ -16,13 +16,12 @@
     margin-bottom: 1.5rem;
   }
 
+  .mt-2 {
+    margin-top: 0.5rem !important;
+  }
   @media (min-width: 576px) {
-    .col-sm-3 {
-      flex: 0 0 auto;
-      width: 25%;
-    }
-    .col-sm-12 {
-      flex: 0 0 auto;
-      width: 100%;
+    .mb-sm-0 {
+      margin-bottom: 0 !important;
     }
   }
+
