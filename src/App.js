@@ -1,5 +1,15 @@
 import Auth from "./Pages/Auth/Auth";
-import './App.css';
+import './scss/Rows.scss';
+import './scss/Margin.scss';  
+import './scss/Form.scss';
+import './scss/Container.scss';
+import './scss/Column.scss';
+import './scss/Card.scss';
+import './scss/Common.scss';
+import './scss/Table.scss';
+import './scss/Padding.scss';
+
+
 function App() {
   return (
     <>

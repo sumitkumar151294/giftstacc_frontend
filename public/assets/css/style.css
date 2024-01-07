@@ -26,7 +26,8 @@
   --primary-blue:#0074fc;
   --primary-dark: #a02502;
   --primary-black-2: #212130;
-  --rgba-primary-1: aliceblue;
+  --primary-dark-blue: #0049e0;
+  --rgba-primary-1: rgba(253, 104, 62, 0.1);
   --rgba-primary-2: rgba(253, 104, 62, 0.2);
   --rgba-primary-3: rgba(253, 104, 62, 0.3);
   --rgba-primary-4: rgba(253, 104, 62, 0.4);

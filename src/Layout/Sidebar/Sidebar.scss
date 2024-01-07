@@ -292,7 +292,7 @@ transition: all 0.5s;
 .deznav .metismenu > li.mm-active > a, .deznav .metismenu > li:hover > a {
 color: var(--primary) !important;
 box-shadow: none;
-background: var(--rgba-primary-1);
+background: var(--rgba-primary-1)  !important;
 padding: 10px 20px!important;
 }
 [data-sidebar-style=full][data-layout=vertical] .deznav .metismenu > li {

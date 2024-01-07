@@ -12,6 +12,7 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
+import Button from "../../../Components/Button/Button";
 
 const CategoryForm = ({ setIsLoading }) => {
   const dispatch = useDispatch();
@@ -148,18 +149,18 @@ const CategoryForm = ({ setIsLoading }) => {
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="card-header">
-                <h4 className="card-title txt-admin txtt ">
+                <h4 className="card-title">
                   {createUpdateBrandMapping}
                 </h4>
               </div>
 
-              <div className="card-body position-relative">
+              <div className="card-body">
                 {isFormLoading ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="container mt-3">
+                  <div className="container-fluid">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-3 form-group mb-2">
@@ -223,13 +224,7 @@ const CategoryForm = ({ setIsLoading }) => {
                         {requiredLabelTranslation}
                       </span>
                       <div className="col-sm-4 mt-2 mb-4">
-                        <button
-                          type="submit"
-                          className="btn btn-primary float-right pad-aa"
-                        >
-                          {submitTranslation}{" "}
-                          <i className="fa fa-arrow-right"></i>
-                        </button>
+                       <Button text={submitTranslation} icon="fa fa-arrow-right" />
                       </div>
                     </form>
                   </div>
