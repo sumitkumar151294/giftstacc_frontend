@@ -107,7 +107,7 @@ const CategoryList = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="card">
-              <div className="container mt-2 mb-2">
+              <div className="container-fluid">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="card-header">
                     <h4 className="card-title  txt-admin txtt">
