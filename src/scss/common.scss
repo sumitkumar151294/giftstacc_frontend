@@ -108,6 +108,11 @@ label {
   width: 1%;
   min-width: 0;
 }
+.input-group> :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
   
 // for the delete buttion 
 .btn-danger {
@@ -159,4 +164,8 @@ label {
     display: flex;
     justify-content: center;
     margin-top: 20px; /* Adjust the margin as needed */
+  }
+
+  .btn-rounded {
+    border-radius: 2.5rem !important;
   }
