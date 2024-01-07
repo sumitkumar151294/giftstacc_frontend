@@ -71,6 +71,17 @@ body {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #969ba0;
+    background-color: #FBFBFB;
+    -webkit-text-size-adjust: 100%;
+    // -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
   @media only screen and (max-width: 991px) {
     body {
       font-size: 0.875rem;
