@@ -97,13 +97,13 @@ label {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #000000;
-  background-color: #fff;
+  color: var(--primary-black);
+  background-color:var(--primary-white);
   // background-image: url(data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e);
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 16px 12px;
-  border: 3px solid #616161;
+  border: 3px solid var(--primary-greyish);
   border-radius: 0.75rem;
   appearance: auto;
   font-size: 17px;
@@ -149,19 +149,19 @@ label {
   font-size: 1rem;
 }
 .btn-success {
-  color: #000;
-  background-color: #68e365;
-  border-color: #68e365;
+  color: var(--primary);
+  background-color: var( --bs-success);
+  border-color: var( --bs-success);
 }
 .btn-warning:hover {
-  color: #000;
-  background-color: #ffb23f;
-  border-color: #ffad34;
+  color: var(--primary-black);
+  background-color: var(--bs-orange);
+  border-color: var(--bs-primary-orange);
 }
 .btn-warning {
-  color: #000;
-  background-color: #ffb23f;
-  border-color: #ffad34;
+  color: var(--primary-black);
+  background-color: var(--bs-orange);
+  border-color: var(--bs-primary-orange);
 }
 input, button, select, optgroup, textarea {
   margin: 0;
@@ -192,11 +192,11 @@ label {
   box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
 }
 .table th, .table td {
-  border-color: #f5f5f5;
+  border-color: var( --bs-skin);
   padding: 0.9375rem 0.625rem !important;
 }
 .badge-success {
-  background-color: #68e365;
+  background-color: var( --bs-success);
 }
 .badge {
   line-height: 1.5;
@@ -235,7 +235,7 @@ input, button, select, optgroup, textarea {
 }
 .can-toggle label .can-toggle__switch {
   transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
-  background: #ff0438 !important;
+  background: var(--bs-redyish) !important;
 }
 
 .can-toggle label .can-toggle__switch {
@@ -283,7 +283,7 @@ input, button, select, optgroup, textarea {
 .can-toggle label .can-toggle__switch:after {
   -webkit-transition: -webkit-transform 0.3s cubic-bezier(0, 1, 0.5, 1);
   transition: transform 0.3s cubic-bezier(0, 1, 0.5, 1);
-  color: #ea0030;
+  color: var(--bs-primary-red);
 }
 .can-toggle label .can-toggle__switch:after {
   content: attr(data-unchecked);
@@ -291,7 +291,7 @@ input, button, select, optgroup, textarea {
   z-index: 5;
   text-transform: uppercase;
   text-align: center;
-  background: white;
+  background: var(--primary-white);
   transform: translate3d(0, 0, 0);
 }
 .can-toggle *, .can-toggle *:before, .can-toggle *:after {
@@ -304,5 +304,5 @@ input, button, select, optgroup, textarea {
 
 
 .can-toggle input[type="checkbox"]:checked ~ label .can-toggle__switch {
-    background-color: #70c767;
+    background-color: var( --bs-mid-green);
 }

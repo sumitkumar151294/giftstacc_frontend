@@ -20,6 +20,7 @@
   --primary-hover: #fc410c;
   --primary-red:red;
   --primary-white:#fff;
+  --primary-greyish:#616161;
   --primary-white-2:#fbfbfb;
   --primary-black:#000;
   --primary-skin:#EEEEEE;
@@ -249,14 +250,20 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   --bs-purple: #6f42c1;
   --bs-pink: #e83e8c;
   --bs-red: #EE3232;
+  --bs-redyish: #ff0438;
+  --bs-primary-red: #ea0030;
   --bs-orange: #ff9900;
   --bs-yellow: #FFFA6F;
   --bs-green: #297F00;
+  --bs-mid-green: #70c767;
   --bs-teal: #20c997;
   --bs-cyan: #3065D0;
   --bs-white: #fff;
   --bs-gray: #6c757d;
+  --bs-skin: #f5f5f5;
   --bs-gray-dark: #343a40;
+  --bs-orange: #ffb23f;
+  --bs-primary-orange: #ffad34;
   --bs-primary: #FD683E;
   --bs-secondary: #624FD1;
   --bs-success: #68e365;
