@@ -47,3 +47,16 @@
 .p-btn {
 padding: 10px 30px !important;
 }
+button:not(:disabled), [type="button"]:not(:disabled), [type="reset"]:not(:disabled), [type="submit"]:not(:disabled) {
+    cursor: pointer;
+}
+.btn-outline-primary:hover {
+    border-color: var(--primary-hover);
+    background-color: var(--primary-hover);
+}
+.btn:hover, .btn:focus, .btn:active, .btn.active {
+    outline: 0 !important;
+}
+.btn:hover {
+    color: #969ba0;
+}

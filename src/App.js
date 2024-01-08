@@ -5,7 +5,7 @@ import './scss/Form.scss';
 import './scss/Container.scss';
 import './scss/Column.scss';
 import './scss/Card.scss';
-import './scss/Common.scss';
+import './scss/common.scss';
 import './scss/Table.scss'; 
 import './scss/Padding.scss';
 

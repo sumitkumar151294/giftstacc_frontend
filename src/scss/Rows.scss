@@ -1,13 +1,12 @@
 .row {
-    --bs-gutter-x: 30px;
-    --bs-gutter-y: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: calc(var(--bs-gutter-y) * -1);
-    margin-right: calc(var(--bs-gutter-x) / -2);
-    margin-left: calc(var(--bs-gutter-x) / -2);
-  }
-  
+  --bs-gutter-x: 30px;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(var(--bs-gutter-y) * -1) !important;
+  margin-right: calc(var(--bs-gutter-x) / -2) !important;
+  margin-left: calc(var(--bs-gutter-x) / -2) !important;
+}
   .row>* {
     flex-shrink: 0;
     margin-top: var(--bs-gutter-y);
