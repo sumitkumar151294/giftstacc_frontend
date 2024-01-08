@@ -3,17 +3,16 @@ import {
   onGetUser,
   onUserSubmit,
   onUserUpdate,
-} from "../../../Store/Slices/userMasterSlice";
+} from "../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
-import InputField from "../../../Components/InputField/InputField";
-import "../../UserMaster/UserMaster.scss";
+import InputField from "../../Components/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
-import { onGetUserRole } from "../../../Store/Slices/userRoleSlice";
-import Loader from "../../../Components/Loader/Loader";
-import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
+import Loader from "../../Components/Loader/Loader";
+import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 
-const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
+const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const dispatch = useDispatch();
   const [onUpdate, setOnUpdate] = useState(false);
   const [userData, setUserData] = useState({
@@ -244,13 +243,13 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
               <div className="card-header">
                 <h4 className="card-title">{userMaster}</h4>
               </div>
-              <div className="card-body position-relative">
+              <div className="card-body">
                 {loading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classNameType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="container mt-3">
+                  <div className="container-fluid">
                     <form onSubmit={(e) => handleSubmit(e)}>
                       <div className="row">
                         <div className="col-sm-4 form-group mb-2">
@@ -383,7 +382,7 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{role}</label>
-                          <div className="row ml-4 mb-10">
+                          <div className="row ml-4">
                             {roleList?.userRoleData?.data?.map((item) => (
                               <div
                                 key={item?.id}
@@ -446,4 +445,4 @@ const UserDetails = ({ prefilledValues, setPrefilledValues }) => {
   );
 };
 
-export default UserDetails;
+export default UserMasterForm;
