@@ -11,6 +11,7 @@ import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
 import Loader from "../../Components/Loader/Loader";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import Button from "../../Components/Button/Button";
 
 const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const dispatch = useDispatch();
@@ -259,9 +260,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.email ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.email ? "border-danger" : "form-control"
+                              }`}
                             onChange={(e) => handleChange(e, "email")}
                             placeholder=""
                             error={errors.email}
@@ -276,9 +276,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="number"
-                            className={` ${
-                              errors.mobile ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.mobile ? "border-danger" : "form-control"
+                              }`}
                             onChange={(e) => handleChange(e, "mobile")}
                             placeholder=""
                             error={errors.mobile}
@@ -293,9 +292,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.userName ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.userName ? "border-danger" : "form-control"
+                              }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -311,11 +309,10 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.firstName
+                            className={` ${errors.firstName
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -331,9 +328,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.lastName ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.lastName ? "border-danger" : "form-control"
+                              }`}
                             name="lname"
                             id="name-f"
                             placeholder=""
@@ -425,10 +421,11 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                             {requiredLevel}
                           </span>
                           <div className="col-sm-4 mt-2 mb-4">
-                            <button className="btn btn-primary float-right pad-aa">
-                              {prefilledValues ? update : submit}{" "}
-                              <i className="fa fa-arrow-right"></i>
-                            </button>
+
+                            <Button
+                              text={prefilledValues ? update : submit}
+                              icon={"fa fa-arrow-right"}
+                            />
                             <ToastContainer />
                           </div>
                         </div>
