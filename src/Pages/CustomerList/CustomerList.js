@@ -1,6 +1,7 @@
 import React from "react";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import './CustomerList.scss'
 
 const Customerlist = () => {
     const customerData = [
@@ -68,7 +69,6 @@ const Customerlist = () => {
             <ScrollToTop />
             <div className="container-fluid">
                 <div className="row">
-
                     <div className="col-xl-12 col-xxl-12">
                         <div className="card">
                             <div className="container mt-2 mb-2">
