@@ -158,12 +158,12 @@ label {
   
 // for the delete buttion 
 .btn-danger {
-    color: #000;
+    color: var(--primary-black);
     background-color: #f72b50;
     border-color: #f72b50;
   }
   .btn-danger:hover {
-    color: #000;
+    color: var(--primary-black);
     background-color: #f84b6a;
     border-color: #f84062;
   }
@@ -189,7 +189,7 @@ label {
 .btn-danger:active,
 .btn-danger.active,
 .show>.btn-danger.dropdown-toggle {
-  color: #000;
+  color: var(--primary-black);
   background-color: #f95573;
   border-color: #f84062;
 }
