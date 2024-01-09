@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "../../UserMaster/UserMaster.scss";
-import { onGetUser } from "../../../Store/Slices/userMasterSlice";
-import UserDetails from "../UserDetails/UserDetails";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { onGetUser } from "../../Store/Slices/userMasterSlice";
+import UserMasterForm from "./UserMasterForm";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
-import NoRecord from "../../../Components/NoRecord/NoRecord";
-import Loader from "../../../Components/Loader/Loader";
+import NoRecord from "../../Components/NoRecord/NoRecord";
+import Loader from "../../Components/Loader/Loader";
+import './UserMaster.scss';
 
-const UserList = () => {
+const UserMasterList = () => {
   const [page, setPage] = useState(1); // Current page
   const [rowsPerPage] = useState(5);
 
@@ -62,7 +62,7 @@ const UserList = () => {
 
   return (
     <>
-      <UserDetails
+      <UserMasterForm
         prefilledValues={prefilledValues}
         setPrefilledValues={setPrefilledValues}
       />
@@ -155,4 +155,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default UserMasterList;

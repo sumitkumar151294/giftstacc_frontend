@@ -163,6 +163,10 @@
     flex: 0 0 auto;
     width: 16.6666666667%;
   }
+  .col-lg-3 {
+    flex: 0 0 auto;
+    width: 25%;
+}
 
 
   .col-lg-5 {
@@ -213,6 +217,14 @@
     flex: 0 0 auto;
     width: 33.3333333333% !important ;
   }
+  .col-sm-6 {
+    flex: 0 0 auto;
+    width: 50%;
+}
+  .col-sm-8 {
+    flex: 0 0 auto;
+    width: 66.6666666667%;
+  }
   .col-sm-12 {
     flex: 0 0 auto;
     width: 100%;
@@ -223,5 +235,12 @@
   .col-md-6 {
     flex: 0 0 auto;
     width: 50%;
+  }
+}
+
+.col-lg-4{
+  @media only screen and (min-width: 992px) {
+    flex: 0 0 auto;
+    width: 33.3333333333%;
   }
 }
