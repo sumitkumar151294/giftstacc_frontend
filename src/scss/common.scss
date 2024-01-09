@@ -286,3 +286,14 @@ label {
     }
   }
   
+  a {
+    color: var( --primary-blue) ;
+    text-decoration: none !important ;
+  }
+  a:hover {
+    color: var( --primary-blue) ;
+    text-decoration: none !important ;
+  }
+.me-1 {
+    margin-right: 0.25rem !important;
+}

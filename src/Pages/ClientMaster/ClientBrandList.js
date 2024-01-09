@@ -1,5 +1,6 @@
 import React from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 
 const customerdetails = [
   {
@@ -72,6 +73,7 @@ const ClientBrandList = () => {
 
   return (
     <>
+    <ScrollToTop/>
       <div class="container-fluid">
         <div class="row">
           <div class="col-xl-12 col-xxl-12">
