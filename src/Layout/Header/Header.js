@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import user from "../../Assets/img/user-profile.png";
-
+import "./Header.scss"
+import image from "../../Assets/img/logo.png";
 const Header = ({ setSideBar, sidebar }) => {
   const [hamburgerClass, setHamburgerClass] = useState(false)
   const handleShowSideBar = () => {
@@ -10,8 +11,8 @@ const Header = ({ setSideBar, sidebar }) => {
 
   // For transition of sidebar - Start
   const sidebarView = window.innerWidth;
-  const sideMobileview = sidebarView <= 425;
-  const sideTabView = sidebarView > 425 && sidebarView <= 1200;
+  const sideMobileview = sidebarView <= 767;
+  const sideTabView = sidebarView > 767 && sidebarView <1024;
   const body = document.querySelector('body');
   if (body) {
     body.setAttribute('data-sidebar-style', sideMobileview ? 'overlay' : sideTabView ? 'mini' : 'full');
@@ -35,7 +36,7 @@ const Header = ({ setSideBar, sidebar }) => {
         <a className="brand-logo">
           <img
             className="w-100"
-            src="https://beta.shop-loyalty.com/images/logo.png"
+            src={image}
           />
         </a>
         <div className="nav-control">
@@ -56,7 +57,6 @@ const Header = ({ setSideBar, sidebar }) => {
                 <li className="nav-item dropdown  header-profile">
                   <a
                     className="nav-link"
-                    href="javascript:void(0);"
                     role="button"
                     data-bs-toggle="dropdown"
                   >

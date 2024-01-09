@@ -1,74 +1,135 @@
-import React from 'react'
-import './SupplierBrandList.scss';
+import React, { useEffect, useState } from "react";
+import "./SupplierBrandList.scss";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import { CSVLink } from "react-csv";
+import { useDispatch, useSelector } from "react-redux";
+import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
+import NoRecord from "../../Components/NoRecord/NoRecord";
+import { Pagination } from "@mui/material";
+import Dropdown from "../../Components/Dropdown/Dropdown";
+import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 
 const SupplierBrandList = () => {
-    const brandData = [
-        {
-          id: "1",
-          brands: "Havells",
-          suppliermargin: "2%",
-          Status: "Active",
-          statuscolor: "badge badge-success",
-          Action: "",
-        },
-        {
-          id: "2",
-          brands: "Zara",
-          suppliermargin: "3%",
-          Status: "Non-Active",
-          statuscolor: "badge badge-danger",
-          Action: "",
-        },
-        {
-          id: "3",
-          brands: "Behrouz",
-          suppliermargin: "4%",
-          Status: "Active",
-          statuscolor: "badge badge-success",
-          Action: "",
-        },
-        {
-          id: "4",
-          brands: "Apollo Pharmacy",
-          suppliermargin: "5%",
-          Status: "Non-active",
-          statuscolor: "badge badge-danger",
-          Action: "",
-        },
-      ];
-      const userData = [
-        {
-          status:'Active',
-          count:'125',
-          className:'btn btn-success btn-sm btn-margin'
-        },
-        {
-          status:'Deprecated',
-          count:'50',
-          className:'btn btn-danger btn-sm btn-margin'
-        },
-        {
-          status:'Deactive',
-          count:'10',
-          className:'btn btn-warning btn-sm btn-margin'
-        },
-        {
-          status:'New',
-          count:'105',
-          className:'btn btn-primary btn-sm btn-margin'
-        },
-        {
-          status:'Total',
-          count:'280',
-          className:'btn btn-secondary btn-sm btn-margin'
-        }
-      
-      ]
-      
-      
+  const dispatch = useDispatch();
+  const [supplierList, setSupplierList] = useState([]);
+  const SupplierBrandList = useSelector(
+    (state) => state.supplierBrandListReducer?.data?.data
+  );
+  const suppliers = useSelector((state) => state.supplierMasterReducer?.data);
+  const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
+  const export_label = GetTranslationData("UIAdmin", "export_label");
+  const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
+  const supplier_products = GetTranslationData("UIAdmin", "supplier_products");
+  const supplierBrandLists = GetTranslationData(
+    "UIAdmin",
+    "supplierBrandLists"
+  );
+  const id = GetTranslationData("UIAdmin", "id");
+  const brands = GetTranslationData("UIAdmin", "brands");
+  const supplierMargin = GetTranslationData("UIAdmin", "supplierMargin");
+  const status = GetTranslationData("UIAdmin", "Status_label");
+  const action = GetTranslationData("UIAdmin", "action_label");
+  const update = GetTranslationData("UIAdmin", "update_label");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [rowsPerPage] = useState(5);
+  useEffect(() => {
+    dispatch(onGetSupplierBrandList());
+  }, []);
+  const filteredSupplierList = SupplierBrandList?.filter((vendor) =>
+    Object.values(vendor).some(
+      (value) =>
+        value &&
+        typeof value === "string" &&
+        value.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setPage(1);
+  };
+
+  const [page, setPage] = useState(1);
+  const startIndex = (page - 1) * rowsPerPage;
+
+  const endIndex = startIndex + rowsPerPage;
+  const headers = [
+    { label: "id", key: "id" },
+    { label: "brands", key: "brands" },
+    { label: "supplier_Margin", key: "supplier_Margin" },
+    { label: "status", key: "status" },
+    { label: "action", key: "action" },
+  ];
+  const generateUniqueId = (index) => `toggleSwitch-${index}`;
+
+  useEffect(() => {
+    let tempSupplier = [];
+    suppliers?.data?.map((item) => {
+      tempSupplier.push({ label: item.name, value: item.name });
+    });
+    setSupplierList(tempSupplier);
+  }, [suppliers]);
+
+  const handleChange = (e) => {};
+
+  const userData = [
+    {
+      status: "Active",
+      count: "125",
+      className: "btn btn-success btn-sm btn-margin",
+    },
+    {
+      status: "Deprecated",
+      count: "50",
+      className: "btn btn-danger btn-sm btn-margin",
+    },
+    {
+      status: "Deactive",
+      count: "10",
+      className: "btn btn-warning btn-sm btn-margin",
+    },
+    {
+      status: "New",
+      count: "105",
+      className: "btn btn-primary btn-sm btn-margin",
+    },
+    {
+      status: "Total",
+      count: "280",
+      className: "btn btn-secondary btn-sm btn-margin",
+    },
+  ];
+
+  const handleKeyPress = (e) => {
+    if (e.key === "e" || e.key === "+" || e.key === "-") {
+      e.preventDefault();
+    }
+  };
+  const [marginValue, setMarginValue] = useState();
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    // You can add additional validation if needed
+    setMarginValue(newValue);
+  };
+  const handleUpdate = (data) => {
+    const updatedValues = {
+      id: data.id,
+      brands: data.brands,
+      supplier_Margin: marginValue,
+      status: data.status,
+      action: data.action,
+    };
+    dispatch(onUpdateSupplierList(updatedValues));
+  };
+
   return (
     <>
-      <div className="content-body" >
+      <ScrollToTop />
+      <div>
         <div className="container-fluid">
           <div className="row">
             <div className="col-xl-12 col-xxl-12">
@@ -76,29 +137,36 @@ const SupplierBrandList = () => {
                 <div className="container-fluid mt-2 mb-2">
                   <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                     <div className="card-header">
-                      <h4 className="card-title">Supplier Brands</h4>
+                      <h4 className="card-title">{supplier_products}</h4>
                     </div>
                     <div className="customer-search mb-sm-0 mb-3">
                       <div className="input-group search-area">
                         <input
                           type="text"
+                          value={searchQuery}
+                          onChange={handleSearch}
                           className="form-control only-high"
-                          placeholder="Search here......"
+                          placeholder={search_here_label}
                         />
                         <span className="input-group-text">
-                          <a href="javascript:void(0)">
-                            <i className="flaticon-381-search-2"></i>
-                          </a>
+                          <i className="flaticon-381-search-2"></i>
                         </span>
                       </div>
                     </div>
                     <div className="d-flex align-items-center flex-wrap">
-                      <a
-                        href="javascript:void(0);"
-                        className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                      >
-                        <i className="fa fa-file-excel me-2"></i>Export
-                      </a>
+                      {filteredSupplierList &&
+                        filteredSupplierList.length > 0 && (
+                          <CSVLink
+                            data={SupplierBrandList}
+                            headers={headers}
+                            filename={"SupplierBrandList.csv"}
+                          >
+                            <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                              <i className="fa fa-file-excel me-2"></i>
+                              {export_label}
+                            </button>
+                          </CSVLink>
+                        )}
                     </div>
                   </div>
                 </div>
@@ -107,108 +175,135 @@ const SupplierBrandList = () => {
                   <form>
                     <div className="row">
                       <div className="col-sm-3 form-group mb-2">
-                        <label for="name-f">Select Suppliers</label>
-                        <select
+                        <label htmlFor="name-f">{selectSuppliers}</label>
+
+                        <Dropdown
                           className="form-select"
                           aria-label="Default select example"
-                        >
-                          <option>Select</option>
-                          <option value="First Client">All</option>
-
-                          <option value="First Client">Qwik cilver</option>
-                          <option value="Second Client">Supplier 2</option>
-                          <option value="Third Client">Supplier 3</option>
-                        </select>
+                          onChange={(e) => handleChange(e, "status")}
+                          options={supplierList}
+                        />
                       </div>
 
                       <div className="col-lg-9 d-flex-list justify-content-end m-auto mb-2">
-{userData.map((data)=>(  
-                        <span className="mrr">
-                          <button
-                            type="button"
-                            className={data.className}
-                          >
-                            {data.status} <span className="btn-icon-end">{data.count}</span>
-                          </button>
-                        </span>
-))}
+                        {userData.map((data, index) => (
+                          <span className="mrr" key={index}>
+                            <button type="button" className={data.className}>
+                              {data.status}{" "}
+                              <span className="btn-icon-end">{data.count}</span>
+                            </button>
+                          </span>
+                        ))}
                       </div>
                     </div>
                   </form>
 
                   <div className="row">
                     <div className="col-lg-12">
-                      <div >
+                      <div>
                         <div className="card-header">
-                          <h4 className="card-title">Supplier Brand Lists</h4>
+                          <h4 className="card-title">{supplierBrandLists}</h4>
                         </div>
-
-                        <div className="card-body">
-                          <div className="table-responsive">
-                            <table className="table header-border table-responsive-sm">
-                              <thead>
-                                <tr>
-                                  <th>ID</th>
-                                  <th>Brands</th>
-                                  <th>Supplier Margin% </th>
-                                  <th>Status</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {brandData.map((data) => (
+                        {Array.isArray(filteredSupplierList) &&
+                        filteredSupplierList.length > 0 ? (
+                          <div className="card-body">
+                            <div className="table-responsive">
+                              <table className="table header-border table-responsive-sm">
+                                <thead>
                                   <tr>
-                                    <td>
-                                      {data.id}
-                                      <a href="javascript:void();"></a>
-                                    </td>
-
-                                    <td>{data.brands}</td>
-                                    <td>
-                                      <div className="input-group mb-2 w-11">
-                                        <input
-                                          type="number"
-                                          className="form-control htt"
-                                          placeholder={data.suppliermargin}
-                                          pattern="/^-?\d+\.?\d*$/"
-                                          onKeyPress="if(this.value.length==2) return false;"
-                                        />
-                                        <div className="input-group-append">
-                                          <button
-                                            className="btn btn-outline-primary btn-sm group-btn btn-pad"
-                                            type="button"
-                                          >
-                                            Update
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </td>
-
-                                    <td>
-                                      <span className={data.statuscolor}>
-                                        {data.Status}
-                                      </span>
-                                    </td>
-
-                                    <td>
-                                      {" "}
-                                      <div className="can-toggle">
-                                        <input id="d" type="checkbox" />
-                                        <label for="d">
-                                          <div
-                                            className="can-toggle__switch"
-                                            data-checked="On"
-                                            data-unchecked="Off"
-                                          ></div>
-                                        </label>
-                                      </div>
-                                    </td>
+                                    <th>{id}</th>
+                                    <th>{brands}</th>
+                                    <th>{supplierMargin}</th>
+                                    <th>{status}</th>
+                                    <th>{action}</th>
                                   </tr>
-                                ))}
-                              </tbody>
-                            </table>
+                                </thead>
+                                <tbody>
+                                  {filteredSupplierList
+                                    .slice(startIndex, endIndex)
+                                    .map((data, index) => (
+                                      <tr key={index}>
+                                        <td>{data.id}</td>
+                                        <td>{data.brands}</td>
+                                        <td>
+                                          <div className="input-group mb-2 w-11">
+                                            <input
+                                              type="number"
+                                              className="form-control htt"
+                                              placeholder={data.supplier_Margin}
+                                              pattern="/^-?\d+\.?\d*$/"
+                                              value={marginValue}
+                                              onChange={handleInputChange}
+                                              onKeyPress={handleKeyPress}
+                                            />
+                                            <div className="input-group-append">
+                                              <button
+                                                onClick={() =>
+                                                  handleUpdate(data)
+                                                }
+                                                className="btn btn-outline-primary btn-sm group-btn btn-pad"
+                                                type="button"
+                                              >
+                                                {update}
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <span
+                                            className={
+                                              data.status === true
+                                                ? "badge badge-success"
+                                                : "badge badge-danger"
+                                            }
+                                          >
+                                            {data.status === true
+                                              ? "Active"
+                                              : "Inactive"}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <div className="can-toggle">
+                                            <input
+                                              id={generateUniqueId(index)}
+                                              type="checkbox"
+                                              checked={data.status} // Set checked based on the status
+                                              onChange={() => {
+                                                // Handle toggle switch change
+                                              }}
+                                            />
+                                            <label
+                                              htmlFor={generateUniqueId(index)}
+                                            >
+                                              <div
+                                                className="can-toggle__switch"
+                                                data-unchecked="Off"
+                                                data-checked={
+                                                  data.status ? "ON" : "OFF"
+                                                } // Set label based on the status
+                                              ></div>
+                                            </label>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ))}
+                                </tbody>
+                              </table>
+                              <div className="pagination-container">
+                                <Pagination
+                                  count={Math.ceil(
+                                    filteredSupplierList.length / rowsPerPage
+                                  )}
+                                  page={page}
+                                  onChange={handlePageChange}
+                                  color="primary"
+                                />
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                        ) : (
+                          <NoRecord />
+                        )}
                       </div>
                     </div>
                   </div>
@@ -219,7 +314,7 @@ const SupplierBrandList = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SupplierBrandList
+export default SupplierBrandList;

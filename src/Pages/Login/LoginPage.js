@@ -3,19 +3,22 @@ import "./LoginPage.scss";
 import { onLoginSubmit } from "../../Store/Slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import InputField from "../../Componenets/InputField/InputField";
-import Button from "../../Componenets/Button/Button";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "../../Componenets/Loader/Loader";
+import Loader from "../../Components/Loader/Loader";
 import Footer from "../../Layout/Footer/Footer";
-import image from "../../Assets/logo.png";
-import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
+import image from "../../Assets/img/logo.png";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { useNavigate } from "react-router";
+import bcrypt from "bcryptjs";
+
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showLoder, setShowLoader] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const loginDetails = useSelector(
     (state) => state.loginReducer?.data?.message
   );
@@ -27,7 +30,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email")
+  const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
 
   const handleChange = (e, fieldName) => {
     // Destructure the value from the event object
@@ -56,11 +59,14 @@ const LoginPage = () => {
     }
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = async (e) => {
     const { checked } = e.target;
     if (checked) {
+      // To encrypt the passoword
+      const hashedPassword = await bcrypt.hash(loginData.password, 10);
+
       localStorage.setItem("userEmail", loginData.email);
-      localStorage.setItem("userPassword", loginData.password);
+      localStorage.setItem("userPassword", hashedPassword);
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userPassword");
@@ -70,7 +76,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     // Prevent the default form submission behavior
     e.preventDefault();
-
+    setIsSubmit(false);
     // Initialize a variable to track form validation status
     let isValid = true;
 
@@ -98,21 +104,22 @@ const LoginPage = () => {
 
         // Wait for the dispatch to complete
         dispatch(onLoginSubmit(loginData));
-
+        setIsSubmit(true);
         // Define a function to show a toast notification based on loginDetails
       } catch (error) {
         // Handle any errors during dispatch
-        console.error(error);
       }
     }
   };
   useEffect(() => {
-    if (loginDetails === "Login Successfully.") {
+    if (loginDetails === "Login Successfully." && isSubmit) {
       setShowLoader(false);
       toast.success(loginDetails);
-      navigate('/Lc-admin/rolemaster');
-    } else {
+      navigate("/lc-admin/dashboard");
+      sessionStorage.setItem("login", true);
+    } else if (isSubmit) {
       setShowLoader(false);
+      sessionStorage.removeItem("login");
       toast.error(loginDetails);
     }
   }, [loginDetails]);
@@ -131,21 +138,26 @@ const LoginPage = () => {
                         <div className="text-center mb-3">
                           <img className="w-100" src={image} alt="" />
                         </div>
-                        <h4 className="text-center mb-4">{GetTranslationData("UIAdmin", "sign")}</h4>
-
+                        <h4 className="text-center mb-4">
+                          {GetTranslationData("UIAdmin", "sign")}
+                        </h4>
                         <form onSubmit={(e) => handleSubmit(e)}>
                           <div className="mb-3">
                             <label className="mb-1">
-                              <strong>{GetTranslationData("UIAdmin", "email_label")}</strong>
+                              <strong>
+                                {GetTranslationData("UIAdmin", "email_label")}
+                              </strong>
                               <span className="text-danger">*</span>
                             </label>
-
                             <InputField
                               type="email"
                               className={` ${
                                 errors.email ? "border-danger" : "form-control"
                               }`}
-                              placeholder={GetTranslationData("UIAdmin", "email_placeholder")}
+                              placeholder={GetTranslationData(
+                                "UIAdmin",
+                                "email_placeholder"
+                              )}
                               onChange={(e) => handleChange(e, "email")}
                               error={errors.email}
                             />
@@ -153,7 +165,12 @@ const LoginPage = () => {
                           </div>
                           <div className="mb-3">
                             <label className="mb-1">
-                              <strong>{GetTranslationData("UIAdmin", "password_label")}</strong>
+                              <strong>
+                                {GetTranslationData(
+                                  "UIAdmin",
+                                  "password_label"
+                                )}
+                              </strong>
                               <span className="text-danger">*</span>
                             </label>
                             <InputField
@@ -164,7 +181,10 @@ const LoginPage = () => {
                                   : "form-control"
                               }`}
                               onChange={(e) => handleChange(e, "password")}
-                              placeholder={GetTranslationData("UIAdmin","password_placeholder")}
+                              placeholder={GetTranslationData(
+                                "UIAdmin",
+                                "password_placeholder"
+                              )}
                             />
                           </div>
                           {showLoder && <Loader />}
@@ -193,7 +213,9 @@ const LoginPage = () => {
                             </div>
                           </div>
                           <div className="text-center">
-                            <Button text={GetTranslationData("UIAdmin", "sign_me")} />
+                            <Button
+                              text={GetTranslationData("UIAdmin", "sign_me")}
+                            />
                             <ToastContainer />
                           </div>
                         </form>
@@ -206,7 +228,7 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
+    <Footer />
     </>
   );
 };

@@ -73,10 +73,36 @@ export const supplierMasterSlice = createSlice({
         status_code
       };
     },
+    onUpdateSupplierList: (state) => {
+      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false };
+    },
+    onUpdateSupplierListSuccess: (state, { payload }) => {
+      const { data = {}, message = '', status_code } = payload;
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data,
+        error: {},
+        message,
+        status_code
+      };
+    },
+    onUpdateSupplierListError: (state, { payload }) => {
+      const { data = {}, message = '', status_code } = payload;
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        data:data,
+        message,
+        status_code
+      };
+    },
 
   },
 });
-export const { onVendorSubmit, onVendorSubmitSuccess, onVendorSubmitError, onGetSupplierList, onGetSupplierListSuccess, onGetSupplierListError } =
+export const {onUpdateSupplierList,onUpdateSupplierListSuccess,onUpdateSupplierListError, onVendorSubmit, onVendorSubmitSuccess, onVendorSubmitError, onGetSupplierList, onGetSupplierListSuccess, onGetSupplierListError } =
 supplierMasterSlice.actions;
 
 export default supplierMasterSlice.reducer;

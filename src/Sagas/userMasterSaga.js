@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { onUserSubmit, onUserSubmitSuccess, onUserSubmitError, onGetUser, onGetUserSuccess, onGetUserError } from "../Store/Slices/userMasterSlice";
-import { callUserMasterApi, callUserMasterGetApi } from "../Context/userMasterApi";
+import { onUserSubmit, onUserSubmitSuccess, onUserSubmitError, onGetUser, onGetUserSuccess, onGetUserError, onUserUpdateSuccess, onUserUpdateError, onUserUpdate } from "../Store/Slices/userMasterSlice";
+import { callUserMasterApi, callUserMasterGetApi, callUserMasterUpdateApi } from "../Context/userMasterApi";
 
 function* userMaster({ payload }) {
   try {
@@ -48,7 +48,31 @@ function* getUser() {
     yield put(onGetUserError({ data: {}, message, status_code: 400 }));
   }
 }
+function* UpdateUser({ payload }) {
+  try {
+    const updateUserResponse = yield call(callUserMasterUpdateApi, payload);
+    if (updateUserResponse.status === 5) {
+      yield put(
+        onUserUpdateSuccess({
+          data: updateUserResponse.result,
+          message: updateUserResponse.result.message,
+        })
+      );
+    } else {
+      yield put(
+        onUserUpdateError({
+          data: updateUserResponse.result,
+          message: updateUserResponse.result.message,
+        })
+      );
+    }
+  } catch (error) {
+    const message = error.response || "Something went wrong";
+    yield put(onUserUpdateError({ data: {}, message, status_code: 400 }));
+  }
+}
 export default function* userMasterSaga() {
   yield takeLatest(onUserSubmit.type, userMaster);
   yield takeLatest(onGetUser.type, getUser);
+  yield takeLatest(onUserUpdate.type, UpdateUser);
 }
