@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Loader from "../../../Components/Loader/Loader";
+import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onGetSupplierList,
   onUpdateSupplierList,
   onVendorSubmit,
-} from "../../../Store/Slices/supplierMasterSlice";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+} from "../../Store/Slices/supplierMasterSlice";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { ToastContainer, toast } from "react-toastify";
-import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
-import InputField from "../../../Components/InputField/InputField";
-import "./SupplierMasterDetails.scss";
-import Dropdown from "../../../Components/Dropdown/Dropdown";
-import Button from "../../../Components/Button/Button";
+import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
+import InputField from "../../Components/InputField/InputField";
+import Dropdown from "../../Components/Dropdown/Dropdown";
+import Button from "../../Components/Button/Button";
 
-const SupplierMasterDetails = ({ data }) => {
+const SupplierMasterForm = ({ data }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
@@ -419,4 +418,4 @@ const SupplierMasterDetails = ({ data }) => {
   );
 };
 
-export default SupplierMasterDetails;
+export default SupplierMasterForm;
