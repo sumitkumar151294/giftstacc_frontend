@@ -30,10 +30,17 @@
   position: relative;
 }
 
-
+.group-btn {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border: 3px solid var(--primary-black)000;
+  padding: 0.6em;
+  background: #1947e1;
+  color: var( --primary-white);;
+}
 
 .btn-icon-end {
-  border-left: 0.0625rem solid white;
+  border-left: 0.0625rem solid var( --primary-white);;
   display: inline-block;
   margin: -0.8rem 0 -0.8rem 1rem;
   padding: 0.4375rem 0 0.4375rem 1rem;

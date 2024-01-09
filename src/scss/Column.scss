@@ -1,7 +1,7 @@
 @media (min-width: 1440) {
   .col-xxl-12 {
     flex: 0 0 auto;
-    width: 100%;
+    width: var( --w100);
   }
 }
 
@@ -72,7 +72,7 @@
 
   .col-xl-12 {
     flex: 0 0 auto;
-    width: 100%;
+    width: var( --w100);
 
   }
 }
@@ -134,8 +134,8 @@
   }
 
   .col-xxl-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
+    flex: 0 0 var( --w100);
+    max-width: var( --w100);
   }
 
   .mb-xxl-4 {
@@ -203,7 +203,7 @@
 
   .col-lg-12 {
     flex: 0 0 auto;
-    width: 100%;
+    width: var( --w100);
   }
 
 }
@@ -227,7 +227,7 @@
   }
   .col-sm-12 {
     flex: 0 0 auto;
-    width: 100%;
+    width: var( --w100);
   }
 }
 

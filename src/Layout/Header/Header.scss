@@ -393,7 +393,7 @@ cursor: pointer;
 @media only screen and (min-width: 48rem){
 [data-sidebar-style="mini"][data-layout="vertical"] .deznav .metismenu > li.mm-active > a {
     background: var(--primary);
-    color: #fff;
+    color: var( --primary-white);;
     border-radius: 1.75rem;
 }}
 @media only screen and (min-width: 48rem){
@@ -420,7 +420,7 @@ cursor: pointer;
 @media only screen and (min-width: 48rem){
 [data-sidebar-style="mini"][data-layout="vertical"] .deznav .metismenu > li.mm-active > a {
     background: var(--primary);
-        color: #fff;
+        color: var( --primary-white);;
             border-radius: 1.75rem;
             }}
             @media only screen and (min-width: 48rem){
@@ -430,7 +430,7 @@ cursor: pointer;
 @media only screen and (min-width: 48rem){
 [data-sidebar-style="mini"][data-layout="vertical"] .deznav .metismenu > li.mm-active > a {
     background: var(--primary);
-    color: #fff;
+    color: var( --primary-white);;
     border-radius: 1.75rem;
 }}
 [data-sidebar-position="fixed"][data-layout="vertical"] .nav-header {
