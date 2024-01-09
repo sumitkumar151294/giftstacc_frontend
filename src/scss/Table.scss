@@ -1,0 +1,283 @@
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  @media (max-width: 575.98px) {
+    .table-responsive-sm {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  
+  @media (max-width: 767.98px) {
+    .table-responsive-md {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  
+  @media (max-width: 991.98px) {
+    .table-responsive-lg {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  
+  @media (max-width: 1199.98px) {
+    .table-responsive-xl {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  
+  @media (max-width: 1439.98) {
+    .table-responsive-xxl {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  table {
+    caption-side: bottom;
+    border-collapse: collapse;
+  }
+  .table {
+    --bs-table-bg: transparent;
+    --bs-table-striped-color: #969ba0;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #969ba0;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #969ba0;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #969ba0;
+    vertical-align: top;
+    border-color: #EEEEEE;
+  }
+
+  
+.table-responsive-sm {
+    min-width: 30rem !important;
+  }
+
+  .table thead th {
+    border-bottom: 0.0625rem solid #EEEEEE;
+    text-transform: capitalize;
+    font-size: 1.125rem;
+    white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: 0.0313rem;
+    border-color: #f5f5f5 !important;
+  }
+
+  th {
+    text-align: inherit;
+    text-align: -webkit-match-parent;
+  }
+  .table td {
+    border-color: #f5f5f5;
+    padding: 0.9375rem 0.625rem;
+}
+.table tbody tr td {
+    vertical-align: middle;
+    border-color: #f5f5f5;
+}
+  thead,
+  tbody,
+  tfoot,
+  tr,
+  td,
+  th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+  }
+  
+.table {
+    width: 100% !important;
+  }
+  
+
+  //check again
+
+
+  .table> :not(caption)>*>* {
+    padding: 0.5rem 0.5rem;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+  }
+  
+  .table>tbody {
+    vertical-align: inherit;
+  }
+  
+  .table>thead {
+    vertical-align: bottom;
+  }
+  
+  .table> :not(:last-child)> :last-child>* {
+    border-bottom-color: currentColor;
+  }
+  
+  .caption-top {
+    caption-side: top;
+  }
+  
+  .table-sm> :not(caption)>*>* {
+    padding: 0.25rem 0.25rem;
+  }
+  
+  .table-bordered> :not(caption)>* {
+    border-width: 1px 0;
+  }
+  
+  .table-bordered> :not(caption)>*>* {
+    border-width: 0 1px;
+  }
+  
+  .table-borderless> :not(caption)>*>* {
+    border-bottom-width: 0;
+  }
+  
+  .table-striped>tbody>tr:nth-of-type(odd) {
+    --bs-table-accent-bg: var(--bs-table-striped-bg);
+    color: var(--bs-table-striped-color);
+  }
+  
+  .table-active {
+    --bs-table-accent-bg: var(--bs-table-active-bg);
+    color: var(--bs-table-active-color);
+  }
+  
+  .table-hover>tbody>tr:hover {
+    --bs-table-accent-bg: var(--bs-table-hover-bg);
+    color: var(--bs-table-hover-color);
+  }
+  
+  .table-primary {
+    --bs-table-bg: #ffe1d8;
+    --bs-table-striped-bg: #f2d6cd;
+    --bs-table-striped-color: var(--primary-black);
+    --bs-table-active-bg: #e6cbc2;
+    --bs-table-active-color: var(--primary-black);
+    --bs-table-hover-bg: #ecd0c8;
+    --bs-table-hover-color: var(--primary-black);
+    color: var(--primary-black);
+    border-color: #e6cbc2;
+  }
+  
+  
+  .table-secondary {
+    --bs-table-bg: #e0dcf6;
+    --bs-table-striped-bg: #d5d1ea;
+    --bs-table-striped-color: var(--primary-black);
+    --bs-table-active-bg: #cac6dd;
+    --bs-table-active-color: var(--primary-black);
+    --bs-table-hover-bg: #cfcce4;
+    --bs-table-hover-color: var(--primary-black);
+    color: var(--primary-black);
+    border-color: #cac6dd;
+  }
+  
+  .table-success {
+    --bs-table-bg: #e1f9e0;
+    --bs-table-striped-bg: #d6edd5;
+    --bs-table-striped-color: var(--primary-black);
+    --bs-table-active-bg: #cbe0ca;
+    --bs-table-active-color: var(--primary-black);
+    --bs-table-hover-bg: #d0e6cf;
+    --bs-table-hover-color: var(--primary-black);
+    color: var(--primary-black);
+    border-color: #cbe0ca;
+  }
+  
+  .table-info {
+    --bs-table-bg: #f0e8f6;
+    --bs-table-striped-bg: #e4dcea;
+    --bs-table-striped-color: var(--primary-black);
+    --bs-table-active-bg: #d8d1dd;
+    --bs-table-active-color: var(--primary-black);
+    --bs-table-hover-bg: #ded7e4;
+    --bs-table-hover-color: var(--primary-black);
+    color: var(--primary-black);
+    border-color: #d8d1dd;
+  }
+  
+  .table-warning {
+    --bs-table-bg: #ffedd2;
+    --bs-table-striped-bg: #f2e1c8;
+    --bs-table-striped-color: var(--primary-black);
+    --bs-table-active-bg: #e6d5bd;
+    --bs-table-active-color: var(--primary-black);
+    --bs-table-hover-bg: #ecdbc2;
+    --bs-table-hover-color: var(--primary-black);
+    color: var(--primary-black);
+    border-color: #e6d5bd;
+  }
+  
+  .table-danger {
+    --bs-table-bg: #fdd5dc;
+    --bs-table-striped-bg: #f0cad1;
+    --bs-table-striped-color: var(--primary-black);
+    --bs-table-active-bg: #e4c0c6;
+    --bs-table-active-color: var(--primary-black);
+    --bs-table-hover-bg: #eac5cc;
+    --bs-table-hover-color: var(--primary-black);
+    color: var(--primary-black);
+    border-color: #e4c0c6;
+  }
+  
+  .table-light {
+    --bs-table-bg: #c8c8c8;
+    --bs-table-striped-bg: #bebebe;
+    --bs-table-striped-color: var(--primary-black);
+    --bs-table-active-bg: #b4b4b4;
+    --bs-table-active-color: var(--primary-black);
+    --bs-table-hover-bg: #b9b9b9;
+    --bs-table-hover-color: var(--primary-black);
+    color: var(--primary-black);
+    border-color: #b4b4b4;
+  }
+  
+  .table-dark {
+    --bs-table-bg: #6e6e6e;
+    --bs-table-striped-bg: #757575;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #7d7d7d;
+    --bs-table-active-color: var(--primary-black);
+    --bs-table-hover-bg: #797979;
+    --bs-table-hover-color: var(--primary-black);
+    color: #fff;
+    border-color: #7d7d7d;
+  }
+  .table th,
+  .table td {
+    border-color: #f5f5f5;
+    padding: 0.9375rem 0.625rem;
+  }
+   
+  .table tbody tr td {
+    vertical-align: middle;
+    border-color: #f5f5f5;
+}
+.table th, .table td {
+  border-color: #f5f5f5;
+  padding: 0.9375rem 0.625rem;
+}
+.table > :not(caption) > * > * {
+  padding: 0.5rem 0.5rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+thead, tbody, tfoot, tr, td, th {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+* {
+  outline: none;
+  padding: 0;
+}

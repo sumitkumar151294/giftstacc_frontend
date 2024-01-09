@@ -30,5 +30,19 @@ input, button, select, optgroup, textarea {
 }
 
 .card-body {
-    padding: 1.875rem;
+    padding: 1.875rem !important;
+}
+
+.pad-aa {
+    padding: 10px 30px!important;
+}
+
+.me-1 {
+    margin-right: 0.25rem !important;
+}
+
+.klaa {
+    height: 380px;
+    overflow: hidden;
+    overflow-y: auto;
 }

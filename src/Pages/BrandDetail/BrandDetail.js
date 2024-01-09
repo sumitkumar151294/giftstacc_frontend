@@ -1,8 +1,8 @@
 import React from "react";
 import img from "../../Assets/img/pizz1.jpg";
-import "./BrandDetail.css";
-import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
-import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
+import "./BrandDetail.scss";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 
 const BrandDetail = () => {
   const brandDetail = [

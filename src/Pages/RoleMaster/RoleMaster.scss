@@ -1,66 +1,38 @@
-.top-top {
-    border: 1px solid #ededed;
-    padding: 10px;
-    border-radius: 5px;
+.br {
+  border: 1px solid #ededed;
+}
+.pt-2 {
+  padding-top: 0.5rem !important;
+}
+.ml-4 {
+  margin-left: 10px!important;
+}
+.badge-success {
+    background-color: #68e365;
+}
+.badge {
+  line-height: 1.5;
+  border-radius: 1.03125rem;
+  padding: 0.25rem 0.625rem;
+  border: 0.0625rem solid transparent;
+}
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  color: var( --primary-white);;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.75rem;
+}
+.badge:empty {
+  display: none;
 }
 
-.pad-left{
-    background: #f8f8f8;
-    padding: 10px;
-    padding-left: 30px;
-    border-radius: 10px;
-    color: black;
+.btn .badge {
+  position: relative;
+  top: -1px;
 }
-
-
-.fnt-17 {
-    font-size: 17px !important;
-  }
-
-  .pt-2 {
-    padding-top: 0.5rem !important;
-  }
-
-
-
-  .mt-4 {
-    margin-top: 1.5rem !important;
-  }
-  
-.mr-10 {
-    margin-right: 10px;
-}
-
-
-.mb-4{
-    margin-bottom: 1.5rem ;
-  }
-.error-check{
-  color: red;
-}
-.col-lg-3 {
-  @media only screen and (min-width: 992px) {
-    flex: 0 0 auto;
-    width: 25%;
-  }
-}
-.col-lg-4{
-  @media only screen and (min-width: 992px) {
-    flex: 0 0 auto;
-    width: 33.3333333333%;
-  }
-}
-  .border-danger {
-    background: var(--primary-white);
-    width: var(--w100);
-    border: 3px solid var(--primary-red);
-    padding: 0.3125rem 1.25rem;
-    color: var(--bs-dark);
-    height: 3rem;
-    border-radius: 1rem;
-  
-    @media only screen and (max-width: 1400px) {
-      height: 3rem !important;
-    }
-  }
-

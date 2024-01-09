@@ -1,5 +1,8 @@
-@media only screen and (max-width: 1199px) {
-    [data-header-position="fixed"] .content-body {
-        padding-top: 5rem;
-    }
+#main-wrapper.show {
+    opacity: 1;
+}
+#main-wrapper {
+    transition: all 0.25s ease-in;
+    overflow: hidden;
+    position: relative;
 }

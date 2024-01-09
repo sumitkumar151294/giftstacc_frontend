@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import ScrollToTop from "../../Componenets/ScrollToTop/ScrollToTop";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import './EmailEventMaster.scss'
-import { GetTranslationData } from "../../Componenets/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 
 
 
@@ -51,6 +51,38 @@ const EmailEventMaster = () => {
   const tableData = [
     
     
+    {
+      variable: "%suborderid%",
+      meaning: "Sub Order ID",
+    },
+    {
+      variable: "%suborderid%",
+      meaning: "Sub Order ID",
+    },
+    {
+      variable: "%suborderid%",
+      meaning: "Sub Order ID",
+    },
+    {
+      variable: "%suborderid%",
+      meaning: "Sub Order ID",
+    },
+    {
+      variable: "%suborderid%",
+      meaning: "Sub Order ID",
+    },
+    {
+      variable: "%suborderid%",
+      meaning: "Sub Order ID",
+    },
+    {
+      variable: "%suborderid%",
+      meaning: "Sub Order ID",
+    },
+    {
+      variable: "%suborderid%",
+      meaning: "Sub Order ID",
+    },
     {
       variable: "%suborderid%",
       meaning: "Sub Order ID",

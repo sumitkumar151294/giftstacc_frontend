@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './Dashboard.scss'
 import { Chart } from './Chart'
 import Revenue from './Revenue'
 import Users from './Users'
-import ScrollToTop from '../../Componenets/ScrollToTop/ScrollToTop'
+import ScrollToTop from '../../Components/ScrollToTop/ScrollToTop'
 
 const Dashboard = () => {
-
-
   return (
     <div className="container-fluid">
       <div className="row">
