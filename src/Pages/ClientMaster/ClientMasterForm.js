@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "../ClientMasterForm/ClientMasterForm.scss";
-import InputField from "../../../Components/InputField/InputField";
-import Dropdown from "../../../Components/Dropdown/Dropdown";
-import Loader from "../../../Components/Loader/Loader";
+// import "../ClientMasterForm/ClientMasterForm.scss";
+import InputField from "../../Components/InputField/InputField";
+import Dropdown from "../../Components/Dropdown/Dropdown";
+import Loader from "../../Components/Loader/Loader";
 import {
   onUpdateClientMasterSubmit,
   onPostClientMasterSubmit,
   onClientMasterSubmit,
-} from "../../../Store/Slices/clientMasterSlice";
+} from "../../Store/Slices/clientMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import Button from "../../Components/Button/Button";
 const ClientMaster = (props) => {
-  
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -38,7 +38,10 @@ const ClientMaster = (props) => {
   const mode = GetTranslationData("UIAdmin", "mode_Label");
   const themeDetails = GetTranslationData("UIAdmin", "Theme_Details_Label");
   const DatabaseCredentials = GetTranslationData("UIAdmin", " Database_Label");
-  const razorpay = GetTranslationData("UIAdmin","razorpay Payment Gateway_label");
+  const razorpay = GetTranslationData(
+    "UIAdmin",
+    "razorpay Payment Gateway_label"
+  );
   const key = GetTranslationData("UIAdmin", "key_placeholder");
   const add = GetTranslationData("UIAdmin", "add_label");
   const update = GetTranslationData("UIAdmin", "update_label");
@@ -105,7 +108,7 @@ const ClientMaster = (props) => {
     fieldValue: "",
     mode: "",
   });
-  
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setClientData({
@@ -129,7 +132,7 @@ const ClientMaster = (props) => {
       status: props.data?.status || "",
       dbLoginPwd: props.data?.dbLoginPwd || "",
       dbLoginId: props.data?.dbLoginId || "",
-     });
+    });
     setErrors({
       name: "",
       number: "",
@@ -149,12 +152,11 @@ const ClientMaster = (props) => {
     });
   }, [props.data]);
 
-  
-  const handleAddMoreData = (field,index, e) =>{
-    var data  = [...additionalFields];
+  const handleAddMoreData = (field, index, e) => {
+    var data = [...additionalFields];
     data[index][field] = e.target.value;
-    setAdditionalFields(data) 
-  }
+    setAdditionalFields(data);
+  };
 
   const handleChange = (e, fieldName) => {
     setClientData({
@@ -185,9 +187,8 @@ const ClientMaster = (props) => {
       });
     }
   };
-  
-  const [showDelete, setShowDelete] = useState(false);
 
+  const [showDelete, setShowDelete] = useState(false);
   const handleAddMore = () => {
     setShowDelete(true);
     setAdditionalFields((prevFields) => [
@@ -228,13 +229,12 @@ const ClientMaster = (props) => {
     setErrors(newErrors);
 
     if (isValid) {
-      
       if (!props.data) {
         try {
           setShowToast(true);
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
-          clientData.paymentdetails = additionalFields
+          clientData.paymentdetails = additionalFields;
           // Wait for the dispatch to complete
           dispatch(onPostClientMasterSubmit(clientData));
           // Define a function to show a toast notification based on loginDetails
@@ -256,7 +256,6 @@ const ClientMaster = (props) => {
   };
   useEffect(() => {
     if (showToast) {
-      
       if (clientMasterDetails.postMessage === "Added Successfully.") {
         setShowLoader(false);
         toast.success(clientMasterDetails.postMessage);
@@ -278,19 +277,19 @@ const ClientMaster = (props) => {
           productionKey: "",
           productionSecretKey: "",
         });
-        setAdditionalFields([{
-          fieldNameInput: "",
-          fieldValue: "",
-          mode: "",
-        }])
-        
+        setAdditionalFields([
+          {
+            fieldNameInput: "",
+            fieldValue: "",
+            mode: "",
+          },
+        ]);
       } else {
         setShowLoader(false);
         toast.error(clientMasterDetails.postMessage);
       }
     }
     if (showUpdate) {
-      
       if (clientMasterDetails.postMessage === "Update Successfully.") {
         setShowLoader(false);
         toast.success(clientMasterDetails.postMessage);
@@ -317,12 +316,9 @@ const ClientMaster = (props) => {
           mode: "",
           id: "",
         });
-        
       }
     }
   }, [clientMasterDetails.postMessage]);
-
-
 
   return (
     <>
@@ -350,9 +346,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${
-                            errors.name ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.name ? "border-danger" : "form-control"
+                            }`}
                           name="contactName"
                           id="contact-name"
                           error={errors.name}
@@ -367,9 +362,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="number"
-                          className={` ${
-                            errors.number ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.number ? "border-danger" : "form-control"
+                            }`}
                           name="contactNumber"
                           id="contact-number"
                           value={clientData.number}
@@ -386,9 +380,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="email"
-                          className={` ${
-                            errors.email ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.email ? "border-danger" : "form-control"
+                            }`}
                           name="contactEmail"
                           id="contact-email"
                           value={clientData.email}
@@ -421,9 +414,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="color"
-                          className={` ${
-                            errors.color ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.color ? "border-danger" : "form-control"
+                            }`}
                           name="color"
                           id="color"
                           error={errors.color}
@@ -438,9 +430,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${
-                            errors.lgogLink ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.lgogLink ? "border-danger" : "form-control"
+                            }`}
                           name="logo"
                           id="logo"
                           error={errors.lgogLink}
@@ -473,11 +464,10 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.dbipAddress
+                            className={` ${errors.dbipAddress
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="ipAddress"
                             id="ipAddress"
                             value={clientData.dbipAddress}
@@ -493,11 +483,10 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.dbLoginId
+                            className={` ${errors.dbLoginId
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="username"
                             id="user-name"
                             value={clientData.dbLoginId}
@@ -513,11 +502,10 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="password"
-                            className={` ${
-                              errors.dbLoginPwd
+                            className={` ${errors.dbLoginPwd
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="password"
                             id="password"
                             value={clientData.dbLoginPwd}
@@ -544,20 +532,25 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${
-                                      errors.fieldNameInput
+                                    className={` ${errors.fieldNameInput
                                         ? "border-danger"
                                         : "form-control"
-                                    }`}
+                                      }`}
                                     name="fieldNameInput"
                                     id="fieldNameInput"
                                     placeholder={key}
-                                    value={additionalFields[index].fieldNameInput}
-                                    error={errors.fieldNameInput}
-                                    onChange={(e) => 
-                                      {handleChange(e, "fieldNameInput")
-                                      handleAddMoreData('fieldNameInput',index, e)}
+                                    value={
+                                      additionalFields[index].fieldNameInput
                                     }
+                                    error={errors.fieldNameInput}
+                                    onChange={(e) => {
+                                      handleChange(e, "fieldNameInput");
+                                      handleAddMoreData(
+                                        "fieldNameInput",
+                                        index,
+                                        e
+                                      );
+                                    }}
                                   />
                                 </div>
                               </div>
@@ -572,19 +565,19 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${
-                                      errors.fieldValue
+                                    className={` ${errors.fieldValue
                                         ? "border-danger"
                                         : "form-control"
-                                    }`}
+                                      }`}
                                     name="fieldValue"
                                     id="production-key"
                                     placeholder={key}
                                     error={errors.fieldValue}
                                     value={additionalFields[index].fieldValue}
-                                    onChange={(e) => 
-                                     {handleChange(e, "fieldValue")
-                                       handleAddMoreData('fieldValue',index, e)}}
+                                    onChange={(e) => {
+                                      handleChange(e, "fieldValue");
+                                      handleAddMoreData("fieldValue", index, e);
+                                    }}
                                   />
                                 </div>
                               </div>
@@ -597,19 +590,19 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <Dropdown
                                     type="text"
-                                    className={` ${
-                                      errors.mode
+                                    className={` ${errors.mode
                                         ? "border-danger"
                                         : "form-select"
-                                    }`}
+                                      }`}
                                     name="mode"
                                     id="mode"
                                     placeholder={key}
                                     value={additionalFields[index]?.mode}
                                     error={errors.mode}
-                                    onChange={(e) =>
-                                       {handleChange(e, "mode")
-                                        handleAddMoreData('mode',index, e)}}
+                                    onChange={(e) => {
+                                      handleChange(e, "mode");
+                                      handleAddMoreData("mode", index, e);
+                                    }}
                                     options={modes}
                                   />
                                 </div>
@@ -646,15 +639,11 @@ const ClientMaster = (props) => {
                         </div>
                       </div>
                       <div className="col-sm-12 form-group mb-0 mt-2">
-                        <button
-                          type="submit"
+                        <Button
+                          text={props.data ? update : add}
+                          icon={"fa fa-arrow-right"}
                           onClick={handleSubmit}
-                          className="btn btn-primary float-right pad-aa"
-                        >
-                          {props.data ? update : add}
-
-                          <i className="fa fa-arrow-right"></i>
-                        </button>
+                        />
                         <ToastContainer />
                       </div>
                     </div>

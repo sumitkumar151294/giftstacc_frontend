@@ -11,12 +11,17 @@ import InputField from "../../../Components/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
+import Button from '../../../Components/Button/Button';
+
+// Component for RoleMasterForm
 const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
+  //To get the data from redux store
   const getModule = useSelector((state) => state.moduleReducer);
   const getModuleData = getModule?.data?.data;
+  // Initial state for form data and errors
   const [formData, setFormData] = useState({
     code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
     name: "",
@@ -26,11 +31,11 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const [errors, setErrors] = useState({
     name: "",
   });
+  // Check if all modules are selected
   const isSelectAllChecked =
     formData.modules?.length > 0 &&
     formData.modules.every((module) => module.checked);
-
-  // To get the label from DB
+  // Translation labels
   const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
   const roleName = GetTranslationData("UIAdmin", "role-name");
   const selectall = GetTranslationData("UIAdmin", "selectall");
@@ -44,7 +49,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const roleCreated = GetTranslationData("UIAdmin", "role_Create_Label");
   const roleUpdated = GetTranslationData("UIAdmin", "role_Updated_Label");
   const roleRequired = GetTranslationData("UIAdmin", "role_Req_Label");
-
+  // Fetch module data and update form data on mount and when module data changes
   useEffect(() => {
     if (getModuleData) {
       const modulesData = getModuleData?.map((module) => ({
@@ -75,7 +80,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       setIsFormLoading(true);
     }
   }, [getModuleData, data]);
-
+  // Handle input changes in the form
   const handleInputChange = (e) => {
     const { name, type, checked } = e.target;
 
@@ -114,13 +119,14 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       });
     }
   };
-
+  // Reset form fields
   const resetFiled = {
     code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
     name: "",
     modules: formData.modules.map((module) => ({ ...module, checked: false })),
     isClientPlatformModule: false,
   };
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -149,7 +155,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       name: formData.name,
       moduleIds: selectedModuleIds,
     };
-
     try {
       //To Submit the data
       if (!data) {
@@ -182,7 +187,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       console.error("Error submitting data:", error);
     }
   };
-
+  // Render the RoleMasterForm component
   return (
     <>
       <ScrollToTop />
@@ -193,13 +198,13 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
               <div className="card-header">
                 <h4 className="card-title">{roleMasterLabel}</h4>
               </div>
-              <div className="card-body position-relative">
+              <div className="card-body">
                 {!isformLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="container mt-3">
+                  <div className="container-fluid">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-4 form-group mb-2">
@@ -217,7 +222,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                           />
                         </div>
                         <div className="col-lg-4">
-                          <div className="form-check mt-4 pad-left">
+                          <div className="form-check mt-4 padd">
                             <InputField
                               className="form-check-input"
                               type="checkbox"
@@ -239,7 +244,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
 
                       <div className="row top-top">
                         <div className="col-lg-4">
-                          <div className="form-check mb-2 pad-left">
+                          <div className="form-check  mb-2 padd">
                             <InputField
                               className="form-check-input"
                               type="checkbox"
@@ -343,6 +348,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                                 )
                             )}
                           </div>
+                          {/* Checkbox Error Message */}
                           {checkBoxError && (
                             <span
                               className="form-check-label error-check"
@@ -352,9 +358,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                             </span>
                           )}
                           <div className="col-sm-4 mt-4 mb-4">
-                            <button className="btn btn-primary float-right pad-aa">
-                              {data ? update : submit}
-                            </button>
+                          <Button text={data ? update : submit} icon="fa fa-arrow-right" />
                             <ToastContainer />
                           </div>
                         </div>

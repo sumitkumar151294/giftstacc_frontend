@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
-import Loader from "../../../Components/Loader/Loader";
+import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
-import NoRecord from "../../../Components/NoRecord/NoRecord";
-import SupplierMasterDetails from "../SupplierMasterDetails/SupplierMasterDetails";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
-const SupplierList = () => {
+import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import NoRecord from "../../Components/NoRecord/NoRecord";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import SupplierMasterForm from "./SupplierMasterForm";
+const SupplierMasterList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [vendorData, setVendorData] = useState({
     name: "",
@@ -24,8 +24,6 @@ const SupplierList = () => {
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const supplierName = GetTranslationData("UIAdmin", "supplierName");
   const supplierClientID = GetTranslationData("UIAdmin", "supplierClientID");
-  const userName = GetTranslationData("UIAdmin", "usernamee_label");
-  const password = GetTranslationData("UIAdmin", "password_label");
   const minThresholdAmount = GetTranslationData(
     "UIAdmin",
     "minThresholdAmount"
@@ -97,7 +95,7 @@ const SupplierList = () => {
         <Loader classType={"absoluteLoader"} />
       ) : (
         <>
-          <SupplierMasterDetails data={vendorData} />
+          <SupplierMasterForm data={vendorData} />
           <div className="container-fluid pt-0">
             <div className="row">
               <div className="col-lg-12">
@@ -209,4 +207,4 @@ const SupplierList = () => {
   );
 };
 
-export default SupplierList;
+export default SupplierMasterList;

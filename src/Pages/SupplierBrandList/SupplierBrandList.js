@@ -17,12 +17,9 @@ const SupplierBrandList = () => {
     (state) => state.supplierBrandListReducer?.data?.data
   );
   const suppliers = useSelector((state) => state.supplierMasterReducer?.data);
-  const supplierBrands = GetTranslationData("UIAdmin", "supplierBrands");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
-  const select = GetTranslationData("UIAdmin", "select");
-  const all = GetTranslationData("UIAdmin", "all");
   const supplier_products = GetTranslationData("UIAdmin", "supplier_products");
   const supplierBrandLists = GetTranslationData(
     "UIAdmin",
@@ -189,8 +186,8 @@ const SupplierBrandList = () => {
                       </div>
 
                       <div className="col-lg-9 d-flex-list justify-content-end m-auto mb-2">
-                        {userData.map((data,index) => (
-                          <span className="mrr" key={index}> 
+                        {userData.map((data, index) => (
+                          <span className="mrr" key={index}>
                             <button type="button" className={data.className}>
                               {data.status}{" "}
                               <span className="btn-icon-end">{data.count}</span>

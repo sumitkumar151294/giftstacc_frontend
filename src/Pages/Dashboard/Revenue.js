@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 
 const Revenue = () => {
-  const [isLoading, setIsLoading] = useState("false");
-
   var revenueChart = {
     options: {
       series: [

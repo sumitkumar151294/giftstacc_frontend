@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 
 const Users = () => {
-  const [isLoading, setIsLoading] = useState("false");
-
   const chartTimeline = {
     options: {
       chart: {
@@ -15,8 +13,7 @@ const Users = () => {
         toolbar: {
           show: false,
         },
-        sparkline: {
-        },
+        sparkline: {},
         offsetX: -10,
       },
       plotOptions: {
@@ -177,7 +174,6 @@ const Users = () => {
                         <a
                           className="nav-link active"
                           data-bs-toggle="tab"
-                          href=""
                           role="tab"
                         >
                           {months}
@@ -187,7 +183,6 @@ const Users = () => {
                         <a
                           className="nav-link "
                           data-bs-toggle="tab"
-                          href=""
                           role="tab"
                         >
                           {daily}
@@ -197,7 +192,6 @@ const Users = () => {
                         <a
                           className="nav-link"
                           data-bs-toggle="tab"
-                          href=""
                           role="tab"
                         >
                           {today}

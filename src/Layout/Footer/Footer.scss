@@ -34,23 +34,23 @@
 }
 [data-sibebarbg="color_5"][data-theme-version="dark"] .copyright,
 [data-sibebarbg="color_5"] .copyright {
-  color: #fff;
+  color: var( --primary-white);
 }
 
 [data-sibebarbg="color_7"][data-theme-version="dark"] .copyright,
 [data-sibebarbg="color_7"] .copyright {
-  color: #fff;
+  color: var( --primary-white);
 }
 [data-sibebarbg="color_14"][data-theme-version="dark"] .copyright,
 [data-sibebarbg="color_14"] .copyright {
-  color: #fff;
+  color: var( --primary-white);
 }
 [data-theme-version="dark"] .footer .copyright {
   background-color: transparent;
 }
 
 [data-theme-version="dark"] .footer .copyright a {
-  color: #fff;
+  color: var( --primary-white);
 }
 
 [data-theme-version="dark"] .footer .copyright p {
@@ -61,7 +61,7 @@
 }
 
 [data-theme-version="dark"] .footer .copyright a {
-  color: #fff;
+  color:var( --primary-white);
 }
 
 [data-theme-version="dark"] .footer .copyright p {

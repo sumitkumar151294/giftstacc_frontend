@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "./ClientMasterList.scss";
+import "./ClientMaster.scss";
 import { Link } from "react-router-dom";
-import Loader from "../../../Components/Loader/Loader";
-import NoRecord from "../../../Components/NoRecord/NoRecord";
-import ClientMasterForm from "../ClientMasterForm/ClientMasterForm";
+import Loader from "../../Components/Loader/Loader";
+import NoRecord from "../../Components/NoRecord/NoRecord";
+import ClientMasterForm from "./ClientMasterForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onClientMasterSubmit,
   onUpdateClientMasterSubmit,
-} from "../../../Store/Slices/clientMasterSlice";
+} from "../../Store/Slices/clientMasterSlice";
 import { CSVLink } from "react-csv";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
@@ -43,7 +44,7 @@ const ClientMasterList = () => {
     const prefilled = data;
     setData(prefilled);
   };
-   const handleDelete = (data) => {
+  const handleDelete = (data) => {
     const deletedData = {
       id: data?.id,
       name: data?.name,
@@ -69,10 +70,10 @@ const ClientMasterList = () => {
           id: 0,
           keyName: "chirag",
           keyValue: "1000",
-          keyMode: "live"
-        }
-      ]
-    }
+          keyMode: "live",
+        },
+      ],
+    };
     dispatch(onUpdateClientMasterSubmit(deletedData));
     setTimeout(() => {
       dispatch(onClientMasterSubmit());
@@ -112,6 +113,7 @@ const ClientMasterList = () => {
   return (
     <>
       <ClientMasterForm clientList={clientList} data={data} />
+      <ScrollToTop />
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -225,7 +227,7 @@ const ClientMasterList = () => {
                                     </td>
                                     <td>
                                       <Link
-                                        to="/lc-admin/clientbrandlist"
+                                        to="/lc-admin/client-brand-list"
                                         className="btn btn-primary btn-sm float-right"
                                       >
                                         <i className="fa fa-eye"></i>&nbsp;
