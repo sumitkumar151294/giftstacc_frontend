@@ -66,10 +66,10 @@ body {
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #969ba0;
-    background-color: #FBFBFB;
-    -webkit-text-size-adjust: var( --w100);
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    color: var(--primary-grey);
+    background-color: var(--primary-white-2);
+    -webkit-text-size-adjust: var(--w100);
+    -webkit-tap-highlight-color: var(--rgba-primary-16);
   }
   body {
     margin: 0;
@@ -77,8 +77,8 @@ body {
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #969ba0;
-    background-color: #FBFBFB;
+    color: var(--primary-grey);
+    background-color: var(--primary-white-2);
     -webkit-text-size-adjust: var( --w100);
     // -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
