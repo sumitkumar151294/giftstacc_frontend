@@ -4,9 +4,9 @@
 
 
   .padd {
-    background: #f8f8f8;
+    background: var(--primary-alice-2);
     padding: 10px;
     padding-left: 30px;
     border-radius: 10px;
-    color: black;
+    color: var(--primary-black);
 }

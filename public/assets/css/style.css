@@ -23,13 +23,21 @@
   --primary-greyish:#616161;
   --primary-white-2:#fbfbfb;
   --primary-black:#000;
+  --primary-skin-2:#ededed;
+  --primary-dark-skin:#e6cbc2;
+  --primary-dark-alice:#ffe1d8;
+  --primary-light-alice:#ecd0c8;
+  --primary-dark-alice-2:#f2d6cd;
+  --primary-light-blue:#1947e1;
   --primary-skin:#EEEEEE;
   --primary-blue:#0074fc;
   --primary-dark: #a02502;
   --primary-black-2: #212130;
   --primary-dark-blue: #0049e0;
    --primary-grey:#969ba0;
+   --primary-input-bg:#e9ecef;
   --primary-alice: aliceblue;
+  --primary-alice-2: #f8f8f8;
   --rgba-primary-1: rgba(253, 104, 62, 0.1);
   --rgba-primary-2: rgba(253, 104, 62, 0.2);
   --rgba-primary-3: rgba(253, 104, 62, 0.3);
@@ -45,6 +53,11 @@
   --rgba-primary-13: rgba(255, 255, 255, 0.6);
   --rgba-primary-14: rgba(0, 0, 0, 0.08);
   --rgba-primary-15:rgba(154, 161, 171, 0.15);
+  --rgba-primary-16:  rgba(0, 0, 0, 0);
+  --rgba-primary-17:  rgba(0, 0, 0, 0.25);
+  --rgba-primary-18:  rgba(0, 0, 0, 0.05);
+  --rgba-primary-19:  rgba(0, 0, 0, 0.1);
+  --rgba-primary-20:  rgba(0, 0, 0, 0.075);
   --font-family: 'Inter', sans-serif;
   --title: #000;
   --header-bg:#E9E9E9;
@@ -69,6 +82,15 @@
   --rem-1-25:1.25rem; 
   --rem-8-75:8.75rem;
   --rem0:0.9375rem;  */
+  --bs-table-bg: #f0e8f6;
+  --bs-table-striped-bg: #e4dcea;
+  --bs-table-active-bg: #d8d1dd;
+  border-color: #cbe0ca;
+  --bs-table-bg: #e1f9e0;
+  --bs-bg: #cac6dd;
+
+
+
 }
 
 .gradient_one {
@@ -259,6 +281,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   --bs-teal: #20c997;
   --bs-cyan: #3065D0;
   --bs-white: #fff;
+  --bs-cream: #feb49f;
   --bs-gray: #6c757d;
   --bs-skin: #f5f5f5;
   --bs-gray-dark: #343a40;
@@ -270,6 +293,10 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   --bs-info: #b48dd3;
   --bs-warning: #FFA41D;
   --bs-danger: #f72b50;
+  --bs-danger-red: #f84b6a;
+  --bs-danger-dark-red: #f84062;
+  --bs-danger-light-orange: #f95573;
+  --bs-dark-brown: #fd683e40;
   --bs-light: #c8c8c8;
   --bs-dark: #6e6e6e;
   --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
