@@ -181,7 +181,7 @@ label {
 .btn.btn-primary,
 .btn.btn-danger,
 .btn.btn-info {
-  color: #fff;
+  color: #fff !important;
 }   
 
 .btn-check:checked+.btn-danger,
@@ -228,6 +228,48 @@ label {
       font-size: 1.2rem;
     }
   }
+  .w-11 {
+    width: 11em;
+  }
+  .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.input-group .btn {
+  position: relative;
+  z-index: 2;
+}
+.group-btn {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border: 3px solid #000000;
+  padding: 0.6em;
+  background: #1947e1;
+  color: #fff !important;
+}
+.badge-success {
+    background-color: #68e365;
+}
+.badge {
+    line-height: 1.5;
+    border-radius: 1.03125rem;
+    padding: 0.25rem 0.625rem;
+    border: 0.0625rem solid transparent;
+}
+.badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.75rem;
+}
   [data-typography="opensans"] {
     font-family: 'Inter', sans-serif;
 }

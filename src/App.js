@@ -6,9 +6,8 @@ import './scss/Container.scss';
 import './scss/Column.scss';
 import './scss/Card.scss';
 import './scss/common.scss';
-import './scss/Table.scss';
+import './scss/Table.scss'; 
 import './scss/Padding.scss';
-
 
 function App() {
   return (
