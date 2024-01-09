@@ -39,6 +39,20 @@ h6,
     color: var(--primary-black);
     font-family: 'Inter', sans-serif;
 }
+h4,
+.h4 {
+  font-size: 1.125rem;
+}
+h5,
+.h5 {
+  font-size: 1rem;
+}
+
+h6,
+.h6 {
+  font-size: 0.938rem;
+}
+
 @media (min-width: 1200px) {
 
     h3,
@@ -292,7 +306,7 @@ label {
   }
   a:hover {
     color: var( --primary-blue) ;
-    text-decoration: none !important ;
+    text-decoration: none ;
   }
 .me-1 {
     margin-right: 0.25rem !important;
