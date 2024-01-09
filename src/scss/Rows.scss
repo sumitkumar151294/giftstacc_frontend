@@ -11,8 +11,8 @@
 .row>* {
   flex-shrink: 0;
   margin-top: var(--bs-gutter-y);
-  max-width: 100%;
-  width: 100%;
+  max-width: var(--w100);
+  width: var(--w100);
   padding-left: calc(var(--bs-gutter-x)/2);
   padding-right: calc(var(--bs-gutter-x)/2);
 }
