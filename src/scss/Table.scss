@@ -75,7 +75,14 @@
     text-align: inherit;
     text-align: -webkit-match-parent;
   }
-  
+  .table td {
+    border-color: #f5f5f5;
+    padding: 0.9375rem 0.625rem;
+}
+.table tbody tr td {
+    vertical-align: middle;
+    border-color: #f5f5f5;
+}
   thead,
   tbody,
   tfoot,

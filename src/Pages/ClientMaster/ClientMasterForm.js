@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import "../ClientMasterForm/ClientMasterForm.scss";
-import InputField from "../../../Components/InputField/InputField";
-import Dropdown from "../../../Components/Dropdown/Dropdown";
-import Loader from "../../../Components/Loader/Loader";
+// import "../ClientMasterForm/ClientMasterForm.scss";
+import InputField from "../../Components/InputField/InputField";
+import Dropdown from "../../Components/Dropdown/Dropdown";
+import Loader from "../../Components/Loader/Loader";
 import {
   onUpdateClientMasterSubmit,
   onPostClientMasterSubmit,
   onClientMasterSubmit,
-} from "../../../Store/Slices/clientMasterSlice";
+} from "../../Store/Slices/clientMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
-import Button from "../../../Components/Button/Button";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import Button from "../../Components/Button/Button";
 const ClientMaster = (props) => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);

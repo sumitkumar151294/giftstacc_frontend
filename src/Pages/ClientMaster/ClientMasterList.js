@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "./ClientMasterList.scss";
+import "./ClientMaster.scss";
 import { Link } from "react-router-dom";
-import Loader from "../../../Components/Loader/Loader";
-import NoRecord from "../../../Components/NoRecord/NoRecord";
-import ClientMasterForm from "../ClientMasterForm/ClientMasterForm";
+import Loader from "../../Components/Loader/Loader";
+import NoRecord from "../../Components/NoRecord/NoRecord";
+import ClientMasterForm from "./ClientMasterForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onClientMasterSubmit,
   onUpdateClientMasterSubmit,
-} from "../../../Store/Slices/clientMasterSlice";
+} from "../../Store/Slices/clientMasterSlice";
 import { CSVLink } from "react-csv";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
-import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
