@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import Button from "../../../Components/Button/Button";
 const ClientMaster = (props) => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
@@ -345,9 +346,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${
-                            errors.name ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.name ? "border-danger" : "form-control"
+                            }`}
                           name="contactName"
                           id="contact-name"
                           error={errors.name}
@@ -362,9 +362,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="number"
-                          className={` ${
-                            errors.number ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.number ? "border-danger" : "form-control"
+                            }`}
                           name="contactNumber"
                           id="contact-number"
                           value={clientData.number}
@@ -381,9 +380,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="email"
-                          className={` ${
-                            errors.email ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.email ? "border-danger" : "form-control"
+                            }`}
                           name="contactEmail"
                           id="contact-email"
                           value={clientData.email}
@@ -416,9 +414,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="color"
-                          className={` ${
-                            errors.color ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.color ? "border-danger" : "form-control"
+                            }`}
                           name="color"
                           id="color"
                           error={errors.color}
@@ -433,9 +430,8 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${
-                            errors.lgogLink ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.lgogLink ? "border-danger" : "form-control"
+                            }`}
                           name="logo"
                           id="logo"
                           error={errors.lgogLink}
@@ -468,11 +464,10 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.dbipAddress
+                            className={` ${errors.dbipAddress
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="ipAddress"
                             id="ipAddress"
                             value={clientData.dbipAddress}
@@ -488,11 +483,10 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.dbLoginId
+                            className={` ${errors.dbLoginId
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="username"
                             id="user-name"
                             value={clientData.dbLoginId}
@@ -508,11 +502,10 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="password"
-                            className={` ${
-                              errors.dbLoginPwd
+                            className={` ${errors.dbLoginPwd
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="password"
                             id="password"
                             value={clientData.dbLoginPwd}
@@ -539,11 +532,10 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${
-                                      errors.fieldNameInput
+                                    className={` ${errors.fieldNameInput
                                         ? "border-danger"
                                         : "form-control"
-                                    }`}
+                                      }`}
                                     name="fieldNameInput"
                                     id="fieldNameInput"
                                     placeholder={key}
@@ -573,11 +565,10 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${
-                                      errors.fieldValue
+                                    className={` ${errors.fieldValue
                                         ? "border-danger"
                                         : "form-control"
-                                    }`}
+                                      }`}
                                     name="fieldValue"
                                     id="production-key"
                                     placeholder={key}
@@ -599,11 +590,10 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <Dropdown
                                     type="text"
-                                    className={` ${
-                                      errors.mode
+                                    className={` ${errors.mode
                                         ? "border-danger"
                                         : "form-select"
-                                    }`}
+                                      }`}
                                     name="mode"
                                     id="mode"
                                     placeholder={key}
@@ -649,15 +639,11 @@ const ClientMaster = (props) => {
                         </div>
                       </div>
                       <div className="col-sm-12 form-group mb-0 mt-2">
-                        <button
-                          type="submit"
+                        <Button
+                          text={props.data ? update : add}
+                          icon={"fa fa-arrow-right"}
                           onClick={handleSubmit}
-                          className="btn btn-primary float-right pad-aa"
-                        >
-                          {props.data ? update : add}
-
-                          <i className="fa fa-arrow-right"></i>
-                        </button>
+                        />
                         <ToastContainer />
                       </div>
                     </div>

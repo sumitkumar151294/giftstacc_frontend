@@ -12,6 +12,7 @@ import { onClientMasterSubmit } from "../../../Store/Slices/clientMasterSlice";
 import InputField from "../../../Components/InputField/InputField";
 import "./SupplierMasterDetails.scss";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
+import Button from "../../../Components/Button/Button";
 
 const SupplierMasterDetails = ({ data }) => {
   const dispatch = useDispatch();
@@ -233,13 +234,13 @@ const SupplierMasterDetails = ({ data }) => {
               <div className="card-header">
                 <h4 className="card-title">{supplierMaster}</h4>
               </div>
-              <div className="card-body position-relative">
+              <div className="card-body">
                 {isformLoading ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="container mt-3">
+                  <div className="container-fluid">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-8 form-group mb-2">
@@ -382,7 +383,7 @@ const SupplierMasterDetails = ({ data }) => {
                             <br />
                             <div className="col-sm-12 form-group mb-7">
                               <button
-                                className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                                className="btn btn-primary btn-sm float-right p-btn mt-2"
                                 onClick={(e) => handleAddMore(e)}
                               >
                                 {add_More} <i className="fa fa-plus"></i>
@@ -399,13 +400,10 @@ const SupplierMasterDetails = ({ data }) => {
                         </span>
 
                         <div className="col-sm-12 form-group mb-0 mt-2">
-                          <button
-                            type="submit"
-                            className="btn btn-primary float-right pad-aa"
-                          >
-                            {data.name ? update : submit}
-                            <i className="fa fa-arrow-right"></i>
-                          </button>
+                          <Button 
+                          text= {data.name ? update : submit}
+                          icon={"fa fa-arrow-right"}
+                          />
                           <ToastContainer />
                         </div>
                       </div>
