@@ -527,3 +527,43 @@
     height: calc(100% - 0.938rem);
 }
 }
+.w-35px {
+  width: 35px!important;
+}
+.card-body {
+  padding: 1.875rem;
+  padding-top: 0px;
+}
+.menu h2, .menu .h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+@media only screen and (max-width: 575px){
+.card-body {
+    padding: 1rem;
+}}
+@media only screen and (max-width: 35.9375rem){
+.card {
+    border-radius: 0.375rem;
+    margin-bottom: 0.938rem;
+    height: calc(100% - 0.938rem);
+}}
+.position-relative {
+    position: relative !important;
+}
+@media only screen and (max-width: 35.9375rem){
+.card {
+    border-radius: 0.375rem;
+    margin-bottom: 0.938rem;
+    height: calc(100% - 0.938rem);
+}
+}
+@media only screen and (max-width: 575px){
+.card-body {
+    padding: 1rem;
+}
+}
+@media only screen and (max-width: 575px){
+.fs-16 {
+    font-size: 0.875rem !important;
+}}
