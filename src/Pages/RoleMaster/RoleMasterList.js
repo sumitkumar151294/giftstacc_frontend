@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-// import '../RoleMaster.scss'
-import NoRecord from "../../../Components/NoRecord/NoRecord"
-import Loader from "../../../Components/Loader/Loader";
+import NoRecord from "../../Components/NoRecord/NoRecord"
+import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetUserRole } from "../../../Store/Slices/userRoleSlice";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
-import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
+import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { Pagination } from "@mui/material";
-import RoleMasterForm from "../RoleMasterForm/RoleMasterForm";
+import RoleMasterForm from "./RoleMasterForm";
 const RoleMasterList = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);

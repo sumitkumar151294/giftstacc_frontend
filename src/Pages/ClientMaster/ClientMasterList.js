@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./ClientMaster.scss";
 import { Link } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import NoRecord from "../../Components/NoRecord/NoRecord";

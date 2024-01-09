@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import "../ClientMasterForm/ClientMasterForm.scss";
 import InputField from "../../Components/InputField/InputField";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import Loader from "../../Components/Loader/Loader";

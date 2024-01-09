@@ -8,9 +8,9 @@ import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
 import BrandDetail from "../Pages/BrandDetail/BrandDetail";
 import Orders from "../Pages/Orders/Orders";
 import ClientBrandList from "../Pages/ClientMaster/ClientBrandList";
-import RoleMasterList from "../Pages/RoleMaster/RoleMasterList/RoleMasterList";
+import RoleMasterList from "../Pages/RoleMaster/RoleMasterList";
 import ClientMasterList from "../Pages/ClientMaster/ClientMasterList";
-import CategoryList from "../Pages/CreateCategories/CategoryList/CategoryList";
+import CategoryList from "../Pages/CreateCategories/CategoryList";
 import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
 function RouteConfiq() {

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Loader from "../../../Components/Loader/Loader";
+import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onGetCategory,
   onPostCategory,
-} from "../../../Store/Slices/createCategorySlice";
-import InputField from "../../../Components/InputField/InputField";
-import Dropdown from "../../../Components/Dropdown/Dropdown";
+} from "../../Store/Slices/createCategorySlice";
+import InputField from "../../Components/InputField/InputField";
+import Dropdown from "../../Components/Dropdown/Dropdown";
 import { ToastContainer, toast } from "react-toastify";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
-import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
-import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
-import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
-import Button from "../../../Components/Button/Button";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
+import Button from "../../Components/Button/Button";
 
 const CategoryForm = ({ setIsLoading }) => {
   const dispatch = useDispatch();
