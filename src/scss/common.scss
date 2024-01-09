@@ -4,7 +4,7 @@
 
 .border-danger {
     background: var(--primary-white);
-    width: 100%;
+    width: var( --w100);
     border: 3px solid var(--primary-red);
     padding: 0.3125rem 1.25rem;
     color: var(--bs-dark);
@@ -75,7 +75,7 @@ label {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    width: 100%;
+    width: var( --w100);
   }
   .input-group-text {
     display: flex;
@@ -88,18 +88,18 @@ label {
     text-align: center;
     white-space: nowrap;
     background-color: #e9ecef;
-    border: 1px solid #f5f5f5;
+    border: 1px solid var(--primary-white-3);
     border-radius: 0.75rem;
 }
 .customer-search .search-area .input-group-text {
-    background: #fff;
-    border: 0.0625rem solid #EEEEEE;
+    background: var( --primary-white);;
+    border: 0.0625rem solid var(--primary-skin);;
     border-top-right-radius: 3.125rem;
     border-bottom-right-radius: 3.125rem;
   }
   
   .customer-search .search-area .form-control {
-    border: 0.0625rem solid #EEEEEE;
+    border: 0.0625rem solid var(--primary-skin);;
     border-top-left-radius: 3.125rem;
     border-bottom-left-radius: 3.125rem;
     border-right: 0;
@@ -117,13 +117,13 @@ label {
 }
 .form-select {
     display: block;
-    width: 100%;
+    width: var(--w100);
     padding: 0.375rem 0.25rem 0.375rem 0.75rem;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #000000;
-    background-color: #fff;
+    color: var(--primary-black);
+    background-color: var( --primary-white);;
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
     background-size: 16px 12px;
@@ -181,7 +181,7 @@ label {
 .btn.btn-primary,
 .btn.btn-danger,
 .btn.btn-info {
-  color: #fff;
+  color: var( --primary-white);;
 }   
 
 .btn-check:checked+.btn-danger,

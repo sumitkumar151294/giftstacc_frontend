@@ -164,7 +164,7 @@
   .container-lg,
   .container-xl,
   .container-xxl {
-    width: 100%;
+    width: var(--w100);
     padding-right: var(--bs-gutter-x, 15px);
     padding-left: var(--bs-gutter-x, 15px);
     margin-right: auto;
@@ -305,7 +305,7 @@
   .container-lg,
   .container-xl,
   .container-xxl {
-    width: 100%;
+    width: var(--w100);
     padding-right: var(--bs-gutter-x, 15px);
     padding-left: var(--bs-gutter-x, 15px);
     margin-right: auto;
@@ -359,8 +359,8 @@
 
 .row>* {
   flex-shrink: 0;
-  // width: 100%;
-  max-width: 100%;
+  // width: var(--w100);;
+  max-width: var(--w100);
   padding-right: calc(var(--bs-gutter-x) / 2);
   padding-left: calc(var(--bs-gutter-x) / 2);
   margin-top: var(--bs-gutter-y);
