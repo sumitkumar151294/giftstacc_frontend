@@ -1,5 +1,5 @@
 .br {
-  border: 1px solid #ededed;
+  border: 1px solid var(--primary-skin-2);
 }
 .pt-2 {
   padding-top: 0.5rem !important;
@@ -8,7 +8,7 @@
   margin-left: 10px!important;
 }
 .badge-success {
-    background-color: #68e365;
+    background-color: var(--bs-success);
 }
 .badge {
   line-height: 1.5;

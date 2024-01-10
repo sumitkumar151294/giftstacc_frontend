@@ -1,6 +1,5 @@
 import React from 'react'
 import { useNavigate } from 'react-router'
-import "./HomePage.css"
 const HomePage = () => {
     const navigate = useNavigate();
     const handleGoToLogin=()=>{

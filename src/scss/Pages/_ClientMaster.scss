@@ -1,0 +1,10 @@
+ .btn-secondary:active, .btn-secondary{
+  color: var( --primary-white);;
+  background-color: var(    --bs-secondary-border);
+  border-color: var(--bs-secondary-active-border);
+}
+.btn-secondary:hover {
+  color: var( --primary-white);;
+  background-color: var(--btn-secondary-bg);
+  border-color: var(    --bs-secondary-border);
+}

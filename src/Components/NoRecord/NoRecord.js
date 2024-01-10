@@ -1,5 +1,4 @@
 import React from 'react'
-import './NoRecord.scss';
 import { GetTranslationData } from '../GetTranslationData/GetTranslationData ';
 
 const NoRecord = () => {

@@ -1,5 +1,4 @@
 import React from 'react'
-import './InputField.scss';
 const InputField = ({ type,name,id, placeholder, onChange, error, className, value, checked }) => {
     return (
         <div>   

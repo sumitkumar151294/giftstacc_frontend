@@ -5,7 +5,7 @@
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #969ba0;
+    color: var( --primary-grey);
     background-color: var(--primary-white);
     background-clip: padding-box;
     border: 1px solid var( --primary-white-2);
@@ -31,9 +31,9 @@
 }
 
 .form-control:focus {
-    color: #969ba0;
+    color: var( --primary-grey);
     background-color: var(--primary-white);
-    border-color: #feb49f;
+    border-color: var(--bs-cream);
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(253, 104, 62, 0.25);
 }
@@ -43,13 +43,13 @@
 }
 
 .form-control::placeholder {
-    color: #6c757d;
+    color: var(--bs-gray);
     opacity: 1;
 }
 
 .form-control:disabled,
 .form-control[readonly] {
-    background-color: #e9ecef;
+    background-color: var(--primary-input-bg);
     opacity: 1;
 }
 
@@ -57,8 +57,8 @@
     padding: 0.375rem 0.75rem;
     margin: -0.375rem -0.75rem;
     margin-inline-end: 0.75rem;
-    color: #969ba0;
-    background-color: #e9ecef;
+    color: var( --primary-grey);
+    background-color: var(--primary-input-bg);
     pointer-events: none;
     border-color: inherit;
     border-style: solid;
@@ -75,15 +75,15 @@
 }
 
 .form-control:hover:not(:disabled):not([readonly])::file-selector-button {
-    background-color: #dde0e3;
+    background-color: var( --bs-light-bg);
 }
 
 .form-control::-webkit-file-upload-button {
     padding: 0.375rem 0.75rem;
     margin: -0.375rem -0.75rem;
     margin-inline-end: 0.75rem;
-    color: #969ba0;
-    background-color: #e9ecef;
+    color: var( --primary-grey);
+    background-color: var(--primary-input-bg);
     pointer-events: none;
     border-color: inherit;
     border-style: solid;
@@ -100,7 +100,7 @@
 }
 
 .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
-    background-color: #dde0e3;
+    background-color: var( --bs-light-bg);
 }
 
 .form-control-plaintext {
@@ -109,7 +109,7 @@
     padding: 0.375rem 0;
     margin-bottom: 0;
     line-height: 1.5;
-    color: #969ba0;
+    color: var( --primary-grey);
     background-color: transparent;
     border: solid transparent;
     border-width: 1px 0;
@@ -181,18 +181,18 @@
 
 .form-control {
     background: var(--primary-white);
-    border: 3px solid #616161;
+    border: 3px solid var( --primary-greyish);
     padding: 0.3125rem 1.25rem;
-    color: #6e6e6e;
+    color: var(--bs-table-dark-bg-2);
     height: 2.5rem;
     border-radius: 1rem;
 }
 
 .form-control {
     background: var(--primary-white);
-    border: 3px solid #616161;
+    border: 3px solid var( --primary-greyish);
     padding: 0.3125rem 1rem;
-    color: #6e6e6e;
+    color: var(--bs-table-dark-bg-2);
     height: 2.5rem;
     border-radius: 1rem;
 }
@@ -209,7 +209,7 @@
 .form-control.active {
     box-shadow: none;
     background: var(--primary-white);
-    color: #6e6e6e;
+    color: var(--bs-table-dark-bg-2);
 }
 
 
