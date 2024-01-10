@@ -11,8 +11,8 @@
 .row>* {
   flex-shrink: 0;
   margin-top: var(--bs-gutter-y);
-  max-width: 100%;
-  width: 100%;
+  max-width: var(--w100);
+  width: var(--w100);
   padding-left: calc(var(--bs-gutter-x)/2);
   padding-right: calc(var(--bs-gutter-x)/2);
 }
@@ -20,7 +20,7 @@
   flex-wrap: wrap !important;
 }
 .top-top {
-  border: 1px solid #ededed;
+  border: 1px solid var(--primary-skin-2);
   padding: 10px;
   border-radius: 5px;
 }

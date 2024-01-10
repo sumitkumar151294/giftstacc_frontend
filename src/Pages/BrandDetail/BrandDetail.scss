@@ -23,3 +23,15 @@
 .head-style{
 font-size: 1.125rem;
 }
+.fs-14 {
+  font-size: 0.875rem !important;
+  line-height: 1.6;
+}
+.only-right {
+  display: flex;
+  justify-content: end;
+}
+.on-link {
+  text-decoration: underline !important;
+  color: blue;
+}
