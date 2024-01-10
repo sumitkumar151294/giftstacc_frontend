@@ -250,9 +250,7 @@ const SupplierMasterForm = ({ data }) => {
                           <InputField
                             type="text"
                             value={vendorData?.name}
-                            className={` ${
-                              errors.name ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.name ? "border-danger" : "form-control"}`}
                             name="fname"
                             id="name-f"
                             placeholder=""

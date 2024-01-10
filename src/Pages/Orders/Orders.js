@@ -118,13 +118,13 @@ const Orders = () => {
 
   const filteredOrderList = Array.isArray(data)
     ? data.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   const handlePageChange = (event, newPage) => {
@@ -150,7 +150,7 @@ const Orders = () => {
                           type="text"
                           className="form-control only-high"
                           placeholder={searchLabel}
-                          value={searchQuery}
+                          defaultValue={searchQuery}
                           onChange={handleSearch}
                         />
                         <span className="input-group-text">
@@ -181,19 +181,19 @@ const Orders = () => {
                 <div className="container-fluid">
                   <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                     <div className="col-sm-3 form-group mb-2">
-                      <label for="name-f">{supplier}</label>
+                      <label htmlFor="supplier">{supplier}</label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "supplier")}
-                        value={supplierList.supplier || ""}
+                        defaultValue={supplierList.supplier || ""}
                         className="form-select"
                         options={supplierListData}
                       />
                     </div>
                     <div className="col-sm-3 form-group mb-2">
-                      <label for="name-f">{client}</label>
+                      <label htmlFor="client">{client}</label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "client")}
-                        value={supplierList?.client || ""}
+                        defaultValue={supplierList?.client || ""}
                         className="form-select"
                         options={clientListData}
                       />
@@ -205,7 +205,7 @@ const Orders = () => {
                           type="text"
                           className="form-control input-daterange-timepicker"
                           name="daterange"
-                          value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
+                          defaultValue="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
                         />
                       </div>
                     </div>
@@ -234,16 +234,13 @@ const Orders = () => {
                               </thead>
                               {filteredOrderList
                                 .slice(startIndex, endIndex)
-                                .map((data) => (
-                                  <tbody>
+                                .map((data, index) => (
+                                  <tbody key={index}>
                                     <tr>
-                                      <td>{data.supplier}</td>{" "}
-                                      <td>
-                                        {data.brand}
-                                        <a href="#"></a>
-                                      </td>
+                                      <td>{data.supplier}</td>
+                                      <td>{data.brand}<a href="#"></a></td>
                                       <td>{data.vouchers}</td>
-                                      <td> {data.amount}</td>
+                                      <td>{data.amount}</td>
                                       <td>{data.margin}</td>
                                       <td>{data.marginvalue}</td>
                                     </tr>
