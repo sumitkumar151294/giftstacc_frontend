@@ -153,7 +153,7 @@ const BrandCatalogue = () => {
               <div className="container-fluid">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="col-sm-3 form-group mb-2">
-                    <label for="name-f">{supplier}</label>
+                    <label htmlFor="supplier">{supplier}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "supplier")}
                       value={supplierList.supplier || ""}
@@ -162,7 +162,7 @@ const BrandCatalogue = () => {
                     />
                   </div>
                   <div className="col-sm-3 form-group mb-2">
-                    <label for="name-f">{client}</label>
+                    <label htmlFor="client">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
                       value={supplierList?.client || ""}
@@ -197,8 +197,8 @@ const BrandCatalogue = () => {
                             <tbody>
                               {filteredBrandCatalogueList
                                 .slice(startIndex, endIndex)
-                                .map((data) => (
-                                  <tr>
+                                .map((data, index) => (
+                                  <tr key={index}>
                                     <td>
                                       <img
                                         src={img}
