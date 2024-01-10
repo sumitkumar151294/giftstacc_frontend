@@ -12,8 +12,11 @@ import Customerlist from "../Pages/CustomerList/CustomerList";
 import ClientBrandList from "../Pages/ClientMaster/ClientBrandList";
 import RoleMasterList from "../Pages/RoleMaster/RoleMasterList";
 import CategoryList from "../Pages/CreateCategories/CategoryList";
+import CategoryList from "../Pages/CreateCategories/CategoryList/CategoryList";
+import FailedOrders from "../Pages/FailedOrders/FailedOrders";
 import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
+import AbandonedCartReport from "../Pages/AbandonedCart/AbandonedCart";
 function RouteConfiq() {
   return (
     <Router>
@@ -33,6 +36,8 @@ function RouteConfiq() {
         <Route path="/lc-admin/brand-detail" element={<Layout Component={BrandDetail} />} />
         <Route path="/lc-admin/orders" element={<Layout Component={Orders} />} />
         <Route path="/lc-admin/customer-list" element={<Layout Component={Customerlist} />} />
+        <Route path="/lc-admin/abandoned-cart-report" element={<Layout Component={AbandonedCartReport} />} />
+        <Route path="/lc-admin/failed-orders" element={<Layout Component={FailedOrders} />} />
       </Routes>
     </Router>
   );
