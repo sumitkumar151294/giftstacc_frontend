@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./BrandCatalogue.scss";
 import { Link } from "react-router-dom";
 import img from "../../Assets/img/pizz1.jpg";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";

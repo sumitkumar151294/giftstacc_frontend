@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import "./Orders.scss";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";

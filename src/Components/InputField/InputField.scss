@@ -105,7 +105,7 @@
 
 .form-control-plaintext {
     display: block;
-    width: 100%;
+    width: var(--w100);
     padding: 0.375rem 0;
     margin-bottom: 0;
     line-height: 1.5;
@@ -191,7 +191,7 @@
 .form-control {
     background: var(--primary-white);
     border: 3px solid #616161;
-    padding: 0.3125rem 1.25rem;
+    padding: 0.3125rem 1rem;
     color: #6e6e6e;
     height: 2.5rem;
     border-radius: 1rem;
@@ -200,7 +200,7 @@
 @media only screen and (max-width: 1400px) {
     .form-control {
         height: 3rem;
-        width: 100%;
+        width: var(--w100);
     }
 }
 

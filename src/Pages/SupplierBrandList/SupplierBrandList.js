@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./SupplierBrandList.scss";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";

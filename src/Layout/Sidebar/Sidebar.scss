@@ -32,7 +32,7 @@
 }
 .deznav .deznav-scroll {
   position: relative;
-  height: 100%;
+  height:  var(--h100);
 }
 .deznav .metismenu {
   display: flex;
@@ -84,10 +84,7 @@
   outline-width: 0;
   text-decoration: none;
 }
-a {
-  color: var(--anchor);
-  text-decoration: none;
-}
+
 a {
   color: var(--bs-primary);
   text-decoration: underline;
@@ -99,7 +96,7 @@ a {
   width: 16px !important;
 }  
 a.ai-icon{
-  width: 100%;
+  width: var(--w100);
 }
 [data-sidebar-position="fixed"][data-layout="vertical"] {
   .menu-toggle .deznav {

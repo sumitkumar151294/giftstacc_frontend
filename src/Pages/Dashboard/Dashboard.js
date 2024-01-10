@@ -1,5 +1,4 @@
 import React from 'react'
-import './Dashboard.scss'
 import { Chart } from './Chart'
 import Revenue from './Revenue'
 import Users from './Users'
