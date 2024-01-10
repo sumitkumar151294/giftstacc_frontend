@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
-import Loader from "../../../Components/Loader/Loader";
-import "./CategoryList.scss";
+import Loader from "../../Components/Loader/Loader";
 import {
   onGetCategory,
   onUpdateCategory,
-} from "../../../Store/Slices/createCategorySlice";
+} from "../../Store/Slices/createCategorySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
-import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
-import NoRecord from "../../../Components/NoRecord/NoRecord";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import NoRecord from "../../Components/NoRecord/NoRecord";
 import { Pagination } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
-import CategoryForm from "../CategoryForm/CategoryForm";
+import CategoryForm from "./CategoryForm";
 
 const CategoryList = () => {
   const dispatch = useDispatch();

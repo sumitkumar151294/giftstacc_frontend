@@ -6,7 +6,7 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import { Pagination } from "@mui/material";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
-import './UserMaster.scss';
+
 
 const UserMasterList = () => {
   const [page, setPage] = useState(1); // Current page
