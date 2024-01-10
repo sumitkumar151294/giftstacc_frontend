@@ -181,7 +181,7 @@ const Orders = () => {
                 <div className="container-fluid">
                   <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                     <div className="col-sm-3 form-group mb-2">
-                      <label for="name-f">{supplier}</label>
+                      <label htmlFor="name-f">{supplier}</label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "supplier")}
                         value={supplierList.supplier || ""}
@@ -190,7 +190,7 @@ const Orders = () => {
                       />
                     </div>
                     <div className="col-sm-3 form-group mb-2">
-                      <label for="name-f">{client}</label>
+                      <label htmlFor="name-f">{client}</label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "client")}
                         value={supplierList?.client || ""}
