@@ -12,6 +12,8 @@ import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { CSVLink } from "react-csv";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 const BrandCatalogue = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
@@ -74,13 +76,13 @@ const BrandCatalogue = () => {
   };
   const filteredBrandCatalogueList = Array.isArray(BrandCatalogueData)
     ? BrandCatalogueData.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   const handleChange = (e, fieldName) => {
@@ -118,7 +120,7 @@ const BrandCatalogue = () => {
                   </div>
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
-                      <input
+                      <InputField
                         type="text"
                         className="form-control only-high"
                         placeholder={searchLabel}
@@ -140,10 +142,11 @@ const BrandCatalogue = () => {
                         filename={"BrandCatalogue.csv"}
                       >
                         {filteredBrandCatalogueList.length > 0 && (
-                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                            <i className="fa fa-file-excel me-2"></i>
-                            {exportLabel}
-                          </button>
+                          <Button
+                            className="btn btn-primary btn-sm btn-rounded mb-2"
+                            icons={"fa fa-file-excel me-2"}
+                            text={`${exportLabel}`}
+                          />
                         )}
                       </CSVLink>
                     )}

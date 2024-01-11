@@ -6,43 +6,44 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import { Pagination } from "@mui/material";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
+import Button from "../../Components/Button/Button";
 
 
 const UserMasterList = () => {
   const [page, setPage] = useState(1); // Current page
   const [rowsPerPage] = useState(5);
 
-    const dispatch = useDispatch();
-    const [prefilledValues, setPrefilledValues] = useState();
-    useEffect(() => {
-        dispatch(onGetUser());
-    }, []);
-    const UserList = GetTranslationData("UIAdmin", "User_list_label");
-    const roleName = GetTranslationData("UIAdmin", "role_name_label");
-    const email = GetTranslationData("UIAdmin", "email_label");
-    const mobile = GetTranslationData("UIAdmin", "mobile_label");
-    const username = GetTranslationData("UIAdmin", "usernamee_label");
-    const clients = GetTranslationData("UIAdmin", "clients_name_label");
-    const action = GetTranslationData("UIAdmin", "action_label");
-    const not_Found = GetTranslationData("UIAdmin", "not_Found");
-    const userList = useSelector((state) => state.userMasterReducer)
-    const client = useSelector((state) => state.clientMasterReducer.data)
-    const loading = useSelector((state) => state.userMasterReducer.isLoading);
-    const roleList = useSelector((state) => state.userRoleReducer?.userRoleData?.data);
-    const handleEdit = (data) => {
-        const prefilled = data;
-        setPrefilledValues(prefilled)
-    }
-    const startIndex = (page - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    const handlePageChange = (event, newPage) => {
-        setPage(newPage);
-    };
-    // here get role name by match with id 
-    const getNameById = (id) => {
-        const result = roleList?.find(item => item.id === id);
-        return result ? result.name : not_Found;
-    };
+  const dispatch = useDispatch();
+  const [prefilledValues, setPrefilledValues] = useState();
+  useEffect(() => {
+    dispatch(onGetUser());
+  }, []);
+  const UserList = GetTranslationData("UIAdmin", "User_list_label");
+  const roleName = GetTranslationData("UIAdmin", "role_name_label");
+  const email = GetTranslationData("UIAdmin", "email_label");
+  const mobile = GetTranslationData("UIAdmin", "mobile_label");
+  const username = GetTranslationData("UIAdmin", "usernamee_label");
+  const clients = GetTranslationData("UIAdmin", "clients_name_label");
+  const action = GetTranslationData("UIAdmin", "action_label");
+  const not_Found = GetTranslationData("UIAdmin", "not_Found");
+  const userList = useSelector((state) => state.userMasterReducer)
+  const client = useSelector((state) => state.clientMasterReducer.data)
+  const loading = useSelector((state) => state.userMasterReducer.isLoading);
+  const roleList = useSelector((state) => state.userRoleReducer?.userRoleData?.data);
+  const handleEdit = (data) => {
+    const prefilled = data;
+    setPrefilledValues(prefilled)
+  }
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  // here get role name by match with id 
+  const getNameById = (id) => {
+    const result = roleList?.find(item => item.id === id);
+    return result ? result.name : not_Found;
+  };
 
   // here get client name by matching with id
   function getClientByIndex(data, client) {
@@ -121,12 +122,11 @@ const UserMasterList = () => {
                                   )}
                               </td>
                               <td>
-                                <button
+                                <Button
                                   className="btn btn-primary shadow btn-xs sharp me-1"
                                   onClick={() => handleEdit(item)}
-                                >
-                                  <i className="fas fa-pencil-alt"></i>
-                                </button>
+                                  icon={"fas fa-pencil-alt"}
+                                />
                               </td>
                             </tr>
                           ))}

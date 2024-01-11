@@ -310,8 +310,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           <InputField
                             type="text"
                             className={` ${errors.firstName
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             name="fname"
                             id="name-f"
@@ -385,7 +385,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                                 className="form-check mt-2 col-lg-3"
                               >
                                 {userData?.role === item.id ? (
-                                  <input
+                                  <InputField
                                     id={item.id}
                                     type="radio"
                                     className="form-check-input"
@@ -395,7 +395,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                                     onChange={(e) => handleChange(e, "role")}
                                   />
                                 ) : (
-                                  <input
+                                  <InputField
                                     id={item.id}
                                     type="radio"
                                     className="form-check-input"
@@ -425,6 +425,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                             <Button
                               text={prefilledValues ? update : submit}
                               icon={"fa fa-arrow-right"}
+                              className="btn btn-primary btn-sm float-right p-btn mt-2"
                             />
                             <ToastContainer />
                           </div>
