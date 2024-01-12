@@ -13,6 +13,8 @@ import NoRecord from "../../Components/NoRecord/NoRecord";
 import { toast, ToastContainer } from "react-toastify";
 import CategoryForm from "./CategoryForm";
 import ReactPaginate from "react-paginate";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 
 const CategoryList = () => {
   const dispatch = useDispatch();
@@ -58,13 +60,13 @@ const CategoryList = () => {
 
   const filteredCategoryList = Array.isArray(getCategoryData)
     ? getCategoryData.filter((item) =>
-        Object.values(item).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(item).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   useEffect(() => {
@@ -115,7 +117,7 @@ const CategoryList = () => {
 
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
-                      <input
+                      <InputField
                         type="text"
                         className="form-control only-high"
                         placeholder={searchLabel}
@@ -137,10 +139,11 @@ const CategoryList = () => {
                         filename={"Category.csv"}
                       >
                         {filteredCategoryList.length > 0 && (
-                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                            <i className="fa fa-file-excel me-2"></i>
-                            {export_label}
-                          </button>
+                          <Button
+                            className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                            text={export_label}
+                            icons={"fa fa-file-excel"}
+                          />
                         )}
                       </CSVLink>
                     )}
@@ -155,7 +158,7 @@ const CategoryList = () => {
                   </div>
                 )}
                 {Array.isArray(filteredCategoryList) &&
-                filteredCategoryList.length > 0 ? (
+                  filteredCategoryList.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
                       <thead>

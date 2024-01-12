@@ -6,6 +6,8 @@ import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import SupplierMasterForm from "./SupplierMasterForm";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 const SupplierMasterList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [vendorData, setVendorData] = useState({
@@ -80,13 +82,13 @@ const SupplierMasterList = () => {
 
   const filteredVendorList = Array.isArray(supplierMasterData)
     ? supplierMasterData.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   return (
@@ -107,7 +109,7 @@ const SupplierMasterList = () => {
                       </div>
                       <div className="customer-search mb-sm-0 mb-3">
                         <div className="input-group search-area">
-                          <input
+                          <InputField
                             type="text"
                             className="form-control only-high"
                             placeholder={search_here_label}
@@ -131,11 +133,12 @@ const SupplierMasterList = () => {
                               filename={"SupplierMaster.csv"}
                             >
                               {filteredVendorList.length > 0 && (
-                                <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                                  <i className="fa fa-file-excel me-2"></i>
-                                  {export_label}
-                                </button>
-                              )}
+                                <Button
+                                  className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                                  icons={"fa fa-file-excel"}
+                                  text={export_label}
+                                />
+                              )}s
                             </CSVLink>
                           )}
                       </div>

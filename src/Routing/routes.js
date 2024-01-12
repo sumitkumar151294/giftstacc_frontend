@@ -1,7 +1,6 @@
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Layout from "../Layout/Layout"
 import LoginPage from "../Pages/Login/LoginPage";
-import SupplierBrandList from "../Pages/SupplierBrandList/SupplierBrandList";
 import HomePage from "../Components/HomePage/HomePage";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
@@ -13,6 +12,7 @@ import ClientMasterList from "../Pages/ClientMaster/ClientMasterList";
 import CategoryList from "../Pages/CreateCategories/CategoryList";
 import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
+import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 function RouteConfiq() {
   return (
     <Router>
@@ -22,7 +22,7 @@ function RouteConfiq() {
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route path="/lc-admin/dashboard" element={<Layout Component={Dashboard} />} />
         <Route path="/lc-admin/supplier-master" element={<Layout Component={SupplierMasterList} />} />
-        <Route path="/lc-admin/supplier-product-list" element={<Layout Component={SupplierBrandList} />} />
+        <Route path="/lc-admin/supplier-product-list" element={<Layout Component={SupplierProductList} />} />
         <Route path="/lc-admin/create-categories" element={<Layout Component={CategoryList} />} />
         <Route path="/lc-admin/role-master" element={<Layout Component={RoleMasterList} />} />
         <Route path="/lc-admin/client-master" element={<Layout Component={ClientMasterList} />} />

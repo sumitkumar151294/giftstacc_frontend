@@ -8,8 +8,10 @@ import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 
-const SupplierBrandList = () => {
+const SupplierProductList = () => {
   const dispatch = useDispatch();
   const [supplierList, setSupplierList] = useState([]);
   const SupplierBrandList = useSelector(
@@ -140,7 +142,7 @@ const SupplierBrandList = () => {
                     </div>
                     <div className="customer-search mb-sm-0 mb-3">
                       <div className="input-group search-area">
-                        <input
+                        <InputField
                           type="text"
                           value={searchQuery}
                           onChange={handleSearch}
@@ -160,10 +162,11 @@ const SupplierBrandList = () => {
                             headers={headers}
                             filename={"SupplierBrandList.csv"}
                           >
-                            <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                              <i className="fa fa-file-excel me-2"></i>
-                              {export_label}
-                            </button>
+                            <Button
+                              className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                              icons={"fa fa-file-excel"}
+                              text={export_label}
+                            />
                           </CSVLink>
                         )}
                     </div>
@@ -187,10 +190,13 @@ const SupplierBrandList = () => {
                       <div className="col-lg-9 d-flex-list justify-content-end m-auto mb-2">
                         {userData.map((data, index) => (
                           <span className="mrr" key={index}>
-                            <button type="button" className={data.className}>
-                              {data.status}{" "}
-                              <span className="btn-icon-end">{data.count}</span>
-                            </button>
+                            <Button
+                              type="button"
+                              className={data.className}
+                              text={data.status}
+                              btn_css={"btn-icon-end"}
+                              value={data.count}
+                            />
                           </span>
                         ))}
                       </div>
@@ -226,7 +232,7 @@ const SupplierBrandList = () => {
                                         <td>{data.brands}</td>
                                         <td>
                                           <div className="input-group mb-2 w-11">
-                                            <input
+                                            <InputField
                                               type="number"
                                               className="form-control htt"
                                               placeholder={data.supplier_Margin}
@@ -236,15 +242,14 @@ const SupplierBrandList = () => {
                                               onKeyPress={handleKeyPress}
                                             />
                                             <div className="input-group-append">
-                                              <button
+                                              <Button
                                                 onClick={() =>
                                                   handleUpdate(data)
                                                 }
                                                 className="btn btn-outline-primary btn-sm group-btn btn-pad"
                                                 type="button"
-                                              >
-                                                {update}
-                                              </button>
+                                                text={update}
+                                              />
                                             </div>
                                           </div>
                                         </td>
@@ -263,7 +268,7 @@ const SupplierBrandList = () => {
                                         </td>
                                         <td>
                                           <div className="can-toggle">
-                                            <input
+                                            <InputField
                                               id={generateUniqueId(index)}
                                               type="checkbox"
                                               checked={data.status} // Set checked based on the status
@@ -324,4 +329,4 @@ const SupplierBrandList = () => {
   );
 };
 
-export default SupplierBrandList;
+export default SupplierProductList;

@@ -2,6 +2,7 @@ import React from "react";
 import img from "../../Assets/img/pizz1.jpg";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import Button from "../../Components/Button/Button";
 
 const BrandDetail = () => {
   const brandDetail = [
@@ -89,36 +90,31 @@ const BrandDetail = () => {
                               <h6>{pricedenominations}</h6>
                               {priceDenomination.map((data, index) => (
                                 <div key={index} className="d-flex justify-content-between">
-                                  <button
+                                  <Button
                                     type="button"
                                     className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                  >
-                                    {data.pd1}
-                                  </button>
-                                  <button
+                                    text={data.pd1}
+                                  />
+                                  <Button
                                     type="button"
                                     className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                  >
-                                    {data.pd2}
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-rounded btn-secondary btn-sm  mr-10"
-                                  >
-                                    {data.pd3}
-                                  </button>
-                                  <button
+                                    text={data.pd2}
+                                  />
+                                  <Button
                                     type="button"
                                     className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                  >
-                                    {data.pd4}
-                                  </button>
-                                  <button
+                                    text={data.pd3}
+                                  />
+                                  <Button
                                     type="button"
                                     className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                  >
-                                    {data.pd5}
-                                  </button>
+                                    text={data.pd4}
+                                  />
+                                  <Button
+                                    type="button"
+                                    className="btn btn-rounded btn-secondary btn-sm mr-10"
+                                    text={data.pd5}
+                                  />
                                 </div>
                               ))}
                             </div>

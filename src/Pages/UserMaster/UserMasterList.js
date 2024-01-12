@@ -6,6 +6,7 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
 import ReactPaginate from "react-paginate";
+import Button from "../../Components/Button/Button";
 
 const UserMasterList = () => {
   const [page, setPage] = useState(1); // Current page
@@ -122,12 +123,11 @@ const UserMasterList = () => {
                                   )}
                               </td>
                               <td>
-                                <button
+                                <Button
                                   className="btn btn-primary shadow btn-xs sharp me-1"
                                   onClick={() => handleEdit(item)}
-                                >
-                                  <i className="fas fa-pencil-alt"></i>
-                                </button>
+                                  icon={"fas fa-pencil-alt"}
+                                />
                               </td>
                             </tr>
                           ))}
