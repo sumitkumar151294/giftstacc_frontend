@@ -58,5 +58,5 @@ button:not(:disabled), [type="button"]:not(:disabled), [type="reset"]:not(:disab
     outline: 0 !important;
 }
 .btn:hover {
-    color: #969ba0;
+    color: var(--primary-grey);
 }

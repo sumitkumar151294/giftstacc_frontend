@@ -166,12 +166,12 @@
   
   
   .table-secondary {
-    --bs-table-bg: #e0dcf6;
-    --bs-table-striped-bg: #d5d1ea;
+    --bs-table-bg: var(--bs-table-secondary-bg);
+    --bs-table-striped-bg: var(--bs-table-striped-bg-3);
     --bs-table-striped-color: var(--primary-black);
     --bs-table-active-bg: var( --bs-bg);
     --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: #cfcce4;
+    --bs-table-hover-bg: var(--bs-table-secondary-hover-bg);
     --bs-table-hover-color: var(--primary-black);
     color: var(--primary-black);
     border-color: var( --bs-bg);
@@ -179,11 +179,11 @@
   
   .table-success {
     --bs-table-bg: var(--bs-table-bg);
-    --bs-table-striped-bg: #d6edd5;
+    --bs-table-striped-bg-2: var(--bs-table-striped-bg-4);
     --bs-table-striped-color: var(--primary-black);
     --bs-table-active-bg: var(  border-color);
     --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: #d0e6cf;
+    --bs-table-hover-bg: var( --bs-table-hover-bg-1);
     --bs-table-hover-color: var(--primary-black);
     color: var(--primary-black);
     border-color: var(  border-color);
@@ -195,58 +195,58 @@
     --bs-table-striped-color: var(--primary-black);
     --bs-table-active-bg: var( --bs-table-active-bg);
     --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: #ded7e4;
+    --bs-table-hover-bg: var( --bs-table-info-hover-bg);
     --bs-table-hover-color: var(--primary-black);
     color: var(--primary-black);
     border-color: var( --bs-table-active-bg);
   }
   
   .table-warning {
-    --bs-table-bg: #ffedd2;
-    --bs-table-striped-bg: #f2e1c8;
+    --bs-table-bg: var(--bs-table-warning-bg);
+    --bs-table-striped-bg: var(    --bs-table-striped-bg-5);
     --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: #e6d5bd;
+    --bs-table-active-bg: var( --bs-table-active-bg-1);
     --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: #ecdbc2;
+    --bs-table-hover-bg: var(  --bs-table-active-bg-2);
     --bs-table-hover-color: var(--primary-black);
     color: var(--primary-black);
-    border-color: #e6d5bd;
+    border-color: var( --bs-table-active-bg-1);
   }
   
   .table-danger {
-    --bs-table-bg: #fdd5dc;
-    --bs-table-striped-bg: #f0cad1;
+    --bs-table-bg: var(--bs-danger-table-bg);
+    --bs-table-striped-bg: var(--bs-danger-striped-bg);
     --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: #e4c0c6;
+    --bs-table-active-bg: var(--bs-danger-active-bg);
     --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: #eac5cc;
+    --bs-table-hover-bg: var(--bs-danger-hover-bg);
     --bs-table-hover-color: var(--primary-black);
     color: var(--primary-black);
-    border-color: #e4c0c6;
+    border-color: var(--bs-danger-active-bg);
   }
   
   .table-light {
-    --bs-table-bg: #c8c8c8;
-    --bs-table-striped-bg: #bebebe;
+    --bs-table-bg: var(--bs-light);
+    --bs-table-striped-bg: var(--bs-light-striped-bg);
     --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: #b4b4b4;
+    --bs-table-active-bg: var(   --bs-light-active-bg);
     --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: #b9b9b9;
+    --bs-table-hover-bg: var(--bs-light-hover-bg);
     --bs-table-hover-color: var(--primary-black);
     color: var(--primary-black);
-    border-color: #b4b4b4;
+    border-color: var(   --bs-light-active-bg);
   }
   
   .table-dark {
-    --bs-table-bg: #6e6e6e;
-    --bs-table-striped-bg: #757575;
+    --bs-table-bg: var(--bs-table-dark-bg-2);
+    --bs-table-striped-bg: var( --bs-table-striped-bg);
     --bs-table-striped-color: var(--primary-white);
-    --bs-table-active-bg: #7d7d7d;
+    --bs-table-active-bg: var(--bs-table-dark-bg);
     --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: #797979;
+    --bs-table-hover-bg: var( --bs-table-hover-bg);
     --bs-table-hover-color: var(--primary-black);
     color: var(--primary-white);
-    border-color: #7d7d7d;
+    border-color: var(--bs-table-dark-bg);
   }
   .table th,
   .table td {

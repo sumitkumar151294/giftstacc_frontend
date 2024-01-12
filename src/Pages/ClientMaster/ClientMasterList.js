@@ -12,6 +12,8 @@ import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { Pagination } from "@mui/material";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
@@ -89,13 +91,13 @@ const ClientMasterList = () => {
 
   const filteredClientList = Array.isArray(clientList)
     ? clientList.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   const handlePageChange = (event, newPage) => {
@@ -126,7 +128,7 @@ const ClientMasterList = () => {
                   </div>
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
-                      <input
+                      <InputField
                         type="text"
                         className="form-control only-high"
                         placeholder={searchLabel}
@@ -146,10 +148,11 @@ const ClientMasterList = () => {
                         filename={"ClientMaster.csv"}
                       >
                         {filteredClientList.length > 0 && (
-                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                            <i className="fa fa-file-excel me-2"></i>
-                            {exportLabel}
-                          </button>
+                          <Button
+                            className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                            text={exportLabel}
+                            icons={"fa fa-file-excel me-2"}
+                          />
                         )}
                       </CSVLink>
                     )}
@@ -164,7 +167,7 @@ const ClientMasterList = () => {
                 ) : (
                   <>
                     {Array.isArray(filteredClientList) &&
-                    filteredClientList.length > 0 ? (
+                      filteredClientList.length > 0 ? (
                       <div className="table-responsive">
                         <>
                           <table className="table header-border table-responsive-sm">
@@ -202,26 +205,25 @@ const ClientMasterList = () => {
                                     </td>
                                     <td>
                                       <div className="d-flex">
-                                        <button
+                                        <Button
                                           className="btn btn-primary shadow btn-xs sharp me-1"
+                                          icon={"fas fa-pencil-alt"}
                                           onClick={() => handleEdit(data)}
-                                        >
-                                          <i className="fas fa-pencil-alt"></i>
-                                        </button>
-                                        <button
+                                        />
+                                        <Button
                                           className="btn btn-danger shadow btn-xs sharp"
+                                          icon={"fa fa-trash"}
                                           onClick={() => handleDelete(data)}
-                                        >
-                                          <i className="fa fa-trash"></i>
-                                        </button>
+                                        />
                                       </div>
                                     </td>
                                     <td>
                                       <Link to="/lc-user-admin/login">
-                                        <button className="btn btn-secondary btn-sm float-right">
-                                          <i className="fa fa-user"></i>&nbsp;{" "}
-                                          {login}
-                                        </button>
+                                        <Button
+                                          className="btn btn-secondary btn-sm float-right"
+                                          icons={"fa fa-user"}
+                                          text={login}
+                                        />
                                       </Link>
                                     </td>
                                     <td>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import user from "../../Assets/img/user-profile.png";
-import "./Header.scss"
 import image from "../../Assets/img/logo.png";
 const Header = ({ setSideBar, sidebar }) => {
   const [hamburgerClass, setHamburgerClass] = useState(false)

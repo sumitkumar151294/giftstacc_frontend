@@ -1,13 +1,24 @@
-@import './Components/BrandCatalogue';
-@import './Components/BrandDetail';
-@import './Components/CategoryList';
-@import './Components/ClientMaster';
-@import './Components/Dashboard';
-@import './Components/LoginPage';
-@import './Components/Orders';
-@import './Components/RoleMaster';
-@import './Components/SupplierBrandList';
-@import './Components/UserMaster';
+@import './Components/Button';
+@import './Components/Error';
+@import './Components/Footer';
+@import './Components/Header';
+@import './Components/HomePage';
+@import './Components/InputField';
+@import './Components/Layout';
+@import './Components/Loader';
+@import './Components/NoRecord';
+@import './Components/Sidebar';
+
+@import './Pages/BrandCatalogue';
+@import './Pages/BrandDetail';
+@import './Pages/CategoryList';
+@import './Pages/ClientMaster';
+@import './Pages/Dashboard';
+@import './Pages/LoginPage';
+@import './Pages/Orders';
+@import './Pages/RoleMaster';
+@import './Pages/SupplierBrandList';
+@import './Pages/UserMaster';
 @import './Utility/Card';
 @import './Utility/Rows';
 @import './Utility/Column';
@@ -24,6 +35,7 @@
 :root {
     --primary: #0072fd;
     --secondary: #624FD1;
+    --bs-white: #fff;
     --primary-hover: #fc410c;
     --primary-red:red;
     --primary-white:#fff;
@@ -65,11 +77,14 @@
     --rgba-primary-18:  rgba(0, 0, 0, 0.05);
     --rgba-primary-19:  rgba(0, 0, 0, 0.1);
     --rgba-primary-20:  rgba(0, 0, 0, 0.075);
+    --rgba-primary-21:  rgba(0, 0, 0, 0.125);
+    --rgba-primary-22:  rgba(0, 0, 0, 0.03);
     --font-family: 'Inter', sans-serif;
     --title: #000;
     --header-bg:#E9E9E9;
     --navlink:#464a53;
     --deznav-menu:#9fa4a6;
+    --deznav-header-bg:#2e2e42;
     --anchor:#969ba0;
     --deznav-li:#7f7184;
     --psthumb-x:#aaa;
@@ -83,11 +98,37 @@
     --bs-table-bg: #f0e8f6;
     --bs-table-striped-bg: #e4dcea;
     --bs-table-active-bg: #d8d1dd;
+    --bs-table-dark-bg: #7d7d7d;
+    --bs-table-dark-bg-2: #6e6e6e;
+    --bs-table-striped-bg-2: #757575;
+    --bs-table-hover-bg: #797979;
     border-color: #cbe0ca;
     --bs-table-bg: #e1f9e0;
+    --bs-table-secondary-bg: #e1f9e0;
     --bs-bg: #cac6dd;
-  }
-  :root {
+    --bs-table-striped-bg-3: #d5d1ea;
+    --bs-table-secondary-hover-bg: #cfcce4;
+    --bs-table-striped-bg-4: #d6edd5;
+    --bs-table-hover-bg-1: #d0e6cf;
+    --bs-table-info-hover-bg: #ded7e4;
+    --bs-table-warning-bg: #ffedd2;
+    --bs-table-striped-bg-5: #f2e1c8;
+    --bs-table-active-bg-1: #e6d5bd;
+    --bs-table-active-bg-2: #ecdbc2;
+    --bs-danger-table-bg: #fdd5dc;
+    --bs-danger-striped-bg: #f0cad1;
+    --bs-danger-active-bg: #e4c0c6;
+    --bs-danger-hover-bg: #eac5cc;
+    --bs-light-striped-bg: #bebebe;
+    --bs-light-active-bg: #b4b4b4;
+    --bs-light-hover-bg: #b9b9b9;
+    --bs-light-bg: #dde0e3;
+    --btn-secondary-bg: #5343b2;
+    --bs-secondary-border: #4e3fa7;
+    --bs-secondary-active-border: #4a3b9d;
+    --dez-widget-color: #f87533;
+    --nav-tab-bottom-color: #dee2e6;
+    --a-hover: #ca5332;
     --bs-blue: #5e72e4;
     --bs-indigo: #6610f2;
     --bs-purple: #6f42c1;
@@ -101,7 +142,6 @@
     --bs-mid-green: #70c767;
     --bs-teal: #20c997;
     --bs-cyan: #3065D0;
-    --bs-white: #fff;
     --bs-cream: #feb49f;
     --bs-gray: #6c757d;
     --bs-skin: #f5f5f5;
@@ -123,8 +163,9 @@
     --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+
   }
-  
+ 
   *,
   *::before,
   *::after {

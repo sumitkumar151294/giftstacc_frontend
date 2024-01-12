@@ -13,7 +13,7 @@
 }
 .copyright {
   padding: 0 1.875rem;
-  color: #9fa4a6;
+  color: var(--deznav-menu);
   margin-top: 1.875rem;
 }
 
@@ -133,7 +133,7 @@ html[dir="rtl"] [direction="rtl"][data-container="boxed"] .footer {
 }
 [data-theme-version="dark"] .modal-footer,
 [data-theme-version="dark"] .modal-header {
-  border-color: #2e2e42;
+  border-color: var(  --deznav-header-bg);
 }
 [data-theme-version="dark"] .footer {
   background-color: transparent;

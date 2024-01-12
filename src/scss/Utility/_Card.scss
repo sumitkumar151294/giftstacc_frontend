@@ -6,7 +6,7 @@
     word-wrap: break-word;
     background-color: var(--primary-white);
     background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    border: 1px solid var(--rgba-primary-21);
     border-radius: 0.75rem;
   }
   .card {
@@ -16,7 +16,7 @@
     position: relative;
     border: 0rem solid transparent;
     border-radius: 1.75rem;
-    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0rem 0.25rem 0.25rem var(--rgba-primary-19);
     height: calc(100% - 30px);
   }
   .card {
@@ -32,8 +32,8 @@
   .card-header {
     padding: 0.5rem 1rem;
     margin-bottom: 0;
-    background-color: rgba(0, 0, 0, 0.03);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    background-color:  var(--rgba-primary-22);
+    border-bottom: 1px solid var(--rgba-primary-21);
   }
   .card-header:first-child {
     border-radius: calc(0.75rem - 1px) calc(0.75rem - 1px) 0 0;

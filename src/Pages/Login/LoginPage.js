@@ -214,6 +214,7 @@ const LoginPage = () => {
                           <div className="text-center">
                             <Button
                               text={GetTranslationData("UIAdmin", "sign_me")}
+                              className="btn btn-primary btn-sm float-right p-btn mt-2"
                             />
                             <ToastContainer />
                           </div>

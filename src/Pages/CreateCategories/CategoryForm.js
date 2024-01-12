@@ -170,11 +170,7 @@ const CategoryForm = ({ setIsLoading }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.categoryName
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={` ${errors.categoryName ? "border-danger" : "form-control"}`}
                             name="categoryNam"
                             id="name-f"
                             placeholder=""
@@ -208,11 +204,7 @@ const CategoryForm = ({ setIsLoading }) => {
                             onChange={(e) => handleChange(e, "supplierBrand")}
                             error={errors.supplierBrand}
                             ariaLabel="Select"
-                            className={` ${
-                              errors.supplierBrand
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={` ${errors.supplierBrand? "border-danger" : "form-control" }`}
                             options={supplierBrandOptions}
                           />
                         </div>
@@ -224,7 +216,11 @@ const CategoryForm = ({ setIsLoading }) => {
                         {requiredLabelTranslation}
                       </span>
                       <div className="col-sm-4 mt-2 mb-4">
-                       <Button text={submitTranslation} icon="fa fa-arrow-right" />
+                       <Button 
+                       text={submitTranslation} 
+                       icon="fa fa-arrow-right" 
+                       className="btn btn-primary btn-sm float-right p-btn mt-2"
+                       />
                       </div>
                     </form>
                   </div>

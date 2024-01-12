@@ -1,19 +1,17 @@
 import React from 'react';
-import './Button.scss';
 
-const Button = ({ text, onClick, icon}) => {
+const Button = ({ text, onClick, icon, icons, className, btn_css, value }) => {
   return (
-    <div>
-      <button
-        type="submit"
-        className="btn btn-primary p-btn"
-        // className="btn-block"
-        onClick={onClick}
-      >
-        {text}{" "}
-        {<i className={icon}></i>}
-      </button>
-    </div>
+    <button
+      type="submit"
+      className={className}
+      onClick={onClick}
+    >
+      {<i className={icons}></i>}
+      {" "}{text}{" "}
+      {<i className={icon}></i>}
+      {<span className={btn_css}>{value}</span>}
+    </button>
   );
 };
 

@@ -250,9 +250,7 @@ const SupplierMasterForm = ({ data }) => {
                           <InputField
                             type="text"
                             value={vendorData?.name}
-                            className={` ${
-                              errors.name ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.name ? "border-danger" : "form-control"}`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -281,11 +279,10 @@ const SupplierMasterForm = ({ data }) => {
                             type="number"
                             name="text"
                             value={vendorData.minThresholdAmount}
-                            className={` ${
-                              errors.minThresholdAmount
+                            className={` ${errors.minThresholdAmount
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             id="amominThresholdAmountunt"
                             placeholder=""
                             onChange={(e) =>
@@ -303,11 +300,10 @@ const SupplierMasterForm = ({ data }) => {
                             type="number"
                             name="text"
                             value={vendorData.availabelAmount}
-                            className={` ${
-                              errors.availabelAmount
+                            className={` ${errors.availabelAmount
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             id="availabelAmount"
                             placeholder=""
                             onChange={(e) => handleChange(e, "availabelAmount")}
@@ -326,11 +322,10 @@ const SupplierMasterForm = ({ data }) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${
-                                      additionalFieldsError[index]?.fieldName
+                                    className={` ${additionalFieldsError[index]?.fieldName
                                         ? "border-danger"
                                         : "form-control"
-                                    }`}
+                                      }`}
                                     name="fname"
                                     placeholder="Key"
                                     value={additionalFields[index].fieldName}
@@ -346,11 +341,10 @@ const SupplierMasterForm = ({ data }) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${
-                                      additionalFieldsError[index]?.fieldValue
+                                    className={` ${additionalFieldsError[index]?.fieldValue
                                         ? "border-danger"
                                         : "form-control"
-                                    }`}
+                                      }`}
                                     name="fname"
                                     placeholder="Value"
                                     value={additionalFields[index].fieldValue}
@@ -365,13 +359,12 @@ const SupplierMasterForm = ({ data }) => {
                                 <div className="col-lg-3">
                                   <br />
                                   <div className="col-sm-12 form-group mb-7">
-                                    <button
-                                      className="btn btn-danger btn-sm float-right pad-aa mt-2"
+                                    <Button
+                                      className="btn btn-danger btn-sm float-right mt-2"
+                                      text={delete_Button}
+                                      icon={"fa fa-trash"}
                                       onClick={() => handleDelete(index)}
-                                    >
-                                      {delete_Button}{" "}
-                                      <i className="fa fa-trash"></i>
-                                    </button>
+                                    />
                                   </div>
                                 </div>
                               )}
@@ -381,12 +374,12 @@ const SupplierMasterForm = ({ data }) => {
                           <div className="col-lg-3">
                             <br />
                             <div className="col-sm-12 form-group mb-7">
-                              <button
-                                className="btn btn-primary btn-sm float-right p-btn mt-2"
+                              <Button
+                                className="btn btn-primary btn-sm float-right mt-2"
+                                text={add_More}
+                                icon={"fa fa-plus"}
                                 onClick={(e) => handleAddMore(e)}
-                              >
-                                {add_More} <i className="fa fa-plus"></i>
-                              </button>
+                              />
                             </div>
                           </div>
                         </div>
@@ -399,9 +392,10 @@ const SupplierMasterForm = ({ data }) => {
                         </span>
 
                         <div className="col-sm-12 form-group mb-0 mt-2">
-                          <Button 
-                          text= {data.name ? update : submit}
-                          icon={"fa fa-arrow-right"}
+                          <Button
+                            text={data.name ? update : submit}
+                            icon={"fa fa-arrow-right"}
+                            className="btn btn-primary btn-sm float-right p-btn mt-2"
                           />
                           <ToastContainer />
                         </div>

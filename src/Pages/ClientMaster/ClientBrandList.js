@@ -1,6 +1,8 @@
 import React from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 
 const customerdetails = [
   {
@@ -73,25 +75,25 @@ const ClientBrandList = () => {
 
   return (
     <>
-    <ScrollToTop/>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-12 col-xxl-12">
-            <div class="card">
-              <div class="container-fluid mt-2 mb-2">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div class="card-header">
-                    <h4 class="card-title headdd">{clientbrandlist}</h4>
+      <ScrollToTop />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12 col-xxl-12">
+            <div className="card">
+              <div className="container-fluid mt-2 mb-2">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="card-header">
+                    <h4 className="card-title headdd">{clientbrandlist}</h4>
                   </div>
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
-                      <input
+                      <InputField
                         type="text"
                         className="form-control only-high"
                         placeholder="Search here......"
                       />
                       <span className="input-group-text">
-                        <a>
+                        <a href="#">
                           <i className="flaticon-381-search-2"></i>
                         </a>
                       </span>
@@ -99,7 +101,8 @@ const ClientBrandList = () => {
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     <a
-                      className="btn btn-primary btn-rounded me-3 mb-2"
+                      href="#"
+                      className="btn btn-primary btn-sm btn-rounded mb-2"
                     >
                       <i className="fa fa-file-excel me-2"></i>
                       {exportLabel}
@@ -110,16 +113,16 @@ const ClientBrandList = () => {
               <div className="container-fluid mt-0">
                 <div className="row">
                   <div className="col-sm-3 form-group mb-2">
-                    <label for="name-f">{clientbrandlistheading}</label>
+                    <label htmlFor="name-f">{clientbrandlistheading}</label>
                     <select
                       className="form-select"
                       aria-label="Default select example"
                     >
-                      <option selected="">{selectSuppliers}</option>
-                      <option value="First Client">All</option>
-                      <option value="First Client">Quicksilver</option>
-                      <option value="Second Client">Supplier 2</option>
-                      <option value="Third Client">Supplier 3</option>
+                      <option>{selectSuppliers}</option>
+                      <option defaultValue="First Client">All</option>
+                      <option defaultValue="First Client">Quicksilver</option>
+                      <option defaultValue="Second Client">Supplier 2</option>
+                      <option defaultValue="Third Client">Supplier 3</option>
                     </select>
                   </div>
                 </div>
@@ -138,48 +141,44 @@ const ClientBrandList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {customerdetails.map((data) => (
-                        <tr>
+                      {customerdetails.map((data, index) => (
+                        <tr key={index}>
                           <td>
                             {data.name}
-                            <a href="javascript:void();"></a>
+                            <a href="#"></a>
                           </td>
                           <td>{data.brand}</td>
                           <td>
                             <div className="input-group mb-2 w-11">
-                              <input
+                              <InputField
                                 type="number"
                                 className="form-control update-val"
                                 placeholder={data.discount}
                                 pattern="/^-?\d+\.?\d*$/"
-                                onKeyPress="if(this.value.length==2) return false;"
                               />
                               <div className="input-group-append">
-                                <button
+                                <Button
                                   className="btn btn-outline-primary btn-sm group-btn"
                                   type="button"
-                                >
-                                  {update}
-                                </button>
+                                  text={update}
+                                />
                               </div>
                             </div>
                           </td>
                           <td>
                             <div className="input-group mb-2 w-11">
-                              <input
+                              <InputField
                                 type="number"
                                 className="form-control update-val"
                                 placeholder={data.commision}
                                 pattern="/^-?\d+\.?\d*$/"
-                                onKeyPress="if(this.value.length==2) return false;"
                               />
                               <div className="input-group-append">
-                                <button
+                                <Button
                                   className="btn btn-outline-primary btn-sm group-btn"
                                   type="button"
-                                >
-                                  {update}
-                                </button>
+                                  text={update}
+                                />
                               </div>
                             </div>
                           </td>
@@ -187,8 +186,8 @@ const ClientBrandList = () => {
                           <td>
                             {" "}
                             <div className="can-toggle">
-                              <input id="a" type="checkbox" />
-                              <label for="a">
+                              <InputField id="a" type="checkbox" />
+                              <label htmlFor="a">
                                 <div
                                   className="can-toggle__switch"
                                   data-checked="On"

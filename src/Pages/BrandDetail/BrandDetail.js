@@ -2,6 +2,7 @@ import React from "react";
 import img from "../../Assets/img/pizz1.jpg";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import Button from "../../Components/Button/Button";
 
 const BrandDetail = () => {
   const brandDetail = [
@@ -65,8 +66,8 @@ const BrandDetail = () => {
                   <div className="menu-product d-flex">
                     <img src={img} />
                     <div className="content-detail-wrap">
-                      {brandDetail.map((data) => (
-                        <div>
+                      {brandDetail.map((data, index) => (
+                        <div key={index}>
                           <div>
                             <h4 className="head-style">
                               <strong>{data.title}</strong>
@@ -87,46 +88,41 @@ const BrandDetail = () => {
                             </div>
                             <div>
                               <h6>{pricedenominations}</h6>
-                              {priceDenomination.map((data) => (
-                                <div className="d-flex justify-content-between">
-                                  <button
+                              {priceDenomination.map((data, index) => (
+                                <div key={index} className="d-flex justify-content-between">
+                                  <Button
                                     type="button"
                                     className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                  >
-                                    {data.pd1}
-                                  </button>
-                                  <button
+                                    text={data.pd1}
+                                  />
+                                  <Button
                                     type="button"
                                     className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                  >
-                                    {data.pd2}
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-rounded btn-secondary btn-sm  mr-10"
-                                  >
-                                    {data.pd3}
-                                  </button>
-                                  <button
+                                    text={data.pd2}
+                                  />
+                                  <Button
                                     type="button"
                                     className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                  >
-                                    {data.pd4}
-                                  </button>
-                                  <button
+                                    text={data.pd3}
+                                  />
+                                  <Button
                                     type="button"
                                     className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                  >
-                                    {data.pd5}
-                                  </button>
+                                    text={data.pd4}
+                                  />
+                                  <Button
+                                    type="button"
+                                    className="btn btn-rounded btn-secondary btn-sm mr-10"
+                                    text={data.pd5}
+                                  />
                                 </div>
                               ))}
                             </div>
                           </div>
                         </div>
                       ))}
-                      {description.map((data) => (
-                        <div>
+                      {description.map((data, index) => (
+                        <div key={index}>
                           <div className="tc mt-2">
                             <h6>{data.title1}</h6>
                             <p>{data.TermsandConditions}</p>

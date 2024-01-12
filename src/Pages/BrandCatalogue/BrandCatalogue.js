@@ -12,6 +12,8 @@ import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { CSVLink } from "react-csv";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 const BrandCatalogue = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
@@ -74,13 +76,13 @@ const BrandCatalogue = () => {
   };
   const filteredBrandCatalogueList = Array.isArray(BrandCatalogueData)
     ? BrandCatalogueData.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   const handleChange = (e, fieldName) => {
@@ -118,7 +120,7 @@ const BrandCatalogue = () => {
                   </div>
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
-                      <input
+                      <InputField
                         type="text"
                         className="form-control only-high"
                         placeholder={searchLabel}
@@ -140,10 +142,11 @@ const BrandCatalogue = () => {
                         filename={"BrandCatalogue.csv"}
                       >
                         {filteredBrandCatalogueList.length > 0 && (
-                          <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                            <i className="fa fa-file-excel me-2"></i>
-                            {exportLabel}
-                          </button>
+                          <Button
+                            className="btn btn-primary btn-sm btn-rounded mb-2"
+                            icons={"fa fa-file-excel me-2"}
+                            text={`${exportLabel}`}
+                          />
                         )}
                       </CSVLink>
                     )}
@@ -153,7 +156,11 @@ const BrandCatalogue = () => {
               <div className="container-fluid">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="col-sm-3 form-group mb-2">
+<<<<<<< HEAD
                     <label htmlFor="name-f">{supplier}</label>
+=======
+                    <label htmlFor="supplier">{supplier}</label>
+>>>>>>> 4dd2707632ea0993e9021de6a91a608061ed8ae0
                     <Dropdown
                       onChange={(e) => handleChange(e, "supplier")}
                       value={supplierList.supplier || ""}
@@ -162,7 +169,11 @@ const BrandCatalogue = () => {
                     />
                   </div>
                   <div className="col-sm-3 form-group mb-2">
+<<<<<<< HEAD
                     <label htmlFor="name-f">{client}</label>
+=======
+                    <label htmlFor="client">{client}</label>
+>>>>>>> 4dd2707632ea0993e9021de6a91a608061ed8ae0
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
                       value={supplierList?.client || ""}
@@ -197,8 +208,8 @@ const BrandCatalogue = () => {
                             <tbody>
                               {filteredBrandCatalogueList
                                 .slice(startIndex, endIndex)
-                                .map((data) => (
-                                  <tr>
+                                .map((data, index) => (
+                                  <tr key={index}>
                                     <td>
                                       <img
                                         src={img}
