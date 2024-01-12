@@ -1,6 +1,5 @@
-$color_1: black;
-$color_2: blue;
-
+$color_1: var(--primary-black);
+$color_2: var(--primary-dark-blue);
 .clr-blk {
 	color: $color_1 !important;
 }
@@ -20,9 +19,6 @@ $color_2: blue;
 	border: 1px solid var( --primary-skin-2);
 	padding: 12px;
 	border-radius: 5px;
-}
-.pt-4 {
-	padding-top: 1.5rem !important;
 }
 .head-style {
 	font-size: 1.125rem;

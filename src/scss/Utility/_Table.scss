@@ -2,17 +2,14 @@ $color_1: var(--primary-grey);
 $border-color_1: var(--primary-skin);
 $border-color_2: var(--bs-skin);
 $border-color_3: inherit;
-
 .table-responsive {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
-
 table {
     caption-side: bottom;
     border-collapse: collapse;
 }
-
 .table {
     --bs-table-bg: transparent;
     --bs-table-striped-color: var(--primary-grey);
@@ -27,7 +24,6 @@ table {
     vertical-align: top;
     border-color: $border-color_1;
     width: var(--w100) !important;
-
     thead {
         th {
             border-bottom: 0.0625rem solid var(--primary-skin);
@@ -39,14 +35,12 @@ table {
             border-color: $border-color_2 !important;
         }
     }
-
     td {
         border-color: $border-color_2;
         padding: 0.9375rem 0.625rem;
         border-color: $border-color_2;
         padding: 0.9375rem 0.625rem;
     }
-
     tbody {
         tr {
             td {
@@ -57,12 +51,10 @@ table {
             }
         }
     }
-
     th {
         padding: 0.9375rem 0.625rem;
     }
 }
-
 tbody,
 tfoot,
 td,
@@ -71,10 +63,8 @@ th {
     border-style: solid;
     border-width: 0;
 }
-
 .table-responsive-sm {
     min-width: 30rem !important;
-
     @media (max-width: 575.98px) {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;

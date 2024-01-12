@@ -224,7 +224,7 @@ const BrandCatalogue = () => {
                                       <Link
                                         to={"/lc-admin/brand-detail"}
                                         href="productdetail.html"
-                                        className="btn btn-primary btn-sm bttn float-right"
+                                        className="btn btn-primary btn-sm bt-link float-right"
                                       >
                                         <i className="fa fa-info"></i>&nbsp;
                                         {BrandDetail}
