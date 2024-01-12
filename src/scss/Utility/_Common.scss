@@ -357,6 +357,16 @@ label {
 
   }  
 }
+.only-high {
+  height: 3.5em;
+}
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.can-toggle {
+  position: relative;
+}
 
 
 
