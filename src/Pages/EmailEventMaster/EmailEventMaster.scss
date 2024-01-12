@@ -17,12 +17,16 @@
     padding: 15px;
     display: block;
     margin: 0 auto;
-    border: 0px ;
+    border: 0px;
 
-    
+
 }
 
-input, button, select, optgroup, textarea {
+input,
+button,
+select,
+optgroup,
+textarea {
     margin: 0;
     font-family: inherit;
     font-size: inherit;
@@ -34,7 +38,7 @@ input, button, select, optgroup, textarea {
 }
 
 .pad-aa {
-    padding: 10px 30px!important;
+    padding: 10px 30px !important;
 }
 
 .me-1 {
@@ -45,4 +49,8 @@ input, button, select, optgroup, textarea {
     height: 380px;
     overflow: hidden;
     overflow-y: auto;
+}
+
+.border_type {
+    border: 3px solid #616161;
 }
