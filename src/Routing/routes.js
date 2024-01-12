@@ -18,11 +18,8 @@ import CategoryList from "../Pages/CreateCategories/CategoryList/CategoryList";
 import FailedOrders from "../Pages/FailedOrders/FailedOrders";
 import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
-<<<<<<< HEAD
 import AbandonedCartReport from "../Pages/AbandonedCart/AbandonedCart";
-=======
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
->>>>>>> 4dd2707632ea0993e9021de6a91a608061ed8ae0
 function RouteConfiq() {
   return (
     <Router>

@@ -156,11 +156,7 @@ const BrandCatalogue = () => {
               <div className="container-fluid">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="col-sm-3 form-group mb-2">
-<<<<<<< HEAD
-                    <label htmlFor="name-f">{supplier}</label>
-=======
                     <label htmlFor="supplier">{supplier}</label>
->>>>>>> 4dd2707632ea0993e9021de6a91a608061ed8ae0
                     <Dropdown
                       onChange={(e) => handleChange(e, "supplier")}
                       value={supplierList.supplier || ""}
@@ -169,11 +165,7 @@ const BrandCatalogue = () => {
                     />
                   </div>
                   <div className="col-sm-3 form-group mb-2">
-<<<<<<< HEAD
-                    <label htmlFor="name-f">{client}</label>
-=======
                     <label htmlFor="client">{client}</label>
->>>>>>> 4dd2707632ea0993e9021de6a91a608061ed8ae0
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
                       value={supplierList?.client || ""}
