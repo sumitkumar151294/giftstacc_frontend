@@ -4,10 +4,10 @@ import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
-import { Pagination } from "@mui/material";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 
@@ -45,8 +45,8 @@ const SupplierProductList = () => {
         value.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
   };
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -74,7 +74,7 @@ const SupplierProductList = () => {
     setSupplierList(tempSupplier);
   }, [suppliers]);
 
-  const handleChange = (e) => { };
+  const handleChange = (e) => {};
 
   const userData = [
     {
@@ -210,7 +210,7 @@ const SupplierProductList = () => {
                           <h4 className="card-title">{supplierBrandLists}</h4>
                         </div>
                         {Array.isArray(filteredSupplierList) &&
-                          filteredSupplierList.length > 0 ? (
+                        filteredSupplierList.length > 0 ? (
                           <div className="card-body">
                             <div className="table-responsive">
                               <table className="table header-border table-responsive-sm">
@@ -243,7 +243,9 @@ const SupplierProductList = () => {
                                             />
                                             <div className="input-group-append">
                                               <Button
-                                                onClick={() => handleUpdate(data)}
+                                                onClick={() =>
+                                                  handleUpdate(data)
+                                                }
                                                 className="btn btn-outline-primary btn-sm group-btn btn-pad"
                                                 type="button"
                                                 text={update}
@@ -252,8 +254,16 @@ const SupplierProductList = () => {
                                           </div>
                                         </td>
                                         <td>
-                                          <span className={data.status === true ? "badge badge-success" : "badge badge-danger"} >
-                                            {data.status === true ? "Active" : "Inactive"}
+                                          <span
+                                            className={
+                                              data.status === true
+                                                ? "badge badge-success"
+                                                : "badge badge-danger"
+                                            }
+                                          >
+                                            {data.status === true
+                                              ? "Active"
+                                              : "Inactive"}
                                           </span>
                                         </td>
                                         <td>
@@ -284,13 +294,21 @@ const SupplierProductList = () => {
                                 </tbody>
                               </table>
                               <div className="pagination-container">
-                                <Pagination
-                                  count={Math.ceil(
+                                <ReactPaginate
+                                  previousLabel={"<"}
+                                  nextLabel={" >"}
+                                  breakLabel={"..."}
+                                  pageCount={Math.ceil(
                                     filteredSupplierList.length / rowsPerPage
                                   )}
-                                  page={page}
-                                  onChange={handlePageChange}
-                                  color="primary"
+                                  marginPagesDisplayed={2}
+                                  onPageChange={handlePageChange}
+                                  containerClassName={"pagination"}
+                                  activeClassName={"active"}
+                                  initialPage={page - 1} // Use initialPage instead of forcePage
+                                  previousClassName={
+                                    page === 0 ? "disabled" : ""
+                                  }
                                 />
                               </div>
                             </div>

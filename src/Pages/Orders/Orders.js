@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
-import { Pagination } from "@mui/material";
 import { CSVLink } from "react-csv";
+import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 
@@ -45,6 +45,255 @@ const Orders = () => {
   const endIndex = startIndex + rowsPerPage;
   const data = [
     {
+      supplier: "abc",
+      brand: "amazon",
+      vouchers: "2",
+      amount: "₹1000",
+      margin: "5%",
+      marginvalue: "₹50",
+    },
+    {
+      supplier: "def",
+      brand: "flipcart",
+      vouchers: "3",
+      amount: "₹5000",
+      margin: "10%",
+      marginvalue: "₹100",
+    },
+    {
+      supplier: "ghi",
+      brand: "ajio",
+      vouchers: "4",
+      amount: "₹2000",
+      margin: "15%",
+      marginvalue: "₹150",
+    },
+    {
+      supplier: "jkl",
+      brand: "myntra",
+      vouchers: "5",
+      amount: "₹3000",
+      margin: "20%",
+      marginvalue: "₹200",
+    },
+    {
+      supplier: "abc",
+      brand: "amazon",
+      vouchers: "2",
+      amount: "₹1000",
+      margin: "5%",
+      marginvalue: "₹50",
+    },
+    {
+      supplier: "def",
+      brand: "flipcart",
+      vouchers: "3",
+      amount: "₹5000",
+      margin: "10%",
+      marginvalue: "₹100",
+    },
+    {
+      supplier: "ghi",
+      brand: "ajio",
+      vouchers: "4",
+      amount: "₹2000",
+      margin: "15%",
+      marginvalue: "₹150",
+    },
+    {
+      supplier: "jkl",
+      brand: "myntra",
+      vouchers: "5",
+      amount: "₹3000",
+      margin: "20%",
+      marginvalue: "₹200",
+    },   {
+      supplier: "abc",
+      brand: "amazon",
+      vouchers: "2",
+      amount: "₹1000",
+      margin: "5%",
+      marginvalue: "₹50",
+    },
+    {
+      supplier: "def",
+      brand: "flipcart",
+      vouchers: "3",
+      amount: "₹5000",
+      margin: "10%",
+      marginvalue: "₹100",
+    },
+    {
+      supplier: "ghi",
+      brand: "ajio",
+      vouchers: "4",
+      amount: "₹2000",
+      margin: "15%",
+      marginvalue: "₹150",
+    },
+    {
+      supplier: "jkl",
+      brand: "myntra",
+      vouchers: "5",
+      amount: "₹3000",
+      margin: "20%",
+      marginvalue: "₹200",
+    },   {
+      supplier: "abc",
+      brand: "amazon",
+      vouchers: "2",
+      amount: "₹1000",
+      margin: "5%",
+      marginvalue: "₹50",
+    },
+    {
+      supplier: "def",
+      brand: "flipcart",
+      vouchers: "3",
+      amount: "₹5000",
+      margin: "10%",
+      marginvalue: "₹100",
+    },
+    {
+      supplier: "ghi",
+      brand: "ajio",
+      vouchers: "4",
+      amount: "₹2000",
+      margin: "15%",
+      marginvalue: "₹150",
+    },
+    {
+      supplier: "jkl",
+      brand: "myntra",
+      vouchers: "5",
+      amount: "₹3000",
+      margin: "20%",
+      marginvalue: "₹200",
+    },   {
+      supplier: "abc",
+      brand: "amazon",
+      vouchers: "2",
+      amount: "₹1000",
+      margin: "5%",
+      marginvalue: "₹50",
+    },
+    {
+      supplier: "def",
+      brand: "flipcart",
+      vouchers: "3",
+      amount: "₹5000",
+      margin: "10%",
+      marginvalue: "₹100",
+    },
+    {
+      supplier: "ghi",
+      brand: "ajio",
+      vouchers: "4",
+      amount: "₹2000",
+      margin: "15%",
+      marginvalue: "₹150",
+    },
+    {
+      supplier: "jkl",
+      brand: "myntra",
+      vouchers: "5",
+      amount: "₹3000",
+      margin: "20%",
+      marginvalue: "₹200",
+    },   {
+      supplier: "abc",
+      brand: "amazon",
+      vouchers: "2",
+      amount: "₹1000",
+      margin: "5%",
+      marginvalue: "₹50",
+    },
+    {
+      supplier: "def",
+      brand: "flipcart",
+      vouchers: "3",
+      amount: "₹5000",
+      margin: "10%",
+      marginvalue: "₹100",
+    },
+    {
+      supplier: "ghi",
+      brand: "ajio",
+      vouchers: "4",
+      amount: "₹2000",
+      margin: "15%",
+      marginvalue: "₹150",
+    },
+    {
+      supplier: "jkl",
+      brand: "myntra",
+      vouchers: "5",
+      amount: "₹3000",
+      margin: "20%",
+      marginvalue: "₹200",
+    },   {
+      supplier: "abc",
+      brand: "amazon",
+      vouchers: "2",
+      amount: "₹1000",
+      margin: "5%",
+      marginvalue: "₹50",
+    },
+    {
+      supplier: "def",
+      brand: "flipcart",
+      vouchers: "3",
+      amount: "₹5000",
+      margin: "10%",
+      marginvalue: "₹100",
+    },
+    {
+      supplier: "ghi",
+      brand: "ajio",
+      vouchers: "4",
+      amount: "₹2000",
+      margin: "15%",
+      marginvalue: "₹150",
+    },
+    {
+      supplier: "jkl",
+      brand: "myntra",
+      vouchers: "5",
+      amount: "₹3000",
+      margin: "20%",
+      marginvalue: "₹200",
+    },   {
+      supplier: "abc",
+      brand: "amazon",
+      vouchers: "2",
+      amount: "₹1000",
+      margin: "5%",
+      marginvalue: "₹50",
+    },
+    {
+      supplier: "def",
+      brand: "flipcart",
+      vouchers: "3",
+      amount: "₹5000",
+      margin: "10%",
+      marginvalue: "₹100",
+    },
+    {
+      supplier: "ghi",
+      brand: "ajio",
+      vouchers: "4",
+      amount: "₹2000",
+      margin: "15%",
+      marginvalue: "₹150",
+    },
+    {
+      supplier: "jkl",
+      brand: "myntra",
+      vouchers: "5",
+      amount: "₹3000",
+      margin: "20%",
+      marginvalue: "₹200",
+    },   {
       supplier: "abc",
       brand: "amazon",
       vouchers: "2",
@@ -120,17 +369,16 @@ const Orders = () => {
 
   const filteredOrderList = Array.isArray(data)
     ? data.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
-
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
   };
 
   return (
@@ -241,7 +489,10 @@ const Orders = () => {
                                   <tbody key={index}>
                                     <tr>
                                       <td>{data.supplier}</td>
-                                      <td>{data.brand}<a href="#"></a></td>
+                                      <td>
+                                        {data.brand}
+                                        <a href="#"></a>
+                                      </td>
                                       <td>{data.vouchers}</td>
                                       <td>{data.amount}</td>
                                       <td>{data.margin}</td>
@@ -251,13 +502,19 @@ const Orders = () => {
                                 ))}
                             </table>
                             <div className="pagination-container">
-                              <Pagination
-                                count={Math.ceil(
+                              <ReactPaginate
+                                previousLabel={"<"}
+                                nextLabel={" >"}
+                                breakLabel={"..."}
+                                pageCount={Math.ceil(
                                   filteredOrderList.length / rowsPerPage
                                 )}
-                                page={page}
-                                onChange={handlePageChange}
-                                color="primary"
+                                marginPagesDisplayed={2}
+                                onPageChange={handlePageChange}
+                                containerClassName={"pagination"}
+                                activeClassName={"active"}
+                                initialPage={page - 1} // Use initialPage instead of forcePage
+                                previousClassName={page === 0 ? "disabled" : ""}
                               />
                             </div>
                           </>

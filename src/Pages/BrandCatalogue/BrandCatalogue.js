@@ -6,12 +6,12 @@ import { onbrandCatalogueSubmit } from "../../Store/Slices/brandCatalogueSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
-import { Pagination } from "@mui/material";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { CSVLink } from "react-csv";
+import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 const BrandCatalogue = () => {
@@ -47,9 +47,11 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
   };
+
   useEffect(() => {
     setShowLoader(false);
   }, [showLoader]);
@@ -76,13 +78,13 @@ const BrandCatalogue = () => {
   };
   const filteredBrandCatalogueList = Array.isArray(BrandCatalogueData)
     ? BrandCatalogueData.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   const handleChange = (e, fieldName) => {
@@ -233,13 +235,19 @@ const BrandCatalogue = () => {
                             </tbody>
                           </table>
                           <div className="pagination-container">
-                            <Pagination
-                              count={Math.ceil(
+                            <ReactPaginate
+                              previousLabel={"<"}
+                              nextLabel={" >"}
+                              breakLabel={"..."}
+                              pageCount={Math.ceil(
                                 filteredBrandCatalogueList.length / rowsPerPage
                               )}
-                              page={page}
-                              onChange={handlePageChange}
-                              color="primary"
+                              marginPagesDisplayed={2}
+                              onPageChange={handlePageChange}
+                              containerClassName={"pagination"}
+                              activeClassName={"active"}
+                              initialPage={page - 1} // Use initialPage instead of forcePage
+                              previousClassName={page === 0 ? "disabled" : ""}
                             />
                           </div>
                         </>

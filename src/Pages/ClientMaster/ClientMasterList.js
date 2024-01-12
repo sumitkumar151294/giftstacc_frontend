@@ -10,8 +10,8 @@ import {
 } from "../../Store/Slices/clientMasterSlice";
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import { Pagination } from "@mui/material";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 const ClientMasterList = () => {
@@ -38,8 +38,10 @@ const ClientMasterList = () => {
   };
 
   useEffect(() => {
+    debugger;
     dispatch(onClientMasterSubmit());
   }, []);
+  console.log(page, "page1");
 
   const handleEdit = (data) => {
     const prefilled = data;
@@ -100,8 +102,8 @@ const ClientMasterList = () => {
     )
     : [];
 
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
   };
 
   useEffect(() => {
@@ -240,13 +242,19 @@ const ClientMasterList = () => {
                             </tbody>
                           </table>
                           <div className="pagination-container">
-                            <Pagination
-                              count={Math.ceil(
+                            <ReactPaginate
+                              previousLabel={"<"}
+                              nextLabel={">"}
+                              breakLabel={"..."}
+                              pageCount={Math.ceil(
                                 filteredClientList.length / rowsPerPage
                               )}
-                              page={page}
-                              onChange={handlePageChange}
-                              color="primary"
+                              marginPagesDisplayed={2}
+                              onPageChange={handlePageChange}
+                              containerClassName={"pagination"}
+                              activeClassName={page === 1 && "active"}
+                              initialPage={page - 1}
+                              previousClassName={page === 1 ? "disabled" : ""}
                             />
                           </div>
                         </>
