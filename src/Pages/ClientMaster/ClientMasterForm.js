@@ -336,7 +336,7 @@ const ClientMaster = (props) => {
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="container mt-3">
+                  <div className="container-fluid mt-3">
                     <div className="row">
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="contact-name">
@@ -614,13 +614,12 @@ const ClientMaster = (props) => {
                                 key={`delete-${index}`}
                               >
                                 <div className="col-sm-12 form-group mb-7">
-                                  <button
+                                  <Button
                                     className="btn btn-danger btn-sm float-right pad-aa mt-2"
+                                    text={delete_Button}
+                                    icon={"fa fa-trash"}
                                     onClick={() => handleDelete(index)}
-                                  >
-                                    {delete_Button}
-                                    <i className="fa fa-trash"></i>{" "}
-                                  </button>
+                                  />
                                 </div>
                               </div>
                             )}
@@ -628,12 +627,12 @@ const ClientMaster = (props) => {
                         ))}
                         <div className="col-lg-3 mt-4">
                           <div className="col-sm-12 form-group mb-7">
-                            <button
+                            <Button
                               className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                              text= {add_More}
+                              icon={"fa fa-plus"}
                               onClick={() => handleAddMore()}
-                            >
-                              {add_More} <i className="fa fa-plus"></i>
-                            </button>
+                            />
                           </div>
                         </div>
                       </div>
@@ -642,6 +641,7 @@ const ClientMaster = (props) => {
                           text={props.data ? update : add}
                           icon={"fa fa-arrow-right"}
                           onClick={handleSubmit}
+                          className="btn btn-primary btn-sm float-right p-btn mt-2"
                         />
                         <ToastContainer />
                       </div>

@@ -9,6 +9,8 @@ import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
 import { Pagination } from "@mui/material";
 import { CSVLink } from "react-csv";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -146,7 +148,7 @@ const Orders = () => {
                     </div>
                     <div className="customer-search mb-sm-0 mb-3">
                       <div className="input-group search-area">
-                        <input
+                        <InputField
                           type="text"
                           className="form-control only-high"
                           placeholder={searchLabel}
@@ -168,10 +170,11 @@ const Orders = () => {
                           filename={"orders.csv"}
                         >
                           {filteredOrderList.length > 0 && (
-                            <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                              <i className="fa fa-file-excel me-2"></i>
-                              {exportLabel}
-                            </button>
+                            <Button
+                              className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                              text={exportLabel}
+                              icons={"fa fa-file-excel"}
+                            />
                           )}
                         </CSVLink>
                       )}
@@ -201,11 +204,11 @@ const Orders = () => {
                     <div className="col-xl-3">
                       <div className="example">
                         <p className="mb-1">{date}</p>
-                        <input
+                        <InputField
                           type="text"
                           className="form-control input-daterange-timepicker"
                           name="daterange"
-                          defaultValue="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
+                          placeholder="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
                         />
                       </div>
                     </div>

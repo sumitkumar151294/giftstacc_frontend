@@ -357,7 +357,11 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                             </span>
                           )}
                           <div className="col-sm-4 mt-4 mb-4">
-                          <Button text={data ? update : submit} icon="fa fa-arrow-right" />
+                            <Button
+                              text={data ? update : submit}
+                              icon="fa fa-arrow-right"
+                              className="btn btn-primary btn-sm float-right p-btn mt-2"
+                            />
                             <ToastContainer />
                           </div>
                         </div>

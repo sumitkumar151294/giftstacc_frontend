@@ -1,6 +1,8 @@
 import React from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import InputField from "../../Components/InputField/InputField";
+import Button from "../../Components/Button/Button";
 
 const customerdetails = [
   {
@@ -73,7 +75,7 @@ const ClientBrandList = () => {
 
   return (
     <>
-    <ScrollToTop/>
+      <ScrollToTop />
       <div className="container-fluid">
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
@@ -85,7 +87,7 @@ const ClientBrandList = () => {
                   </div>
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
-                      <input
+                      <InputField
                         type="text"
                         className="form-control only-high"
                         placeholder="Search here......"
@@ -100,7 +102,7 @@ const ClientBrandList = () => {
                   <div className="d-flex align-items-center flex-wrap">
                     <a
                       href="#"
-                      className="btn btn-primary btn-rounded me-3 mb-2"
+                      className="btn btn-primary btn-sm btn-rounded mb-2"
                     >
                       <i className="fa fa-file-excel me-2"></i>
                       {exportLabel}
@@ -148,37 +150,35 @@ const ClientBrandList = () => {
                           <td>{data.brand}</td>
                           <td>
                             <div className="input-group mb-2 w-11">
-                              <input
+                              <InputField
                                 type="number"
                                 className="form-control update-val"
                                 placeholder={data.discount}
                                 pattern="/^-?\d+\.?\d*$/"
                               />
                               <div className="input-group-append">
-                                <button
+                                <Button
                                   className="btn btn-outline-primary btn-sm group-btn"
                                   type="button"
-                                >
-                                  {update}
-                                </button>
+                                  text={update}
+                                />
                               </div>
                             </div>
                           </td>
                           <td>
                             <div className="input-group mb-2 w-11">
-                              <input
+                              <InputField
                                 type="number"
                                 className="form-control update-val"
                                 placeholder={data.commision}
                                 pattern="/^-?\d+\.?\d*$/"
                               />
                               <div className="input-group-append">
-                                <button
+                                <Button
                                   className="btn btn-outline-primary btn-sm group-btn"
                                   type="button"
-                                >
-                                  {update}
-                                </button>
+                                  text={update}
+                                />
                               </div>
                             </div>
                           </td>
@@ -186,7 +186,7 @@ const ClientBrandList = () => {
                           <td>
                             {" "}
                             <div className="can-toggle">
-                              <input id="a" type="checkbox" />
+                              <InputField id="a" type="checkbox" />
                               <label htmlFor="a">
                                 <div
                                   className="can-toggle__switch"
