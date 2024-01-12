@@ -4,10 +4,10 @@ import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
-import { Pagination } from "@mui/material";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import ReactPaginate from "react-paginate";
 
 const SupplierBrandList = () => {
   const dispatch = useDispatch();
@@ -43,8 +43,8 @@ const SupplierBrandList = () => {
         value.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
   };
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -289,13 +289,21 @@ const SupplierBrandList = () => {
                                 </tbody>
                               </table>
                               <div className="pagination-container">
-                                <Pagination
-                                  count={Math.ceil(
+                                <ReactPaginate
+                                  previousLabel={"<"}
+                                  nextLabel={" >"}
+                                  breakLabel={"..."}
+                                  pageCount={Math.ceil(
                                     filteredSupplierList.length / rowsPerPage
                                   )}
-                                  page={page}
-                                  onChange={handlePageChange}
-                                  color="primary"
+                                  marginPagesDisplayed={2}
+                                  onPageChange={handlePageChange}
+                                  containerClassName={"pagination"}
+                                  activeClassName={"active"}
+                                  initialPage={page - 1} // Use initialPage instead of forcePage
+                                  previousClassName={
+                                    page === 0 ? "disabled" : ""
+                                  }
                                 />
                               </div>
                             </div>

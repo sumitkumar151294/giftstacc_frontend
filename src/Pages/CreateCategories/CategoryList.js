@@ -10,9 +10,9 @@ import { Link } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import NoRecord from "../../Components/NoRecord/NoRecord";
-import { Pagination } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 import CategoryForm from "./CategoryForm";
+import ReactPaginate from "react-paginate";
 
 const CategoryList = () => {
   const dispatch = useDispatch();
@@ -77,10 +77,9 @@ const CategoryList = () => {
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
   };
-
   //To delete the data
   const handleDelete = (data) => {
     const deletedData = {
@@ -192,13 +191,19 @@ const CategoryList = () => {
                       </tbody>
                     </table>
                     <div className="pagination-container">
-                      <Pagination
-                        count={Math.ceil(
+                      <ReactPaginate
+                        previousLabel={"<"}
+                        nextLabel={" >"}
+                        breakLabel={"..."}
+                        pageCount={Math.ceil(
                           filteredCategoryList.length / rowsPerPage
                         )}
-                        page={page}
-                        onChange={handlePageChange}
-                        color="primary"
+                        marginPagesDisplayed={2}
+                        onPageChange={handlePageChange}
+                        containerClassName={"pagination"}
+                        activeClassName={"active"}
+                        initialPage={page - 1} // Use initialPage instead of forcePage
+                        previousClassName={page === 0 ? "disabled" : ""}
                       />
                     </div>
                   </div>
