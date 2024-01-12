@@ -145,21 +145,3 @@ body {
       padding-left: 0.9375rem;
     }
   }
-  [data-container="boxed"] .content-body .container-fluid,
-[data-container="boxed"] .content-body .container-sm,
-[data-container="boxed"] .content-body .container-md,
-[data-container="boxed"] .content-body .container-lg,
-[data-container="boxed"] .content-body .container-xl,
-[data-container="boxed"] .content-body .container-xxl {
-  padding: 2.5rem;
-}
-
-
-[data-container="wide-boxed"] .content-body .container-fluid,
-[data-container="wide-boxed"] .content-body .container-sm,
-[data-container="wide-boxed"] .content-body .container-md,
-[data-container="wide-boxed"] .content-body .container-lg,
-[data-container="wide-boxed"] .content-body .container-xl,
-[data-container="wide-boxed"] .content-body .container-xxl {
-  padding: 2.5rem;
-}

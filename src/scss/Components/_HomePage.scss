@@ -1,9 +1,10 @@
-.under_maintenance{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.under_maintenance h1{
-    font-size: 50px;
+
+.under_maintenance {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	h1 {
+		font-size: 50px;
+	}
 }
