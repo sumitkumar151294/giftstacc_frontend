@@ -1,7 +1,9 @@
 :focus-visible {
     outline: unset !important;
 }
-
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
 .border-danger {
     background: var(--primary-white);
     width: var( --w100);

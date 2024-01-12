@@ -6,12 +6,7 @@ $rgba-primary-16: var(--rgba-primary-16);
 $h100: var(--h100);
 
 .container,
-.container-fluid,
-.container-sm,
-.container-md,
-.container-lg,
-.container-xl,
-.container-xxl {
+.container-fluid{
   width: $w100;
   padding-right: var(--bs-gutter-x, 15px);
   padding-left: var(--bs-gutter-x, 15px);
@@ -63,12 +58,7 @@ body {
     font-size: 0.875rem;
   }
 }
-.content-body .container-fluid,
-.content-body .container-sm,
-.content-body .container-md,
-.content-body .container-lg,
-.content-body .container-xl,
-.content-body .container-xxl {
+.content-body .container-fluid{
   padding-top: 1.3rem;
   padding-right: 2.5rem;
   padding-left: 2.5rem;

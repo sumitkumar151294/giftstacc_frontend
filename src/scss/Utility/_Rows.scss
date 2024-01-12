@@ -1,7 +1,6 @@
 $bs-gutter-x: 30px;
 $bs-gutter-y: 0;
 $w100: 100%;
-
 .row {
   --bs-gutter-x: #{$bs-gutter-x};
   --bs-gutter-y: #{$bs-gutter-y};
@@ -10,7 +9,6 @@ $w100: 100%;
   margin-top: calc(var(--bs-gutter-y) * -1);
   margin-right: calc(var(--bs-gutter-x) / -2);
   margin-left: calc(var(--bs-gutter-x) / -2);
-
   >* {
     flex-shrink: 0;
     margin-top: var(--bs-gutter-y);
@@ -21,12 +19,3 @@ $w100: 100%;
   }
 }
 
-.flex-wrap {
-  flex-wrap: wrap !important;
-}
-
-.top-top {
-  border: 1px solid var(--primary-skin-2);
-  padding: 10px;
-  border-radius: 5px;
-}
