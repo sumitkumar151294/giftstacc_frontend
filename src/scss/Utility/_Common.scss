@@ -396,3 +396,27 @@ ul {
   }
 
 
+body {
+  overflow-x: hidden;
+  height: var( --h100);
+  position: relative;
+  max-width: var( --w100);
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--primary-grey);
+  background-color: var(--primary-white-2);
+  -webkit-text-size-adjust: var(--w100);
+  -webkit-tap-highlight-color: var(--rgba-primary-16);
+
+  @media only screen and (max-width: 991px) {
+      font-size: 0.875rem;
+  }
+}
+@media only screen and (max-width: 100rem) {
+  :root {
+    font-size: 0.875rem;
+  }
+}

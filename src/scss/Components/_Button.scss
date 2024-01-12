@@ -57,13 +57,6 @@ $w100: var(--w100);
   padding: 10px 30px !important;
 }
 
-button:not(:disabled),
-[type="button"]:not(:disabled),
-[type="reset"]:not(:disabled),
-[type="submit"]:not(:disabled) {
-  cursor: pointer;
-}
-
 .btn-outline-primary:hover {
   border-color: $primary-hover;
   background-color: $primary-hover;
