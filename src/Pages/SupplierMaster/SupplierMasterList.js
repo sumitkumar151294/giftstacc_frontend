@@ -143,7 +143,7 @@ const SupplierMasterList = () => {
                                   icons={"fa fa-file-excel"}
                                   text={export_label}
                                 />
-                              )}s
+                              )}
                             </CSVLink>
                           )}
                       </div>

@@ -1,12 +1,12 @@
+$color_1: var(--primary-black);
+
 .pt-0 {
-    padding-top: 0 !important;
-  }
-
-
-  .padd {
-    background: var(--primary-alice-2);
-    padding: 10px;
-    padding-left: 30px;
-    border-radius: 10px;
-    color: var(--primary-black);
+	padding-top: 0 !important;
+}
+.padd {
+	background: var(--primary-alice-2);
+	padding: 10px;
+	padding-left: 30px;
+	border-radius: 10px;
+	color: $color_1;
 }
