@@ -328,7 +328,8 @@ label {
       padding: 2px 9px;
       text-decoration: none;
       color: var(--pagination-a) !important;
-      border: 1px solid var(--primary-greyish)  !important; 
+      border: 1px solid var(
+        --primary-greyish)  !important; 
       cursor: pointer;
       border-radius: 50%;
 
@@ -359,9 +360,39 @@ label {
 
   }  
 }
+.only-high {
+  height: 3.5em;
+}
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.can-toggle {
+  position: relative;
+}
 
 
 
 
+.border-0 {
+  border: 0 !important;
+}
+.border-0 {
+  border-width: 0 !important;
+}
+a:hover, a:focus, a.active {
+  text-decoration: none;
+} 
+a:hover {
+  color: var(--a-hover);
+}
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+  .justify-content-between {
+    justify-content: space-between !important;
+  }
 
 
