@@ -11,15 +11,15 @@ const Layout = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!sessionStorage.getItem("login")) {
-      dispatch(onLogout());
-      localStorage.clear();
-      sessionStorage.clear();
-      navigate("/");
-    }
+  if (!sessionStorage.getItem("login")) {
+  dispatch(onLogout());
+  localStorage.clear();
+  sessionStorage.clear();
+  navigate("/");
+  }
   }, []);
 
-  return (
+  return (  
     <>
       <div
         id="main-wrapper"

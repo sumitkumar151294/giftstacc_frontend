@@ -15,7 +15,6 @@
 @import './Pages/Dashboard';
 @import './Pages/LoginPage';
 @import './Pages/RoleMaster';
-@import './Pages/SupplierProductList';
 @import './Pages/UserMaster';
 @import './Utility/Card';
 @import './Utility/Rows';
@@ -151,9 +150,6 @@
   --bs-dark-brown: #fd683e40;
   --bs-light: #c8c8c8;
   --bs-dark: #6e6e6e;
-  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   /* width */
   --vh100: 100vh;
   --w100: 100%;

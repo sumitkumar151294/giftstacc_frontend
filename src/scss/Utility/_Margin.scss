@@ -16,6 +16,10 @@
 .mt-3 {
 	margin-top: 1rem !important;
 }
+.me-1 {
+    margin-right: 0.25rem !important;
+}
+
 .me-2 {
 	margin-right: 0.5rem !important;
 }
@@ -32,8 +36,10 @@
 .ml-4 {
 	margin-left: 10px !important;
 }
-
-  .mrr {
+.m-auto {
+	margin: auto !important ;
+  }
+    .mrr {
 	margin-right: 10px !important;
   }
 @media (min-width: 576px) {

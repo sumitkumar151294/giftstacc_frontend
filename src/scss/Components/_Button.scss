@@ -73,10 +73,26 @@ $w100: var(--w100);
 .btn.active {
   outline: 0 !important;
 }
+.btn.btn-secondary,
+.btn.btn-primary,
+.btn.btn-danger{
+  color: var(--primary-white) !important;
+} 
 
 .btn:hover {
   color: $primary-grey;
 }
+.btn-xs {
+  font-size: 0.75rem;
+  padding: 0.438rem 1rem;
+  font-weight: 600;
+}
+@media only screen and (max-width: 1400px) {
+  .btn {
+    padding: 0.625rem 1rem;
+  }
+}
+
 
 .btn-icon-end {
   border-left: 0.0625rem solid var( --primary-white);;

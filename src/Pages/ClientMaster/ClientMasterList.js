@@ -38,10 +38,8 @@ const ClientMasterList = () => {
   };
 
   useEffect(() => {
-    debugger;
     dispatch(onClientMasterSubmit());
   }, []);
-  console.log(page, "page1");
 
   const handleEdit = (data) => {
     const prefilled = data;

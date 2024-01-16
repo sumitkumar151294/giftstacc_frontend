@@ -25,13 +25,9 @@
 }
 
 h1,
-.h1,
 h2,
-.h2,
 h3,
-.h3,
 h4,
-.h4,
 h5,
 .h5,
 h6,
@@ -54,13 +50,11 @@ h5,
   font-size: 1rem;
 }
 
-h6,
-.h6 {
+h6 {
   font-size: 0.938rem;
 }
 
 @media (min-width: 1200px) {
-
   h3,
   .h3 {
     font-size: 1.5rem;
@@ -73,11 +67,15 @@ p {
   line-height: 1.8;
 }
 
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
 
 .align-items-center {
   align-items: center !important;
 }
-
 
 .d-flex {
   display: flex !important;
@@ -243,10 +241,12 @@ label {
   border-radius: 0.2rem;
 }
 
-.btn-sm,
-.btn-group-sm>.btn {
-  font-size: 0.813rem !important;
-  padding: 0.625rem 1rem;
+.sharp.btn-xs {
+  padding: 0.1875rem;
+  width: 3.625rem;
+  height: 1.7rem;
+  min-width: 1.625rem;
+  min-height: 1.625rem;
 }
 
 //for the pagination
@@ -278,7 +278,21 @@ label {
   border-bottom-left-radius: 0;
 }
 
-.input-group .btn {
+.btn-rounded {
+  border-radius: 2.5rem !important;
+}
+
+@media only screen and (max-width: 1400px) {
+  .customer-search .input-group-text i {
+    font-size: 1.2rem;
+  }
+}
+
+.w-11 {
+  width: 11em;
+}
+
+.input-group {
   position: relative;
   z-index: 2;
 }
