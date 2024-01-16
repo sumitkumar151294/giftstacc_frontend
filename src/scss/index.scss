@@ -8,7 +8,7 @@
 @import './Components/Loader';
 @import './Components/NoRecord';
 @import './Components/Sidebar';
-
+@import './Components/EndUser/MainHeader';
 @import './Pages/BrandCatalogue';
 @import './Pages/BrandDetail';
 @import './Pages/ClientMaster';
@@ -26,6 +26,11 @@
 @import './Utility/Margin';
 @import './Utility/Padding';
 @import './Utility/Table';
+@import './Components/EndUser/MainSubHeader';
+@import './Pages/EndUser/SectionHero';
+@import './Pages/EndUser/Shop';
+@import './Pages/EndUser/Footer';
+@import './Pages/EndUser/Login';
 
 :root {
   --primary: #0072fd;

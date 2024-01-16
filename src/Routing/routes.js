@@ -13,11 +13,12 @@ import CategoryList from "../Pages/CreateCategories/CategoryList";
 import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
+import MainHomePage from "../Pages/Enduser/MainHomepage/MainHomePage";
 function RouteConfiq() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<MainHomePage />} />
         <Route path="/lc-admin/login" element={<LoginPage />} />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route path="/lc-admin/dashboard" element={<Layout Component={Dashboard} />} />
