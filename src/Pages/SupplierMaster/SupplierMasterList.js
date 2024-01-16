@@ -52,7 +52,6 @@ const SupplierMasterList = () => {
     setSearchQuery(e.target.value);
   };
   const handlePageChange = (selected) => {
-    debugger
     setPage(selected.selected + 1);
   };
   const dispatch = useDispatch();
