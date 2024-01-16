@@ -4,7 +4,6 @@ import MainSubHeader from '../../../Components/EndUser/MainSubHeader/MainSubHead
 import SectionHero from '../../../Pages/Enduser/SectionHero/SectionHero'
 import Shop from '../Shop/Shop'
 import Footer from '../Footer/Footer'
-import Login from '../Login/Login'
 
 
 const MainHomePage = () => {
@@ -15,7 +14,6 @@ const MainHomePage = () => {
       <SectionHero />
       <Shop />
       <Footer />
-      <Login />
     </div>
   )
 }
