@@ -68,6 +68,12 @@
   --psthumb-x:#aaa;
   --psthumb-y:#DAE2F3;
   --primary-dark-blue: #0049e0;
+  --pagination-a:#333;
+  --pagination-a-border:#ddd;
+  --pagination-disabled-color:#ccc;
+
+
+
   /* width */
   --vh100:100vh;
   --w100:100%;

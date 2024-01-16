@@ -1,279 +1,73 @@
+$color_1: var(--primary-grey);
+$border-color_1: var(--primary-skin);
+$border-color_2: var(--bs-skin);
+$border-color_3: inherit;
 .table-responsive {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-  }
-  
-  @media (max-width: 575.98px) {
-    .table-responsive-sm {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-  
-  @media (max-width: 767.98px) {
-    .table-responsive-md {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-  
-  @media (max-width: 991.98px) {
-    .table-responsive-lg {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-  
-  @media (max-width: 1199.98px) {
-    .table-responsive-xl {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-  
-  @media (max-width: 1439.98) {
-    .table-responsive-xxl {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-  table {
+}
+table {
     caption-side: bottom;
     border-collapse: collapse;
-  }
-  .table {
+}
+.table {
     --bs-table-bg: transparent;
-    --bs-table-striped-color: var( --primary-grey);
+    --bs-table-striped-color: var(--primary-grey);
     --bs-table-striped-bg: var(--rgba-primary-18);
-    --bs-table-active-color: var( --primary-grey);
+    --bs-table-active-color: var(--primary-grey);
     --bs-table-active-bg: var(--rgba-primary-19);
-    --bs-table-hover-color: var( --primary-grey);
-    --bs-table-hover-bg: var( --rgba-primary-20);
+    --bs-table-hover-color: var(--primary-grey);
+    --bs-table-hover-bg: var(--rgba-primary-20);
     width: var(--w100);
     margin-bottom: 1rem;
-    color: var( --primary-grey);
+    color: $color_1;
     vertical-align: top;
-    border-color: var(--primary-skin);
-  }
-
-  
-.table-responsive-sm {
-    min-width: 30rem !important;
-  }
-
-  .table thead th {
-    border-bottom: 0.0625rem solid var(--primary-skin);
-    text-transform: capitalize;
-    font-size: 1.125rem;
-    white-space: nowrap;
-    font-weight: 500;
-    letter-spacing: 0.0313rem;
-    border-color: var(  --bs-skin) !important;
-  }
-
-  th {
-    text-align: inherit;
-    text-align: -webkit-match-parent;
-  }
-  .table td {
-    border-color: var(--bs-skin);
-    padding: 0.9375rem 0.625rem;
+    border-color: $border-color_1;
+    width: var(--w100) !important;
+    thead {
+        th {
+            border-bottom: 0.0625rem solid var(--primary-skin);
+            text-transform: capitalize;
+            font-size: 1.125rem;
+            white-space: nowrap;
+            font-weight: 500;
+            letter-spacing: 0.0313rem;
+            border-color: $border-color_2 !important;
+            text-align: left;
+        }
+    }
+    td {
+        border-color: $border-color_2;
+        padding: 0.9375rem 0.625rem;
+        border-color: $border-color_2;
+        padding: 0.9375rem 0.625rem;
+    }
+    tbody {
+        tr {
+            td {
+                vertical-align: middle;
+                border-color: $border-color_2;
+                vertical-align: middle;
+                border-color: $border-color_2;
+            }
+        }
+    }
+    th {
+        padding: 0.9375rem 0.625rem;
+    }
 }
-.table tbody tr td {
-    vertical-align: middle;
-    border-color: var(  --bs-skin);
-}
-  thead,
-  tbody,
-  tfoot,
-  tr,
-  td,
-  th {
-    border-color: inherit;
+tbody,
+tfoot,
+td,
+th {
+    border-color: $border-color_3;
     border-style: solid;
     border-width: 0;
-  }
-  
-.table {
-    width: var(--w100) !important;
-  }
-  
-
-  //check again
-
-
-  .table> :not(caption)>*>* {
-    padding: 0.5rem 0.5rem;
-    background-color: var(--bs-table-bg);
-    border-bottom-width: 1px;
-    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
-  }
-  
-  .table>tbody {
-    vertical-align: inherit;
-  }
-  
-  .table>thead {
-    vertical-align: bottom;
-  }
-
-  .caption-top {
-    caption-side: top;
-  }
-  
-  .table-sm> :not(caption)>*>* {
-    padding: 0.25rem 0.25rem;
-  }
-  
-  .table-bordered> :not(caption)>* {
-    border-width: 1px 0;
-  }
-  
-  .table-bordered> :not(caption)>*>* {
-    border-width: 0 1px;
-  }
-  
-  .table-borderless> :not(caption)>*>* {
-    border-bottom-width: 0;
-  }
-  
-  .table-striped>tbody>tr:nth-of-type(odd) {
-    --bs-table-accent-bg: var(--bs-table-striped-bg);
-    color: var(--bs-table-striped-color);
-  }
-  
-  .table-active {
-    --bs-table-accent-bg: var(--bs-table-active-bg);
-    color: var(--bs-table-active-color);
-  }
-  
-  .table-hover>tbody>tr:hover {
-    --bs-table-accent-bg: var(--bs-table-hover-bg);
-    color: var(--bs-table-hover-color);
-  }
-  
-  .table-primary {
-    --bs-table-bg: var(--primary-dark-alice);
-    --bs-table-striped-bg: var(--primary-dark-alice-2);
-    --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: var(--primary-dark-skin);
-    --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: var(--primary-light-alice);
-    --bs-table-hover-color: var(--primary-black);
-    color: var(--primary-black);
-    border-color: var(--primary-dark-skin);
-  }
-  
-  
-  .table-secondary {
-    --bs-table-bg: var(--bs-table-secondary-bg);
-    --bs-table-striped-bg: var(--bs-table-striped-bg-3);
-    --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: var( --bs-bg);
-    --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: var(--bs-table-secondary-hover-bg);
-    --bs-table-hover-color: var(--primary-black);
-    color: var(--primary-black);
-    border-color: var( --bs-bg);
-  }
-  
-  .table-success {
-    --bs-table-bg: var(--bs-table-bg);
-    --bs-table-striped-bg-2: var(--bs-table-striped-bg-4);
-    --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: var(  border-color);
-    --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: var( --bs-table-hover-bg-1);
-    --bs-table-hover-color: var(--primary-black);
-    color: var(--primary-black);
-    border-color: var(  border-color);
-  }
-  
-  .table-info {
-    --bs-table-bg: var(--bs-table-bg);
-    --bs-table-striped-bg: var( --bs-table-striped-bg);
-    --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: var( --bs-table-active-bg);
-    --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: var( --bs-table-info-hover-bg);
-    --bs-table-hover-color: var(--primary-black);
-    color: var(--primary-black);
-    border-color: var( --bs-table-active-bg);
-  }
-  
-  .table-warning {
-    --bs-table-bg: var(--bs-table-warning-bg);
-    --bs-table-striped-bg: var(    --bs-table-striped-bg-5);
-    --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: var( --bs-table-active-bg-1);
-    --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: var(  --bs-table-active-bg-2);
-    --bs-table-hover-color: var(--primary-black);
-    color: var(--primary-black);
-    border-color: var( --bs-table-active-bg-1);
-  }
-  
-  .table-danger {
-    --bs-table-bg: var(--bs-danger-table-bg);
-    --bs-table-striped-bg: var(--bs-danger-striped-bg);
-    --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: var(--bs-danger-active-bg);
-    --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: var(--bs-danger-hover-bg);
-    --bs-table-hover-color: var(--primary-black);
-    color: var(--primary-black);
-    border-color: var(--bs-danger-active-bg);
-  }
-  
-  .table-light {
-    --bs-table-bg: var(--bs-light);
-    --bs-table-striped-bg: var(--bs-light-striped-bg);
-    --bs-table-striped-color: var(--primary-black);
-    --bs-table-active-bg: var(   --bs-light-active-bg);
-    --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: var(--bs-light-hover-bg);
-    --bs-table-hover-color: var(--primary-black);
-    color: var(--primary-black);
-    border-color: var(   --bs-light-active-bg);
-  }
-  
-  .table-dark {
-    --bs-table-bg: var(--bs-table-dark-bg-2);
-    --bs-table-striped-bg: var( --bs-table-striped-bg);
-    --bs-table-striped-color: var(--primary-white);
-    --bs-table-active-bg: var(--bs-table-dark-bg);
-    --bs-table-active-color: var(--primary-black);
-    --bs-table-hover-bg: var( --bs-table-hover-bg);
-    --bs-table-hover-color: var(--primary-black);
-    color: var(--primary-white);
-    border-color: var(--bs-table-dark-bg);
-  }
-  .table th,
-  .table td {
-    border-color: var(  --bs-skin);
-    padding: 0.9375rem 0.625rem;
-  }
-   
-  .table tbody tr td {
-    vertical-align: middle;
-    border-color: var(  --bs-skin);
 }
-.table th, .table td {
-  border-color: var(  --bs-skin);
-  padding: 0.9375rem 0.625rem;
-}
-.table > :not(caption) > * > * {
-  padding: 0.5rem 0.5rem;
-  background-color: var(--bs-table-bg);
-  border-bottom-width: 1px;
-  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
-}
-thead, tbody, tfoot, tr, td, th {
-  border-color: inherit;
-  border-style: solid;
-  border-width: 0;
-}
-* {
-  outline: none;
-  padding: 0;
+.table-responsive-sm {
+    min-width: 30rem !important;
+    @media (max-width: 575.98px) {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 }

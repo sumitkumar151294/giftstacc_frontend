@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { onGetUser } from "../../Store/Slices/userMasterSlice";
 import UserMasterForm from "./UserMasterForm";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import { Pagination } from "@mui/material";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
+import ReactPaginate from "react-paginate";
 import Button from "../../Components/Button/Button";
-
 
 const UserMasterList = () => {
   const [page, setPage] = useState(1); // Current page
@@ -26,22 +25,24 @@ const UserMasterList = () => {
   const clients = GetTranslationData("UIAdmin", "clients_name_label");
   const action = GetTranslationData("UIAdmin", "action_label");
   const not_Found = GetTranslationData("UIAdmin", "not_Found");
-  const userList = useSelector((state) => state.userMasterReducer)
-  const client = useSelector((state) => state.clientMasterReducer.data)
+  const userList = useSelector((state) => state.userMasterReducer);
+  const client = useSelector((state) => state.clientMasterReducer.data);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
-  const roleList = useSelector((state) => state.userRoleReducer?.userRoleData?.data);
+  const roleList = useSelector(
+    (state) => state.userRoleReducer?.userRoleData?.data
+  );
   const handleEdit = (data) => {
     const prefilled = data;
-    setPrefilledValues(prefilled)
-  }
+    setPrefilledValues(prefilled);
+  };
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
   };
-  // here get role name by match with id 
+  // here get role name by match with id
   const getNameById = (id) => {
-    const result = roleList?.find(item => item.id === id);
+    const result = roleList?.find((item) => item.id === id);
     return result ? result.name : not_Found;
   };
 
@@ -133,13 +134,18 @@ const UserMasterList = () => {
                       </tbody>
                     </table>
                     <div className="pagination-container">
-                      <Pagination
-                        count={Math.ceil(
+                      <ReactPaginate
+                        previousLabel={"<"}
+                        nextLabel={" >"}
+                        breakLabel={"..."}
+                        pageCount={Math.ceil(
                           userList?.getData?.data?.length / rowsPerPage
                         )}
-                        page={page}
-                        onChange={handlePageChange}
-                        color="primary"
+                        marginPagesDisplayed={2}
+                        onPageChange={handlePageChange}
+                        containerClassName={"pagination"}
+                        activeClassName={"active"}
+                        initialPage={page - 1} // Use initialPage instead of forcePage
                       />
                     </div>
                   </div>

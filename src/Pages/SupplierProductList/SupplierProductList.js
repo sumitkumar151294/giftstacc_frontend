@@ -4,10 +4,10 @@ import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
-import { Pagination } from "@mui/material";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 
@@ -45,8 +45,8 @@ const SupplierProductList = () => {
         value.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
   };
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -74,7 +74,7 @@ const SupplierProductList = () => {
     setSupplierList(tempSupplier);
   }, [suppliers]);
 
-  const handleChange = (e) => { };
+  const handleChange = (e) => {};
 
   const userData = [
     {
@@ -175,7 +175,7 @@ const SupplierProductList = () => {
 
                 <div className="card-body">
                   <form>
-                    <div className="row">
+                    <div className="row px-1">
                       <div className="col-sm-3 form-group mb-2">
                         <label htmlFor="name-f">{selectSuppliers}</label>
 
@@ -187,7 +187,7 @@ const SupplierProductList = () => {
                         />
                       </div>
 
-                      <div className="col-lg-9 d-flex-list justify-content-end m-auto mb-2">
+                      <div className="col-lg-9 d-flex justify-content-end m-auto mb-2">
                         {userData.map((data, index) => (
                           <span className="mrr" key={index}>
                             <Button
@@ -203,14 +203,14 @@ const SupplierProductList = () => {
                     </div>
                   </form>
 
-                  <div className="row">
+                  <div className="row px-1">
                     <div className="col-lg-12">
                       <div>
                         <div className="card-header">
                           <h4 className="card-title">{supplierBrandLists}</h4>
                         </div>
                         {Array.isArray(filteredSupplierList) &&
-                          filteredSupplierList.length > 0 ? (
+                        filteredSupplierList.length > 0 ? (
                           <div className="card-body">
                             <div className="table-responsive">
                               <table className="table header-border table-responsive-sm">
@@ -243,7 +243,9 @@ const SupplierProductList = () => {
                                             />
                                             <div className="input-group-append">
                                               <Button
-                                                onClick={() => handleUpdate(data)}
+                                                onClick={() =>
+                                                  handleUpdate(data)
+                                                }
                                                 className="btn btn-outline-primary btn-sm group-btn btn-pad"
                                                 type="button"
                                                 text={update}
@@ -252,20 +254,20 @@ const SupplierProductList = () => {
                                           </div>
                                         </td>
                                         <td>
-                                          <span className={data.status === true ? "badge badge-success" : "badge badge-danger"} >
-                                            {data.status === true ? "Active" : "Inactive"}
+                                          <span
+                                            className={
+                                              data.status === true
+                                                ? "badge badge-success"
+                                                : "badge badge-danger"
+                                            }
+                                          >
+                                            {data.status === true
+                                              ? "Active"
+                                              : "Inactive"}
                                           </span>
                                         </td>
                                         <td>
                                           <div className="can-toggle">
-                                            <InputField
-                                              id={generateUniqueId(index)}
-                                              type="checkbox"
-                                              checked={data.status} // Set checked based on the status
-                                              onChange={() => {
-                                                // Handle toggle switch change
-                                              }}
-                                            />
                                             <label
                                               htmlFor={generateUniqueId(index)}
                                             >
@@ -284,13 +286,21 @@ const SupplierProductList = () => {
                                 </tbody>
                               </table>
                               <div className="pagination-container">
-                                <Pagination
-                                  count={Math.ceil(
+                                <ReactPaginate
+                                  previousLabel={"<"}
+                                  nextLabel={" >"}
+                                  breakLabel={"..."}
+                                  pageCount={Math.ceil(
                                     filteredSupplierList.length / rowsPerPage
                                   )}
-                                  page={page}
-                                  onChange={handlePageChange}
-                                  color="primary"
+                                  marginPagesDisplayed={2}
+                                  onPageChange={handlePageChange}
+                                  containerClassName={"pagination"}
+                                  activeClassName={"active"}
+                                  initialPage={page - 1} // Use initialPage instead of forcePage
+                                  previousClassName={
+                                    page === 0 ? "disabled" : ""
+                                  }
                                 />
                               </div>
                             </div>

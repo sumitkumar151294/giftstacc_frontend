@@ -8,6 +8,7 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import SupplierMasterForm from "./SupplierMasterForm";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
+import ReactPaginate from "react-paginate";
 const SupplierMasterList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [vendorData, setVendorData] = useState({
@@ -34,7 +35,6 @@ const SupplierMasterList = () => {
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
   const active = GetTranslationData("UIAdmin", "active");
-
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data.data
   );
@@ -45,11 +45,16 @@ const SupplierMasterList = () => {
   ];
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [rowsPerPage] = useState(5);
+  const [page, setPage] = useState(1);
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
-
+  const handlePageChange = (selected) => {
+    debugger
+    setPage(selected.selected + 1);
+  };
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -138,7 +143,7 @@ const SupplierMasterList = () => {
                                   icons={"fa fa-file-excel"}
                                   text={export_label}
                                 />
-                              )}s
+                              )}
                             </CSVLink>
                           )}
                       </div>
@@ -195,6 +200,24 @@ const SupplierMasterList = () => {
                             )}
                           </tbody>
                         </table>
+                        <div className="pagination-container">
+                                <ReactPaginate
+                                  previousLabel={"<"}
+                                  nextLabel={" >"}
+                                  breakLabel={"..."}
+                                  pageCount={Math.ceil(
+                                    filteredVendorList.length / rowsPerPage
+                                  )}
+                                  marginPagesDisplayed={2}
+                                  onPageChange={handlePageChange}
+                                  containerClassName={"pagination"}
+                                  activeClassName={"active"}
+                                  initialPage={page - 1} // Use initialPage instead of forcePage
+                                  previousClassName={
+                                    page === 0 ? "disabled" : ""
+                                  }
+                                />
+                              </div>
                       </div>
                     </div>
                   ) : (
