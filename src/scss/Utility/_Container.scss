@@ -11,7 +11,6 @@ $h100: var(--h100);
   padding-right: var(--bs-gutter-x, 15px);
   padding-left: var(--bs-gutter-x, 15px);
   margin-right: auto;
-  padding-top: 10.3rem;
   margin-left: auto;
 
   @media (min-width: 576px) {
@@ -30,17 +29,14 @@ $h100: var(--h100);
     max-width: 1140px;
   }
 
-  @media (min-width: 1399px) {
+  @media (min-width: 1440px) {
     max-width: 1320px;
-    padding-top: 10.3rem !important;
   }
 }
 .content-body .container-fluid{
   padding-top: 1.3rem;
   padding-right: 2.5rem;
   padding-left: 2.5rem;
-
- 
 
   @media only screen and (max-width: 75rem) {
     padding-top: 1.875rem;

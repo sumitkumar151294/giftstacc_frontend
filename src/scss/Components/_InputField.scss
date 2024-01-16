@@ -18,7 +18,7 @@ $border-color_4: var(--rgba-primary-2);
 	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 	background: var(--primary-white);
 	border: 3px solid var(--primary-greyish);
-	padding: 0.3125rem 1rem;
+    padding: 0.3125rem 1.25rem;
 	color: $color_3;
 	border-radius: 1rem;
 	&:focus {
