@@ -38,3 +38,10 @@ $border-color_4: var(--rgba-primary-2);
 		width: var(--w100);
 	}
 }
+
+@media only screen and (min-width: 1400px){
+	.form-control {
+	   height: 3rem; 
+	 width: var(--w100); 
+	}
+	}

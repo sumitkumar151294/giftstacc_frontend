@@ -111,7 +111,7 @@ const AbandonedCartReport = () => {
               {customerDetail.map((data, index) => (
                 <div key={index} className="scroll p-0">
                   <div className="d-flex justify-content-between weak scroll">
-                    <div className="Ist">
+                    <div className="pl-pr">
                       <h6>{name}</h6>
                       <p className='head-value head-color'>{data.name}</p>
                     </div>
