@@ -57,6 +57,11 @@ $w100: var(--w100);
   padding: 10px 30px !important;
 }
 
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
 .btn-outline-primary:hover {
   border-color: $primary-hover;
   background-color: $primary-hover;
@@ -88,3 +93,12 @@ $w100: var(--w100);
   }
 }
 
+
+.btn-icon-end {
+  border-left: 0.0625rem solid var( --primary-white);;
+  display: inline-block;
+  margin: -0.8rem 0 -0.8rem 1rem;
+  padding: 0.4375rem 0 0.4375rem 1rem;
+  margin: -1rem -0.25rem -1rem 1rem;
+  padding: 1rem 0 1rem 1.25rem;
+}
