@@ -33,8 +33,8 @@ $background-color_1: var(--sidebar-bg);
 .deznav {
 	width: 17rem;
 	padding-bottom: 0;
-	position: absolute;
-	padding-top: 0;
+	position: fixed;
+	padding-top: 0 ;
 	z-index: 6;
 	background-color: $background-color_1;
 	transition: all .2s ease;
@@ -179,9 +179,6 @@ a.ai-icon {
 		}
 	}
 }
-
-
-
 .deznav {
 	.metismenu {
 		>li {
@@ -352,7 +349,7 @@ li {
 	.deznav {
 		.metismenu {
 			>li {
-				padding: 6px 1rem;
+				padding: 12px 1.25rem;
 				>a {
 					border-radius: 2rem;
 					padding: 0.1rem;
@@ -362,6 +359,7 @@ li {
 		}
 	}
 }
+
 @media only screen and (max-width: 1199px) {
 	.deznav {
 		height: calc(100% - 70px);
@@ -415,3 +413,19 @@ li {
 		}
 	}
 }
+@media only screen and (max-width: 1400px) {
+
+	[data-sidebar-style=full][data-layout=vertical] .deznav .metismenu > li {
+		padding: 6px 1rem  ;
+	}	
+	[data-sidebar-position=fixed][data-layout=vertical] .deznav {
+		padding-top: 0 ;
+	}
+}
+@media only screen and (min-width: 1400px) {
+	[data-sidebar-position=fixed][data-layout=vertical] .deznav {
+		padding-top: 2rem;
+	}
+}
+
+	
