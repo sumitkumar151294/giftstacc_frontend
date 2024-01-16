@@ -175,7 +175,7 @@ const SupplierProductList = () => {
 
                 <div className="card-body">
                   <form>
-                    <div className="row">
+                    <div className="row px-1">
                       <div className="col-sm-3 form-group mb-2">
                         <label htmlFor="name-f">{selectSuppliers}</label>
 
@@ -203,7 +203,7 @@ const SupplierProductList = () => {
                     </div>
                   </form>
 
-                  <div className="row">
+                  <div className="row px-1">
                     <div className="col-lg-12">
                       <div>
                         <div className="card-header">
@@ -268,14 +268,6 @@ const SupplierProductList = () => {
                                         </td>
                                         <td>
                                           <div className="can-toggle">
-                                            <InputField
-                                              id={generateUniqueId(index)}
-                                              type="checkbox"
-                                              checked={data.status} // Set checked based on the status
-                                              onChange={() => {
-                                                // Handle toggle switch change
-                                              }}
-                                            />
                                             <label
                                               htmlFor={generateUniqueId(index)}
                                             >
