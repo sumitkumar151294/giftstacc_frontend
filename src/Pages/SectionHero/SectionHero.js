@@ -1,5 +1,5 @@
 import React from 'react'
-import img from '../../Images/Adidas.png'
+import img from '../../../src/Assets/img/EndUser/Adidas.png'
 
 const SectionHero = () => {
   return (
