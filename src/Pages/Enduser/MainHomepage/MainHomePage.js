@@ -3,7 +3,7 @@ import MainHeader from '../../../Components/EndUser/MainHeader/MainHeader'
 import MainSubHeader from '../../../Components/EndUser/MainSubHeader/MainSubHeader'
 import SectionHero from '../../../Pages/Enduser/SectionHero/SectionHero'
 import Shop from '../Shop/Shop'
-import Footer from '../Footer/Footer'
+import MainFooter from '../../../Components/EndUser/MainFooter/MainFooter'
 
 
 const MainHomePage = () => {
@@ -13,7 +13,7 @@ const MainHomePage = () => {
       <MainSubHeader />
       <SectionHero />
       <Shop />
-      <Footer />
+      <MainFooter/>
     </div>
   )
 }
