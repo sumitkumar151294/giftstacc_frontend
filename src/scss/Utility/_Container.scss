@@ -5,34 +5,17 @@ $primary-white-2: var(--primary-white-2);
 $rgba-primary-16: var(--rgba-primary-16);
 $h100: var(--h100);
 
-.container,
-.container-fluid{
-  width: $w100;
-  padding-right: var(--bs-gutter-x, 15px);
-  padding-left: var(--bs-gutter-x, 15px);
+.container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+  width: 100%;
+  padding-right: var(--bs-gutter-x, 15px) ;
+  padding-left: var(--bs-gutter-x, 15px) ;
   margin-right: auto;
   margin-left: auto;
-
-  @media (min-width: 576px) {
-    max-width: 540px;
-  }
-
-  @media (min-width: 768px) {
-    max-width: 720px;
-  }
-
-  @media (min-width: 992px) {
-    max-width: 960px;
-  }
-
-  @media (min-width: 1200px) {
-    max-width: 1140px;
-  }
-
-  @media (min-width: 1440px) {
-    max-width: 1320px;
+  @media only screen and (min-width: 1400px)  {
+    padding-top: 9.3rem !important;
   }
 }
+
 .content-body .container-fluid{
   padding-top: 1.3rem;
   padding-right: 2.5rem;
@@ -54,6 +37,12 @@ $h100: var(--h100);
     padding-top: 0.9375rem;
     padding-right: 0.9375rem;
     padding-left: 0.9375rem;
+  }
+  
+  @media only screen and (min-width: 1400px)  {
+    .card-body .container-fluid{
+      padding-top: 1.5rem !important;
+    }
   }
 }
 body {

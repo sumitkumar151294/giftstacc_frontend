@@ -59,7 +59,7 @@
   width: 1.625rem;
   z-index: 999;
   .line {
-    background: var(--primary-black);
+    background: var(--primary-black) !important;
     display: block;
     height: 0.1875rem;
     border-radius: 0.1875rem;
@@ -68,24 +68,35 @@
     margin-right: auto;
     transition: all 0.3s ease-in-out;
   }
+  .line:nth-child(3) {
+    width: 0.68rem;
+    height: 0.125rem;
+
+  }
   &.is-active {
     .line:nth-child(1) {
+      background: var(--primary) !important;
+
       transform: translateY(4px) translateX(12px) rotate(45deg);
       width: 0.625rem;
       height: 0.125rem;
     }
     .line:nth-child(2) {
+      background: var(--primary) !important;
+
       transform: translateX(0px);
       width: 1.375rem;
       height: 0.125rem;
     }
     .line:nth-child(3) {
+      background: var(--primary) !important;
       transform: translateY(-4px) translateX(12px) rotate(-45deg);
       width: 0.625rem;
       height: 0.125rem;
 
     }
   }
+  
 }
 
 [data-sidebar-style="full"][data-layout="vertical"] {
@@ -613,7 +624,7 @@ svg {
     position: absolute;
     right: -5rem;
     text-align: center;
-    top: 55%;
+    top: 45%;
     transform: translateY(-50%);
     z-index: 9999;
     font-size: 1.4rem;
@@ -636,10 +647,30 @@ svg {
 @media only screen and (max-width: 1400px) {
   .nav-header {
     height: 5.5rem  ;
+    width: 17rem;
   }
+  
     } 
     @media only screen and (min-width: 1400px) {	
       .nav-header {
-      height: 7.5rem  ;
+        height: 7.5rem;
+        width: 20.5rem;      }
+     
       }
-        } 
+      @media only screen and (max-width: 1400px) {	
+
+        .nav-header .brand-logo {
+          padding-left: 1.25rem;
+          padding-right: 1.25rem;
+          } 
+      }
+      @media only screen and (max-width: 767px){
+.nav-header {
+    width: 5rem;
+}
+
+.nav-header .brand-logo {
+    padding-left: 0px;
+    padding-right: 0px;
+}}
+      

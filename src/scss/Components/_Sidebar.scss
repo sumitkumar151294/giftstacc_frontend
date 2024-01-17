@@ -50,7 +50,7 @@ $background-color_1: var(--sidebar-bg);
 	.metismenu {
 		display: flex;
 		flex-direction: column;
-		padding-top: 0.9375rem;
+		padding-top: 0.2375rem;
 		li {
 			position: relative;
 		}
@@ -62,7 +62,7 @@ $background-color_1: var(--sidebar-bg);
 					color: $color_1 !important;
 					box-shadow: none;
 					background: var(--rgba-primary-1);
-					padding: 10px 20px !important;
+					padding: 9px 20px 11px !important;
 				}
 			}
 			>a {
@@ -268,7 +268,7 @@ a.ai-icon {
 				color: var(--primary) !important;
 				box-shadow: none;
 				background: var( --primary-alice) !important;
-				padding: 10px 20px !important;
+				padding: 10px 14px !important;
 			}
 		}
 		display: flex;
@@ -349,7 +349,7 @@ li {
 	.deznav {
 		.metismenu {
 			>li {
-				padding: 12px 1.25rem;
+				padding: 15px 0.7rem;
 				>a {
 					border-radius: 2rem;
 					padding: 0.1rem;
@@ -394,6 +394,8 @@ li {
 	[data-sidebar-style="mini"][data-layout="vertical"] {
 		.deznav {
 			position: absolute !important;
+			width: 6.25rem;
+			// margin-top: -10px;
 		}
 	}
 	[data-sidebar-style="mini"] {
@@ -402,7 +404,7 @@ li {
 			overflow: visible;
 			position: absolute;
 			z-index: 2;
-			top: 6.5rem;
+			top: 5rem !important;
 		}
 	}
 }
@@ -416,7 +418,8 @@ li {
 @media only screen and (max-width: 1400px) {
 
 	[data-sidebar-style=full][data-layout=vertical] .deznav .metismenu > li {
-		padding: 6px 1rem  ;
+		padding: 7px 9px 2px 5px;
+		margin-left: 15px;
 	}	
 	[data-sidebar-position=fixed][data-layout=vertical] .deznav {
 		padding-top: 0 ;
@@ -424,7 +427,25 @@ li {
 }
 @media only screen and (min-width: 1400px) {
 	[data-sidebar-position=fixed][data-layout=vertical] .deznav {
-		padding-top: 2rem;
+		margin-top: 2rem;
+		width:20.5rem;
+		padding: 12px 1.25rem;
+
+	}
+	.deznav {
+		width:20.5rem;
+		padding-bottom: 0;
+		position: fixed;
+		padding-top: 0 ;
+		z-index: 6;
+		background-color: $background-color_1;
+		transition: all .2s ease;
+		box-shadow: 0rem 1.25rem 1.875rem 0rem rgba(0, 0, 0, 0.02);
+		padding-bottom: 0;
+		padding-top: 0;
+		z-index: 6;
+		background-color: $background-color_1;
+		
 	}
 }
 
