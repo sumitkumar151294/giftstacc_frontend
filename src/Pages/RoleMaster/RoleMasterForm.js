@@ -351,7 +351,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>                                                       
                                     </>
                                   )
                                 )
