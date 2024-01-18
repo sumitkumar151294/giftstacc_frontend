@@ -385,6 +385,7 @@ svg {
   cursor: pointer;
 }
 
+
 .navbar-expand {
   .header-profile {
     .nav-link {
@@ -395,6 +396,19 @@ svg {
     }
   }
 }
+@media only screen and (min-width: 1400px) {
+
+.navbar-expand {
+  .header-profile {
+    .nav-link {
+      img {
+        height: 3.5rem;
+        width: 3.5rem;
+        border-radius: 4.25rem;
+      }
+    }
+  }
+}}
 
 @media only screen and (min-width: 48rem) {
   [data-sidebar-style="mini"] {
@@ -678,4 +692,3 @@ svg {
     padding-left: 0px;
     padding-right: 0px;
 }}
-      

@@ -118,3 +118,7 @@ $w100: var(--w100);
   font-weight: 400;
   font-size: 1rem ;
 }
+.btn-sm, .btn-group-sm > .btn {
+  font-size: 0.813rem !important;
+  padding: 0.625rem 1rem;
+}

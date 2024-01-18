@@ -28,7 +28,7 @@ const BrandCatalogue = () => {
   const price = GetTranslationData("UIAdmin", "price");
   const action = GetTranslationData("UIAdmin", "action");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
-  const exportLabel = GetTranslationData("UIAdmin", "export_label");
+  const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client");
@@ -131,7 +131,7 @@ const BrandCatalogue = () => {
                       />
                       <span className="input-group-text">
                         <a href="#">
-                          <i className="flaticon-381-search-2"></i>
+                        <i className="flaticon-381-search-2"></i>&nbsp;
                         </a>
                       </span>
                     </div>
@@ -145,8 +145,7 @@ const BrandCatalogue = () => {
                       >
                         {filteredBrandCatalogueList.length > 0 && (
                           <Button
-                            className="btn btn-primary btn-sm btn-rounded mb-2"
-                            icons={"fa fa-file-excel me-2"}
+                          className="btn btn-primary btn-sm btn-rounded mb-2 me-3"                            icons={"fa fa-file-excel me-2"}
                             text={`${exportLabel}`}
                           />
                         )}
