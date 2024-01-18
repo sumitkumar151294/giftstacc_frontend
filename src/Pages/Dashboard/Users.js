@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 
@@ -153,6 +153,11 @@ const Users = () => {
   const months = GetTranslationData("UIAdmin", "months");
   const daily = GetTranslationData("UIAdmin", "daily");
   const today = GetTranslationData("UIAdmin", "today");
+  const [activeTab, setActiveTab] = useState('months');
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
 
   return (
     <>
@@ -172,27 +177,24 @@ const Users = () => {
                     <ul className="nav nav-tabs" role="tablist">
                       <li className="nav-item">
                         <a
-                          className="nav-link active"
-                          data-bs-toggle="tab"
-                          role="tab"
+                          className={`nav-link ${activeTab === 'months' ? 'active' : ''}`}
+                          onClick={() => handleTabClick('months')}
                         >
                           {months}
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          className="nav-link "
-                          data-bs-toggle="tab"
-                          role="tab"
+                          className={`nav-link ${activeTab === 'daily' ? 'active' : ''}`}
+                          onClick={() => handleTabClick('daily')}
                         >
                           {daily}
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          className="nav-link"
-                          data-bs-toggle="tab"
-                          role="tab"
+                          className={`nav-link ${activeTab === 'today' ? 'active' : ''}`}
+                          onClick={() => handleTabClick('today')}
                         >
                           {today}
                         </a>
