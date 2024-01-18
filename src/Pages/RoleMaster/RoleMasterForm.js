@@ -220,7 +220,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                             onChange={handleInputChange}
                           />
                         </div>
-                        <div className="col-lg-4">
+                        {/* <div className="col-lg-4">
                           <div className="form-check mt-4 padd">
                             <InputField
                               className="form-check-input"
@@ -238,7 +238,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                               {isClientRole}
                             </label>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
 
                       <div className="row top-top">
@@ -267,8 +267,8 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                           </div>
                         </div>
                         <div className="col-lg-12 br pt-2">
-                          <label htmlFor="name-f">{moduleAccess}</label>
-                          <div className="row ml-4">
+                          <label htmlFor="name-f" >{moduleAccess}</label>
+                          
                             {formData?.modules?.map(
                               ({ id, name, checked, isClientPlatformModule }) =>
                                 formData.isClientPlatformModule &&
@@ -309,22 +309,13 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                                   </div>
                                 ) : (
                                   !formData.isClientPlatformModule && (
+                                    <>
                                     <div
-                                      className="form-check mt-2 col-lg-3"
+                                      className="row mb-3 mt-3"
                                       key={id}
                                     >
-                                      <InputField
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        name={name}
-                                        value={checked}
-                                        id={`flexCheckDefault-${id}`}
-                                        checked={checked}
-                                        onChange={handleInputChange}
-                                      />
-
-                                      <label
-                                        className="form-check-label"
+                                      <h4
+                                        className="col-lg-3"
                                         htmlFor={`flexCheckDefault-${id}`}
                                       >
                                         {name
@@ -341,12 +332,31 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                                           ? `${client}`
                                           : `${admin}`}
                                         )
-                                      </label>
+                                      </h4>
+
+                                      <div class="col-lg-9 d-flex justify-content-end">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <InputField type="checkbox" class="form-check-input" value="" checked="" />View
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <InputField type="checkbox" class="form-check-input" value="" />Add 
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <InputField type="checkbox" class="form-check-input" value=""/>Edit
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
+                                    </>
                                   )
                                 )
                             )}
-                          </div>
+                          
                           {/* Checkbox Error Message */}
                           {checkBoxError && (
                             <span
