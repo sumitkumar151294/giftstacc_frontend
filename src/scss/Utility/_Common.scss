@@ -77,12 +77,6 @@ p {
 .align-items-center {
   align-items: center !important;
 }
-
-
-.d-flex {
-  display: flex !important;
-}
-
 label {
   margin-bottom: 0.5rem;
   font-size: 15px;
@@ -465,3 +459,16 @@ body {
     font-size: 0.875rem;
   }
 }
+.d-flex {
+  display: flex !important;
+}
+dl, ol, ul {
+  margin-top: 0!important;
+  // margin-bottom: 1rem;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+

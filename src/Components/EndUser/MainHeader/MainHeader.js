@@ -1,8 +1,8 @@
 import React from "react";
 import img from "../../../Assets/img/EndUser/logo.png";
-// import img3 from "../../../Assets/img/EndUser/tb.png"
-// import img4 from "../../../Assets/img/EndUser/cate.png"
-// import img2 from "../../../Assets/img/EndUser/offers.png"
+import img3 from "../../../Assets/img/EndUser/tb.png"
+import img4 from "../../../Assets/img/EndUser/cate.png"
+import img2 from "../../../Assets/img/EndUser/offers.png"
 
 // import { Link } from "react-router-dom";
 // import { toggleNavbar } from "../../redux/modules/User/toggleSlice";
@@ -46,7 +46,6 @@ const MainHeader = () => {
                     <div className="mobile-menu-trigger"
                     //  onClick={toggleMenu}
                      >
-                      <span></span>
                     </div>
                     {/* <Link to="/"> */}
                       <img src={img} />
@@ -210,7 +209,7 @@ const MainHeader = () => {
             <div className="mobileMenu d-inline-flex justify-content-center">
               <span className="menu-seperator">
                 <a className="nav-link " href="/brand-gift-cards">
-                  {/* <img width="25" src={img2} /> */}
+                  <img width="25" src={img2} />
                   <div
                   // style="color: black!important;"
                   >
@@ -220,7 +219,7 @@ const MainHeader = () => {
               </span>
               <span className="menu-seperator">
                 <a className="nav-link " href="/menu/topMenu/1">
-                  {/* <img width="25" src={img3} /> */}
+                  <img width="25" src={img3} />
                   <div
                   // style="color: black!important;"
                   >
@@ -231,7 +230,7 @@ const MainHeader = () => {
 
               <span className="menu-seperator">
                 <a className="nav-link " href="#">
-                  {/* <img width="25" src={img4} /> */}
+                  <img width="25" src={img4} />
                   <div
                   //  style="color: black!important;"
                   >

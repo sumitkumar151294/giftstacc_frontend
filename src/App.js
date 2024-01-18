@@ -1,11 +1,16 @@
-import Auth from "./Pages/Auth/Auth";
-import './scss/index.scss'
 
+
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import './scss/index.scss';
+import MainHomePage from "./Pages/Enduser/MainHomepage/MainHomePage";
 function App() {
   return (
-    <>
-      <Auth/>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainHomePage />} />
+
+      </Routes>
+    </Router>
   );
 }
 export default App;
