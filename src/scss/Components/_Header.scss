@@ -69,8 +69,8 @@
     transition: all 0.3s ease-in-out;
   }
   .line:nth-child(3) {
-    width: 0.68rem;
-    height: 0.125rem;
+    width: 0.94rem;
+    height: 0.1875rem;
 
   }
   &.is-active {
@@ -639,6 +639,11 @@ svg {
   width: 1.625rem;
   z-index: 999;
 }}
+.hamburger:hover{
+  .line:nth-child(3){
+    width: 1.625rem;
+  }
+}
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .brand-logo {
   padding-left: 0;
   padding-right: 0;
