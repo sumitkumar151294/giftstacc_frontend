@@ -78,10 +78,10 @@ $primary-black: var(--primary-black);
 }
 
 .card-body {
-  flex: 1 1 auto;
-  padding: 0.875rem !important;
-  padding: 1rem 1rem !important;
-  padding-top: 0px;
+  flex: 1 1 auto !important;
+  padding: 1rem 1rem ;
+  padding: 1.875rem !important ;
+  padding-top: 0px !important;
 
   @media only screen and (max-width: 575px) {
     padding: 1rem;
