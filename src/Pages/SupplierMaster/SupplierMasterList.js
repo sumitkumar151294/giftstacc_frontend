@@ -24,7 +24,7 @@ const SupplierMasterList = () => {
   });
   const supplierList = GetTranslationData("UIAdmin", "supplierList");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
-  const export_label = GetTranslationData("UIAdmin", "export_label");
+  const export_label = GetTranslationData("UIAdmin", "export_btn_Text");
   const supplierName = GetTranslationData("UIAdmin", "supplierName");
   const supplierClientID = GetTranslationData("UIAdmin", "supplierClientID");
   const minThresholdAmount = GetTranslationData(

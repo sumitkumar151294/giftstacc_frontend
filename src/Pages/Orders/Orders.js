@@ -36,7 +36,7 @@ const Orders = () => {
   const orderamount = GetTranslationData("UIAdmin", "orderamount");
   const ordermargin = GetTranslationData("UIAdmin", "ordermargin");
   const ordermarginvalue = GetTranslationData("UIAdmin", "ordermarginvalue");
-  const exportLabel = GetTranslationData("UIAdmin", "export_label");
+  const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
