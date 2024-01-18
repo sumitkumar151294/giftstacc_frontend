@@ -105,8 +105,8 @@ const SupplierMasterList = () => {
           <div className="container-fluid pt-0">
             <div className="row">
               <div className="col-lg-12">
-                <div className="card">
-                  <div className="container-fluid pt-0">
+                <div className="card ml-mr">
+                  <div className="container-fluid pt-1">
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
                         <h4 className="card-title">{supplierList}</h4>
