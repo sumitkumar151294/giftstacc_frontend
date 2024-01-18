@@ -395,7 +395,7 @@ const SupplierMasterForm = ({ data }) => {
                           <Button
                             text={data.name ? update : submit}
                             icon={"fa fa-arrow-right"}
-                            className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                            className="btn btn-primary float-right pad-aa mt-2"
                             />
                           <ToastContainer />
                         </div>
