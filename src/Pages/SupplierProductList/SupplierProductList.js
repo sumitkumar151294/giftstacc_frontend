@@ -176,7 +176,7 @@ const SupplierProductList = () => {
                 <div className="card-body">
                   <form>
                     <div className="row px-1">
-                      <div className="col-sm-3 form-group mb-2">
+                      <div className="col-sm-3 form-group  mb-2">
                         <label htmlFor="name-f">{selectSuppliers}</label>
 
                         <Dropdown

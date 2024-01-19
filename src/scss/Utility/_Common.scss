@@ -80,6 +80,9 @@ p {
 .d-flex {
   display: flex !important;
 }
+.justify-content-end {
+  justify-content: flex-end !important;
+}
 
 label {
   margin-bottom: 0.5rem !important;
@@ -195,7 +198,16 @@ label {
   background-color: var(--bs-danger);
   border-color: var(--bs-danger);
 }
-
+.btn-success {
+  color: #000;
+  background-color: #68e365;
+  border-color: #68e365;
+}
+.btn-warning {
+  color: #000;
+  background-color: #FFA41D;
+  border-color: #FFA41D;
+}
 .btn-danger:hover {
   color: var(--primary-black);
   background-color: var(--bs-danger-red);

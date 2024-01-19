@@ -4,7 +4,7 @@ $w100: 100%;
 .row {
   --bs-gutter-x: #{$bs-gutter-x};
   --bs-gutter-y: #{$bs-gutter-y};
-  display: flex;
+  display: flex !important;
   flex-wrap: wrap;
   margin-top: calc(var(--bs-gutter-y) * -1);
   margin-right: calc(var(--bs-gutter-x) / -2);
