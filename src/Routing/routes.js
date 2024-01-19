@@ -13,6 +13,7 @@ import CategoryList from "../Pages/CreateCategories/CategoryList";
 import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
 import Progress from "../Components/Progress/Progress";
+import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 // import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 function RouteConfiq() {
   return (
@@ -23,7 +24,7 @@ function RouteConfiq() {
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route path="/lc-admin/dashboard" element={<Layout Component={Dashboard} />} />
         <Route path="/lc-admin/supplier-master" element={<Layout Component={SupplierMasterList} />} />
-        <Route path="/lc-admin/supplier-product-list" element={<Layout Component={Progress} />} />
+        <Route path="/lc-admin/supplier-product-list" element={<Layout Component={SupplierProductList} />} />
         <Route path="/lc-admin/create-categories" element={<Layout Component={CategoryList} />} />
         <Route path="/lc-admin/role-master" element={<Layout Component={RoleMasterList} />} />
         <Route path="/lc-admin/client-master" element={<Layout Component={ClientMasterList} />} />

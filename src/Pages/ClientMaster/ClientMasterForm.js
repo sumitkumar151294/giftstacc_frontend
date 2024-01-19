@@ -336,7 +336,7 @@ const ClientMaster = (props) => {
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="container-fluid mt-3">
+                  <div className="container-fluid">
                     <div className="row">
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="contact-name">

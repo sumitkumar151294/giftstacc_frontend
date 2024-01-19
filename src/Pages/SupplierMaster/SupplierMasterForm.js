@@ -284,7 +284,7 @@ const SupplierMasterForm = ({ data }) => {
                                 : "form-control"
                               }`}
                             id="amominThresholdAmountunt"
-                            placeholder=""
+                            placeholder="₹500000"
                             onChange={(e) =>
                               handleChange(e, "minThresholdAmount")
                             }
@@ -305,7 +305,7 @@ const SupplierMasterForm = ({ data }) => {
                                 : "form-control"
                               }`}
                             id="availabelAmount"
-                            placeholder=""
+                            placeholder="₹500000"
                             onChange={(e) => handleChange(e, "availabelAmount")}
                           />
                         </div>

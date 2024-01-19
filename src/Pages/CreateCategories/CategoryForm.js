@@ -190,7 +190,7 @@ const CategoryForm = ({ setIsLoading }) => {
                             className={` ${
                               errors.supplierName
                                 ? "border-danger"
-                                : "form-control"
+                                : "form-select"
                             }`}
                             options={supplierNameOptions}
                           />
@@ -204,7 +204,7 @@ const CategoryForm = ({ setIsLoading }) => {
                             onChange={(e) => handleChange(e, "supplierBrand")}
                             error={errors.supplierBrand}
                             ariaLabel="Select"
-                            className={` ${errors.supplierBrand? "border-danger" : "form-control" }`}
+                            className={` ${errors.supplierBrand? "border-danger" : "form-select" }`}
                             options={supplierBrandOptions}
                           />
                         </div>

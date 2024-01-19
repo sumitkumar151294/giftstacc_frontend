@@ -257,6 +257,7 @@ label {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom: 15px;
   /* Adjust the margin as needed */
 }
 
@@ -477,6 +478,8 @@ body {
     font-size: 0.875rem;
   }
 }
-.cardnav{
-  padding: 3px 15.7px 22PX 27PX !important;
+@media only screen and (max-width: 1400px) {
+  .cardnav{
+    padding: 3px 15.7px 22PX 27PX !important;
+  }
 }
