@@ -116,6 +116,9 @@ const CategoryList = () => {
                   </div>
 
                   <div className="customer-search mb-sm-0 mb-3">
+
+                  {getCategoryData && getCategoryData.length > 0 && (
+
                     <div className="input-group search-area">
                       <InputField
                         type="text"
@@ -130,6 +133,7 @@ const CategoryList = () => {
                         </Link>
                       </span>
                     </div>
+                  )}
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     {getCategoryData && getCategoryData.length > 0 && (
