@@ -268,48 +268,92 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                         </div>
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f" >{moduleAccess}</label>
-                          
-                            {formData?.modules?.map(
-                              ({ id, name, checked, isClientPlatformModule }) =>
-                                formData.isClientPlatformModule &&
-                                  isClientPlatformModule ? (
-                                  <div
-                                    className="form-check mt-2 col-lg-3"
-                                    key={id}
-                                  >
-                                    <InputField
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      name={name}
-                                      value={checked}
-                                      id={`flexCheckDefault-${id}`}
-                                      checked={checked}
-                                      onChange={handleInputChange}
-                                    />
 
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor={`flexCheckDefault-${id}`}
-                                    >
-                                      {name
-                                        .replace(/([A-Z])/g, " $1")
-                                        .split(" ")
-                                        .map(
-                                          (word) =>
-                                            word.charAt(0).toUpperCase() +
-                                            word.slice(1).toLowerCase()
+                          {formData?.modules?.map(
+                            ({ id, name, checked, isClientPlatformModule }) =>
+                              formData.isClientPlatformModule &&
+                                isClientPlatformModule ? (
+
+                                  // <div
+                                  //   className="form-check mt-2 col-lg-3"
+                                  //   key={id}
+                                  // >
+                                  //   <InputField
+                                  //     className="form-check-input"
+                                  //     type="checkbox"
+                                  //     name={name}
+                                  //     value={checked}
+                                  //     id={`flexCheckDefault-${id}`}
+                                  //     checked={checked}
+                                  //     onChange={handleInputChange}
+                                  //   />
+
+                                  //   <label
+                                  //     className="form-check-label"
+                                  //     htmlFor={`flexCheckDefault-${id}`}
+                                  //   >
+                                  //     {name
+                                  //       .replace(/([A-Z])/g, " $1")
+                                  //       .split(" ")
+                                  //       .map(
+                                  //         (word) =>
+                                  //           word.charAt(0).toUpperCase() +
+                                  //           word.slice(1).toLowerCase()
+                                  //       )
+                                  //       .join(" ")}{" "}
+                                  //     (
+                                  //     {isClientPlatformModule === true
+                                  //       ? `${client}`
+                                  //       : `${admin}`}
+                                  //     )
+                                  //   </label>
+                                  // </div>
+                                  
+                                <div
+                                  className="row mb-3 mt-3"
+                                  key={id}
+                                >
+                                  <h4
+                                        className="col-lg-3"
+                                        htmlFor={`flexCheckDefault-${id}`}
+                                      >
+                                        {name
+                                          .replace(/([A-Z])/g, " $1")
+                                          .split(" ")
+                                          .map(
+                                            (word) =>
+                                              word.charAt(0).toUpperCase() +
+                                              word.slice(1).toLowerCase()
+                                          )
+                                          .join(" ")}{" "}
+                                        (
+                                        {isClientPlatformModule === true
+                                          ? `${client}`
+                                          : `${admin}`}
                                         )
-                                        .join(" ")}{" "}
-                                      (
-                                      {isClientPlatformModule === true
-                                        ? `${client}`
-                                        : `${admin}`}
-                                      )
-                                    </label>
+                                      </h4>
+
+                                  <div class="col-lg-9 d-flex justify-content-end">
+                                    <div class="form-check form-check-inline">
+                                      <label class="form-check-label">
+                                        <InputField type="checkbox" class="form-check-input" value="" />View
+                                      </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <label class="form-check-label">
+                                        <InputField type="checkbox" class="form-check-input" value="" />Add
+                                      </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <label class="form-check-label">
+                                        <InputField type="checkbox" class="form-check-input" value="" />Edit
+                                      </label>
+                                    </div>
                                   </div>
-                                ) : (
-                                  !formData.isClientPlatformModule && (
-                                    <>
+                                </div>
+                              ) : (
+                                !formData.isClientPlatformModule && (
+                                  <>
                                     <div
                                       className="row mb-3 mt-3"
                                       key={id}
@@ -335,28 +379,28 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                                       </h4>
 
                                       <div class="col-lg-9 d-flex justify-content-end">
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <InputField type="checkbox" class="form-check-input" value="" checked="" />View
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <InputField type="checkbox" class="form-check-input" value="" />Add 
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <InputField type="checkbox" class="form-check-input" value=""/>Edit
-                                                </label>
-                                            </div>
+                                        <div class="form-check form-check-inline">
+                                          <label class="form-check-label">
+                                            <InputField type="checkbox" class="form-check-input" value="" />View
+                                          </label>
                                         </div>
-                                    </div>                                                       
-                                    </>
-                                  )
+                                        <div class="form-check form-check-inline">
+                                          <label class="form-check-label">
+                                            <InputField type="checkbox" class="form-check-input" value="" />Add
+                                          </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                          <label class="form-check-label">
+                                            <InputField type="checkbox" class="form-check-input" value="" />Edit
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </>
                                 )
-                            )}
-                          
+                              )
+                          )}
+
                           {/* Checkbox Error Message */}
                           {checkBoxError && (
                             <span
