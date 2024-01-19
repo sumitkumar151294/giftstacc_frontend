@@ -102,31 +102,19 @@ p {
   }
 }
 
-.container,
-.container-fluid,
-.container-sm,
-.container-md,
-.container-lg,
-.container-xl,
-.container-xxl {
-  width: 100%;
-  padding-right: var(--bs-gutter-x, 15px);
-  padding-left: var(--bs-gutter-x, 15px);
-  margin-right: auto;
-  margin-left: auto;
-}
 
 
 
-.row {
-  --bs-gutter-x: 30px;
-  --bs-gutter-y: 0;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: calc(var(--bs-gutter-y) * -1);
-  margin-right: calc(var(--bs-gutter-x) / -2);
-  margin-left: calc(var(--bs-gutter-x) / -2);
-}
+
+// .row {
+//   --bs-gutter-x: 30px;
+//   --bs-gutter-y: 0;
+//   display: flex;
+//   flex-wrap: wrap;
+//   margin-top: calc(var(--bs-gutter-y) * -1);
+//   margin-right: calc(var(--bs-gutter-x) / -2);
+//   margin-left: calc(var(--bs-gutter-x) / -2);
+// }
 .row>* {
   flex-shrink: 0;
   width: 100%;
@@ -172,10 +160,6 @@ p {
     width: 100%;
   }
 }
-.mobile-menu-trigger {
-  display: none;
-}
-.mobile-menu-head,
 .mobile-menu-trigger {
   display: none;
 }
@@ -577,4 +561,11 @@ button {
 .order-lg-2 {
     order: 2!important;
 }
+}
+@mixin make-container($gutter: $container-padding-x) {
+  width: 100%;
+  padding-right: var(--#{$variable-prefix}gutter-x, #{$gutter});
+  padding-left: var(--#{$variable-prefix}gutter-x, #{$gutter});
+  margin-right: auto;
+  margin-left: auto;
 }

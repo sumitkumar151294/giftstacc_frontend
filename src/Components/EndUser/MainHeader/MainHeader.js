@@ -3,6 +3,12 @@ import img from "../../../Assets/img/EndUser/logo.png";
 import img3 from "../../../Assets/img/EndUser/tb.png"
 import img4 from "../../../Assets/img/EndUser/cate.png"
 import img2 from "../../../Assets/img/EndUser/offers.png"
+import user from "../../../Assets/img/EndUser/user.svg"
+import heart from "../../../Assets/img/EndUser/heart.svg"
+import bag from "../../../Assets/img/EndUser/shopping-bag-solid.svg"
+
+
+ 
 
 // import { Link } from "react-router-dom";
 // import { toggleNavbar } from "../../redux/modules/User/toggleSlice";
@@ -61,7 +67,7 @@ const MainHeader = () => {
                           id="ctl00_whenusernotlogin"
                           className="mt-1"
                         >
-                          <i className="las la-user"></i>
+                          <img src={user}/>
                         </a>
 
                         <div className="logindropbox">
@@ -120,12 +126,12 @@ const MainHeader = () => {
                         <a 
                         // onClick={handleWishList}
                         >
-                          <i className="lar la-heart"></i>
+                     <img src={heart} />
                         </a>
                       </li>
                       <li className="d-none d-xl-inline-block">
                         <a href="#">
-                          <i className="las la-shopping-bag"></i>
+                          <img src={bag} />
                           <span className="cartcounter">
                             <div>0</div>
                           </span>

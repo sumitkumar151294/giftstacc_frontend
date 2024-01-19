@@ -2,8 +2,7 @@ import React from 'react'
 import MainHeader from '../../../Components/EndUser/MainHeader/MainHeader'
 import MainSubHeader from '../../../Components/EndUser/MainSubHeader/MainSubHeader'
 import SectionHero from '../../../Pages/Enduser/SectionHero/SectionHero'
-import Shop from '../Shop/Shop'
-import MainFooter from '../../../Components/EndUser/MainFooter/MainFooter'
+
 
 
 const MainHomePage = () => {
@@ -11,9 +10,9 @@ const MainHomePage = () => {
     <div>
       <MainHeader />
       <MainSubHeader />
-      <SectionHero />
-      <Shop />
-      <MainFooter/>
+      {/* <SectionHero />0 */}
+      {/* <Shop /> */}
+      {/* <MainFooter/> */}
     </div>
   )
 }
