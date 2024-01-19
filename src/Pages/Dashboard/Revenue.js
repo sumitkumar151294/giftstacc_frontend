@@ -132,7 +132,7 @@ const Revenue = () => {
               options={revenueChart.options}
               series={revenueChart.options.series}
               type="area"
-              height={230}
+              height={227}
             />
           </div>
         </div>
