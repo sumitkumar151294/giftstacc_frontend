@@ -129,7 +129,7 @@ content-body {
 	}
 
 	h2 {
-		font-size: 2rem;
+		font-size: 2rem !important;
 		font-weight: 600;
 	}
 
@@ -201,11 +201,13 @@ content-body {
 
 		.nav-item {
 			.nav-link.active {
+				cursor: pointer;
 				background: var(--primary);
 				color: $color_2;
 			}
 
 			.nav-link {
+				cursor: pointer;
 				background: transparent;
 				border: 0;
 				color: $color_3;

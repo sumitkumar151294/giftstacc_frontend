@@ -102,3 +102,23 @@ $w100: var(--w100);
   margin: -1rem -0.25rem -1rem 1rem;
   padding: 1rem 0 1rem 1.25rem;
 }
+.auth-form .btn {
+    height: 3.125rem;
+    font-weight: 700 !important;
+}
+.btn-block {
+  display: block !important;
+  width: 100% !important;
+}
+
+
+.btn {
+  padding: 0.938rem 1.5rem;
+  border-radius: 1.125rem;
+  font-weight: 400;
+  font-size: 1rem ;
+}
+.btn-sm, .btn-group-sm > .btn {
+  font-size: 0.813rem !important;
+  padding: 0.625rem 1rem;
+}

@@ -7,7 +7,7 @@ const Button = ({ text, onClick, icon, icons, className, btn_css, value }) => {
       className={className}
       onClick={onClick}
     >
-      {<i className={icons}></i>}
+      {<i className={icons }></i>}
       {" "}{text}{" "}
       {<i className={icon}></i>}
       {<span className={btn_css}>{value}</span>}

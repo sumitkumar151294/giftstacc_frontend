@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="copyright">
-        <p>{GetTranslationData("UIAdmin", "footer_copyright")}</p>
+      <p>{GetTranslationData("UIAdmin", "footer_text")}</p>
       </div>
     </div>
   );

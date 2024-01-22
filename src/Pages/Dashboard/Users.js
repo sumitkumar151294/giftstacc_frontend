@@ -173,7 +173,7 @@ const Users = () => {
                   </span>
                 </div>
                 <div className="d-flex">
-                  <div className="card-action coin-tabs mt-3 mt-sm-0">
+                  <div className="card-action coin-tabs  mt-sm-0">
                     <ul className="nav nav-tabs" role="tablist">
                       <li className="nav-item">
                         <a
@@ -204,7 +204,7 @@ const Users = () => {
                 </div>
               </div>
               <div className="card-body pb-2">
-                <div className="tab-pane fade show active" id="Monthly">
+                <div className="tab-pane fade show active mt-3" id="Monthly">
                   <ReactApexChart
                     options={chartTimeline.options}
                     series={chartTimeline.series}

@@ -24,7 +24,7 @@ const SupplierMasterList = () => {
   });
   const supplierList = GetTranslationData("UIAdmin", "supplierList");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
-  const export_label = GetTranslationData("UIAdmin", "export_label");
+  const export_label = GetTranslationData("UIAdmin", "export_btn_Text");
   const supplierName = GetTranslationData("UIAdmin", "supplierName");
   const supplierClientID = GetTranslationData("UIAdmin", "supplierClientID");
   const minThresholdAmount = GetTranslationData(
@@ -106,7 +106,7 @@ const SupplierMasterList = () => {
             <div className="row">
               <div className="col-lg-12">
                 <div className="card">
-                  <div className="container-fluid">
+                  <div className="container-fluid pt-1">
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
                         <h4 className="card-title">{supplierList}</h4>

@@ -284,7 +284,7 @@ const SupplierMasterForm = ({ data }) => {
                                 : "form-control"
                               }`}
                             id="amominThresholdAmountunt"
-                            placeholder=""
+                            placeholder="₹500000"
                             onChange={(e) =>
                               handleChange(e, "minThresholdAmount")
                             }
@@ -305,7 +305,7 @@ const SupplierMasterForm = ({ data }) => {
                                 : "form-control"
                               }`}
                             id="availabelAmount"
-                            placeholder=""
+                            placeholder="₹500000"
                             onChange={(e) => handleChange(e, "availabelAmount")}
                           />
                         </div>
@@ -360,7 +360,7 @@ const SupplierMasterForm = ({ data }) => {
                                   <br />
                                   <div className="col-sm-12 form-group mb-7">
                                     <Button
-                                      className="btn btn-danger btn-sm float-right mt-2"
+                                      className="btn btn-primary btn-sm float-right pad-aa mt-2"
                                       text={delete_Button}
                                       icon={"fa fa-trash"}
                                       onClick={() => handleDelete(index)}
@@ -375,8 +375,8 @@ const SupplierMasterForm = ({ data }) => {
                             <br />
                             <div className="col-sm-12 form-group mb-7">
                               <Button
-                                className="btn btn-primary btn-sm float-right mt-2"
-                                text={add_More}
+                                      className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                                      text={add_More}
                                 icon={"fa fa-plus"}
                                 onClick={(e) => handleAddMore(e)}
                               />
@@ -395,8 +395,8 @@ const SupplierMasterForm = ({ data }) => {
                           <Button
                             text={data.name ? update : submit}
                             icon={"fa fa-arrow-right"}
-                            className="btn btn-primary btn-sm float-right p-btn mt-2"
-                          />
+                            className="btn btn-primary float-right pad-aa mt-2"
+                            />
                           <ToastContainer />
                         </div>
                       </div>

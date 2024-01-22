@@ -107,7 +107,7 @@ const CategoryList = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="card">
-              <div className="container-fluid">
+              <div className="container-fluid pt-1">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="card-header">
                     <h4 className="card-title  txt-admin txtt">
@@ -116,6 +116,9 @@ const CategoryList = () => {
                   </div>
 
                   <div className="customer-search mb-sm-0 mb-3">
+
+                  {getCategoryData && getCategoryData.length > 0 && (
+
                     <div className="input-group search-area">
                       <InputField
                         type="text"
@@ -130,6 +133,7 @@ const CategoryList = () => {
                         </Link>
                       </span>
                     </div>
+                  )}
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     {getCategoryData && getCategoryData.length > 0 && (

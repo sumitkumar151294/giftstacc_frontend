@@ -80,11 +80,15 @@ p {
 .d-flex {
   display: flex !important;
 }
+.justify-content-end {
+  justify-content: flex-end !important;
+}
 
 label {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem !important;
   font-size: 15px;
   color: var(--primary-black);
+  display: inline-block;
 }
 
 .customer-search {
@@ -194,7 +198,16 @@ label {
   background-color: var(--bs-danger);
   border-color: var(--bs-danger);
 }
-
+.btn-success {
+  color: #000;
+  background-color: #68e365;
+  border-color: #68e365;
+}
+.btn-warning {
+  color: #000;
+  background-color: #FFA41D;
+  border-color: #FFA41D;
+}
 .btn-danger:hover {
   color: var(--primary-black);
   background-color: var(--bs-danger-red);
@@ -236,9 +249,10 @@ label {
 
 .btn-sm,
 .btn-group-sm>.btn {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.765625rem;
-  border-radius: 0.2rem;
+  // padding: 0.25rem 0.5rem;
+  // font-size: 0.765625rem;
+  // border-radius: 0.2rem;
+  font-size: 0.813rem;
 }
 
 .sharp.btn-xs {
@@ -255,6 +269,7 @@ label {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom: 15px;
   /* Adjust the margin as needed */
 }
 
@@ -473,5 +488,10 @@ body {
 @media only screen and (max-width: 100rem) {
   :root {
     font-size: 0.875rem;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .cardnav{
+    padding: 3px 15.7px 22PX 27PX !important;
   }
 }
