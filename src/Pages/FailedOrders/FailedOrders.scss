@@ -3,7 +3,7 @@
   }
 
   .card-title {
-    margin-bottom: 0.5rem !important;
+   margin-bottom: 0.5rem ;
   }
 
   h6,
@@ -13,7 +13,7 @@
 
   h4,
   .h4 {
-    font-size: 1.125rem !important;
+    font-size: 1.25rem !important;
   }
 
   h1,
@@ -34,3 +34,7 @@
     line-height: 1.2;
     color: #000;
   }
+
+.card-header .card-title {
+  margin-bottom: 0rem ;
+}

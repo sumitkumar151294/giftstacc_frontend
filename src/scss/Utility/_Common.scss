@@ -98,7 +98,7 @@ label {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  width: var(--w100);
+  width: 100%;
 }
 
 .input-group-text {
@@ -108,7 +108,7 @@ label {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
-  color: var(--primary-grey);
+  color: #969ba0;
   text-align: center;
   white-space: nowrap;
   background-color: var(--primary-input-bg);
@@ -397,7 +397,7 @@ a:hover {
 }
 
 .only-high {
-  height: 3.5em;
+  height: 3.5em!important;
 }
 
 .btn-outline-primary {

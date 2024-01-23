@@ -9,7 +9,15 @@ $border-color_3: inherit;
 table {
     caption-side: bottom;
     border-collapse: collapse;
-}
+}.table.table-striped tbody tr:nth-of-type(odd), .table.table-hover tr:hover {
+    background-color: #f2f4fa;
+    }
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        --bs-table-accent-bg: var(--bs-table-striped-bg);
+        color: grey; }
+    .table-active {
+        --bs-table-accent-bg: var(--bs-table-active-bg);
+        color: var(--bs-table-active-color); }
 .table {
     --bs-table-bg: transparent;
     --bs-table-striped-color: var(--primary-grey);
