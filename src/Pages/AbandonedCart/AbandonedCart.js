@@ -94,7 +94,7 @@ const AbandonedCartReport = () => {
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="card-header">
                   {/* <h4 className="card-title order-details">{abandoned_Cart_Report}</h4> */}
-                                    <h4 className="card-title order-details">Abanddormy Card6sfgd</h4>
+                                    <h4 className="card-title order-details">Abandoned Cart Report</h4>
 
                 </div>
                 <div className="customer-search mb-sm-0 mb-3">

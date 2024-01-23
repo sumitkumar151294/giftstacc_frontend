@@ -6,6 +6,21 @@ $border-color_3: inherit;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
+.table {
+    
+    --bs-table-bg: transparent;
+    --bs-table-striped-color: #969ba0;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #969ba0;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #969ba0;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #969ba0;
+    vertical-align: top;
+    border-color: #EEEEEE; }
+    
 table {
     caption-side: bottom;
     border-collapse: collapse;

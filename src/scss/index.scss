@@ -1,36 +1,36 @@
-@import './Components/Button';
-@import './Components/Error';
-@import './Components/Footer';
-@import './Components/Header';
-@import './Components/HomePage';
-@import './Components/InputField';
-@import './Components/Layout';
-@import './Components/Loader';
-@import './Components/NoRecord';
-@import './Components/Sidebar';
-
-@import './Pages/BrandCatalogue';
-@import './Pages/BrandDetail';
-@import './Pages/ClientMaster';
-@import './Pages/Dashboard';
-@import './Pages/LoginPage';
-@import './Pages/RoleMaster';
-@import './Pages/SupplierProductList';
-@import './Pages/UserMaster';
-@import './Pages/AbandonedCart';
-@import './Utility/Card';
-@import './Utility/Rows';
-@import './Utility/Column';
-@import './Utility/Common';
-@import './Utility/Container';
-@import './Utility/Form';
-@import './Utility/Margin';
-@import './Utility/Padding';
-@import './Utility/Table';
-
+@import "./Components/Button";
+@import "./Components/Error";
+@import "./Components/Footer";
+@import "./Components/Header";
+@import "./Components/HomePage";
+@import "./Components/InputField";
+@import "./Components/Layout";
+@import "./Components/Loader";
+@import "./Components/NoRecord";
+@import "./Components/Sidebar";
+@import "./Pages/BrandCatalogue";
+@import "./Pages/BrandDetail";
+@import "./Pages/ClientMaster";
+@import "./Pages/Dashboard";
+@import "./Pages/LoginPage";
+@import "./Pages/RoleMaster";
+@import "./Pages/SupplierProductList";
+@import "./Pages/UserMaster";
+@import "./Pages/AbandonedCart";
+@import "./Pages/Client_Admin/FailedOrders.scss";
+@import "./Pages/Client_Admin/EmailEventMaster.scss";
+@import "./Utility/Card";
+@import "./Utility/Rows";
+@import "./Utility/Column";
+@import "./Utility/Common";
+@import "./Utility/Container";
+@import "./Utility/Form";
+@import "./Utility/Margin";
+@import "./Utility/Padding";
+@import "./Utility/Table";
 :root {
   --primary: #0072fd;
-  --secondary: #624FD1;
+  --secondary: #624fd1;
   --bs-white: #fff;
   --primary-hover: #fc410c;
   --primary-red: red;
@@ -44,7 +44,7 @@
   --primary-light-alice: #ecd0c8;
   --primary-dark-alice-2: #f2d6cd;
   --primary-light-blue: #1947e1;
-  --primary-skin: #EEEEEE;
+  --primary-skin: #eeeeee;
   --primary-blue: #0074fc;
   --primary-dark: #a02502;
   --primary-black-2: #212130;
@@ -75,16 +75,16 @@
   --rgba-primary-20: rgba(0, 0, 0, 0.075);
   --rgba-primary-21: rgba(0, 0, 0, 0.125);
   --rgba-primary-22: rgba(0, 0, 0, 0.03);
-  --font-family: 'Inter', sans-serif;
+  --font-family: "Inter", sans-serif;
   --title: #000;
-  --header-bg: #E9E9E9;
+  --header-bg: #e9e9e9;
   --navlink: #464a53;
   --deznav-menu: #9fa4a6;
   --deznav-header-bg: #2e2e42;
   --anchor: #969ba0;
   --deznav-li: #7f7184;
   --psthumb-x: #aaa;
-  --psthumb-y: #DAE2F3;
+  --psthumb-y: #dae2f3;
   --primary-dark-blue: #0049e0;
   --headerbg: #fff;
   --bs-table-bg: #f0e8f6;
@@ -125,26 +125,26 @@
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
   --bs-pink: #e83e8c;
-  --bs-red: #EE3232;
+  --bs-red: #ee3232;
   --bs-redyish: #ff0438;
   --bs-primary-red: #ea0030;
   --bs-orange: #ff9900;
-  --bs-yellow: #FFFA6F;
-  --bs-green: #297F00;
+  --bs-yellow: #fffa6f;
+  --bs-green: #297f00;
   --bs-mid-green: #70c767;
   --bs-teal: #20c997;
-  --bs-cyan: #3065D0;
+  --bs-cyan: #3065d0;
   --bs-cream: #feb49f;
   --bs-gray: #6c757d;
   --bs-skin: #f5f5f5;
   --bs-gray-dark: #343a40;
   --bs-orange: #ffb23f;
   --bs-primary-orange: #ffad34;
-  --bs-primary: #FD683E;
-  --bs-secondary: #624FD1;
+  --bs-primary: #fd683e;
+  --bs-secondary: #624fd1;
   --bs-success: #68e365;
   --bs-info: #b48dd3;
-  --bs-warning: #FFA41D;
+  --bs-warning: #ffa41d;
   --bs-danger: #f72b50;
   --bs-danger-red: #f84b6a;
   --bs-danger-dark-red: #f84062;
@@ -152,9 +152,16 @@
   --bs-dark-brown: #fd683e40;
   --bs-light: #c8c8c8;
   --bs-dark: #6e6e6e;
-  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --bs-gradient: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0)
+  );
   /* width */
   --vh100: 100vh;
   --w100: 100%;

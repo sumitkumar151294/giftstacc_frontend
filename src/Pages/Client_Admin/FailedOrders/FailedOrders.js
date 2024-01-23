@@ -1,7 +1,6 @@
 import React from 'react'
-import './FailedOrders.scss'
-import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
-import ScrollToTop from '../../Components/ScrollToTop/ScrollToTop';
+import { GetTranslationData } from '../../../Components/GetTranslationData/GetTranslationData ';
+import ScrollToTop from '../../../Components/ScrollToTop/ScrollToTop';
 
 const FailedOrders = () => {
     const customerDetail1 = [
@@ -306,7 +305,7 @@ const FailedOrders = () => {
                                     </div>
                                 </div>
                                 {customerDetail.map((data,index) => (
-                                    <div key={index} className="card-body p-0 main">
+                                    <div key={index} className="card-body p-0 ">
                                         <div className="d-flex justify-content-between weak">
                                             <div className="1st">
                                                 <h6>{failedordersid}</h6>
@@ -360,7 +359,7 @@ const FailedOrders = () => {
                                         </div>
                                     </div>
                                 ))}
-                                <div className="card-body theorder">
+                                <div className="card-body main theorder">
                                     {productDetail1.map((data,index) => (
                                         <div key={index}>
                                             <div className="row">
@@ -425,7 +424,7 @@ const FailedOrders = () => {
                                                     <p className='head-value head-color' >{data.referenceid}</p>
                                                 </div>
                                                 <div className="col-lg-2">
-                                                    <h4 className="card-title order-details">{failedorderssuborderstatus}</h4>
+                                                    <h4>{failedorderssuborderstatus}</h4>
                                                     <span className={data.suborderstatusclassname}>{data.suborderstatus}</span>
                                                 </div>
                                                 <div className="col-lg-2">

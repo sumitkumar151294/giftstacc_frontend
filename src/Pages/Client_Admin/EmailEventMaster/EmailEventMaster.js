@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
-import './EmailEventMaster.scss'
-import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 
 
 
