@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,27 +15,27 @@ import { callUserRoleModuleAccessPostApi } from "../../Context/userRoleModuleAcc
 
 // Component for RoleMasterForm
 const RoleMasterForm = ({ data, setIsLoading, setData }) => {
-    // Translation labels
-    const [moduleArr,setModuleArr]=useState()
+  // Translation labels
+  // const [moduleArr, setModuleArr] = useState()
 
-    const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
-    const roleName = GetTranslationData("UIAdmin", "role-name");
-    const selectall = GetTranslationData("UIAdmin", "selectall");
-    const moduleAccess = GetTranslationData("UIAdmin", "module-access");
-    const submit = GetTranslationData("UIAdmin", "submit_label");
-    const update = GetTranslationData("UIAdmin", "update_label");
-    const checkBox_Error = GetTranslationData("UIAdmin", "checkbox_error");
-    const admin = GetTranslationData("UIAdmin", "admin_Label");
-    const client = GetTranslationData("UIAdmin", "client");
-    const isClientRole = GetTranslationData("UIAdmin", "is_Client_role");
-    const roleCreated = GetTranslationData("UIAdmin", "role_Create_Label");
-    const roleUpdated = GetTranslationData("UIAdmin", "role_Updated_Label");
-    const roleRequired = GetTranslationData("UIAdmin", "role_Req_Label");
-    const view = GetTranslationData("UIAdmin", "view");
-    const add = GetTranslationData("UIAdmin", "add");
-    const edit = GetTranslationData("UIAdmin", "edit");
-    const description_Label = GetTranslationData("UIAdmin", "description_Label");
-    const mandatory_Req_Label = GetTranslationData("UIAdmin", "mandatory_Req_Label");
+  const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
+  const roleName = GetTranslationData("UIAdmin", "role-name");
+  const selectall = GetTranslationData("UIAdmin", "selectall");
+  const moduleAccess = GetTranslationData("UIAdmin", "module-access");
+  const submit = GetTranslationData("UIAdmin", "submit_label");
+  const update = GetTranslationData("UIAdmin", "update_label");
+  const checkBox_Error = GetTranslationData("UIAdmin", "checkbox_error");
+  const admin = GetTranslationData("UIAdmin", "admin_Label");
+  const client = GetTranslationData("UIAdmin", "client");
+  const isClientRole = GetTranslationData("UIAdmin", "is_Client_role");
+  const roleCreated = GetTranslationData("UIAdmin", "role_Create_Label");
+  const roleUpdated = GetTranslationData("UIAdmin", "role_Updated_Label");
+  const roleRequired = GetTranslationData("UIAdmin", "role_Req_Label");
+  const view = GetTranslationData("UIAdmin", "view");
+  const add = GetTranslationData("UIAdmin", "add");
+  const edit = GetTranslationData("UIAdmin", "edit");
+  const description_Label = GetTranslationData("UIAdmin", "description_Label");
+  const mandatory_Req_Label = GetTranslationData("UIAdmin", "mandatory_Req_Label");
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
@@ -47,7 +47,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const [formData, setFormData] = useState({
     name: "",
     isClientPlatformModule: false,
-    module:moduleArr
+    module: []
 
   });
   const [errors, setErrors] = useState({
@@ -61,12 +61,24 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   // Fetch module data and update form data on mount and when module data changes
 
   useEffect(() => {
+
+    console.log('<><><>', formData)
+
+  }, [formData])
+
+
+  
+  useEffect(() => {
     if (getModuleData) {
       const modulesData = getModuleData?.map((module) => ({
         id: module.id,
         isClientPlatformModule: module.isClientPlatformModule,
         name: module.name,
         checked: false,
+        // viewAccess: false,
+        addAccess: false,
+        editAccess: false
+
       }));
       setFormData({
         ...formData,
@@ -92,18 +104,9 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   }, [getModuleData, data]);
   // Handle input changes in the form
   const handleInputChange = (e) => {
-    debugger
-    const { name, type, checked, checkedAdd, checkedEdit } = e.target;
-    const moduleAccessData =   [{
-           roleId: 1,
-           moduleId: 1,
-           viewAccess:checked,
-           addAccess: checkedAdd,
-           editAccess: checkedEdit,
-         }]
-         moduleAccessData.push(moduleArr)
-         console.log(moduleAccessData)
-   
+    const { name, type, checked } = e.target;
+ 
+
 
     // if (name === "IsClientRole") {
     //   setFormData({
@@ -127,23 +130,44 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
         ...formData,
         modules: updatedModules,
       });
-    } 
-    else if (type=== "checkbox" && name==="view")
-    {
-      let modules = formData.modules.map((md)=>{
-        if(md.id===  parseInt(e.target.id) )
-        {
-          return {...md, checked: !md.checked}
+    }
+    else if (type === "checkbox" && name === "view") {
+      let modules = formData.modules.map((md) => {
+        if (md.id === parseInt(e.target.id)) {
+          return { ...md, checked: !md.checked }
         }
         else {
           return md
         }
       });
-
-      setFormData({...formData,modules})
-      
-
+      setFormData({ ...formData, modules })
     }
+
+    else if (type === "checkbox" && name === "add") {
+      let modules = formData.modules.map((md) => {
+        if (md.id === parseInt(e.target.id)) {
+          return { ...md, addAccess: !md.addAccess }
+        }
+        else {
+          return md
+        }
+      });
+      setFormData({ ...formData, modules })
+    }
+
+    else if (type === "checkbox" && name === "edit") {
+      let modules = formData.modules.map((md) => {
+        if (md.id === parseInt(e.target.id)) {
+          return { ...md, editAccess: !md.editAccess }
+        }
+        else {
+          return md
+        }
+      });
+      setFormData({ ...formData, modules })
+    }
+
+
     // else if (type === "checkbox" && name !== "IsClientRole") {
     //   const updatedModules = formData.modules?.map((module) =>
     //     module.name === name ? { ...module, checked } : module
@@ -153,7 +177,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
     //     modules: updatedModules,
     //   });
     // } 
-   
+
     else {
       setFormData({
         ...formData,
@@ -162,12 +186,12 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
     }
   };
   // Reset form fields
-  const resetFiled = {
-    code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
-    name: "",
-    modules: formData.modules?.map((module) => ({ ...module, checked: false })),
-    isClientPlatformModule: false,
-  };
+  // const resetFiled = {
+  //   code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
+  //   name: "",
+  //   modules: formData.modules,
+  //   isClientPlatformModule: false,
+  // };
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -196,23 +220,26 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       name: formData.name,
       isClientPlatformModule: false,
     };
-    
-    // const moduleAccessData =   [{
-    //   roleId: 1,
-    //   moduleId: 1,
-    //   viewAccess:name ==="add" ? true : false,
-    //   addAccess: name ==="edit" ? true : false,
-    //   editAccess: name ==="view" ? true : false,
-    // }]
-    // moduleAccessData.push(moduleArr)
-    // console.log(moduleAccessData)
-
+     const accessPostData = formData.modules?.map((md) => {
+          return {
+            roleId: md.id,
+            moduleId: md.id,
+            viewAccess: md.checked,
+            addAccess: md.addAccess,
+            editAccess: md.editAccess,
+          }
+        })
     try {
       //To Submit the data
       if (!data) {
         await dispatch(onPostUserRole(postData));
-        // await dispatch(callUserRoleModuleAccessPostApi(moduleArr))
-        setFormData(resetFiled);
+
+       
+
+         console.log('submit Data 2', accessPostData)
+
+        await dispatch(callUserRoleModuleAccessPostApi(accessPostData))
+        // setFormData(resetFiled);
         toast.success(roleCreated);
       }
 
@@ -228,7 +255,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
         };
 
         await dispatch(onUpdateUserRole(updateData));
-        setFormData(resetFiled);
+        // setFormData(resetFiled);
         toast.success(roleUpdated);
         setData();
       }
@@ -240,7 +267,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       console.error("Error submitting data:", error);
     }
   };
-  
+
   // Render the RoleMasterForm component
   return (
     <>
@@ -262,10 +289,10 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-f">
+                          <label htmlFor="name-f" style={{textDecoration:"underline"}}>
                             {roleName}
                             <span className="text-danger">*</span>
-                            </label>
+                          </label>
                           <InputField
                             type="text"
                             className={` ${errors.name ? "border-danger" : "form-control"
@@ -312,7 +339,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                             </label>
                           </div>
                         </div>
-                        
+
                       </div>
 
                       <div className="row top-top">
@@ -331,29 +358,29 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                               id="flexCheckDefault2"
                               checked={isSelectAllChecked}
                               onChange={handleInputChange}
-                              // onChange={()=>{
-                              //   if ( formData?.modules?.length > 0 &&
-                              //     formData?.modules.every(
-                              //       (module) => module.checked
-                              //     ))
-                              //     {
+                            // onChange={()=>{
+                            //   if ( formData?.modules?.length > 0 &&
+                            //     formData?.modules.every(
+                            //       (module) => module.checked
+                            //     ))
+                            //     {
 
-                              //       let modules = formData.modules.map((md)=>{
-                              //         return {...md,checked: false}
-                              //       })
-                              //       setFormData({...formData, modules})
-                              //     }
-                              //     else {
-                                   
-                              //       let modules = formData.modules.map((md)=>{
-                              //         return {...md,checked: true}
-                              //       }) 
+                            //       let modules = formData.modules.map((md)=>{
+                            //         return {...md,checked: false}
+                            //       })
+                            //       setFormData({...formData, modules})
+                            //     }
+                            //     else {
 
-                              //       setFormData({...formData, modules})
-                              //     }
-                              // }}
+                            //       let modules = formData.modules.map((md)=>{
+                            //         return {...md,checked: true}
+                            //       }) 
+
+                            //       setFormData({...formData, modules})
+                            //     }
+                            // }}
                             />
-                            
+
                             <label
                               className="form-check-label fnt-17"
                               htmlFor="flexCheckDefault2"
@@ -361,12 +388,12 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                               {selectall}
                             </label>
                           </div>
-                         
+
                         </div>
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f" >{moduleAccess}</label>
                           {formData?.modules?.map(
-                            ({ id, name, checked, checkedAdd, checkedEdit, isClientPlatformModule }) =>
+                            ({ id, name, checked, editAccess, addAccess, isClientPlatformModule }) =>
                               <div
                                 className="row mb-3 mt-3"
                                 key={id}
@@ -399,17 +426,17 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                                   </div>
                                   <div className="form-check form-check-inline">
                                     <label className="form-check-label">
-                                      <InputField type="checkbox" className="form-check-input" name="add" value={checkedAdd} checked={checkedAdd} onChange={handleInputChange} />{add}
+                                      <InputField type="checkbox" id={id} className="form-check-input" name="add" value={addAccess} checked={addAccess} onChange={handleInputChange} />{add}
                                     </label>
                                   </div>
                                   <div className="form-check form-check-inline">
                                     <label className="form-check-label">
-                                      <InputField type="checkbox" className="form-check-input" name="edit" value={checkedEdit} checked={checkedEdit} onChange={handleInputChange} />{edit}
+                                      <InputField type="checkbox" id={id} className="form-check-input" name="edit" value={editAccess} checked={editAccess} onChange={handleInputChange} />{edit}
                                     </label>
                                   </div>
                                 </div>
                               </div>
-                            
+
                           )}
 
                           {/* Checkbox Error Message */}
