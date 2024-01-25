@@ -285,7 +285,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           />
                           <p className="text-danger">{errors.mobile}</p>
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
+                        {/* <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {username}
                             <span className="text-danger">{fieldRequired}</span>
@@ -301,7 +301,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                             error={errors.userName}
                             value={userData.userName}
                           />
-                        </div>
+                        </div> */}
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {firstName}
