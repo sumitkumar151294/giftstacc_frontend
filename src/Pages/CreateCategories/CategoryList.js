@@ -60,13 +60,13 @@ const CategoryList = () => {
 
   const filteredCategoryList = Array.isArray(getCategoryData)
     ? getCategoryData.filter((item) =>
-      Object.values(item).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(item).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   useEffect(() => {
@@ -116,24 +116,22 @@ const CategoryList = () => {
                   </div>
 
                   <div className="customer-search mb-sm-0 mb-3">
-
-                  {getCategoryData && getCategoryData.length > 0 && (
-
-                    <div className="input-group search-area">
-                      <InputField
-                        type="text"
-                        className="form-control only-high"
-                        placeholder={searchLabel}
-                        value={searchQuery}
-                        onChange={handleSearch}
-                      />
-                      <span className="input-group-text">
-                        <Link>
-                          <i className="flaticon-381-search-2"></i>
-                        </Link>
-                      </span>
-                    </div>
-                  )}
+                    {getCategoryData && getCategoryData.length > 0 && (
+                      <div className="input-group search-area">
+                        <InputField
+                          type="text"
+                          className="form-control only-high"
+                          placeholder={searchLabel}
+                          value={searchQuery}
+                          onChange={handleSearch}
+                        />
+                        <span className="input-group-text">
+                          <Link>
+                            <i className="flaticon-381-search-2"></i>
+                          </Link>
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     {getCategoryData && getCategoryData.length > 0 && (
@@ -156,13 +154,13 @@ const CategoryList = () => {
               </div>
 
               <div className="card-body">
-                {/* {isLoading && (
+                {isLoading && (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
-                )} */}
+                )}
                 {Array.isArray(filteredCategoryList) &&
-                  filteredCategoryList.length > 0 ? (
+                filteredCategoryList.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
                       <thead>

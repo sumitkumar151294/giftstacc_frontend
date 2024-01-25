@@ -53,7 +53,7 @@ const CategoryForm = ({ setIsLoading }) => {
   );
 
   const getSupplierName=[{
-    name:"ankit",
+    name:"supplier1",
 
 
   }]
@@ -64,12 +64,12 @@ const CategoryForm = ({ setIsLoading }) => {
   }));
 
   // To get the dropdown values of Supplier Brands
-  const supplierBrandOptions = getSupplierBrand?.map(
-    (supplierBrand, index) => ({
-      label: supplierBrand.brands,
-      key: index,
-    })
-  );
+  // const supplierBrandOptions = getSupplierBrand?.map(
+  //   (supplierBrand, index) => ({
+  //     label: supplierBrand.brands,
+  //     key: index,
+  //   })
+  // );
 
   // To get the labels form Api/Database
   const createUpdateBrandMapping = GetTranslationData(
