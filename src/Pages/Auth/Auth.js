@@ -4,8 +4,8 @@ import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RouteConfiq from "../../Routing/routes";
 import Loader from "../../Components/Loader/Loader";
+import PageError500 from "../../Components/PageError500/PageError500";
 import { config } from "../../Common/Client/ClientConfig";
-import Error from "../../Components/Error/Error";
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -25,11 +25,11 @@ console.log(loginAuthDataS)
     );
     // get data from present url
     if (matchingConfig) {
-      const { ACCESS_KEY, SECRET_KEY, CLIENT_KEY, PARTNER_KEY } =
+      debugger
+      const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } =
         matchingConfig;
       dispatch(
         onLoginAuthSubmit({
-          clientId: CLIENT_KEY,
           partnerCode: PARTNER_KEY,
           accessKey: ACCESS_KEY,
           secretKey: SECRET_KEY,
@@ -39,7 +39,8 @@ console.log(loginAuthDataS)
   }, [currentUrl]);
 
   useEffect(() => {
-    if (loginAuthData?.status_code === 200) {
+    debugger
+    if (loginAuthData?.status_code === 400) {
       setShowLoader(false);
       setShowError(false);
       dispatch(onTranslationSubmit());
@@ -65,7 +66,7 @@ console.log(loginAuthDataS)
 
   useEffect(() => {
     debugger
-    if (translationData.status_code === 200) {
+    if (translationData.status_code === 400) {
       setShowLoader(false);
       setShowError(false);
     } else {
@@ -75,7 +76,7 @@ console.log(loginAuthDataS)
 
   return (
     <>
-     {showLoader ? <Loader /> : <>{showError ? <Error /> : <RouteConfiq />}</>}
+     {showLoader ? <Loader /> : <>{showError ? <PageError500 /> : <RouteConfiq />}</>}
     </>
   );
 };

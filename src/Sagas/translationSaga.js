@@ -8,10 +8,11 @@ import {
 
 function* Translation() {
   try {
-    const loginAuthData = yield select((state) => state.loginAuthReducer.data.data);
+    const loginAuthData = yield select((state) => state.loginAuthReducer.data);
 
-    const translationResponse = yield call(translationApi,loginAuthData.clientId,loginAuthData.token);
-    if (translationResponse.code === 1) {
+    const translationResponse = yield call(translationApi,loginAuthData[0].clientId,loginAuthData[0].token);
+    if (translationResponse.httpStatusCode === 1) {
+      debugger
       yield put(
         onTranslationSubmitSuccess({
           data: translationResponse.data,

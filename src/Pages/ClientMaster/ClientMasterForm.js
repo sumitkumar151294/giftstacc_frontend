@@ -641,7 +641,7 @@ const ClientMaster = (props) => {
                           text={props.data ? update : add}
                           icon={"fa fa-arrow-right"}
                           onClick={handleSubmit}
-                          className="btn btn-primary btn-sm float-right p-btn mt-2"
+                          className="btn btn-primary btn-sm float-right p-btn mb-5 mt-2"
                         />
                         <ToastContainer />
                       </div>
