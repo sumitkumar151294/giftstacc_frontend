@@ -12,7 +12,6 @@ function* Translation() {
 
     const translationResponse = yield call(translationApi,loginAuthData[0].clientId,loginAuthData[0].token);
     if (translationResponse.httpStatusCode === 1) {
-      debugger
       yield put(
         onTranslationSubmitSuccess({
           data: translationResponse.data,

@@ -37,7 +37,7 @@ const CategoryList = () => {
 
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
-  const getCategoryData = getCreateCategory?.categoryData?.data;
+  const getCategoryData = getCreateCategory?.categoryData;
 
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
@@ -86,9 +86,9 @@ const CategoryList = () => {
   const handleDelete = (data) => {
     const deletedData = {
       id: data.id,
-      categoryName: data.categoryName,
-      supplierName: data.supplierName,
-      supplierBrand: data.supplierBrand,
+      name: data.name,
+      description: data.description,
+      vendorName: data.vendorName,
       deleted: true,
     };
     dispatch(onUpdateCategory(deletedData));
@@ -156,11 +156,11 @@ const CategoryList = () => {
               </div>
 
               <div className="card-body">
-                {isLoading && (
+                {/* {isLoading && (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
-                )}
+                )} */}
                 {Array.isArray(filteredCategoryList) &&
                   filteredCategoryList.length > 0 ? (
                   <div className="table-responsive">
@@ -178,9 +178,9 @@ const CategoryList = () => {
                           .slice(startIndex, endIndex)
                           .map((data) => (
                             <tr key={data.id}>
-                              <td>{data.categoryName}</td>
-                              <td>{data.supplierName}</td>
-                              <td>{data.supplierBrand}</td>
+                              <td>{data.name}</td>
+                              <td>{data.vendorName}</td>
+                              <td>{data.description}</td>
 
                               <td>
                                 <div className="d-flex">

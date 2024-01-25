@@ -25,7 +25,7 @@ console.log(loginAuthDataS)
     );
     // get data from present url
     if (matchingConfig) {
-      debugger
+      
       const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } =
         matchingConfig;
       dispatch(
@@ -39,7 +39,7 @@ console.log(loginAuthDataS)
   }, [currentUrl]);
 
   useEffect(() => {
-    debugger
+    
     if (loginAuthData?.status_code === 400) {
       setShowLoader(false);
       setShowError(false);
@@ -65,7 +65,7 @@ console.log(loginAuthDataS)
   }, [showError]);
 
   useEffect(() => {
-    debugger
+    
     if (translationData.status_code === 400) {
       setShowLoader(false);
       setShowError(false);
@@ -76,7 +76,7 @@ console.log(loginAuthDataS)
 
   return (
     <>
-     {showLoader ? <Loader /> : <>{showError ? <PageError500 /> : <RouteConfiq />}</>}
+     {showLoader ? <Loader /> : <RouteConfiq />}
     </>
   );
 };

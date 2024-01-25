@@ -5,18 +5,18 @@ import { onGetCategory, onGetCategoryError, onGetCategorySuccess, onPostCategory
 function* GetCategory() {
   try {
     const getCategoryResponse = yield call(callCreateCategoryGetApi);
-    if (getCategoryResponse.status === 5) {
+    if (getCategoryResponse.httpStatusCode === 200) {
       yield put(
         onGetCategorySuccess({
-          data: getCategoryResponse.result,
-          message: getCategoryResponse.result.message,
+          data: getCategoryResponse.response,
+          message: getCategoryResponse.response,
         })
       );
     } else {
       yield put(
         onGetCategoryError({
-          data: getCategoryResponse.result,
-          message: getCategoryResponse.result.message,
+          data: getCategoryResponse.response,
+          message: getCategoryResponse.errorMessage,
         })
       );
     }

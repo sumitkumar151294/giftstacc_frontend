@@ -32,8 +32,9 @@ const API = {
   updateClient: "/client-master/update",
 
   // create-category 
-  createCategory: "/create-category",
-  createCategoryUpdate:"/create-category/update",
+  createCategory: "/category",
+  getCategories:"/categories/all",
+  createCategoryUpdate:"/category",
 
   //brand-catalogue 
   brandCatalogue: "/brand-catalogue/all"
