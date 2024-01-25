@@ -4,8 +4,8 @@ import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RouteConfiq from "../../Routing/routes";
 import Loader from "../../Components/Loader/Loader";
-import Error from "../../Components/Error/Error";
 import { config } from "../../Common/Client/ClientConfig";
+import Error from "../../Components/Error/Error";
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -14,6 +14,8 @@ const Auth = () => {
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
   const translationData = useSelector((state) => state.translationReducer);
   const currentUrl = window.location.href;
+  const loginAuthDataS = useSelector((state) => state.loginAuthReducer.data.data);
+console.log(loginAuthDataS)
 
   useEffect(() => {
     setShowLoader(true);
@@ -62,6 +64,7 @@ const Auth = () => {
   }, [showError]);
 
   useEffect(() => {
+    debugger
     if (translationData.status_code === 200) {
       setShowLoader(false);
       setShowError(false);

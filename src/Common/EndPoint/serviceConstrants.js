@@ -1,10 +1,10 @@
 const API = {
   //login
-  loginAuth: "/auth",
+  loginAuth: "/generate-auth-token",
   loginApi: "/login",
 
   //translation 
-  translationApi: "/translation-content",
+  translationApi: "/translation-content/all",
 
   //module-master
   moduleApi: "/module-master",
