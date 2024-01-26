@@ -126,16 +126,12 @@ const CategoryForm = ({ setIsLoading }) => {
     if (isValid) {
       try {
         await dispatch(onPostCategory({
-          enabled: true,
-          deleted: true,
-          createdBy: 0,
-          updatedBy: 0,
-          name: "ankit",
-          url: "string3",
-          description: "string3",
-          image: "string3",
-          thumbnail: "string3",
-          vendorName: "string3"
+          name: createCategory?.categoryName,
+          url: "string",
+          description: createCategory?.supplierBrand,
+          image: "string",
+          thumbnail: "string",
+          vendorName: createCategory?.supplierName
         }));
         toast.success(getMessage);
         setCreateCategory(resetCategoryFields);
