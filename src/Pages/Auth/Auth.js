@@ -71,7 +71,7 @@ const Auth = () => {
 
   return (
     <>
-     {showLoader ? <Loader /> : <>{showError ? <PageError500 /> : <RouteConfiq />}</>}
+     {showLoader ? <Loader /> : <RouteConfiq />}
     </>
   );
 };

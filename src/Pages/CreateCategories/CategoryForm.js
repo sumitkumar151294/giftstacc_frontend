@@ -37,24 +37,26 @@ const CategoryForm = ({ setIsLoading }) => {
   };
 
   // To get the supplier name from redux store
-  useEffect(() => {
-    dispatch(onGetSupplierList());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(onGetSupplierList());
+  // }, []);
 
-  const getSupplierName = useSelector(
-    (state) => state.supplierMasterReducer.data.data
-  );
-
+ 
   // To get the Supplier Brand from redux store
 
-  useEffect(() => {
-    dispatch(onGetSupplierBrandList());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(onGetSupplierBrandList());
+  // }, []);
 
   const getSupplierBrand = useSelector(
     (state) => state.supplierBrandListReducer.data.data
   );
 
+  const getSupplierName=[{
+    name:"supplier1",
+
+
+  }]
   // To get the dropdown values of Supplier Name
   const supplierNameOptions = getSupplierName?.map((supplier, index) => ({
     label: supplier.name,
@@ -62,12 +64,12 @@ const CategoryForm = ({ setIsLoading }) => {
   }));
 
   // To get the dropdown values of Supplier Brands
-  const supplierBrandOptions = getSupplierBrand?.map(
-    (supplierBrand, index) => ({
-      label: supplierBrand.brands,
-      key: index,
-    })
-  );
+  // const supplierBrandOptions = getSupplierBrand?.map(
+  //   (supplierBrand, index) => ({
+  //     label: supplierBrand.brands,
+  //     key: index,
+  //   })
+  // );
 
   // To get the labels form Api/Database
   const createUpdateBrandMapping = GetTranslationData(
@@ -123,7 +125,18 @@ const CategoryForm = ({ setIsLoading }) => {
 
     if (isValid) {
       try {
-        await dispatch(onPostCategory(createCategory));
+        await dispatch(onPostCategory({
+          enabled: true,
+          deleted: true,
+          createdBy: 0,
+          updatedBy: 0,
+          name: "ankit",
+          url: "string3",
+          description: "string3",
+          image: "string3",
+          thumbnail: "string3",
+          vendorName: "string3"
+        }));
         toast.success(getMessage);
         setCreateCategory(resetCategoryFields);
       } catch (error) {
@@ -205,7 +218,7 @@ const CategoryForm = ({ setIsLoading }) => {
                             error={errors.supplierBrand}
                             ariaLabel="Select"
                             className={` ${errors.supplierBrand? "border-danger" : "form-select" }`}
-                            options={supplierBrandOptions}
+                            options={supplierNameOptions}
                           />
                         </div>
                       </div>

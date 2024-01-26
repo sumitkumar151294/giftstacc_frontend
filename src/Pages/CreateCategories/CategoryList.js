@@ -37,7 +37,7 @@ const CategoryList = () => {
 
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
-  const getCategoryData = getCreateCategory?.categoryData?.data;
+  const getCategoryData = getCreateCategory?.categoryData;
 
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
@@ -60,13 +60,13 @@ const CategoryList = () => {
 
   const filteredCategoryList = Array.isArray(getCategoryData)
     ? getCategoryData.filter((item) =>
-      Object.values(item).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(item).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   useEffect(() => {
@@ -86,9 +86,9 @@ const CategoryList = () => {
   const handleDelete = (data) => {
     const deletedData = {
       id: data.id,
-      categoryName: data.categoryName,
-      supplierName: data.supplierName,
-      supplierBrand: data.supplierBrand,
+      name: data.name,
+      description: data.description,
+      vendorName: data.vendorName,
       deleted: true,
     };
     dispatch(onUpdateCategory(deletedData));
@@ -116,24 +116,22 @@ const CategoryList = () => {
                   </div>
 
                   <div className="customer-search mb-sm-0 mb-3">
-
-                  {getCategoryData && getCategoryData.length > 0 && (
-
-                    <div className="input-group search-area">
-                      <InputField
-                        type="text"
-                        className="form-control only-high"
-                        placeholder={searchLabel}
-                        value={searchQuery}
-                        onChange={handleSearch}
-                      />
-                      <span className="input-group-text">
-                        <Link>
-                          <i className="flaticon-381-search-2"></i>
-                        </Link>
-                      </span>
-                    </div>
-                  )}
+                    {getCategoryData && getCategoryData.length > 0 && (
+                      <div className="input-group search-area">
+                        <InputField
+                          type="text"
+                          className="form-control only-high"
+                          placeholder={searchLabel}
+                          value={searchQuery}
+                          onChange={handleSearch}
+                        />
+                        <span className="input-group-text">
+                          <Link>
+                            <i className="flaticon-381-search-2"></i>
+                          </Link>
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     {getCategoryData && getCategoryData.length > 0 && (
@@ -162,7 +160,7 @@ const CategoryList = () => {
                   </div>
                 )}
                 {Array.isArray(filteredCategoryList) &&
-                  filteredCategoryList.length > 0 ? (
+                filteredCategoryList.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
                       <thead>
@@ -178,9 +176,9 @@ const CategoryList = () => {
                           .slice(startIndex, endIndex)
                           .map((data) => (
                             <tr key={data.id}>
-                              <td>{data.categoryName}</td>
-                              <td>{data.supplierName}</td>
-                              <td>{data.supplierBrand}</td>
+                              <td>{data.name}</td>
+                              <td>{data.vendorName}</td>
+                              <td>{data.description}</td>
 
                               <td>
                                 <div className="d-flex">

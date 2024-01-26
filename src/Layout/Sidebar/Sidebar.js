@@ -66,7 +66,7 @@ const Sidebar = () => {
                   aria-expanded="false"
                 >
                   <img
-                    src={require(`../../Assets/icon/${item.icon}.svg`)}
+                    // src={require(`../../Assets/icon/${item.icon}.svg`)}
                     alt={item.icon}
                   />
                   <span className="nav-text ps-1">{item.name}</span>

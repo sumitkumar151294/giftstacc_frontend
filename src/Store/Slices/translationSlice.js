@@ -36,7 +36,7 @@ export const translationSlice = createSlice({
 
     onTranslationSubmitError: (state, { payload }) => {
   
-      const { data = {}, message = "", status_code = 401 } = payload;
+      const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
         data,
