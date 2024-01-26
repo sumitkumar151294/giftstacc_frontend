@@ -14,8 +14,6 @@ const Auth = () => {
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
   const translationData = useSelector((state) => state.translationReducer);
   const currentUrl = window.location.href;
-  const loginAuthDataS = useSelector((state) => state.loginAuthReducer.data.data);
-console.log(loginAuthDataS)
 
   useEffect(() => {
     setShowLoader(true);
@@ -25,7 +23,6 @@ console.log(loginAuthDataS)
     );
     // get data from present url
     if (matchingConfig) {
-      debugger
       const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } =
         matchingConfig;
       dispatch(
@@ -39,7 +36,6 @@ console.log(loginAuthDataS)
   }, [currentUrl]);
 
   useEffect(() => {
-    debugger
     if (loginAuthData?.status_code === 400) {
       setShowLoader(false);
       setShowError(false);
@@ -53,7 +49,7 @@ console.log(loginAuthDataS)
   }, [loginAuthData]);
 
   useEffect(() => {
-    if (loginAuthData?.status_code === 200) {
+    if (loginAuthData?.status_code === 400) {
       setShowLoader(false);
       setShowError(false);
     } else {
@@ -65,14 +61,13 @@ console.log(loginAuthDataS)
   }, [showError]);
 
   useEffect(() => {
-    debugger
-    if (translationData.status_code === 400) {
+    if (translationData.status_code === 401) {
       setShowLoader(false);
       setShowError(false);
     } else {
       setShowLoader(true);
     }
-  }, [translationData, showError]);
+  }, [translationData]);
 
   return (
     <>

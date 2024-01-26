@@ -4,7 +4,7 @@ const API = {
   loginApi: "/login",
 
   //translation 
-  translationApi: "/translation-content/all",
+  translationApi: "/translation-content-get-by-clientid",
 
   //module-master
   moduleApi: "/module-master",
