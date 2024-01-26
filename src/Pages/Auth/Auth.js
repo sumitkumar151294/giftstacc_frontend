@@ -10,8 +10,9 @@ import { config } from "../../Common/Client/ClientConfig";
 const Auth = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [showError, setShowError] = useState(true);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
+  console.log(loginAuthData?.httpStatusCode,"asdasfs");
   const translationData = useSelector((state) => state.translationReducer);
   const currentUrl = window.location.href;
 
@@ -49,7 +50,7 @@ const Auth = () => {
   }, [loginAuthData]);
 
   useEffect(() => {
-    if (loginAuthData?.status_code === 400) {
+    if (loginAuthData?.status_code === 400 || loginAuthData?.message === "") {
       setShowLoader(false);
       setShowError(false);
     } else {
@@ -61,7 +62,7 @@ const Auth = () => {
   }, [showError]);
 
   useEffect(() => {
-    if (translationData.status_code === 401) {
+    if (translationData.status_code === 400) {
       setShowLoader(false);
       setShowError(false);
     } else {
@@ -71,7 +72,7 @@ const Auth = () => {
 
   return (
     <>
-     {showLoader ? <Loader /> : <RouteConfiq />}
+     {showLoader ? <Loader /> : <>{showError ? <PageError500 /> : <RouteConfiq />}</>}
     </>
   );
 };
