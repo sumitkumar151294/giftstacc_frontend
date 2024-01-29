@@ -5,7 +5,7 @@ import { callUserRoleGetApi, callUserRolePostApi, callUserRoleUpdateApi } from "
 function* GetUserRole() {
   try {
     const getUserRoleResponse = yield call(callUserRoleGetApi);
-    if (getUserRoleResponse.status === 5) {
+    if (getUserRoleResponse.status === 200) {
       yield put(
         onGetUserRoleSuccess({
           data: getUserRoleResponse.result,
@@ -27,8 +27,11 @@ function* GetUserRole() {
 }
 function* PostUserRole({ payload }) {
   try {
+    
     const postUserRoleResponse = yield call(callUserRolePostApi, payload);
-    if (postUserRoleResponse.status === 5) {
+    
+    if (postUserRoleResponse.status === 200) {
+
       yield put(
         onPostUserRoleSuccess({
           data: postUserRoleResponse.result,
@@ -51,7 +54,7 @@ function* PostUserRole({ payload }) {
 function* UpdateUserRole({ payload }) {
   try {
     const updateUserRoleResponse = yield call(callUserRoleUpdateApi, payload);
-    if (updateUserRoleResponse.status === 5) {
+    if (updateUserRoleResponse.status === 200) {
       yield put(
         onUpdateUserRoleSuccess({
           data: updateUserRoleResponse.result,

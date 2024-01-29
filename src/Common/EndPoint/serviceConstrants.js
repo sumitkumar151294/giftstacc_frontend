@@ -7,14 +7,15 @@ const API = {
   translationApi: "/translation-content-get-by-clientid",
 
   //module-master
-  moduleApi: "/module-master",
+  moduleApi: "/moduleMaster/all",
 
   //use-role 
-  userRoleApi: "/user-role",
+  userRoleApi: "/userRole/all",
+  userRolePostApi:"/create-userRole",
   updateUserRoleApi: "/user-role/update",
 
   // user-role-module-access 
-  userRoleModuleAccess: "/user-role-module-access",
+  userRoleModuleAccess: "/userRoleModuleAccess/all",
 
   //user-master 
   userMasterApi: "/user",

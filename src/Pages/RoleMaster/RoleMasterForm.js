@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,12 +12,11 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import Button from '../../Components/Button/Button';
 import { callUserRoleModuleAccessPostApi } from "../../Context/userRoleModuleAccessApi";
+import { onGetModule } from "../../Store/Slices/moduleSlice";
 
 // Component for RoleMasterForm
 const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   // Translation labels
-  // const [moduleArr, setModuleArr] = useState()
-
   const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
   const roleName = GetTranslationData("UIAdmin", "role-name");
   const selectall = GetTranslationData("UIAdmin", "selectall");
@@ -39,19 +38,20 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
-
+  const getModuleData = useSelector((state) => state.moduleReducer?.data);
+  console.log("getModuleData", getModuleData);
   //To get the data from redux store
-  const getModule = useSelector((state) => state.moduleReducer);
-  const getModuleData = getModule?.data?.data;
+
   // Initial state for form data and errors
   const [formData, setFormData] = useState({
     name: "",
+    description: "",
     isClientPlatformModule: false,
     module: []
-
   });
   const [errors, setErrors] = useState({
     name: "",
+    description: "",
   });
   // Check if all modules are selected
   const isSelectAllChecked =
@@ -60,17 +60,17 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
 
   // Fetch module data and update form data on mount and when module data changes
 
+  // useEffect(() => {
+
+  //   console.log('<><><>1', formData)
+
+  // }, [formData])
+
+
+
   useEffect(() => {
-
-    console.log('<><><>', formData)
-
-  }, [formData])
-
-
-  
-  useEffect(() => {
-    if (getModuleData) {
-      const modulesData = getModuleData?.map((module) => ({
+    if (Array.isArray(getModuleData)) { // Check if getModuleData is an array
+      const modulesData = getModuleData.map((module) => ({
         id: module.id,
         isClientPlatformModule: module.isClientPlatformModule,
         name: module.name,
@@ -78,14 +78,13 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
         // viewAccess: false,
         addAccess: false,
         editAccess: false
-
       }));
       setFormData({
         ...formData,
         modules: modulesData,
       });
       if (data) {
-        const updatedModulesData = modulesData?.map((module) => ({
+        const updatedModulesData = modulesData.map((module) => ({
           ...module,
           checked: data.moduleIds.includes(module.id),
         }));
@@ -102,10 +101,11 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       setIsFormLoading(true);
     }
   }, [getModuleData, data]);
+
   // Handle input changes in the form
   const handleInputChange = (e) => {
     const { name, type, checked } = e.target;
- 
+
 
 
     // if (name === "IsClientRole") {
@@ -195,7 +195,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const newErrors = { ...errors };
     setErrors(newErrors);
     if (formData.name.trim() === "") {
@@ -217,28 +216,30 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
     //   setCheckBoxError(false);
     // }
     const postData = {
+      createdBy: 0,
+      deleted: true,
+      description: formData.description,
+      enabled: true,
+      isClientPlatformRole: true,
       name: formData.name,
-      isClientPlatformModule: false,
+      updatedBy: 0,
     };
-     const accessPostData = formData.modules?.map((md) => {
-          return {
-            roleId: md.id,
-            moduleId: md.id,
-            viewAccess: md.checked,
-            addAccess: md.addAccess,
-            editAccess: md.editAccess,
-          }
-        })
+
+    const accessPostData = formData.modules?.map((md) => {
+      return {
+        roleId: md.id,
+        moduleId: md.id,
+        viewAccess: md.checked,
+        addAccess: md.addAccess,
+        editAccess: md.editAccess,
+      }
+    })
     try {
       //To Submit the data
       if (!data) {
-        await dispatch(onPostUserRole(postData));
-
-       
-
-         console.log('submit Data 2', accessPostData)
-
+        await dispatch(onPostUserRole(JSON.stringify(postData)));
         await dispatch(callUserRoleModuleAccessPostApi(accessPostData))
+
         // setFormData(resetFiled);
         toast.success(roleCreated);
       }
@@ -289,14 +290,13 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-f" style={{textDecoration:"underline"}}>
+                          <label htmlFor="name-f">
                             {roleName}
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.name ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${errors.name ? "border-danger" : "form-control"}`}
                             name="name"
                             id="name-f"
                             placeholder=""
@@ -307,17 +307,17 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                           <p className="text-danger">{errors.name}</p>
                         </div>
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-f">{description_Label}
+                          <label htmlFor="description">{description_Label}
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.description ? "border-danger" : "form-control"
-                              }`}
-                            name="name"
-                            id="name-f"
+                            className={` ${errors.description ? "border-danger" : "form-control"}`}
+                            name="description"
+                            id="description"
                             placeholder=""
                             value={formData.description}
                             error={errors.description}
+                            onChange={handleInputChange}
                           />
                         </div>
                         <div className="col-sm-4">

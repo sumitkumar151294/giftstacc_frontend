@@ -21,9 +21,10 @@ const RoleMasterList = () => {
   const modules = GetTranslationData("UIAdmin", "modules");
   const action = GetTranslationData("UIAdmin", "action");
   const getRoleData = useSelector((state) => state.userRoleReducer);
-  const roleAccessListData = getRoleData?.userRoleData?.data;
+  const roleAccessListData = getRoleData;
   const moduleList = useSelector((state) => state.moduleReducer?.data?.data);
-
+// console.log("role list", getRoleData);
+// console.log("data list ", roleAccessListData);
   useEffect(() => {
     // user-role get api call
     dispatch(onGetUserRole());
@@ -72,11 +73,11 @@ const RoleMasterList = () => {
                 <h4 className="card-title">{roleModuleAccessList}</h4>
               </div>
               <div className="card-body position-relative">
-                {isLoading && (
+                {/* {isLoading && (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
-                )}
+                )} */}
                 {roleAccessListData?.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">

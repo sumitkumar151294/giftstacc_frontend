@@ -3,25 +3,28 @@ import { callModuleApi } from "../Context/moduleApi";
 import { onGetModule, onGetModuleError, onGetModuleSuccess } from "../Store/Slices/moduleSlice";
 
 function* Module() {
+  
   try {
     const moduleResponse = yield call(callModuleApi);
-    if (moduleResponse.status === 5) {
+
+    if (moduleResponse.httpStatusCode == "200") {
+      debugger
       yield put(
         onGetModuleSuccess({
-          data: moduleResponse.result,
-          message: moduleResponse.result.message,
+          data: moduleResponse.response,  
+          // message: moduleResponse.response.errorMessage,
         })
       );
     } else {
       yield put(
         onGetModuleError({
-          data: moduleResponse.result,
-          message: moduleResponse.result.message,
+          data: moduleResponse.response,
+          message: moduleResponse.response.message,
         })
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
+    const message = error.respons || "Something went wrong";
     yield put(onGetModuleError({ data: {}, message, status_code: 400 }));
   }
 }
