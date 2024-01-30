@@ -16,6 +16,7 @@ const API = {
 
   // user-role-module-access 
   userRoleModuleAccess: "/userRoleModuleAccess/all",
+  userRolePostModuleAccess: "/create-userRoleModuleAccess",
 
   //user-master 
   userMasterApi: "/user",

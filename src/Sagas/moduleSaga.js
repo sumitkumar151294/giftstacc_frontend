@@ -3,12 +3,9 @@ import { callModuleApi } from "../Context/moduleApi";
 import { onGetModule, onGetModuleError, onGetModuleSuccess } from "../Store/Slices/moduleSlice";
 
 function* Module() {
-  
   try {
     const moduleResponse = yield call(callModuleApi);
-
-    if (moduleResponse.httpStatusCode == "200") {
-      debugger
+    if (moduleResponse.httpStatusCode === 200) {
       yield put(
         onGetModuleSuccess({
           data: moduleResponse.response,  
@@ -24,7 +21,7 @@ function* Module() {
       );
     }
   } catch (error) {
-    const message = error.respons || "Something went wrong";
+    const message = error.response || "Something went wrong";
     yield put(onGetModuleError({ data: {}, message, status_code: 400 }));
   }
 }

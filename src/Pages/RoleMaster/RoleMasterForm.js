@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  onGetUserRole,
-  onPostUserRole,
-  onUpdateUserRole,
-} from "../../Store/Slices/userRoleSlice";
+import { onGetUserRole, onPostUserRole, onUpdateUserRole, } from "../../Store/Slices/userRoleSlice";
 import InputField from "../../Components/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import Button from '../../Components/Button/Button';
 import { callUserRoleModuleAccessPostApi } from "../../Context/userRoleModuleAccessApi";
-import { onGetModule } from "../../Store/Slices/moduleSlice";
 
 // Component for RoleMasterForm
 const RoleMasterForm = ({ data, setIsLoading, setData }) => {
@@ -38,8 +33,11 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
-  const getModuleData = useSelector((state) => state.moduleReducer?.data);
-  console.log("getModuleData", getModuleData);
+  const getModuleData = useSelector((state) => state.moduleReducer.data);
+  const getRoleDataId = useSelector((state) => state.userRoleReducer.userRoleData);
+  console.log("id", getRoleDataId[getRoleDataId.length-1]?.id);
+  // console.log("getModuleData", getModuleData);
+
   //To get the data from redux store
 
   // Initial state for form data and errors
@@ -59,15 +57,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
     formData.modules.every((module) => module.checked);
 
   // Fetch module data and update form data on mount and when module data changes
-
-  // useEffect(() => {
-
-  //   console.log('<><><>1', formData)
-
-  // }, [formData])
-
-
-
   useEffect(() => {
     if (Array.isArray(getModuleData)) { // Check if getModuleData is an array
       const modulesData = getModuleData.map((module) => ({
@@ -75,7 +64,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
         isClientPlatformModule: module.isClientPlatformModule,
         name: module.name,
         checked: false,
-        // viewAccess: false,
         addAccess: false,
         editAccess: false
       }));
@@ -227,7 +215,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
 
     const accessPostData = formData.modules?.map((md) => {
       return {
-        roleId: md.id,
+        roleId: getRoleDataId[getRoleDataId.length-1]?.id,
         moduleId: md.id,
         viewAccess: md.checked,
         addAccess: md.addAccess,
@@ -238,8 +226,8 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       //To Submit the data
       if (!data) {
         await dispatch(onPostUserRole(JSON.stringify(postData)));
+        await dispatch(onGetUserRole());
         await dispatch(callUserRoleModuleAccessPostApi(accessPostData))
-
         // setFormData(resetFiled);
         toast.success(roleCreated);
       }

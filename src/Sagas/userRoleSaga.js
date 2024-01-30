@@ -5,18 +5,18 @@ import { callUserRoleGetApi, callUserRolePostApi, callUserRoleUpdateApi } from "
 function* GetUserRole() {
   try {
     const getUserRoleResponse = yield call(callUserRoleGetApi);
-    if (getUserRoleResponse.status === 200) {
+    if (getUserRoleResponse.httpStatusCode === 200) {
       yield put(
         onGetUserRoleSuccess({
-          data: getUserRoleResponse.result,
-          message: getUserRoleResponse.result.message,
+          data: getUserRoleResponse.response,
+          // message: getUserRoleResponse.result.message,
         })
       );
     } else {
       yield put(
         onGetUserRoleError({
-          data: getUserRoleResponse.result,
-          message: getUserRoleResponse.result.message,
+          data: getUserRoleResponse.response,
+          message: getUserRoleResponse.response.message,
         })
       );
     }
@@ -27,9 +27,9 @@ function* GetUserRole() {
 }
 function* PostUserRole({ payload }) {
   try {
-    
+
     const postUserRoleResponse = yield call(callUserRolePostApi, payload);
-    
+
     if (postUserRoleResponse.status === 200) {
 
       yield put(
