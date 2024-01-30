@@ -68,23 +68,23 @@ const ClientMaster = (props) => {
     },
   ]);
   const [clientData, setClientData] = useState({
+    title: "string1",
+    dbName: "string1",
+  platformDomainUrl: "string1",
     name: "",
     number: "",
     email: "",
     status: "",
-    id: props?.data?.id,
-    userName: "string",
-    password: "string",
     color: "",
-    lgogLink: "",
-    dbipAddress: "",
+    logoUrl: "",
+    themes: "",
     dbLoginId: "",
     dbLoginPwd: "",
+    dbipAddress: "",
     stagingKey: "",
     stagingSecretKey: "",
     productionKey: "",
     productionSecretKey: "",
-    theme: "",
     fieldNameInput: "",
     fieldValue: "",
     mode: "",
@@ -95,14 +95,14 @@ const ClientMaster = (props) => {
     email: "",
     status: "",
     color: "",
-    lgogLink: "",
+    logoUrl: "",
     dbLoginPwd: "",
     dbipAddress: "",
     stagingKey: "ds",
     stagingSecretKey: "ds",
     productionKey: "ds",
     productionSecretKey: "ds",
-    theme: "",
+    themes: "",
     fieldNameInput: "",
     fieldValue: "",
     mode: "",
@@ -122,8 +122,8 @@ const ClientMaster = (props) => {
       mode: props.data?.mode || "",
       dbipAddress: props.data?.dbipAddress || "",
       color: props.data?.color,
-      lgogLink: props.data?.lgogLink || "",
-      theme: props.data?.theme || "",
+      logoUrl: props.data?.lgogLink || "",
+      themes: props.data?.themes || "",
       stagingKey: props.data?.stagingKey || "sring",
       stagingSecretKey: props.data?.stagingSecretKey || "sring",
       productionKey: props.data?.productionKey || "sring",
@@ -133,18 +133,18 @@ const ClientMaster = (props) => {
       dbLoginId: props.data?.dbLoginId || "",
     });
     setErrors({
-      name: "",
+      name: "",          
       number: "",
       email: "",
       status: "",
       color: "",
-      lgogLink: "",
+      logoUrl: "",
       dbipAddress: "",
       stagingKey: "",
       stagingSecretKey: "",
       productionKey: "",
       productionSecretKey: "",
-      theme: "",
+      themes: "",
       fieldNameInput: "",
       fieldValue: "",
       mode: "",
@@ -235,7 +235,8 @@ const ClientMaster = (props) => {
           clientData.number = parseInt(clientData.number);
           clientData.paymentdetails = additionalFields;
           // Wait for the dispatch to complete
-          dispatch(onPostClientMasterSubmit(clientData));
+          dispatch(onPostClientMasterSubmit({  clientData
+        }));
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
           // Handle any errors during dispatch
@@ -267,7 +268,7 @@ const ClientMaster = (props) => {
           password: "",
           status: "",
           color: "",
-          lgogLink: "",
+          logoUrl: "",
           dbipAddress: "",
           dbLoginId: "",
           dbLoginPwd: "",
@@ -301,7 +302,7 @@ const ClientMaster = (props) => {
           password: "",
           status: "",
           color: "",
-          lgogLink: "",
+          logoUrl: "",
           dbipAddress: "",
           dbLoginId: "",
           dbLoginPwd: "",
@@ -309,7 +310,7 @@ const ClientMaster = (props) => {
           stagingSecretKey: "",
           productionKey: "",
           productionSecretKey: "",
-          theme: "",
+          themes: "",
           fieldNameInput: "",
           fieldValue: "",
           mode: "",
@@ -429,13 +430,13 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${errors.lgogLink ? "border-danger" : "form-control"
+                          className={` ${errors.logoUrl ? "border-danger" : "form-control"
                             }`}
                           name="logo"
                           id="logo"
-                          error={errors.lgogLink}
-                          value={clientData.lgogLink}
-                          onChange={(e) => handleChange(e, "lgogLink")}
+                          error={errors.logoUrl}
+                          value={clientData.logoUrl}
+                          onChange={(e) => handleChange(e, "logoUrl")}
                         />
                       </div>
                       <div className="col-sm-3 form-group mb-2">
@@ -444,10 +445,10 @@ const ClientMaster = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <Dropdown
-                          onChange={(e) => handleChange(e, "theme")}
-                          error={errors.theme}
-                          value={clientData.theme || ""}
-                          key={clientData.theme}
+                          onChange={(e) => handleChange(e, "themes")}
+                          error={errors.themes}
+                          value={clientData.themes || ""}
+                          key={clientData.themes}
                           className="form-select"
                           options={options}
                         />

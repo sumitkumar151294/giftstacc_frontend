@@ -20,7 +20,8 @@ const SupplierMasterList = () => {
     endPoint: "",
     code: "",
     status: "",
-    amount: "",
+    balanceThresholdAmount: "",
+    creditAmount:""
   });
   const supplierList = GetTranslationData("UIAdmin", "supplierList");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -36,12 +37,15 @@ const SupplierMasterList = () => {
   const action = GetTranslationData("UIAdmin", "action_label");
   const active = GetTranslationData("UIAdmin", "active");
   const supplierMasterData = useSelector(
-    (state) => state.supplierMasterReducer?.data.data
+    (state) => state.supplierMasterReducer?.data
   );
 
-  const headers = [
+  const headers = [ 
     { label: "id", key: "id" },
     { label: "name", key: "name" },
+    { label: "balanceAvailable", key: "creditAmount" },
+    { label: "minThresholdAmount", key: "balanceThresholdAmount" },
+
   ];
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -80,7 +84,8 @@ const SupplierMasterList = () => {
       endPoint: vendor.endPoint,
       code: vendor.code,
       status: vendor.status,
-      amount: vendor.MinThresholdAmount,
+      balanceThresholdAmount: vendor.balanceThresholdAmount,
+      creditAmount:vendor.creditAmount
     });
   };
 
@@ -171,9 +176,9 @@ const SupplierMasterList = () => {
                                   <td>{vendor.name}</td>
                                   <td>{vendor.id}</td>
                                   <td>
-                                    <span className="text-muted">1000</span>
+                                    <span className="text-muted">{vendor.creditAmount}</span>
                                   </td>
-                                  <td>500</td>
+                                  <td>{vendor.balanceThresholdAmount}</td>
                                   <td>
                                     <span className="badge badge-success">
                                       {active}

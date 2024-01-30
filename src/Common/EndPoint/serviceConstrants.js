@@ -21,14 +21,15 @@ const API = {
   userMasterUpdateApi: "/user/update",
 
   //supplier-master 
-  supplierMasterApi: "/supplier-master",
-  updateSupplierMasterApi: "/supplier-master/update",
+  supplierMasterApi: "/supplier/all",
+  postSupplierMasterApi: "/create-supplierMaster",
+  updateSupplierMasterApi: "/create-supplierMaster",
 
  //supplier-brand-list
   supplierBrandListApi: "/supplier-brand-list/all",
 
-  getClient: "/client",
-  postClient: "/client-master",
+  getClient: "/clientMaster/all",
+  postClient: "/create-clientMaster",
   updateClient: "/client-master/update",
 
   // create-category 

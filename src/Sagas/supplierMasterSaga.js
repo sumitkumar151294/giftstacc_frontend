@@ -44,19 +44,21 @@ function* supplierMaster({ payload }) {
 }
 function* onGetSupplier() {
   try {
+    
     const supplierMasterResponse = yield call(callSupplierMasterGetApi);
-    if (supplierMasterResponse.status === 5) {
+    if (supplierMasterResponse.httpStatusCode === "200") {
+      
       yield put(
         onGetSupplierListSuccess({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onGetSupplierListError({
           data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          message: supplierMasterResponse.errorMessage,
         })
       );
     }
