@@ -7,10 +7,9 @@ import {
 } from "../Store/Slices/translationSlice";
 
 function* Translation() {
-  debugger
+  
   try {
     const loginAuthData = yield select((state) => state.loginAuthReducer.data);
-console.log("loginAuthData", loginAuthData);
     const translationResponse = yield call(translationApi);
     if (translationResponse.httpStatusCode === 200) {
       yield put(

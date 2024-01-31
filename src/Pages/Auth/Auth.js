@@ -12,7 +12,6 @@ const Auth = () => {
   const [showLoader, setShowLoader] = useState(false);
   const [showError, setShowError] = useState(true);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
-  console.log(loginAuthData?.httpStatusCode,"asdasfs");
   const translationData = useSelector((state) => state.translationReducer);
   const currentUrl = window.location.href;
 
@@ -38,7 +37,6 @@ const Auth = () => {
 
   useEffect(() => {
     if (loginAuthData?.status_code === 200) {
-      debugger
       setShowLoader(false);
       setShowError(false);
       sessionStorage.setItem('clientCode', loginAuthData?.data?.[0]?.clientId)

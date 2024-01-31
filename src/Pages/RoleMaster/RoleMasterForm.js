@@ -60,12 +60,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
 
   // Fetch module data and update form data on mount and when module data changes
 
-  useEffect(() => {
-
-    console.log('<><><>', formData)
-
-  }, [formData])
-
 
   
   useEffect(() => {
@@ -233,10 +227,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       //To Submit the data
       if (!data) {
         await dispatch(onPostUserRole(postData));
-
-       
-
-         console.log('submit Data 2', accessPostData)
 
         await dispatch(callUserRoleModuleAccessPostApi(accessPostData))
         // setFormData(resetFiled);

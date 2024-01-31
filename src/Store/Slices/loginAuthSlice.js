@@ -22,7 +22,6 @@ export const loginAuthSlice = createSlice({
     },
 
     onLoginAuthSuccess: (state, { payload }) => {
-      debugger
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
@@ -36,7 +35,6 @@ export const loginAuthSlice = createSlice({
     },
 
     onLoginAuthError: (state, { payload }) => {
-      debugger
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
