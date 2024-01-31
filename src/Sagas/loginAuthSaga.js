@@ -9,7 +9,8 @@ import { loginAuthApi } from "../Context/loginAuthApi";
 function* LoginAuth({ payload }) {
   try {
     const loginAuthResponse = yield call(loginAuthApi, payload);
-    if (loginAuthResponse.httpStatusCode === 200) {
+    debugger
+    if (loginAuthResponse.httpStatusCode === "200") {
       yield put(
         onLoginAuthSuccess({
           data: loginAuthResponse.response,

@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 export const GetTranslationData = (resourceType, resourceKey) => {
   const translationData = useSelector((state) => state.translationReducer);
-  console.log(translationData?.data, "translationData")
+  // console.log(translationData?.data, "translationData")
 
   const value =
     translationData && Array.isArray(translationData.data)
