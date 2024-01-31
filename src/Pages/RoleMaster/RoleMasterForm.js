@@ -279,7 +279,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-f" style={{textDecoration:"underline"}}>
+                          <label htmlFor="name-f">
                             {roleName}
                             <span className="text-danger">*</span>
                           </label>
