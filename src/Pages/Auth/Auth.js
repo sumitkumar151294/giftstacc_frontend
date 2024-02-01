@@ -12,7 +12,6 @@ const Auth = () => {
   const [showLoader, setShowLoader] = useState(false);
   const [showError, setShowError] = useState(true);
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
-  console.log(loginAuthData?.httpStatusCode,"asdasfs");
   const translationData = useSelector((state) => state.translationReducer);
   const currentUrl = window.location.href;
 
@@ -37,10 +36,12 @@ const Auth = () => {
   }, [currentUrl]);
 
   useEffect(() => {
-    if (loginAuthData?.status_code === 400) {
+    if (loginAuthData?.status_code === 200) {
       setShowLoader(false);
       setShowError(false);
-      dispatch(onTranslationSubmit());
+      sessionStorage.setItem('clientCode', loginAuthData?.data?.[0]?.clientId)
+      sessionStorage.setItem('token', loginAuthData?.data?.[0]?.token)
+     dispatch(onTranslationSubmit());
     } else {
       setTimeout(() => {
         setShowLoader(false);
@@ -50,7 +51,7 @@ const Auth = () => {
   }, [loginAuthData]);
 
   useEffect(() => {
-    if (loginAuthData?.status_code === 400 || loginAuthData?.message === "") {
+    if (loginAuthData?.status_code === 200 || loginAuthData?.message === "") {
       setShowLoader(false);
       setShowError(false);
     } else {
