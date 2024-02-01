@@ -5,18 +5,18 @@ import { callUserRoleGetApi, callUserRolePostApi, callUserRoleUpdateApi } from "
 function* GetUserRole() {
   try {
     const getUserRoleResponse = yield call(callUserRoleGetApi);
-    if (getUserRoleResponse.status === 5) {
-      yield put(
+    if (getUserRoleResponse.httpStatusCode === 200) {
+        yield put(
         onGetUserRoleSuccess({
-          data: getUserRoleResponse.result,
-          message: getUserRoleResponse.result.message,
+          data: getUserRoleResponse.response,
+          message: getUserRoleResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onGetUserRoleError({
-          data: getUserRoleResponse.result,
-          message: getUserRoleResponse.result.message,
+          data: getUserRoleResponse.response,
+          message: getUserRoleResponse.errorMessage,
         })
       );
     }
