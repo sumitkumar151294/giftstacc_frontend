@@ -226,7 +226,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       //To Submit the data
       if (!data) {
         await dispatch(onPostUserRole(JSON.stringify(postData)));
-        await dispatch(onGetUserRole());
+        // await dispatch(onGetUserRole());
         await dispatch(callUserRoleModuleAccessPostApi(accessPostData))
         // setFormData(resetFiled);
         toast.success(roleCreated);
