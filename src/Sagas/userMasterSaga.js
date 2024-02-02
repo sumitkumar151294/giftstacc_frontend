@@ -5,18 +5,18 @@ import { callUserMasterApi, callUserMasterGetApi, callUserMasterUpdateApi } from
 function* userMaster({ payload }) {
   try {
     const userMasterResponse = yield call(callUserMasterApi, payload);
-    if (userMasterResponse.status === 5) {
+    if (userMasterResponse.httpStatusCode === "200") {
       yield put(
         onUserSubmitSuccess({
-          data: userMasterResponse.result,
-          message: userMasterResponse.result.message,
+          data: userMasterResponse.response,
+          message: userMasterResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onUserSubmitError({
-          data: userMasterResponse.result,
-          message: userMasterResponse.result.message,
+          data: userMasterResponse.response,
+          message: userMasterResponse.errorMessage,
         })
       );
     }
@@ -28,18 +28,18 @@ function* userMaster({ payload }) {
 function* getUser() {
   try {
     const userMasterResponse = yield call(callUserMasterGetApi);
-    if (userMasterResponse.status === 5) {
+    if (userMasterResponse.httpStatusCode === "200") {
       yield put(
         onGetUserSuccess({
-          data: userMasterResponse.result,
-          message: userMasterResponse.result.message,
+          data: userMasterResponse.response,
+          message: userMasterResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onGetUserError({
-          data: userMasterResponse.result,
-          message: userMasterResponse.result.message,
+          data: userMasterResponse.response,
+          message: userMasterResponse.errorMessage,
         })
       );
     }

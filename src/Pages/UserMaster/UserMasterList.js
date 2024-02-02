@@ -79,8 +79,8 @@ const UserMasterList = () => {
                 <div style={{ height: "400px" }}>
                   <Loader classNameType={"absoluteLoader"} />
                 </div>
-              ) : Array.isArray(userList?.getData?.data) &&
-                userList?.getData?.data.length > 0 ? (
+              ) : Array.isArray(userList?.getData) &&
+                userList?.getData?.length > 0 ? (
                 <div className="card-body">
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -95,7 +95,7 @@ const UserMasterList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {userList?.getData?.data
+                        {userList?.getData
                           ?.slice(startIndex, endIndex)
                           .map((item, index) => (
                             <tr key={index}>
