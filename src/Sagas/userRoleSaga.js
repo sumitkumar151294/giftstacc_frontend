@@ -6,17 +6,21 @@ function* GetUserRole() {
   try {
     const getUserRoleResponse = yield call(callUserRoleGetApi);
     if (getUserRoleResponse.httpStatusCode === 200) {
+
       yield put(
         onGetUserRoleSuccess({
           data: getUserRoleResponse.response,
           // message: getUserRoleResponse.result.message,
+
         })
       );
     } else {
       yield put(
         onGetUserRoleError({
           data: getUserRoleResponse.response,
+
           message: getUserRoleResponse.response.message,
+
         })
       );
     }

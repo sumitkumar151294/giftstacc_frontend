@@ -24,9 +24,9 @@ const CategoryList = () => {
   const [rowsPerPage] = useState(5);
 
   const headers = [
-    { label: "categoryName", key: "categoryName" },
-    { label: "supplierName", key: "supplierName" },
-    { label: "supplierBrand", key: "supplierBrand" },
+    { label: "categoryName", key: "name" },
+    { label: "supplierName", key: "description" },
+    { label: "supplierBrand", key: "vendorName" },
   ];
 
   // To get the categories

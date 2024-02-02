@@ -65,31 +65,29 @@ const SupplierMasterForm = ({ data }) => {
     // Update the state when the data prop changes
     setVendorData({
       name: data?.name || "",
-
       status: "",
-      minThresholdAmount: "",
-      availabelAmount: "",
+      balanceThresholdAmount: data?.balanceThresholdAmount,
+      creditAmount: data?.creditAmount,
     });
 
     // You may also want to reset errors here if needed
     setErrors({
       name: "",
-
       status: "",
-      minThresholdAmount: "",
-      availabelAmount: "",
+      balanceThresholdAmount: "",
+      creditAmount: "",
     });
 
-    if (supplyPostData.status_code === 200) {
+    if (supplyPostData.httpStatusCode === "200") {
       setIsFormLoading(false);
       dispatch(onGetSupplierList());
     }
   }, [data]);
 
   const handleChange = (e, fieldName) => {
-    // Validate non-negativity for minThresholdAmount and availabelAmount
+    // Validate non-negativity for minThresholdAmount and creditAmount
     if (
-      (fieldName === "minThresholdAmount" || fieldName === "availabelAmount") &&
+      (fieldName === "balanceThresholdAmount" || fieldName === "creditAmount") &&
       e.target.value < 0
     ) {
       setErrors({
@@ -278,15 +276,15 @@ const SupplierMasterForm = ({ data }) => {
                           <InputField
                             type="number"
                             name="text"
-                            value={vendorData.minThresholdAmount}
-                            className={` ${errors.minThresholdAmount
+                            value={vendorData.balanceThresholdAmount}
+                            className={` ${errors.balanceThresholdAmount
                                 ? "border-danger"
                                 : "form-control"
                               }`}
                             id="amominThresholdAmountunt"
                             placeholder="₹500000"
                             onChange={(e) =>
-                              handleChange(e, "minThresholdAmount")
+                              handleChange(e, "balanceThresholdAmount")
                             }
                           />
                         </div>
@@ -299,14 +297,14 @@ const SupplierMasterForm = ({ data }) => {
                           <InputField
                             type="number"
                             name="text"
-                            value={vendorData.availabelAmount}
-                            className={` ${errors.availabelAmount
+                            value={vendorData.creditAmount}
+                            className={` ${errors.creditAmount
                                 ? "border-danger"
                                 : "form-control"
                               }`}
-                            id="availabelAmount"
+                            id="creditAmount"
                             placeholder="₹500000"
-                            onChange={(e) => handleChange(e, "availabelAmount")}
+                            onChange={(e) => handleChange(e, "creditAmount")}
                           />
                         </div>
 

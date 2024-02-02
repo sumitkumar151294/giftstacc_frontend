@@ -379,7 +379,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{role}</label>
                           <div className="row ml-4">
-                            {roleList?.userRoleData?.data?.map((item) => (
+                            {Array.isArray(roleList?.userRoleData) && roleList?.userRoleData?.map((item) => (
                               <div
                                 key={item?.id}
                                 className="form-check mt-2 col-lg-3"

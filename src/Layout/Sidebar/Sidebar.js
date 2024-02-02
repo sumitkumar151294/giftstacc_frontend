@@ -12,6 +12,7 @@ const Sidebar = () => {
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   const logout = GetTranslationData("UIAdmin", "logout");
   const currentUrl = useLocation();
+  console.log(currentUrl);
   // To reset the redux store (logout the user)
   const handleLogout = (e) => {
     e.preventDefault();
@@ -23,6 +24,7 @@ const Sidebar = () => {
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);
   useEffect(() => {
+    debugger;
     setIsSidebarLoading(true);
     dispatch(onGetModule());
   }, []);
@@ -52,27 +54,28 @@ const Sidebar = () => {
           </div>
         ) : (
           <ul className="metismenu" id="menu">
-            {getModuleData?.data?.data?.map((item, index) => (
-              <li
-                key={index}
-                className={`nav-icn ${
-                  item.routePath === currentUrl.pathname ? "mm-active" : ""
-                }`}
-                onClick={(e) => hanleClick(e)}
-              >
-                <Link
-                  className="ai-icon"
-                  to={item.routePath}
-                  aria-expanded="false"
+            {Array.isArray(getModuleData?.data) &&
+              getModuleData?.data?.map((item, index) => (
+                <li
+                  key={index}
+                  className={`nav-icn ${
+                    item.routePath === currentUrl.pathname ? "mm-active" : ""
+                  }`}
+                  onClick={(e) => hanleClick(e)}
                 >
-                  <img
-                    // src={require(`../../Assets/icon/${item.icon}.svg`)}
-                    alt={item.icon}
-                  />
-                  <span className="nav-text ps-1">{item.name}</span>
-                </Link>
-              </li>
-            ))}
+                  <Link
+                    className="ai-icon"
+                    to={item.routePath}
+                    aria-expanded="false"
+                  >
+                    <img
+                    // src={require(  `../../Assets/icon/${item.icon}.svg`)}
+                    // alt={item.icon}
+                    />
+                    <span className="nav-text ps-1">{item.name}</span>
+                  </Link>
+                </li>
+              ))}
             <li>
               <Link
                 className="ai-icon "

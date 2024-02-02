@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { translationApi } from "../Context/translationApi";
 import {
   onTranslationSubmitError,
@@ -7,11 +7,9 @@ import {
 } from "../Store/Slices/translationSlice";
 
 function* Translation() {
-  
   try {
-    const loginAuthData = yield select((state) => state.loginAuthReducer.data);
     const translationResponse = yield call(translationApi);
-    if (translationResponse.httpStatusCode === 200) {
+    if (translationResponse.httpStatusCode === "200") {
       yield put(
         onTranslationSubmitSuccess({
           data: translationResponse.response,

@@ -8,5 +8,5 @@ const api = axios.create({
     "partner-code": "UIAdmin",
   },
 });
-
+  
 export default api;
