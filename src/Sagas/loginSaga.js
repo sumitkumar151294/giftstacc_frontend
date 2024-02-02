@@ -9,7 +9,7 @@ import { callLoginApi } from "../Context/loginApi";
 function* Login({ payload }) {
   try {
     const loginResponse = yield call(callLoginApi, payload);
-    if (loginResponse.status === 5) {
+    if (loginResponse) {
       yield put(
         onLoginSubmitSuccess({
           data: loginResponse.result,

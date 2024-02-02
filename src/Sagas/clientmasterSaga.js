@@ -13,11 +13,12 @@ import {
 
 function* ClientMaster() {
   try {
-      const clientMasterResponse = yield call(getClientMasterApi);
-    if (clientMasterResponse.status === 5) {
-          yield put(onClientMasterSubmitSuccess({ data: clientMasterResponse.result.data, message: clientMasterResponse.result.message}));
+          const clientMasterResponse = yield call(getClientMasterApi);
+    if (clientMasterResponse.httpStatusCode === "200") {
+
+      yield put(onClientMasterSubmitSuccess({ data: clientMasterResponse.response, message: clientMasterResponse.errorMessage}));
     } else {
-          yield put(onClientMasterSubmitError({ data: clientMasterResponse.result.data, message: clientMasterResponse.result.message,  }));
+          yield put(onClientMasterSubmitError({ data: clientMasterResponse.response, message: clientMasterResponse.errorMessage,  }));
     }
   } catch (error) {
       const message = error.response || 'Something went wrong';
@@ -26,9 +27,9 @@ function* ClientMaster() {
 }
 function* postClientMaster(payload) {
     try {
-        const postClientMasterResponse = yield call(postClientMasterApi,payload.payload);
+        const postClientMasterResponse = yield call(postClientMasterApi,payload.payload.clientData);
       if (postClientMasterResponse.status === 5) {
-            yield put(onPostClientMasterSubmitSuccess({ data: postClientMasterResponse.result.data, message: postClientMasterResponse.result.message}));
+              yield put(onPostClientMasterSubmitSuccess({ data: postClientMasterResponse.result.data, message: postClientMasterResponse.result.message}));
       } else {
             yield put(onPostClientMasterSubmitError({ data: postClientMasterResponse.result.data, message: postClientMasterResponse.result.message,  }));
       }
