@@ -63,7 +63,7 @@ const Auth = () => {
   }, [showError]);
 
   useEffect(() => {
-    if (translationData.status_code === 400) {
+    if (translationData.status_code === 200) {
       setShowLoader(false);
       setShowError(false);
     } else {

@@ -12,6 +12,7 @@ const Sidebar = () => {
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   const logout = GetTranslationData("UIAdmin", "logout");
   const currentUrl = useLocation();
+  console.log(currentUrl);
   // To reset the redux store (logout the user)
   const handleLogout = (e) => {
     e.preventDefault();
@@ -68,8 +69,8 @@ const Sidebar = () => {
                     aria-expanded="false"
                   >
                     <img
-                      // src={require(  `../../Assets/icon/${item.icon}.svg`)}
-                      alt={item.icon}
+                    // src={require(  `../../Assets/icon/${item.icon}.svg`)}
+                    // alt={item.icon}
                     />
                     <span className="nav-text ps-1">{item.name}</span>
                   </Link>
