@@ -6,17 +6,21 @@ function* Module() {
   try {
     const moduleResponse = yield call(callModuleApi);
     if (moduleResponse.httpStatusCode === 200) {
-        yield put(
+
+      yield put(
         onGetModuleSuccess({
-          data: moduleResponse.response,
-          message: moduleResponse.errorMessage,
+          data: moduleResponse.response,  
+          // message: moduleResponse.response.errorMessage,
+
         })
       );
     } else {
       yield put(
         onGetModuleError({
           data: moduleResponse.response,
-          message: moduleResponse.errorMessage,
+
+          message: moduleResponse.response.message,
+
         })
       );
     }

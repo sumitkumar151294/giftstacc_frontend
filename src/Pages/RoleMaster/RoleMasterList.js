@@ -13,17 +13,16 @@ const RoleMasterList = () => {
   const [data, setData] = useState();
   const dispatch = useDispatch();
   // To get the label from DB
-  const roleModuleAccessList = GetTranslationData(
-    "UIAdmin",
-    "role-module-access-list"
-  );
+  const roleModuleAccessList = GetTranslationData("UIAdmin", "role-module-access-list");
   const roleName = GetTranslationData("UIAdmin", "role-name");
   const modules = GetTranslationData("UIAdmin", "modules");
   const action = GetTranslationData("UIAdmin", "action");
-  const getRoleData = useSelector((state) => state.userRoleReducer);
-  const roleAccessListData = getRoleData?.userRoleData?.data;
-  const moduleList = useSelector((state) => state.moduleReducer?.data?.data);
 
+  const getRoleData = useSelector((state) => state.userRoleReducer.userRoleData);
+  const roleAccessListData = getRoleData;
+  const moduleList = useSelector((state) => state.moduleReducer?.data?.data);
+  // console.log("role list", getRoleData.userRoleData);
+  // console.log("data list ", roleAccessListData);
   useEffect(() => {
     // user-role get api call
     dispatch(onGetUserRole());
