@@ -23,7 +23,7 @@ const Orders = () => {
   });
 
   const supplierMasterData = useSelector(
-    (state) => state.supplierMasterReducer?.data?.data
+    (state) => state?.supplierMasterReducer?.data
   );
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
   const orders = GetTranslationData("UIAdmin", "orders");
@@ -107,7 +107,8 @@ const Orders = () => {
       amount: "₹3000",
       margin: "20%",
       marginvalue: "₹200",
-    },   {
+    },
+    {
       supplier: "abc",
       brand: "amazon",
       vouchers: "2",
@@ -138,7 +139,8 @@ const Orders = () => {
       amount: "₹3000",
       margin: "20%",
       marginvalue: "₹200",
-    },   {
+    },
+    {
       supplier: "abc",
       brand: "amazon",
       vouchers: "2",
@@ -169,7 +171,8 @@ const Orders = () => {
       amount: "₹3000",
       margin: "20%",
       marginvalue: "₹200",
-    },   {
+    },
+    {
       supplier: "abc",
       brand: "amazon",
       vouchers: "2",
@@ -200,7 +203,8 @@ const Orders = () => {
       amount: "₹3000",
       margin: "20%",
       marginvalue: "₹200",
-    },   {
+    },
+    {
       supplier: "abc",
       brand: "amazon",
       vouchers: "2",
@@ -231,7 +235,8 @@ const Orders = () => {
       amount: "₹3000",
       margin: "20%",
       marginvalue: "₹200",
-    },   {
+    },
+    {
       supplier: "abc",
       brand: "amazon",
       vouchers: "2",
@@ -262,7 +267,8 @@ const Orders = () => {
       amount: "₹3000",
       margin: "20%",
       marginvalue: "₹200",
-    },   {
+    },
+    {
       supplier: "abc",
       brand: "amazon",
       vouchers: "2",
@@ -293,7 +299,8 @@ const Orders = () => {
       amount: "₹3000",
       margin: "20%",
       marginvalue: "₹200",
-    },   {
+    },
+    {
       supplier: "abc",
       brand: "amazon",
       vouchers: "2",
@@ -347,9 +354,10 @@ const Orders = () => {
   }, []);
   useEffect(() => {
     let tempSupplier = [];
-    supplierMasterData?.map((item) => {
-      tempSupplier.push({ label: item.name, value: item.name });
-    });
+    Array.isArray(supplierMasterData) &&
+      supplierMasterData?.map((item) => {
+        tempSupplier.push({ label: item.name, value: item.name });
+      });
     setSupplierListData(tempSupplier);
   }, [supplierMasterData]);
   useEffect(() => {
