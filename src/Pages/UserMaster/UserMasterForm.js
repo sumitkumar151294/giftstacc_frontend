@@ -178,8 +178,9 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     try {
       setOnUpdate(true);
       if (isValid) {
+        debugger
         if (!prefilledValues) {
-          const UsersData = {
+                const UsersData = {
             ...userData,
             adminRoleId: parseInt(userData.role),
             adminRoleCode: 1,

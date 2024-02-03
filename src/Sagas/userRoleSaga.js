@@ -10,7 +10,7 @@ function* GetUserRole() {
       yield put(
         onGetUserRoleSuccess({
           data: getUserRoleResponse.response,
-          // message: getUserRoleResponse.result.message,
+          message: getUserRoleResponse.errorMessage,
 
         })
       );
@@ -34,19 +34,19 @@ function* PostUserRole({ payload }) {
 
     const postUserRoleResponse = yield call(callUserRolePostApi, payload);
 
-    if (postUserRoleResponse.status === 200) {
+    if (postUserRoleResponse.httpStatusCode === 200) {
 
       yield put(
         onPostUserRoleSuccess({
-          data: postUserRoleResponse.result,
-          message: postUserRoleResponse.result.message,
+          data: postUserRoleResponse.response,
+          message: postUserRoleResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onPostUserRoleError({
-          data: postUserRoleResponse.result,
-          message: postUserRoleResponse.result.message,
+          data: postUserRoleResponse.response,
+          message: postUserRoleResponse.errorMessage,
         })
       );
     }

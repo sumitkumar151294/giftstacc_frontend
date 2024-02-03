@@ -1,7 +1,7 @@
 import API from '../Common/EndPoint/serviceConstrants';
 import axiosInstance from '../Common/Axios/axiosInstance';
 export const callUserMasterApi = async (payload) => {
-  const { data = {} } = await axiosInstance.post(API.userMasterApi, payload);
+  const { data = {} } = await axiosInstance.post(API.userPostMasterApi, payload);
   return data;
 };
 export const callUserMasterGetApi = async () => {

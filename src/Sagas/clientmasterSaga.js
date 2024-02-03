@@ -28,10 +28,10 @@ function* ClientMaster() {
 function* postClientMaster(payload) {
     try {
         const postClientMasterResponse = yield call(postClientMasterApi,payload.payload.clientData);
-      if (postClientMasterResponse.status === 5) {
-              yield put(onPostClientMasterSubmitSuccess({ data: postClientMasterResponse.result.data, message: postClientMasterResponse.result.message}));
+      if (postClientMasterResponse.httpStatusCode === "200") {
+              yield put(onPostClientMasterSubmitSuccess({ data: postClientMasterResponse.response, message: postClientMasterResponse.errorMessage}));
       } else {
-            yield put(onPostClientMasterSubmitError({ data: postClientMasterResponse.result.data, message: postClientMasterResponse.result.message,  }));
+            yield put(onPostClientMasterSubmitError({ data: postClientMasterResponse.response, message: postClientMasterResponse.errorMessage,  }));
       }
     } catch (error) {
         const message = error.response || 'Something went wrong';
@@ -41,10 +41,10 @@ function* postClientMaster(payload) {
   function* updateClientMaster(payload) {
     try {
         const updateClientMasterResponse = yield call(updateClientMasterApi,payload.payload);
-      if (updateClientMasterResponse.status === 5) {
-            yield put(onUpdateClientMasterSubmitSuccess({ data: updateClientMasterResponse.result.data, message: updateClientMasterResponse.result.message}));
+      if (updateClientMasterResponse.httpStatusCode === "200") {
+            yield put(onUpdateClientMasterSubmitSuccess({ data: updateClientMasterResponse.response, message: updateClientMasterResponse.errorMessage}));
       } else {
-            yield put(onUpdateClientMasterSubmitSuccess({ data: updateClientMasterResponse.result.data, message: updateClientMasterResponse.result.message,  }));
+            yield put(onUpdateClientMasterSubmitSuccess({ data: updateClientMasterResponse.response, message: updateClientMasterResponse.errorMessage,  }));
       }
     } catch (error) {
         const message = error.response || 'Something went wrong';

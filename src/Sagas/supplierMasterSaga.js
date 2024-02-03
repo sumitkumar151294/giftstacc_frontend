@@ -22,18 +22,18 @@ function* supplierMaster({ payload }) {
       callSupplierMasterPostApi,
       payload
     );
-    if (supplierMasterResponse.status === 5) {
+    if (supplierMasterResponse.httpStatusCode === "200") {
       yield put(
         onVendorSubmitSuccess({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onVendorSubmitError({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
         })
       );
     }
@@ -73,18 +73,18 @@ function* onUpdateSupplier(payload) {
       updateSupplierMasterApi,
       payload.payload
     );
-    if (supplierMasterResponse.status === 5) {
+    if (supplierMasterResponse.httpStatusCode === "200") {
           yield put(
         onUpdateSupplierListSuccess({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onUpdateSupplierListError({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
         })
       );
     }

@@ -11,7 +11,7 @@ const API = {
 
   //use-role
   userRoleApi: "/user-role",
-  userRolePostApi:"/user-role",
+  // userRolePostApi:"/create-user",
   updateUserRoleApi: "/user-role/update",
 
 
@@ -21,19 +21,22 @@ const API = {
 
   //user-master
   userMasterApi: "/user/all",
+  userPostMasterApi: "create-user",
+
+
   userMasterUpdateApi: "/user/update",
 
   //supplier-master
   supplierMasterApi: "/supplier-master",
-  postSupplierMasterApi: "/create-supplierMaster",
-  updateSupplierMasterApi: "/create-supplierMaster",
+  postSupplierMasterApi: "/supplier-master",
+  updateSupplierMasterApi: "/supplier-master",
 
   //supplier-brand-list
   supplierBrandListApi: "/supplier-brand-list/all",
 
   getClient: "/client-master",
-  postClient: "/create-clientMaster",
-  updateClient: "/client-master/update",
+  postClient: "/client-master",
+  updateClient: "/client-master",
 
   // create-category
   createCategory: "/category",

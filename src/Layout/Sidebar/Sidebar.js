@@ -24,7 +24,6 @@ const Sidebar = () => {
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);
   useEffect(() => {
-    debugger;
     setIsSidebarLoading(true);
     dispatch(onGetModule());
   }, []);
@@ -69,8 +68,8 @@ const Sidebar = () => {
                     aria-expanded="false"
                   >
                     <img
-                    // src={require(  `../../Assets/icon/${item.icon}.svg`)}
-                    // alt={item.icon}
+                    src={require(  `../../Assets/icon/${item.icon}.svg`)}
+                    alt={item.icon}
                     />
                     <span className="nav-text ps-1">{item.name}</span>
                   </Link>

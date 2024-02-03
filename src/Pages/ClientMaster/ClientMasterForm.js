@@ -235,8 +235,7 @@ const ClientMaster = (props) => {
           clientData.number = parseInt(clientData.number);
           clientData.paymentdetails = additionalFields;
           // Wait for the dispatch to complete
-          dispatch(onPostClientMasterSubmit({  clientData
-        }));
+          dispatch(onPostClientMasterSubmit( JSON.stringify(clientData) ));
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
           // Handle any errors during dispatch
@@ -247,7 +246,7 @@ const ClientMaster = (props) => {
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
           // Wait for the dispatch to complete
-          dispatch(onUpdateClientMasterSubmit(clientData));
+          dispatch(onUpdateClientMasterSubmit(JSON.stringify(clientData)));
         } catch (error) {
           // Handle any errors during dispatch
         }

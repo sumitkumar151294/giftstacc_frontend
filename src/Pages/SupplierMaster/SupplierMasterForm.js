@@ -65,7 +65,7 @@ const SupplierMasterForm = ({ data }) => {
     // Update the state when the data prop changes
     setVendorData({
       name: data?.name || "",
-      status: "",
+      status: data.status,
       balanceThresholdAmount: data?.balanceThresholdAmount,
       creditAmount: data?.creditAmount,
     });
@@ -173,7 +173,7 @@ const SupplierMasterForm = ({ data }) => {
         }
       } else if (data.name) {
         try {
-          setShowUpdate(true);
+            setShowUpdate(true);
           vendorData.supplierApiDetails = additionalFields;
           await dispatch(onUpdateSupplierList(vendorData));
 
