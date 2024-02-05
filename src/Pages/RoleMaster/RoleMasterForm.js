@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetUserRole, onPostUserRole, onUpdateUserRole, } from "../../Store/Slices/userRoleSlice";
@@ -181,6 +181,11 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   //   isClientPlatformModule: false,
   // };
   // Handle form submission
+ 
+  // const abc = useCallback((accessPostData)=>{
+  //   dispatch(callUserRoleModuleAccessPostApi(accessPostData))
+  // }, [formData])
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = { ...errors };
@@ -226,8 +231,11 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       //To Submit the data
       if (!data) {
         await dispatch(onPostUserRole(JSON.stringify(postData)));
-        // await dispatch(onGetUserRole());
-        await dispatch(callUserRoleModuleAccessPostApi(accessPostData))
+        //  dispatch(onGetUserRole());
+        // abc(accessPostData);
+        // setTimeout(()=>{
+         await dispatch(callUserRoleModuleAccessPostApi(accessPostData))
+        // },1000)
         // setFormData(resetFiled);
         toast.success(roleCreated);
       }

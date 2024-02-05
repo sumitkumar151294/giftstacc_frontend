@@ -5,7 +5,7 @@ import { callUserRoleGetApi, callUserRolePostApi, callUserRoleUpdateApi } from "
 function* GetUserRole() {
   try {
     const getUserRoleResponse = yield call(callUserRoleGetApi);
-    if (getUserRoleResponse.httpStatusCode === 200) {
+    if (getUserRoleResponse.httpStatusCode === "200") {
 
       yield put(
         onGetUserRoleSuccess({

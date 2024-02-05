@@ -3,6 +3,7 @@ import { onUserSubmit, onUserSubmitSuccess, onUserSubmitError, onGetUser, onGetU
 import { callUserMasterApi, callUserMasterGetApi, callUserMasterUpdateApi } from "../Context/userMasterApi";
 
 function* userMaster({ payload }) {
+  debugger
   try {
     const userMasterResponse = yield call(callUserMasterApi, payload);
     if (userMasterResponse.httpStatusCode === "200") {

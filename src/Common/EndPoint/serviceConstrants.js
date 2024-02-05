@@ -20,11 +20,9 @@ const API = {
   userRolePostModuleAccess: "/user-role-module-access",
 
   //user-master
-  userMasterApi: "/user/all",
-  userPostMasterApi: "create-user",
-
-
-  userMasterUpdateApi: "/user/update",
+  userMasterApi: "/user",
+  userMasterPostApi:"/user",
+  userMasterUpdateApi: "/user",
 
   //supplier-master
   supplierMasterApi: "/supplier-master",
