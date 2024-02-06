@@ -11,12 +11,12 @@ const API = {
 
   //use-role
   userRoleApi: "/user-role",
-  // userRolePostApi:"/create-user",
-  updateUserRoleApi: "/user-role/update",
+  userRolePostApi:"/user-role",
+  updateUserRoleApi: "/user-role",
 
 
   // user-role-module-access 
-  userRoleModuleAccess: "/userRoleModuleAccess/all",
+  userRoleModuleAccess: "/user-role-module-access",
   userRolePostModuleAccess: "/user-role-module-access",
 
   //user-master

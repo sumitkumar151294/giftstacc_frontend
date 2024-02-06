@@ -93,20 +93,17 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   // Handle input changes in the form
   const handleInputChange = (e) => {
     const { name, type, checked } = e.target;
-
-
-
-    // if (name === "IsClientRole") {
-    //   setFormData({
-    //     ...formData,
-    //     isClientPlatformModule: checked,
-    //     modules: formData.modules.map((module) => ({
-    //       ...module,
-    //       checked: false, // Uncheck all other checkboxes when IsClientRole is checked
-    //     })),
-    //   });
-    // } 
-    // else 
+    if (name === "IsClientRole") {
+      setFormData({
+        ...formData,
+        isClientPlatformModule: checked,
+        modules: formData.modules.map((module) => ({
+          ...module,
+          checked: false, // Uncheck all other checkboxes when IsClientRole is checked
+        })),
+      });
+    } 
+    else 
     if (name === "selectAll") {
       const updatedModules = formData.modules?.map((module) => ({
         ...module,

@@ -16,7 +16,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     // userName: "",
     mobile: "",
     email: "",
-    role: [],
+    role: "",
     accessClientIds: [],
     firstName: "",
     lastName: "",
@@ -45,7 +45,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const email = GetTranslationData("UIAdmin", "email_label");
   const mobile = GetTranslationData("UIAdmin", "mobile_label");
   const username = GetTranslationData("UIAdmin", "usernamee_label");
-  const client = GetTranslationData("UIAdmin", "client_label");
+  const client_label = GetTranslationData("UIAdmin", "client_label");
   const role = GetTranslationData("UIAdmin", "role_name_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
@@ -58,7 +58,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const select_role = GetTranslationData("UIAdmin", "select_role");
   const select_Client = GetTranslationData("UIAdmin", "select_Client");
   const admin = GetTranslationData("UIAdmin", "admin_Label");
-  const client1 = GetTranslationData("UIAdmin", "client");
+  const client = GetTranslationData("UIAdmin", "client");
 
   // user-role get api call
   useEffect(() => {
@@ -108,35 +108,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     }
     setUserData(newUserdetailData);
 
-    // let newRoledetailData;
-    // if (fieldName === "check" && checked === true) {
-    //   let role = [...userData.role];
-    //   role?.push(value);
-    //   newRoledetailData = {
-    //     ...userData,
-    //     role,
-    //   };
-    // }
-    //  else if (fieldName === "check" && checked === false) {
-    //   let role = [...userData.role];
-    //   role = role.filter(
-    //     (role) => role !== value
-    //   );
-    //   newUserdetailData = {
-    //     ...userData,
-    //     role,
-    //   };
-    // }
-    // else {
-    //   newRoledetailData = {
-    //     ...userData,
-    //     [fieldName]: value,
-    //   };
-    // }
-    // setUserData(newRoledetailData);
-
-
-
     if (fieldName === "email") {
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
       const isValidEmail = emailRegex.test(value);
@@ -161,7 +132,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     }
   };
   const handleSubmit = (e) => {
-    debugger
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -181,7 +151,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     }
     setErrors(newErrors);
     // Check if a role has been selected
-    if (userData.role?.length === 0) {
+    if (userData.role === "") {
       newErrors.role = select_role;
       isValid = false;
     } else {
@@ -196,6 +166,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       newErrors.accessClientIds = ""; // Clear the client error if a client is selected
     }
     setErrors(newErrors);
+
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const mobileRegex = /^[0-9]{10}$/;
     if (!emailRegex.test(userData.email)) {
@@ -228,7 +199,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
             firstName: userData.firstName,
             lastName: userData.lastName,
             email: userData.email,
-            mobile: parseInt(userData.mobile),
+            mobile:userData.mobile,
             adminRoleId: parseInt(userData.role),
             accessClientIds: userData.accessClientIds,
             adminRoleCode: 1,
@@ -239,9 +210,9 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
           toast.success("User Updated Successfully");
         }
       }
-      // setTimeout(() => {
-      //   dispatch(onGetUser());
-      // }, 2000);
+      setTimeout(() => {
+        dispatch(onGetUser());
+      }, 2000);
       setPrefilledValues();
     } catch (error) {
     }
@@ -372,7 +343,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           />
                         </div>
                         <div className="col-lg-12 br pt-2">
-                          <label htmlFor="name-f">{client}</label>
+                          <label htmlFor="name-f">{client_label}</label>
                           <div className="row ml-4">
                             {Array.isArray(clientList) &&
                               clientList?.map((item) => (
@@ -411,7 +382,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{role}</label>
                           <div className="row ml-4">
-                            {Array.isArray(roleList?.userRoleData) && roleList?.userRoleData?.map((item) => (
+                            {Array.isArray(roleList?.userRoleData) && roleList?.userRoleData?.map((item, roleChecked) => (
                               <div
                                 key={item?.id}
                                 className="form-check mt-2 col-lg-3"
@@ -436,20 +407,15 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                                     onChange={(e) => handleChange(e, "role")}
                                   />
                                 )}
-                                
+
                                 <label
                                   className="form-check-label"
                                   htmlFor={item.id}
                                 >
-                                  {item.name}
-                                  (
-                                  {item.isClientPlatformModule === true
-                                    ? `${client1}`
-                                    : `${admin}`}
-                                  )
+                                  {item.name} ( {item.isClientPlatformModule === true ? `${client}` : `${admin}`})
                                 </label>
                               </div>
-                              
+
                             ))}
                             <p className="text-danger">{errors.role}</p>
                           </div>
