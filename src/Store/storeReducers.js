@@ -12,9 +12,11 @@ import supplierBrandListReducer from './Slices/supplierBrandListSlice';
 import clientMasterReducer from './Slices/clientMasterSlice';
 import createCategoryReducer from './Slices/createCategorySlice';
 import brandCatalogueReducer from './Slices/brandCatalogueSlice';
+import clientPaymentrReducer from './Slices/clientPaymentDetailSlice';
 
 const reducers = combineReducers({
     loginReducer:loginReducer,
+    clientPaymentrReducer:clientPaymentrReducer,
     brandCatalogueReducer:brandCatalogueReducer,
     translationReducer:translationReducer,
     loginAuthReducer:loginAuthReducer,

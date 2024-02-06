@@ -32,9 +32,15 @@ const API = {
   //supplier-brand-list
   supplierBrandListApi: "/supplier-brand-list/all",
 
+  //client
   getClient: "/client-master",
   postClient: "/client-master",
   updateClient: "/client-master",
+
+  //Client-payment-details
+  postClientPayment: "/client-payment-gateway",
+  getClientPayment: "/client-payment-gateway",
+  updateClientPayment: "/client-payment-gateway",
 
   // create-category
   createCategory: "/category",

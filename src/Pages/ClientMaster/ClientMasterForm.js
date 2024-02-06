@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../Components/Button/Button";
+import { onPostClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMaster = (props) => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
@@ -62,15 +63,13 @@ const ClientMaster = (props) => {
   ];
   const [additionalFields, setAdditionalFields] = useState([
     {
-      fieldNameInput: "",
-      fieldValue: "",
+      resourceKey: "",
+      clientId: "0",
+      resourceValue: "",
       mode: "",
     },
   ]);
   const [clientData, setClientData] = useState({
-    title: "string1",
-    dbName: "string1",
-  platformDomainUrl: "string1",
     name: "",
     number: "",
     email: "",
@@ -80,14 +79,8 @@ const ClientMaster = (props) => {
     themes: "",
     dbLoginId: "",
     dbLoginPwd: "",
-    dbipAddress: "",
-    stagingKey: "",
-    stagingSecretKey: "",
-    productionKey: "",
-    productionSecretKey: "",
-    fieldNameInput: "",
-    fieldValue: "",
-    mode: "",
+    dbIpAddress: "",
+    platformDomainUrl: "",
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -97,15 +90,12 @@ const ClientMaster = (props) => {
     color: "",
     logoUrl: "",
     dbLoginPwd: "",
-    dbipAddress: "",
-    stagingKey: "ds",
-    stagingSecretKey: "ds",
-    productionKey: "ds",
-    productionSecretKey: "ds",
+    dbIpAddress: "",
     themes: "",
-    fieldNameInput: "",
-    fieldValue: "",
+    resourceKey: "",
+    resourceValue: "",
     mode: "",
+    platformDomainUrl: "",
   });
 
   useEffect(() => {
@@ -114,40 +104,29 @@ const ClientMaster = (props) => {
       name: props.data?.name || "",
       number: props.data?.number || "",
       id: props.data?.id,
-      userName: "string",
-      password: "string",
       email: props.data?.email || "",
-      fieldNameInput: props.data?.fieldNameInput || "",
-      fieldValue: props.data?.fieldValue || "",
-      mode: props.data?.mode || "",
-      dbipAddress: props.data?.dbipAddress || "",
+      dbIpAddress: props.data?.dbIpAddress || "",
       color: props.data?.color,
-      logoUrl: props.data?.lgogLink || "",
+      logoUrl: props.data?.logoUrl || "",
       themes: props.data?.themes || "",
-      stagingKey: props.data?.stagingKey || "sring",
-      stagingSecretKey: props.data?.stagingSecretKey || "sring",
-      productionKey: props.data?.productionKey || "sring",
-      productionSecretKey: props.data?.productionSecretKey || "sring ",
       status: props.data?.status || "",
       dbLoginPwd: props.data?.dbLoginPwd || "",
       dbLoginId: props.data?.dbLoginId || "",
+      platformDomainUrl: props?.data?.platformDomainUrl,
     });
     setErrors({
-      name: "",          
+      name: "",
       number: "",
       email: "",
       status: "",
       color: "",
       logoUrl: "",
-      dbipAddress: "",
-      stagingKey: "",
-      stagingSecretKey: "",
-      productionKey: "",
-      productionSecretKey: "",
+      dbIpAddress: "",
       themes: "",
-      fieldNameInput: "",
-      fieldValue: "",
+      resourceKey: "",
+      resourceValue: "",
       mode: "",
+      platformDomainUrl: "",
     });
   }, [props.data]);
 
@@ -188,13 +167,18 @@ const ClientMaster = (props) => {
   };
 
   const [showDelete, setShowDelete] = useState(false);
+  useEffect(() => {
+    if (clientMasterDetails.status_code === "200") {
+      dispatch(onPostClientPaymentSubmit(additionalFields));
+    }
+  }, []);
   const handleAddMore = () => {
     setShowDelete(true);
     setAdditionalFields((prevFields) => [
       ...prevFields,
       {
-        fieldNameInput: "",
-        fieldValue: "",
+        resourceKey: "",
+        resourceValue: "",
         mode: "",
         showDelete: true, // Set showDelete to true for the newly added field
       },
@@ -209,21 +193,54 @@ const ClientMaster = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
-    const newErrors = { ...errors };
+    const newErrors = {};
 
-    // Check if fields are empty and set corresponding error messages
-    for (const key in clientData) {
-      if (clientData[key] === "") {
-        newErrors[key] = " ";
+    // Validate required fields
+    const requiredFields = [
+      "name",
+      "number",
+      "resourceKey",
+      "resourceValue",
+      "email",
+      "mode",
+      "status",
+      "color",
+      "logoUrl",
+      "dbIpAddress",
+      "themes",
+      "dbLoginId",
+      "dbLoginPwd",
+      "platformDomainUrl",
+    ];
+    requiredFields.forEach((field) => {
+      if (!clientData[field]) {
+        newErrors[field] = "This field is required"; // Set your required field message
         isValid = false;
-      } else if (key === "email" && newErrors[key] !== "") {
-        isValid = false;
-      } else if (key === "number" && newErrors[key] !== "") {
-        isValid = false;
-      } else {
-        newErrors[key] = "";
       }
+    });
+
+    // Email validation
+    if (
+      clientData.email &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientData.email)
+    ) {
+      newErrors.email = "Invalid email format";
+      isValid = false;
     }
+
+    // Number validation
+    if (clientData.number && !/^\d{10}$/.test(clientData.number)) {
+      newErrors.number = "Number must be 10 digits";
+      isValid = false;
+    }
+
+    // Validate additionalFields
+    additionalFields.forEach((field, index) => {
+      if (!field.resourceKey || !field.resourceValue || !field.mode) {
+        newErrors[`additionalField-${index}`] = "All fields are required";
+        isValid = false;
+      }
+    });
 
     setErrors(newErrors);
 
@@ -232,11 +249,8 @@ const ClientMaster = (props) => {
         try {
           setShowToast(true);
           setShowLoader(true);
-          clientData.number = parseInt(clientData.number);
-          clientData.paymentdetails = additionalFields;
           // Wait for the dispatch to complete
-          dispatch(onPostClientMasterSubmit( JSON.stringify(clientData) ));
-          // Define a function to show a toast notification based on loginDetails
+          dispatch(onPostClientMasterSubmit(clientData));
         } catch (error) {
           // Handle any errors during dispatch
         }
@@ -246,7 +260,7 @@ const ClientMaster = (props) => {
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
           // Wait for the dispatch to complete
-          dispatch(onUpdateClientMasterSubmit(JSON.stringify(clientData)));
+          dispatch(onUpdateClientMasterSubmit(clientData));
         } catch (error) {
           // Handle any errors during dispatch
         }
@@ -255,7 +269,7 @@ const ClientMaster = (props) => {
   };
   useEffect(() => {
     if (showToast) {
-      if (clientMasterDetails.postMessage === "Added Successfully.") {
+      if (clientMasterDetails.status_code === 200) {
         setShowLoader(false);
         toast.success(clientMasterDetails.postMessage);
         dispatch(onClientMasterSubmit());
@@ -268,7 +282,7 @@ const ClientMaster = (props) => {
           status: "",
           color: "",
           logoUrl: "",
-          dbipAddress: "",
+          dbIpAddress: "",
           dbLoginId: "",
           dbLoginPwd: "",
           stagingKey: "",
@@ -278,8 +292,8 @@ const ClientMaster = (props) => {
         });
         setAdditionalFields([
           {
-            fieldNameInput: "",
-            fieldValue: "",
+            resourceKey: "",
+            resourceValue: "",
             mode: "",
           },
         ]);
@@ -302,7 +316,7 @@ const ClientMaster = (props) => {
           status: "",
           color: "",
           logoUrl: "",
-          dbipAddress: "",
+          dbIpAddress: "",
           dbLoginId: "",
           dbLoginPwd: "",
           stagingKey: "",
@@ -310,8 +324,8 @@ const ClientMaster = (props) => {
           productionKey: "",
           productionSecretKey: "",
           themes: "",
-          fieldNameInput: "",
-          fieldValue: "",
+          resourceKey: "",
+          resourceValue: "",
           mode: "",
           id: "",
         });
@@ -345,8 +359,9 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${errors.name ? "border-danger" : "form-control"
-                            }`}
+                          className={` ${
+                            errors.name ? "border-danger" : "form-control"
+                          }`}
                           name="contactName"
                           id="contact-name"
                           error={errors.name}
@@ -361,8 +376,9 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="number"
-                          className={` ${errors.number ? "border-danger" : "form-control"
-                            }`}
+                          className={` ${
+                            errors.number ? "border-danger" : "form-control"
+                          }`}
                           name="contactNumber"
                           id="contact-number"
                           value={clientData.number}
@@ -379,8 +395,9 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="email"
-                          className={` ${errors.email ? "border-danger" : "form-control"
-                            }`}
+                          className={` ${
+                            errors.email ? "border-danger" : "form-control"
+                          }`}
                           name="contactEmail"
                           id="contact-email"
                           value={clientData.email}
@@ -389,6 +406,43 @@ const ClientMaster = (props) => {
                         />
                         {<p className="text-danger">{errors.email}</p>}
                       </div>
+                      <div className="col-sm-6 form-group ">
+                        <label htmlFor="platformDomainUrl">
+                          platform domain url
+                          <span className="text-danger">*</span>
+                        </label>
+                        <InputField
+                          type="platformDomainUrl"
+                          className={` ${
+                            errors.platformDomainUrl
+                              ? "border-danger"
+                              : "form-control"
+                          }`}
+                          name="contactplatformDomainUrl"
+                          id="contact-platformDomainUrl"
+                          value={clientData.platformDomainUrl}
+                          error={errors.platformDomainUrl}
+                          onChange={(e) => handleChange(e, "platformDomainUrl")}
+                        />
+                        {
+                          <p className="text-danger">
+                            {errors.platformDomainUrl}
+                          </p>
+                        }
+                      </div>
+                      {/* <div className="col-sm-6 form-group mb-2">
+                        <label htmlFor="platformDomainUrl">
+                       platform domain url 
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Dropdown
+                          onChange={(e) => handleChange(e, "platformDomainUrl")}
+                          error={errors.platformDomainUrl}
+                          value={clientData.platformDomainUrl || ""}
+                          className="form-select"
+                          options={statusoptions}
+                        />
+                      </div> */}
 
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="status">
@@ -413,14 +467,15 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="color"
-                          className={` ${errors.color ? "border-danger" : "form-control"}`}
+                          className={` ${
+                            errors.color ? "border-danger" : "form-control"
+                          }`}
                           name="color"
                           id="color"
                           error={errors.color}
-                          value={clientData.color || "#000000"} 
+                          value={clientData.color || "#000000"}
                           onChange={(e) => handleChange(e, "color")}
                         />
-
                       </div>
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="logo">
@@ -429,8 +484,9 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${errors.logoUrl ? "border-danger" : "form-control"
-                            }`}
+                          className={` ${
+                            errors.logoUrl ? "border-danger" : "form-control"
+                          }`}
                           name="logo"
                           id="logo"
                           error={errors.logoUrl}
@@ -463,16 +519,17 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${errors.dbipAddress
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.dbIpAddress
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="ipAddress"
                             id="ipAddress"
-                            value={clientData.dbipAddress}
-                            error={errors.dbipAddress}
+                            value={clientData.dbIpAddress}
+                            error={errors.dbIpAddress}
                             placeholder={key}
-                            onChange={(e) => handleChange(e, "dbipAddress")}
+                            onChange={(e) => handleChange(e, "dbIpAddress")}
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
@@ -482,10 +539,11 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${errors.dbLoginId
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.dbLoginId
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="username"
                             id="user-name"
                             value={clientData.dbLoginId}
@@ -501,10 +559,11 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="password"
-                            className={` ${errors.dbLoginPwd
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.dbLoginPwd
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="password"
                             id="password"
                             value={clientData.dbLoginPwd}
@@ -531,21 +590,20 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${errors.fieldNameInput
-                                      ? "border-danger"
-                                      : "form-control"
-                                      }`}
-                                    name="fieldNameInput"
-                                    id="fieldNameInput"
+                                    className={` ${
+                                      errors.resourceKey
+                                        ? "border-danger"
+                                        : "form-control"
+                                    }`}
+                                    name="resourceKey"
+                                    id="resourceKey"
                                     placeholder={key}
-                                    value={
-                                      additionalFields[index].fieldNameInput
-                                    }
-                                    error={errors.fieldNameInput}
+                                    value={additionalFields[index].resourceKey}
+                                    error={errors.resourceKey}
                                     onChange={(e) => {
-                                      handleChange(e, "fieldNameInput");
+                                      handleChange(e, "resourceKey");
                                       handleAddMoreData(
-                                        "fieldNameInput",
+                                        "resourceKey",
                                         index,
                                         e
                                       );
@@ -564,18 +622,25 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${errors.fieldValue
-                                      ? "border-danger"
-                                      : "form-control"
-                                      }`}
-                                    name="fieldValue"
+                                    className={` ${
+                                      errors.resourceValue
+                                        ? "border-danger"
+                                        : "form-control"
+                                    }`}
+                                    name="resourceValue"
                                     id="production-key"
                                     placeholder={key}
-                                    error={errors.fieldValue}
-                                    value={additionalFields[index].fieldValue}
+                                    error={errors.resourceValue}
+                                    value={
+                                      additionalFields[index].resourceValue
+                                    }
                                     onChange={(e) => {
-                                      handleChange(e, "fieldValue");
-                                      handleAddMoreData("fieldValue", index, e);
+                                      handleChange(e, "resourceValue");
+                                      handleAddMoreData(
+                                        "resourceValue",
+                                        index,
+                                        e
+                                      );
                                     }}
                                   />
                                 </div>
@@ -589,10 +654,11 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <Dropdown
                                     type="text"
-                                    className={` ${errors.mode
-                                      ? "border-danger"
-                                      : "form-select"
-                                      }`}
+                                    className={` ${
+                                      errors.mode
+                                        ? "border-danger"
+                                        : "form-select"
+                                    }`}
                                     name="mode"
                                     id="mode"
                                     placeholder={key}
@@ -629,7 +695,7 @@ const ClientMaster = (props) => {
                           <div className="col-sm-12 form-group mb-7">
                             <Button
                               className="btn btn-primary btn-sm float-right pad-aa mt-2"
-                              text= {add_More}
+                              text={add_More}
                               icon={"fa fa-plus"}
                               onClick={() => handleAddMore()}
                             />

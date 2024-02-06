@@ -181,7 +181,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     try {
       setOnUpdate(true);
       if (isValid) {
-        // debugger
         if (!prefilledValues) {
           const UsersData = {
             ...userData,
@@ -214,8 +213,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         dispatch(onGetUser());
       }, 2000);
       setPrefilledValues();
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -264,8 +262,9 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.email ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.email ? "border-danger" : "form-control"
+                            }`}
                             onChange={(e) => handleChange(e, "email")}
                             placeholder=""
                             error={errors.email}
@@ -280,8 +279,9 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="number"
-                            className={` ${errors.mobile ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.mobile ? "border-danger" : "form-control"
+                            }`}
                             onChange={(e) => handleChange(e, "mobile")}
                             placeholder=""
                             error={errors.mobile}
@@ -313,10 +313,11 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.firstName
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.firstName
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -332,8 +333,9 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.lastName ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.lastName ? "border-danger" : "form-control"
+                            }`}
                             name="lname"
                             id="name-f"
                             placeholder=""
@@ -427,7 +429,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                             {requiredLevel}
                           </span>
                           <div className="col-sm-4 mt-2 mb-4">
-
                             <Button
                               text={prefilledValues ? update : submit}
                               icon={"fa fa-arrow-right"}

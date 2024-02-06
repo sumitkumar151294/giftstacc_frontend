@@ -35,8 +35,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const [checkBoxError, setCheckBoxError] = useState(false);
   const getModuleData = useSelector((state) => state.moduleReducer.data);
   const getRoleDataId = useSelector((state) => state.userRoleReducer.userRoleData);
-  console.log("id", getRoleDataId[getRoleDataId.length-1]?.id);
-  // console.log("getModuleData", getModuleData);
 
   //To get the data from redux store
 

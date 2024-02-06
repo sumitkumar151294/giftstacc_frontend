@@ -19,6 +19,7 @@ const ClientMasterList = () => {
   const [data, setData] = useState();
   const [showLoader, setShowLoader] = useState(false);
   const clientList = useSelector((state) => state.clientMasterReducer.data);
+  const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -47,37 +48,36 @@ const ClientMasterList = () => {
   };
   const handleDelete = (data) => {
     const deletedData = {
-      id: data?.id,
       name: data?.name,
       number: data?.number,
+      id: data?.id,
       email: data?.email,
-      userName: data?.userName,
-      password: data?.password,
-      status: data?.status,
+      dbIpAddress: data?.dbIpAddress,
       color: data?.color,
-      lgogLink: data?.lgogLink,
-      dbipAddress: data?.dbipAddress,
-      dbLoginId: data?.dbLoginId,
+      logoUrl: data?.logoUrl,
+      themes: data?.themes,
+      status: data?.status,
       dbLoginPwd: data?.dbLoginPwd,
-      stagingKey: data?.stagingKey,
-      stagingSecretKey: data?.stagingSecretKey,
-      productionKey: data?.productionKey,
-      productionSecretKey: data?.productionSecretKey,
-      theme: data?.theme,
+      dbLoginId: data?.dbLoginId,
+      platformDomainUrl: data?.platformDomainUrl,
       enabled: false,
       deleted: true,
-      paymentDetails: [
-        {
-          id: 0,
-          keyName: "chirag",
-          keyValue: "1000",
-          keyMode: "live",
-        },
-      ],
+      // paymentDetails: [
+      //   {
+      //     id: 0,
+      //     keyName: "chirag",
+      //     keyValue: "1000",
+      //     keyMode: "live",
+      //   },
+      // ],
     };
     dispatch(onUpdateClientMasterSubmit(deletedData));
     setTimeout(() => {
-      dispatch(onClientMasterSubmit());
+      setShowLoader(true);
+      if (clientMasterDetails.status_code === 200) {
+        dispatch(onClientMasterSubmit());
+        setShowLoader(false);
+      }
     }, 1000);
   };
 
@@ -91,13 +91,13 @@ const ClientMasterList = () => {
 
   const filteredClientList = Array.isArray(clientList)
     ? clientList.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   const handlePageChange = (selected) => {
@@ -167,7 +167,7 @@ const ClientMasterList = () => {
                 ) : (
                   <>
                     {Array.isArray(filteredClientList) &&
-                      filteredClientList.length > 0 ? (
+                    filteredClientList.length > 0 ? (
                       <div className="table-responsive">
                         <>
                           <table className="table header-border table-responsive-sm">

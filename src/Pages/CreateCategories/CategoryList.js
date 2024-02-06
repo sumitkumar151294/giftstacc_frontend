@@ -85,16 +85,21 @@ const CategoryList = () => {
   //To delete the data
   const handleDelete = (data) => {
     const deletedData = {
-      id: data.id,
-      name: data.name,
-      description: data.description,
-      vendorName: data.vendorName,
+      name: data?.name,
+      url: data?.url,
+      description: data?.description,
+      image: data?.image,
+      thumbnail: data?.thumbnail,
+      vendorName: data?.vendorName,
+      id: data?.id,
       deleted: true,
     };
     dispatch(onUpdateCategory(deletedData));
     setTimeout(() => {
+      setIsLoading(true);
       dispatch(onGetCategory());
       toast.success(categoryDeleteMessage);
+      setIsLoading(false);
     }, 1000);
     setIsLoading(true);
   };
@@ -154,13 +159,12 @@ const CategoryList = () => {
               </div>
 
               <div className="card-body">
-                {isLoading && (
+                {isLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
-                )}
-                {Array.isArray(filteredCategoryList) &&
-                filteredCategoryList.length > 0 ? (
+                ) : Array.isArray(filteredCategoryList) &&
+                  filteredCategoryList.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
                       <thead>
@@ -179,7 +183,6 @@ const CategoryList = () => {
                               <td>{data.name}</td>
                               <td>{data.vendorName}</td>
                               <td>{data.description}</td>
-
                               <td>
                                 <div className="d-flex">
                                   <Link
@@ -208,7 +211,7 @@ const CategoryList = () => {
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                         initialPage={page - 1} // Use initialPage instead of forcePage
-                        previousClassName={page === 0 ? "disabled" : ""}
+                        previousClassName={page === 1 ? "disabled" : ""}
                       />
                     </div>
                   </div>

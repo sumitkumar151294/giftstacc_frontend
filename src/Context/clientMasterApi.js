@@ -11,6 +11,6 @@ export const postClientMasterApi = async (payload) => {
   return data;
 };
 export const updateClientMasterApi = async (payload) => {
-  const { data = {} } = await axiosInstance.post(API.updateClient, payload);
+  const { data = {} } = await axiosInstance.put(API.updateClient, payload);
   return data;
 };

@@ -21,8 +21,6 @@ const RoleMasterList = () => {
   const getRoleData = useSelector((state) => state.userRoleReducer.userRoleData);
   const roleAccessListData = getRoleData;
   const moduleList = useSelector((state) => state.moduleReducer?.data?.data);
-  // console.log("role list", getRoleData.userRoleData);
-  // console.log("data list ", roleAccessListData);
   useEffect(() => {
     // user-role get api call
     dispatch(onGetUserRole());

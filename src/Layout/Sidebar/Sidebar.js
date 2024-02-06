@@ -12,7 +12,6 @@ const Sidebar = () => {
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   const logout = GetTranslationData("UIAdmin", "logout");
   const currentUrl = useLocation();
-  console.log(currentUrl);
   // To reset the redux store (logout the user)
   const handleLogout = (e) => {
     e.preventDefault();
