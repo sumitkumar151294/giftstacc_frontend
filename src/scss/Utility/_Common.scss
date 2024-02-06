@@ -325,6 +325,11 @@ label {
   background-color: var(--bs-success);
 }
 
+.badge-danger {
+  background-color: var(--bs-red);
+}
+
+
 .badge {
   line-height: 1.5;
   border-radius: 1.03125rem;

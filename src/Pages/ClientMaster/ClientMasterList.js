@@ -43,7 +43,8 @@ const ClientMasterList = () => {
   }, []);
 
   const handleEdit = (data) => {
-    const prefilled = data;
+    const prefilled = {...data};
+    prefilled.enabled = prefilled.enabled ? 'Active' : 'Non-Active'
     setData(prefilled);
   };
   const handleDelete = (data) => {
@@ -199,8 +200,8 @@ const ClientMasterList = () => {
                                     </td>
                                     <td>{data.id}</td>
                                     <td>
-                                      <span className="badge badge-success">
-                                        {data.status}
+                                      <span className={`badge ${data.enabled ? 'badge-success': 'badge-danger'}`}>
+                                        {data.enabled ? 'Active' : 'Non-Active'}
                                       </span>
                                     </td>
                                     <td>

@@ -109,7 +109,7 @@ const ClientMaster = (props) => {
       color: props.data?.color,
       logoUrl: props.data?.logoUrl || "",
       themes: props.data?.themes || "",
-      status: props.data?.status || "",
+      status: props.data?.enabled || "",
       dbLoginPwd: props.data?.dbLoginPwd || "",
       dbLoginId: props.data?.dbLoginId || "",
       platformDomainUrl: props?.data?.platformDomainUrl,
