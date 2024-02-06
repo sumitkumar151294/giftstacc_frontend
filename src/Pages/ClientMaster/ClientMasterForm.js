@@ -47,6 +47,12 @@ const ClientMaster = (props) => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
   const validNumber = GetTranslationData("UIAdmin", "number_Digit_Label");
+  const platformDomainUrl = GetTranslationData(
+    "UIAdmin",
+    "platform_Domain_Url"
+  );
+  console.log(platformDomainUrl);
+
   const statusoptions = [
     { value: "Active", label: "Active" },
     { value: "Non-Active", label: "Non-Active" },
@@ -214,7 +220,7 @@ const ClientMaster = (props) => {
     ];
     requiredFields.forEach((field) => {
       if (!clientData[field]) {
-        newErrors[field] = "This field is required"; // Set your required field message
+        newErrors[field] = " "; // Set your required field message
         isValid = false;
       }
     });
@@ -408,7 +414,7 @@ const ClientMaster = (props) => {
                       </div>
                       <div className="col-sm-6 form-group ">
                         <label htmlFor="platformDomainUrl">
-                          platform domain url
+                          {platformDomainUrl}
                           <span className="text-danger">*</span>
                         </label>
                         <InputField
@@ -467,12 +473,10 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="color"
-                          className={` ${
-                            errors.color ? "border-danger" : "form-control"
-                          }`}
+                          className={"form-control"}
                           name="color"
                           id="color"
-                          error={errors.color}
+                          // error={errors.color}
                           value={clientData.color || "#000000"}
                           onChange={(e) => handleChange(e, "color")}
                         />

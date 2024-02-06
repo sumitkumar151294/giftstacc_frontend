@@ -1,12 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetUserRole, onPostUserRole, onUpdateUserRole, } from "../../Store/Slices/userRoleSlice";
+import {
+  onGetUserRole,
+  onPostUserRole,
+  onUpdateUserRole,
+} from "../../Store/Slices/userRoleSlice";
 import InputField from "../../Components/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
-import Button from '../../Components/Button/Button';
+import Button from "../../Components/Button/Button";
 import { callUserRoleModuleAccessPostApi } from "../../Context/userRoleModuleAccessApi";
 
 // Component for RoleMasterForm
@@ -33,7 +37,9 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
   const getModuleData = useSelector((state) => state.moduleReducer.data);
-  const getRoleDataId = useSelector((state) => state.userRoleReducer.userRoleData);
+  const getRoleDataId = useSelector(
+    (state) => state.userRoleReducer.userRoleData
+  );
 
   //To get the data from redux store
 
@@ -42,7 +48,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
     name: "",
     description: "",
     isClientPlatformModule: false,
-    module: []
+    module: [],
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -55,14 +61,15 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
 
   // Fetch module data and update form data on mount and when module data changes
   useEffect(() => {
-    if (Array.isArray(getModuleData)) { // Check if getModuleData is an array
+    if (Array.isArray(getModuleData)) {
+      // Check if getModuleData is an array
       const modulesData = getModuleData.map((module) => ({
         id: module.id,
         isClientPlatformModule: module.isClientPlatformModule,
         name: module.name,
         checked: false,
         addAccess: false,
-        editAccess: false
+        editAccess: false,
       }));
       setFormData({
         ...formData,
@@ -99,9 +106,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
           checked: false, // Uncheck all other checkboxes when IsClientRole is checked
         })),
       });
-    } 
-    else 
-    if (name === "selectAll") {
+    } else if (name === "selectAll") {
       const updatedModules = formData.modules?.map((module) => ({
         ...module,
         checked: formData.isClientPlatformModule
@@ -112,43 +117,34 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
         ...formData,
         modules: updatedModules,
       });
-    }
-    else if (type === "checkbox" && name === "view") {
+    } else if (type === "checkbox" && name === "view") {
       let modules = formData.modules.map((md) => {
         if (md.id === parseInt(e.target.id)) {
-          return { ...md, checked: !md.checked }
-        }
-        else {
-          return md
+          return { ...md, checked: !md.checked };
+        } else {
+          return md;
         }
       });
-      setFormData({ ...formData, modules })
-    }
-
-    else if (type === "checkbox" && name === "add") {
+      setFormData({ ...formData, modules });
+    } else if (type === "checkbox" && name === "add") {
       let modules = formData.modules.map((md) => {
         if (md.id === parseInt(e.target.id)) {
-          return { ...md, addAccess: !md.addAccess }
-        }
-        else {
-          return md
+          return { ...md, addAccess: !md.addAccess };
+        } else {
+          return md;
         }
       });
-      setFormData({ ...formData, modules })
-    }
-
-    else if (type === "checkbox" && name === "edit") {
+      setFormData({ ...formData, modules });
+    } else if (type === "checkbox" && name === "edit") {
       let modules = formData.modules.map((md) => {
         if (md.id === parseInt(e.target.id)) {
-          return { ...md, editAccess: !md.editAccess }
-        }
-        else {
-          return md
+          return { ...md, editAccess: !md.editAccess };
+        } else {
+          return md;
         }
       });
-      setFormData({ ...formData, modules })
+      setFormData({ ...formData, modules });
     }
-
 
     // else if (type === "checkbox" && name !== "IsClientRole") {
     //   const updatedModules = formData.modules?.map((module) =>
@@ -158,8 +154,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
     //     ...formData,
     //     modules: updatedModules,
     //   });
-    // } 
-
+    // }
     else {
       setFormData({
         ...formData,
@@ -175,28 +170,24 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   //   isClientPlatformModule: false,
   // };
   // Handle form submission
- 
+
   // const abc = useCallback((accessPostData)=>{
   //   dispatch(callUserRoleModuleAccessPostApi(accessPostData))
   // }, [formData])
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = { ...errors };
     setErrors(newErrors);
-    
 
     if (formData.name.trim() === "") {
       newErrors.name = mandatory_Req_Label;
 
       setErrors(newErrors);
       return;
-    } 
-    else if (formData.description.trim() === ""){
-      newErrors.description =  " ";
-
-    }
-    else {
+    } else if (formData.description.trim() === "") {
+      newErrors.description = "";
+    } else {
       newErrors.name = "";
     }
 
@@ -222,13 +213,13 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
 
     const accessPostData = formData.modules?.map((md) => {
       return {
-        roleId: getRoleDataId[getRoleDataId.length-1]?.id,
+        roleId: getRoleDataId[getRoleDataId.length - 1]?.id,
         moduleId: md.id,
         viewAccess: md.checked,
         addAccess: md.addAccess,
         editAccess: md.editAccess,
-      }
-    })
+      };
+    });
     try {
       //To Submit the data
       if (!data) {
@@ -236,7 +227,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
         //  dispatch(onGetUserRole());
         // abc(accessPostData);
         // setTimeout(()=>{
-         await dispatch(callUserRoleModuleAccessPostApi(accessPostData))
+        await dispatch(callUserRoleModuleAccessPostApi(accessPostData));
         // },1000)
         // setFormData(resetFiled);
         toast.success(roleCreated);
@@ -294,7 +285,9 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.name ? "border-danger" : "form-control"}`}
+                            className={` ${
+                              errors.name ? "border-danger" : "form-control"
+                            }`}
                             name="name"
                             id="name-f"
                             placeholder=""
@@ -305,11 +298,16 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                           <p className="text-danger">{errors.name}</p>
                         </div>
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="description">{description_Label}
+                          <label htmlFor="description">
+                            {description_Label}
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.description ? "border-danger" : "form-control"}`}
+                            className={` ${
+                              errors.description
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="description"
                             id="description"
                             placeholder=""
@@ -337,7 +335,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                             </label>
                           </div>
                         </div>
-
                       </div>
 
                       <div className="row top-top">
@@ -356,27 +353,27 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                               id="flexCheckDefault2"
                               checked={isSelectAllChecked}
                               onChange={handleInputChange}
-                            // onChange={()=>{
-                            //   if ( formData?.modules?.length > 0 &&
-                            //     formData?.modules.every(
-                            //       (module) => module.checked
-                            //     ))
-                            //     {
+                              // onChange={()=>{
+                              //   if ( formData?.modules?.length > 0 &&
+                              //     formData?.modules.every(
+                              //       (module) => module.checked
+                              //     ))
+                              //     {
 
-                            //       let modules = formData.modules.map((md)=>{
-                            //         return {...md,checked: false}
-                            //       })
-                            //       setFormData({...formData, modules})
-                            //     }
-                            //     else {
+                              //       let modules = formData.modules.map((md)=>{
+                              //         return {...md,checked: false}
+                              //       })
+                              //       setFormData({...formData, modules})
+                              //     }
+                              //     else {
 
-                            //       let modules = formData.modules.map((md)=>{
-                            //         return {...md,checked: true}
-                            //       }) 
+                              //       let modules = formData.modules.map((md)=>{
+                              //         return {...md,checked: true}
+                              //       })
 
-                            //       setFormData({...formData, modules})
-                            //     }
-                            // }}
+                              //       setFormData({...formData, modules})
+                              //     }
+                              // }}
                             />
 
                             <label
@@ -386,16 +383,19 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                               {selectall}
                             </label>
                           </div>
-
                         </div>
                         <div className="col-lg-12 br pt-2">
-                          <label htmlFor="name-f" >{moduleAccess}</label>
+                          <label htmlFor="name-f">{moduleAccess}</label>
                           {formData?.modules?.map(
-                            ({ id, name, checked, editAccess, addAccess, isClientPlatformModule }) =>
-                              <div
-                                className="row mb-3 mt-3"
-                                key={id}
-                              >
+                            ({
+                              id,
+                              name,
+                              checked,
+                              editAccess,
+                              addAccess,
+                              isClientPlatformModule,
+                            }) => (
+                              <div className="row mb-3 mt-3" key={id}>
                                 <h4
                                   className="col-lg-3"
                                   htmlFor={`flexCheckDefault-${id}`}
@@ -419,22 +419,49 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                                 <div className="col-lg-9 d-flex justify-content-end">
                                   <div className="form-check form-check-inline">
                                     <label className="form-check-label">
-                                      <InputField type="checkbox" id={id} className="form-check-input" name="view" value={checked} checked={checked} onChange={handleInputChange} />{view}
+                                      <InputField
+                                        type="checkbox"
+                                        id={id}
+                                        className="form-check-input"
+                                        name="view"
+                                        value={checked}
+                                        checked={checked}
+                                        onChange={handleInputChange}
+                                      />
+                                      {view}
                                     </label>
                                   </div>
                                   <div className="form-check form-check-inline">
                                     <label className="form-check-label">
-                                      <InputField type="checkbox" id={id} className="form-check-input" name="add" value={addAccess} checked={addAccess} onChange={handleInputChange} />{add}
+                                      <InputField
+                                        type="checkbox"
+                                        id={id}
+                                        className="form-check-input"
+                                        name="add"
+                                        value={addAccess}
+                                        checked={addAccess}
+                                        onChange={handleInputChange}
+                                      />
+                                      {add}
                                     </label>
                                   </div>
                                   <div className="form-check form-check-inline">
                                     <label className="form-check-label">
-                                      <InputField type="checkbox" id={id} className="form-check-input" name="edit" value={editAccess} checked={editAccess} onChange={handleInputChange} />{edit}
+                                      <InputField
+                                        type="checkbox"
+                                        id={id}
+                                        className="form-check-input"
+                                        name="edit"
+                                        value={editAccess}
+                                        checked={editAccess}
+                                        onChange={handleInputChange}
+                                      />
+                                      {edit}
                                     </label>
                                   </div>
                                 </div>
                               </div>
-
+                            )
                           )}
 
                           {/* Checkbox Error Message */}
