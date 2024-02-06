@@ -173,11 +173,7 @@ const ClientMaster = (props) => {
   };
 
   const [showDelete, setShowDelete] = useState(false);
-  useEffect(() => {
-    if (clientMasterDetails.status_code === "200") {
-      dispatch(onPostClientPaymentSubmit(additionalFields));
-    }
-  }, []);
+  ;
   const handleAddMore = () => {
     setShowDelete(true);
     setAdditionalFields((prevFields) => [
@@ -264,7 +260,6 @@ const ClientMaster = (props) => {
         try {
           setShowUpdate(true);
           setShowLoader(true);
-          clientData.number = parseInt(clientData.number);
           // Wait for the dispatch to complete
           dispatch(onUpdateClientMasterSubmit(clientData));
         } catch (error) {
@@ -276,6 +271,8 @@ const ClientMaster = (props) => {
   useEffect(() => {
     if (showToast) {
       if (clientMasterDetails.status_code === 200) {
+        dispatch(onPostClientPaymentSubmit(additionalFields));
+
         setShowLoader(false);
         toast.success(clientMasterDetails.postMessage);
         dispatch(onClientMasterSubmit());
