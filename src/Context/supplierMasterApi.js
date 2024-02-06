@@ -9,6 +9,6 @@ export const callSupplierMasterGetApi = async () => {
   return data;
 };
 export const updateSupplierMasterApi = async (payload) => {
-  const { data = {} } = await axiosInstance.post(API.updateSupplierMasterApi,payload);
+  const { data = {} } = await axiosInstance.put(API.updateSupplierMasterApi,payload);
   return data;
 };
