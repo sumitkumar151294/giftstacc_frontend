@@ -73,7 +73,7 @@ function* onUpdateSupplier(payload) {
       updateSupplierMasterApi,
       payload.payload
     );
-    if (supplierMasterResponse.httpStatusCode === "200") {
+    if (supplierMasterResponse.httpStatusCode === "201") {
           yield put(
         onUpdateSupplierListSuccess({
           data: supplierMasterResponse.response,

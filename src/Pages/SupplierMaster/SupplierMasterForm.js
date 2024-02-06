@@ -14,6 +14,7 @@ import Dropdown from "../../Components/Dropdown/Dropdown";
 import Button from "../../Components/Button/Button";
 
 const SupplierMasterForm = ({ data }) => {
+  debugger
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
@@ -68,6 +69,8 @@ const SupplierMasterForm = ({ data }) => {
       status: data.status,
       balanceThresholdAmount: data?.balanceThresholdAmount,
       creditAmount: data?.creditAmount,
+      id: data?.id
+      
     });
 
     // You may also want to reset errors here if needed
@@ -164,9 +167,9 @@ const SupplierMasterForm = ({ data }) => {
     setAdditionalFieldsError(newAdditionalFieldsError);
     if (isValid) {
       if (!data.name) {
+        debugger
         try {
           setShowToast(true);
-          vendorData.supplierApiDetails = additionalFields;
           dispatch(onVendorSubmit(vendorData));
         } catch (error) {
           // Handle any errors during dispatch

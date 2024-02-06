@@ -24,12 +24,11 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const isClientRole = GetTranslationData("UIAdmin", "is_Client_role");
   const roleCreated = GetTranslationData("UIAdmin", "role_Create_Label");
   const roleUpdated = GetTranslationData("UIAdmin", "role_Updated_Label");
-  const roleRequired = GetTranslationData("UIAdmin", "role_Req_Label");
   const view = GetTranslationData("UIAdmin", "view");
   const add = GetTranslationData("UIAdmin", "add");
   const edit = GetTranslationData("UIAdmin", "edit");
-  const description_Label = GetTranslationData("UIAdmin", "description_Label");
-  const mandatory_Req_Label = GetTranslationData("UIAdmin", "mandatory_Req_Label");
+  const description_Label = GetTranslationData("UIAdmin", "description");
+  const mandatory_Req_Label = GetTranslationData("UIAdmin", "role_Req_Label");
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(true);
   const [checkBoxError, setCheckBoxError] = useState(false);
@@ -185,11 +184,19 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
     e.preventDefault();
     const newErrors = { ...errors };
     setErrors(newErrors);
+    
+
     if (formData.name.trim() === "") {
       newErrors.name = mandatory_Req_Label;
+
       setErrors(newErrors);
       return;
-    } else {
+    } 
+    else if (formData.description.trim() === ""){
+      newErrors.description =  " ";
+
+    }
+    else {
       newErrors.name = "";
     }
 
