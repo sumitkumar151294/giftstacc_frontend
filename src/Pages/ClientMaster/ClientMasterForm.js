@@ -17,7 +17,7 @@ const ClientMaster = (props) => {
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
+  const clientMasterDetails = useSelector((state) => state.clientMasterReducer.postClientData);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
   const email = GetTranslationData("UIAdmin", "contact_Email_label");
@@ -98,9 +98,6 @@ const ClientMaster = (props) => {
     dbLoginPwd: "",
     dbIpAddress: "",
     themes: "",
-    resourceKey: "",
-    resourceValue: "",
-    mode: "",
     platformDomainUrl: "",
   });
 
@@ -129,9 +126,6 @@ const ClientMaster = (props) => {
       logoUrl: "",
       dbIpAddress: "",
       themes: "",
-      resourceKey: "",
-      resourceValue: "",
-      mode: "",
       platformDomainUrl: "",
     });
   }, [props.data]);
@@ -172,14 +166,7 @@ const ClientMaster = (props) => {
     }
   };
 
-  const [showDelete, setShowDelete] = useState(false);
-  useEffect(() => {
-    if (clientMasterDetails.status_code === "200") {
-      dispatch(onPostClientPaymentSubmit(additionalFields));
-    }
-  }, []);
   const handleAddMore = () => {
-    setShowDelete(true);
     setAdditionalFields((prevFields) => [
       ...prevFields,
       {
@@ -205,10 +192,8 @@ const ClientMaster = (props) => {
     const requiredFields = [
       "name",
       "number",
-      "resourceKey",
-      "resourceValue",
+
       "email",
-      "mode",
       "status",
       "color",
       "logoUrl",
@@ -253,7 +238,6 @@ const ClientMaster = (props) => {
     if (isValid) {
       if (!props.data) {
         try {
-          setShowToast(true);
           setShowLoader(true);
           // Wait for the dispatch to complete
           dispatch(onPostClientMasterSubmit(clientData));
@@ -262,7 +246,6 @@ const ClientMaster = (props) => {
         }
       } else if (props.data) {
         try {
-          setShowUpdate(true);
           setShowLoader(true);
           clientData.number = parseInt(clientData.number);
           // Wait for the dispatch to complete
@@ -273,71 +256,11 @@ const ClientMaster = (props) => {
       }
     }
   };
-  useEffect(() => {
-    if (showToast) {
-      if (clientMasterDetails.status_code === 200) {
-        setShowLoader(false);
-        toast.success(clientMasterDetails.postMessage);
-        dispatch(onClientMasterSubmit());
-        setClientData({
-          name: "",
-          number: "",
-          email: "",
-          userName: "",
-          password: "",
-          status: "",
-          color: "",
-          logoUrl: "",
-          dbIpAddress: "",
-          dbLoginId: "",
-          dbLoginPwd: "",
-          stagingKey: "",
-          stagingSecretKey: "",
-          productionKey: "",
-          productionSecretKey: "",
-        });
-        setAdditionalFields([
-          {
-            resourceKey: "",
-            resourceValue: "",
-            mode: "",
-          },
-        ]);
-      } else {
-        setShowLoader(false);
-        toast.error(clientMasterDetails.postMessage);
-      }
-    }
-    if (showUpdate) {
-      if (clientMasterDetails.postMessage === "Update Successfully.") {
-        setShowLoader(false);
-        toast.success(clientMasterDetails.postMessage);
-        dispatch(onClientMasterSubmit());
-        setClientData({
-          name: "",
-          number: "",
-          email: "",
-          userName: "",
-          password: "",
-          status: "",
-          color: "",
-          logoUrl: "",
-          dbIpAddress: "",
-          dbLoginId: "",
-          dbLoginPwd: "",
-          stagingKey: "",
-          stagingSecretKey: "",
-          productionKey: "",
-          productionSecretKey: "",
-          themes: "",
-          resourceKey: "",
-          resourceValue: "",
-          mode: "",
-          id: "",
-        });
-      }
-    }
-  }, [clientMasterDetails.postMessage]);
+
+
+useEffect(()=>{
+console.log(clientMasterDetails)
+},[clientMasterDetails]) 
 
   return (
     <>
@@ -436,20 +359,6 @@ const ClientMaster = (props) => {
                           </p>
                         }
                       </div>
-                      {/* <div className="col-sm-6 form-group mb-2">
-                        <label htmlFor="platformDomainUrl">
-                       platform domain url 
-                          <span className="text-danger">*</span>
-                        </label>
-                        <Dropdown
-                          onChange={(e) => handleChange(e, "platformDomainUrl")}
-                          error={errors.platformDomainUrl}
-                          value={clientData.platformDomainUrl || ""}
-                          className="form-select"
-                          options={statusoptions}
-                        />
-                      </div> */}
-
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="status">
                           {status}
@@ -605,7 +514,6 @@ const ClientMaster = (props) => {
                                     value={additionalFields[index].resourceKey}
                                     error={errors.resourceKey}
                                     onChange={(e) => {
-                                      handleChange(e, "resourceKey");
                                       handleAddMoreData(
                                         "resourceKey",
                                         index,
@@ -639,7 +547,6 @@ const ClientMaster = (props) => {
                                       additionalFields[index].resourceValue
                                     }
                                     onChange={(e) => {
-                                      handleChange(e, "resourceValue");
                                       handleAddMoreData(
                                         "resourceValue",
                                         index,
@@ -669,7 +576,6 @@ const ClientMaster = (props) => {
                                     value={additionalFields[index]?.mode}
                                     error={errors.mode}
                                     onChange={(e) => {
-                                      handleChange(e, "mode");
                                       handleAddMoreData("mode", index, e);
                                     }}
                                     options={modes}

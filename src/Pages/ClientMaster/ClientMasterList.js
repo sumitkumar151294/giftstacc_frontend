@@ -63,14 +63,6 @@ const ClientMasterList = () => {
       platformDomainUrl: data?.platformDomainUrl,
       enabled: false,
       deleted: true,
-      // paymentDetails: [
-      //   {
-      //     id: 0,
-      //     keyName: "chirag",
-      //     keyValue: "1000",
-      //     keyMode: "live",
-      //   },
-      // ],
     };
     dispatch(onUpdateClientMasterSubmit(deletedData));
     setTimeout(() => {
