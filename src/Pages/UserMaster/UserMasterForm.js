@@ -12,21 +12,22 @@ import Button from "../../Components/Button/Button";
 const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const dispatch = useDispatch();
   const [onUpdate, setOnUpdate] = useState(false);
+
   const [userData, setUserData] = useState({
-    // userName: "",
     mobile: "",
     email: "",
     role: "",
+    clientRoleId: "",
     accessClientIds: [],
     firstName: "",
     lastName: "",
   });
   // Initialize 'role' error state
   const [errors, setErrors] = useState({
-    // userName: "",
     mobile: "",
     email: "",
     role: "",
+    clientRoleId: "",
     accessClientIds: "",
     firstName: "",
     lastName: "",
@@ -37,15 +38,13 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const onUpdateData = useSelector((state) => state.userMasterReducer.updatedUserData);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer);
-  // console.log("roleList", roleList);
   const clientList = useSelector((state) => state.clientMasterReducer.data);
-
   //To get the labels from API
   const userMaster = GetTranslationData("UIAdmin", "user_Master_label");
   const email = GetTranslationData("UIAdmin", "email_label");
   const mobile = GetTranslationData("UIAdmin", "mobile_label");
   const username = GetTranslationData("UIAdmin", "usernamee_label");
-  const client_label = GetTranslationData("UIAdmin", "client_label");
+  const client = GetTranslationData("UIAdmin", "client_label");
   const role = GetTranslationData("UIAdmin", "role_name_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
@@ -58,7 +57,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const select_role = GetTranslationData("UIAdmin", "select_role");
   const select_Client = GetTranslationData("UIAdmin", "select_Client");
   const admin = GetTranslationData("UIAdmin", "admin_Label");
-  const client = GetTranslationData("UIAdmin", "client");
+  const client1 = GetTranslationData("UIAdmin", "client");
 
   // user-role get api call
   useEffect(() => {
@@ -69,15 +68,42 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setUserData({
-      // userName: prefilledValues?.firstName || "",
       mobile: prefilledValues?.mobile || "",
       email: prefilledValues?.email || "",
-      role: prefilledValues?.adminRoleId,
+      role: prefilledValues?.adminRoleId || "",
+      clientRoleId: prefilledValues?.clientRoleId || "",
       accessClientIds: prefilledValues?.accessClientIds || [],
       firstName: prefilledValues?.firstName || "",
       lastName: prefilledValues?.lastName || "",
     });
   }, [prefilledValues]);
+
+  
+  const handleRoleId = (e, id) => {
+    const filteredData = roleList?.userRoleData?.filter(item => item.id === id);
+   
+    const isClient = filteredData[0].isClientPlatformRole === true;
+    const isAdmin = filteredData[0].isClientPlatformRole === false;
+
+    if (isClient) {
+      userData.clientRoleId = id;
+      setUserData(userData);
+    }
+     else {
+      userData.clientRoleId = 1;
+      setUserData(userData);
+    }
+    if (isAdmin) {
+      userData.role = id;
+      setUserData(userData);
+    } 
+    else {
+      userData.role = 1;
+      setUserData(userData);
+    }
+  }
+
+
 
   // to get role module access list
   const handleChange = (e, fieldName) => {
@@ -107,6 +133,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       };
     }
     setUserData(newUserdetailData);
+
 
     if (fieldName === "email") {
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -166,7 +193,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       newErrors.accessClientIds = ""; // Clear the client error if a client is selected
     }
     setErrors(newErrors);
-
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const mobileRegex = /^[0-9]{10}$/;
     if (!emailRegex.test(userData.email)) {
@@ -187,23 +213,29 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
             mobile: userData.mobile,
             adminRoleId: parseInt(userData.role),
             adminRoleCode: "string",
-            clientRoleId: 1,
+            // clientRoleId: parseInt(userData.clientRoleId),
             clientRoleCode: "string",
             // loginAttempt: 0
           };
           dispatch(onUserSubmit(UsersData));
         } else {
           const updateUserData = {
-            id: prefilledValues.id,
+            enabled: true,
+            deleted: false,
+            createdBy: 0,
+            updatedBy: 0,
+            login_attempt: 0,
+
+            id: prefilledValues?.id,
             firstName: userData.firstName,
             lastName: userData.lastName,
             email: userData.email,
-            mobile:userData.mobile,
+            mobile: userData.mobile,
             adminRoleId: parseInt(userData.role),
             accessClientIds: userData.accessClientIds,
-            adminRoleCode: 1,
-            clientRoleId: 2,
-            clientRoleCode: 2,
+            adminRoleCode: "string",
+            clientRoleId: parseInt(userData.clientRoleId),
+            clientRoleCode: "string",
           };
           dispatch(onUserUpdate(updateUserData));
           toast.success("User Updated Successfully");
@@ -213,7 +245,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         dispatch(onGetUser());
       }, 2000);
       setPrefilledValues();
-    } catch (error) {}
+    } catch (error) {
+    }
   };
 
   useEffect(() => {
@@ -225,6 +258,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
           mobile: "",
           email: "",
           role: "",
+          clientRoleId: "",
           accessClientIds: [],
           firstName: "",
           lastName: "",
@@ -236,6 +270,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       }
     }
   }, [onSubmitData]);
+
+
 
   return (
     <>
@@ -262,9 +298,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.email ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.email ? "border-danger" : "form-control"
+                              }`}
                             onChange={(e) => handleChange(e, "email")}
                             placeholder=""
                             error={errors.email}
@@ -279,9 +314,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="number"
-                            className={` ${
-                              errors.mobile ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.mobile ? "border-danger" : "form-control"
+                              }`}
                             onChange={(e) => handleChange(e, "mobile")}
                             placeholder=""
                             error={errors.mobile}
@@ -289,23 +323,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           />
                           <p className="text-danger">{errors.mobile}</p>
                         </div>
-                        {/* <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-f">
-                            {username}
-                            <span className="text-danger">{fieldRequired}</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            className={` ${errors.userName ? "border-danger" : "form-control"
-                              }`}
-                            name="fname"
-                            id="name-f"
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "userName")}
-                            error={errors.userName}
-                            value={userData.userName}
-                          />
-                        </div> */}
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {firstName}
@@ -313,11 +330,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.firstName
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={` ${errors.firstName ? "border-danger" : "form-control"}`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -333,9 +346,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.lastName ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.lastName ? "border-danger" : "form-control"}`}
                             name="lname"
                             id="name-f"
                             placeholder=""
@@ -345,7 +356,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                           />
                         </div>
                         <div className="col-lg-12 br pt-2">
-                          <label htmlFor="name-f">{client_label}</label>
+                          <label htmlFor="name-f">{client}</label>
                           <div className="row ml-4">
                             {Array.isArray(clientList) &&
                               clientList?.map((item) => (
@@ -384,7 +395,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{role}</label>
                           <div className="row ml-4">
-                            {Array.isArray(roleList?.userRoleData) && roleList?.userRoleData?.map((item, roleChecked) => (
+                            {Array.isArray(roleList?.userRoleData) && roleList?.userRoleData?.map((item) => (
                               <div
                                 key={item?.id}
                                 className="form-check mt-2 col-lg-3"
@@ -398,6 +409,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                                     value={item.id}
                                     checked={"checked"}
                                     onChange={(e) => handleChange(e, "role")}
+                                  // onChange={(e)=>handleRoleId(e, item.id)}
                                   />
                                 ) : (
                                   <InputField
@@ -406,7 +418,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                                     className="form-check-input"
                                     name="role"
                                     value={item.id}
-                                    onChange={(e) => handleChange(e, "role")}
+                                    onChange={(e) => handleRoleId(e, item.id)}
                                   />
                                 )}
 
@@ -414,7 +426,12 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                                   className="form-check-label"
                                   htmlFor={item.id}
                                 >
-                                  {item.name} ( {item.isClientPlatformModule === true ? `${client}` : `${admin}`})
+                                  {item.name}
+                                  (
+                                  {item.isClientPlatformRole === true
+                                    ? `${client1}`
+                                    : `${admin}`}
+                                  )
                                 </label>
                               </div>
 
@@ -429,6 +446,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                             {requiredLevel}
                           </span>
                           <div className="col-sm-4 mt-2 mb-4">
+
                             <Button
                               text={prefilledValues ? update : submit}
                               icon={"fa fa-arrow-right"}

@@ -3,7 +3,6 @@ import { onUserSubmit, onUserSubmitSuccess, onUserSubmitError, onGetUser, onGetU
 import { callUserMasterApi, callUserMasterGetApi, callUserMasterUpdateApi } from "../Context/userMasterApi";
 
 function* userMaster({ payload }) {
-  debugger
   try {
     const userMasterResponse = yield call(callUserMasterApi, payload);
     if (userMasterResponse.httpStatusCode === "200") {
@@ -52,18 +51,18 @@ function* getUser() {
 function* UpdateUser({ payload }) {
   try {
     const updateUserResponse = yield call(callUserMasterUpdateApi, payload);
-    if (updateUserResponse.status === 5) {
+    if (updateUserResponse.httpStatusCode === "200") {
       yield put(
         onUserUpdateSuccess({
-          data: updateUserResponse.result,
-          message: updateUserResponse.result.message,
+          data: updateUserResponse.response,
+          message: updateUserResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onUserUpdateError({
-          data: updateUserResponse.result,
-          message: updateUserResponse.result.message,
+          data: updateUserResponse.response,
+          message: updateUserResponse.errorMessage,
         })
       );
     }

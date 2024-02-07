@@ -28,11 +28,7 @@ const UserMasterList = () => {
   const userList = useSelector((state) => state.userMasterReducer);
   const client = useSelector((state) => state.clientMasterReducer.data);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
-  const roleList = useSelector(
-    (state) => state.userRoleReducer?.userRoleData?.data
-  );
-
-
+  const roleList = useSelector((state) => state.userRoleReducer?.userRoleData);
   const handleEdit = (data) => {
     const prefilled = data;
     setPrefilledValues(prefilled);
@@ -44,9 +40,10 @@ const UserMasterList = () => {
   };
   // here get role name by match with id
   const getNameById = (id) => {
-    const result = roleList?.find((item) => item.id === id);
-    return result ? result.name : not_Found;
+    const result = Array.isArray(roleList) && roleList?.find((item) => item?.id === id);
+    return result ? result?.name : not_Found;
   };
+
 
   // here get client name by matching with id
   function getClientByIndex(data, client) {
@@ -55,7 +52,6 @@ const UserMasterList = () => {
       client.forEach((index) => {
         const numericIndex = parseInt(index, 10);
         const item = data.find((entry) => entry && entry.id === numericIndex);
-
         if (item) {
           result.push(item.name);
         }
@@ -109,7 +105,7 @@ const UserMasterList = () => {
                           ?.slice(startIndex, endIndex)
                           .map((item, index) => (
                             <tr key={index}>
-                              <td>{getNameById(item.adminRoleId)}</td>
+                              <td>{getNameById(item?.adminRoleId)}</td>
                               <td>{item.email}</td>
                               <td>{item.mobile}</td>
                               <td>{`${item.firstName}${item.lastName}`}</td>
@@ -149,7 +145,7 @@ const UserMasterList = () => {
                         nextLabel={" >"}
                         breakLabel={"..."}
                         pageCount={Math.ceil(
-                          filteredUserList.length / rowsPerPage
+                          userList?.getData?.length / rowsPerPage
                         )}
                         marginPagesDisplayed={2}
                         onPageChange={handlePageChange}
