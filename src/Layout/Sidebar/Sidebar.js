@@ -18,7 +18,7 @@ const Sidebar = () => {
     dispatch(onLogout());
     localStorage.clear();
     sessionStorage.clear();
-    navigate("/");
+    navigate("/lc-admin/login");
   };
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);

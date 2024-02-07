@@ -18,7 +18,6 @@ function RouteConfiq() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
         <Route path="/lc-admin/login" element={<LoginPage />} />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route

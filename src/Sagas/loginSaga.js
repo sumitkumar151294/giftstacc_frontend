@@ -12,20 +12,19 @@ function* Login({ payload }) {
     if (loginResponse) {
       yield put(
         onLoginSubmitSuccess({
-          data: loginResponse.result,
-          message: loginResponse.result.message,
+          status_code:loginResponse.httpStatusCode,
+          message:loginResponse.message
         })
       );
     } else {
       yield put(
         onLoginSubmitError({
-          data: loginResponse.result,
-          message: loginResponse.result.message,
+          message: loginResponse.message,
         })
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
+    const message = error.response.data.ErrorMessage || "Something went wrong";
     yield put(onLoginSubmitError({ data: {}, message, status_code: 400 }));
   }
 }
