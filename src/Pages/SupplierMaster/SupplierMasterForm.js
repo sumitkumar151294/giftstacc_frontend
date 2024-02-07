@@ -14,7 +14,6 @@ import Dropdown from "../../Components/Dropdown/Dropdown";
 import Button from "../../Components/Button/Button";
 
 const SupplierMasterForm = ({ data }) => {
-  debugger
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
@@ -59,6 +58,25 @@ const SupplierMasterForm = ({ data }) => {
     { value: "Active", label: "Active" },
     { value: "Non-Active", label: "Non-Active" },
   ];
+  useEffect(() => {
+    if (showToast) {
+          if (supplyPostData.message === "Created Successfully.") {
+              dispatch(onGetSupplierList());
+        toast.success(supplyPostData.message);
+      } else {
+        // toast.error(supplyPostData.message);
+      }
+    }
+    if (showUpdate) {
+      if (supplyPostData.message === "Updated Successfully.") {
+        dispatch(onGetSupplierList());
+        toast.success(supplyPostData.message);
+      }
+    }
+  }, [supplyPostData.message]);
+  const supplierId = {
+    id: data?.id,
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -66,31 +84,23 @@ const SupplierMasterForm = ({ data }) => {
     // Update the state when the data prop changes
     setVendorData({
       name: data?.name || "",
-      status: data.status,
-      balanceThresholdAmount: data?.balanceThresholdAmount,
-      creditAmount: data?.creditAmount,
-      id: data?.id
-      
+      balanceThresholdAmount: parseInt(data?.balanceThresholdAmount) || "",
+      creditAmount: parseInt(data?.creditAmount) || "",
     });
 
     // You may also want to reset errors here if needed
     setErrors({
       name: "",
-      status: "",
       balanceThresholdAmount: "",
       creditAmount: "",
     });
-
-    if (supplyPostData.httpStatusCode === "200") {
-      setIsFormLoading(false);
-      dispatch(onGetSupplierList());
-    }
   }, [data]);
 
   const handleChange = (e, fieldName) => {
     // Validate non-negativity for minThresholdAmount and creditAmount
     if (
-      (fieldName === "balanceThresholdAmount" || fieldName === "creditAmount") &&
+      (fieldName === "balanceThresholdAmount" ||
+        fieldName === "creditAmount") &&
       e.target.value < 0
     ) {
       setErrors({
@@ -166,9 +176,8 @@ const SupplierMasterForm = ({ data }) => {
     setErrors(newErrors);
     setAdditionalFieldsError(newAdditionalFieldsError);
     if (isValid) {
-      if (!data.name) {
-        debugger
-        try {
+          if (!data.name) {
+              try {
           setShowToast(true);
           dispatch(onVendorSubmit(vendorData));
         } catch (error) {
@@ -176,9 +185,10 @@ const SupplierMasterForm = ({ data }) => {
         }
       } else if (data.name) {
         try {
-            setShowUpdate(true);
-          vendorData.supplierApiDetails = additionalFields;
-          await dispatch(onUpdateSupplierList(vendorData));
+          setShowUpdate(true);
+          await dispatch(
+            onUpdateSupplierList({ ...vendorData, ...supplierId })
+          );
 
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
@@ -187,23 +197,6 @@ const SupplierMasterForm = ({ data }) => {
       }
     }
   };
-
-  useEffect(() => {
-    if (showToast) {
-      if (supplyPostData.message === addedSuccessfully) {
-        // dispatch(onGetSupplierList());
-        toast.success(supplyPostData.message);
-      } else {
-        // toast.error(supplyPostData.message);
-      }
-    }
-    if (showUpdate) {
-      if (supplyPostData.message === updateSuccessfully) {
-        dispatch(onClientMasterSubmit());
-        toast.success(supplyPostData.message);
-      }
-    }
-  }, [supplyPostData.message]);
 
   const [showDelete, setShowDelete] = useState(false);
   const handleAddMore = (e) => {
@@ -251,7 +244,9 @@ const SupplierMasterForm = ({ data }) => {
                           <InputField
                             type="text"
                             value={vendorData?.name}
-                            className={` ${errors.name ? "border-danger" : "form-control"}`}
+                            className={` ${
+                              errors.name ? "border-danger" : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -279,11 +274,12 @@ const SupplierMasterForm = ({ data }) => {
                           <InputField
                             type="number"
                             name="text"
-                            value={vendorData.balanceThresholdAmount}
-                            className={` ${errors.balanceThresholdAmount
+                            value={parseInt(vendorData.balanceThresholdAmount)}
+                            className={` ${
+                              errors.balanceThresholdAmount
                                 ? "border-danger"
                                 : "form-control"
-                              }`}
+                            }`}
                             id="amominThresholdAmountunt"
                             placeholder="₹500000"
                             onChange={(e) =>
@@ -300,11 +296,12 @@ const SupplierMasterForm = ({ data }) => {
                           <InputField
                             type="number"
                             name="text"
-                            value={vendorData.creditAmount}
-                            className={` ${errors.creditAmount
+                            value={parseInt(vendorData.creditAmount)}
+                            className={` ${
+                              errors.creditAmount
                                 ? "border-danger"
                                 : "form-control"
-                              }`}
+                            }`}
                             id="creditAmount"
                             placeholder="₹500000"
                             onChange={(e) => handleChange(e, "creditAmount")}
@@ -323,10 +320,11 @@ const SupplierMasterForm = ({ data }) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${additionalFieldsError[index]?.fieldName
+                                    className={` ${
+                                      additionalFieldsError[index]?.fieldName
                                         ? "border-danger"
                                         : "form-control"
-                                      }`}
+                                    }`}
                                     name="fname"
                                     placeholder="Key"
                                     value={additionalFields[index].fieldName}
@@ -342,10 +340,11 @@ const SupplierMasterForm = ({ data }) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${additionalFieldsError[index]?.fieldValue
+                                    className={` ${
+                                      additionalFieldsError[index]?.fieldValue
                                         ? "border-danger"
                                         : "form-control"
-                                      }`}
+                                    }`}
                                     name="fname"
                                     placeholder="Value"
                                     value={additionalFields[index].fieldValue}
@@ -376,8 +375,8 @@ const SupplierMasterForm = ({ data }) => {
                             <br />
                             <div className="col-sm-12 form-group mb-7">
                               <Button
-                                      className="btn btn-primary btn-sm float-right pad-aa mt-2"
-                                      text={add_More}
+                                className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                                text={add_More}
                                 icon={"fa fa-plus"}
                                 onClick={(e) => handleAddMore(e)}
                               />
@@ -397,7 +396,7 @@ const SupplierMasterForm = ({ data }) => {
                             text={data.name ? update : submit}
                             icon={"fa fa-arrow-right"}
                             className="btn btn-primary float-right pad-aa mt-2"
-                            />
+                          />
                           <ToastContainer />
                         </div>
                       </div>

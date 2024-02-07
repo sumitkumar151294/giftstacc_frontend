@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import {
+  onGetSupplierList,
+  onUpdateSupplierList,
+} from "../../Store/Slices/supplierMasterSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import SupplierMasterForm from "./SupplierMasterForm";
@@ -10,7 +13,9 @@ import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import ReactPaginate from "react-paginate";
 const SupplierMasterList = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState(false);
+
   const [vendorData, setVendorData] = useState({
     name: "",
     secret: "",
@@ -21,7 +26,7 @@ const SupplierMasterList = () => {
     code: "",
     status: "",
     balanceThresholdAmount: "",
-    creditAmount:""
+    creditAmount: "",
   });
   const supplierList = GetTranslationData("UIAdmin", "supplierList");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -37,37 +42,50 @@ const SupplierMasterList = () => {
   const action = GetTranslationData("UIAdmin", "action_label");
   const active = GetTranslationData("UIAdmin", "active");
   const supplierMasterData = useSelector(
-    (state) => state.supplierMasterReducer?.data
+    (state) => state.supplierMasterReducer
   );
 
-  const headers = [ 
+  const headers = [
     { label: "id", key: "id" },
     { label: "name", key: "name" },
     { label: "balanceAvailable", key: "creditAmount" },
     { label: "minThresholdAmount", key: "balanceThresholdAmount" },
-
   ];
 
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
+  };
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
-  const handlePageChange = (selected) => {
-    setPage(selected.selected + 1);
-  };
+
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setIsLoading(true);
+    if (
+      supplierMasterData.message === "Created Successfully." ||
+      "Updated Successfully."
+    ) {
+      dispatch(onGetSupplierList());
+      setIsLoading(false);
+    }
     const fetchData = async () => {
       try {
         setIsLoading(true);
         await dispatch(onGetSupplierList());
         setIsLoading(false);
       } catch (error) {
-        setIsLoading(false);
+        if (supplierMasterData.status_code === 400) {
+          setTimeout(() => {
+            setApiError(true);
+            setIsLoading(false);
+          }, 2000);
+        }
       }
     };
 
@@ -85,32 +103,47 @@ const SupplierMasterList = () => {
       code: vendor.code,
       status: vendor.status,
       balanceThresholdAmount: vendor.balanceThresholdAmount,
-      creditAmount:vendor.creditAmount
+      creditAmount: vendor.creditAmount,
     });
   };
-
-  const filteredVendorList = Array.isArray(supplierMasterData)
-    ? supplierMasterData.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+  const handleDelete = (vendor) => {
+    const deletedData = {
+      name: vendor.name,
+      id: vendor.id,
+      balanceThresholdAmount: vendor.balanceThresholdAmount,
+      creditAmount: vendor.creditAmount,
+      deleted: true,
+      enabled: false,
+    };
+    dispatch(onUpdateSupplierList(deletedData));
+  };
+  const filteredVendorList = Array.isArray(supplierMasterData?.data)
+    ? supplierMasterData?.data.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   return (
     <>
-      {isLoading ? (
-        <Loader classType={"absoluteLoader"} />
-      ) : (
-        <>
-          <SupplierMasterForm data={vendorData} />
-          <div className="container-fluid pt-0">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="card">
+      <SupplierMasterForm data={vendorData} />
+
+      <div className="container-fluid pt-0">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card">
+              {apiError && <NoRecord />}
+
+              {isLoading ? (
+                <div style={{ height: "400px" }}>
+                  <Loader classType={"absoluteLoader"} />
+                </div>
+              ) : (
+                <>
                   <div className="container-fluid pt-1">
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
@@ -135,9 +168,9 @@ const SupplierMasterList = () => {
 
                       <div className="d-flex align-items-center flex-wrap">
                         {supplierMasterData &&
-                          supplierMasterData.length > 0 && (
+                          supplierMasterData?.data.length > 0 && (
                             <CSVLink
-                              data={supplierMasterData}
+                              data={supplierMasterData?.data}
                               headers={headers}
                               filename={"SupplierMaster.csv"}
                             >
@@ -153,88 +186,99 @@ const SupplierMasterList = () => {
                       </div>
                     </div>
                   </div>
-
-                  {filteredVendorList?.length > 0 ? (
-                    <div className="card-body position-relative">
-                      <div className="table-responsive">
-                        <table className="table header-border table-responsive-sm">
-                          <thead>
-                            <tr>
-                              <th>{supplierName}</th>
-                              <th>{supplierClientID}</th>
-                              <th>{balance_Available}</th>
-                              <th>{minThresholdAmount}</th>
-                              <th>{status}</th>
-                              <th>{action}</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {filteredVendorList.length > 0 ? (
-                              Array.isArray(filteredVendorList) &&
-                              filteredVendorList.map((vendor, index) => (
-                                <tr key={index}>
-                                  <td>{vendor.name}</td>
-                                  <td>{vendor.id}</td>
-                                  <td>
-                                    <span className="text-muted">{vendor.creditAmount}</span>
-                                  </td>
-                                  <td>{vendor.balanceThresholdAmount}</td>
-                                  <td>
-                                    <span className="badge badge-success">
-                                      {active}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <div className="d-flex">
-                                      <a
-                                        className="btn btn-primary shadow btn-xs sharp me-1"
-                                        onClick={() => handleEdit(vendor)}
-                                      >
-                                        <i className="fas fa-pencil-alt"></i>
-                                      </a>
-                                      <a className="btn btn-danger shadow btn-xs sharp">
-                                        <i className="fa fa-trash"></i>
-                                      </a>
-                                    </div>
-                                  </td>
+                  <>
+                    {filteredVendorList?.length > 0 ? (
+                      <div className="card-body position-relative">
+                        <div className="table-responsive">
+                          <>
+                            <table className="table header-border table-responsive-sm">
+                              <thead>
+                                <tr>
+                                  <th>{supplierName}</th>
+                                  <th>{supplierClientID}</th>
+                                  <th>{balance_Available}</th>
+                                  <th>{minThresholdAmount}</th>
+                                  <th>{status}</th>
+                                  <th>{action}</th>
                                 </tr>
-                              ))
-                            ) : (
-                              <></>
-                            )}
-                          </tbody>
-                        </table>
-                        <div className="pagination-container">
-                                <ReactPaginate
-                                  previousLabel={"<"}
-                                  nextLabel={" >"}
-                                  breakLabel={"..."}
-                                  pageCount={Math.ceil(
-                                    filteredVendorList.length / rowsPerPage
-                                  )}
-                                  marginPagesDisplayed={2}
-                                  onPageChange={handlePageChange}
-                                  containerClassName={"pagination"}
-                                  activeClassName={"active"}
-                                  initialPage={page - 1} // Use initialPage instead of forcePage
-                                  previousClassName={
-                                    page === 0 ? "disabled" : ""
-                                  }
-                                />
-                              </div>
+                              </thead>
+                              <tbody>
+                                {filteredVendorList.length >= 0 ? (
+                                  Array.isArray(filteredVendorList) &&
+                                  filteredVendorList.map((vendor, index) => (
+                                    <tr key={index}>
+                                      <td>{vendor.name}</td>
+                                      <td>{vendor.id}</td>
+                                      <td>
+                                        <span className="text-muted">
+                                          {vendor.creditAmount}
+                                        </span>
+                                      </td>
+                                      <td>{vendor.balanceThresholdAmount}</td>
+                                      <td>
+                                        <span className="badge badge-success">
+                                          {active}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <div className="d-flex">
+                                          <a
+                                            className="btn btn-primary shadow btn-xs sharp me-1"
+                                            onClick={() => handleEdit(vendor)}
+                                          >
+                                            <i className="fas fa-pencil-alt"></i>
+                                          </a>
+                                          <a className="btn btn-danger shadow btn-xs sharp">
+                                            <i
+                                              className="fa fa-trash"
+                                              onClick={() =>
+                                                handleDelete(vendor)
+                                              }
+                                            ></i>
+                                          </a>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
+                                ) : (
+                                  <NoRecord />
+                                )}
+                              </tbody>
+                            </table>
+                          </>
+                          <div className="pagination-container">
+                            <ReactPaginate
+                              previousLabel={"<"}
+                              nextLabel={" >"}
+                              breakLabel={"..."}
+                              pageCount={Math.ceil(
+                                filteredVendorList.length / rowsPerPage
+                              )}
+                              marginPagesDisplayed={2}
+                              onPageChange={handlePageChange}
+                              containerClassName={"pagination"}
+                              activeClassName={"active"}
+                              initialPage={page - 1} // Use initialPage instead of forcePage
+                              previousClassName={page === 0 ? "disabled" : ""}
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <NoRecord />
-                  )}
-                </div>
-              </div>
+                    ) : (
+                      <div style={{ height: "400px" }}>
+                        <Loader classType={"absoluteLoader"} />
+                      </div>
+                    )}
+                  </>
+                  {apiError && <NoRecord />}
+                </>
+              )}
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </>
   );
-};
+};  
 
 export default SupplierMasterList;

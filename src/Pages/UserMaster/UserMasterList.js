@@ -31,6 +31,8 @@ const UserMasterList = () => {
   const roleList = useSelector(
     (state) => state.userRoleReducer?.userRoleData?.data
   );
+
+
   const handleEdit = (data) => {
     const prefilled = data;
     setPrefilledValues(prefilled);
@@ -61,7 +63,15 @@ const UserMasterList = () => {
     }
     return result;
   }
-
+  const filteredUserList = Array.isArray(userList?.getData)
+  ? userList?.getData.filter((vendor) =>
+    Object.values(vendor).some(
+      (value) =>
+        value &&
+        typeof value === "string"
+    )
+  )
+  : [];
   return (
     <>
       <UserMasterForm
@@ -79,8 +89,8 @@ const UserMasterList = () => {
                 <div style={{ height: "400px" }}>
                   <Loader classNameType={"absoluteLoader"} />
                 </div>
-              ) : Array.isArray(userList?.getData) &&
-                userList?.getData?.length > 0 ? (
+              ) : Array.isArray(filteredUserList) &&
+              filteredUserList?.length > 0 ? (
                 <div className="card-body">
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -139,7 +149,7 @@ const UserMasterList = () => {
                         nextLabel={" >"}
                         breakLabel={"..."}
                         pageCount={Math.ceil(
-                          userList?.getData?.data?.length / rowsPerPage
+                          filteredUserList.length / rowsPerPage
                         )}
                         marginPagesDisplayed={2}
                         onPageChange={handlePageChange}
