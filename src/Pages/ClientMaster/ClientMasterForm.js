@@ -247,7 +247,6 @@ const ClientMaster = (props) => {
       } else if (props.data) {
         try {
           setShowLoader(true);
-          clientData.number = parseInt(clientData.number);
           // Wait for the dispatch to complete
           dispatch(onUpdateClientMasterSubmit(clientData));
         } catch (error) {
