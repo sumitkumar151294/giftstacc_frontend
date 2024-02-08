@@ -287,6 +287,7 @@ label {
   width: 11em;
 }
 
+
 .input-group> :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
   margin-left: -1px;
   border-top-left-radius: 0;
@@ -499,4 +500,15 @@ body {
   .cardnav{
     padding: 3px 15.7px 22PX 27PX !important;
   }
+ 
 }
+@media only screen and (min-width: 1400px) {
+  .mt-7-supplier{
+    margin-top: -7rem;
+  }
+}
+// @media only screen and (max-width: 950px) {
+//   .flex-column{
+//     flex-direction: column;
+//   }
+//   }
