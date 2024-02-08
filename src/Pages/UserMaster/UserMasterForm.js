@@ -178,11 +178,11 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     // }
     // setErrors(newErrors);
     // Check if a client has been selected
-    if (userData.accessClientIds?.length === 0) {
-      newErrors.accessClientIds = select_Client;
+    if (userData.clientRoleId?.length === 0) {
+      newErrors.clientRoleId = select_role;
       isValid = false;
     } else {
-      newErrors.accessClientIds = ""; // Clear the client error if a client is selected
+      newErrors.clientRoleId = ""; // Clear the client error if a client is selected
     }
     setErrors(newErrors);
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -416,7 +416,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                               </div>
 
                             ))}
-                            <p className="text-danger">{errors.role}</p>
+                            <p className="text-danger">{errors.clientRoleId}</p>
                           </div>
                           <span
                             className="form-check-label"
