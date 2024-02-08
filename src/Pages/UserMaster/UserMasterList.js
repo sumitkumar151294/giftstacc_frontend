@@ -32,7 +32,9 @@ const UserMasterList = () => {
   const handleEdit = (data) => {
     const prefilled = data;
     setPrefilledValues(prefilled);
+    console.log("Prefilled Values:", prefilled);
   };
+  
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
@@ -41,7 +43,7 @@ const UserMasterList = () => {
   // here get role name by match with id
   const getNameById = (id) => {
     const result = Array.isArray(roleList) && roleList?.find((item) => item?.id === id);
-    return result ? result?.name : not_Found;
+    return result ? result?.name : "";
   };
 
 
@@ -105,7 +107,7 @@ const UserMasterList = () => {
                           ?.slice(startIndex, endIndex)
                           .map((item, index) => (
                             <tr key={index}>
-                              <td>{getNameById(item?.adminRoleId)}</td>
+                              <td>{getNameById(item?.adminRoleId)}    {getNameById(item?.clientRoleId)}</td>
                               <td>{item.email}</td>
                               <td>{item.mobile}</td>
                               <td>{`${item.firstName}${item.lastName}`}</td>

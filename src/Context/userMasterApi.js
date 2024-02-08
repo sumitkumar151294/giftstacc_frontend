@@ -9,6 +9,6 @@ export const callUserMasterGetApi = async () => {
   return data;
 };
 export const callUserMasterUpdateApi = async (payload) => {
-  const { data = {} } = await axiosInstance.post(API.userMasterUpdateApi, payload);
+  const { data = {} } = await axiosInstance.put(API.userMasterUpdateApi, payload);
   return data;
 };

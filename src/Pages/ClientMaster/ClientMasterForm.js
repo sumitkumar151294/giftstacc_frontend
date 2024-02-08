@@ -11,13 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../Components/Button/Button";
-import { onPostClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
+import { onClientPaymentSubmit, onPostClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMaster = (props) => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const clientMasterDetails = useSelector((state) => state.clientMasterReducer.postClientData);
+  const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
   const email = GetTranslationData("UIAdmin", "contact_Email_label");
@@ -54,8 +54,8 @@ const ClientMaster = (props) => {
   console.log(platformDomainUrl);
 
   const statusoptions = [
-    { value: "Active", label: "Active" },
-    { value: "Non-Active", label: "Non-Active" },
+{ value: true, label: "Active" },
+    { value: false, label: "Non-active" },
   ];
   const options = [
     { value: "Theme 1", label: "Theme 1" },
@@ -79,7 +79,7 @@ const ClientMaster = (props) => {
     name: "",
     number: "",
     email: "",
-    status: "",
+    enabled: true,
     color: "",
     logoUrl: "",
     themes: "",
@@ -100,7 +100,9 @@ const ClientMaster = (props) => {
     themes: "",
     platformDomainUrl: "",
   });
-
+useEffect(()=>{
+  dispatch(onClientMasterSubmit());
+},[])
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setClientData({
@@ -192,7 +194,6 @@ const ClientMaster = (props) => {
     const requiredFields = [
       "name",
       "number",
-
       "email",
       "status",
       "color",
@@ -255,11 +256,24 @@ const ClientMaster = (props) => {
       }
     }
   };
+  
+  useEffect(()=>{
+    if (clientMasterDetails.status_code === 200) {
+       setShowLoader(false);
+      dispatch(onPostClientPaymentSubmit({
+       clientId: 0,
+       resourceKey: "",
+       resourceValue: "",
+       mode: ""
+     }));
+     } else {
+       setTimeout(() => {
+         setShowLoader(false);
+       }, 5000);
+     }
+ },[clientMasterDetails]) 
 
 
-useEffect(()=>{
-console.log(clientMasterDetails)
-},[clientMasterDetails]) 
 
   return (
     <>
