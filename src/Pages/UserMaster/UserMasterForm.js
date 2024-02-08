@@ -78,31 +78,23 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     });
   }, [prefilledValues]);
 
-  
+
   const handleRoleId = (e, id) => {
     const filteredData = roleList?.userRoleData?.filter(item => item.id === id);
-   
-    const isClient = filteredData[0].isClientPlatformRole === true;
-    const isAdmin = filteredData[0].isClientPlatformRole === false;
+    const isClientRole = filteredData[0].isClientPlatformRole;
+    if (isClientRole) {
+      setUserData(prevUserData => ({
+        ...prevUserData,
+        clientRoleId: prevUserData.clientRoleId === id ? 1 : id,
+      }));
+    } else {
+      setUserData(prevUserData => ({
+        ...prevUserData,
+        role: prevUserData.role === id ? 1 : id,
+      }));
+    }
 
-    if (isClient) {
-      userData.clientRoleId = id;
-      setUserData(userData);
-    }
-     else {
-      userData.clientRoleId = 1;
-      setUserData(userData);
-    }
-    if (isAdmin) {
-      userData.role = id;
-      setUserData(userData);
-    } 
-    else {
-      userData.role = 1;
-      setUserData(userData);
-    }
-  }
-
+  };
 
 
   // to get role module access list
@@ -178,13 +170,13 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     }
     setErrors(newErrors);
     // Check if a role has been selected
-    if (userData.role === "") {
-      newErrors.role = select_role;
-      isValid = false;
-    } else {
-      newErrors.role = ""; // Clear the role error if a role is selected
-    }
-    setErrors(newErrors);
+    // if (userData.role === "") {
+    //   newErrors.role = select_role;
+    //   isValid = false;
+    // } else {
+    //   newErrors.role = ""; // Clear the role error if a role is selected
+    // }
+    // setErrors(newErrors);
     // Check if a client has been selected
     if (userData.accessClientIds?.length === 0) {
       newErrors.accessClientIds = select_Client;
@@ -213,9 +205,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
             mobile: userData.mobile,
             adminRoleId: parseInt(userData.role),
             adminRoleCode: "string",
-            // clientRoleId: parseInt(userData.clientRoleId),
+            clientRoleId: parseInt(userData.clientRoleId),
             clientRoleCode: "string",
-            // loginAttempt: 0
           };
           dispatch(onUserSubmit(UsersData));
         } else {
@@ -400,27 +391,16 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                                 key={item?.id}
                                 className="form-check mt-2 col-lg-3"
                               >
-                                {userData?.role === item.id ? (
-                                  <InputField
-                                    id={item.id}
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    name="role"
-                                    value={item.id}
-                                    checked={"checked"}
-                                    onChange={(e) => handleChange(e, "role")}
-                                  // onChange={(e)=>handleRoleId(e, item.id)}
-                                  />
-                                ) : (
-                                  <InputField
-                                    id={item.id}
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    name="role"
-                                    value={item.id}
-                                    onChange={(e) => handleRoleId(e, item.id)}
-                                  />
-                                )}
+
+                                <InputField
+                                  id={item.id}
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  name="role"
+                                  value={item.id}
+                                  checked={(userData?.role === item.id || userData?.clientRoleId === item.id)}
+                                  onChange={(e) => handleRoleId(e, item.id)}
+                                />
 
                                 <label
                                   className="form-check-label"
