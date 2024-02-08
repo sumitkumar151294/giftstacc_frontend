@@ -11,7 +11,6 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import SupplierMasterForm from "./SupplierMasterForm";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import ReactPaginate from "react-paginate";
 const SupplierMasterList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState(false);
@@ -53,11 +52,7 @@ const SupplierMasterList = () => {
   ];
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [rowsPerPage] = useState(5);
-  const [page, setPage] = useState(1);
-  const handlePageChange = (selected) => {
-    setPage(selected.selected + 1);
-  };
+
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -68,7 +63,7 @@ const SupplierMasterList = () => {
   useEffect(() => {
     setIsLoading(true);
     if (
-      supplierMasterData.message === "Created Successfully." ||
+      supplierMasterData?.message === "Created Successfully." ||
       "Updated Successfully."
     ) {
       dispatch(onGetSupplierList());
@@ -90,7 +85,7 @@ const SupplierMasterList = () => {
     };
 
     fetchData();
-  }, []);
+  }, [ supplierMasterData?.message]);
 
   const handleEdit = (vendor) => {
     setVendorData({
@@ -114,6 +109,7 @@ const SupplierMasterList = () => {
       creditAmount: vendor.creditAmount,
       deleted: true,
       enabled: false,
+
     };
     dispatch(onUpdateSupplierList(deletedData));
   };
@@ -136,7 +132,7 @@ const SupplierMasterList = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="card">
-              {apiError && <NoRecord />}
+              {/* {apiError && <NoRecord />} */}
 
               {isLoading ? (
                 <div style={{ height: "400px" }}>
@@ -144,11 +140,14 @@ const SupplierMasterList = () => {
                 </div>
               ) : (
                 <>
+
                   <div className="container-fluid pt-1">
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
                         <h4 className="card-title">{supplierList}</h4>
                       </div>
+                      {supplierMasterData?.data.length > 0 ? (
+
                       <div className="customer-search mb-sm-0 mb-3">
                         <div className="input-group search-area">
                           <InputField
@@ -165,6 +164,11 @@ const SupplierMasterList = () => {
                           </span>
                         </div>
                       </div>
+                       ):(<div style={{ height: "0px" }}>
+                       <Loader classType={"absoluteLoader"} />
+                     </div>)
+       
+       }
 
                       <div className="d-flex align-items-center flex-wrap">
                         {supplierMasterData &&
@@ -186,8 +190,9 @@ const SupplierMasterList = () => {
                       </div>
                     </div>
                   </div>
+               
                   <>
-                    {filteredVendorList?.length > 0 ? (
+                    {filteredVendorList.length > 0 ? (
                       <div className="card-body position-relative">
                         <div className="table-responsive">
                           <>
@@ -203,7 +208,7 @@ const SupplierMasterList = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {filteredVendorList.length >= 0 ? (
+                                {filteredVendorList.length > 0 ? (
                                   Array.isArray(filteredVendorList) &&
                                   filteredVendorList.map((vendor, index) => (
                                     <tr key={index}>
@@ -216,9 +221,9 @@ const SupplierMasterList = () => {
                                       </td>
                                       <td>{vendor.balanceThresholdAmount}</td>
                                       <td>
-                                        <span className="badge badge-success">
-                                          {active}
-                                        </span>
+                                      <span className={`badge ${vendor.enabled ? 'badge-success': 'badge-danger'}`}>
+                                        {vendor.enabled ? 'Active' : 'Non-Active'}
+                                      </span>
                                       </td>
                                       <td>
                                         <div className="d-flex">
@@ -244,24 +249,9 @@ const SupplierMasterList = () => {
                                   <NoRecord />
                                 )}
                               </tbody>
-                            </table>
+                            </table>  
                           </>
-                          <div className="pagination-container">
-                            <ReactPaginate
-                              previousLabel={"<"}
-                              nextLabel={" >"}
-                              breakLabel={"..."}
-                              pageCount={Math.ceil(
-                                filteredVendorList.length / rowsPerPage
-                              )}
-                              marginPagesDisplayed={2}
-                              onPageChange={handlePageChange}
-                              containerClassName={"pagination"}
-                              activeClassName={"active"}
-                              initialPage={page - 1} // Use initialPage instead of forcePage
-                              previousClassName={page === 0 ? "disabled" : ""}
-                            />
-                          </div>
+                          
                         </div>
                       </div>
                     ) : (
@@ -270,7 +260,6 @@ const SupplierMasterList = () => {
                       </div>
                     )}
                   </>
-                  {apiError && <NoRecord />}
                 </>
               )}
             </div>
@@ -279,6 +268,6 @@ const SupplierMasterList = () => {
       </div>
     </>
   );
-};  
+};
 
 export default SupplierMasterList;
