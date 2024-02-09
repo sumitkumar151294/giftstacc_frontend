@@ -12,14 +12,14 @@ function* Login({ payload }) {
     if (loginResponse) {
       yield put(
         onLoginSubmitSuccess({
-          status_code:loginResponse.httpStatusCode,
-          message:loginResponse.message
+          status_code:loginResponse?.httpStatusCode,
+          message:loginResponse?.message
         })
       );
     } else {
       yield put(
         onLoginSubmitError({
-          message: loginResponse.message,
+          message: loginResponse?.message,
         })
       );
     }

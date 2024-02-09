@@ -111,7 +111,7 @@ const LoginPage = () => {
     }
   };
   useEffect(() => {
-    if (loginDetails?.status_code === "200" && isSubmit) {
+    if (loginDetails?.status_code === "201" && isSubmit) {
       setShowLoader(false);
       navigate("/lc-admin/dashboard");
       sessionStorage.setItem("login", true);
@@ -121,6 +121,12 @@ const LoginPage = () => {
       toast.error(loginDetails?.message);
     }
   }, [loginDetails]);
+
+  useEffect(()=>{
+if(sessionStorage.getItem('login')){
+  navigate("/lc-admin/dashboard");
+}
+  },[])
 
   return (
     <>

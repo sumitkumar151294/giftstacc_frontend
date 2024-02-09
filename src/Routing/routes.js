@@ -19,7 +19,7 @@ function RouteConfiq() {
   return (
     <Router>
       <Routes>
-        <Route path="/lc-admin/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route
           path="/lc-admin/dashboard"
@@ -67,7 +67,7 @@ function RouteConfiq() {
         />
          <Route
           path="*"
-          element={<PageError />}
+          element={<PageError pageError={{StatusCode:"404", ErrorName:"Route not found", ErrorDesription:"The page you were looking for is not found!", url:"/", buttonText:"Back to home" }}/>}
         />
       </Routes>
     </Router>

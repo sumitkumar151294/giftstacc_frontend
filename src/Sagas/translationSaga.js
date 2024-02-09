@@ -12,8 +12,7 @@ function* Translation() {
     if (translationResponse.httpStatusCode === "200") {
       yield put(
         onTranslationSubmitSuccess({
-          data: translationResponse.response,
-          message: translationResponse.response,
+          data: translationResponse.response
         })
       );
     } else {

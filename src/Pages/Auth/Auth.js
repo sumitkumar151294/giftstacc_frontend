@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { onLoginAuthReset, onLoginAuthSubmit } from "../../Store/Slices/loginAuthSlice";
-import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
+import { onTranslationReset, onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RouteConfiq from "../../Routing/routes";
 import Loader from "../../Components/Loader/Loader";
@@ -26,6 +26,7 @@ const Auth = () => {
     if (matchingConfig) {
       const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } =
         matchingConfig;
+      dispatch(onTranslationReset())
       dispatch(
         onLoginAuthSubmit({
           partnerCode: PARTNER_KEY,
@@ -55,14 +56,16 @@ const Auth = () => {
 
 
   useEffect(() => {
-    if (translationData.status_code === 200) {
+    if (translationData.status_code === 200 && !translationData?.isLoading) {
       setShowLoader(false);
       setShowError(false);
-    }else if(translationData?.status_code){
+      dispatch(onTranslationReset())
+    }else if(translationData?.status_code!==200 && translationData?.status_code){
       setShowError(true);
       setShowLoader(false);
       setPageError({StatusCode:"500", ErrorName:"Internal Server Error", ErrorDesription:"You do not have permission to view this resource", url:"/", buttonText:"Back to Home" });
     }
+    
   }, [translationData]);
 
   return (
