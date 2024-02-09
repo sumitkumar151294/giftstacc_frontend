@@ -64,6 +64,13 @@ const SupplierProductList = () => {
     { label: "status", key: "status" },
     { label: "action", key: "action" },
   ];
+  const data1 = [
+    { id: 1, brands: "Havels", supplier_Margin:1, status:true },
+    { id: 2, brands: "ZARA", supplier_Margin:1, status:true },
+    { id: 3, brands: "Havels", supplier_Margin:1, status:true },
+    { id: 4, brands: "Havels", supplier_Margin:1, status:true },
+  ];
+
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
   useEffect(() => {
@@ -134,9 +141,9 @@ const SupplierProductList = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-xl-12 col-xxl-12">
-              <div className="card d-flex justify-content-between">
-                <div className="container-fluid mt-2 mb-2">
-                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+              <div className="card d-flex justify-content-between ">
+                <div className="container-fluid mt-2 mb-2 ">
+                  <div className="d-flex justify-content-between align-items-center mb-4 mt-7-supplier flex-wrap">
                     <div className="card-header">
                       <h4 className="card-title">{supplier_products}</h4>
                     </div>
@@ -175,8 +182,8 @@ const SupplierProductList = () => {
 
                 <div className="card-body">
                   <form>
-                    <div className="row px-1">
-                      <div className="col-sm-3 form-group  mb-2">
+                    <div className="row flex-column px-1">
+                      <div className="col-sm-3 form-group mb-2">
                         <label htmlFor="name-f">{selectSuppliers}</label>
 
                         <Dropdown
@@ -187,7 +194,7 @@ const SupplierProductList = () => {
                         />
                       </div>
 
-                      <div className="col-lg-9 d-flex justify-content-end m-auto mb-2">
+                      <div className="col-lg-9 d-flex justify-content-end m-auto mb-2 w-100-sm">
                         {userData.map((data, index) => (
                           <span className="mrr" key={index}>
                             <Button
@@ -209,8 +216,8 @@ const SupplierProductList = () => {
                         <div className="card-header">
                           <h4 className="card-title">{supplierBrandLists}</h4>
                         </div>
-                        {Array.isArray(filteredSupplierList) &&
-                        filteredSupplierList.length > 0 ? (
+                        {/* {Array.isArray(filteredSupplierList) &&
+                        filteredSupplierList.length > 0 ? ( */}
                           <div className="card-body">
                             <div className="table-responsive">
                               <table className="table header-border table-responsive-sm">
@@ -224,7 +231,7 @@ const SupplierProductList = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {filteredSupplierList
+                                  {data1
                                     .slice(startIndex, endIndex)
                                     .map((data, index) => (
                                       <tr key={index}>
@@ -263,7 +270,7 @@ const SupplierProductList = () => {
                                           >
                                             {data.status === true
                                               ? "Active"
-                                              : "Inactive"}
+                                              : "Non-Active"}
                                           </span>
                                         </td>
                                         <td>
@@ -291,7 +298,7 @@ const SupplierProductList = () => {
                                   nextLabel={" >"}
                                   breakLabel={"..."}
                                   pageCount={Math.ceil(
-                                    filteredSupplierList.length / rowsPerPage
+                                    data1.length / rowsPerPage
                                   )}
                                   marginPagesDisplayed={2}
                                   onPageChange={handlePageChange}
@@ -305,9 +312,9 @@ const SupplierProductList = () => {
                               </div>
                             </div>
                           </div>
-                        ) : (
-                          <NoRecord />
-                        )}
+                        {/*  ) : (
+                           <NoRecord />
+                         )} */}
                       </div>
                     </div>
                   </div>

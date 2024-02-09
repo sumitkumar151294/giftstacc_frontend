@@ -52,19 +52,17 @@ export const userRoleModuleAccessSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        data: {},
         error: {},
         message: "",
       };
     },
 
     onPostUserRoleModuleAccessSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const {  message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data,
         message,
         status_code,
         error: {},
@@ -72,14 +70,24 @@ export const userRoleModuleAccessSlice = createSlice({
     },
 
     onPostUserRoleModuleAccessError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const {  message = "", status_code = 400 } = payload;
       return {
         ...state,
-        data,
         message,
         status_code,
         isLoading: false,
         isError: true,
+        error: {},
+      };
+    },
+
+    onPostUserRoleModuleAccessReset: (state) => {
+      return {
+        ...state,
+        message:"",
+        status_code:null,
+        isLoading: false,
+        isError: false,
         error: {},
       };
     },
@@ -128,6 +136,7 @@ export const {
   onGetUserRoleModuleAccessSuccess, 
   onGetUserRoleModuleAccessError, 
   onPostUserRoleModuleAccess, 
+  onPostUserRoleModuleAccessReset,
   onPostUserRoleModuleAccessSuccess, 
   onPostUserRoleModuleAccessError, 
   onUpdateUserRoleModuleAccess, 

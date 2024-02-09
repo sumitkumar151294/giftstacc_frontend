@@ -29,6 +29,14 @@ const API = {
   postSupplierMasterApi: "/supplier-master",
   updateSupplierMasterApi: "/supplier-master",
 
+
+  //supplierResource
+  postSupplierResource:"/supplier-api-resource",
+  getSupplierResource:"/supplier-api-resource",
+  updateSupplierResource:"/supplier-api-resource",
+
+  
+
   //supplier-brand-list
   supplierBrandListApi: "/supplier-brand-list/all",
 

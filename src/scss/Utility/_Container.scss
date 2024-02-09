@@ -15,6 +15,11 @@ $h100: var(--h100);
     padding-top: 9.3rem !important;
   }
 }
+@media only screen and (min-width: 1400px)  {
+  .mt-client-list{
+    padding-top: 1.3rem !important;
+  }
+}
 
 .content-body .container-fluid{
   padding-top: 1.3rem;

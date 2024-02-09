@@ -12,7 +12,11 @@ import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import InputField from "../../Components/InputField/InputField";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import Button from "../../Components/Button/Button";
-
+import {
+  onGetSupplierResource,
+  onSupplierResourceSubmit,
+} from "../../Store/Slices/supplierResourceSlice";
+  
 const SupplierMasterForm = ({ data }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
@@ -49,19 +53,22 @@ const SupplierMasterForm = ({ data }) => {
   const [errors, setErrors] = useState({});
   const supplyPostData = useSelector((state) => state.supplierMasterReducer);
   const [additionalFields, setAdditionalFields] = useState([
-    { fieldName: "", fieldValue: "" },
+    { fieldName: "", fieldValue: "", fieldDescription: "a", supplierId: 26 },
   ]);
   const [additionalFieldsError, setAdditionalFieldsError] = useState([
-    { fieldName: "", fieldValue: "" },
+    { fieldName: "", fieldValue: "", fieldDescription: "a", supplierId: 26 },
   ]);
   const statusoptions = [
     { value: "Active", label: "Active" },
     { value: "Non-Active", label: "Non-Active" },
   ];
   useEffect(() => {
+    dispatch(onGetSupplierResource());
     if (showToast) {
-          if (supplyPostData.message === "Created Successfully.") {
-              dispatch(onGetSupplierList());
+      if (supplyPostData.message === "Created Successfully.") {
+        dispatch(onSupplierResourceSubmit(additionalFields));
+
+        dispatch(onGetSupplierList());
         toast.success(supplyPostData.message);
       } else {
         // toast.error(supplyPostData.message);
@@ -86,6 +93,8 @@ const SupplierMasterForm = ({ data }) => {
       name: data?.name || "",
       balanceThresholdAmount: parseInt(data?.balanceThresholdAmount) || "",
       creditAmount: parseInt(data?.creditAmount) || "",
+      status: data?.enabled || "",
+
     });
 
     // You may also want to reset errors here if needed
@@ -93,6 +102,7 @@ const SupplierMasterForm = ({ data }) => {
       name: "",
       balanceThresholdAmount: "",
       creditAmount: "",
+      status:""
     });
   }, [data]);
 
@@ -176,8 +186,8 @@ const SupplierMasterForm = ({ data }) => {
     setErrors(newErrors);
     setAdditionalFieldsError(newAdditionalFieldsError);
     if (isValid) {
-          if (!data.name) {
-              try {
+      if (!data.name) {
+        try {
           setShowToast(true);
           dispatch(onVendorSubmit(vendorData));
         } catch (error) {
@@ -262,8 +272,9 @@ const SupplierMasterForm = ({ data }) => {
                             onChange={(e) => handleChange(e, "status")}
                             error={errors.status}
                             value={vendorData.status || ""}
-                            className="form-select"
-                            options={statusoptions}
+                            className={` ${
+                              errors.status ? "border-danger" : "form-control"
+                            }`}                            options={statusoptions}
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">

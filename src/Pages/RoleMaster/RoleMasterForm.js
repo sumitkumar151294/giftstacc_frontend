@@ -1,20 +1,20 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onGetUserRole,
   onPostUserRole,
-  onUpdateUserRole,
+  onPostUserRoleReset
 } from "../../Store/Slices/userRoleSlice";
 import InputField from "../../Components/InputField/InputField";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast} from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import Button from "../../Components/Button/Button";
-import { callUserRoleModuleAccessPostApi } from "../../Context/userRoleModuleAccessApi";
+import { onPostUserRoleModuleAccess, onPostUserRoleModuleAccessReset } from "../../Store/Slices/userRoleModuleAccessSlice";
 
 // Component for RoleMasterForm
-const RoleMasterForm = ({ data, setIsLoading, setData }) => {
+const RoleMasterForm = ({ data}) => {
   // Translation labels
   const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
   const roleName = GetTranslationData("UIAdmin", "role-name");
@@ -26,19 +26,18 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
   const admin = GetTranslationData("UIAdmin", "admin_Label");
   const client = GetTranslationData("UIAdmin", "client");
   const isClientRole = GetTranslationData("UIAdmin", "is_Client_role");
-  const roleCreated = GetTranslationData("UIAdmin", "role_Create_Label");
-  const roleUpdated = GetTranslationData("UIAdmin", "role_Updated_Label");
   const view = GetTranslationData("UIAdmin", "view");
   const add = GetTranslationData("UIAdmin", "add");
   const edit = GetTranslationData("UIAdmin", "edit");
   const description_Label = GetTranslationData("UIAdmin", "description");
   const mandatory_Req_Label = GetTranslationData("UIAdmin", "role_Req_Label");
   const dispatch = useDispatch();
-  const [isformLoading, setIsFormLoading] = useState(true);
+  const [isformLoading, setIsFormLoading] = useState(false);
   const [checkBoxError, setCheckBoxError] = useState(false);
   const getModuleData = useSelector((state) => state.moduleReducer.data);
+  const getModuleAccessData = useSelector((state) => state.userRoleModuleAccessReducer);
   const getRoleDataId = useSelector(
-    (state) => state.userRoleReducer.userRoleData
+    (state) => state.userRoleReducer
   );
 
   //To get the data from redux store
@@ -90,7 +89,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
           isClientPlatformModule: data?.isClientPlatformRole,
         });
       }
-      setIsFormLoading(true);
     }
   }, [getModuleData, data]);
 
@@ -145,16 +143,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       });
       setFormData({ ...formData, modules });
     }
-
-    // else if (type === "checkbox" && name !== "IsClientRole") {
-    //   const updatedModules = formData.modules?.map((module) =>
-    //     module.name === name ? { ...module, checked } : module
-    //   );
-    //   setFormData({
-    //     ...formData,
-    //     modules: updatedModules,
-    //   });
-    // }
     else {
       setFormData({
         ...formData,
@@ -162,18 +150,6 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
       });
     }
   };
-  // Reset form fields
-  // const resetFiled = {
-  //   code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
-  //   name: "",
-  //   modules: formData.modules,
-  //   isClientPlatformModule: false,
-  // };
-  // Handle form submission
-
-  // const abc = useCallback((accessPostData)=>{
-  //   dispatch(callUserRoleModuleAccessPostApi(accessPostData))
-  // }, [formData])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -182,81 +158,61 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
 
     if (formData.name.trim() === "") {
       newErrors.name = mandatory_Req_Label;
-
       setErrors(newErrors);
       return;
-    } else if (formData.description.trim() === "") {
-      newErrors.description = "";
     } else {
       newErrors.name = "";
     }
 
-    const selectedModuleIds = formData.modules
-      ?.filter((module) => module.checked)
-      .map((module) => module.id);
-
-    // if (selectedModuleIds?.length === 0) {
-    //   setCheckBoxError(true);
-    //   return;
-    // } else {
-    //   setCheckBoxError(false);
-    // }
     const postData = {
       createdBy: 0,
-      deleted: true,
-      description: formData.description,
-      enabled: true,
+      deleted: false,
+      description: formData?.description,
+      enabled: formData?.isClientPlatformModule,
       isClientPlatformRole: true,
       name: formData.name,
       updatedBy: 0,
     };
-
-    const accessPostData = formData.modules?.map((md) => {
-      return {
-        roleId: getRoleDataId[getRoleDataId.length - 1]?.id,
-        moduleId: md.id,
-        viewAccess: md.checked,
-        addAccess: md.addAccess,
-        editAccess: md.editAccess,
-      };
-    });
     try {
       //To Submit the data
       if (!data) {
-        await dispatch(onPostUserRole(JSON.stringify(postData)));
-        //  dispatch(onGetUserRole());
-        // abc(accessPostData);
-        // setTimeout(()=>{
-        await dispatch(callUserRoleModuleAccessPostApi(accessPostData));
-        // },1000)
-        // setFormData(resetFiled);
-        toast.success(roleCreated);
+          setIsFormLoading(true);
+          dispatch(onPostUserRole(JSON.stringify(postData)));
       }
-
-      // To update the data
-      if (data) {
-        const updateData = {
-          id: formData.id,
-          code: formData.code,
-          name: formData.name,
-          description: "",
-          isClientPlatformRole: formData.isClientPlatformModule,
-          moduleIds: selectedModuleIds,
-        };
-
-        await dispatch(onUpdateUserRole(updateData));
-        // setFormData(resetFiled);
-        toast.success(roleUpdated);
-        setData();
-      }
-      setTimeout(() => {
-        dispatch(onGetUserRole());
-      }, 3000);
-      setIsLoading(true);
     } catch (error) {
       console.error("Error submitting data:", error);
     }
   };
+
+  useEffect(()=>{
+if(getRoleDataId?.postRoleData?.length>0 && !getRoleDataId?.postLoading){
+  const accessPostData = formData?.modules?.map((md) => {
+    return {
+      roleId: getRoleDataId?.postRoleData?.[0]?.roleId,
+      moduleId: md.id,
+      viewAccess: md.checked,
+      addAccess: md.addAccess,
+      editAccess: md.editAccess,
+    };
+  });
+  dispatch(onPostUserRoleReset());
+  dispatch(onPostUserRoleModuleAccess(accessPostData))
+}
+},[getRoleDataId])
+
+useEffect(()=>{
+  console.log(getModuleAccessData)
+  if(getModuleAccessData?.status_code==='201' && !getModuleAccessData?.isLoading){
+    setIsFormLoading(false)
+    dispatch(onGetUserRole());
+    toast.success(getModuleAccessData?.message);
+    dispatch(onPostUserRoleModuleAccessReset());
+  }
+},[getModuleAccessData])
+
+  useEffect(()=>{
+    dispatch(onPostUserRoleReset())
+  },[])
 
   // Render the RoleMasterForm component
   return (
@@ -270,7 +226,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                 <h4 className="card-title">{roleMasterLabel}</h4>
               </div>
               <div className="card-body">
-                {!isformLoading ? (
+                {isformLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -353,29 +309,7 @@ const RoleMasterForm = ({ data, setIsLoading, setData }) => {
                               id="flexCheckDefault2"
                               checked={isSelectAllChecked}
                               onChange={handleInputChange}
-                              // onChange={()=>{
-                              //   if ( formData?.modules?.length > 0 &&
-                              //     formData?.modules.every(
-                              //       (module) => module.checked
-                              //     ))
-                              //     {
-
-                              //       let modules = formData.modules.map((md)=>{
-                              //         return {...md,checked: false}
-                              //       })
-                              //       setFormData({...formData, modules})
-                              //     }
-                              //     else {
-
-                              //       let modules = formData.modules.map((md)=>{
-                              //         return {...md,checked: true}
-                              //       })
-
-                              //       setFormData({...formData, modules})
-                              //     }
-                              // }}
                             />
-
                             <label
                               className="form-check-label fnt-17"
                               htmlFor="flexCheckDefault2"

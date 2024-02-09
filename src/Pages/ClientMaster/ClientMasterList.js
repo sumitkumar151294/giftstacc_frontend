@@ -44,7 +44,6 @@ const ClientMasterList = () => {
 
   const handleEdit = (data) => {
     const prefilled = {...data};
-    prefilled.enabled = prefilled.enabled ? 'Active' : 'Non-Active'
     setData(prefilled);
   };
   const handleDelete = (data) => {
