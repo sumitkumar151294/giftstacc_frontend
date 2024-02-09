@@ -11,7 +11,7 @@ export const clientMasterSlice = createSlice({
   },
   reducers: {
     onClientMasterSubmit: (state) => {
-      return {
+      return {    
         ...state,
         isLoading: true,
         clientData: {},
@@ -57,7 +57,7 @@ export const clientMasterSlice = createSlice({
     onPostClientMasterSubmit: (state) => {
       return {
         ...state,
-        isLoading: true,
+        postClientLoading: true,
         postClientData: {},
         postMessage: "",
         error: {},
@@ -68,7 +68,7 @@ export const clientMasterSlice = createSlice({
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        postClientLoading: false,
         isError: false,
         postClientData:data,
         error: {},
@@ -80,7 +80,7 @@ export const clientMasterSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        isLoading: false,
+        postClientLoading: false,
         isError: true,
         postClientData: data,
         postMessage:message,
@@ -90,7 +90,7 @@ export const clientMasterSlice = createSlice({
     onPostClientMasterReset: (state) => {
       return {
         ...state,
-        isLoading: false,
+        postClientLoading: false,
         postClientData: {},
         postMessage: "",
         error: {},
@@ -101,7 +101,7 @@ export const clientMasterSlice = createSlice({
     onUpdateClientMasterSubmit: (state) => {
       return {
         ...state,
-        isLoading: true,
+        updateClientLoading: true,
         updateClientData: {},
         postMessage: "",
         error: {},
@@ -112,7 +112,7 @@ export const clientMasterSlice = createSlice({
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        updateClientLoading: false,
         isError: false,
         updateClientData:data,
         error: {},
@@ -124,7 +124,7 @@ export const clientMasterSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        isLoading: false,
+        updateClientLoading: false,
         isError: true,
         updateClientData: data,
         postMessage:message,
@@ -134,7 +134,7 @@ export const clientMasterSlice = createSlice({
     onUpdateClientMasterReset: (state) => {
       return {
         ...state,
-        isLoading: false,
+        updateClientLoading: false,
         updateClientData: {},
         postMessage: "",
         error: {},

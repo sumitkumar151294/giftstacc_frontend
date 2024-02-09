@@ -45,8 +45,9 @@ function* postClientMaster({ payload }) {
     if (postClientMasterResponse.httpStatusCode === "201") {
       yield put(
         onPostClientMasterSubmitSuccess({
-          data: postClientMasterResponse.response,
+          postData: postClientMasterResponse.response,
           message: postClientMasterResponse.errorMessage,
+          httpStatusCode: postClientMasterResponse.httpStatusCode,
         })
       );
     } else {
@@ -67,7 +68,7 @@ function* postClientMaster({ payload }) {
 function* updateClientMaster({ payload }) {
   try {
     const updateClientMasterResponse = yield call(  updateClientMasterApi, payload);
-    if (updateClientMasterResponse.httpStatusCode == "201") {
+        if (updateClientMasterResponse.httpStatusCode == "201") {
       yield put(
         onUpdateClientMasterSubmitSuccess({
           data: updateClientMaster.Response,

@@ -18,7 +18,7 @@ const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [showLoader, setShowLoader] = useState(false);
-  const clientList = useSelector((state) => state.clientMasterReducer.data);
+  const clientList = useSelector((state) => state.clientMasterReducer.clientData);
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);

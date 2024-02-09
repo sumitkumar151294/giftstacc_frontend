@@ -19,7 +19,7 @@ const ClientMaster = (props) => {
   const [showUpdate, setShowUpdate] = useState(false);
 
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
-  const clientId = clientMasterDetails?.postClientData[0]?.id;
+  const clientId = clientMasterDetails?.postClientData?.id;
   console.log(clientMasterDetails,"clientMasterDetails",clientId);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
@@ -242,7 +242,7 @@ const ClientMaster = (props) => {
     if (isValid) {
       if (!props.data) {
         try {
-          setShowLoader(true);
+          // setShowLoader(true);
           // Wait for the dispatch to complete
           dispatch(onPostClientMasterSubmit(clientData));
         } catch (error) {
@@ -250,29 +250,26 @@ const ClientMaster = (props) => {
         }
       } else if (props.data) {
         try {
-          setShowLoader(true);
+          // setShowLoader(true);
           // Wait for the dispatch to complete
           dispatch(onUpdateClientMasterSubmit(clientData));
         } catch (error) {
-          // Handle any errors during dispatch
+          // Handle any errors during disp  atch
         }
       }
     }
   };
-  console.log(clientId,"clientId");
+  console.log(clientId,"clientId",clientMasterDetails);
   useEffect(() => {
-    if (clientMasterDetails.status_code === 200 && clientId) {
-      setShowLoader(false);
-      dispatch(onPostClientPaymentSubmit({
+      if(clientMasterDetails?.postClientData?.length>0 && clientMasterDetails?.postClientLoading){
+      // setShowLoader(false);
+      const paymentData = [{
         clientId: clientId,
-        resourceKey: "",
-        resourceValue: "",
-        mode: ""
-      }));
-    } else {
-      setTimeout(() => {
-        setShowLoader(false);
-      }, 5000);
+        resourceKey: "test",
+        resourceValue: "test",
+        mode: "test"
+      }]
+      dispatch(onPostClientPaymentSubmit(paymentData));
     }
   }, [clientMasterDetails])
 
