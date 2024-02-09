@@ -256,7 +256,7 @@ svg {
 .navbar-expand {
   .header-profile {
     &:after {
-      top: 0.625rem;
+      // top: 0.625rem;
       content: "";
       height: 3.5rem;
       width: 0.0625rem;
@@ -649,7 +649,7 @@ svg {
 .hamburger {
   display: inline-block;
   position: relative;
-  top: 1rem;
+  // top: 1rem;
   transition: all 0.3s ease-in-out 0s;
   width: 1.625rem;
   z-index: 999;
