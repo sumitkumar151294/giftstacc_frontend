@@ -164,6 +164,14 @@ const RoleMasterForm = ({ data}) => {
       newErrors.name = "";
     }
 
+    //At least one Module should be selected
+    if (formData.modules.some((module) => module.checked)) {
+      setCheckBoxError(false);
+    } else {
+      setCheckBoxError(true);
+      return;
+    }
+
     const postData = {
       createdBy: 0,
       deleted: false,
