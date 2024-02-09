@@ -16,7 +16,6 @@ export const loginAuthSlice = createSlice({
         isLoading: true,
         isError: false,
         data: {},
-        error: {},
         message: "",
       };
     },
@@ -29,8 +28,7 @@ export const loginAuthSlice = createSlice({
         isError: false,
         data,
         message,
-        status_code,
-        error: {},
+        status_code
       };
     },
 
@@ -43,12 +41,20 @@ export const loginAuthSlice = createSlice({
         status_code,
         isLoading: false,
         isError: true,
-        error: {},
+      };
+    },
+    onLoginAuthReset: (state) => {
+      return {
+        ...state,
+        message:"",
+        status_code:null,
+        isLoading: false,
+        isError: false,
       };
     },
   },
 });
-export const { onLoginAuthSubmit, onLoginAuthError, onLoginAuthSuccess } =
+export const { onLoginAuthSubmit, onLoginAuthError, onLoginAuthSuccess, onLoginAuthReset } =
 loginAuthSlice.actions;
 
 export default loginAuthSlice.reducer;
