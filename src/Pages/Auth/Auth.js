@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { onLoginAuthSubmit } from "../../Store/Slices/loginAuthSlice";
+import { onLoginAuthReset, onLoginAuthSubmit } from "../../Store/Slices/loginAuthSlice";
 import { onTranslationSubmit } from "../../Store/Slices/translationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RouteConfiq from "../../Routing/routes";
 import Loader from "../../Components/Loader/Loader";
-import PageError500 from "../../Components/PageError500/PageError500";
+import PageError500 from "../../Components/PageError/PageError";
 import { config } from "../../Common/Client/ClientConfig";
 
 const Auth = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
-  const [showError, setShowError] = useState(true);
+  const [showError, setShowError] = useState(false);
+  const [pageError, setPageError] = useState({StatusCode:"", ErrorName:"", ErrorDesription:"", url:"", buttonText:"" });
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
   const translationData = useSelector((state) => state.translationReducer);
   const currentUrl = window.location.href;
@@ -32,48 +33,41 @@ const Auth = () => {
           secretKey: SECRET_KEY,
         })
       );
+    }else{
+      setShowLoader(false);
+      setShowError(true)
+      setPageError({StatusCode:"401", ErrorName:"Permission Denied", ErrorDesription:"Your application url is not registerd to our application", url:"/", buttonText:"Back to Home" });
     }
   }, [currentUrl]);
 
   useEffect(() => {
     if (loginAuthData?.status_code === 200) {
-      setShowLoader(false);
-      setShowError(false);
       sessionStorage.setItem('clientCode', loginAuthData?.data?.[0]?.clientId)
       sessionStorage.setItem('token', loginAuthData?.data?.[0]?.token)
-     dispatch(onTranslationSubmit());
-    } else {
-      setTimeout(() => {
-        setShowLoader(false);
-        setShowError(true);
-      }, 5000);
+      dispatch(onTranslationSubmit());
+      dispatch(onLoginAuthReset());
+    }else if(loginAuthData?.status_code){
+      setShowError(true);
+      setShowLoader(false);
+      setPageError({StatusCode:loginAuthData?.status_code, ErrorName:"Internal Server Error", ErrorDesription:"You do not have permission to view this resource", url:"/", buttonText:"Back to Home" });
     }
   }, [loginAuthData]);
 
-  useEffect(() => {
-    if (loginAuthData?.status_code === 200 || loginAuthData?.message === "") {
-      setShowLoader(false);
-      setShowError(false);
-    } else {
-      setTimeout(() => {
-        setShowLoader(false);
-        setShowError(true);
-      }, 5000);
-    }
-  }, [showError]);
 
   useEffect(() => {
     if (translationData.status_code === 200) {
       setShowLoader(false);
       setShowError(false);
-    } else {
-      setShowLoader(true);
+    }else if(translationData?.status_code){
+      setShowError(true);
+      setShowLoader(false);
+      setPageError({StatusCode:"500", ErrorName:"Internal Server Error", ErrorDesription:"You do not have permission to view this resource", url:"/", buttonText:"Back to Home" });
     }
   }, [translationData]);
 
   return (
     <>
-     {showLoader ? <Loader /> : <>{showError ? <PageError500 /> : <RouteConfiq />}</>}
+     {showLoader ? <Loader /> : <>{showError ? <PageError500 pageError={pageError}  /> : <RouteConfiq />}</>}
     </>
   );
 };

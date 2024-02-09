@@ -21,12 +21,13 @@ function* LoginAuth({ payload }) {
         onLoginAuthError({
           data: loginAuthResponse.response,
           message: loginAuthResponse.errorMessage,
+          status_code:loginAuthResponse.httpStatusCode
         })
       );
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onLoginAuthError({ data: {}, message, httpStatusCode: 400 }));
+    yield put(onLoginAuthError({ data: {}, message, status_code: error?.response?.data?.httpStatusCode }));
   }
 }
 export default function* loginAuthSaga() {
