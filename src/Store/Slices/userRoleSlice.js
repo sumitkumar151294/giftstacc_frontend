@@ -50,7 +50,7 @@ export const userRoleSlice = createSlice({
     onPostUserRole: (state) => {
       return {
         ...state,
-        isLoading: true,
+        postLoading: true,
         isError: false,
         postRoleData: {},  
         error: {},
@@ -59,12 +59,12 @@ export const userRoleSlice = createSlice({
     },
 
     onPostUserRoleSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { postData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        postLoading: false,
         isError: false,
-        postRoleData: data,  
+        postRoleData: postData,  
         message,
         status_code,
         error: {},
@@ -72,14 +72,25 @@ export const userRoleSlice = createSlice({
     },
 
     onPostUserRoleError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { postData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        userRoleData: data, 
+        postRoleData: postData, 
         message,
         status_code,
-        isLoading: false,
+        postLoading: false,
         isError: true,
+        error: {},
+      };
+    },
+    onPostUserRoleReset: (state) => {
+      return {
+        ...state,
+        postRoleData: {}, 
+        message:"",
+        status_code:null,
+        postLoading: false,
+        isError: false,
         error: {},
       };
     },
@@ -133,6 +144,7 @@ export const {
   onUpdateUserRole,
   onUpdateUserRoleSuccess,
   onUpdateUserRoleError,
+  onPostUserRoleReset
 } = userRoleSlice.actions;
 
 export default userRoleSlice.reducer;

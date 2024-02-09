@@ -28,11 +28,11 @@ function* GetUserRoleModuleAccess() {
 function* PostUserRoleModuleAccess({ payload }) {
   try {
     const postUserRoleModuleAccessResponse = yield call(callUserRoleModuleAccessPostApi, payload);
-    if (postUserRoleModuleAccessResponse.httpStatusCode === 200) {
+    if (postUserRoleModuleAccessResponse.httpStatusCode === "201") {
       yield put(
         onPostUserRoleModuleAccessSuccess({
-          data: postUserRoleModuleAccessResponse.response,
-          // message: postUserRoleModuleAccessResponse.result.message,
+          status_code: postUserRoleModuleAccessResponse.httpStatusCode,
+          message: postUserRoleModuleAccessResponse.errorMessage,
         })
       );
     } else {
