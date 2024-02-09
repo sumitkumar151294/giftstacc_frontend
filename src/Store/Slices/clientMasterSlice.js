@@ -5,7 +5,7 @@ export const clientMasterSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    data: {},
+    clientData: {},
     error: {},
     message: "",
   },
@@ -14,7 +14,7 @@ export const clientMasterSlice = createSlice({
       return {
         ...state,
         isLoading: true,
-        data: {},
+        clientData: {},
         message: "",
         error: {},
         isError: false,
@@ -26,7 +26,7 @@ export const clientMasterSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        data,
+        clientData:data,
         error: {},
         message,
         status_code,
@@ -38,7 +38,7 @@ export const clientMasterSlice = createSlice({
         ...state,
         isLoading: false,
         isError: true,
-        data: data,
+        clientData: data,
         message,
         status_code,
       };
@@ -47,7 +47,7 @@ export const clientMasterSlice = createSlice({
       return {
         ...state,
         isLoading: false,
-        data: {},
+        clientData: {},
         message: "",
         error: {},
         status_code: 400,
@@ -77,7 +77,7 @@ export const clientMasterSlice = createSlice({
       };
     },
     onPostClientMasterSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
         isLoading: false,
@@ -121,7 +121,7 @@ export const clientMasterSlice = createSlice({
       };
     },
     onUpdateClientMasterSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
         isLoading: false,

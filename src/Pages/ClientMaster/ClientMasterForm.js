@@ -17,7 +17,10 @@ const ClientMaster = (props) => {
   const [showLoder, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
+
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
+  const clientId = clientMasterDetails?.postClientData[0]?.id;
+  console.log(clientMasterDetails,"clientMasterDetails",clientId);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
   const email = GetTranslationData("UIAdmin", "contact_Email_label");
@@ -54,7 +57,7 @@ const ClientMaster = (props) => {
   console.log(platformDomainUrl);
 
   const statusoptions = [
-{ value: true, label: "Active" },
+    { value: true, label: "Active" },
     { value: false, label: "Non-active" },
   ];
   const options = [
@@ -100,9 +103,9 @@ const ClientMaster = (props) => {
     themes: "",
     platformDomainUrl: "",
   });
-useEffect(()=>{
-  dispatch(onClientMasterSubmit());
-},[])
+  useEffect(() => {
+    dispatch(onClientMasterSubmit());
+  }, [])
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setClientData({
@@ -256,22 +259,22 @@ useEffect(()=>{
       }
     }
   };
-  
-  useEffect(()=>{
-    if (clientMasterDetails.status_code === 200) {
-       setShowLoader(false);
+  console.log(clientId,"clientId");
+  useEffect(() => {
+    if (clientMasterDetails.status_code === 200 && clientId) {
+      setShowLoader(false);
       dispatch(onPostClientPaymentSubmit({
-       clientId: 0,
-       resourceKey: "",
-       resourceValue: "",
-       mode: ""
-     }));
-     } else {
-       setTimeout(() => {
-         setShowLoader(false);
-       }, 5000);
-     }
- },[clientMasterDetails]) 
+        clientId: clientId,
+        resourceKey: "",
+        resourceValue: "",
+        mode: ""
+      }));
+    } else {
+      setTimeout(() => {
+        setShowLoader(false);
+      }, 5000);
+    }
+  }, [clientMasterDetails])
 
 
 
@@ -301,9 +304,8 @@ useEffect(()=>{
                         </label>
                         <InputField
                           type="text"
-                          className={` ${
-                            errors.name ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.name ? "border-danger" : "form-control"
+                            }`}
                           name="contactName"
                           id="contact-name"
                           error={errors.name}
@@ -318,9 +320,8 @@ useEffect(()=>{
                         </label>
                         <InputField
                           type="number"
-                          className={` ${
-                            errors.number ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.number ? "border-danger" : "form-control"
+                            }`}
                           name="contactNumber"
                           id="contact-number"
                           value={clientData.number}
@@ -337,9 +338,8 @@ useEffect(()=>{
                         </label>
                         <InputField
                           type="email"
-                          className={` ${
-                            errors.email ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.email ? "border-danger" : "form-control"
+                            }`}
                           name="contactEmail"
                           id="contact-email"
                           value={clientData.email}
@@ -355,11 +355,10 @@ useEffect(()=>{
                         </label>
                         <InputField
                           type="platformDomainUrl"
-                          className={` ${
-                            errors.platformDomainUrl
+                          className={` ${errors.platformDomainUrl
                               ? "border-danger"
                               : "form-control"
-                          }`}
+                            }`}
                           name="contactplatformDomainUrl"
                           id="contact-platformDomainUrl"
                           value={clientData.platformDomainUrl}
@@ -410,9 +409,8 @@ useEffect(()=>{
                         </label>
                         <InputField
                           type="text"
-                          className={` ${
-                            errors.logoUrl ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.logoUrl ? "border-danger" : "form-control"
+                            }`}
                           name="logo"
                           id="logo"
                           error={errors.logoUrl}
@@ -445,11 +443,10 @@ useEffect(()=>{
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.dbIpAddress
+                            className={` ${errors.dbIpAddress
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="ipAddress"
                             id="ipAddress"
                             value={clientData.dbIpAddress}
@@ -465,11 +462,10 @@ useEffect(()=>{
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.dbLoginId
+                            className={` ${errors.dbLoginId
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="username"
                             id="user-name"
                             value={clientData.dbLoginId}
@@ -485,11 +481,10 @@ useEffect(()=>{
                           </h4>
                           <InputField
                             type="password"
-                            className={` ${
-                              errors.dbLoginPwd
+                            className={` ${errors.dbLoginPwd
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="password"
                             id="password"
                             value={clientData.dbLoginPwd}
@@ -516,11 +511,10 @@ useEffect(()=>{
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${
-                                      errors.resourceKey
+                                    className={` ${errors.resourceKey
                                         ? "border-danger"
                                         : "form-control"
-                                    }`}
+                                      }`}
                                     name="resourceKey"
                                     id="resourceKey"
                                     placeholder={key}
@@ -547,11 +541,10 @@ useEffect(()=>{
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${
-                                      errors.resourceValue
+                                    className={` ${errors.resourceValue
                                         ? "border-danger"
                                         : "form-control"
-                                    }`}
+                                      }`}
                                     name="resourceValue"
                                     id="production-key"
                                     placeholder={key}
@@ -578,11 +571,10 @@ useEffect(()=>{
                                 <div className="col-sm-12 form-group mb-2">
                                   <Dropdown
                                     type="text"
-                                    className={` ${
-                                      errors.mode
+                                    className={` ${errors.mode
                                         ? "border-danger"
                                         : "form-select"
-                                    }`}
+                                      }`}
                                     name="mode"
                                     id="mode"
                                     placeholder={key}
