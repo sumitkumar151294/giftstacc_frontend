@@ -194,7 +194,7 @@ const SupplierProductList = () => {
                         />
                       </div>
 
-                      <div className="col-lg-9 d-flex justify-content-end m-auto mb-2">
+                      <div className="col-lg-9 d-flex justify-content-end m-auto mb-2 w-100-sm">
                         {userData.map((data, index) => (
                           <span className="mrr" key={index}>
                             <Button
