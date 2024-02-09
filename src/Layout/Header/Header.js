@@ -38,7 +38,7 @@ const Header = ({ setSideBar, sidebar }) => {
             src={image}
           />
         </a>
-        <div className="nav-control">
+        <div className="nav-control d-flex">
           <div className={`hamburger ${hamburgerClass ? 'is-active' : ''}`} onClick={handleShowSideBar}>
             <span className="line"></span>
             <span className="line"></span>

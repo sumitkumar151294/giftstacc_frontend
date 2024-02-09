@@ -48,7 +48,7 @@ $background-color_1: var(--sidebar-bg);
 		box-shadow: 0rem 1.25rem 1.875rem 0rem rgba(0, 0, 0, 0.02);
 		padding-bottom: 0;
 		padding-top: 0;
-		z-index: 6;
+		z-index: 99999;
 		background-color: $background-color_1;
 
 		.deznav-scroll {
