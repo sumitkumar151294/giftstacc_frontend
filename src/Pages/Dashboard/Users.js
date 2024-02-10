@@ -149,7 +149,7 @@ const Users = () => {
       },
     ],
   };
-  const activeuser = GetTranslationData("UIAdmin", "activeuser");
+  const orders = GetTranslationData("UIAdmin", "orders");
   const months = GetTranslationData("UIAdmin", "months");
   const daily = GetTranslationData("UIAdmin", "daily");
   const today = GetTranslationData("UIAdmin", "today");
@@ -167,7 +167,7 @@ const Users = () => {
             <div className="card">
               <div className="card-header border-0  flex-wrap">
                 <div>
-                  <h4 className="fs-20 mb-1">{activeuser}</h4>
+                  <h4 className="fs-20 mb-1">{orders}</h4>
                   <span>
                     {GetTranslationData("UIAdmin", "graph_Data_Label")}
                   </span>
