@@ -13,17 +13,9 @@ import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 const SupplierMasterList = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState(false);
-
+  // const [apiError, setApiError] = useState(false);
   const [vendorData, setVendorData] = useState({
     name: "",
-    secret: "",
-    id: "",
-    username: "",
-    password: "",
-    endPoint: "",
-    code: "",
-    status: "",
     balanceThresholdAmount: "",
     creditAmount: "",
   });
@@ -39,7 +31,7 @@ const SupplierMasterList = () => {
   const balance_Available = GetTranslationData("UIAdmin", "balance_Available");
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
-  const active = GetTranslationData("UIAdmin", "active");
+  // const active = GetTranslationData("UIAdmin", "active");
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer
   );
@@ -52,7 +44,6 @@ const SupplierMasterList = () => {
   ];
 
   const [searchQuery, setSearchQuery] = useState("");
-
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -77,7 +68,7 @@ const SupplierMasterList = () => {
       } catch (error) {
         if (supplierMasterData.status_code === 400) {
           setTimeout(() => {
-            setApiError(true);
+            // setApiError(true);
             setIsLoading(false);
           }, 2000);
         }
@@ -85,20 +76,15 @@ const SupplierMasterList = () => {
     };
 
     fetchData();
-  }, [ supplierMasterData?.message]);
+  }, [supplierMasterData?.message]);
 
   const handleEdit = (vendor) => {
     setVendorData({
       name: vendor.name,
-      secret: vendor.secret,
-      id: vendor.id,
-      username: vendor.Username,
-      password: vendor.Password,
-      endPoint: vendor.endPoint,
-      code: vendor.code,
       status: vendor.status,
       balanceThresholdAmount: vendor.balanceThresholdAmount,
       creditAmount: vendor.creditAmount,
+      id: vendor?.id,
     });
   };
   const handleDelete = (vendor) => {
@@ -109,7 +95,6 @@ const SupplierMasterList = () => {
       creditAmount: vendor.creditAmount,
       deleted: true,
       enabled: false,
-
     };
     dispatch(onUpdateSupplierList(deletedData));
   };
@@ -140,35 +125,33 @@ const SupplierMasterList = () => {
                 </div>
               ) : (
                 <>
-
                   <div className="container-fluid pt-1">
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
                         <h4 className="card-title">{supplierList}</h4>
                       </div>
                       {supplierMasterData?.data.length > 0 ? (
-
-                      <div className="customer-search mb-sm-0 mb-3">
-                        <div className="input-group search-area">
-                          <InputField
-                            type="text"
-                            className="form-control only-high"
-                            placeholder={search_here_label}
-                            value={searchQuery}
-                            onChange={handleSearch}
-                          />
-                          <span className="input-group-text">
-                            <a href="#">
-                              <i className="flaticon-381-search-2"></i>
-                            </a>
-                          </span>
+                        <div className="customer-search mb-sm-0 mb-3">
+                          <div className="input-group search-area">
+                            <InputField
+                              type="text"
+                              className="form-control only-high"
+                              placeholder={search_here_label}
+                              value={searchQuery}
+                              onChange={handleSearch}
+                            />
+                            <span className="input-group-text">
+                              <a href="#">
+                                <i className="flaticon-381-search-2"></i>
+                              </a>
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                       ):(<div style={{ height: "0px" }}>
-                       <Loader classType={"absoluteLoader"} />
-                     </div>)
-       
-       }
+                      ) : (
+                        <div style={{ height: "0px" }}>
+                          <Loader classType={"absoluteLoader"} />
+                        </div>
+                      )}
 
                       <div className="d-flex align-items-center flex-wrap">
                         {supplierMasterData &&
@@ -190,7 +173,7 @@ const SupplierMasterList = () => {
                       </div>
                     </div>
                   </div>
-               
+
                   <>
                     {filteredVendorList.length > 0 ? (
                       <div className="card-body position-relative">
@@ -221,9 +204,17 @@ const SupplierMasterList = () => {
                                       </td>
                                       <td>{vendor.balanceThresholdAmount}</td>
                                       <td>
-                                      <span className={`badge ${vendor.enabled ? 'badge-success': 'badge-danger'}`}>
-                                        {vendor.enabled ? 'Active' : 'Non-Active'}
-                                      </span>
+                                        <span
+                                          className={`badge ${
+                                            vendor.enabled
+                                              ? "badge-success"
+                                              : "badge-danger"
+                                          }`}
+                                        >
+                                          {vendor.enabled
+                                            ? "Active"
+                                            : "Non-Active"}
+                                        </span>
                                       </td>
                                       <td>
                                         <div className="d-flex">
@@ -249,14 +240,13 @@ const SupplierMasterList = () => {
                                   <NoRecord />
                                 )}
                               </tbody>
-                            </table>  
+                            </table>
                           </>
-                          
                         </div>
                       </div>
                     ) : (
-                      <div style={{ height: "400px" }}>
-                        <Loader classType={"absoluteLoader"} />
+                      <div>
+                        <NoRecord />{" "}
                       </div>
                     )}
                   </>

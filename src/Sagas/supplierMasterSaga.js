@@ -22,7 +22,7 @@ function* supplierMaster({ payload }) {
       callSupplierMasterPostApi,
       payload
     );
-    if (supplierMasterResponse.httpStatusCode === "200") {
+    if (supplierMasterResponse.httpStatusCode === "201") {
       yield put(
         onVendorSubmitSuccess({
           data: supplierMasterResponse.response,
