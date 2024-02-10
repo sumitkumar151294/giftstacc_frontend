@@ -8,7 +8,6 @@ import {
 } from "../../Store/Slices/supplierMasterSlice";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { ToastContainer, toast } from "react-toastify";
-import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import InputField from "../../Components/InputField/InputField";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import Button from "../../Components/Button/Button";
@@ -19,7 +18,6 @@ import {
 } from "../../Store/Slices/supplierResourceSlice";
 
 const SupplierMasterForm = ({ data }) => {
-  debugger;
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
@@ -42,11 +40,11 @@ const SupplierMasterForm = ({ data }) => {
     "UIAdmin",
     "fieldValueNotEmpty"
   );
-  const addedSuccessfully = GetTranslationData("UIAdmin", "addedSuccessfully");
-  const updateSuccessfully = GetTranslationData(
-    "UIAdmin",
-    "updateSuccessfully"
-  );
+  // const addedSuccessfully = GetTranslationData("UIAdmin", "addedSuccessfully");
+  // const updateSuccessfully = GetTranslationData(
+  //   "UIAdmin",
+  //   "updateSuccessfully"
+  // );
 
   const [isformLoading, setIsFormLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -122,10 +120,6 @@ const SupplierMasterForm = ({ data }) => {
   useEffect(() => {
     // Scroll to the top of the page for visibility
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-
-    // Check if the incoming data prop has changed and update state accordingly
-    // This assumes data is a stable object, and its properties won't change identities without the data itself changing
-    // If data can change without changing identity, you'd need a deeper comparison
     if (
       data &&
       (data.name !== vendorData.name ||
@@ -138,13 +132,11 @@ const SupplierMasterForm = ({ data }) => {
         name: data.name || "",
         balanceThresholdAmount: parseInt(data.balanceThresholdAmount) || "",
         creditAmount: parseInt(data.creditAmount) || "",
-        // status: data.enabled || "",
       });
     }
   }, [data]);
 
   const handleChange = (e, fieldName) => {
-    // Validate non-negativity for minThresholdAmount and creditAmount
     if (
       (fieldName === "balanceThresholdAmount" ||
         fieldName === "creditAmount") &&

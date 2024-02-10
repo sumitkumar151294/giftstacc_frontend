@@ -13,8 +13,7 @@ import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 const SupplierMasterList = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState(false);
-
+  // const [apiError, setApiError] = useState(false);
   const [vendorData, setVendorData] = useState({
     name: "",
     balanceThresholdAmount: "",
@@ -32,7 +31,7 @@ const SupplierMasterList = () => {
   const balance_Available = GetTranslationData("UIAdmin", "balance_Available");
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
-  const active = GetTranslationData("UIAdmin", "active");
+  // const active = GetTranslationData("UIAdmin", "active");
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer
   );
@@ -69,7 +68,7 @@ const SupplierMasterList = () => {
       } catch (error) {
         if (supplierMasterData.status_code === 400) {
           setTimeout(() => {
-            setApiError(true);
+            // setApiError(true);
             setIsLoading(false);
           }, 2000);
         }
