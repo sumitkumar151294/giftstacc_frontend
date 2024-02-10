@@ -19,7 +19,7 @@ const ClientMaster = (props) => {
   const [showUpdate, setShowUpdate] = useState(false);
 
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
-  const clientId = clientMasterDetails?.postClientData?.id;
+  const clientId = clientMasterDetails?.postClientData?.[0]?.id;
   console.log(clientMasterDetails,"clientMasterDetails",clientId);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");

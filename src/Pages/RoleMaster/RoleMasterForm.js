@@ -98,11 +98,7 @@ const RoleMasterForm = ({ data}) => {
     if (name === "IsClientRole") {
       setFormData({
         ...formData,
-        isClientPlatformModule: checked,
-        modules: formData.modules.map((module) => ({
-          ...module,
-          checked: false, // Uncheck all other checkboxes when IsClientRole is checked
-        })),
+        isClientPlatformModule: checked
       });
     } else if (name === "selectAll") {
       const updatedModules = formData.modules?.map((module) => ({
@@ -209,12 +205,17 @@ if(getRoleDataId?.postRoleData?.length>0 && !getRoleDataId?.postLoading){
 },[getRoleDataId])
 
 useEffect(()=>{
-  console.log(getModuleAccessData)
   if(getModuleAccessData?.status_code==='201' && !getModuleAccessData?.isLoading){
     setIsFormLoading(false)
     dispatch(onGetUserRole());
     toast.success(getModuleAccessData?.message);
     dispatch(onPostUserRoleModuleAccessReset());
+    setFormData({
+      name: "",
+      description: "",
+      isClientPlatformModule: false,
+      module: [],
+    });
   }
 },[getModuleAccessData])
 
@@ -409,7 +410,7 @@ useEffect(()=>{
                           {/* Checkbox Error Message */}
                           {checkBoxError && (
                             <span
-                              className="form-check-label error-check"
+                              className="form-check-label error-check text-danger"
                               htmlFor="basic_checkbox_1"
                             >
                               {checkBox_Error}
