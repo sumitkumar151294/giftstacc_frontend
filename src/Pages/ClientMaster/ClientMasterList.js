@@ -14,12 +14,14 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
+import { onClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [showLoader, setShowLoader] = useState(false);
   const clientList = useSelector((state) => state.clientMasterReducer.clientData);
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
+  const clientPayData = useSelector((state) => state.clientPaymentReducer.clientPaymentData);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -40,12 +42,13 @@ const ClientMasterList = () => {
 
   useEffect(() => {
     dispatch(onClientMasterSubmit());
+    dispatch(onClientPaymentSubmit());
   }, []);
 
-  const handleEdit = (data) => {
-    const prefilled = {...data};
-    setData(prefilled);
-  };
+        const handleEdit = (data,clientPayData) => {
+          const prefilled = {...clientPayData, ...data};
+          setData(prefilled);
+        };
   const handleDelete = (data) => {
     const deletedData = {
       name: data?.name,
@@ -102,10 +105,9 @@ const ClientMasterList = () => {
 
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-
   return (
     <>
-      <ClientMasterForm clientList={clientList} data={data} />
+      <ClientMasterForm clientList={clientList} data={data} clientPayData={clientPayData}/>
       <ScrollToTop />
       <div className="container-fluid pt-0">
         <div className="row">
@@ -200,7 +202,7 @@ const ClientMasterList = () => {
                                         <Button
                                           className="btn btn-primary shadow btn-xs sharp me-1"
                                           icon={"fas fa-pencil-alt"}
-                                          onClick={() => handleEdit(data)}
+                                          onClick={() => handleEdit(data, clientPayData)}
                                         />
                                         <Button
                                           className="btn btn-danger shadow btn-xs sharp"

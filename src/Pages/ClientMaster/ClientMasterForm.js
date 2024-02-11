@@ -12,11 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../Components/Button/Button";
-import { onPostClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
+import { onPostClientPaymentSubmit, onUpdateClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMaster = (props) => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
-
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
   const getClientPaymentdata = useSelector((state) => state.clientPaymentReducer);
   const clientId = clientMasterDetails?.postClientData?.[0]?.id;
@@ -74,6 +73,7 @@ const ClientMaster = (props) => {
       clientId: clientId,
       resourceValue: "",
       mode: "",
+      id:""
     },
   ]);
   const [clientData, setClientData] = useState({
@@ -101,10 +101,10 @@ const ClientMaster = (props) => {
     themes: "",
     platformDomainUrl: "",
   });
-
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    setClientData({
+    const selectedData = props.clientPayData?.find(item => item.clientId === props.data?.id);
+     setClientData({
       name: props.data?.name || "",
       number: props.data?.number || "",
       id: props.data?.id,
@@ -118,6 +118,16 @@ const ClientMaster = (props) => {
       dbLoginId: props.data?.dbLoginId || "",
       platformDomainUrl: props?.data?.platformDomainUrl,
     });
+    setAdditionalFields([
+      {
+        resourceKey: selectedData?.resourceKey || "",
+        clientId: selectedData?.clientId || clientId,
+        resourceValue: selectedData?.resourceValue || "",
+        mode: selectedData?.mode || "",
+        id: selectedData?.id
+      }
+    ]
+      )
     setErrors({
       name: "",
       number: "",
@@ -129,6 +139,7 @@ const ClientMaster = (props) => {
       themes: "",
       platformDomainUrl: "",
     });
+
   }, [props.data]);
 
   const handleAddMoreData = (field, index, e) => {
@@ -248,6 +259,16 @@ const ClientMaster = (props) => {
         try {
           setShowLoader(true);
           dispatch(onUpdateClientMasterSubmit(clientData));
+
+          const paymentData = additionalFields.map((field) => ({
+            clientId: field.clientId,
+            resourceKey: field.resourceKey,
+            resourceValue: field.resourceValue,
+            mode: field.mode,
+            id:field?.id
+          }));
+          dispatch(onUpdateClientPaymentSubmit(paymentData));
+  
         } catch (error) {
         }
       }
@@ -263,8 +284,8 @@ const ClientMaster = (props) => {
         resourceValue: field.resourceValue,
         mode: field.mode,
       }));
-      dispatch(onPostClientMasterReset())
-      dispatch(onPostClientPaymentSubmit(paymentData));
+        // dispatch(onPostClientMasterReset())
+        dispatch(onPostClientPaymentSubmit(paymentData));
       toast.success(getClientPaymentdata?.postMessage);
       // Reset form fields
       setClientData({

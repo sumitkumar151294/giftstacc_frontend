@@ -14,7 +14,7 @@ export const postClientPaymentApi = async (payload) => {
   return data;
 };
 export const updateClientPaymentApi = async (payload) => {
-  const { data = {} } = await axiosInstance.post(
+  const { data = {} } = await axiosInstance.put(
     API.updateClientPayment,
     payload
   );
