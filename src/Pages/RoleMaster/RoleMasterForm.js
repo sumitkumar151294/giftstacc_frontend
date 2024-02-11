@@ -197,7 +197,6 @@ const RoleMasterForm = ({ data, setData}) => {
         dispatch(onUpdateUserRole(JSON.stringify(postData)));
     }
     } catch (error) {
-      console.error("Error submitting data:", error);
     }
   };
 

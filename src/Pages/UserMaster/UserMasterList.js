@@ -32,7 +32,6 @@ const UserMasterList = () => {
   const handleEdit = (data) => {
     const prefilled = data;
     setPrefilledValues(prefilled);
-    console.log("Prefilled Values:", prefilled);
   };
   
   const startIndex = (page - 1) * rowsPerPage;
