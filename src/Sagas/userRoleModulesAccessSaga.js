@@ -2,14 +2,14 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { callUserRoleModuleAccessGetApi, callUserRoleModuleAccessPostApi, callUserRoleModuleAccessUpdateApi } from "../Context/userRoleModuleAccessApi";
 import { onGetUserRoleModuleAccess, onGetUserRoleModuleAccessError, onGetUserRoleModuleAccessSuccess, onPostUserRoleModuleAccess, onPostUserRoleModuleAccessError, onPostUserRoleModuleAccessSuccess, onUpdateUserRoleModuleAccess, onUpdateUserRoleModuleAccessError, onUpdateUserRoleModuleAccessSuccess } from "../Store/Slices/userRoleModuleAccessSlice";
 
-function* GetUserRoleModuleAccess() {
+function* GetUserRoleModuleAccess(payload) {
   try {
     const getUserRoleModuleAccessResponse = yield call(callUserRoleModuleAccessGetApi);
-    if (getUserRoleModuleAccessResponse.httpStatusCode === 5) {
+    if (getUserRoleModuleAccessResponse.httpStatusCode === "200") {
       yield put(
         onGetUserRoleModuleAccessSuccess({
-          data: getUserRoleModuleAccessResponse.result,
-          message: getUserRoleModuleAccessResponse.result.message,
+          data: getUserRoleModuleAccessResponse.response,
+          message: getUserRoleModuleAccessResponse.errorMessage,
         })
       );
     } else {
@@ -51,11 +51,11 @@ function* PostUserRoleModuleAccess({ payload }) {
 function* UpdateUserRoleModuleAccess({ payload }) {
   try {
     const updateUserRoleModuleAccessResponse = yield call(callUserRoleModuleAccessUpdateApi, payload);
-    if (updateUserRoleModuleAccessResponse.status === 5) {
+    if (updateUserRoleModuleAccessResponse.httpStatusCode === "201") {
       yield put(
         onUpdateUserRoleModuleAccessSuccess({
-          data: updateUserRoleModuleAccessResponse.result,
-          message: updateUserRoleModuleAccessResponse.result.message,
+          status_code: updateUserRoleModuleAccessResponse.httpStatusCode,
+          message: updateUserRoleModuleAccessResponse.errorMessage,
         })
       );
     } else {

@@ -7,6 +7,7 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import RoleMasterForm from "./RoleMasterForm";
 import ReactPaginate from "react-paginate";
+import { onGetUserRoleModuleAccess } from "../../Store/Slices/userRoleModuleAccessSlice";
 const RoleMasterList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -17,22 +18,24 @@ const RoleMasterList = () => {
   const roleName = GetTranslationData("UIAdmin", "role-name");
   const modules = GetTranslationData("UIAdmin", "modules");
   const action = GetTranslationData("UIAdmin", "action");
-
-  const getRoleData = useSelector((state) => state.userRoleReducer.userRoleData);
-  const roleAccessListData = getRoleData;
-  const moduleList = useSelector((state) => state.moduleReducer?.data?.data);
+  const roleAccessListData = useSelector((state) => state.userRoleReducer.userRoleData);
+  const userRoleAccessListData = useSelector((state) => state.userRoleModuleAccessReducer.data);
+  const moduleList = useSelector((state) => state.moduleReducer?.data);
   useEffect(() => {
     // user-role get api call
     dispatch(onGetUserRole());
+    dispatch(onGetUserRoleModuleAccess());
     setIsLoading(true);
   }, []);
 
   const getModuleName = (id) => {
-    let moduleName = moduleList?.filter((item) => item.id === id);
-    if (moduleName?.length > 0) {
-      return moduleName[0].name;
-    } else {
-      return "";
+    if(Array.isArray(moduleList)){
+      let moduleName = moduleList?.filter((item) => item.id === id);
+      if (moduleName?.length > 0) {
+        return moduleName[0].name;
+      } else {
+        return "";
+      }  
     }
   };
   const [rowsPerPage] = useState(5);
@@ -58,8 +61,6 @@ const RoleMasterList = () => {
       <RoleMasterForm
         data={data}
         setData={setData}
-        getRoleData={getRoleData}
-        setIsLoading={setIsLoading}
       />
       <div className="container-fluid pt-0">
         <div className="row">
@@ -91,17 +92,22 @@ const RoleMasterList = () => {
                             .map((data, index) => (
                               <tr key={index}>
                                 <td>{data.name}</td>
-                                <td>
-                                  <div className="d-flex">
-                                    {data.moduleIds?.map((items, index) => (
+                                <td>  
+                                <div className="d-flex">
+                                {
+                                 Array.isArray(userRoleAccessListData) && userRoleAccessListData?.filter(item=> (item.roleId===data?.id && (item.viewAccess || item.addAccess || item.editAccess))).map(moduleData=>(
                                       <span
                                         className="badge badge-success mr-10"
                                         key={index}
                                       >
-                                        {getModuleName(items)}
+                                       {getModuleName(moduleData?.moduleId)}
                                       </span>
-                                    ))}
-                                  </div>
+                                 
+                                  ))
+                                }             
+
+                                 </div>                
+                                 
                                 </td>
                                 <td>
                                   <a

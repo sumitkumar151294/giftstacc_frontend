@@ -16,7 +16,6 @@ export const userRoleModuleAccessSlice = createSlice({
         isLoading: true,
         isError: false,
         data: {},
-        error: {},
         message: "",
       };
     },
@@ -30,7 +29,6 @@ export const userRoleModuleAccessSlice = createSlice({
         data,
         message,
         status_code,
-        error: {},
       };
     },
 
@@ -43,7 +41,6 @@ export const userRoleModuleAccessSlice = createSlice({
         status_code,
         isLoading: false,
         isError: true,
-        error: {},
       };
     },
 
@@ -52,7 +49,6 @@ export const userRoleModuleAccessSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        error: {},
         message: "",
       };
     },
@@ -65,7 +61,6 @@ export const userRoleModuleAccessSlice = createSlice({
         isError: false,
         message,
         status_code,
-        error: {},
       };
     },
 
@@ -77,7 +72,6 @@ export const userRoleModuleAccessSlice = createSlice({
         status_code,
         isLoading: false,
         isError: true,
-        error: {},
       };
     },
 
@@ -88,7 +82,6 @@ export const userRoleModuleAccessSlice = createSlice({
         status_code:null,
         isLoading: false,
         isError: false,
-        error: {},
       };
     },
 
@@ -98,7 +91,6 @@ export const userRoleModuleAccessSlice = createSlice({
         isLoading: true,
         isError: false,
         data: {},
-        error: {},
         message: "",
       };
     },
@@ -112,7 +104,6 @@ export const userRoleModuleAccessSlice = createSlice({
         data,
         message,
         status_code,
-        error: {},
       };
     },
 
@@ -125,7 +116,6 @@ export const userRoleModuleAccessSlice = createSlice({
         status_code,
         isLoading: false,
         isError: true,
-        error: {},
       };
     },
 

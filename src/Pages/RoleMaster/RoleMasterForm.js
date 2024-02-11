@@ -4,17 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   onGetUserRole,
   onPostUserRole,
-  onPostUserRoleReset
+  onPostUserRoleReset,
+  onUpdateUserRole,
+  onUpdateUserRoleReset
 } from "../../Store/Slices/userRoleSlice";
 import InputField from "../../Components/InputField/InputField";
 import { ToastContainer, toast} from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import Button from "../../Components/Button/Button";
-import { onPostUserRoleModuleAccess, onPostUserRoleModuleAccessReset } from "../../Store/Slices/userRoleModuleAccessSlice";
+import { onGetUserRoleModuleAccess, onPostUserRoleModuleAccess, onPostUserRoleModuleAccessReset, onUpdateUserRoleModuleAccess } from "../../Store/Slices/userRoleModuleAccessSlice";
 
 // Component for RoleMasterForm
-const RoleMasterForm = ({ data}) => {
+const RoleMasterForm = ({ data, setData}) => {
   // Translation labels
   const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
   const roleName = GetTranslationData("UIAdmin", "role-name");
@@ -62,6 +64,7 @@ const RoleMasterForm = ({ data}) => {
   useEffect(() => {
     if (Array.isArray(getModuleData)) {
       // Check if getModuleData is an array
+      
       const modulesData = getModuleData.map((module) => ({
         id: module.id,
         isClientPlatformModule: module.isClientPlatformModule,
@@ -75,18 +78,24 @@ const RoleMasterForm = ({ data}) => {
         modules: modulesData,
       });
       if (data) {
-        const updatedModulesData = modulesData.map((module) => ({
-          ...module,
-          checked: data.moduleIds.includes(module.id),
-        }));
-
+        const moduleAccessList = getModuleAccessData?.data?.filter(item=> (item.roleId===data?.id));
+        for(var i=0; i<moduleAccessList.length; i++ ){
+        for(var j=0; j<modulesData.length; j++){
+         if(modulesData[j].id===moduleAccessList[i].moduleId){
+          modulesData[j].addAccess=moduleAccessList[i].addAccess
+          modulesData[j].checked=moduleAccessList[i].viewAccess
+          modulesData[j].editAccess=moduleAccessList[i].editAccess
+         }
+        }
+       }
         setFormData({
           ...formData,
           id: data.id,
           name: data?.name,
           code: data?.code,
-          modules: updatedModulesData,
+          description: data?.description,
           isClientPlatformModule: data?.isClientPlatformRole,
+          modules: modulesData,
         });
       }
     }
@@ -172,8 +181,8 @@ const RoleMasterForm = ({ data}) => {
       createdBy: 0,
       deleted: false,
       description: formData?.description,
-      enabled: formData?.isClientPlatformModule,
-      isClientPlatformRole: true,
+      enabled: true,
+      isClientPlatformRole: formData?.isClientPlatformModule,
       name: formData.name,
       updatedBy: 0,
     };
@@ -182,7 +191,11 @@ const RoleMasterForm = ({ data}) => {
       if (!data) {
           setIsFormLoading(true);
           dispatch(onPostUserRole(JSON.stringify(postData)));
-      }
+      } else if (data) {
+        postData.id=data.id
+        setIsFormLoading(true);
+        dispatch(onUpdateUserRole(JSON.stringify(postData)));
+    }
     } catch (error) {
       console.error("Error submitting data:", error);
     }
@@ -199,8 +212,23 @@ if(getRoleDataId?.postRoleData?.length>0 && !getRoleDataId?.postLoading){
       editAccess: md.editAccess,
     };
   });
-  dispatch(onPostUserRoleReset());
   dispatch(onPostUserRoleModuleAccess(accessPostData))
+  dispatch(onPostUserRoleReset());
+}else if(getRoleDataId?.status_code==="201" && !getRoleDataId?.updateLoading){
+  let moduleAccess = JSON.parse(JSON.stringify(getModuleAccessData?.data));
+  let moduleAccessList = moduleAccess?.filter(item=> (item.roleId===data?.id));
+  let accessPostData = formData?.modules
+  for(var i=0; i<moduleAccessList.length; i++ ){
+  for(var j=0; j<accessPostData.length; j++){
+   if(accessPostData[j].id===moduleAccessList[i].moduleId){
+    moduleAccessList[i].addAccess=accessPostData[j].addAccess
+    moduleAccessList[i].viewAccess=accessPostData[j].checked
+    moduleAccessList[i].editAccess=accessPostData[j].editAccess
+   }
+  }
+ }
+  dispatch(onUpdateUserRoleModuleAccess(moduleAccessList))
+  dispatch(onUpdateUserRoleReset());
 }
 },[getRoleDataId])
 
@@ -208,14 +236,27 @@ useEffect(()=>{
   if(getModuleAccessData?.status_code==='201' && !getModuleAccessData?.isLoading){
     setIsFormLoading(false)
     dispatch(onGetUserRole());
+    dispatch(onGetUserRoleModuleAccess());
     toast.success(getModuleAccessData?.message);
     dispatch(onPostUserRoleModuleAccessReset());
-    setFormData({
-      name: "",
+    setData()
+    if (Array.isArray(getModuleData)) {
+      // Check if getModuleData is an array
+      const modulesData = getModuleData.map((module) => ({
+        id: module.id,
+        isClientPlatformModule: module.isClientPlatformModule,
+        name: module.name,
+        checked: false,
+        addAccess: false,
+        editAccess: false,
+      }));
+      setFormData({
+        name: "",
       description: "",
       isClientPlatformModule: false,
-      module: [],
-    });
+        modules: modulesData,
+      });
+    }
   }
 },[getModuleAccessData])
 

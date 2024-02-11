@@ -98,7 +98,7 @@ export const userRoleSlice = createSlice({
     onUpdateUserRole: (state) => {
       return {
         ...state,
-        isLoading: true,
+        updateLoading: true,
         isError: false,
         updatedUserRoleData: {},  
         error: {},
@@ -107,12 +107,11 @@ export const userRoleSlice = createSlice({
     },
 
     onUpdateUserRoleSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        updateLoading: false,
         isError: false,
-        updatedUserRoleData: data,  
         message,
         status_code,
         error: {},
@@ -120,15 +119,23 @@ export const userRoleSlice = createSlice({
     },
 
     onUpdateUserRoleError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { message = "", status_code = 400 } = payload;
       return {
         ...state,
-        updatedUserRoleData: data,  
         message,
         status_code,
-        isLoading: false,
+        updateLoading: false,
         isError: true,
         error: {},
+      };
+    },
+    onUpdateUserRoleReset: (state, { payload }) => {
+      return {
+        ...state,
+        message:"",
+        status_code:null,
+        updateLoading: false,
+        isError: false,
       };
     },
   },
@@ -144,6 +151,7 @@ export const {
   onUpdateUserRole,
   onUpdateUserRoleSuccess,
   onUpdateUserRoleError,
+  onUpdateUserRoleReset,
   onPostUserRoleReset
 } = userRoleSlice.actions;
 
