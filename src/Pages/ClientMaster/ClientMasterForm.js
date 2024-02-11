@@ -6,21 +6,20 @@ import {
   onUpdateClientMasterSubmit,
   onPostClientMasterSubmit,
   onClientMasterSubmit,
+  onPostClientMasterReset,
 } from "../../Store/Slices/clientMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../Components/Button/Button";
-import { onClientPaymentSubmit, onPostClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
+import { onPostClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMaster = (props) => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [showUpdate, setShowUpdate] = useState(false);
 
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
+  const getClientPaymentdata = useSelector((state) => state.clientPaymentReducer);
   const clientId = clientMasterDetails?.postClientData?.[0]?.id;
-  console.log(clientMasterDetails,"clientMasterDetails",clientId);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
   const email = GetTranslationData("UIAdmin", "contact_Email_label");
@@ -54,7 +53,6 @@ const ClientMaster = (props) => {
     "UIAdmin",
     "platform_Domain_Url"
   );
-  console.log(platformDomainUrl);
 
   const statusoptions = [
     { value: true, label: "Active" },
@@ -73,7 +71,7 @@ const ClientMaster = (props) => {
   const [additionalFields, setAdditionalFields] = useState([
     {
       resourceKey: "",
-      clientId: "0",
+      clientId: clientId,
       resourceValue: "",
       mode: "",
     },
@@ -103,9 +101,7 @@ const ClientMaster = (props) => {
     themes: "",
     platformDomainUrl: "",
   });
-  useEffect(() => {
-    dispatch(onClientMasterSubmit());
-  }, [])
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setClientData({
@@ -242,38 +238,64 @@ const ClientMaster = (props) => {
     if (isValid) {
       if (!props.data) {
         try {
-          // setShowLoader(true);
-          // Wait for the dispatch to complete
+          setShowLoader(true);
           dispatch(onPostClientMasterSubmit(clientData));
         } catch (error) {
-          // Handle any errors during dispatch
+        } finally {
+          dispatch(onClientMasterSubmit());
         }
       } else if (props.data) {
         try {
-          // setShowLoader(true);
-          // Wait for the dispatch to complete
+          setShowLoader(true);
           dispatch(onUpdateClientMasterSubmit(clientData));
         } catch (error) {
-          // Handle any errors during disp  atch
         }
       }
     }
   };
-  console.log(clientId,"clientId",clientMasterDetails);
+
+  // To call the API after intial API call
   useEffect(() => {
-      if(clientMasterDetails?.postClientData?.length>0 && clientMasterDetails?.postClientLoading){
-      // setShowLoader(false);
-      const paymentData = [{
+    if (clientMasterDetails?.postClientData?.length > 0 && !clientMasterDetails?.postClientLoading) {
+      const paymentData = additionalFields.map((field) => ({
         clientId: clientId,
-        resourceKey: "test",
-        resourceValue: "test",
-        mode: "test"
-      }]
+        resourceKey: field.resourceKey,
+        resourceValue: field.resourceValue,
+        mode: field.mode,
+      }));
+      dispatch(onPostClientMasterReset())
       dispatch(onPostClientPaymentSubmit(paymentData));
+      toast.success(getClientPaymentdata?.postMessage);
+      // Reset form fields
+      setClientData({
+        name: "",
+        number: "",
+        email: "",
+        enabled: true,
+        color: "",
+        logoUrl: "",
+        themes: "",
+        dbLoginId: "",
+        dbLoginPwd: "",
+        dbIpAddress: "",
+        platformDomainUrl: "",
+      });
+      // Reset additional fields if needed
+      setAdditionalFields([
+        {
+          resourceKey: "",
+          clientId: clientId,
+          resourceValue: "",
+          mode: "",
+        },
+      ]);
     }
+    setShowLoader(false);
   }, [clientMasterDetails])
 
-
+  useEffect(() => {
+    dispatch(onPostClientMasterReset())
+  }, []);
 
   return (
     <>
@@ -353,8 +375,8 @@ const ClientMaster = (props) => {
                         <InputField
                           type="platformDomainUrl"
                           className={` ${errors.platformDomainUrl
-                              ? "border-danger"
-                              : "form-control"
+                            ? "border-danger"
+                            : "form-control"
                             }`}
                           name="contactplatformDomainUrl"
                           id="contact-platformDomainUrl"
@@ -441,8 +463,8 @@ const ClientMaster = (props) => {
                           <InputField
                             type="text"
                             className={` ${errors.dbIpAddress
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             name="ipAddress"
                             id="ipAddress"
@@ -460,8 +482,8 @@ const ClientMaster = (props) => {
                           <InputField
                             type="text"
                             className={` ${errors.dbLoginId
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             name="username"
                             id="user-name"
@@ -479,8 +501,8 @@ const ClientMaster = (props) => {
                           <InputField
                             type="password"
                             className={` ${errors.dbLoginPwd
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             name="password"
                             id="password"
@@ -509,8 +531,8 @@ const ClientMaster = (props) => {
                                   <InputField
                                     type="text"
                                     className={` ${errors.resourceKey
-                                        ? "border-danger"
-                                        : "form-control"
+                                      ? "border-danger"
+                                      : "form-control"
                                       }`}
                                     name="resourceKey"
                                     id="resourceKey"
@@ -539,8 +561,8 @@ const ClientMaster = (props) => {
                                   <InputField
                                     type="text"
                                     className={` ${errors.resourceValue
-                                        ? "border-danger"
-                                        : "form-control"
+                                      ? "border-danger"
+                                      : "form-control"
                                       }`}
                                     name="resourceValue"
                                     id="production-key"
@@ -569,8 +591,8 @@ const ClientMaster = (props) => {
                                   <Dropdown
                                     type="text"
                                     className={` ${errors.mode
-                                        ? "border-danger"
-                                        : "form-select"
+                                      ? "border-danger"
+                                      : "form-select"
                                       }`}
                                     name="mode"
                                     id="mode"

@@ -50,14 +50,14 @@ export const clientPaymentSlice = createSlice({
         clientPaymentData: {},
         message: "",
         error: {},
-        status_code: 400,
+        status_code: null,
         isError: false,
       };
     },
     onPostClientPaymentSubmit: (state) => {
-      return {
+            return {
         ...state,
-        isLoading: true,
+        postPaymentLoading: true,
         postClientPaymentData: {},
         postMessage: "",
         error: {},
@@ -65,24 +65,24 @@ export const clientPaymentSlice = createSlice({
       };
     },
     onPostClientPaymentSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { postData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        postPaymentLoading: false,
         isError: false,
-        postClientPaymentData: data,
+        postClientPaymentData: postData,
         error: {},
         postMessage: message,
         status_code,
       };
     },
     onPostClientPaymentSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { postData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        isLoading: false,
+        postPaymentLoading: false,
         isError: true,
-        postClientPaymentData: data,
+        postClientPaymentData: postData,
         postMessage: message,
         status_code,
       };
@@ -90,18 +90,18 @@ export const clientPaymentSlice = createSlice({
     onPostClientPaymentReset: (state) => {
       return {
         ...state,
-        isLoading: false,
+        postPaymentLoading: false,
         postClientPaymentData: {},
         postMessage: "",
         error: {},
-        status_code: 400,
+        status_code: null,
         isError: false,
       };
     },
     onUpdateClientPaymentSubmit: (state) => {
       return {
         ...state,
-        isLoading: true,
+        updateLoading: true,
         updateClientPaymentData: {},
         postMessage: "",
         error: {},
@@ -109,24 +109,24 @@ export const clientPaymentSlice = createSlice({
       };
     },
     onUpdateClientPaymentSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { updateData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        updateLoading: false,
         isError: false,
-        updateClientPaymentData: data,
+        updateClientPaymentData: updateData,
         error: {},
         postMessage: message,
         status_code,
       };
     },
     onUpdateClientPaymentSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { updateData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        isLoading: false,
+        updateLoading: false,
         isError: true,
-        updateClientPaymentData: data,
+        updateClientPaymentData: updateData,
         postMessage: message,
         status_code,
       };
@@ -134,11 +134,11 @@ export const clientPaymentSlice = createSlice({
     onUpdateClientPaymentReset: (state) => {
       return {
         ...state,
-        isLoading: false,
+        updateLoading: false,
         updateClientPaymentData: {},
         postMessage: "",
         error: {},
-        status_code: 400,
+        status_code: null,
         isError: false,
       };
     },

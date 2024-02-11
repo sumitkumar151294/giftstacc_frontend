@@ -43,7 +43,7 @@ function* getClientPayment() {
 }
 function* postClientPayment({ payload }) {
   try {
-    const postClientPayment = yield call(postClientPaymentApi, payload);
+        const postClientPayment = yield call(postClientPaymentApi, payload);
     if (postClientPayment.httpStatusCode === "201") {
       yield put(
         onPostClientPaymentSubmitSuccess({
