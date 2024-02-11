@@ -10,6 +10,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
+  const [sideBarModules, setIsSideBarModules] = useState([]);
   const logout = GetTranslationData("UIAdmin", "logout");
   const currentUrl = useLocation();
   // To reset the redux store (logout the user)
@@ -22,6 +23,8 @@ const Sidebar = () => {
   };
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);
+  const userRoleModuleAccess = useSelector((state) => state.userRoleModuleAccessReducer?.data);
+  const userRoleID = useSelector((state) => state.loginReducer?.data?.[0]?.adminRoleId);
   useEffect(() => {
     setIsSidebarLoading(true);
     dispatch(onGetModule());
@@ -30,6 +33,17 @@ const Sidebar = () => {
   useEffect(() => {
     if (!getModuleData.isLoading) {
       setIsSidebarLoading(false);
+      let tempideModules= JSON.parse(JSON.stringify(getModuleData?.data));
+      const filterData = userRoleModuleAccess?.filter((item)=>{return (item.roleId===userRoleID && (item.addAccess || item.editAccess || item.viewAccess))})
+      const filterModules = []
+      for(var i=0; i<tempideModules.length; i++){
+        for(var j=0; j<filterData.length; j++){
+          if(tempideModules[i].id===filterData[j].moduleId){
+            filterModules.push(tempideModules[i])
+          }
+        }
+      }
+      setIsSideBarModules(filterModules)
     } else {
       setIsSidebarLoading(true);
     }
@@ -52,8 +66,8 @@ const Sidebar = () => {
           </div>
         ) : (
           <ul className="metismenu" id="menu">
-            {Array.isArray(getModuleData?.data) &&
-              getModuleData?.data?.map((item, index) => (
+            {sideBarModules.length &&
+              sideBarModules?.map((item, index) => (
                 <li
                   key={index}
                   className={`nav-icn ${

@@ -17,7 +17,7 @@ import supplierResourceSlice from './Slices/supplierResourceSlice';
 
 const reducers = combineReducers({
     loginReducer:loginReducer,
-    supplierResourceSlice:supplierResourceSlice,
+    supplierResourceReducer:supplierResourceSlice,
     clientPaymentReducer:clientPaymentReducer,
     brandCatalogueReducer:brandCatalogueReducer,
     translationReducer:translationReducer,

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   onGetSupplierList,
   onUpdateSupplierList,
+  onUpdateSupplierListReset,
+  onVendorReset,
   onVendorSubmit,
 } from "../../Store/Slices/supplierMasterSlice";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
@@ -17,7 +19,7 @@ import {
   onUpdateSupplierResource,
 } from "../../Store/Slices/supplierResourceSlice";
 
-const SupplierMasterForm = ({ data }) => {
+const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
@@ -40,35 +42,16 @@ const SupplierMasterForm = ({ data }) => {
     "UIAdmin",
     "fieldValueNotEmpty"
   );
-  // const addedSuccessfully = GetTranslationData("UIAdmin", "addedSuccessfully");
-  // const updateSuccessfully = GetTranslationData(
-  //   "UIAdmin",
-  //   "updateSuccessfully"
-  // );
-
   const [isformLoading, setIsFormLoading] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [showUpdate, setShowUpdate] = useState(false);
   const [vendorData, setVendorData] = useState({});
   const [errors, setErrors] = useState({});
   const supplyPostData = useSelector((state) => state.supplierMasterReducer);
-  const supplierId = {
-    id: data?.id,
-  };
-  const Id =
-    Array.isArray(supplyPostData?.data) &&
-    supplyPostData?.data.map((id) => {
-      return id;
-    });
-  const id = {
-    supplierId: Id[0]?.id,
-  };
+  const supplyResource = useSelector((state) => state.supplierResourceReducer);
   const [additionalFields, setAdditionalFields] = useState([
     {
       fieldName: "",
       fieldValue: "",
-      fieldDescription: "a",
-      supplierId: id?.supplierId,
+      fieldDescription: "",
       id: data?.id,
     },
   ]);
@@ -76,8 +59,7 @@ const SupplierMasterForm = ({ data }) => {
     {
       fieldName: "",
       fieldValue: "",
-      fieldDescription: "a",
-      supplierId: id?.supplierId,
+      fieldDescription: "",
       id: data?.id,
     },
   ]);
@@ -85,54 +67,73 @@ const SupplierMasterForm = ({ data }) => {
     { value: "Active", label: "Active" },
     { value: "Non-Active", label: "Non-Active" },
   ];
+
+  const resetData = () =>{
+    setData({
+      name: "",
+    balanceThresholdAmount: "",
+    creditAmount: "",
+    });
+    setVendorData({})
+    setAdditionalFields([
+      {
+        fieldName: "",
+        fieldValue: "",
+        fieldDescription: "",
+        id: data?.id,
+      },
+    ])
+  }
+
+  const getAdditionalFIeldData = (del=false) =>{
+    let tempAdditionField = [...additionalFields]
+    tempAdditionField.forEach(item=>(
+      item.enabled=true,
+      item.deleted=del,
+      item.fieldDescription = "test"  // Need to remove once APi is developed
+    ))
+    return tempAdditionField;
+  }
+
   useEffect(() => {
-    dispatch(onGetSupplierResource());
-    if (showToast) {
-      if (supplyPostData.message === "Created Successfully.") {
-        setVendorData({
-          name: "",
-          balanceThresholdAmount: "",
-          creditAmount: "",
-        });
-        dispatch(onSupplierResourceSubmit(additionalFields));
-
-        dispatch(onGetSupplierList());
-        toast.success(supplyPostData.message);
-      } else {
-        // toast.error(supplyPostData.message);
+      if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
+        dispatch(onVendorReset());
+        dispatch(onSupplierResourceSubmit(getAdditionalFIeldData()));
+      }else if(supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading){
+        toast.success(supplyPostData?.message)
+        dispatch(onUpdateSupplierListReset());
+        if(isDelete){
+          dispatch(onGetSupplierList());
+          dispatch(onGetSupplierResource());
+        }else{
+          debugger
+          dispatch(onUpdateSupplierResource(getAdditionalFIeldData()));
+        }
+        resetData();
       }
-    }
-    if (showUpdate) {
-      if (supplyPostData.message === "Updated Successfully.") {
-          setVendorData({
-          name: "",
-          balanceThresholdAmount: "",
-          creditAmount: "",
-        });
-        dispatch(onUpdateSupplierResource(additionalFields));
+  }, [supplyPostData]);
 
-        dispatch(onGetSupplierList());
-        toast.success(supplyPostData.message);
-      }
-    }
-  }, [supplyPostData.message]);
+  useEffect(()=>{
+  if(supplyResource?.status_code === "201" && !supplyResource?.isLoading){
+    toast.success(supplyResource?.message)
+    dispatch(onGetSupplierList());
+    setIsFormLoading(false);
+    resetData();
+  }
+  },[supplyResource])
 
   useEffect(() => {
     // Scroll to the top of the page for visibility
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    if (
-      data &&
-      (data.name !== vendorData.name ||
-        parseInt(data.balanceThresholdAmount) !==
-          vendorData.balanceThresholdAmount ||
-        parseInt(data.creditAmount) !== vendorData.creditAmount ||
-        data.enabled !== vendorData.status)
-    ) {
+    if (data.name!=="") {
       setVendorData({
         name: data.name || "",
         balanceThresholdAmount: parseInt(data.balanceThresholdAmount) || "",
         creditAmount: parseInt(data.creditAmount) || "",
+        enabled: data.enabled,
       });
+      const filterSupplierApiCred = supplyResource?.data?.filter((item)=>item?.supplierId===data?.id)
+      setAdditionalFields(filterSupplierApiCred)
     }
   }, [data]);
 
@@ -145,6 +146,11 @@ const SupplierMasterForm = ({ data }) => {
       setErrors({
         ...errors,
         [fieldName]: "Value cannot be negative",
+      });
+    }else if(fieldName==="status"){
+      setVendorData({
+        ...vendorData,
+        enabled: e.target.value==="Active"? true:false,
       });
     } else {
       setVendorData({
@@ -215,20 +221,21 @@ const SupplierMasterForm = ({ data }) => {
     setErrors(newErrors);
     setAdditionalFieldsError(newAdditionalFieldsError);
     if (isValid) {
+      setIsFormLoading(true);
       if (!data.name) {
         try {
-          setShowToast(true);
+          vendorData.deleted = false;
           dispatch(onVendorSubmit(vendorData));
         } catch (error) {
           // Handle any errors during dispatch
         }
       } else if (data.name) {
           try {
-              setShowUpdate(true);
-          await dispatch(
-            onUpdateSupplierList({ ...vendorData, ...supplierId })
+            const updateData = {...vendorData};
+            updateData.id= data.id;
+         dispatch(
+            onUpdateSupplierList(updateData)
           );
-
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
           // Handle any errors during dispatch
@@ -236,16 +243,13 @@ const SupplierMasterForm = ({ data }) => {
       }
     }
   };
-  const [showDelete, setShowDelete] = useState(false);
   const handleAddMore = (e) => {
     e.preventDefault();
-    setShowDelete(true);
     setAdditionalFields((prevFields) => [
       ...prevFields,
       {
         fieldName: "",
         fieldValue: "",
-        showDelete: true, // Set showDelete to true for the newly added field
       },
     ]);
   };
@@ -299,7 +303,7 @@ const SupplierMasterForm = ({ data }) => {
                           <Dropdown
                             onChange={(e) => handleChange(e, "status")}
                             error={errors.status}
-                            value={vendorData?.status || ""}
+                            value={vendorData?.enabled ?  'Active' : vendorData?.enabled===undefined || vendorData?.enabled === "" ? '' : 'Non-Active' }
                             className={` ${
                               errors.status ? "border-danger" : "form-select"
                             }`}

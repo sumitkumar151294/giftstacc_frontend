@@ -16,7 +16,6 @@ export const supplierMasterSlice = createSlice({
         isLoading: true,
         isError: false,
         data: {},
-        error: {},
         message: "",
       };
     },
@@ -27,10 +26,9 @@ export const supplierMasterSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        data,
+        postData:data,
         message,
-        status_code,
-        error: {},
+        post_status_code:status_code,
       };
     },
 
@@ -38,17 +36,26 @@ export const supplierMasterSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        data,
+        postData:data,
         message,
-        status_code,
+        post_status_code:status_code,
         isLoading: false,
         isError: true,
-        error: {},
+      };
+    },
+    onVendorReset: (state, { payload }) => {
+      return {
+        ...state,
+        postData:{},
+        message:"",
+        post_status_code:null,
+        isLoading: false,
+        isError: true,
       };
     },
 
     onGetSupplierList: (state) => {
-      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false };
+      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false, status_code: null };
     },
     onGetSupplierListSuccess: (state, { payload }) => {
       const { data = {}, message = '', status_code } = payload;
@@ -74,7 +81,7 @@ export const supplierMasterSlice = createSlice({
       };
     },
     onUpdateSupplierList: (state) => {
-      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false };
+      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false, update_status_code:null };
     },
     onUpdateSupplierListSuccess: (state, { payload }) => {
       const { data = {}, message = '', status_code } = payload;
@@ -85,7 +92,7 @@ export const supplierMasterSlice = createSlice({
         data,
         error: {},
         message,
-        status_code
+        update_status_code:status_code
       };
     },
     onUpdateSupplierListError: (state, { payload }) => {
@@ -96,13 +103,23 @@ export const supplierMasterSlice = createSlice({
         isError: true,
         data:data,
         message,
-        status_code
+        update_status_code:status_code
+      };
+    },
+    onUpdateSupplierListReset: (state, { payload }) => {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data:{},
+        message:"",
+        update_status_code:null
       };
     },
 
   },
 });
-export const {onUpdateSupplierList,onUpdateSupplierListSuccess,onUpdateSupplierListError, onVendorSubmit, onVendorSubmitSuccess, onVendorSubmitError, onGetSupplierList, onGetSupplierListSuccess, onGetSupplierListError } =
+export const {onUpdateSupplierList,onUpdateSupplierListSuccess,onUpdateSupplierListError, onVendorSubmit, onVendorSubmitSuccess, onVendorSubmitError, onGetSupplierList, onGetSupplierListSuccess, onGetSupplierListError,onVendorReset,onUpdateSupplierListReset } =
 supplierMasterSlice.actions;
 
 export default supplierMasterSlice.reducer;

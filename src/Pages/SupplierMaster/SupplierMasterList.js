@@ -11,13 +11,17 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import SupplierMasterForm from "./SupplierMasterForm";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
+import { onGetSupplierResource } from "../../Store/Slices/supplierResourceSlice";
 const SupplierMasterList = () => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  // const [apiError, setApiError] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [vendorData, setVendorData] = useState({
     name: "",
     balanceThresholdAmount: "",
     creditAmount: "",
+    enabled:""
   });
   const supplierList = GetTranslationData("UIAdmin", "supplierList");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -31,7 +35,6 @@ const SupplierMasterList = () => {
   const balance_Available = GetTranslationData("UIAdmin", "balance_Available");
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
-  // const active = GetTranslationData("UIAdmin", "active");
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer
   );
@@ -43,45 +46,20 @@ const SupplierMasterList = () => {
     { label: "minThresholdAmount", key: "balanceThresholdAmount" },
   ];
 
-  const [searchQuery, setSearchQuery] = useState("");
-
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    setIsLoading(true);
-    if (
-      supplierMasterData?.message === "Created Successfully." ||
-      "Updated Successfully."
-    ) {
-      dispatch(onGetSupplierList());
+    if (supplierMasterData?.status_code === "200" ) {
       setIsLoading(false);
     }
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        await dispatch(onGetSupplierList());
-        setIsLoading(false);
-      } catch (error) {
-        if (supplierMasterData.status_code === 400) {
-          setTimeout(() => {
-            // setApiError(true);
-            setIsLoading(false);
-          }, 2000);
-        }
-      }
-    };
-
-    fetchData();
-  }, [supplierMasterData?.message]);
+  }, [supplierMasterData]);
 
   const handleEdit = (vendor) => {
     setVendorData({
       name: vendor.name,
-      status: vendor.status,
+      enabled: vendor.enabled ? true : false,
       balanceThresholdAmount: vendor.balanceThresholdAmount,
       creditAmount: vendor.creditAmount,
       id: vendor?.id,
@@ -96,8 +74,15 @@ const SupplierMasterList = () => {
       deleted: true,
       enabled: false,
     };
+    setIsDelete(true);
     dispatch(onUpdateSupplierList(deletedData));
   };
+
+  useEffect(()=>{
+    setIsLoading(true);
+    dispatch(onGetSupplierList());
+    dispatch(onGetSupplierResource());
+  },[])
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
     ? supplierMasterData?.data.filter((vendor) =>
         Object.values(vendor).some(
@@ -111,7 +96,7 @@ const SupplierMasterList = () => {
 
   return (
     <>
-      <SupplierMasterForm data={vendorData} />
+      <SupplierMasterForm data={vendorData} setData = {setVendorData} isDelete = {isDelete} setIsDelete = {setIsDelete}/>
 
       <div className="container-fluid pt-0">
         <div className="row">
@@ -224,12 +209,11 @@ const SupplierMasterList = () => {
                                           >
                                             <i className="fas fa-pencil-alt"></i>
                                           </a>
-                                          <a className="btn btn-danger shadow btn-xs sharp">
+                                          <a className="btn btn-danger shadow btn-xs sharp"  onClick={() =>
+                                                handleDelete(vendor)
+                                              }>
                                             <i
                                               className="fa fa-trash"
-                                              onClick={() =>
-                                                handleDelete(vendor)
-                                              }
                                             ></i>
                                           </a>
                                         </div>
