@@ -106,7 +106,6 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
           dispatch(onGetSupplierList());
           dispatch(onGetSupplierResource());
         }else{
-          debugger
           dispatch(onUpdateSupplierResource(getAdditionalFIeldData()));
         }
         resetData();

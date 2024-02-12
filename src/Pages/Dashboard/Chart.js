@@ -30,8 +30,8 @@ export const Chart = () => {
     
   // To Get the label from api
   const categories = GetTranslationData("UIAdmin", "categories");
-  const products = GetTranslationData("UIAdmin", "products");
-  const customers = GetTranslationData("UIAdmin", "customers");
+  const brands_label = GetTranslationData("UIAdmin", "brands_label");
+  const clients_name_label = GetTranslationData("UIAdmin", "clients_name_label");
   const orders = GetTranslationData("UIAdmin", "orders");
 
   return (
@@ -66,7 +66,7 @@ export const Chart = () => {
                   <div className="card">
                     <div className="card-body d-flex align-items-center justify-content-between cardnav ">
                       <div className="menu">
-                        <span className="font-w500 fs-16 d-block mb-2">{products}</span>
+                        <span className="font-w500 fs-16 d-block mb-2">{brands_label}</span>
                         <h2>85</h2>
                       </div>
                       <div className="d-inline-block position-relative donut-chart-sale">
@@ -92,7 +92,7 @@ export const Chart = () => {
                     <div className="card-body d-flex align-items-center justify-content-between cardnav">
                       <div className="menu">
                         <span className="font-w500 fs-16 d-block mb-2">
-                        {     customers}
+                        {clients_name_label}
                         </span>
                         <h2>247</h2>
                       </div>

@@ -81,7 +81,7 @@ $background-color_1: var(--sidebar-bg);
 				>a {
 					font-weight: 400;
 					display: inline-block;
-					font-size: 1.125rem;
+					font-size: 1rem;
 					color: $color_2;
 				}
 			}
@@ -129,7 +129,7 @@ $background-color_1: var(--sidebar-bg);
 
 	.ps-1 {
 		padding-left: 0.25rem !important;
-		font-size: 1.125rem;
+		font-size: 1rem;
 	}
 
 	.w-20px {
@@ -490,15 +490,17 @@ li {
 	}
 }
 
-
 @media only screen and (min-width: 1400px) {
+	[data-sidebar-position=fixed][data-layout=vertical] .ps-1 {
+		font-size: 1.125rem;
+	}
+
 	[data-sidebar-position=fixed][data-layout=vertical] .deznav {
 		margin-top: 2rem;
 		width: 20.5rem;
 		padding: 12px 1.25rem;
 		// overflow-y: scroll;
 	}
-	
 
 	.deznav {
 		width: 20.5rem;
@@ -513,6 +515,5 @@ li {
 		padding-top: 0;
 		z-index: 6;
 		background-color: $background-color_1;
-		
 	}
 }
