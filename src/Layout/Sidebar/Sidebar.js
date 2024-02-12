@@ -34,7 +34,7 @@ const Sidebar = () => {
     if (!getModuleData.isLoading) {
       setIsSidebarLoading(false);
       let tempideModules= JSON.parse(JSON.stringify(getModuleData?.data));
-      const filterData = userRoleModuleAccess?.filter((item)=>{return (item.roleId===userRoleID && (item.addAccess || item.editAccess || item.viewAccess))})
+      const filterData = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess?.filter((item)=>{return (item.roleId===userRoleID && (item.addAccess || item.editAccess || item.viewAccess))})
       const filterModules = []
       for(var i=0; i<tempideModules.length; i++){
         for(var j=0; j<filterData.length; j++){

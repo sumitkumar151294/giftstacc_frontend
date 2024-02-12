@@ -158,6 +158,12 @@ const Users = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+    
+  };
 
   return (
     <>
@@ -200,6 +206,20 @@ const Users = () => {
                         </a>
                       </li>
                     </ul>
+                  </div>
+                  <div className="dropdown custom-dropdown mb-0 ms-3">
+                    <div className="btn sharp tp-btn dark-btn" onClick={toggleDropdown}>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12Z" stroke="#2E2E2E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12Z" stroke="#2E2E2E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12Z" stroke="#2E2E2E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                    <div className={`dropdown-menu dropdown-menu-right ${isDropdownOpen ? 'show' : ''}`}
+                      style={isDropdownOpen ? { position: 'absolute', inset: '0px auto auto 0px', transform: 'translate(-102.4px, 36.8px)' } : {}}>
+                      <a className="dropdown-item txt-color">Details</a>
+                      <a className="dropdown-item text-danger">Cancel</a>
+                    </div>
                   </div>
                 </div>
               </div>
