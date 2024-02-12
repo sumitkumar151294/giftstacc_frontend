@@ -89,7 +89,7 @@ const ClientMaster = (props) => {
     dbIpAddress: "",
     platformDomainUrl: "",
   });
-  const [errors, setErrors] = useState({
+    const [errors, setErrors] = useState({
     name: "",
     number: "",
     email: "",
@@ -101,9 +101,12 @@ const ClientMaster = (props) => {
     themes: "",
     platformDomainUrl: "",
   });
-  useEffect(() => {
+    useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    const selectedData = props.clientPayData?.find(item => item.clientId === props.data?.id);
+    const selectedData = Array.isArray(props.clientPayData) 
+  ? props.clientPayData.find(item => item.clientId === props.data?.id)
+  : null;
+    console.log(selectedData,"selectedData", props.clientPayData);
      setClientData({
       name: props.data?.name || "",
       number: props.data?.number || "",
@@ -113,7 +116,7 @@ const ClientMaster = (props) => {
       color: props.data?.color,
       logoUrl: props.data?.logoUrl || "",
       themes: props.data?.themes || "",
-      status: props.data?.enabled || "",
+      enabled: props.data?.enabled,
       dbLoginPwd: props.data?.dbLoginPwd || "",
       dbLoginId: props.data?.dbLoginId || "",
       platformDomainUrl: props?.data?.platformDomainUrl,
@@ -149,11 +152,11 @@ const ClientMaster = (props) => {
   };
 
   const handleChange = (e, fieldName) => {
-    setClientData({
-      ...clientData,
-      [fieldName]: e.target.value,
-    });
-    if (fieldName === "email") {
+          setClientData({
+        ...clientData,
+        [fieldName]: e.target.value,
+      });
+        if (fieldName === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const isValidEmail = emailRegex.test(e.target.value);
       setErrors({
@@ -272,6 +275,9 @@ const ClientMaster = (props) => {
         } catch (error) {
         }
       }
+      setTimeout(()=>{
+        dispatch(onClientMasterSubmit());
+      }, 1000)
     }
   };
 
