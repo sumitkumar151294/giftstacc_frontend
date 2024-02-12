@@ -22,12 +22,12 @@ export const userMasterSlice = createSlice({
     },
 
     onUserSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { postData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
-        postdata:data,
+        postdata:postData,
         message,
         status_code,
         error: {},
@@ -47,10 +47,10 @@ export const userMasterSlice = createSlice({
     },
 
     onUserSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { postData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        postdata:data,
+        postdata:postData,
         message,
         status_code,
         isLoading: false,
@@ -97,12 +97,12 @@ export const userMasterSlice = createSlice({
     },
 
     onUserUpdateSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { updateData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
-        updatedUserData: data,  
+        updatedUserData: updateData,  
         message,
         status_code,
         error: {},
@@ -110,10 +110,10 @@ export const userMasterSlice = createSlice({
     },
 
     onUserUpdateError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { updateData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        updatedUserData: data,  
+        updatedUserData: updateData,  
         message,
         status_code,
         isLoading: false,

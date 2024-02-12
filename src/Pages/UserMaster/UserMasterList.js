@@ -26,7 +26,7 @@ const UserMasterList = () => {
   const action = GetTranslationData("UIAdmin", "action_label");
   const not_Found = GetTranslationData("UIAdmin", "not_Found");
   const userList = useSelector((state) => state.userMasterReducer);
-  const client = useSelector((state) => state.clientMasterReducer.data);
+  const client = useSelector((state) => state.clientMasterReducer.clientData);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer?.userRoleData);
   const handleEdit = (data) => {
@@ -45,7 +45,7 @@ const UserMasterList = () => {
     return result ? result?.name : "";
   };
 
-
+console.log(client,"clientdafa",userList);
   // here get client name by matching with id
   function getClientByIndex(data, client) {
     const result = [];
@@ -111,10 +111,10 @@ const UserMasterList = () => {
                               <td>{item.mobile}</td>
                               <td>{`${item.firstName}${item.lastName}`}</td>
                               <td>
-                                {Array.isArray(item.accessClientIds) &&
+                                {item.accessClientIds &&
                                   item.accessClientIds.length > 0 && (
                                     <div className="d-flex">
-                                      {item.accessClientIds.map(
+                                      {item.accessClientIds.split(',').map(
                                         (clientId, index) => (
                                           <span
                                             key={index}
