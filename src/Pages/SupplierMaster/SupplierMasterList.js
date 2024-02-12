@@ -12,16 +12,18 @@ import SupplierMasterForm from "./SupplierMasterForm";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import { onGetSupplierResource } from "../../Store/Slices/supplierResourceSlice";
+import ReactPaginate from "react-paginate";
 const SupplierMasterList = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [vendorData, setVendorData] = useState({
     name: "",
     balanceThresholdAmount: "",
     creditAmount: "",
-    enabled:""
+    enabled: ""
   });
   const supplierList = GetTranslationData("UIAdmin", "supplierList");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -46,12 +48,20 @@ const SupplierMasterList = () => {
     { label: "minThresholdAmount", key: "balanceThresholdAmount" },
   ];
 
+  const [rowsPerPage] = useState(5);
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
+  };
+
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
 
   useEffect(() => {
-    if (supplierMasterData?.status_code === "200" ) {
+    if (supplierMasterData?.status_code === "200") {
       setIsLoading(false);
     }
   }, [supplierMasterData]);
@@ -78,25 +88,24 @@ const SupplierMasterList = () => {
     dispatch(onUpdateSupplierList(deletedData));
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setIsLoading(true);
     dispatch(onGetSupplierList());
     dispatch(onGetSupplierResource());
-  },[])
+  }, [])
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
     ? supplierMasterData?.data.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
-
   return (
     <>
-      <SupplierMasterForm data={vendorData} setData = {setVendorData} isDelete = {isDelete} setIsDelete = {setIsDelete}/>
+      <SupplierMasterForm data={vendorData} setData={setVendorData} isDelete={isDelete} setIsDelete={setIsDelete} />
 
       <div className="container-fluid pt-0">
         <div className="row">
@@ -178,7 +187,7 @@ const SupplierMasterList = () => {
                               <tbody>
                                 {filteredVendorList.length > 0 ? (
                                   Array.isArray(filteredVendorList) &&
-                                  filteredVendorList.map((vendor, index) => (
+                                  filteredVendorList.slice(startIndex, endIndex).map((vendor, index) => (
                                     <tr key={index}>
                                       <td>{vendor.name}</td>
                                       <td>{vendor.id}</td>
@@ -190,11 +199,10 @@ const SupplierMasterList = () => {
                                       <td>{vendor.balanceThresholdAmount}</td>
                                       <td>
                                         <span
-                                          className={`badge ${
-                                            vendor.enabled
+                                          className={`badge ${vendor.enabled
                                               ? "badge-success"
                                               : "badge-danger"
-                                          }`}
+                                            }`}
                                         >
                                           {vendor.enabled
                                             ? "Active"
@@ -209,9 +217,9 @@ const SupplierMasterList = () => {
                                           >
                                             <i className="fas fa-pencil-alt"></i>
                                           </a>
-                                          <a className="btn btn-danger shadow btn-xs sharp"  onClick={() =>
-                                                handleDelete(vendor)
-                                              }>
+                                          <a className="btn btn-danger shadow btn-xs sharp" onClick={() =>
+                                            handleDelete(vendor)
+                                          }>
                                             <i
                                               className="fa fa-trash"
                                             ></i>
@@ -225,6 +233,22 @@ const SupplierMasterList = () => {
                                 )}
                               </tbody>
                             </table>
+                            <div className="pagination-container">
+                              <ReactPaginate
+                                previousLabel={"<"}
+                                nextLabel={" >"}
+                                breakLabel={"..."}
+                                pageCount={Math.ceil(
+                                  filteredVendorList.length / rowsPerPage
+                                )}
+                                marginPagesDisplayed={2}
+                                onPageChange={handlePageChange}
+                                containerClassName={"pagination"}
+                                activeClassName={"active"}
+                                initialPage={page - 1} // Use initialPage instead of forcePage
+                                previousClassName={page === 0 ? "disabled" : ""}
+                              />
+                            </div>
                           </>
                         </div>
                       </div>

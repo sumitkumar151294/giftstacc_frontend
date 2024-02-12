@@ -103,7 +103,7 @@ const ClientMaster = (props) => {
   });
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    const selectedData = Array.isArray( props.clientPayData) && props.clientPayData?.find(item => item.clientId === props.data?.id);
+    const selectedData = Array.isArray(props.clientPayData) ? props.clientPayData?.find(item => item.clientId === props.data?.id) : null;
      setClientData({
       name: props.data?.name || "",
       number: props.data?.number || "",
