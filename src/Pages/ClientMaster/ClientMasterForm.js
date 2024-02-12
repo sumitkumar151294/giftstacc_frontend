@@ -12,13 +12,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../Components/Button/Button";
-import { onPostClientPaymentSubmit, onUpdateClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
+import { onClientPaymentSubmit, onPostClientPaymentReset, onPostClientPaymentSubmit, onUpdateClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMaster = (props) => {
   const dispatch = useDispatch();
   const [showLoder, setShowLoader] = useState(false);
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
   const getClientPaymentdata = useSelector((state) => state.clientPaymentReducer);
-  const clientId = clientMasterDetails?.postClientData?.[0]?.id;
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
   const email = GetTranslationData("UIAdmin", "contact_Email_label");
@@ -70,7 +69,7 @@ const ClientMaster = (props) => {
   const [additionalFields, setAdditionalFields] = useState([
     {
       resourceKey: "",
-      clientId: clientId,
+      clientId: "",
       resourceValue: "",
       mode: "",
       id:""
@@ -121,7 +120,7 @@ const ClientMaster = (props) => {
     setAdditionalFields([
       {
         resourceKey: selectedData?.resourceKey || "",
-        clientId: selectedData?.clientId || clientId,
+        clientId: selectedData?.clientId || "",
         resourceValue: selectedData?.resourceValue || "",
         mode: selectedData?.mode || "",
         id: selectedData?.id
@@ -252,8 +251,6 @@ const ClientMaster = (props) => {
           setShowLoader(true);
           dispatch(onPostClientMasterSubmit(clientData));
         } catch (error) {
-        } finally {
-          dispatch(onClientMasterSubmit());
         }
       } else if (props.data) {
         try {
@@ -279,40 +276,26 @@ const ClientMaster = (props) => {
   useEffect(() => {
     if (clientMasterDetails?.postClientData?.length > 0 && !clientMasterDetails?.postClientLoading) {
       const paymentData = additionalFields.map((field) => ({
-        clientId: clientId,
+        clientId: clientMasterDetails?.postClientData?.[0]?.id,
         resourceKey: field.resourceKey,
         resourceValue: field.resourceValue,
         mode: field.mode,
       }));
-        // dispatch(onPostClientMasterReset())
+        dispatch(onPostClientMasterReset())
         dispatch(onPostClientPaymentSubmit(paymentData));
-      toast.success(getClientPaymentdata?.postMessage);
-      // Reset form fields
-      setClientData({
-        name: "",
-        number: "",
-        email: "",
-        enabled: true,
-        color: "",
-        logoUrl: "",
-        themes: "",
-        dbLoginId: "",
-        dbLoginPwd: "",
-        dbIpAddress: "",
-        platformDomainUrl: "",
-      });
-      // Reset additional fields if needed
-      setAdditionalFields([
-        {
-          resourceKey: "",
-          clientId: clientId,
-          resourceValue: "",
-          mode: "",
-        },
-      ]);
     }
-    setShowLoader(false);
   }, [clientMasterDetails])
+
+
+  useEffect(()=>{
+    if(getClientPaymentdata.post_status_code === "201"){
+      setShowLoader(false);
+      toast.success(getClientPaymentdata.postMessage)
+      dispatch(onPostClientPaymentReset())
+      dispatch(onClientMasterSubmit());
+      dispatch(onClientPaymentSubmit());
+    }
+  },[getClientPaymentdata])
 
   useEffect(() => {
     dispatch(onPostClientMasterReset())

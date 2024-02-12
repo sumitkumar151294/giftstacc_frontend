@@ -62,6 +62,7 @@ export const clientPaymentSlice = createSlice({
         postMessage: "",
         error: {},
         isError: false,
+        post_status_code:null
       };
     },
     onPostClientPaymentSubmitSuccess: (state, { payload }) => {
@@ -73,7 +74,7 @@ export const clientPaymentSlice = createSlice({
         postClientPaymentData: postData,
         error: {},
         postMessage: message,
-        status_code,
+        post_status_code:status_code,
       };
     },
     onPostClientPaymentSubmitError: (state, { payload }) => {
@@ -84,7 +85,7 @@ export const clientPaymentSlice = createSlice({
         isError: true,
         postClientPaymentData: postData,
         postMessage: message,
-        status_code,
+        post_status_code:status_code,
       };
     },
     onPostClientPaymentReset: (state) => {
@@ -94,7 +95,7 @@ export const clientPaymentSlice = createSlice({
         postClientPaymentData: {},
         postMessage: "",
         error: {},
-        status_code: null,
+        post_status_code: null,
         isError: false,
       };
     },
