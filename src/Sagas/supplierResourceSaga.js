@@ -22,13 +22,12 @@ function* supplierResource({ payload }) {
       postSupplierResourceApi,
       payload
     );
-    debugger
     if (supplierResourceResponse.httpStatusCode === "201") {
       yield put(
         onSupplierResourceSubmitSuccess({
           data: supplierResourceResponse.response,
           message: supplierResourceResponse.errorMessage,
-          status_code:supplierResourceResponse.httpStatusCode
+          status_code: supplierResourceResponse.httpStatusCode,
         })
       );
     } else {
@@ -36,7 +35,7 @@ function* supplierResource({ payload }) {
         onSupplierResourceSubmitError({
           data: supplierResourceResponse.response,
           message: supplierResourceResponse.errorMessage,
-          status_code:supplierResourceResponse.httpStatusCode
+          status_code: supplierResourceResponse.httpStatusCode,
         })
       );
     }
@@ -79,7 +78,7 @@ function* onUpdateSupplier(payload) {
       payload.payload
     );
     if (supplierResourceResponse.httpStatusCode === "201") {
-          yield put(
+      yield put(
         onUpdateSupplierResourceSuccess({
           data: supplierResourceResponse.response,
           message: supplierResourceResponse.errorMessage,
