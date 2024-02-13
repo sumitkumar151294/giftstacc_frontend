@@ -23,6 +23,7 @@ const SupplierMasterList = () => {
     name: "",
     balanceThresholdAmount: "",
     creditAmount: "",
+    servicePath:"",
     enabled: ""
   });
   const supplierList = GetTranslationData("UIAdmin", "supplierList");
@@ -72,6 +73,7 @@ const SupplierMasterList = () => {
       enabled: vendor.enabled ? true : false,
       balanceThresholdAmount: vendor.balanceThresholdAmount,
       creditAmount: vendor.creditAmount,
+      servicePath:vendor.servicePath,
       id: vendor?.id,
     });
   };
@@ -81,6 +83,7 @@ const SupplierMasterList = () => {
       id: vendor.id,
       balanceThresholdAmount: vendor.balanceThresholdAmount,
       creditAmount: vendor.creditAmount,
+      servicePath:vendor.servicePath,
       deleted: true,
       enabled: false,
     };
