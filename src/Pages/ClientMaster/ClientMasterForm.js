@@ -72,7 +72,7 @@ const ClientMaster = (props) => {
       clientId: "",
       resourceValue: "",
       mode: "",
-      id:""
+      id: ""
     },
   ]);
   const [clientData, setClientData] = useState({
@@ -103,7 +103,7 @@ const ClientMaster = (props) => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     const selectedData = Array.isArray(props.clientPayData) ? props.clientPayData?.find(item => item.clientId === props.data?.id) : null;
-     setClientData({
+    setClientData({
       name: props.data?.name || "",
       number: props.data?.number || "",
       id: props.data?.id,
@@ -126,7 +126,7 @@ const ClientMaster = (props) => {
         id: selectedData?.id
       }
     ]
-      )
+    )
     setErrors({
       name: "",
       number: "",
@@ -262,10 +262,10 @@ const ClientMaster = (props) => {
             resourceKey: field.resourceKey,
             resourceValue: field.resourceValue,
             mode: field.mode,
-            id:field?.id
+            id: field?.id
           }));
           dispatch(onUpdateClientPaymentSubmit(paymentData));
-  
+
         } catch (error) {
         }
       }
@@ -281,21 +281,43 @@ const ClientMaster = (props) => {
         resourceValue: field.resourceValue,
         mode: field.mode,
       }));
-        dispatch(onPostClientMasterReset())
-        dispatch(onPostClientPaymentSubmit(paymentData));
+      dispatch(onPostClientMasterReset())
+      dispatch(onPostClientPaymentSubmit(paymentData));
     }
   }, [clientMasterDetails])
 
 
-  useEffect(()=>{
-    if(getClientPaymentdata.post_status_code === "201"){
+  useEffect(() => {
+    if (getClientPaymentdata.post_status_code === "201") {
       setShowLoader(false);
       toast.success(getClientPaymentdata.postMessage)
       dispatch(onPostClientPaymentReset())
       dispatch(onClientMasterSubmit());
       dispatch(onClientPaymentSubmit());
+      setClientData({
+        name: "",
+        number: "",
+        email: "",
+        enabled: true,
+        color: "",
+        logoUrl: "",
+        themes: "",
+        dbLoginId: "",
+        dbLoginPwd: "",
+        dbIpAddress: "",
+        platformDomainUrl: "",
+      })
+      setAdditionalFields([
+        {
+          resourceKey: "",
+          clientId: "",
+          resourceValue: "",
+          mode: "",
+          id: ""
+        }
+      ])
     }
-  },[getClientPaymentdata])
+  }, [getClientPaymentdata])
 
   useEffect(() => {
     dispatch(onPostClientMasterReset())
