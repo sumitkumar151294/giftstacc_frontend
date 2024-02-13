@@ -43,6 +43,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (loginAuthData?.status_code === 200) {
+      sessionStorage.setItem('clientCode', loginAuthData?.data?.[0]?.clientId)
       axiosInstance.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
       axiosInstance.defaults.headers['client-code'] = loginAuthData?.data?.[0]?.clientId;
       dispatch(onTranslationSubmit());
