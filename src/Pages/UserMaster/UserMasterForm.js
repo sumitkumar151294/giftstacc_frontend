@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { onGetUser, onUserSubmit, onUserUpdate } from "../../Store/Slices/userMasterSlice";
+import { onGetUser, onUserSubmit, onUserSubmitReset, onUserUpdate } from "../../Store/Slices/userMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../Components/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,8 +11,6 @@ import Button from "../../Components/Button/Button";
 
 const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const dispatch = useDispatch();
-  const [onUpdate, setOnUpdate] = useState(false);
-
   const [userData, setUserData] = useState({
     mobile: "",
     email: "",
@@ -34,8 +32,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   });
 
   //To get the data from redux store
-  const onSubmitData = useSelector((state) => state.userMasterReducer.postdata);
-  const onUpdateData = useSelector((state) => state.userMasterReducer.updatedUserData);
+  const onSubmitData = useSelector((state) => state.userMasterReducer);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer);
   const clientList = useSelector((state) => state.clientMasterReducer.clientData);
@@ -43,7 +40,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const userMaster = GetTranslationData("UIAdmin", "user_Master_label");
   const email = GetTranslationData("UIAdmin", "email_label");
   const mobile = GetTranslationData("UIAdmin", "mobile_label");
-  const username = GetTranslationData("UIAdmin", "usernamee_label");
   const client = GetTranslationData("UIAdmin", "client_label");
   const role = GetTranslationData("UIAdmin", "role_name_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
@@ -55,7 +51,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const fieldRequired = GetTranslationData("UIAdmin", "required-field");
   const select_role = GetTranslationData("UIAdmin", "select_role");
-  const select_Client = GetTranslationData("UIAdmin", "select_Client");
   const admin = GetTranslationData("UIAdmin", "admin_Label");
   const client1 = GetTranslationData("UIAdmin", "client");
 
@@ -169,15 +164,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         }
     }
     setErrors(newErrors);
-    // Check if a role has been selected
-    // if (userData.role === "") {
-    //   newErrors.role = select_role;
-    //   isValid = false;
-    // } else {
-    //   newErrors.role = ""; // Clear the role error if a role is selected
-    // }
-    // setErrors(newErrors);
-    // Check if a client has been selected
     if (userData.clientRoleId?.length === 0) {
       newErrors.clientRoleId = select_role;
       isValid = false;
@@ -197,7 +183,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     setErrors(newErrors);
 
     try {
-      setOnUpdate(true);
       if (isValid) {
         if (!prefilledValues) {
           const UsersData = {
@@ -217,7 +202,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
             createdBy: 0,
             updatedBy: 0,
             login_attempt: 0,
-
             id: prefilledValues?.id,
             firstName: userData.firstName,
             lastName: userData.lastName,
@@ -230,21 +214,14 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
             clientRoleCode: "string",
           };
           dispatch(onUserUpdate(updateUserData));
-          toast.success("User Updated Successfully");
         }
       }
-      setTimeout(() => {
-        dispatch(onGetUser());
-      }, 2000);
       setPrefilledValues();
     } catch (error) {
     }
   };
 
-  useEffect(() => {
-    if (onUpdate) {
-      if (onSubmitData?.message === "User Added Successfully.") {
-        toast.success(onSubmitData?.message);
+  const resetData = () =>{
         setUserData({
           userName: "",
           mobile: "",
@@ -255,12 +232,17 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
           firstName: "",
           lastName: "",
         });
-      } else if (onUpdateData?.message === "Update Successfully.") {
-        toast.success(onSubmitData?.message);
-      } else {
-        toast.error(onSubmitData.message);
-      }
     }
+
+  useEffect(() => {
+    if(onSubmitData?.status_code === "201"){
+      debugger
+      toast.success(onSubmitData?.message);
+      dispatch(onUserSubmitReset());
+      dispatch(onGetUser());
+      resetData();
+    }
+   
   }, [onSubmitData]);
 
 

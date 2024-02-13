@@ -18,6 +18,7 @@ export const userMasterSlice = createSlice({
         postdata: {},
         error: {},
         message: "",
+        status_code:null
       };
     },
 
@@ -37,12 +38,7 @@ export const userMasterSlice = createSlice({
     onUserSubmitReset: (state) => {
       return {
         ...state,
-        isLoading: false,
-        isError: false,
-        postdata: {},
-        message:"",
-        status_code:"",
-        error: {},
+        status_code:null,
       };
     },
 
@@ -93,6 +89,7 @@ export const userMasterSlice = createSlice({
         updatedUserData: {},  
         error: {},
         message: "",
+        status_code:null
       };
     },
 

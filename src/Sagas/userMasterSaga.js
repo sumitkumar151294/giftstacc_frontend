@@ -10,6 +10,7 @@ function* userMaster({ payload }) {
         onUserSubmitSuccess({
           data: userMasterResponse.response,
           message: userMasterResponse.errorMessage,
+          status_code: userMasterResponse.httpStatusCode
         })
       );
     } else {
@@ -17,6 +18,7 @@ function* userMaster({ payload }) {
         onUserSubmitError({
           data: userMasterResponse.response,
           message: userMasterResponse.errorMessage,
+          status_code: userMasterResponse.httpStatusCode
         })
       );
     }
@@ -33,6 +35,7 @@ function* getUser() {
         onGetUserSuccess({
           data: userMasterResponse.response,
           message: userMasterResponse.errorMessage,
+          status_Code:userMasterResponse.httpStatusCode
         })
       );
     } else {
@@ -40,6 +43,7 @@ function* getUser() {
         onGetUserError({
           data: userMasterResponse.response,
           message: userMasterResponse.errorMessage,
+          status_Code:userMasterResponse.httpStatusCode
         })
       );
     }
@@ -51,11 +55,12 @@ function* getUser() {
 function* UpdateUser({ payload }) {
   try {
     const updateUserResponse = yield call(callUserMasterUpdateApi, payload);
-    if (updateUserResponse.httpStatusCode === "200") {
+    if (updateUserResponse.httpStatusCode === "201") {
       yield put(
         onUserUpdateSuccess({
           data: updateUserResponse.response,
           message: updateUserResponse.errorMessage,
+          status_code:updateUserResponse.httpStatusCode
         })
       );
     } else {
@@ -63,6 +68,7 @@ function* UpdateUser({ payload }) {
         onUserUpdateError({
           data: updateUserResponse.response,
           message: updateUserResponse.errorMessage,
+          status_code:updateUserResponse.httpStatusCode
         })
       );
     }
