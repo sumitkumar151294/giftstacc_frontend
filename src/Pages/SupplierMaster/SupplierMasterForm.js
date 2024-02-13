@@ -38,13 +38,26 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
   const add_More = GetTranslationData("UIAdmin", "add_More");
   const delete_Button = GetTranslationData("UIAdmin", "delete_Button");
   const fieldNameNotEmpty = GetTranslationData("UIAdmin", "fieldNameNotEmpty");
+  const service_Path = GetTranslationData("UIAdmin", "service_Path");
   const fieldValueNotEmpty = GetTranslationData(
     "UIAdmin",
     "fieldValueNotEmpty"
   );
   const [isformLoading, setIsFormLoading] = useState(false);
-  const [vendorData, setVendorData] = useState({});
-  const [errors, setErrors] = useState({});
+  const [vendorData, setVendorData] = useState({
+    name: "",
+    balanceThresholdAmount: "",
+    creditAmount: "",
+    servicePath:"",
+    enabled:"",
+  });
+  const [errors, setErrors] = useState({
+    name: "",
+    balanceThresholdAmount: "",
+    creditAmount: "",
+    servicePath:"",
+    enabled:""
+  });
   const supplyPostData = useSelector((state) => state.supplierMasterReducer);
   const supplyResource = useSelector((state) => state.supplierResourceReducer);
   const [additionalFields, setAdditionalFields] = useState([
@@ -68,11 +81,12 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
     { value: "Non-Active", label: "Non-Active" },
   ];
 
-  const resetData = () =>{
+  const resetData = () => {
     setData({
       name: "",
-    balanceThresholdAmount: "",
-    creditAmount: "",
+      balanceThresholdAmount: "",
+      creditAmount: "",
+      servicePath:"",
     });
     setVendorData({})
     setAdditionalFields([
@@ -85,56 +99,59 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
     ])
   }
 
-  const getAdditionalFIeldData = (del=false) =>{
+  const getAdditionalFIeldData = (del = false) => {
+    
     let tempAdditionField = [...additionalFields]
-    tempAdditionField.forEach((item)=>({
+    tempAdditionField.forEach((item) => ({
       ...item,
-      enabled:true,
-      deleted:del,
-     fieldDescription: "test",  // Need to remove once APi is developed
-      supplierId:supplyPostData?.postData?.[0]?.id
-  }))
+      enabled: true,
+      deleted: del,
+      fieldDescription: "test",  // Need to remove once APi is developed
+      supplierId: supplyPostData?.postData?.[0]?.id
+    }))
     return tempAdditionField;
   }
 
   useEffect(() => {
-      if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
-        dispatch(onVendorReset());
-        dispatch(onSupplierResourceSubmit(getAdditionalFIeldData()));
-      }else if(supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading){
-        dispatch(onUpdateSupplierListReset());
-        if(isDelete){
-          toast.success(supplyPostData?.message)
-          dispatch(onGetSupplierList());
-          dispatch(onGetSupplierResource());
-        }else{
-          dispatch(onUpdateSupplierResource(getAdditionalFIeldData()));
-        }
-        resetData();
+    
+    if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
+      dispatch(onVendorReset());
+      dispatch(onSupplierResourceSubmit(getAdditionalFIeldData()));
+    } else if (supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading) {
+      dispatch(onUpdateSupplierListReset());
+      if (isDelete) {
+        toast.success(supplyPostData?.message)
+        dispatch(onGetSupplierList());
+        dispatch(onGetSupplierResource());
+      } else {
+        dispatch(onUpdateSupplierResource(getAdditionalFIeldData()));
       }
+      resetData();
+    }
   }, [supplyPostData]);
 
-  useEffect(()=>{
-  if(supplyResource?.status_code === "201" && !supplyResource?.isLoading){
-    toast.success(supplyResource?.message)
-    dispatch(onGetSupplierList());
-    dispatch(onGetSupplierResource());
-    setIsFormLoading(false);
-    resetData();
-  }
-  },[supplyResource])
+  useEffect(() => {
+    if (supplyResource?.status_code === "201" && !supplyResource?.isLoading) {
+      toast.success(supplyResource?.message)
+      dispatch(onGetSupplierList());
+      dispatch(onGetSupplierResource());
+      setIsFormLoading(false);
+      resetData();
+    }
+  }, [supplyResource])
 
   useEffect(() => {
     // Scroll to the top of the page for visibility
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    if (data.name!=="") {
+    if (data.name !== "") {
       setVendorData({
         name: data.name || "",
         balanceThresholdAmount: parseInt(data.balanceThresholdAmount) || "",
         creditAmount: parseInt(data.creditAmount) || "",
+        servicePath: data.servicePath||"",
         enabled: data.enabled,
       });
-      const filterSupplierApiCred = supplyResource?.data?.filter((item)=>item?.supplierId===data?.id)
+      const filterSupplierApiCred = supplyResource?.data?.filter((item) => item?.supplierId === data?.id)
       setAdditionalFields(filterSupplierApiCred)
     }
   }, [data]);
@@ -149,12 +166,18 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
         ...errors,
         [fieldName]: "Value cannot be negative",
       });
-    }else if(fieldName==="status"){
+    } 
+    else if (fieldName === "status") {
       setVendorData({
         ...vendorData,
-        enabled: e.target.value==="Active"? true:false,
+        enabled: e.target.value === "Active" ? true : false,
       });
-    } else {
+      setErrors({
+        ...errors,
+        enabled: "",
+      });
+    }
+     else {
       setVendorData({
         ...vendorData,
         [fieldName]: e.target.value,
@@ -232,10 +255,10 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
           // Handle any errors during dispatch
         }
       } else if (data.name) {
-          try {
-            const updateData = {...vendorData};
-            updateData.id= data.id;
-         dispatch(
+        try {
+          const updateData = { ...vendorData };
+          updateData.id = data.id;
+          dispatch(
             onUpdateSupplierList(updateData)
           );
           // Define a function to show a toast notification based on loginDetails
@@ -288,9 +311,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                           <InputField
                             type="text"
                             value={vendorData?.name}
-                            className={` ${
-                              errors.name ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.name ? "border-danger" : "form-control"}`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -304,11 +325,9 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                           </label>
                           <Dropdown
                             onChange={(e) => handleChange(e, "status")}
-                            error={errors.status}
-                            value={vendorData?.enabled ?  'Active' : vendorData?.enabled===undefined || vendorData?.enabled === "" ? '' : 'Non-Active' }
-                            className={` ${
-                              errors.status ? "border-danger" : "form-select"
-                            }`}
+                            error={errors?.enabled}
+                            value={vendorData?.enabled ? 'Active' : vendorData?.enabled === undefined || vendorData?.enabled === "" ? '' : 'Non-Active'}
+                            className={`${errors.enabled ? "border-danger" : "form-select"}`}
                             options={statusoptions}
                           />
                         </div>
@@ -321,11 +340,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                             type="number"
                             name="text"
                             value={parseInt(vendorData?.balanceThresholdAmount)}
-                            className={` ${
-                              errors.balanceThresholdAmount
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={` ${errors.balanceThresholdAmount ? "border-danger" : "form-control"}`}
                             id="amominThresholdAmountunt"
                             placeholder="₹500000"
                             onChange={(e) =>
@@ -343,14 +358,26 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                             type="number"
                             name="text"
                             value={parseInt(vendorData.creditAmount)}
-                            className={` ${
-                              errors.creditAmount
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={` ${errors.creditAmount ? "border-danger" : "form-control"}`}
                             id="creditAmount"
                             placeholder="₹500000"
                             onChange={(e) => handleChange(e, "creditAmount")}
+                          />
+                        </div>
+
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="servicePath">
+                            {service_Path}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <InputField
+                            type="text"
+                            name="servicePath"
+                            value={vendorData?.servicePath}
+                            className={` ${errors.servicePath ? "border-danger" : "form-control"}`}
+                            id="servicePath"
+                            placeholder=""
+                            onChange={(e) => handleChange(e, "servicePath")}
                           />
                         </div>
 
@@ -367,11 +394,10 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${
-                                        additionalFieldsError[index]?.fieldName
-                                          ? "border-danger"
-                                          : "form-control"
-                                      }`}
+                                      className={` ${additionalFieldsError[index]?.fieldName
+                                        ? "border-danger"
+                                        : "form-control"
+                                        }`}
                                       name="fname"
                                       placeholder="Key"
                                       value={additionalFields[index].fieldName}
@@ -387,11 +413,10 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${
-                                        additionalFieldsError[index]?.fieldValue
-                                          ? "border-danger"
-                                          : "form-control"
-                                      }`}
+                                      className={` ${additionalFieldsError[index]?.fieldValue
+                                        ? "border-danger"
+                                        : "form-control"
+                                        }`}
                                       name="fname"
                                       placeholder="Value"
                                       value={additionalFields[index].fieldValue}
