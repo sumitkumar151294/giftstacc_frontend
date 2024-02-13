@@ -100,50 +100,48 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
   }
 
   const getAdditionalFIeldData = (del = false) => {
-    
     let tempAdditionField = [...additionalFields]
-    tempAdditionField.forEach((item) => ({
+   const additionalData =  tempAdditionField.map((item)=>({
       ...item,
-      enabled: true,
-      deleted: del,
-      fieldDescription: "test",  // Need to remove once APi is developed
-      supplierId: supplyPostData?.postData?.[0]?.id
-    }))
-    return tempAdditionField;
+      enabled:true,
+      deleted:del,
+     fieldDescription: "test",  // Need to remove once APi is developed
+      supplierId:supplyPostData?.postData?.[0]?.id
+  }))
+    return additionalData;
   }
 
   useEffect(() => {
-    
-    if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
-      dispatch(onVendorReset());
-      dispatch(onSupplierResourceSubmit(getAdditionalFIeldData()));
-    } else if (supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading) {
-      dispatch(onUpdateSupplierListReset());
-      if (isDelete) {
-        toast.success(supplyPostData?.message)
-        dispatch(onGetSupplierList());
-        dispatch(onGetSupplierResource());
-      } else {
-        dispatch(onUpdateSupplierResource(getAdditionalFIeldData()));
+      if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
+        dispatch(onVendorReset());
+        dispatch(onSupplierResourceSubmit(getAdditionalFIeldData()));
+      }else if(supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading){
+        dispatch(onUpdateSupplierListReset());
+        if(isDelete){
+          toast.success(supplyPostData?.message)
+          dispatch(onGetSupplierList());
+          dispatch(onGetSupplierResource());
+        }else{
+          dispatch(onUpdateSupplierResource(getAdditionalFIeldData()));
+        }
+        resetData();
       }
-      resetData();
-    }
   }, [supplyPostData]);
 
-  useEffect(() => {
-    if (supplyResource?.status_code === "201" && !supplyResource?.isLoading) {
-      toast.success(supplyResource?.message)
-      dispatch(onGetSupplierList());
-      dispatch(onGetSupplierResource());
-      setIsFormLoading(false);
-      resetData();
-    }
-  }, [supplyResource])
+  useEffect(()=>{
+  if(supplyResource?.status_code === "201" && !supplyResource?.isLoading){
+    toast.success(supplyResource?.message)
+    dispatch(onGetSupplierList());
+    dispatch(onGetSupplierResource());
+    setIsFormLoading(false);
+    resetData();
+  }
+  },[supplyResource])
 
   useEffect(() => {
     // Scroll to the top of the page for visibility
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    if (data.name !== "") {
+    if (data.name!=="") {
       setVendorData({
         name: data.name || "",
         balanceThresholdAmount: parseInt(data.balanceThresholdAmount) || "",
@@ -151,7 +149,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
         servicePath: data.servicePath||"",
         enabled: data.enabled,
       });
-      const filterSupplierApiCred = supplyResource?.data?.filter((item) => item?.supplierId === data?.id)
+      const filterSupplierApiCred = supplyResource?.data?.filter((item)=>item?.supplierId===data?.id)
       setAdditionalFields(filterSupplierApiCred)
     }
   }, [data]);
@@ -197,10 +195,11 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
       newData[index] = { ...newData[index], [field]: e.target.value };
       return newData;
     });
-
+debugger
     setAdditionalFieldsError((prevErrors) => {
       const newErrors = [...prevErrors];
       newErrors[index] = { ...newErrors[index], [field]: "" };
+      console.log('newErrors',newErrors)
       return newErrors;
     });
   };
@@ -221,11 +220,12 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
         newErrors[key] = "";
       }
     }
-
+console.log('additionalFields', additionalFields);
     additionalFields?.forEach((field, index) => {
       if (field.fieldName === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
+          console.log('prevErrors', prevErrors)
           newAdditionalFieldsError[index].fieldName = fieldNameNotEmpty;
           return newAdditionalFieldsError;
         });
@@ -277,6 +277,14 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
         fieldValue: "",
       },
     ]);
+    setAdditionalFieldsError((prevFields) => [
+      ...prevFields,
+      {
+        fieldName: "",
+      fieldValue: "",
+      fieldDescription: "",
+      },
+    ]);
   };
 
   const handleDelete = (index) => {
@@ -311,7 +319,9 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                           <InputField
                             type="text"
                             value={vendorData?.name}
-                            className={` ${errors.name ? "border-danger" : "form-control"}`}
+                            className={` ${
+                              errors.name ? "border-danger" : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -340,7 +350,11 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                             type="number"
                             name="text"
                             value={parseInt(vendorData?.balanceThresholdAmount)}
-                            className={` ${errors.balanceThresholdAmount ? "border-danger" : "form-control"}`}
+                            className={` ${
+                              errors.balanceThresholdAmount
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             id="amominThresholdAmountunt"
                             placeholder="₹500000"
                             onChange={(e) =>
@@ -358,13 +372,16 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                             type="number"
                             name="text"
                             value={parseInt(vendorData.creditAmount)}
-                            className={` ${errors.creditAmount ? "border-danger" : "form-control"}`}
+                            className={` ${
+                              errors.creditAmount
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             id="creditAmount"
                             placeholder="₹500000"
                             onChange={(e) => handleChange(e, "creditAmount")}
                           />
                         </div>
-
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="servicePath">
                             {service_Path}
@@ -380,7 +397,6 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                             onChange={(e) => handleChange(e, "servicePath")}
                           />
                         </div>
-
                         <div className="row mt-3">
                           <h3 style={{ borderBottom: "1px solid #ededed" }}>
                             {supplier_API}
@@ -394,10 +410,11 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${additionalFieldsError[index]?.fieldName
-                                        ? "border-danger"
-                                        : "form-control"
-                                        }`}
+                                      className={` ${
+                                        additionalFieldsError[index]?.fieldName
+                                          ? "border-danger"
+                                          : "form-control"
+                                      }`}
                                       name="fname"
                                       placeholder="Key"
                                       value={additionalFields[index].fieldName}
@@ -413,10 +430,11 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${additionalFieldsError[index]?.fieldValue
-                                        ? "border-danger"
-                                        : "form-control"
-                                        }`}
+                                      className={` ${
+                                        additionalFieldsError[index]?.fieldValue
+                                          ? "border-danger"
+                                          : "form-control"
+                                      }`}
                                       name="fname"
                                       placeholder="Value"
                                       value={additionalFields[index].fieldValue}

@@ -46,7 +46,6 @@ export const supplierMasterSlice = createSlice({
     onVendorReset: (state, { payload }) => {
       return {
         ...state,
-        postData:{},
         message:"",
         post_status_code:null,
         isLoading: false,
