@@ -24,6 +24,7 @@ function* getClientPayment() {
         onClientPaymentSubmitSuccess({
           data: ClientPayment.response,
           message: ClientPayment.errorMessage,
+          status_code: ClientPayment.httpStatusCode
         })
       );
     } else {
@@ -49,6 +50,7 @@ function* postClientPayment({ payload }) {
         onPostClientPaymentSubmitSuccess({
           data: postClientPayment.response,
           message: postClientPayment.errorMessage,
+          status_code: postClientPayment.httpStatusCode
         })
       );
     } else {
@@ -77,6 +79,7 @@ function* updateClientPayment(payload) {
         onUpdateClientPaymentSubmitSuccess({
           data: updateClientPayment.response,
           message: updateClientPayment.errorMessage,
+          status_code: updateClientPayment.httpStatusCode
         })
       );
     } else {

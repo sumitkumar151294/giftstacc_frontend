@@ -7,7 +7,6 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import RoleMasterForm from "./RoleMasterForm";
 import ReactPaginate from "react-paginate";
-import { onGetUserRoleModuleAccess } from "../../Store/Slices/userRoleModuleAccessSlice";
 const RoleMasterList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -24,7 +23,6 @@ const RoleMasterList = () => {
   useEffect(() => {
     // user-role get api call
     dispatch(onGetUserRole());
-    dispatch(onGetUserRoleModuleAccess());
     setIsLoading(true);
   }, []);
 

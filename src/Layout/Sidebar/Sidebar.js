@@ -6,6 +6,7 @@ import Loader from "../../Components/Loader/Loader";
 import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import { onGetUserRoleModuleAccess } from "../../Store/Slices/userRoleModuleAccessSlice";
 const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,16 +29,17 @@ const Sidebar = () => {
   useEffect(() => {
     setIsSidebarLoading(true);
     dispatch(onGetModule());
+    dispatch(onGetUserRoleModuleAccess());
   }, []);
 
   useEffect(() => {
-    if (!getModuleData.isLoading) {
+    if (!getModuleData.isLoading && userRoleModuleAccess.length>0) {
       setIsSidebarLoading(false);
       let tempideModules= JSON.parse(JSON.stringify(getModuleData?.data));
-      const filterData = userRoleModuleAccess?.filter((item)=>{return (item.roleId===userRoleID && (item.addAccess || item.editAccess || item.viewAccess))})
+      const filterData = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item)=>{return (item.roleId===userRoleID && (item.addAccess || item.editAccess || item.viewAccess))});
       const filterModules = []
       for(var i=0; i<tempideModules.length; i++){
-        for(var j=0; j<filterData.length; j++){
+        for(var j=0; j<filterData?.length; j++){
           if(tempideModules[i].id===filterData[j].moduleId){
             filterModules.push(tempideModules[i])
           }
@@ -47,7 +49,7 @@ const Sidebar = () => {
     } else {
       setIsSidebarLoading(true);
     }
-  }, [getModuleData]);
+  }, [getModuleData,userRoleModuleAccess]);
 
   // function to add active class on Li
   const hanleClick = (e) => {

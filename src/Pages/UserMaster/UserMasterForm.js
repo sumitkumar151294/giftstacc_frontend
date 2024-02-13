@@ -38,7 +38,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const onUpdateData = useSelector((state) => state.userMasterReducer.updatedUserData);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer);
-  const clientList = useSelector((state) => state.clientMasterReducer.data);
+  const clientList = useSelector((state) => state.clientMasterReducer.clientData);
   //To get the labels from API
   const userMaster = GetTranslationData("UIAdmin", "user_Master_label");
   const email = GetTranslationData("UIAdmin", "email_label");
@@ -104,7 +104,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     if (fieldName === "check" && checked === true) {
       let accessClientIds = [...userData.accessClientIds];
       accessClientIds?.push(value);
-      newUserdetailData = {
+            newUserdetailData = {
         ...userData,
         accessClientIds,
       };
@@ -202,6 +202,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         if (!prefilledValues) {
           const UsersData = {
             ...userData,
+            accessClientIds: userData.accessClientIds.toString(),
             mobile: userData.mobile,
             adminRoleId: parseInt(userData.role),
             adminRoleCode: "string",
@@ -223,7 +224,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
             email: userData.email,
             mobile: userData.mobile,
             adminRoleId: parseInt(userData.role),
-            accessClientIds: userData.accessClientIds,
+            accessClientIds: userData.accessClientIds.toString(),
             adminRoleCode: "string",
             clientRoleId: parseInt(userData.clientRoleId),
             clientRoleCode: "string",

@@ -87,11 +87,13 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
 
   const getAdditionalFIeldData = (del=false) =>{
     let tempAdditionField = [...additionalFields]
-    tempAdditionField.forEach(item=>(
-      item.enabled=true,
-      item.deleted=del,
-      item.fieldDescription = "test"  // Need to remove once APi is developed
-    ))
+    tempAdditionField.forEach((item)=>({
+      ...item,
+      enabled:true,
+      deleted:del,
+     fieldDescription: "test",  // Need to remove once APi is developed
+      supplierId:supplyPostData?.postData?.[0]?.id
+  }))
     return tempAdditionField;
   }
 
@@ -100,9 +102,9 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
         dispatch(onVendorReset());
         dispatch(onSupplierResourceSubmit(getAdditionalFIeldData()));
       }else if(supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading){
-        toast.success(supplyPostData?.message)
         dispatch(onUpdateSupplierListReset());
         if(isDelete){
+          toast.success(supplyPostData?.message)
           dispatch(onGetSupplierList());
           dispatch(onGetSupplierResource());
         }else{
@@ -116,6 +118,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
   if(supplyResource?.status_code === "201" && !supplyResource?.isLoading){
     toast.success(supplyResource?.message)
     dispatch(onGetSupplierList());
+    dispatch(onGetSupplierResource());
     setIsFormLoading(false);
     resetData();
   }

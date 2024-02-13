@@ -83,6 +83,7 @@ function* onUpdateSupplier(payload) {
         onUpdateSupplierResourceSuccess({
           data: supplierResourceResponse.response,
           message: supplierResourceResponse.errorMessage,
+          status_code:supplierResourceResponse.httpStatusCode
         })
       );
     } else {
