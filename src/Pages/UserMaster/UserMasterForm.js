@@ -11,13 +11,11 @@ import InputField from "../../Components/InputField/InputField";
 import { ToastContainer, toast } from "react-toastify";
 import { onGetUserRole } from "../../Store/Slices/userRoleSlice";
 import Loader from "../../Components/Loader/Loader";
-import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../Components/Button/Button";
 
 const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const dispatch = useDispatch();
-  const [onUpdate, setOnUpdate] = useState(false);
 
   const [userData, setUserData] = useState({
     mobile: "",
@@ -40,10 +38,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   });
 
   //To get the data from redux store
-  const onSubmitData = useSelector((state) => state.userMasterReducer.postdata);
-  const onUpdateData = useSelector(
-    (state) => state.userMasterReducer.updatedUserData
-  );
+  const onSubmitData = useSelector((state) => state.userMasterReducer);
+
   const loading = useSelector((state) => state.userMasterReducer?.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer);
   const clientList = useSelector((state) => state.clientMasterReducer.data);
@@ -109,7 +105,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     const { value, checked } = e.target;
     let newUserdetailData;
     if (fieldName === "check" && checked === true) {
-      debugger;
       let accessClientIds = [...userData.accessClientIds];
       accessClientIds?.push(value);
       newUserdetailData = {
@@ -117,7 +112,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         accessClientIds,
       };
     } else if (fieldName === "check" && checked === false) {
-      debugger;
       let accessClientIds = [...userData.accessClientIds];
       accessClientIds = accessClientIds.filter(
         (accessClientIds) => accessClientIds !== value
@@ -157,21 +151,43 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    let isValid = true;
+    let isValid = true; // Assume form is valid initially
     const newErrors = { ...errors };
-    // Check if fields are empty and set corresponding error messages
-    for (const key in userData) {
+
+    // Check if fields are empty or invalid and set corresponding error messages
+    Object.keys(userData).forEach((key) => {
       if (userData[key] === "") {
-        newErrors[key] = " ";
-        isValid = false;
-      } else if (key === "email" && newErrors[key] !== "") {
-        isValid = false;
-      } else if (key === "mobile" && newErrors[key] !== "") {
-        isValid = false;
-      } else {
-        newErrors[key] = "";
+        newErrors[key] = "This field is required";
+        isValid = false; // Mark form as invalid if any field is empty
       }
+    });
+
+    // Validate email format
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(userData.email)) {
+      newErrors.email = "Invalid email format";
+      isValid = false; // Mark form as invalid if email is invalid
+    } else {
+      newErrors.email = ""; // Clear email error if valid
     }
+
+    // Validate mobile format
+    const mobileRegex = /^[0-9]{10}$/;
+    if (!mobileRegex.test(userData.mobile)) {
+      newErrors.mobile = "Mobile number must be 10 digits";
+      isValid = false; // Mark form as invalid if mobile is invalid
+    } else {
+      newErrors.mobile = ""; // Clear mobile error if valid
+    }
+
+    // Check if a client has been selected (if applicable)
+    if (userData.clientRoleId?.length === 0) {
+      newErrors.clientRoleId = select_role;
+      isValid = false; // Mark form as invalid if no client role ID
+    } else {
+      newErrors.clientRoleId = ""; // Clear client role ID error if selected
+    }
+
     setErrors(newErrors);
     // Check if a role has been selected
     // if (userData.role === "") {
@@ -189,77 +205,62 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       newErrors.clientRoleId = ""; // Clear the client error if a client is selected
     }
     setErrors(newErrors);
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const mobileRegex = /^[0-9]{10}$/;
-    if (!emailRegex.test(userData.email)) {
-      isValid = false;
-    } else if (!mobileRegex.test(userData.mobile)) {
-      isValid = false;
-    } else {
-      newErrors.email = "";
-    }
-    setErrors(newErrors);
-
-    try {
-      const concatenatedIds = userData.accessClientIds.reduce((acc, id) => {
+    const concatenatedIds =
+      Array.isArray(userData.accessClientIds) &&
+      userData.accessClientIds.reduce((acc, id) => {
         return acc + id; // Concatenate each id to the accumulator
       }, "");
-      setOnUpdate(true);
-      if (!isValid) {
-        if (!prefilledValues) {
-          const UsersData = {
-            ...userData,
-            accessClientIds: concatenatedIds,
-            mobile: userData.mobile,
-            adminRoleId: parseInt(userData?.role) || parseInt(userData?.role),
-            adminRoleCode: "string",
-            clientRoleId: parseInt(userData?.clientRoleId),
-            clientRoleCode: "string",
-          };
+    if (isValid && prefilledValues === undefined) {
+      const UsersData = {
+        ...userData,
+        accessClientIds: concatenatedIds,
+        mobile: userData.mobile,
+        adminRoleId: parseInt(userData?.role) || parseInt(userData?.role),
+        adminRoleCode: "string",
+        clientRoleId: parseInt(userData?.clientRoleId),
+        clientRoleCode: "string",
+      };
+      dispatch(onUserSubmit(UsersData));
+    } else if (prefilledValues) {
+      const updateUserData = {
+        enabled: true,
+        deleted: false,
+        createdBy: 0,
+        updatedBy: 0,
+        login_attempt: 0,
+        id: prefilledValues?.id,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        email: userData.email,
+        mobile: userData.mobile,
+        adminRoleId: parseInt(userData.role),
+        accessClientIds: concatenatedIds,
+        adminRoleCode: "string",
+        clientRoleId: parseInt(userData.clientRoleId),
+        clientRoleCode: "string",
+      };
+      dispatch(onUserUpdate(updateUserData));
+    }
 
-          dispatch(onUserSubmit(UsersData));
-        } else if (prefilledValues) {
-          const updateUserData = {
-            enabled: true,
-            deleted: false,
-            createdBy: 0,
-            updatedBy: 0,
-            login_attempt: 0,
-            id: prefilledValues?.id,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            email: userData.email,
-            mobile: userData.mobile,
-            adminRoleId: parseInt(userData.role),
-            accessClientIds: concatenatedIds,
-            adminRoleCode: "string",
-            clientRoleId: parseInt(userData.clientRoleId),
-            clientRoleCode: "string",
-          };
-          dispatch(onUserUpdate(updateUserData));
-          toast.success("User Updated Successfully");
-        }
-      }
-      setTimeout(() => {
-        dispatch(onGetUser());
-      }, 2000);
-      setPrefilledValues();
-    } catch (error) {}
+    setPrefilledValues();
   };
 
   useEffect(() => {
-    if (onUpdate) {
-      debugger;
-      if (onSubmitData?.message === "User Added Successfully.") {
-        debugger;
-        toast.success(onSubmitData?.message);
-        dispatch(onUserSubmitReset());
-      } else if (onUpdateData?.message === "Update Successfully.") {
-        dispatch(onUserUpdateReset());
-        toast.success(onSubmitData?.message);
-      } else {
-        toast.error(onSubmitData?.message);
-      }
+    // If there's a post message and it indicates success
+    if (onSubmitData?.postMessage) {
+      toast.success(onSubmitData.postMessage);
+      dispatch(onUserSubmitReset());
+      dispatch(onGetUser());
+    }
+    // Else, if there's an update message indicating success
+    else if (onSubmitData?.updateMessage) {
+      toast.success(onSubmitData.updateMessage);
+      dispatch(onUserUpdateReset());
+      dispatch(onGetUser());
+    }
+    // If none of the above conditions meet, and there's an indication of an error
+    else {
+      toast.error(onSubmitData.errorMessage);
     }
   }, [onSubmitData]);
 
