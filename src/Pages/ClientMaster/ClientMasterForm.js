@@ -141,7 +141,28 @@ const ClientMaster = (props) => {
     });
 
   }, [props.data]);
-
+const resetFields = {
+  name: "",
+  number: "",
+  email: "",
+  enabled: true,
+  color: "",
+  logoUrl: "",
+  themes: "",
+  dbLoginId: "",
+  dbLoginPwd: "",
+  dbIpAddress: "",
+  platformDomainUrl: "",
+}
+const resetAdditionalFields = [
+  {
+    resourceKey: "",
+    clientId: "",
+    resourceValue: "",
+    mode: "",
+    id: ""
+  }
+];
   const handleAddMoreData = (field, index, e) => {
     var data = [...additionalFields];
     data[index][field] = e.target.value;
@@ -295,43 +316,26 @@ const ClientMaster = (props) => {
       dispatch(onPostClientPaymentReset())
       dispatch(onClientMasterSubmit());
       dispatch(onClientPaymentSubmit());
-      setClientData({
-        name: "",
-        number: "",
-        email: "",
-        enabled: true,
-        color: "",
-        logoUrl: "",
-        themes: "",
-        dbLoginId: "",
-        dbLoginPwd: "",
-        dbIpAddress: "",
-        platformDomainUrl: "",
-      })
-      setAdditionalFields([
-        {
-          resourceKey: "",
-          clientId: "",
-          resourceValue: "",
-          mode: "",
-          id: ""
-        }
-      ])
+      setClientData(resetFields);
+      setAdditionalFields(resetAdditionalFields);
     }
     
-  }, [getClientPaymentdata])
+  }, [getClientPaymentdata]);
   
   useEffect(()=>{
     if(clientMasterDetails.update_status_code === "201"){
       setShowLoader(false);
+      toast.success(clientMasterDetails?.updateMessage);
       dispatch(onUpdateClientMasterReset())
       dispatch(onClientMasterSubmit());
       dispatch(onClientPaymentSubmit());
+      setClientData(resetFields);
+      setAdditionalFields(resetAdditionalFields);
     }
-  },[getClientPaymentdata,clientMasterDetails])
+  },[clientMasterDetails]);
 
   useEffect(() => {
-    dispatch(onPostClientMasterReset())
+    dispatch(onPostClientMasterReset());
   }, []);
 
   return (

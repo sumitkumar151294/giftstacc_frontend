@@ -68,13 +68,6 @@ const ClientMasterList = () => {
       deleted: true,
     };
     dispatch(onUpdateClientMasterSubmit(deletedData));
-    setTimeout(() => {
-      setShowLoader(true);
-      if (clientList.status_code === 200) {
-        dispatch(onClientMasterSubmit());
-        setShowLoader(false);
-      }
-    }, 1000);
   };
 
   const headers = [
