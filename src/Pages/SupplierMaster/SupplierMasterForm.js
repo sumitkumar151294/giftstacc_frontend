@@ -199,7 +199,6 @@ debugger
     setAdditionalFieldsError((prevErrors) => {
       const newErrors = [...prevErrors];
       newErrors[index] = { ...newErrors[index], [field]: "" };
-      console.log('newErrors',newErrors)
       return newErrors;
     });
   };
@@ -220,12 +219,10 @@ debugger
         newErrors[key] = "";
       }
     }
-console.log('additionalFields', additionalFields);
     additionalFields?.forEach((field, index) => {
       if (field.fieldName === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
-          console.log('prevErrors', prevErrors)
           newAdditionalFieldsError[index].fieldName = fieldNameNotEmpty;
           return newAdditionalFieldsError;
         });

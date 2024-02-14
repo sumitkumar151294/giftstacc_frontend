@@ -23,8 +23,8 @@ const SupplierMasterList = () => {
     name: "",
     balanceThresholdAmount: "",
     creditAmount: "",
-    servicePath:"",
-    enabled: ""
+    servicePath: "",
+    enabled: "",
   });
   const supplierList = GetTranslationData("UIAdmin", "supplierList");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -62,6 +62,10 @@ const SupplierMasterList = () => {
   };
 
   useEffect(() => {
+    const newPageCount = Math.ceil(filteredVendorList.length / rowsPerPage);
+    if (newPageCount !== rowsPerPage) {
+      setPage(Math.max(newPageCount), page - 1); // Ensure the page number doesn't fall below 1
+    }
     if (supplierMasterData?.status_code === "200") {
       setIsLoading(false);
     }
@@ -73,7 +77,7 @@ const SupplierMasterList = () => {
       enabled: vendor.enabled ? true : false,
       balanceThresholdAmount: vendor.balanceThresholdAmount,
       creditAmount: vendor.creditAmount,
-      servicePath:vendor.servicePath,
+      servicePath: vendor.servicePath,
       id: vendor?.id,
     });
   };
@@ -83,32 +87,39 @@ const SupplierMasterList = () => {
       id: vendor.id,
       balanceThresholdAmount: vendor.balanceThresholdAmount,
       creditAmount: vendor.creditAmount,
-      servicePath:vendor.servicePath,
+      servicePath: vendor.servicePath,
       deleted: true,
       enabled: false,
     };
     setIsDelete(true);
     dispatch(onUpdateSupplierList(deletedData));
+    // Assuming dispatch returns a promise, wait for it to resolve
+    // Then check if the current page now has no items
   };
 
   useEffect(() => {
     setIsLoading(true);
     dispatch(onGetSupplierList());
     dispatch(onGetSupplierResource());
-  }, [])
+  }, []);
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
     ? supplierMasterData?.data.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
   return (
     <>
-      <SupplierMasterForm data={vendorData} setData={setVendorData} isDelete={isDelete} setIsDelete={setIsDelete} />
+      <SupplierMasterForm
+        data={vendorData}
+        setData={setVendorData}
+        isDelete={isDelete}
+        setIsDelete={setIsDelete}
+      />
 
       <div className="container-fluid pt-0">
         <div className="row">
@@ -190,47 +201,51 @@ const SupplierMasterList = () => {
                               <tbody>
                                 {filteredVendorList.length > 0 ? (
                                   Array.isArray(filteredVendorList) &&
-                                  filteredVendorList.slice(startIndex, endIndex).map((vendor, index) => (
-                                    <tr key={index}>
-                                      <td>{vendor.name}</td>
-                                      <td>{vendor.id}</td>
-                                      <td>
-                                        <span className="text-muted">
-                                          {vendor.creditAmount}
-                                        </span>
-                                      </td>
-                                      <td>{vendor.balanceThresholdAmount}</td>
-                                      <td>
-                                        <span
-                                          className={`badge ${vendor.enabled
-                                              ? "badge-success"
-                                              : "badge-danger"
+                                  filteredVendorList
+                                    .slice(startIndex, endIndex)
+                                    .map((vendor, index) => (
+                                      <tr key={index}>
+                                        <td>{vendor.name}</td>
+                                        <td>{vendor.id}</td>
+                                        <td>
+                                          <span className="text-muted">
+                                            {vendor.creditAmount}
+                                          </span>
+                                        </td>
+                                        <td>{vendor.balanceThresholdAmount}</td>
+                                        <td>
+                                          <span
+                                            className={`badge ${
+                                              vendor.enabled
+                                                ? "badge-success"
+                                                : "badge-danger"
                                             }`}
-                                        >
-                                          {vendor.enabled
-                                            ? "Active"
-                                            : "Non-Active"}
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex">
-                                          <a
-                                            className="btn btn-primary shadow btn-xs sharp me-1"
-                                            onClick={() => handleEdit(vendor)}
                                           >
-                                            <i className="fas fa-pencil-alt"></i>
-                                          </a>
-                                          <a className="btn btn-danger shadow btn-xs sharp" onClick={() =>
-                                            handleDelete(vendor)
-                                          }>
-                                            <i
-                                              className="fa fa-trash"
-                                            ></i>
-                                          </a>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                            {vendor.enabled
+                                              ? "Active"
+                                              : "Non-Active"}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <div className="d-flex">
+                                            <a
+                                              className="btn btn-primary shadow btn-xs sharp me-1"
+                                              onClick={() => handleEdit(vendor)}
+                                            >
+                                              <i className="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <a
+                                              className="btn btn-danger shadow btn-xs sharp"
+                                              onClick={() =>
+                                                handleDelete(vendor)
+                                              }
+                                            >
+                                              <i className="fa fa-trash"></i>
+                                            </a>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ))
                                 ) : (
                                   <NoRecord />
                                 )}
@@ -248,7 +263,8 @@ const SupplierMasterList = () => {
                                 onPageChange={handlePageChange}
                                 containerClassName={"pagination"}
                                 activeClassName={"active"}
-                                initialPage={page - 1} // Use initialPage instead of forcePage
+                                initialPage={page === 0}
+                                // Use initialPage instead of forcePage
                                 previousClassName={page === 0 ? "disabled" : ""}
                               />
                             </div>
