@@ -128,7 +128,21 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         ...userData,
         accessClientIds,
       };
-   
+    } 
+      
+	  else if (fieldName === "check" && checked === false) {
+      let accessClientIds = [...userData.accessClientIds];
+      accessClientIds = accessClientIds.filter(
+        (accessClientIds) => accessClientIds !== value
+      );
+      newUserdetailData = {
+        ...userData,
+        accessClientIds,
+      };
+      newUserdetailData = {
+        ...userData,
+        accessClientIds,
+      };
     } else {
       newUserdetailData = {
         ...userData,

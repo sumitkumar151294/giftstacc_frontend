@@ -106,7 +106,7 @@ console.log(client,"clientdafa",userList);
                           ?.slice(startIndex, endIndex)
                           .map((item, index) => (
                             <tr key={index}>
-                              <td>{getNameById(item?.adminRoleId)}    {getNameById(item?.clientRoleId)}</td>
+                              <td>{getNameById(item?.adminRoleId)} ,   {getNameById(item?.clientRoleId)}</td>
                               <td>{item.email}</td>
                               <td>{item.mobile}</td>
                               <td>{`${item.firstName}${item.lastName}`}</td>
@@ -118,7 +118,7 @@ console.log(client,"clientdafa",userList);
                                         (clientId, index) => (
                                           <span
                                             key={index}
-                                            className="badge badge-secondary mr-10"
+                                            className= { clientId && "badge badge-secondary mr-10"}
                                           >
                                             {getClientByIndex(client, [
                                               clientId,
