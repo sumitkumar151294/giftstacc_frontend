@@ -6,17 +6,19 @@ import {
   onUpdateClientMasterSubmit,
   onPostClientMasterSubmit,
   onClientMasterSubmit,
+  onPostClientMasterReset,
+  onUpdateClientMasterReset,
 } from "../../Store/Slices/clientMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../Components/Button/Button";
+import { onClientPaymentSubmit, onPostClientPaymentReset, onPostClientPaymentSubmit, onUpdateClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMaster = (props) => {
   const dispatch = useDispatch();
-  const [showLoder, setShowLoader] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [showUpdate, setShowUpdate] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
+  const getClientPaymentdata = useSelector((state) => state.clientPaymentReducer);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
   const email = GetTranslationData("UIAdmin", "contact_Email_label");
@@ -46,9 +48,14 @@ const ClientMaster = (props) => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
   const validNumber = GetTranslationData("UIAdmin", "number_Digit_Label");
+  const platformDomainUrl = GetTranslationData(
+    "UIAdmin",
+    "platform_Domain_Url"
+  );
+
   const statusoptions = [
-    { value: "Active", label: "Active" },
-    { value: "Non-Active", label: "Non-Active" },
+    { value: true, label: "Active" },
+    { value: false, label: "Non-active" },
   ];
   const options = [
     { value: "Theme 1", label: "Theme 1" },
@@ -62,32 +69,25 @@ const ClientMaster = (props) => {
   ];
   const [additionalFields, setAdditionalFields] = useState([
     {
-      fieldNameInput: "",
-      fieldValue: "",
+      resourceKey: "",
+      clientId: "",
+      resourceValue: "",
       mode: "",
+      id: ""
     },
   ]);
   const [clientData, setClientData] = useState({
     name: "",
     number: "",
     email: "",
-    status: "",
-    id: props?.data?.id,
-    userName: "string",
-    password: "string",
+    enabled: true,
     color: "",
-    lgogLink: "",
-    dbipAddress: "",
+    logoUrl: "",
+    themes: "",
     dbLoginId: "",
     dbLoginPwd: "",
-    stagingKey: "",
-    stagingSecretKey: "",
-    productionKey: "",
-    productionSecretKey: "",
-    theme: "",
-    fieldNameInput: "",
-    fieldValue: "",
-    mode: "",
+    dbIpAddress: "",
+    platformDomainUrl: "",
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -95,60 +95,51 @@ const ClientMaster = (props) => {
     email: "",
     status: "",
     color: "",
-    lgogLink: "",
+    logoUrl: "",
     dbLoginPwd: "",
-    dbipAddress: "",
-    stagingKey: "ds",
-    stagingSecretKey: "ds",
-    productionKey: "ds",
-    productionSecretKey: "ds",
-    theme: "",
-    fieldNameInput: "",
-    fieldValue: "",
-    mode: "",
+    dbIpAddress: "",
+    themes: "",
+    platformDomainUrl: "",
   });
-
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    const selectedData = Array.isArray(props.clientPayData) ? props.clientPayData?.find(item => item.clientId === props.data?.id) : null;
     setClientData({
       name: props.data?.name || "",
       number: props.data?.number || "",
       id: props.data?.id,
-      userName: "string",
-      password: "string",
       email: props.data?.email || "",
-      fieldNameInput: props.data?.fieldNameInput || "",
-      fieldValue: props.data?.fieldValue || "",
-      mode: props.data?.mode || "",
-      dbipAddress: props.data?.dbipAddress || "",
+      dbIpAddress: props.data?.dbIpAddress || "",
       color: props.data?.color,
-      lgogLink: props.data?.lgogLink || "",
-      theme: props.data?.theme || "",
-      stagingKey: props.data?.stagingKey || "sring",
-      stagingSecretKey: props.data?.stagingSecretKey || "sring",
-      productionKey: props.data?.productionKey || "sring",
-      productionSecretKey: props.data?.productionSecretKey || "sring ",
-      status: props.data?.status || "",
+      logoUrl: props.data?.logoUrl || "",
+      themes: props.data?.themes || "",
+      status: props.data?.enabled || "",
       dbLoginPwd: props.data?.dbLoginPwd || "",
       dbLoginId: props.data?.dbLoginId || "",
+      platformDomainUrl: props?.data?.platformDomainUrl,
     });
+    setAdditionalFields([
+      {
+        resourceKey: selectedData?.resourceKey || "",
+        clientId: selectedData?.clientId || "",
+        resourceValue: selectedData?.resourceValue || "",
+        mode: selectedData?.mode || "",
+        id: selectedData?.id
+      }
+    ]
+    )
     setErrors({
       name: "",
       number: "",
       email: "",
       status: "",
       color: "",
-      lgogLink: "",
-      dbipAddress: "",
-      stagingKey: "",
-      stagingSecretKey: "",
-      productionKey: "",
-      productionSecretKey: "",
-      theme: "",
-      fieldNameInput: "",
-      fieldValue: "",
-      mode: "",
+      logoUrl: "",
+      dbIpAddress: "",
+      themes: "",
+      platformDomainUrl: "",
     });
+
   }, [props.data]);
 
   const handleAddMoreData = (field, index, e) => {
@@ -187,14 +178,12 @@ const ClientMaster = (props) => {
     }
   };
 
-  const [showDelete, setShowDelete] = useState(false);
   const handleAddMore = () => {
-    setShowDelete(true);
     setAdditionalFields((prevFields) => [
       ...prevFields,
       {
-        fieldNameInput: "",
-        fieldValue: "",
+        resourceKey: "",
+        resourceValue: "",
         mode: "",
         showDelete: true, // Set showDelete to true for the newly added field
       },
@@ -209,115 +198,141 @@ const ClientMaster = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
-    const newErrors = { ...errors };
+    const newErrors = {};
 
-    // Check if fields are empty and set corresponding error messages
-    for (const key in clientData) {
-      if (clientData[key] === "") {
-        newErrors[key] = " ";
+    // Validate required fields
+    const requiredFields = [
+      "name",
+      "number",
+      "email",
+      "status",
+      "color",
+      "logoUrl",
+      "dbIpAddress",
+      "themes",
+      "dbLoginId",
+      "dbLoginPwd",
+      "platformDomainUrl",
+    ];
+    requiredFields.forEach((field) => {
+      if (!clientData[field]) {
+        newErrors[field] = " "; // Set your required field message
         isValid = false;
-      } else if (key === "email" && newErrors[key] !== "") {
-        isValid = false;
-      } else if (key === "number" && newErrors[key] !== "") {
-        isValid = false;
-      } else {
-        newErrors[key] = "";
       }
+    });
+
+    // Email validation
+    if (
+      clientData.email &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientData.email)
+    ) {
+      newErrors.email = "Invalid email format";
+      isValid = false;
     }
+
+    // Number validation
+    if (clientData.number && !/^\d{10}$/.test(clientData.number)) {
+      newErrors.number = "Number must be 10 digits";
+      isValid = false;
+    }
+
+    // Validate additionalFields
+    additionalFields.forEach((field, index) => {
+      if (!field.resourceKey || !field.resourceValue || !field.mode) {
+        newErrors[`additionalField-${index}`] = "All fields are required";
+        isValid = false;
+      }
+    });
 
     setErrors(newErrors);
 
     if (isValid) {
       if (!props.data) {
         try {
-          setShowToast(true);
           setShowLoader(true);
-          clientData.number = parseInt(clientData.number);
-          clientData.paymentdetails = additionalFields;
-          // Wait for the dispatch to complete
           dispatch(onPostClientMasterSubmit(clientData));
-          // Define a function to show a toast notification based on loginDetails
         } catch (error) {
-          // Handle any errors during dispatch
         }
       } else if (props.data) {
         try {
-          setShowUpdate(true);
           setShowLoader(true);
-          clientData.number = parseInt(clientData.number);
-          // Wait for the dispatch to complete
           dispatch(onUpdateClientMasterSubmit(clientData));
+
+          const paymentData = additionalFields.map((field) => ({
+            clientId: field.clientId,
+            resourceKey: field.resourceKey,
+            resourceValue: field.resourceValue,
+            mode: field.mode,
+            id: field?.id
+          }));
+          dispatch(onUpdateClientPaymentSubmit(paymentData));
+
         } catch (error) {
-          // Handle any errors during dispatch
         }
       }
     }
   };
+
+  // To call the API after intial API call
   useEffect(() => {
-    if (showToast) {
-      if (clientMasterDetails.postMessage === "Added Successfully.") {
-        setShowLoader(false);
-        toast.success(clientMasterDetails.postMessage);
-        dispatch(onClientMasterSubmit());
-        setClientData({
-          name: "",
-          number: "",
-          email: "",
-          userName: "",
-          password: "",
-          status: "",
-          color: "",
-          lgogLink: "",
-          dbipAddress: "",
-          dbLoginId: "",
-          dbLoginPwd: "",
-          stagingKey: "",
-          stagingSecretKey: "",
-          productionKey: "",
-          productionSecretKey: "",
-        });
-        setAdditionalFields([
-          {
-            fieldNameInput: "",
-            fieldValue: "",
-            mode: "",
-          },
-        ]);
-      } else {
-        setShowLoader(false);
-        toast.error(clientMasterDetails.postMessage);
-      }
+    if (clientMasterDetails?.postClientData?.length > 0 && !clientMasterDetails?.postClientLoading) {
+      const paymentData = additionalFields.map((field) => ({
+        clientId: clientMasterDetails?.postClientData?.[0]?.id,
+        resourceKey: field.resourceKey,
+        resourceValue: field.resourceValue,
+        mode: field.mode,
+      }));
+      dispatch(onPostClientMasterReset())
+      dispatch(onPostClientPaymentSubmit(paymentData));
     }
-    if (showUpdate) {
-      if (clientMasterDetails.postMessage === "Update Successfully.") {
-        setShowLoader(false);
-        toast.success(clientMasterDetails.postMessage);
-        dispatch(onClientMasterSubmit());
-        setClientData({
-          name: "",
-          number: "",
-          email: "",
-          userName: "",
-          password: "",
-          status: "",
-          color: "",
-          lgogLink: "",
-          dbipAddress: "",
-          dbLoginId: "",
-          dbLoginPwd: "",
-          stagingKey: "",
-          stagingSecretKey: "",
-          productionKey: "",
-          productionSecretKey: "",
-          theme: "",
-          fieldNameInput: "",
-          fieldValue: "",
+  }, [clientMasterDetails])
+
+
+  useEffect(() => {
+    if (getClientPaymentdata.post_status_code === "201") {
+      setShowLoader(false);
+      toast.success(getClientPaymentdata.postMessage)
+      dispatch(onPostClientPaymentReset())
+      dispatch(onClientMasterSubmit());
+      dispatch(onClientPaymentSubmit());
+      setClientData({
+        name: "",
+        number: "",
+        email: "",
+        enabled: true,
+        color: "",
+        logoUrl: "",
+        themes: "",
+        dbLoginId: "",
+        dbLoginPwd: "",
+        dbIpAddress: "",
+        platformDomainUrl: "",
+      })
+      setAdditionalFields([
+        {
+          resourceKey: "",
+          clientId: "",
+          resourceValue: "",
           mode: "",
-          id: "",
-        });
-      }
+          id: ""
+        }
+      ])
     }
-  }, [clientMasterDetails.postMessage]);
+    
+  }, [getClientPaymentdata])
+  
+  useEffect(()=>{
+    if(clientMasterDetails.update_status_code === "201"){
+      setShowLoader(false);
+      dispatch(onUpdateClientMasterReset())
+      dispatch(onClientMasterSubmit());
+      dispatch(onClientPaymentSubmit());
+    }
+  },[getClientPaymentdata,clientMasterDetails])
+
+  useEffect(() => {
+    dispatch(onPostClientMasterReset())
+  }, []);
 
   return (
     <>
@@ -331,12 +346,12 @@ const ClientMaster = (props) => {
                 </h4>
               </div>
               <div className="card-body position-relative">
-                {showLoder ? (
+                {showLoader ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
-                  <div className="container-fluid mt-3">
+                  <div className="container-fluid">
                     <div className="row">
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="contact-name">
@@ -389,7 +404,29 @@ const ClientMaster = (props) => {
                         />
                         {<p className="text-danger">{errors.email}</p>}
                       </div>
-
+                      <div className="col-sm-6 form-group ">
+                        <label htmlFor="platformDomainUrl">
+                          {platformDomainUrl}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <InputField
+                          type="platformDomainUrl"
+                          className={` ${errors.platformDomainUrl
+                            ? "border-danger"
+                            : "form-control"
+                            }`}
+                          name="contactplatformDomainUrl"
+                          id="contact-platformDomainUrl"
+                          value={clientData.platformDomainUrl}
+                          error={errors.platformDomainUrl}
+                          onChange={(e) => handleChange(e, "platformDomainUrl")}
+                        />
+                        {
+                          <p className="text-danger">
+                            {errors.platformDomainUrl}
+                          </p>
+                        }
+                      </div>
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="status">
                           {status}
@@ -413,14 +450,13 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="color"
-                          className={` ${errors.color ? "border-danger" : "form-control"}`}
+                          className={"form-control"}
                           name="color"
                           id="color"
-                          error={errors.color}
-                          value={clientData.color || "#000000"} 
+                          // error={errors.color}
+                          value={clientData.color || "#000000"}
                           onChange={(e) => handleChange(e, "color")}
                         />
-
                       </div>
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="logo">
@@ -429,13 +465,13 @@ const ClientMaster = (props) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${errors.lgogLink ? "border-danger" : "form-control"
+                          className={` ${errors.logoUrl ? "border-danger" : "form-control"
                             }`}
                           name="logo"
                           id="logo"
-                          error={errors.lgogLink}
-                          value={clientData.lgogLink}
-                          onChange={(e) => handleChange(e, "lgogLink")}
+                          error={errors.logoUrl}
+                          value={clientData.logoUrl}
+                          onChange={(e) => handleChange(e, "logoUrl")}
                         />
                       </div>
                       <div className="col-sm-3 form-group mb-2">
@@ -444,10 +480,10 @@ const ClientMaster = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <Dropdown
-                          onChange={(e) => handleChange(e, "theme")}
-                          error={errors.theme}
-                          value={clientData.theme || ""}
-                          key={clientData.theme}
+                          onChange={(e) => handleChange(e, "themes")}
+                          error={errors.themes}
+                          value={clientData.themes || ""}
+                          key={clientData.themes}
                           className="form-select"
                           options={options}
                         />
@@ -463,16 +499,16 @@ const ClientMaster = (props) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${errors.dbipAddress
+                            className={` ${errors.dbIpAddress
                               ? "border-danger"
                               : "form-control"
                               }`}
                             name="ipAddress"
                             id="ipAddress"
-                            value={clientData.dbipAddress}
-                            error={errors.dbipAddress}
+                            value={clientData.dbIpAddress}
+                            error={errors.dbIpAddress}
                             placeholder={key}
-                            onChange={(e) => handleChange(e, "dbipAddress")}
+                            onChange={(e) => handleChange(e, "dbIpAddress")}
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
@@ -531,21 +567,18 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${errors.fieldNameInput
+                                    className={` ${errors.resourceKey
                                       ? "border-danger"
                                       : "form-control"
                                       }`}
-                                    name="fieldNameInput"
-                                    id="fieldNameInput"
+                                    name="resourceKey"
+                                    id="resourceKey"
                                     placeholder={key}
-                                    value={
-                                      additionalFields[index].fieldNameInput
-                                    }
-                                    error={errors.fieldNameInput}
+                                    value={additionalFields[index].resourceKey}
+                                    error={errors.resourceKey}
                                     onChange={(e) => {
-                                      handleChange(e, "fieldNameInput");
                                       handleAddMoreData(
-                                        "fieldNameInput",
+                                        "resourceKey",
                                         index,
                                         e
                                       );
@@ -564,18 +597,23 @@ const ClientMaster = (props) => {
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${errors.fieldValue
+                                    className={` ${errors.resourceValue
                                       ? "border-danger"
                                       : "form-control"
                                       }`}
-                                    name="fieldValue"
+                                    name="resourceValue"
                                     id="production-key"
                                     placeholder={key}
-                                    error={errors.fieldValue}
-                                    value={additionalFields[index].fieldValue}
+                                    error={errors.resourceValue}
+                                    value={
+                                      additionalFields[index].resourceValue
+                                    }
                                     onChange={(e) => {
-                                      handleChange(e, "fieldValue");
-                                      handleAddMoreData("fieldValue", index, e);
+                                      handleAddMoreData(
+                                        "resourceValue",
+                                        index,
+                                        e
+                                      );
                                     }}
                                   />
                                 </div>
@@ -599,7 +637,6 @@ const ClientMaster = (props) => {
                                     value={additionalFields[index]?.mode}
                                     error={errors.mode}
                                     onChange={(e) => {
-                                      handleChange(e, "mode");
                                       handleAddMoreData("mode", index, e);
                                     }}
                                     options={modes}
@@ -629,7 +666,7 @@ const ClientMaster = (props) => {
                           <div className="col-sm-12 form-group mb-7">
                             <Button
                               className="btn btn-primary btn-sm float-right pad-aa mt-2"
-                              text= {add_More}
+                              text={add_More}
                               icon={"fa fa-plus"}
                               onClick={() => handleAddMore()}
                             />
@@ -641,7 +678,7 @@ const ClientMaster = (props) => {
                           text={props.data ? update : add}
                           icon={"fa fa-arrow-right"}
                           onClick={handleSubmit}
-                          className="btn btn-primary btn-sm float-right p-btn mt-2"
+                          className="btn btn-primary btn-sm float-right p-btn mb-5 mt-2"
                         />
                         <ToastContainer />
                       </div>

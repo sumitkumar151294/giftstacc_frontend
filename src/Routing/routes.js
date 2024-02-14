@@ -1,5 +1,5 @@
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
-import Layout from "../Layout/Layout"
+import Layout from "../Layout/Layout";
 import LoginPage from "../Pages/Login/LoginPage";
 import HomePage from "../Components/HomePage/HomePage";
 import Dashboard from "../Pages/Dashboard/Dashboard";
@@ -17,28 +17,62 @@ import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
 import AbandonedCartReport from "../Pages/AbandonedCart/AbandonedCart";
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
+import PageError from "../Components/PageError/PageError";
+// import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 function RouteConfiq() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/lc-admin/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
-        <Route path="/lc-admin/dashboard" element={<Layout Component={Dashboard} />} />
-        <Route path="/lc-admin/supplier-master" element={<Layout Component={SupplierMasterList} />} />
-        <Route path="/lc-admin/supplier-product-list" element={<Layout Component={SupplierProductList} />} />
-        <Route path="/lc-admin/create-categories" element={<Layout Component={CategoryList} />} />
-        <Route path="/lc-admin/role-master" element={<Layout Component={RoleMasterList} />} />
-        <Route path="/lc-admin/client-master" element={<Layout Component={ClientMasterList} />} />
-        <Route path="/lc-admin/client-brand-list" element={<Layout Component={ClientBrandList} />} />
-        <Route path="/lc-admin/user-master" element={<Layout Component={UserMasterList} />} />
-        <Route path="/lc-admin/brand-catalogue" element={<Layout Component={BrandCatalogue} />} />
-        <Route path="/lc-admin/brand-detail" element={<Layout Component={BrandDetail} />} />
-        <Route path="/lc-admin/orders" element={<Layout Component={Orders} />} />
-        <Route path="/lc-admin/email-event-master" element={<Layout Component={EmailEventMaster} />} />
-        <Route path="/lc-admin/customer-list" element={<Layout Component={Customerlist} />} />
-        <Route path="/lc-admin/abandoned-cart-report" element={<Layout Component={AbandonedCartReport} />} />
-        <Route path="/lc-admin/failed-orders" element={<Layout Component={FailedOrders} />} />
+        <Route
+          path="/lc-admin/dashboard"
+          element={<Layout Component={Dashboard} />}
+        />
+        <Route
+          path="/lc-admin/supplier-master"
+          element={<Layout Component={SupplierMasterList} />}
+        />
+        <Route
+          path="/lc-admin/supplier-product-list"
+          element={<Layout Component={SupplierProductList} />}
+        />
+        <Route
+          path="/lc-admin/create-categories"
+          element={<Layout Component={CategoryList} />}
+        />
+        <Route
+          path="/lc-admin/role-master"
+          element={<Layout Component={RoleMasterList} />}
+        />
+        <Route
+          path="/lc-admin/client-master"
+          element={<Layout Component={ClientMasterList} />}
+        />
+        <Route
+          path="/lc-admin/client-brand-list"
+          element={<Layout Component={ClientBrandList} />}
+        />
+        <Route
+          path="/lc-admin/user-master"
+          element={<Layout Component={UserMasterList} />}
+        />
+        <Route
+          path="/lc-admin/brand-catalogue"
+          element={<Layout Component={BrandCatalogue} />}
+        />
+        <Route
+          path="/lc-admin/brand-detail"
+          element={<Layout Component={BrandDetail} />}
+        />
+        <Route
+          path="/lc-admin/orders"
+          element={<Layout Component={Orders} />}
+        />
+         <Route
+          path="*"
+          element={<PageError pageError={{StatusCode:"404", ErrorName:"Route not found", ErrorDesription:"The page you were looking for is not found!", url:"/", buttonText:"Back to home" }}/>}
+        />
       </Routes>
     </Router>
   );

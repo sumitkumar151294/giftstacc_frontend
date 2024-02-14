@@ -1,42 +1,61 @@
 const API = {
   //login
-  loginAuth: "/auth",
+  loginAuth: "/generate-auth-token",
   loginApi: "/login",
 
-  //translation 
-  translationApi: "/translation-content",
+  //translation
+  translationApi: "/translation-content-get-by-clientid",
 
   //module-master
   moduleApi: "/module-master",
 
-  //use-role 
+  //use-role
   userRoleApi: "/user-role",
-  updateUserRoleApi: "/user-role/update",
+  userRolePostApi:"/user-role",
+  updateUserRoleApi: "/user-role",
+
 
   // user-role-module-access 
   userRoleModuleAccess: "/user-role-module-access",
+  userRolePostModuleAccess: "/user-role-module-access",
 
-  //user-master 
+  //user-master
   userMasterApi: "/user",
-  userMasterUpdateApi: "/user/update",
+  userMasterPostApi:"/user",
+  userMasterUpdateApi: "/user",
 
-  //supplier-master 
+  //supplier-master
   supplierMasterApi: "/supplier-master",
-  updateSupplierMasterApi: "/supplier-master/update",
+  postSupplierMasterApi: "/supplier-master",
+  updateSupplierMasterApi: "/supplier-master",
 
- //supplier-brand-list
+
+  //supplierResource
+  postSupplierResource:"/supplier-api-resource",
+  getSupplierResource:"/supplier-api-resource",
+  updateSupplierResource:"/supplier-api-resource",
+
+  
+
+  //supplier-brand-list
   supplierBrandListApi: "/supplier-brand-list/all",
 
-  getClient: "/client",
+  //client
+  getClient: "/client-master",
   postClient: "/client-master",
-  updateClient: "/client-master/update",
+  updateClient: "/client-master",
 
-  // create-category 
-  createCategory: "/create-category",
-  createCategoryUpdate:"/create-category/update",
+  //Client-payment-details
+  postClientPayment: "/client-payment-gateway",
+  getClientPayment: "/client-payment-gateway",
+  updateClientPayment: "/client-payment-gateway",
 
-  //brand-catalogue 
-  brandCatalogue: "/brand-catalogue/all"
+  // create-category
+  createCategory: "/category",
+  getCategories: "/categories/all",
+  createCategoryUpdate: "/category",
 
+  //brand-catalogue
+  brandCatalogue: "/brand-catalogue/all",
 };
 export default API;

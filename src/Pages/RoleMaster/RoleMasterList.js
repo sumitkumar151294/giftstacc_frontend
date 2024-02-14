@@ -13,17 +13,13 @@ const RoleMasterList = () => {
   const [data, setData] = useState();
   const dispatch = useDispatch();
   // To get the label from DB
-  const roleModuleAccessList = GetTranslationData(
-    "UIAdmin",
-    "role-module-access-list"
-  );
+  const roleModuleAccessList = GetTranslationData("UIAdmin", "role-module-access-list");
   const roleName = GetTranslationData("UIAdmin", "role-name");
   const modules = GetTranslationData("UIAdmin", "modules");
   const action = GetTranslationData("UIAdmin", "action");
-  const getRoleData = useSelector((state) => state.userRoleReducer);
-  const roleAccessListData = getRoleData?.userRoleData?.data;
-  const moduleList = useSelector((state) => state.moduleReducer?.data?.data);
-
+  const roleAccessListData = useSelector((state) => state.userRoleReducer.userRoleData);
+  const userRoleAccessListData = useSelector((state) => state.userRoleModuleAccessReducer.data);
+  const moduleList = useSelector((state) => state.moduleReducer?.data);
   useEffect(() => {
     // user-role get api call
     dispatch(onGetUserRole());
@@ -31,11 +27,13 @@ const RoleMasterList = () => {
   }, []);
 
   const getModuleName = (id) => {
-    let moduleName = moduleList?.filter((item) => item.id === id);
-    if (moduleName?.length > 0) {
-      return moduleName[0].name;
-    } else {
-      return "";
+    if(Array.isArray(moduleList)){
+      let moduleName = moduleList?.filter((item) => item.id === id);
+      if (moduleName?.length > 0) {
+        return moduleName[0].name;
+      } else {
+        return "";
+      }  
     }
   };
   const [rowsPerPage] = useState(5);
@@ -61,8 +59,6 @@ const RoleMasterList = () => {
       <RoleMasterForm
         data={data}
         setData={setData}
-        getRoleData={getRoleData}
-        setIsLoading={setIsLoading}
       />
       <div className="container-fluid pt-0">
         <div className="row">
@@ -94,17 +90,22 @@ const RoleMasterList = () => {
                             .map((data, index) => (
                               <tr key={index}>
                                 <td>{data.name}</td>
-                                <td>
-                                  <div className="d-flex">
-                                    {data.moduleIds?.map((items, index) => (
+                                <td>  
+                                <div className="d-flex">
+                                {
+                                 Array.isArray(userRoleAccessListData) && userRoleAccessListData?.filter(item=> (item.roleId===data?.id && (item.viewAccess || item.addAccess || item.editAccess))).map(moduleData=>(
                                       <span
                                         className="badge badge-success mr-10"
                                         key={index}
                                       >
-                                        {getModuleName(items)}
+                                       {getModuleName(moduleData?.moduleId)}
                                       </span>
-                                    ))}
-                                  </div>
+                                 
+                                  ))
+                                }             
+
+                                 </div>                
+                                 
                                 </td>
                                 <td>
                                   <a

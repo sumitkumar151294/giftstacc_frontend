@@ -10,16 +10,16 @@ const Layout = (props) => {
   const [showSideBar, setShowSideBar] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (!sessionStorage.getItem("login")) {
-  //     dispatch(onLogout());
-  //     localStorage.clear();
-  //     sessionStorage.clear();
-  //     navigate("/");
-  //   }
-  // }, []);
+  useEffect(() => {
+  if (!sessionStorage.getItem("login")) {
+  dispatch(onLogout());
+  localStorage.clear();
+  sessionStorage.clear();
+  navigate("/lc-admin/login");
+  }
+  }, []);
 
-  return (
+  return (  
     <>
       <div
         id="main-wrapper"

@@ -5,18 +5,20 @@ import { callUserMasterApi, callUserMasterGetApi, callUserMasterUpdateApi } from
 function* userMaster({ payload }) {
   try {
     const userMasterResponse = yield call(callUserMasterApi, payload);
-    if (userMasterResponse.status === 5) {
+    if (userMasterResponse.httpStatusCode === "200") {
       yield put(
         onUserSubmitSuccess({
-          data: userMasterResponse.result,
-          message: userMasterResponse.result.message,
+          data: userMasterResponse.response,
+          message: userMasterResponse.errorMessage,
+          status_code: userMasterResponse.httpStatusCode
         })
       );
     } else {
       yield put(
         onUserSubmitError({
-          data: userMasterResponse.result,
-          message: userMasterResponse.result.message,
+          data: userMasterResponse.response,
+          message: userMasterResponse.errorMessage,
+          status_code: userMasterResponse.httpStatusCode
         })
       );
     }
@@ -28,18 +30,20 @@ function* userMaster({ payload }) {
 function* getUser() {
   try {
     const userMasterResponse = yield call(callUserMasterGetApi);
-    if (userMasterResponse.status === 5) {
+    if (userMasterResponse.httpStatusCode === "200") {
       yield put(
         onGetUserSuccess({
-          data: userMasterResponse.result,
-          message: userMasterResponse.result.message,
+          data: userMasterResponse.response,
+          message: userMasterResponse.errorMessage,
+          status_Code:userMasterResponse.httpStatusCode
         })
       );
     } else {
       yield put(
         onGetUserError({
-          data: userMasterResponse.result,
-          message: userMasterResponse.result.message,
+          data: userMasterResponse.response,
+          message: userMasterResponse.errorMessage,
+          status_Code:userMasterResponse.httpStatusCode
         })
       );
     }
@@ -51,18 +55,20 @@ function* getUser() {
 function* UpdateUser({ payload }) {
   try {
     const updateUserResponse = yield call(callUserMasterUpdateApi, payload);
-    if (updateUserResponse.status === 5) {
+    if (updateUserResponse.httpStatusCode === "201") {
       yield put(
         onUserUpdateSuccess({
-          data: updateUserResponse.result,
-          message: updateUserResponse.result.message,
+          data: updateUserResponse.response,
+          message: updateUserResponse.errorMessage,
+          status_code:updateUserResponse.httpStatusCode
         })
       );
     } else {
       yield put(
         onUserUpdateError({
-          data: updateUserResponse.result,
-          message: updateUserResponse.result.message,
+          data: updateUserResponse.response,
+          message: updateUserResponse.errorMessage,
+          status_code:updateUserResponse.httpStatusCode
         })
       );
     }

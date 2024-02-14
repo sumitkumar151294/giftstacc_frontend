@@ -1,12 +1,10 @@
 import axios from "axios";
-var url = "https://giftstacc.way2webhost.com/api";
-if(window.location.href.includes('http://localhost:3000'))
-url= "https://localhost:7284/api"
 const api = axios.create({
-  baseURL: url,
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "Content-Type": "application/json",
+    "partner-code": "UIAdmin",
   },
 });
-
+  
 export default api;

@@ -14,11 +14,14 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
+import { onClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [showLoader, setShowLoader] = useState(false);
-  const clientList = useSelector((state) => state.clientMasterReducer.data);
+  const clientList = useSelector((state) => state.clientMasterReducer);
+  // const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
+  const clientPayData = useSelector((state) => state.clientPaymentReducer.clientPaymentData);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -38,48 +41,39 @@ const ClientMasterList = () => {
   };
 
   useEffect(() => {
-    debugger;
+    setShowLoader(true)
     dispatch(onClientMasterSubmit());
-  }, []);
-  console.log(page, "page1");
+    dispatch(onClientPaymentSubmit());
+      }, []);
 
-  const handleEdit = (data) => {
-    const prefilled = data;
-    setData(prefilled);
-  };
+        const handleEdit = (data,clientPayData) => {
+          const prefilled = {...clientPayData, ...data};
+          setData(prefilled);
+        };
   const handleDelete = (data) => {
     const deletedData = {
-      id: data?.id,
       name: data?.name,
       number: data?.number,
+      id: data?.id,
       email: data?.email,
-      userName: data?.userName,
-      password: data?.password,
-      status: data?.status,
+      dbIpAddress: data?.dbIpAddress,
       color: data?.color,
-      lgogLink: data?.lgogLink,
-      dbipAddress: data?.dbipAddress,
-      dbLoginId: data?.dbLoginId,
+      logoUrl: data?.logoUrl,
+      themes: data?.themes,
+      status: data?.status,
       dbLoginPwd: data?.dbLoginPwd,
-      stagingKey: data?.stagingKey,
-      stagingSecretKey: data?.stagingSecretKey,
-      productionKey: data?.productionKey,
-      productionSecretKey: data?.productionSecretKey,
-      theme: data?.theme,
+      dbLoginId: data?.dbLoginId,
+      platformDomainUrl: data?.platformDomainUrl,
       enabled: false,
       deleted: true,
-      paymentDetails: [
-        {
-          id: 0,
-          keyName: "chirag",
-          keyValue: "1000",
-          keyMode: "live",
-        },
-      ],
     };
     dispatch(onUpdateClientMasterSubmit(deletedData));
     setTimeout(() => {
-      dispatch(onClientMasterSubmit());
+      setShowLoader(true);
+      if (clientList.status_code === 200) {
+        dispatch(onClientMasterSubmit());
+        setShowLoader(false);
+      }
     }, 1000);
   };
 
@@ -91,15 +85,15 @@ const ClientMasterList = () => {
     { label: "status", key: "status" },
   ];
 
-  const filteredClientList = Array.isArray(clientList)
-    ? clientList.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredClientList = Array.isArray(clientList?.clientData)
+    ? clientList?.clientData.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   const handlePageChange = (selected) => {
@@ -112,16 +106,15 @@ const ClientMasterList = () => {
 
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-
   return (
     <>
-      <ClientMasterForm clientList={clientList} data={data} />
+      <ClientMasterForm clientList={clientList} data={data} clientPayData={clientPayData}/>
       <ScrollToTop />
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
             <div className="card">
-              <div className="container-fluid mt-2 mb-2">
+              <div className="container-fluid mt-2 mb-2 pt-1">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="card-header">
                     <h4 className="card-title">
@@ -143,9 +136,9 @@ const ClientMasterList = () => {
                     </div>
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
-                    {clientList && clientList.length > 0 && (
+                    {clientList?.clientData && clientList?.clientData?.length > 0 && (
                       <CSVLink
-                        data={clientList}
+                        data={clientList?.clientData}
                         headers={headers}
                         filename={"ClientMaster.csv"}
                       >
@@ -169,7 +162,7 @@ const ClientMasterList = () => {
                 ) : (
                   <>
                     {Array.isArray(filteredClientList) &&
-                      filteredClientList.length > 0 ? (
+                    filteredClientList.length > 0 ? (
                       <div className="table-responsive">
                         <>
                           <table className="table header-border table-responsive-sm">
@@ -201,8 +194,8 @@ const ClientMasterList = () => {
                                     </td>
                                     <td>{data.id}</td>
                                     <td>
-                                      <span className="badge badge-success">
-                                        {data.status}
+                                      <span className={`badge ${data.enabled ? 'badge-success': 'badge-danger'}`}>
+                                        {data.enabled ? 'Active' : 'Non-Active'}
                                       </span>
                                     </td>
                                     <td>
@@ -210,7 +203,7 @@ const ClientMasterList = () => {
                                         <Button
                                           className="btn btn-primary shadow btn-xs sharp me-1"
                                           icon={"fas fa-pencil-alt"}
-                                          onClick={() => handleEdit(data)}
+                                          onClick={() => handleEdit(data, clientPayData)}
                                         />
                                         <Button
                                           className="btn btn-danger shadow btn-xs sharp"

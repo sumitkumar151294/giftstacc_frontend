@@ -9,23 +9,25 @@ import { callLoginApi } from "../Context/loginApi";
 function* Login({ payload }) {
   try {
     const loginResponse = yield call(callLoginApi, payload);
-    if (loginResponse.status === 5) {
+    if (loginResponse) {
+      debugger
       yield put(
         onLoginSubmitSuccess({
-          data: loginResponse.result,
-          message: loginResponse.result.message,
+          status_code:loginResponse?.httpStatusCode,
+          message:loginResponse?.errorMessage,
+          data:loginResponse?.response
         })
       );
     } else {
       yield put(
         onLoginSubmitError({
-          data: loginResponse.result,
-          message: loginResponse.result.message,
+          status_code:loginResponse?.httpStatusCode,
+          message:loginResponse?.errorMessage,
         })
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
+    const message = error.response.data.ErrorMessage || "Something went wrong";
     yield put(onLoginSubmitError({ data: {}, message, status_code: 400 }));
   }
 }

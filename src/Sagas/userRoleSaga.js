@@ -5,18 +5,18 @@ import { callUserRoleGetApi, callUserRolePostApi, callUserRoleUpdateApi } from "
 function* GetUserRole() {
   try {
     const getUserRoleResponse = yield call(callUserRoleGetApi);
-    if (getUserRoleResponse.status === 5) {
+    if (getUserRoleResponse.httpStatusCode === "200") {
       yield put(
         onGetUserRoleSuccess({
-          data: getUserRoleResponse.result,
-          message: getUserRoleResponse.result.message,
+          data: getUserRoleResponse.response,
+          message: getUserRoleResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onGetUserRoleError({
-          data: getUserRoleResponse.result,
-          message: getUserRoleResponse.result.message,
+          data: getUserRoleResponse.response,
+          message: getUserRoleResponse.response.message,
         })
       );
     }
@@ -28,18 +28,19 @@ function* GetUserRole() {
 function* PostUserRole({ payload }) {
   try {
     const postUserRoleResponse = yield call(callUserRolePostApi, payload);
-    if (postUserRoleResponse.status === 5) {
+    if (postUserRoleResponse.httpStatusCode === "201") {
       yield put(
         onPostUserRoleSuccess({
-          data: postUserRoleResponse.result,
-          message: postUserRoleResponse.result.message,
+          postData: postUserRoleResponse.response,
+          message: postUserRoleResponse.errorMessage,
+          httpStatusCode: postUserRoleResponse.httpStatusCode,
         })
       );
     } else {
       yield put(
         onPostUserRoleError({
-          data: postUserRoleResponse.result,
-          message: postUserRoleResponse.result.message,
+          data: postUserRoleResponse.response,
+          message: postUserRoleResponse.errorMessage,
         })
       );
     }
@@ -50,12 +51,12 @@ function* PostUserRole({ payload }) {
 }
 function* UpdateUserRole({ payload }) {
   try {
-    const updateUserRoleResponse = yield call(callUserRoleUpdateApi, payload);
-    if (updateUserRoleResponse.status === 5) {
+    const updateUserRoleResponse = yield call(callUserRoleUpdateApi, payload);    
+    if (updateUserRoleResponse.httpStatusCode === "201") {
       yield put(
         onUpdateUserRoleSuccess({
-          data: updateUserRoleResponse.result,
-          message: updateUserRoleResponse.result.message,
+          status_code: updateUserRoleResponse.httpStatusCode,
+          message: updateUserRoleResponse.errorMessage,
         })
       );
     } else {

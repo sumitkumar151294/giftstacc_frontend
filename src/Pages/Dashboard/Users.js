@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 
@@ -149,10 +149,15 @@ const Users = () => {
       },
     ],
   };
-  const activeuser = GetTranslationData("UIAdmin", "activeuser");
+  const orders = GetTranslationData("UIAdmin", "orders");
   const months = GetTranslationData("UIAdmin", "months");
   const daily = GetTranslationData("UIAdmin", "daily");
   const today = GetTranslationData("UIAdmin", "today");
+  const [activeTab, setActiveTab] = useState('months');
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
 
   return (
     <>
@@ -162,37 +167,34 @@ const Users = () => {
             <div className="card">
               <div className="card-header border-0  flex-wrap">
                 <div>
-                  <h4 className="fs-20 mb-1">{activeuser}</h4>
+                  <h4 className="fs-20 mb-1">{orders}</h4>
                   <span>
                     {GetTranslationData("UIAdmin", "graph_Data_Label")}
                   </span>
                 </div>
                 <div className="d-flex">
-                  <div className="card-action coin-tabs mt-3 mt-sm-0">
+                  <div className="card-action coin-tabs  mt-sm-0">
                     <ul className="nav nav-tabs" role="tablist">
                       <li className="nav-item">
                         <a
-                          className="nav-link active"
-                          data-bs-toggle="tab"
-                          role="tab"
+                          className={`nav-link ${activeTab === 'months' ? 'active' : ''}`}
+                          onClick={() => handleTabClick('months')}
                         >
                           {months}
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          className="nav-link "
-                          data-bs-toggle="tab"
-                          role="tab"
+                          className={`nav-link ${activeTab === 'daily' ? 'active' : ''}`}
+                          onClick={() => handleTabClick('daily')}
                         >
                           {daily}
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          className="nav-link"
-                          data-bs-toggle="tab"
-                          role="tab"
+                          className={`nav-link ${activeTab === 'today' ? 'active' : ''}`}
+                          onClick={() => handleTabClick('today')}
                         >
                           {today}
                         </a>
@@ -202,7 +204,7 @@ const Users = () => {
                 </div>
               </div>
               <div className="card-body pb-2">
-                <div className="tab-pane fade show active" id="Monthly">
+                <div className="tab-pane fade show active mt-3" id="Monthly">
                   <ReactApexChart
                     options={chartTimeline.options}
                     series={chartTimeline.series}

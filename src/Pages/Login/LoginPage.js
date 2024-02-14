@@ -19,7 +19,7 @@ const LoginPage = () => {
   const [showLoder, setShowLoader] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const loginDetails = useSelector(
-    (state) => state.loginReducer?.data?.message
+    (state) => state.loginReducer
   );
   const [loginData, setLoginData] = useState({
     email: "",
@@ -111,17 +111,22 @@ const LoginPage = () => {
     }
   };
   useEffect(() => {
-    if (loginDetails === "Login Successfully." && isSubmit) {
+    if (loginDetails?.status_code === "201" && isSubmit) {
       setShowLoader(false);
-      toast.success(loginDetails);
       navigate("/lc-admin/dashboard");
       sessionStorage.setItem("login", true);
-    } else if (isSubmit) {
+    } else if (isSubmit && loginDetails?.status_code) {
       setShowLoader(false);
       sessionStorage.removeItem("login");
-      toast.error(loginDetails);
+      toast.error(loginDetails?.message);
     }
   }, [loginDetails]);
+
+  useEffect(()=>{
+if(sessionStorage.getItem('login')){
+  navigate("/lc-admin/dashboard");
+}
+  },[])
 
   return (
     <>
@@ -213,8 +218,8 @@ const LoginPage = () => {
                           </div>
                           <div className="text-center">
                             <Button
-                              text={GetTranslationData("UIAdmin", "sign_me")}
-                              className="btn btn-primary btn-sm float-right p-btn mt-2"
+                              text={GetTranslationData("UIAdmin", "sign_Me_Label")}
+                              className="btn btn-primary btn-block btn-sm float-right p-btn mt-2"
                             />
                             <ToastContainer />
                           </div>

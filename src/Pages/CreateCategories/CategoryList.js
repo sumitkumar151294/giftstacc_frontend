@@ -24,9 +24,9 @@ const CategoryList = () => {
   const [rowsPerPage] = useState(5);
 
   const headers = [
-    { label: "categoryName", key: "categoryName" },
-    { label: "supplierName", key: "supplierName" },
-    { label: "supplierBrand", key: "supplierBrand" },
+    { label: "categoryName", key: "name" },
+    { label: "supplierName", key: "description" },
+    { label: "supplierBrand", key: "vendorName" },
   ];
 
   // To get the categories
@@ -37,7 +37,7 @@ const CategoryList = () => {
 
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
-  const getCategoryData = getCreateCategory?.categoryData?.data;
+  const getCategoryData = getCreateCategory?.categoryData;
 
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
@@ -60,13 +60,13 @@ const CategoryList = () => {
 
   const filteredCategoryList = Array.isArray(getCategoryData)
     ? getCategoryData.filter((item) =>
-      Object.values(item).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(item).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   useEffect(() => {
@@ -85,16 +85,21 @@ const CategoryList = () => {
   //To delete the data
   const handleDelete = (data) => {
     const deletedData = {
-      id: data.id,
-      categoryName: data.categoryName,
-      supplierName: data.supplierName,
-      supplierBrand: data.supplierBrand,
+      name: data?.name,
+      url: data?.url,
+      description: data?.description,
+      image: data?.image,
+      thumbnail: data?.thumbnail,
+      vendorName: data?.vendorName,
+      id: data?.id,
       deleted: true,
     };
     dispatch(onUpdateCategory(deletedData));
     setTimeout(() => {
+      setIsLoading(true);
       dispatch(onGetCategory());
       toast.success(categoryDeleteMessage);
+      setIsLoading(false);
     }, 1000);
     setIsLoading(true);
   };
@@ -107,7 +112,7 @@ const CategoryList = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="card">
-              <div className="container-fluid">
+              <div className="container-fluid pt-1">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="card-header">
                     <h4 className="card-title  txt-admin txtt">
@@ -116,20 +121,22 @@ const CategoryList = () => {
                   </div>
 
                   <div className="customer-search mb-sm-0 mb-3">
-                    <div className="input-group search-area">
-                      <InputField
-                        type="text"
-                        className="form-control only-high"
-                        placeholder={searchLabel}
-                        value={searchQuery}
-                        onChange={handleSearch}
-                      />
-                      <span className="input-group-text">
-                        <Link>
-                          <i className="flaticon-381-search-2"></i>
-                        </Link>
-                      </span>
-                    </div>
+                    {getCategoryData && getCategoryData.length > 0 && (
+                      <div className="input-group search-area">
+                        <InputField
+                          type="text"
+                          className="form-control only-high"
+                          placeholder={searchLabel}
+                          value={searchQuery}
+                          onChange={handleSearch}
+                        />
+                        <span className="input-group-text">
+                          <Link>
+                            <i className="flaticon-381-search-2"></i>
+                          </Link>
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     {getCategoryData && getCategoryData.length > 0 && (
@@ -152,12 +159,11 @@ const CategoryList = () => {
               </div>
 
               <div className="card-body">
-                {isLoading && (
+                {isLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
-                )}
-                {Array.isArray(filteredCategoryList) &&
+                ) : Array.isArray(filteredCategoryList) &&
                   filteredCategoryList.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -174,10 +180,9 @@ const CategoryList = () => {
                           .slice(startIndex, endIndex)
                           .map((data) => (
                             <tr key={data.id}>
-                              <td>{data.categoryName}</td>
-                              <td>{data.supplierName}</td>
-                              <td>{data.supplierBrand}</td>
-
+                              <td>{data.name}</td>
+                              <td>{data.vendorName}</td>
+                              <td>{data.description}</td>
                               <td>
                                 <div className="d-flex">
                                   <Link
@@ -206,7 +211,7 @@ const CategoryList = () => {
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                         initialPage={page - 1} // Use initialPage instead of forcePage
-                        previousClassName={page === 0 ? "disabled" : ""}
+                        previousClassName={page === 1 ? "disabled" : ""}
                       />
                     </div>
                   </div>

@@ -28,7 +28,7 @@ const BrandCatalogue = () => {
   const price = GetTranslationData("UIAdmin", "price");
   const action = GetTranslationData("UIAdmin", "action");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
-  const exportLabel = GetTranslationData("UIAdmin", "export_label");
+  const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client");
@@ -39,7 +39,7 @@ const BrandCatalogue = () => {
   const [clientListData, setClientListData] = useState([]);
 
   const supplierMasterData = useSelector(
-    (state) => state.supplierMasterReducer?.data?.data
+    (state) => state.supplierMasterReducer?.data
   );
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
 
@@ -95,9 +95,10 @@ const BrandCatalogue = () => {
   };
   useEffect(() => {
     let tempSupplier = [];
-    supplierMasterData?.map((item) => {
-      tempSupplier.push({ label: item.name, value: item.name });
-    });
+    Array.isArray(supplierMasterData) &&
+      supplierMasterData?.map((item) => {
+        tempSupplier.push({ label: item.name, value: item.name });
+      });
     setSupplierListData(tempSupplier);
   }, [supplierMasterData]);
   useEffect(() => {
@@ -115,7 +116,7 @@ const BrandCatalogue = () => {
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
-              <div className="container-fluid">
+              <div className="container-fluid pt-1">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="card-header">
                     <h4 className="card-title">{heading}</h4>
@@ -131,7 +132,7 @@ const BrandCatalogue = () => {
                       />
                       <span className="input-group-text">
                         <a href="#">
-                          <i className="flaticon-381-search-2"></i>
+                          <i className="flaticon-381-search-2"></i>&nbsp;
                         </a>
                       </span>
                     </div>
@@ -145,7 +146,7 @@ const BrandCatalogue = () => {
                       >
                         {filteredBrandCatalogueList.length > 0 && (
                           <Button
-                            className="btn btn-primary btn-sm btn-rounded mb-2"
+                            className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
                             icons={"fa fa-file-excel me-2"}
                             text={`${exportLabel}`}
                           />
@@ -155,7 +156,7 @@ const BrandCatalogue = () => {
                   </div>
                 </div>
               </div>
-              <div className="container-fluid">
+              <div className="container-fluid pt-1">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="supplier">{supplier}</label>

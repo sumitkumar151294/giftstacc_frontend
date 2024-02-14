@@ -9,24 +9,25 @@ import { loginAuthApi } from "../Context/loginAuthApi";
 function* LoginAuth({ payload }) {
   try {
     const loginAuthResponse = yield call(loginAuthApi, payload);
-    if (loginAuthResponse.status === 5) {
+    if (loginAuthResponse.httpStatusCode === "200") {
       yield put(
         onLoginAuthSuccess({
-          data: loginAuthResponse.result,
-          message: loginAuthResponse.result.message,
+          data: loginAuthResponse.response,
+          message: loginAuthResponse.response,
         })
       );
     } else {
       yield put(
         onLoginAuthError({
-          data: loginAuthResponse.result,
-          message: loginAuthResponse.result.message,
+          data: loginAuthResponse.response,
+          message: loginAuthResponse.errorMessage,
+          status_code:loginAuthResponse.httpStatusCode
         })
       );
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onLoginAuthError({ data: {}, message, status_code: 400 }));
+    yield put(onLoginAuthError({ data: {}, message, status_code: error?.response?.data?.httpStatusCode }));
   }
 }
 export default function* loginAuthSaga() {

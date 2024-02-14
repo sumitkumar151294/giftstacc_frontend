@@ -9,13 +9,15 @@ $rgba-primary-17: var(--rgba-primary-17);
 .form-check {
   display: block;
   min-height: 1.3125rem;
-  padding-left: 1.5em;
+  padding-left: 1.7em;
   margin-bottom: 0.125rem;
   line-height: normal;
 
   .form-check-input {
     float: left;
     margin-left: -1.5em;
+    margin-top: 1px;
+
   }
 }
 
@@ -28,7 +30,7 @@ $rgba-primary-17: var(--rgba-primary-17);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  border: 1px solid $rgba-primary-17;
+  border: 1.9px solid $rgba-primary-17;
   appearance: none;
 
   &[type="checkbox"] {
@@ -79,4 +81,14 @@ $rgba-primary-17: var(--rgba-primary-17);
   border-radius: 0.75rem;
   appearance: auto;
   font-size: 17px;
+  &:focus {
+  border-color: var(--bs-cream);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--bs-dark-brown);
+  }
+}
+.form-control:hover, .form-control:focus, .form-control.active {
+  box-shadow: none;
+  background: #fff !important;
+  color: #6e6e6e;
 }

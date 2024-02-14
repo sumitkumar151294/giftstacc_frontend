@@ -80,7 +80,7 @@ const ClientBrandList = () => {
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
-              <div className="container-fluid mt-2 mb-2">
+              <div className="container-fluid mt-2 mb-2 mt-client-list">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="card-header">
                     <h4 className="card-title headdd">{clientbrandlist}</h4>
@@ -110,7 +110,7 @@ const ClientBrandList = () => {
                   </div>
                 </div>
               </div>
-              <div className="container-fluid mt-0">
+              <div className="container-fluid mt-0 mt-client-list">
                 <div className="row">
                   <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="name-f">{clientbrandlistheading}</label>
@@ -184,9 +184,7 @@ const ClientBrandList = () => {
                           </td>
                           <td>{data.margin}</td>
                           <td>
-                            {" "}
                             <div className="can-toggle">
-                              <InputField id="a" type="checkbox" />
                               <label htmlFor="a">
                                 <div
                                   className="can-toggle__switch"

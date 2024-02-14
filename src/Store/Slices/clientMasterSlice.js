@@ -5,16 +5,16 @@ export const clientMasterSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    data: {},
+    clientData: {},
     error: {},
     message: "",
   },
   reducers: {
     onClientMasterSubmit: (state) => {
-      return {
+      return {    
         ...state,
         isLoading: true,
-        data: {},
+        clientData: {},
         message: "",
         error: {},
         isError: false,
@@ -26,7 +26,7 @@ export const clientMasterSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        data,
+        clientData:data,
         error: {},
         message,
         status_code,
@@ -38,7 +38,7 @@ export const clientMasterSlice = createSlice({
         ...state,
         isLoading: false,
         isError: true,
-        data: data,
+        clientData: data,
         message,
         status_code,
       };
@@ -47,17 +47,17 @@ export const clientMasterSlice = createSlice({
       return {
         ...state,
         isLoading: false,
-        data: {},
+        clientData: {},
         message: "",
         error: {},
-        status_code: 400,
+        status_code: null,
         isError: false,
       };
     },
     onPostClientMasterSubmit: (state) => {
-      return {
+            return {
         ...state,
-        isLoading: true,
+        postClientLoading: true,
         postClientData: {},
         postMessage: "",
         error: {},
@@ -65,24 +65,24 @@ export const clientMasterSlice = createSlice({
       };
     },
     onPostClientMasterSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { postData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        postClientLoading: false,
         isError: false,
-        postClientData:data,
+        postClientData:postData,
         error: {},
         postMessage:message,
         status_code,
       };
     },
     onPostClientMasterSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { postData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        isLoading: false,
+        postClientLoading: false,
         isError: true,
-        postClientData: data,
+        postClientData: postData,
         postMessage:message,
         status_code,
       };
@@ -90,55 +90,56 @@ export const clientMasterSlice = createSlice({
     onPostClientMasterReset: (state) => {
       return {
         ...state,
-        isLoading: false,
         postClientData: {},
         postMessage: "",
+        status_code: null,
+        postClientLoading: false,
         error: {},
-        status_code: 400,
         isError: false,
       };
     },
     onUpdateClientMasterSubmit: (state) => {
       return {
         ...state,
-        isLoading: true,
+        updateLoading: true,
         updateClientData: {},
         postMessage: "",
         error: {},
         isError: false,
+        update_status_code:null
       };
     },
     onUpdateClientMasterSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { updateData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        updateLoading: false,
         isError: false,
-        updateClientData:data,
+        updateClientData:updateData,
         error: {},
         postMessage:message,
-        status_code,
+        update_status_code:status_code,
       };
     },
     onUpdateClientMasterSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { updateData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        isLoading: false,
+        updateLoading: false,
         isError: true,
-        updateClientData: data,
+        updateClientData: updateData,
         postMessage:message,
-        status_code,
+        update_status_code:status_code,
       };
     },
     onUpdateClientMasterReset: (state) => {
       return {
         ...state,
-        isLoading: false,
+        updateLoading: false,
         updateClientData: {},
         postMessage: "",
         error: {},
-        status_code: 400,
+        update_status_code: null,
         isError: false,
       };
     },

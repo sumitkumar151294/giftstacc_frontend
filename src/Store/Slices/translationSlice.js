@@ -16,7 +16,6 @@ export const translationSlice = createSlice({
         isLoading: true,
         isError: false,
         data: {},
-        error: {},
         message: "",
       };
     },
@@ -30,7 +29,6 @@ export const translationSlice = createSlice({
         data,
         message,
         status_code,
-        error: {},
       };
     },
 
@@ -43,15 +41,24 @@ export const translationSlice = createSlice({
         status_code,
         isLoading: false,
         isError: true,
-        error: {},
       };
     },
+    onTranslationReset: (state) => {
+      return {
+        ...state,
+        message:"",
+        status_code:null,
+        isLoading: false,
+        isError: false,
+      };
+    }
   },
 });
 export const {
   onTranslationSubmit,
   onTranslationSubmitError,
   onTranslationSubmitSuccess,
+  onTranslationReset
 } = translationSlice.actions;
 
 export default translationSlice.reducer;

@@ -2,10 +2,9 @@ $color_1: var(--primary-black);
 $color_2: var(--primary);
 $color_3: var(--deznav-menu);
 $background-color_1: var(--primary-white-2);
-
 .footer {
 	background-color: $background-color_1;
-	padding-left: 0;
+	padding-left: 17.1785rem;
 	.copyright {
 		p {
 			text-align: center;
@@ -20,7 +19,7 @@ $background-color_1: var(--primary-white-2);
 .copyright {
 	padding: 0 1.875rem;
 	color: $color_3;
-	margin-top: 1.875rem;
+	margin-top: 1rem;
 	p {
 		font-size: 0.75rem;
 	}

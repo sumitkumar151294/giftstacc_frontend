@@ -5,18 +5,22 @@ import { onGetModule, onGetModuleError, onGetModuleSuccess } from "../Store/Slic
 function* Module() {
   try {
     const moduleResponse = yield call(callModuleApi);
-    if (moduleResponse.status === 5) {
+    if (moduleResponse.httpStatusCode === 200) {
+
       yield put(
         onGetModuleSuccess({
-          data: moduleResponse.result,
-          message: moduleResponse.result.message,
+          data: moduleResponse.response,  
+          // message: moduleResponse.response.errorMessage,
+
         })
       );
     } else {
       yield put(
         onGetModuleError({
-          data: moduleResponse.result,
-          message: moduleResponse.result.message,
+          data: moduleResponse.response,
+
+          message: moduleResponse.response.message,
+
         })
       );
     }

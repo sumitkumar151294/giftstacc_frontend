@@ -1,22 +1,36 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { callCreateCategoryGetApi, callCreateCategoryPostApi, callCreateCategoryUpdateApi } from "../Context/createcategoryApi";
-import { onGetCategory, onGetCategoryError, onGetCategorySuccess, onPostCategory, onPostCategoryError, onPostCategorySuccess, onUpdateCategory, onUpdateCategorySuccess, onUpdateCategoryError } from "../Store/Slices/createCategorySlice";
+import {
+  callCreateCategoryGetApi,
+  callCreateCategoryPostApi,
+  callCreateCategoryUpdateApi,
+} from "../Context/createcategoryApi";
+import {
+  onGetCategory,
+  onGetCategoryError,
+  onGetCategorySuccess,
+  onPostCategory,
+  onPostCategoryError,
+  onPostCategorySuccess,
+  onUpdateCategory,
+  onUpdateCategorySuccess,
+  onUpdateCategoryError,
+} from "../Store/Slices/createCategorySlice";
 
 function* GetCategory() {
   try {
     const getCategoryResponse = yield call(callCreateCategoryGetApi);
-    if (getCategoryResponse.status === 5) {
+    if (getCategoryResponse.httpStatusCode === 200) {
       yield put(
         onGetCategorySuccess({
-          data: getCategoryResponse.result,
-          message: getCategoryResponse.result.message,
+          data: getCategoryResponse.response,
+          message: getCategoryResponse.response,
         })
       );
     } else {
       yield put(
         onGetCategoryError({
-          data: getCategoryResponse.result,
-          message: getCategoryResponse.result.message,
+          data: getCategoryResponse.response,
+          message: getCategoryResponse.errorMessage,
         })
       );
     }
@@ -28,18 +42,18 @@ function* GetCategory() {
 function* PostCategory({ payload }) {
   try {
     const postCategoryResponse = yield call(callCreateCategoryPostApi, payload);
-    if (postCategoryResponse.status === 5) {
+    if (postCategoryResponse.httpStatusCode === 200) {
       yield put(
         onPostCategorySuccess({
-          data: postCategoryResponse.result,
-          message: postCategoryResponse.result.message,
+          data: postCategoryResponse.response,
+          // message: postCategoryResponse.response,
         })
       );
     } else {
       yield put(
         onPostCategoryError({
-          data: postCategoryResponse.result,
-          message: postCategoryResponse.result.message,
+          data: postCategoryResponse.response,
+          message: postCategoryResponse.errorMessage,
         })
       );
     }
@@ -51,19 +65,22 @@ function* PostCategory({ payload }) {
 
 function* UpdateCategory({ payload }) {
   try {
-    const updateCategoryResponse = yield call(callCreateCategoryUpdateApi, payload);
-    if (updateCategoryResponse.status === 5) {
+    const updateCategoryResponse = yield call(
+      callCreateCategoryUpdateApi,
+      payload
+    );
+    if (updateCategoryResponse.httpStatusCode === 201) {
       yield put(
         onUpdateCategorySuccess({
-          data: updateCategoryResponse.result,
-          message: updateCategoryResponse.result.message,
+          data: updateCategoryResponse.response,
+          message: updateCategoryResponse.errorMessage,
         })
       );
     } else {
       yield put(
         onUpdateCategoryError({
-          data: updateCategoryResponse.result,
-          message: updateCategoryResponse.result.message,
+          data: updateCategoryResponse.response,
+          message: updateCategoryResponse.errorMessage,
         })
       );
     }

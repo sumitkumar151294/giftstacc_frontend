@@ -18,16 +18,17 @@ export const userMasterSlice = createSlice({
         postdata: {},
         error: {},
         message: "",
+        status_code:null
       };
     },
 
     onUserSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { postData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
-        postdata:data,
+        postdata:postData,
         message,
         status_code,
         error: {},
@@ -37,20 +38,15 @@ export const userMasterSlice = createSlice({
     onUserSubmitReset: (state) => {
       return {
         ...state,
-        isLoading: false,
-        isError: false,
-        postdata: {},
-        message:"",
-        status_code:"",
-        error: {},
+        status_code:null,
       };
     },
 
     onUserSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { postData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        postdata:data,
+        postdata:postData,
         message,
         status_code,
         isLoading: false,
@@ -93,16 +89,17 @@ export const userMasterSlice = createSlice({
         updatedUserData: {},  
         error: {},
         message: "",
+        status_code:null
       };
     },
 
     onUserUpdateSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { updateData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
-        updatedUserData: data,  
+        updatedUserData: updateData,  
         message,
         status_code,
         error: {},
@@ -110,10 +107,10 @@ export const userMasterSlice = createSlice({
     },
 
     onUserUpdateError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { updateData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        updatedUserData: data,  
+        updatedUserData: updateData,  
         message,
         status_code,
         isLoading: false,

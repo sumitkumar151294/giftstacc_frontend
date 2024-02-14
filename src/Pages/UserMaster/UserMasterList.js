@@ -26,15 +26,14 @@ const UserMasterList = () => {
   const action = GetTranslationData("UIAdmin", "action_label");
   const not_Found = GetTranslationData("UIAdmin", "not_Found");
   const userList = useSelector((state) => state.userMasterReducer);
-  const client = useSelector((state) => state.clientMasterReducer.data);
+  const client = useSelector((state) => state.clientMasterReducer.clientData);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
-  const roleList = useSelector(
-    (state) => state.userRoleReducer?.userRoleData?.data
-  );
+  const roleList = useSelector((state) => state.userRoleReducer?.userRoleData);
   const handleEdit = (data) => {
     const prefilled = data;
     setPrefilledValues(prefilled);
   };
+  
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
@@ -42,10 +41,11 @@ const UserMasterList = () => {
   };
   // here get role name by match with id
   const getNameById = (id) => {
-    const result = roleList?.find((item) => item.id === id);
-    return result ? result.name : not_Found;
+    const result = Array.isArray(roleList) && roleList?.find((item) => item?.id === id);
+    return result ? result?.name : "";
   };
 
+console.log(client,"clientdafa",userList);
   // here get client name by matching with id
   function getClientByIndex(data, client) {
     const result = [];
@@ -53,7 +53,6 @@ const UserMasterList = () => {
       client.forEach((index) => {
         const numericIndex = parseInt(index, 10);
         const item = data.find((entry) => entry && entry.id === numericIndex);
-
         if (item) {
           result.push(item.name);
         }
@@ -61,7 +60,15 @@ const UserMasterList = () => {
     }
     return result;
   }
-
+  const filteredUserList = Array.isArray(userList?.getData)
+  ? userList?.getData.filter((vendor) =>
+    Object.values(vendor).some(
+      (value) =>
+        value &&
+        typeof value === "string"
+    )
+  )
+  : [];
   return (
     <>
       <UserMasterForm
@@ -79,8 +86,8 @@ const UserMasterList = () => {
                 <div style={{ height: "400px" }}>
                   <Loader classNameType={"absoluteLoader"} />
                 </div>
-              ) : Array.isArray(userList?.getData?.data) &&
-                userList?.getData?.data.length > 0 ? (
+              ) : Array.isArray(filteredUserList) &&
+              filteredUserList?.length > 0 ? (
                 <div className="card-body">
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -95,19 +102,19 @@ const UserMasterList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {userList?.getData?.data
+                        {userList?.getData
                           ?.slice(startIndex, endIndex)
                           .map((item, index) => (
                             <tr key={index}>
-                              <td>{getNameById(item.adminRoleId)}</td>
+                              <td>{getNameById(item?.adminRoleId)}    {getNameById(item?.clientRoleId)}</td>
                               <td>{item.email}</td>
                               <td>{item.mobile}</td>
                               <td>{`${item.firstName}${item.lastName}`}</td>
                               <td>
-                                {Array.isArray(item.accessClientIds) &&
+                                {item.accessClientIds &&
                                   item.accessClientIds.length > 0 && (
                                     <div className="d-flex">
-                                      {item.accessClientIds.map(
+                                      {item.accessClientIds.split(',').map(
                                         (clientId, index) => (
                                           <span
                                             key={index}
@@ -139,7 +146,7 @@ const UserMasterList = () => {
                         nextLabel={" >"}
                         breakLabel={"..."}
                         pageCount={Math.ceil(
-                          userList?.getData?.data?.length / rowsPerPage
+                          userList?.getData?.length / rowsPerPage
                         )}
                         marginPagesDisplayed={2}
                         onPageChange={handlePageChange}

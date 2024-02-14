@@ -9,16 +9,12 @@ $background-color_3: var(--bs-mid-green);
 $border-color_1: var(--bs-success);
 $border-color_2: var(--bs-primary-orange);
 
-.justify-content-end {
-  justify-content: flex-end;
-}
-
 .m-auto {
   margin: auto !important;
 }
 
 .btn {
-  padding: 0.938rem 1.5rem;
+  // padding: 0.938rem 1.5rem;
   border-radius: 1.125rem !important;
   font-weight: 400;
   font-size: 1rem;
@@ -198,3 +194,4 @@ label {
     padding: 0.9em;
   }
 }
+

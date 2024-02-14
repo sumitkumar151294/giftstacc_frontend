@@ -22,18 +22,20 @@ function* supplierMaster({ payload }) {
       callSupplierMasterPostApi,
       payload
     );
-    if (supplierMasterResponse.status === 5) {
+    if (supplierMasterResponse.httpStatusCode === "201") {
       yield put(
         onVendorSubmitSuccess({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
+          status_code: supplierMasterResponse.httpStatusCode
         })
       );
     } else {
       yield put(
         onVendorSubmitError({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
+          status_code: supplierMasterResponse.httpStatusCode
         })
       );
     }
@@ -45,18 +47,20 @@ function* supplierMaster({ payload }) {
 function* onGetSupplier() {
   try {
     const supplierMasterResponse = yield call(callSupplierMasterGetApi);
-    if (supplierMasterResponse.status === 5) {
+    if (supplierMasterResponse.httpStatusCode === "200") {
       yield put(
         onGetSupplierListSuccess({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
+          status_code: supplierMasterResponse.httpStatusCode
         })
       );
     } else {
       yield put(
         onGetSupplierListError({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
+          status_code: supplierMasterResponse.httpStatusCode
         })
       );
     }
@@ -71,18 +75,20 @@ function* onUpdateSupplier(payload) {
       updateSupplierMasterApi,
       payload.payload
     );
-    if (supplierMasterResponse.status === 5) {
-          yield put(
+    if (supplierMasterResponse.httpStatusCode === "201") {
+              yield put(
         onUpdateSupplierListSuccess({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
+          status_code:supplierMasterResponse.httpStatusCode
         })
       );
     } else {
       yield put(
         onUpdateSupplierListError({
-          data: supplierMasterResponse.result,
-          message: supplierMasterResponse.result.message,
+          data: supplierMasterResponse.response,
+          message: supplierMasterResponse.errorMessage,
+          status_code:supplierMasterResponse.httpStatusCode
         })
       );
     }
