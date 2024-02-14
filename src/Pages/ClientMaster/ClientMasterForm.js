@@ -7,6 +7,7 @@ import {
   onPostClientMasterSubmit,
   onClientMasterSubmit,
   onPostClientMasterReset,
+  onUpdateClientMasterReset,
 } from "../../Store/Slices/clientMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -15,7 +16,7 @@ import Button from "../../Components/Button/Button";
 import { onClientPaymentSubmit, onPostClientPaymentReset, onPostClientPaymentSubmit, onUpdateClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMaster = (props) => {
   const dispatch = useDispatch();
-  const [showLoder, setShowLoader] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
   const getClientPaymentdata = useSelector((state) => state.clientPaymentReducer);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
@@ -317,7 +318,17 @@ const ClientMaster = (props) => {
         }
       ])
     }
+    
   }, [getClientPaymentdata])
+  
+  useEffect(()=>{
+    if(clientMasterDetails.update_status_code === "201"){
+      setShowLoader(false);
+      dispatch(onUpdateClientMasterReset())
+      dispatch(onClientMasterSubmit());
+      dispatch(onClientPaymentSubmit());
+    }
+  },[getClientPaymentdata,clientMasterDetails])
 
   useEffect(() => {
     dispatch(onPostClientMasterReset())
@@ -335,7 +346,7 @@ const ClientMaster = (props) => {
                 </h4>
               </div>
               <div className="card-body position-relative">
-                {showLoder ? (
+                {showLoader ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>

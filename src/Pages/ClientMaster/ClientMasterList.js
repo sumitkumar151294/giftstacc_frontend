@@ -19,8 +19,8 @@ const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [showLoader, setShowLoader] = useState(false);
-  const clientList = useSelector((state) => state.clientMasterReducer.clientData);
-  const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
+  const clientList = useSelector((state) => state.clientMasterReducer);
+  // const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
   const clientPayData = useSelector((state) => state.clientPaymentReducer.clientPaymentData);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -41,9 +41,10 @@ const ClientMasterList = () => {
   };
 
   useEffect(() => {
+    setShowLoader(true)
     dispatch(onClientMasterSubmit());
     dispatch(onClientPaymentSubmit());
-  }, []);
+      }, []);
 
         const handleEdit = (data,clientPayData) => {
           const prefilled = {...clientPayData, ...data};
@@ -69,7 +70,7 @@ const ClientMasterList = () => {
     dispatch(onUpdateClientMasterSubmit(deletedData));
     setTimeout(() => {
       setShowLoader(true);
-      if (clientMasterDetails.status_code === 200) {
+      if (clientList.status_code === 200) {
         dispatch(onClientMasterSubmit());
         setShowLoader(false);
       }
@@ -84,8 +85,8 @@ const ClientMasterList = () => {
     { label: "status", key: "status" },
   ];
 
-  const filteredClientList = Array.isArray(clientList)
-    ? clientList.filter((vendor) =>
+  const filteredClientList = Array.isArray(clientList?.clientData)
+    ? clientList?.clientData.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
@@ -135,9 +136,9 @@ const ClientMasterList = () => {
                     </div>
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
-                    {clientList && clientList.length > 0 && (
+                    {clientList?.clientData && clientList?.clientData?.length > 0 && (
                       <CSVLink
-                        data={clientList}
+                        data={clientList?.clientData}
                         headers={headers}
                         filename={"ClientMaster.csv"}
                       >

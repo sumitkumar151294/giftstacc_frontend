@@ -73,13 +73,15 @@ function* updateClientMaster({ payload }) {
         onUpdateClientMasterSubmitSuccess({
           data: updateClientMasterResponse.Response,
           message: updateClientMasterResponse.errorMessage,
+          status_code: updateClientMasterResponse.httpStatusCode
         })
       );
     } else {
       yield put(
-        onUpdateClientMasterSubmitSuccess({
+        onUpdateClientMasterSubmitError({
           data: updateClientMaster.Response,
           message: updateClientMasterResponse.errorMessage,
+          status_code: updateClientMasterResponse.httpStatusCode
         })
       );
     }
