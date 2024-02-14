@@ -337,7 +337,7 @@ console.log('additionalFields', additionalFields);
                             onChange={(e) => handleChange(e, "status")}
                             error={errors?.enabled}
                             value={vendorData?.enabled ? 'Active' : vendorData?.enabled === undefined || vendorData?.enabled === "" ? '' : 'Non-Active'}
-                            className={`${errors.enabled ? "border-danger" : "form-select"}`}
+                            className={`${errors.enabled ? "border-danger-select" : "form-select"}`}
                             options={statusoptions}
                           />
                         </div>
