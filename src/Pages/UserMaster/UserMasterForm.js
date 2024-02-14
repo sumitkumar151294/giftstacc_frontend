@@ -191,7 +191,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     }
     setErrors(newErrors);
     if (userData?.role === "") {
-      debugger;
       newErrors.role = select_role;
       isValid = false;
     } else {
@@ -262,7 +261,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   };
 
   useEffect(() => {
-    debugger;
     console.log("sucess")
     console.log(onSubmitData)
     if (onSubmitData?.status_code === "201") {
