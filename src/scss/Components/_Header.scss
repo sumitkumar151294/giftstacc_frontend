@@ -532,12 +532,12 @@ svg {
     }
     > li {
       &:hover {
-        > a {
-          color: var(--primary) !important;
-          box-shadow: none;
-          background: var(--rgba-primary-1);
-          padding: 10px 20px !important;
-        }
+        // > a {
+        //   color: var(--primary) !important;
+        //   box-shadow: none;
+        //   background: var(--rgba-primary-1);
+        //   padding: 10px 20px !important;
+        // }
       }
     }
   }
