@@ -654,11 +654,6 @@ svg {
   width: 1.625rem;
   z-index: 999;
 }}
-.hamburger:hover{
-  .line:nth-child(3){
-    width: 1.625rem;
-  }
-}
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .brand-logo {
   padding-left: 0;
   padding-right: 0;
