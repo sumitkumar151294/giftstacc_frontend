@@ -444,7 +444,7 @@ const resetAdditionalFields = [
                           options={statusoptions}
                         />
                       </div>
-                      <h3 style={{ borderBottom: "1px solid #ededed" }}>
+                      <h3 style={{ borderBottom: "1px solid #ededed" }} className="mt-3">
                         {themeDetails}{" "}
                       </h3>
                       <div className="col-sm-3 form-group mb-2">
@@ -555,7 +555,7 @@ const resetAdditionalFields = [
                         </div>
                       </div>
 
-                      <div className="row mt-2">
+                      <div className="row mt-3">
                         <h3 style={{ borderBottom: "1px solid #ededed" }}>
                           {razorpay}
                         </h3>
@@ -654,7 +654,7 @@ const resetAdditionalFields = [
                                 className="col-lg-3 mt-4"
                                 key={`delete-${index}`}
                               >
-                                <div className="col-sm-12 form-group mb-7">
+                                <div className="col-sm-12 form-group mb-7 mb-3">
                                   <Button
                                     className="btn btn-danger btn-sm float-right pad-aa mt-2"
                                     text={delete_Button}
@@ -666,7 +666,7 @@ const resetAdditionalFields = [
                             )}
                           </React.Fragment>
                         ))}
-                        <div className="col-lg-3 mt-4">
+                        <div className="col-lg-3">
                           <div className="col-sm-12 form-group mb-7">
                             <Button
                               className="btn btn-primary btn-sm float-right pad-aa mt-2"

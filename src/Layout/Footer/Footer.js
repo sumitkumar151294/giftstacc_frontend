@@ -4,9 +4,10 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="copyright">
-      <p>{GetTranslationData("UIAdmin", "footer_text")}</p>
+      <p>{GetTranslationData("UIAdmin", "footer_text")}
+      <a href="#" className="footer-link">Way2web World</a> {new Date().getFullYear();}</p>
       </div>
     </div>
   );
 };
-export default Footer;
+export default Footer;
