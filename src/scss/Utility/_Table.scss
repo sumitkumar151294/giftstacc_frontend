@@ -42,8 +42,10 @@ table {
         border-color: $border-color_2;
         padding: 0.9375rem 0.625rem;
     }
+    
     tbody {
         tr {
+            border-bottom: 0.0625rem solid var(--primary-skin);
             td {
                 vertical-align: middle;
                 border-color: $border-color_2;
@@ -61,7 +63,6 @@ tfoot,
 td,
 th {
     border-color: $border-color_3;
-    border-style: solid;
     border-width: 0;
 }
 .table-responsive-sm {

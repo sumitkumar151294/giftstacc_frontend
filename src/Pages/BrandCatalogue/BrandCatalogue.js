@@ -60,9 +60,38 @@ const BrandCatalogue = () => {
     dispatch(onGetSupplierList());
     dispatch(onClientMasterSubmit());
   }, []);
-  const BrandCatalogueData = useSelector(
-    (state) => state.brandCatalogueReducer?.data
-  );
+
+  // const BrandCatalogueData = useSelector(
+  //   (state) => state.brandCatalogueReducer?.data
+  // );
+  
+  const BrandCatalogueData =[{
+    Image:"img",
+    sku:"51246",
+    name:"Amazon pay",
+    min_price:"₹ 200",
+    max_price:"₹ 600",
+    price:"Range",
+    Action:"Brand Details"
+  },
+  {
+    Image:"img",
+    sku:"51246",
+    name:"Amazon pay",
+    min_price:"₹ 200",
+    max_price:"₹ 600",
+    price:"Range",
+    Action:"Brand Details"
+  },
+  {
+    Image:"img",
+    sku:"51246",
+    name:"Amazon pay",
+    min_price:"₹ 200",
+    max_price:"₹ 600",
+    price:"Range",
+    Action:"Brand Details"
+  }];
   const headers = [
     { label: "action", key: "action" },
     { label: "id", key: "id" },
@@ -117,7 +146,7 @@ const BrandCatalogue = () => {
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="container-fluid pt-1">
-                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                <div className="d-flex justify-content-between align-items-center flex-wrap">
                   <div className="card-header">
                     <h4 className="card-title">{heading}</h4>
                   </div>

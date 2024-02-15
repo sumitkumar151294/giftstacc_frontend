@@ -3,6 +3,9 @@ $color_2: var(--primary-dark-blue);
 .clr-blk {
 	color: $color_1 !important;
 }
+.mt-1 {
+    margin-top: 0.25rem !important;
+}
 .menu-product {
 	img {
 		height: 120px;
@@ -33,5 +36,5 @@ $color_2: var(--primary-dark-blue);
 }
 .on-link {
 	text-decoration: underline !important;
-	color: $color_2;
+	color: $color_2 !important;
 }

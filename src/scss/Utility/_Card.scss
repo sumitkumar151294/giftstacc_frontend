@@ -79,7 +79,7 @@ $primary-black: var(--primary-black);
 }
 .card-body {
   padding: 1.875rem !important;
-  padding-top: 0px !important;
+  padding-top: 0px ;
 }
 
 .card-body {
@@ -90,3 +90,11 @@ $primary-black: var(--primary-black);
     padding: 1rem;
   }
 }
+
+
+@media only screen and (max-width: 575px) {
+	.card-header {
+		padding: 1.25rem 1rem 1.25rem!important;
+	}
+}
+

@@ -195,7 +195,6 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
       newData[index] = { ...newData[index], [field]: e.target.value };
       return newData;
     });
-debugger
     setAdditionalFieldsError((prevErrors) => {
       const newErrors = [...prevErrors];
       newErrors[index] = { ...newErrors[index], [field]: "" };
