@@ -22,6 +22,7 @@ $border-color_4: var(--rgba-primary-2);
 	padding: 0.3125rem 1.25rem;
 	color: $color_3;
 	border-radius: 1rem;
+	width: 100%;
 
 	&:focus {
 		color: $color_1;
@@ -38,8 +39,7 @@ $border-color_4: var(--rgba-primary-2);
 
 @media only screen and (max-width: 1400px) {
 	.form-control {
-		height: 2.5rem;
-		width: var(--w100);
+		height: 3rem;
 	}
 }
 
