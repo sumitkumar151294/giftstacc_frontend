@@ -234,7 +234,7 @@ const ClientMasterList = () => {
                                 ))}
                             </tbody>
                           </table>
-                          <div className="pagination-container">
+                          {(filteredClientList.length > 5) && (<div className="pagination-container">
                             <ReactPaginate
                               previousLabel={"<"}
                               nextLabel={">"}
@@ -250,6 +250,7 @@ const ClientMasterList = () => {
                               previousClassName={page === 1 ? "disabled" : ""}
                             />
                           </div>
+                          )}
                         </>
                       </div>
                     ) : (

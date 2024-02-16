@@ -140,7 +140,7 @@ console.log(client,"clientdafa",userList);
                           ))}
                       </tbody>
                     </table>
-                    <div className="pagination-container">
+                    {(userList?.getData?.length >5) && (<div className="pagination-container">
                       <ReactPaginate
                         previousLabel={"<"}
                         nextLabel={" >"}
@@ -154,7 +154,7 @@ console.log(client,"clientdafa",userList);
                         activeClassName={"active"}
                         initialPage={page - 1} // Use initialPage instead of forcePage
                       />
-                    </div>
+                    </div>)}
                   </div>
                 </div>
               ) : (

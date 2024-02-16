@@ -509,7 +509,7 @@ const Orders = () => {
                                   </tbody>
                                 ))}
                             </table>
-                            <div className="pagination-container">
+                            {(filteredOrderList.length > 5) && (<div className="pagination-container">
                               <ReactPaginate
                                 previousLabel={"<"}
                                 nextLabel={" >"}
@@ -525,6 +525,7 @@ const Orders = () => {
                                 previousClassName={page === 0 ? "disabled" : ""}
                               />
                             </div>
+                            )}
                           </>
                         ) : (
                           <NoRecord />

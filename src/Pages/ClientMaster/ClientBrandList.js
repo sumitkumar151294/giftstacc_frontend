@@ -38,7 +38,6 @@ const customerdetails = [
     action: "",
   },
 ];
-
 const ClientBrandList = () => {
   const clientbrandlist = GetTranslationData("UIAdmin", "clientbrandlist");
   const clientbrandlistheading = GetTranslationData(

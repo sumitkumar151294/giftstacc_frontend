@@ -292,6 +292,7 @@ const SupplierProductList = () => {
                                     ))}
                                 </tbody>
                               </table>
+                              {data1.length >5 &&(
                               <div className="pagination-container">
                                 <ReactPaginate
                                   previousLabel={"<"}
@@ -310,6 +311,7 @@ const SupplierProductList = () => {
                                   }
                                 />
                               </div>
+                              )}
                             </div>
                           </div>
                         {/*  ) : (

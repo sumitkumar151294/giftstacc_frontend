@@ -91,6 +91,15 @@ const BrandCatalogue = () => {
     max_price:"₹ 600",
     price:"Range",
     Action:"Brand Details"
+  },
+  {
+    Image:"img",
+    sku:"51246",
+    name:"Amazon pay",
+    min_price:"₹ 200",
+    max_price:"₹ 600",
+    price:"Range",
+    Action:"Brand Details"
   }];
   const headers = [
     { label: "action", key: "action" },
@@ -264,7 +273,7 @@ const BrandCatalogue = () => {
                                 ))}
                             </tbody>
                           </table>
-                          <div className="pagination-container">
+                          {(filteredBrandCatalogueList.length > 5) && (<div className="pagination-container">
                             <ReactPaginate
                               previousLabel={"<"}
                               nextLabel={" >"}
@@ -279,7 +288,7 @@ const BrandCatalogue = () => {
                               initialPage={page - 1} // Use initialPage instead of forcePage
                               previousClassName={page === 0 ? "disabled" : ""}
                             />
-                          </div>
+                          </div>)}
                         </>
                       ) : (
                         <NoRecord />

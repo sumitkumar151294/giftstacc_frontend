@@ -198,7 +198,7 @@ const CategoryList = () => {
                           ))}
                       </tbody>
                     </table>
-                    <div className="pagination-container">
+                    {(filteredCategoryList.length > 5) && (<div className="pagination-container">
                       <ReactPaginate
                         previousLabel={"<"}
                         nextLabel={" >"}
@@ -213,7 +213,7 @@ const CategoryList = () => {
                         initialPage={page - 1} // Use initialPage instead of forcePage
                         previousClassName={page === 1 ? "disabled" : ""}
                       />
-                    </div>
+                    </div>)}
                   </div>
                 ) : (
                   <NoRecord />
