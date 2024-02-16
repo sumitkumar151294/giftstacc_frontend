@@ -195,6 +195,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
       newData[index] = { ...newData[index], [field]: e.target.value };
       return newData;
     });
+debugger
     setAdditionalFieldsError((prevErrors) => {
       const newErrors = [...prevErrors];
       newErrors[index] = { ...newErrors[index], [field]: "" };
@@ -404,7 +405,7 @@ console.log('additionalFields', additionalFields);
                           {Array.isArray(additionalFields) &&
                             additionalFields?.map((field, index) => (
                               <React.Fragment key={index}>
-                                <div className="col-lg-4 mt-3">
+                                <div className="col-lg-4">
                                   <h4>{field_Name_Label}</h4>
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
@@ -424,7 +425,7 @@ console.log('additionalFields', additionalFields);
                                   </div>
                                 </div>
 
-                                <div className="col-lg-4 mt-3">
+                                <div className="col-lg-4">
                                   <h4>{field_Value_Label}</h4>
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
@@ -450,8 +451,8 @@ console.log('additionalFields', additionalFields);
 
                                 {index < additionalFields?.length - 1 && (
                                   <div className="col-lg-3">
-                                  
-                                    <div className="col-sm-12 form-group mb-7 mb-3">
+                                    <br />
+                                    <div className="col-sm-12 form-group mb-7">
                                       <Button
                                         className="btn btn-primary btn-sm float-right pad-aa mt-2"
                                         text={delete_Button}
@@ -465,7 +466,7 @@ console.log('additionalFields', additionalFields);
                             ))}
 
                           <div className="col-lg-3">
-                         
+                            <br />
                             <div className="col-sm-12 form-group mb-7">
                               <Button
                                 className="btn btn-primary btn-sm float-right pad-aa mt-2"
@@ -477,12 +478,12 @@ console.log('additionalFields', additionalFields);
                           </div>
                         </div>
 
-                        {/* <span
+                        <span
                           className="form-check-label"
                           htmlFor="basic_checkbox_1"
                         >
                           {required_label}
-                        </span> */}
+                        </span>
 
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button
