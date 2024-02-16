@@ -161,6 +161,7 @@ const ClientMaster = (props) => {
 
   }, [props.data]);
 
+
 const resetFields = {
   name: "",
   number: "",
@@ -175,15 +176,15 @@ const resetFields = {
   dbName:"",
   platformDomainUrl: "",
 }
-const resetAdditionalFields = [
-  {
-    resourceKey: "",
-    clientId: "",
-    resourceValue: "",
-    mode: "",
-    id: ""
-  }
-];
+  const resetAdditionalFields = [
+    {
+      resourceKey: "",
+      clientId: "",
+      resourceValue: "",
+      mode: "",
+      id: ""
+    }
+  ];
   const handleAddMoreData = (field, index, e) => {
     setAdditionalFields((prevFields) => {
       const newData = [...prevFields];
@@ -387,9 +388,9 @@ const resetAdditionalFields = [
       setAdditionalFields(resetAdditionalFields);
     }
   }, [getClientPaymentdata]);
-  
-  useEffect(()=>{
-    if(clientMasterDetails.update_status_code === "201"){
+
+  useEffect(() => {
+    if (clientMasterDetails.update_status_code === "201") {
       setShowLoader(false);
       toast.success(clientMasterDetails?.updateMessage);
       dispatch(onClientMasterSubmit());
@@ -398,7 +399,7 @@ const resetAdditionalFields = [
       setClientData(resetFields);
       setAdditionalFields(resetAdditionalFields);
     }
-  },[clientMasterDetails]);
+  }, [clientMasterDetails]);
 
   useEffect(()=>{
     if(clientMasterDetails?.post_status_code === "500"){
@@ -520,7 +521,7 @@ const resetAdditionalFields = [
                           options={statusoptions}
                         />
                       </div>
-                      <h3 style={{ borderBottom: "1px solid #ededed" }}>
+                      <h3 className="mt-3 border">
                         {themeDetails}{" "}
                       </h3>
                       <div className="col-sm-3 form-group mb-2">
@@ -569,7 +570,7 @@ const resetAdditionalFields = [
                         />
                       </div>
                       <div className="row mt-3">
-                        <h3 style={{ borderBottom: "1px solid #ededed" }}>
+                        <h3 className="border" >
                           {DatabaseCredentials}
                         </h3>
 
@@ -650,8 +651,8 @@ const resetAdditionalFields = [
                         </div>
                       </div>
 
-                      <div className="row mt-2">
-                        <h3 style={{ borderBottom: "1px solid #ededed" }}>
+                      <div className="row mt-3">
+                        <h3 className="border">
                           {razorpay}
                         </h3>
 

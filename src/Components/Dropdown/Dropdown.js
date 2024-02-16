@@ -7,7 +7,7 @@ const Dropdown = ({ value, onChange, error, ariaLabel, className, options }) => 
         value={value}
         onChange={onChange}
         aria-label={ariaLabel}
-        className={` ${error ? "border-danger" : className}`}
+        className={` ${error ? "border-danger border-danger-select" : className}`}
       >
         <option >Select</option>
         {options?.map((option, index) => (

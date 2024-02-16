@@ -33,7 +33,7 @@ const UserMasterList = () => {
     const prefilled = data;
     setPrefilledValues(prefilled);
   };
-  
+
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
@@ -41,11 +41,11 @@ const UserMasterList = () => {
   };
   // here get role name by match with id
   const getNameById = (id) => {
-    const result = Array.isArray(roleList) && roleList?.find((item) => item?.id === id);
+    const result =
+      Array.isArray(roleList) && roleList?.find((item) => item?.id === id);
     return result ? result?.name : "";
   };
 
-console.log(client,"clientdafa",userList);
   // here get client name by matching with id
   function getClientByIndex(data, client) {
     const result = [];
@@ -61,14 +61,12 @@ console.log(client,"clientdafa",userList);
     return result;
   }
   const filteredUserList = Array.isArray(userList?.getData)
-  ? userList?.getData.filter((vendor) =>
-    Object.values(vendor).some(
-      (value) =>
-        value &&
-        typeof value === "string"
-    )
-  )
-  : [];
+    ? userList?.getData.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) => value && typeof value === "string"
+        )
+      )
+    : [];
   return (
     <>
       <UserMasterForm
@@ -87,7 +85,7 @@ console.log(client,"clientdafa",userList);
                   <Loader classNameType={"absoluteLoader"} />
                 </div>
               ) : Array.isArray(filteredUserList) &&
-              filteredUserList?.length > 0 ? (
+                filteredUserList?.length > 0 ? (
                 <div className="card-body">
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -106,26 +104,30 @@ console.log(client,"clientdafa",userList);
                           ?.slice(startIndex, endIndex)
                           .map((item, index) => (
                             <tr key={index}>
-                              <td>{getNameById(item?.adminRoleId)}    {getNameById(item?.clientRoleId)}</td>
+                              <td>
+                                {getNameById(item?.adminRoleId)}{" "}
+                                {getNameById(item?.clientRoleId)}
+                              </td>
                               <td>{item.email}</td>
                               <td>{item.mobile}</td>
                               <td>{`${item.firstName}${item.lastName}`}</td>
                               <td>
-                                {item.accessClientIds &&
+                                {Array.isArray(item.accessClientIds) &&
                                   item.accessClientIds.length > 0 && (
                                     <div className="d-flex">
-                                      {item.accessClientIds.split(',').map(
-                                        (clientId, index) => (
-                                          <span
-                                            key={index}
-                                            className="badge badge-secondary mr-10"
-                                          >
-                                            {getClientByIndex(client, [
-                                              clientId,
-                                            ])}
-                                          </span>
-                                        )
-                                      )}
+                                      {Array.isArray(item.accessClientIds) &&
+                                        item.accessClientIds
+                                          .split(",")
+                                          .map((clientId, index) => (
+                                            <span
+                                              key={index}
+                                              className="badge badge-secondary mr-10"
+                                            >
+                                              {getClientByIndex(client, [
+                                                clientId,
+                                              ])}
+                                            </span>
+                                          ))}
                                     </div>
                                   )}
                               </td>
@@ -140,21 +142,23 @@ console.log(client,"clientdafa",userList);
                           ))}
                       </tbody>
                     </table>
-                    <div className="pagination-container">
-                      <ReactPaginate
-                        previousLabel={"<"}
-                        nextLabel={" >"}
-                        breakLabel={"..."}
-                        pageCount={Math.ceil(
-                          userList?.getData?.length / rowsPerPage
-                        )}
-                        marginPagesDisplayed={2}
-                        onPageChange={handlePageChange}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                        initialPage={page - 1} // Use initialPage instead of forcePage
-                      />
-                    </div>
+                    {filteredUserList.length > 5 && (
+                      <div className="pagination-container">
+                        <ReactPaginate
+                          previousLabel={"<"}
+                          nextLabel={" >"}
+                          breakLabel={"..."}
+                          pageCount={Math.ceil(
+                            userList?.getData?.length / rowsPerPage
+                          )}
+                          marginPagesDisplayed={2}
+                          onPageChange={handlePageChange}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                          initialPage={page - 1} // Use initialPage instead of forcePage
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
