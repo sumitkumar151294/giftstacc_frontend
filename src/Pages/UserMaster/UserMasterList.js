@@ -46,7 +46,6 @@ const UserMasterList = () => {
     return result ? result?.name : "";
   };
 
-  console.log(client, "clientdafa", userList);
   // here get client name by matching with id
   function getClientByIndex(data, client) {
     const result = [];
