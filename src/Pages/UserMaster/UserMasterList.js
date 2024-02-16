@@ -26,7 +26,7 @@ const UserMasterList = () => {
   const action = GetTranslationData("UIAdmin", "action_label");
   const not_Found = GetTranslationData("UIAdmin", "not_Found");
   const userList = useSelector((state) => state.userMasterReducer);
-  const client = useSelector((state) => state.clientMasterReducer.clientData);
+  const client = useSelector((state) => state.clientMasterReducer?.clientData);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer?.userRoleData);
   const handleEdit = (data) => {
@@ -112,24 +112,22 @@ const UserMasterList = () => {
                               <td>{item.mobile}</td>
                               <td>{`${item.firstName}${item.lastName}`}</td>
                               <td>
-                                {Array.isArray(item.accessClientIds) &&
-                                  item.accessClientIds.length > 0 && (
-                                    <div className="d-flex">
-                                      {Array.isArray(item.accessClientIds) &&
-                                        item.accessClientIds
-                                          .split(",")
-                                          .map((clientId, index) => (
-                                            <span
-                                              key={index}
-                                              className="badge badge-secondary mr-10"
-                                            >
-                                              {getClientByIndex(client, [
-                                                clientId,
-                                              ])}
-                                            </span>
-                                          ))}
-                                    </div>
-                                  )}
+                                {item.accessClientIds.length > 0 && (
+                                  <div className="d-flex">
+                                    {item.accessClientIds
+                                      .split(",")
+                                      .map((clientId, index) => (
+                                        <span
+                                          key={index}
+                                          className={
+                                            "badge badge-secondary mr-10"
+                                          }
+                                        >
+                                          {getClientByIndex(client, [clientId])}
+                                        </span>
+                                      ))}
+                                  </div>
+                                )}
                               </td>
                               <td>
                                 <Button
@@ -155,7 +153,7 @@ const UserMasterList = () => {
                           onPageChange={handlePageChange}
                           containerClassName={"pagination"}
                           activeClassName={"active"}
-                          initialPage={page - 1} // Use initialPage instead of forcePage
+                          initialPage={page - 1}
                         />
                       </div>
                     )}
