@@ -444,7 +444,7 @@ const resetAdditionalFields = [
                           options={statusoptions}
                         />
                       </div>
-                      <h3 style={{ borderBottom: "1px solid #ededed" }} className="mt-3">
+                      <h3  className="mt-3 border">
                         {themeDetails}{" "}
                       </h3>
                       <div className="col-sm-3 form-group mb-2">
@@ -493,7 +493,7 @@ const resetAdditionalFields = [
                         />
                       </div>
                       <div className="row mt-3">
-                        <h3 style={{ borderBottom: "1px solid #ededed" }}>
+                        <h3 className="border" >
                           {DatabaseCredentials}
                         </h3>
 
@@ -556,7 +556,7 @@ const resetAdditionalFields = [
                       </div>
 
                       <div className="row mt-3">
-                        <h3 style={{ borderBottom: "1px solid #ededed" }}>
+                        <h3  className="border">
                           {razorpay}
                         </h3>
 
