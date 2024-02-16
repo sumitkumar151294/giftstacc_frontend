@@ -463,8 +463,7 @@ debugger
                             ))}
 
                           <div className="col-lg-3">
-                            <br />
-                            <div className="col-sm-12 form-group mb-7">
+                            <div className="col-sm-12 form-group mb-7 btn-m">
                               <Button
                                 className="btn btn-primary btn-sm float-right pad-aa mt-2"
                                 text={add_More}
