@@ -73,7 +73,7 @@ export const clientMasterSlice = createSlice({
         postClientData:postData,
         error: {},
         postMessage:message,
-        status_code,
+        post_status_code:status_code,
       };
     },
     onPostClientMasterSubmitError: (state, { payload }) => {
@@ -84,7 +84,7 @@ export const clientMasterSlice = createSlice({
         isError: true,
         postClientData: postData,
         postMessage:message,
-        status_code,
+        post_status_code:status_code,
       };
     },
     onPostClientMasterReset: (state) => {
@@ -92,7 +92,7 @@ export const clientMasterSlice = createSlice({
         ...state,
         postClientData: {},
         postMessage: "",
-        status_code: null,
+        post_status_code: null,
         postClientLoading: false,
         error: {},
         isError: false,

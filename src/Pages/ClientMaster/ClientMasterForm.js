@@ -32,10 +32,16 @@ const ClientMaster = (props) => {
   const userId = GetTranslationData("UIAdmin", "database_User_ID_Label");
   const add_More = GetTranslationData("UIAdmin", "add_More");
   const delete_Button = GetTranslationData("UIAdmin", "delete_Button");
+  const fieldNameNotEmpty = GetTranslationData("UIAdmin", "fieldNameNotEmpty");
+  const fieldValueNotEmpty = GetTranslationData(
+    "UIAdmin",
+    "fieldValueNotEmpty"
+  );
   const userPassword = GetTranslationData(
     "UIAdmin",
     "database_User_Pass_Label"
   );
+  const db_name =  GetTranslationData("UIAdmin", "db_name");
   const mode = GetTranslationData("UIAdmin", "mode_Label");
   const themeDetails = GetTranslationData("UIAdmin", "Theme_Details_Label");
   const DatabaseCredentials = GetTranslationData("UIAdmin", " Database_Label");
@@ -76,6 +82,15 @@ const ClientMaster = (props) => {
       id: ""
     },
   ]);
+  const [additionalFieldsError, setAdditionalFieldsError] = useState([
+    {
+      resourceKey: "",
+      clientId: "",
+      resourceValue: "",
+      mode: "",
+      id: props.data?.id,
+    },
+  ]);
   const [clientData, setClientData] = useState({
     name: "",
     number: "",
@@ -87,6 +102,7 @@ const ClientMaster = (props) => {
     dbLoginId: "",
     dbLoginPwd: "",
     dbIpAddress: "",
+    dbName:"",
     platformDomainUrl: "",
   });
   const [errors, setErrors] = useState({
@@ -99,6 +115,7 @@ const ClientMaster = (props) => {
     dbLoginPwd: "",
     dbIpAddress: "",
     themes: "",
+    dbName:"",
     platformDomainUrl: "",
   });
   useEffect(() => {
@@ -116,6 +133,7 @@ const ClientMaster = (props) => {
       status: props.data?.enabled || "",
       dbLoginPwd: props.data?.dbLoginPwd || "",
       dbLoginId: props.data?.dbLoginId || "",
+      dbName: props.data?.dbName || "",
       platformDomainUrl: props?.data?.platformDomainUrl,
     });
     setAdditionalFields([
@@ -136,11 +154,13 @@ const ClientMaster = (props) => {
       color: "",
       logoUrl: "",
       dbIpAddress: "",
+      dbName:"",
       themes: "",
       platformDomainUrl: "",
     });
 
   }, [props.data]);
+
 const resetFields = {
   name: "",
   number: "",
@@ -152,6 +172,7 @@ const resetFields = {
   dbLoginId: "",
   dbLoginPwd: "",
   dbIpAddress: "",
+  dbName:"",
   platformDomainUrl: "",
 }
 const resetAdditionalFields = [
@@ -164,9 +185,17 @@ const resetAdditionalFields = [
   }
 ];
   const handleAddMoreData = (field, index, e) => {
-    var data = [...additionalFields];
-    data[index][field] = e.target.value;
-    setAdditionalFields(data);
+    setAdditionalFields((prevFields) => {
+      const newData = [...prevFields];
+      newData[index] = { ...newData[index], [field]: e.target.value };
+      return newData;
+    });
+    setAdditionalFieldsError((prevErrors) => {
+      const newErrors = [...prevErrors];
+      newErrors[index] = { ...newErrors[index], [field]: "" };
+      console.log('newErrors',newErrors)
+      return newErrors;
+    });
   };
 
   const handleChange = (e, fieldName) => {
@@ -199,14 +228,22 @@ const resetAdditionalFields = [
     }
   };
 
-  const handleAddMore = () => {
+  const handleAddMore = (e) => {
     setAdditionalFields((prevFields) => [
       ...prevFields,
       {
         resourceKey: "",
         resourceValue: "",
         mode: "",
-        showDelete: true, // Set showDelete to true for the newly added field
+        // showDelete: true, // Set showDelete to true for the newly added field
+      },
+    ]);
+    setAdditionalFieldsError((prevFields) => [
+      ...prevFields,
+      {
+        resourceKey: "",
+        resourceValue: "",
+        mode: "",
       },
     ]);
   };
@@ -219,8 +256,32 @@ const resetAdditionalFields = [
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
-    const newErrors = {};
+    const newErrors = {...errors};
+    const newAdditionalFieldsError = [...additionalFieldsError];
 
+    additionalFields?.forEach((field, index) => {
+      if (field.resourceKey === "") {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          console.log('prevErrors', prevErrors)
+          newAdditionalFieldsError[index].resourceKey = fieldNameNotEmpty;
+          return newAdditionalFieldsError;
+        });
+
+        isValid = false;
+      }
+
+      if (field.resourceKey === "") {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].resourceValue = fieldValueNotEmpty;
+          return newAdditionalFieldsError;
+        });
+
+        isValid = false;
+      }
+    });
+    setAdditionalFieldsError(newAdditionalFieldsError);
     // Validate required fields
     const requiredFields = [
       "name",
@@ -233,6 +294,7 @@ const resetAdditionalFields = [
       "themes",
       "dbLoginId",
       "dbLoginPwd",
+      "dbName",
       "platformDomainUrl",
     ];
     requiredFields.forEach((field) => {
@@ -278,15 +340,19 @@ const resetAdditionalFields = [
         try {
           setShowLoader(true);
           dispatch(onUpdateClientMasterSubmit(clientData));
-
-          const paymentData = additionalFields.map((field) => ({
-            clientId: field.clientId,
-            resourceKey: field.resourceKey,
-            resourceValue: field.resourceValue,
-            mode: field.mode,
-            id: field?.id
-          }));
-          dispatch(onUpdateClientPaymentSubmit(paymentData));
+          const updateAdditionalFIels = () => {
+            let tempAdditionField = [...additionalFields]
+          const additionalData =  tempAdditionField.map((item)=>({
+              ...item,
+            clientId: item.clientId,
+            resourceKey: item.resourceKey,
+            resourceValue: item.resourceValue,
+            mode: item.mode,
+            id: item.id
+          }))
+            return additionalData;
+          }
+          dispatch(onUpdateClientPaymentSubmit(updateAdditionalFIels()));
 
         } catch (error) {
         }
@@ -306,33 +372,43 @@ const resetAdditionalFields = [
       dispatch(onPostClientMasterReset())
       dispatch(onPostClientPaymentSubmit(paymentData));
     }
-  }, [clientMasterDetails])
+  }, [clientMasterDetails]);
+
 
 
   useEffect(() => {
     if (getClientPaymentdata.post_status_code === "201") {
       setShowLoader(false);
-      toast.success(getClientPaymentdata.postMessage)
-      dispatch(onPostClientPaymentReset())
+      toast.success(getClientPaymentdata.postMessage);
+      dispatch(onPostClientPaymentReset());
       dispatch(onClientMasterSubmit());
       dispatch(onClientPaymentSubmit());
       setClientData(resetFields);
       setAdditionalFields(resetAdditionalFields);
     }
-    
   }, [getClientPaymentdata]);
   
   useEffect(()=>{
     if(clientMasterDetails.update_status_code === "201"){
       setShowLoader(false);
       toast.success(clientMasterDetails?.updateMessage);
-      dispatch(onUpdateClientMasterReset())
       dispatch(onClientMasterSubmit());
       dispatch(onClientPaymentSubmit());
+      dispatch(onUpdateClientMasterReset())
       setClientData(resetFields);
       setAdditionalFields(resetAdditionalFields);
     }
   },[clientMasterDetails]);
+
+  useEffect(()=>{
+    if(clientMasterDetails?.post_status_code === "500"){
+      setShowLoader(false);
+      toast.error(clientMasterDetails.postMessage);
+      dispatch(onPostClientMasterReset())
+      setClientData(resetFields);
+      setAdditionalFields(resetAdditionalFields);
+    }
+  },[clientMasterDetails])
 
   useEffect(() => {
     dispatch(onPostClientMasterReset());
@@ -497,7 +573,7 @@ const resetAdditionalFields = [
                           {DatabaseCredentials}
                         </h3>
 
-                        <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-3 form-group mb-2">
                           <h4>
                             {ipAddress} <span className="text-danger">*</span>
                           </h4>
@@ -515,7 +591,7 @@ const resetAdditionalFields = [
                             onChange={(e) => handleChange(e, "dbIpAddress")}
                           />
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">
                             {userId}
                             <span className="text-danger">*</span>
@@ -534,7 +610,7 @@ const resetAdditionalFields = [
                             onChange={(e) => handleChange(e, "dbLoginId")}
                           />
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">
                             {userPassword}
                             <span className="text-danger">*</span>
@@ -553,6 +629,25 @@ const resetAdditionalFields = [
                             onChange={(e) => handleChange(e, "dbLoginPwd")}
                           />
                         </div>
+                        <div className="col-sm-3 form-group mb-2">
+                          <h4 htmlFor="contact-name">
+                            {db_name}
+                            <span className="text-danger">*</span>
+                          </h4>
+                          <InputField
+                            type="text"
+                            className={` ${errors.dbLoginPwd
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
+                            name="dbName"
+                            id="dbName"
+                            value={clientData.dbName}
+                            error={errors.dbName}
+                            placeholder={key}
+                            onChange={(e) => handleChange(e, "dbName")}
+                          />
+                        </div>
                       </div>
 
                       <div className="row mt-2">
@@ -560,7 +655,7 @@ const resetAdditionalFields = [
                           {razorpay}
                         </h3>
 
-                        {additionalFields.map((field, index) => (
+                        {Array.isArray(additionalFields) && additionalFields.map((field, index) => (
                           <React.Fragment key={index}>
                             <div className="col-lg-3 mt-2">
                               <div className="row p-0">
@@ -571,15 +666,15 @@ const resetAdditionalFields = [
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${errors.resourceKey
-                                      ? "border-danger"
-                                      : "form-control"
+                                      className={` ${
+                                        additionalFieldsError[index]?.resourceKey
+                                          ? "border-danger"
+                                          : "form-control"
                                       }`}
                                     name="resourceKey"
                                     id="resourceKey"
                                     placeholder={key}
                                     value={additionalFields[index].resourceKey}
-                                    error={errors.resourceKey}
                                     onChange={(e) => {
                                       handleAddMoreData(
                                         "resourceKey",
@@ -601,14 +696,13 @@ const resetAdditionalFields = [
                                 <div className="col-sm-12 form-group mb-2">
                                   <InputField
                                     type="text"
-                                    className={` ${errors.resourceValue
+                                    className={` ${additionalFieldsError[index]?.resourceValue
                                       ? "border-danger"
                                       : "form-control"
                                       }`}
                                     name="resourceValue"
                                     id="production-key"
                                     placeholder={key}
-                                    error={errors.resourceValue}
                                     value={
                                       additionalFields[index].resourceValue
                                     }
@@ -631,7 +725,7 @@ const resetAdditionalFields = [
                                 <div className="col-sm-12 form-group mb-2">
                                   <Dropdown
                                     type="text"
-                                    className={` ${errors.mode
+                                    className={` ${additionalFieldsError[index]?.mode
                                       ? "border-danger"
                                       : "form-select"
                                       }`}
@@ -639,7 +733,6 @@ const resetAdditionalFields = [
                                     id="mode"
                                     placeholder={key}
                                     value={additionalFields[index]?.mode}
-                                    error={errors.mode}
                                     onChange={(e) => {
                                       handleAddMoreData("mode", index, e);
                                     }}
