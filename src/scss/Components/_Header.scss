@@ -50,10 +50,7 @@
   border-radius: 0.125rem;
   right: -3rem;
 }
-@media only screen and (max-width: 767px){
-.hamburger {
-    right: 0rem;
-}}
+
 .hamburger {
   display: inline-block;
   position: relative;
@@ -523,21 +520,21 @@ svg {
 .deznav {
   .metismenu {
     > li.mm-active {
-      // > a {
-      //   color: var(--primary) !important;
-      //   box-shadow: none;
-      //   background: var(--rgba-primary-1);
-      //   padding: 10px 20px !important;
-      // }
+      > a {
+        color: var(--primary) !important;
+        box-shadow: none;
+        background: var(--rgba-primary-1);
+        padding: 10px 20px !important;
+      }
     }
     > li {
       &:hover {
-        // > a {
-        //   color: var(--primary) !important;
-        //   box-shadow: none;
-        //   background: var(--rgba-primary-1);
-        //   padding: 10px 20px !important;
-        // }
+        > a {
+          color: var(--primary) !important;
+          box-shadow: none;
+          background: var(--rgba-primary-1);
+          padding: 10px 20px !important;
+        }
       }
     }
   }
@@ -657,6 +654,11 @@ svg {
   width: 1.625rem;
   z-index: 999;
 }}
+.hamburger:hover{
+  .line:nth-child(3){
+    width: 0.625rem;
+  }
+}
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .brand-logo {
   padding-left: 0;
   padding-right: 0;

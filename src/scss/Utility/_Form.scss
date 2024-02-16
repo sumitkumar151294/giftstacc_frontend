@@ -9,7 +9,7 @@ $rgba-primary-17: var(--rgba-primary-17);
 .form-check {
   display: block;
   min-height: 1.3125rem;
-  padding-left: 2.3em;
+  padding-left: 1.7em;
   margin-bottom: 0.125rem;
   line-height: normal;
 
@@ -20,6 +20,7 @@ $rgba-primary-17: var(--rgba-primary-17);
 
   }
 }
+
 .form-check-input {
   width: 1em;
   height: 1em;
@@ -90,11 +91,4 @@ $rgba-primary-17: var(--rgba-primary-17);
   box-shadow: none;
   background: #fff !important;
   color: #6e6e6e;
-}
-.flaticon-381-search-2:before {
-  content: "\f217";
-}
-[class^="flaticon-"]:before, [class*=" flaticon-"]:before, [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
-  font-family: flaticon;
- font-style: normal;
 }

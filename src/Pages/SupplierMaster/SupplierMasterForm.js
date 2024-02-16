@@ -99,14 +99,14 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
     ])
   }
 
-  const getAdditionalFIeldData = (del = false) => {
+  const getAdditionalFIeldData = (del = false, supplierId) => {
     let tempAdditionField = [...additionalFields]
    const additionalData =  tempAdditionField.map((item)=>({
       ...item,
       enabled:true,
       deleted:del,
      fieldDescription: "test",  // Need to remove once APi is developed
-      supplierId:supplyPostData?.postData?.[0]?.id
+      supplierId:supplierId
   }))
     return additionalData;
   }
@@ -114,7 +114,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
   useEffect(() => {
       if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
         dispatch(onVendorReset());
-        dispatch(onSupplierResourceSubmit(getAdditionalFIeldData()));
+        dispatch(onSupplierResourceSubmit(getAdditionalFIeldData(false, supplyPostData?.postData?.[0]?.id)));
       }else if(supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading){
         dispatch(onUpdateSupplierListReset());
         if(isDelete){
@@ -122,9 +122,13 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
           dispatch(onGetSupplierList());
           dispatch(onGetSupplierResource());
         }else{
-          dispatch(onUpdateSupplierResource(getAdditionalFIeldData()));
+          dispatch(onUpdateSupplierResource(getAdditionalFIeldData(false, data?.id)));
         }
         resetData();
+      }else if(supplyPostData.post_status_code && supplyPostData.post_status_code !== "201" && !supplyPostData?.isLoading){
+          setIsFormLoading(false);
+          dispatch(onVendorReset());
+          toast.error(supplyPostData?.message)
       }
   }, [supplyPostData]);
 
@@ -401,7 +405,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                           {Array.isArray(additionalFields) &&
                             additionalFields?.map((field, index) => (
                               <React.Fragment key={index}>
-                                <div className="col-lg-4 mt-3">
+                                <div className="col-lg-4">
                                   <h4>{field_Name_Label}</h4>
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
@@ -421,7 +425,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                   </div>
                                 </div>
 
-                                <div className="col-lg-4 mt-3">
+                                <div className="col-lg-4">
                                   <h4>{field_Value_Label}</h4>
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
@@ -447,8 +451,8 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
 
                                 {index < additionalFields?.length - 1 && (
                                   <div className="col-lg-3">
-                                  
-                                    <div className="col-sm-12 form-group mb-7 mb-3">
+                                    <br />
+                                    <div className="col-sm-12 form-group mb-7">
                                       <Button
                                         className="btn btn-primary btn-sm float-right pad-aa mt-2"
                                         text={delete_Button}
@@ -462,8 +466,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                             ))}
 
                           <div className="col-lg-3">
-                         
-                            <div className="col-sm-12 form-group mb-7">
+                            <div className="col-sm-12 form-group mb-7 btn-m">
                               <Button
                                 className="btn btn-primary btn-sm float-right pad-aa mt-2"
                                 text={add_More}
@@ -474,12 +477,12 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                           </div>
                         </div>
 
-                        {/* <span
+                        <span
                           className="form-check-label"
                           htmlFor="basic_checkbox_1"
                         >
                           {required_label}
-                        </span> */}
+                        </span>
 
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button

@@ -141,28 +141,28 @@ const ClientMaster = (props) => {
     });
 
   }, [props.data]);
-const resetFields = {
-  name: "",
-  number: "",
-  email: "",
-  enabled: true,
-  color: "",
-  logoUrl: "",
-  themes: "",
-  dbLoginId: "",
-  dbLoginPwd: "",
-  dbIpAddress: "",
-  platformDomainUrl: "",
-}
-const resetAdditionalFields = [
-  {
-    resourceKey: "",
-    clientId: "",
-    resourceValue: "",
-    mode: "",
-    id: ""
+  const resetFields = {
+    name: "",
+    number: "",
+    email: "",
+    enabled: true,
+    color: "",
+    logoUrl: "",
+    themes: "",
+    dbLoginId: "",
+    dbLoginPwd: "",
+    dbIpAddress: "",
+    platformDomainUrl: "",
   }
-];
+  const resetAdditionalFields = [
+    {
+      resourceKey: "",
+      clientId: "",
+      resourceValue: "",
+      mode: "",
+      id: ""
+    }
+  ];
   const handleAddMoreData = (field, index, e) => {
     var data = [...additionalFields];
     data[index][field] = e.target.value;
@@ -319,11 +319,11 @@ const resetAdditionalFields = [
       setClientData(resetFields);
       setAdditionalFields(resetAdditionalFields);
     }
-    
+
   }, [getClientPaymentdata]);
-  
-  useEffect(()=>{
-    if(clientMasterDetails.update_status_code === "201"){
+
+  useEffect(() => {
+    if (clientMasterDetails.update_status_code === "201") {
       setShowLoader(false);
       toast.success(clientMasterDetails?.updateMessage);
       dispatch(onUpdateClientMasterReset())
@@ -332,7 +332,7 @@ const resetAdditionalFields = [
       setClientData(resetFields);
       setAdditionalFields(resetAdditionalFields);
     }
-  },[clientMasterDetails]);
+  }, [clientMasterDetails]);
 
   useEffect(() => {
     dispatch(onPostClientMasterReset());
@@ -444,7 +444,7 @@ const resetAdditionalFields = [
                           options={statusoptions}
                         />
                       </div>
-                      <h3  className="mt-3 border">
+                      <h3 className="mt-3 border">
                         {themeDetails}{" "}
                       </h3>
                       <div className="col-sm-3 form-group mb-2">
@@ -556,7 +556,7 @@ const resetAdditionalFields = [
                       </div>
 
                       <div className="row mt-3">
-                        <h3  className="border">
+                        <h3 className="border">
                           {razorpay}
                         </h3>
 
@@ -654,7 +654,7 @@ const resetAdditionalFields = [
                                 className="col-lg-3 mt-4"
                                 key={`delete-${index}`}
                               >
-                                <div className="col-sm-12 form-group mb-7 mb-3">
+                                <div className="col-sm-12 form-group mb-7">
                                   <Button
                                     className="btn btn-danger btn-sm float-right pad-aa mt-2"
                                     text={delete_Button}
@@ -666,7 +666,7 @@ const resetAdditionalFields = [
                             )}
                           </React.Fragment>
                         ))}
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 mt-4">
                           <div className="col-sm-12 form-group mb-7">
                             <Button
                               className="btn btn-primary btn-sm float-right pad-aa mt-2"

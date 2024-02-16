@@ -1,6 +1,8 @@
 import React from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 const Footer = () => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   return (
     <div className="footer">
       <div className="copyright">
@@ -10,4 +12,4 @@ const Footer = () => {
     </div>
   );
 };
-export default Footer;
+export default Footer;
