@@ -14,6 +14,7 @@ import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 import PageError from "../Components/PageError/PageError";
+import CMS from "../Pages/CMS/CMS";
 // import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 function RouteConfiq() {
   return (
@@ -64,6 +65,10 @@ function RouteConfiq() {
         <Route
           path="/lc-admin/orders"
           element={<Layout Component={Orders} />}
+        />
+        <Route
+          path="/lc-admin/cms"
+          element={<Layout Component={CMS} />}
         />
          <Route
           path="*"
