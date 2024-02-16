@@ -40,8 +40,8 @@ function* supplierMaster({ payload }) {
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
-    yield put(onVendorSubmitError({ data: {}, message, status_code: 400 }));
+    const message = error.response.data?.ErrorMessage || "Something went wrong";
+    yield put(onVendorSubmitError({ data: {}, message, status_code: error.response.data.HttpStatusCode }));
   }
 }
 function* onGetSupplier() {
