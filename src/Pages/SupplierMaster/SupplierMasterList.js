@@ -23,8 +23,8 @@ const SupplierMasterList = () => {
     name: "",
     balanceThresholdAmount: "",
     creditAmount: "",
-    servicePath:"",
-    enabled: ""
+    servicePath: "",
+    enabled: "",
   });
   const supplierList = GetTranslationData("UIAdmin", "supplierList");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -63,9 +63,14 @@ const SupplierMasterList = () => {
 
   useEffect(() => {
     if (supplierMasterData?.status_code === "200") {
+      const totalItems = supplierMasterData?.data.length;
+      const totalPages = Math.ceil(totalItems / rowsPerPage);
+      if (page > totalPages && page > 1) {
+        setPage(page - 1);
+      }
       setIsLoading(false);
     }
-  }, [supplierMasterData]);
+  }, [supplierMasterData, page, rowsPerPage]);
 
   const handleEdit = (vendor) => {
     setVendorData({
@@ -73,7 +78,7 @@ const SupplierMasterList = () => {
       enabled: vendor.enabled ? true : false,
       balanceThresholdAmount: vendor.balanceThresholdAmount,
       creditAmount: vendor.creditAmount,
-      servicePath:vendor.servicePath,
+      servicePath: vendor.servicePath,
       id: vendor?.id,
     });
   };
@@ -83,7 +88,7 @@ const SupplierMasterList = () => {
       id: vendor.id,
       balanceThresholdAmount: vendor.balanceThresholdAmount,
       creditAmount: vendor.creditAmount,
-      servicePath:vendor.servicePath,
+      servicePath: vendor.servicePath,
       deleted: true,
       enabled: false,
     };
@@ -95,20 +100,25 @@ const SupplierMasterList = () => {
     setIsLoading(true);
     dispatch(onGetSupplierList());
     dispatch(onGetSupplierResource());
-  }, [])
+  }, []);
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
     ? supplierMasterData?.data.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
   return (
     <>
-      <SupplierMasterForm data={vendorData} setData={setVendorData} isDelete={isDelete} setIsDelete={setIsDelete} />
+      <SupplierMasterForm
+        data={vendorData}
+        setData={setVendorData}
+        isDelete={isDelete}
+        setIsDelete={setIsDelete}
+      />
 
       <div className="container-fluid pt-0">
         <div className="row">
@@ -190,68 +200,76 @@ const SupplierMasterList = () => {
                               <tbody>
                                 {filteredVendorList.length > 0 ? (
                                   Array.isArray(filteredVendorList) &&
-                                  filteredVendorList.slice(startIndex, endIndex).map((vendor, index) => (
-                                    <tr key={index}>
-                                      <td>{vendor.name}</td>
-                                      <td>{vendor.id}</td>
-                                      <td>
-                                        <span className="text-muted">
-                                          {vendor.creditAmount}
-                                        </span>
-                                      </td>
-                                      <td>{vendor.balanceThresholdAmount}</td>
-                                      <td>
-                                        <span
-                                          className={`badge ${vendor.enabled
-                                              ? "badge-success"
-                                              : "badge-danger"
+                                  filteredVendorList
+                                    .slice(startIndex, endIndex)
+                                    .map((vendor, index) => (
+                                      <tr key={index}>
+                                        <td>{vendor.name}</td>
+                                        <td>{vendor.id}</td>
+                                        <td>
+                                          <span className="text-muted">
+                                            {vendor.creditAmount}
+                                          </span>
+                                        </td>
+                                        <td>{vendor.balanceThresholdAmount}</td>
+                                        <td>
+                                          <span
+                                            className={`badge ${
+                                              vendor.enabled
+                                                ? "badge-success"
+                                                : "badge-danger"
                                             }`}
-                                        >
-                                          {vendor.enabled
-                                            ? "Active"
-                                            : "Non-Active"}
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex">
-                                          <a
-                                            className="btn btn-primary shadow btn-xs sharp me-1"
-                                            onClick={() => handleEdit(vendor)}
                                           >
-                                            <i className="fas fa-pencil-alt"></i>
-                                          </a>
-                                          <a className="btn btn-danger shadow btn-xs sharp" onClick={() =>
-                                            handleDelete(vendor)
-                                          }>
-                                            <i
-                                              className="fa fa-trash"
-                                            ></i>
-                                          </a>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                            {vendor.enabled
+                                              ? "Active"
+                                              : "Non-Active"}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <div className="d-flex">
+                                            <a
+                                              className="btn btn-primary shadow btn-xs sharp me-1"
+                                              onClick={() => handleEdit(vendor)}
+                                            >
+                                              <i className="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <a
+                                              className="btn btn-danger shadow btn-xs sharp"
+                                              onClick={() =>
+                                                handleDelete(vendor)
+                                              }
+                                            >
+                                              <i className="fa fa-trash"></i>
+                                            </a>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ))
                                 ) : (
                                   <NoRecord />
                                 )}
                               </tbody>
                             </table>
-                            <div className="pagination-container">
-                              <ReactPaginate
-                                previousLabel={"<"}
-                                nextLabel={" >"}
-                                breakLabel={"..."}
-                                pageCount={Math.ceil(
-                                  filteredVendorList.length / rowsPerPage
-                                )}
-                                marginPagesDisplayed={2}
-                                onPageChange={handlePageChange}
-                                containerClassName={"pagination"}
-                                activeClassName={"active"}
-                                initialPage={page - 1} // Use initialPage instead of forcePage
-                                previousClassName={page === 0 ? "disabled" : ""}
-                              />
-                            </div>
+                            {filteredVendorList.length > 5 && (
+                              <div className="pagination-container">
+                                <ReactPaginate
+                                  previousLabel={"<"}
+                                  nextLabel={" >"}
+                                  breakLabel={"..."}
+                                  pageCount={Math.ceil(
+                                    filteredVendorList.length / rowsPerPage
+                                  )}
+                                  marginPagesDisplayed={2}
+                                  onPageChange={handlePageChange}
+                                  containerClassName={"pagination"}
+                                  activeClassName={"active"}
+                                  initialPage={page - 1} // Use initialPage instead of forcePage
+                                  previousClassName={
+                                    page === 0 ? "disabled" : ""
+                                  }
+                                />
+                              </div>
+                            )}
                           </>
                         </div>
                       </div>
