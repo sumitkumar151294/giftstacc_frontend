@@ -33,11 +33,12 @@ function* supplierBrandList({ payload }) {
 function* onGetSupplierList() {
   try {
     const supplierBrandListResponse = yield call(callSupplierBrandListGetApi);
-    if (supplierBrandListResponse.status === 5) {
+    debugger
+    if (supplierBrandListResponse.httpStatusCode==="200") {
       yield put(
         onGetSupplierBrandListSuccess({
-          data: supplierBrandListResponse.result,
-          message: supplierBrandListResponse.result.message,
+          data: supplierBrandListResponse.response,
+          message: supplierBrandListResponse.errorMessage,
         })
       );
     } else {
@@ -50,7 +51,7 @@ function* onGetSupplierList() {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onGetSupplierBrandListError({ data: {}, message, status_code: 400 }));
+    yield put(onGetSupplierBrandListError({ data: [], message, status_code: 400 }));
   }
 }
 

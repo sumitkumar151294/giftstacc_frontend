@@ -48,10 +48,10 @@ export const supplierBrandListSlice = createSlice({
     },
 
     onGetSupplierBrandList: (state) => {
-      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false };
+      return { ...state, isLoading: true, data: [], message: '', error: {}, isError: false };
     },
     onGetSupplierBrandListSuccess: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
+      const { data = [], message = '', status_code } = payload;
       return {
         ...state,
         isLoading: false,
