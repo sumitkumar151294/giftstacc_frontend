@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Dropdown from "../../Components/Dropdown/Dropdown";
-import { onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import { onGetSupplierList, onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
@@ -17,7 +17,7 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer?.data?.data
   );
-  const suppliers = useSelector((state) => state.supplierMasterReducer?.data);
+  const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
@@ -37,14 +37,12 @@ const SupplierProductList = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
   }, []);
-  const filteredSupplierList = SupplierBrandList?.filter((vendor) =>
-    Object.values(vendor).some(
-      (value) =>
-        value &&
-        typeof value === "string" &&
-        value.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  );
+  const [data1, setData1] = useState([
+    { id: 1, brands: "API SANDBOX B2B", supplier_Margin:1, status:true }
+  ]);
+  const filteredSupplierList = data1?.filter((vendor) =>
+  vendor?.brands.toLowerCase().includes(searchQuery?.toLowerCase())
+    );
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -64,21 +62,20 @@ const SupplierProductList = () => {
     { label: "status", key: "status" },
     { label: "action", key: "action" },
   ];
-  const data1 = [
-    { id: 1, brands: "Havels", supplier_Margin: 1, status: true },
-    { id: 2, brands: "ZARA", supplier_Margin: 1, status: true },
-    { id: 3, brands: "Havels", supplier_Margin: 1, status: true },
-    { id: 4, brands: "Havels", supplier_Margin: 1, status: true },
-  ];
+ 
 
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
   useEffect(() => {
-    let tempSupplier = [];
-    suppliers?.data?.map((item) => {
-      tempSupplier.push({ label: item.name, value: item.name });
-    });
-    setSupplierList(tempSupplier);
+    if(suppliers?.data.length && !supplierList.length){
+      let tempSupplier = [];
+      suppliers?.data?.map((item) => {
+        tempSupplier.push({ label: item.name, value: item.name });
+      });
+      setSupplierList(tempSupplier);
+    }else if(!suppliers?.isLoading){
+      dispatch(onGetSupplierList());
+    }
   }, [suppliers]);
 
   const handleChange = (e) => { };
@@ -86,27 +83,27 @@ const SupplierProductList = () => {
   const userData = [
     {
       status: "Active",
-      count: "125",
+      count: data1?.length,
       className: "btn btn-success btn-sm btn-margin",
     },
     {
       status: "Deprecated",
-      count: "50",
+      count: "0",
       className: "btn btn-danger btn-sm btn-margin",
     },
     {
       status: "Deactive",
-      count: "10",
+      count: "0",
       className: "btn btn-warning btn-sm btn-margin",
     },
     {
       status: "New",
-      count: "105",
+      count: "0",
       className: "btn btn-primary btn-sm btn-margin",
     },
     {
       status: "Total",
-      count: "280",
+      count: data1?.length,
       className: "btn btn-secondary btn-sm btn-margin",
     },
   ];
@@ -116,12 +113,24 @@ const SupplierProductList = () => {
       e.preventDefault();
     }
   };
-  const [marginValue, setMarginValue] = useState();
+  const [marginValue, setMarginValue] = useState([]);
 
-  const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    // You can add additional validation if needed
-    setMarginValue(newValue);
+  useEffect(()=>{
+    const tempMarginValue = [];
+    if (marginValue.length !== data1.length) {
+      data1.map((item)=>{
+        tempMarginValue.push({value:0})
+      })
+      setMarginValue(tempMarginValue)
+    }
+    
+  },[])
+
+  const handleInputChange = (e,index) => {
+    const newValue = e.target.value<0 ? 0 : e.target.value;
+    const tempMarginValue = [...marginValue];
+    tempMarginValue[index].value = newValue;
+    setMarginValue(tempMarginValue);
   };
   const handleUpdate = (data) => {
     const updatedValues = {
@@ -129,11 +138,17 @@ const SupplierProductList = () => {
       brands: data.brands,
       supplier_Margin: marginValue,
       status: data.status,
-      action: data.action,
     };
     dispatch(onUpdateSupplierList(updatedValues));
   };
 
+  const updateStatus = (id,index) =>{
+    let tempData = [...data1];
+    tempData[index].status =  !tempData[index].status
+    console.log(tempData)
+    setData1(tempData)
+  }
+console.log(data1)
   return (
     <>
       <ScrollToTop />
@@ -165,7 +180,7 @@ const SupplierProductList = () => {
                       {filteredSupplierList &&
                         filteredSupplierList.length > 0 && (
                           <CSVLink
-                            data={SupplierBrandList}
+                            data={data1}
                             headers={headers}
                             filename={"SupplierBrandList.csv"}
                           >
@@ -216,39 +231,39 @@ const SupplierProductList = () => {
                         <div className="card-header">
                           <h4 className="card-title">{supplierBrandLists}</h4>
                         </div>
-                        {/* {Array.isArray(filteredSupplierList) &&
-                        filteredSupplierList.length > 0 ? ( */}
-                        <div className="card-body">
-                          <div className="table-responsive">
-                            <table className="table header-border table-responsive-sm">
-                              <thead>
-                                <tr>
-                                  <th>{id}</th>
-                                  <th>{brands}</th>
-                                  <th>{supplierMargin}</th>
-                                  <th>{status}</th>
-                                  <th>{action}</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {data1
-                                  .slice(startIndex, endIndex)
-                                  .map((data, index) => (
-                                    <tr key={index}>
-                                      <td>{data.id}</td>
-                                      <td>{data.brands}</td>
-                                      <td>
-                                        <div className="input-group mb-2 w-11">
-                                          <InputField
-                                            type="number"
-                                            className="form-control htt"
-                                            placeholder={data.supplier_Margin}
-                                            pattern="/^-?\d+\.?\d*$/"
-                                            value={marginValue}
-                                            onChange={handleInputChange}
-                                            onKeyPress={handleKeyPress}
-                                          />
-                                          <div className="input-group-append">
+                        {Array.isArray(filteredSupplierList) &&
+                        filteredSupplierList.length > 0 ? (
+                          <div className="card-body">
+                            <div className="table-responsive">
+                              <table className="table header-border table-responsive-sm">
+                                <thead>
+                                  <tr>
+                                    <th>{id}</th>
+                                    <th>{brands}</th>
+                                    <th>{supplierMargin}</th>
+                                    <th>{status}</th>
+                                    <th>{action}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {filteredSupplierList
+                                    .slice(startIndex, endIndex)
+                                    .map((data, index) => (
+                                      <tr key={index}>
+                                        <td>{data.id}</td>
+                                        <td>{data.brands}</td>
+                                        <td>
+                                          <div className="input-group mb-2 w-11">
+                                            <InputField
+                                              type="number"
+                                              className="form-control htt"
+                                              placeholder={data.supplier_Margin}
+                                              pattern="/^-?\d+\.?\d*$/"
+                                              value={marginValue[index]?.value}
+                                              onChange={(e)=>handleInputChange(e,index)}
+                                              onKeyPress={(e)=>handleKeyPress(e,index)}
+                                            />
+                                             <div className="input-group-append">
                                             <Button
                                               onClick={() =>
                                                 handleUpdate(data)
@@ -258,58 +273,68 @@ const SupplierProductList = () => {
                                               text={update}
                                             />
                                           </div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <span
-                                          className={
-                                            data.status === true
-                                              ? "badge badge-success"
-                                              : "badge badge-danger"
-                                          }
-                                        >
-                                          {data.status === true
-                                            ? "Active"
-                                            : "Non-Active"}
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <div className="can-toggle">
-                                          <input id={generateUniqueId(index)} type="checkbox" />
-                                          <label htmlFor={generateUniqueId(index)}>
-                                            <div className="can-toggle__switch" data-checked={
-                                              data.status ? "ON" : "OFF"
-                                            } data-unchecked="Off"></div>
-                                          </label>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))}
-                              </tbody>
-                            </table>
-                            <div className="pagination-container">
-                              <ReactPaginate
-                                previousLabel={"<"}
-                                nextLabel={" >"}
-                                breakLabel={"..."}
-                                pageCount={Math.ceil(
-                                  data1.length / rowsPerPage
-                                )}
-                                marginPagesDisplayed={2}
-                                onPageChange={handlePageChange}
-                                containerClassName={"pagination"}
-                                activeClassName={"active"}
-                                initialPage={page - 1} // Use initialPage instead of forcePage
-                                previousClassName={
-                                  page === 0 ? "disabled" : ""
-                                }
-                              />
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <span
+                                            className={
+                                              data.status === true
+                                                ? "badge badge-success"
+                                                : "badge badge-danger"
+                                            }
+                                          >
+                                            {data.status === true
+                                              ? "Active"
+                                              : "Non-Active"}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <div className="can-toggle">
+                                          <input id={generateUniqueId(index)} type="checkbox" checked ={data.status }></input>
+                                            <label
+                                              htmlFor={generateUniqueId(index)}
+                                            >
+                                            {console.log(data.status)}
+                                              <div
+                                                className="can-toggle__switch"
+                                                data-unchecked="Off"
+                                                data-checked={
+                                                  data.status ===true ? "ON" : "OFF"
+                                                } // Set label based on the status
+                                                onClick={()=>updateStatus(data.id,index)}
+                                              ></div>
+                                            </label>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ))}
+                                </tbody>
+                              </table>
+                              {filteredSupplierList?.length > 5 &&
+                              <div className="pagination-container">
+                                <ReactPaginate
+                                  previousLabel={"<"}
+                                  nextLabel={" >"}
+                                  breakLabel={"..."}
+                                  pageCount={Math.ceil(
+                                    data1.length / rowsPerPage
+                                  )}
+                                  marginPagesDisplayed={2}
+                                  onPageChange={handlePageChange}
+                                  containerClassName={"pagination"}
+                                  activeClassName={"active"}
+                                  initialPage={page - 1} // Use initialPage instead of forcePage
+                                  previousClassName={
+                                    page === 0 ? "disabled" : ""
+                                  }
+                                />
+                              </div>
+                              }
                             </div>
                           </div>
-                        </div>
-                        {/*  ) : (
+                         ) : (
                            <NoRecord />
-                         )} */}
+                         )}
                       </div>
                     </div>
                   </div>
