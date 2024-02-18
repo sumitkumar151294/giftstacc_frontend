@@ -65,10 +65,10 @@ const SupplierProductList = () => {
     { label: "action", key: "action" },
   ];
   const data1 = [
-    { id: 1, brands: "Havels", supplier_Margin:1, status:true },
-    { id: 2, brands: "ZARA", supplier_Margin:1, status:true },
-    { id: 3, brands: "Havels", supplier_Margin:1, status:true },
-    { id: 4, brands: "Havels", supplier_Margin:1, status:true },
+    { id: 1, brands: "Havels", supplier_Margin: 1, status: true },
+    { id: 2, brands: "ZARA", supplier_Margin: 1, status: true },
+    { id: 3, brands: "Havels", supplier_Margin: 1, status: true },
+    { id: 4, brands: "Havels", supplier_Margin: 1, status: true },
   ];
 
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
@@ -81,7 +81,7 @@ const SupplierProductList = () => {
     setSupplierList(tempSupplier);
   }, [suppliers]);
 
-  const handleChange = (e) => {};
+  const handleChange = (e) => { };
 
   const userData = [
     {
@@ -218,100 +218,95 @@ const SupplierProductList = () => {
                         </div>
                         {/* {Array.isArray(filteredSupplierList) &&
                         filteredSupplierList.length > 0 ? ( */}
-                          <div className="card-body">
-                            <div className="table-responsive">
-                              <table className="table header-border table-responsive-sm">
-                                <thead>
-                                  <tr>
-                                    <th>{id}</th>
-                                    <th>{brands}</th>
-                                    <th>{supplierMargin}</th>
-                                    <th>{status}</th>
-                                    <th>{action}</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {data1
-                                    .slice(startIndex, endIndex)
-                                    .map((data, index) => (
-                                      <tr key={index}>
-                                        <td>{data.id}</td>
-                                        <td>{data.brands}</td>
-                                        <td>
-                                          <div className="input-group mb-2 w-11">
-                                            <InputField
-                                              type="number"
-                                              className="form-control htt"
-                                              placeholder={data.supplier_Margin}
-                                              pattern="/^-?\d+\.?\d*$/"
-                                              value={marginValue}
-                                              onChange={handleInputChange}
-                                              onKeyPress={handleKeyPress}
+                        <div className="card-body">
+                          <div className="table-responsive">
+                            <table className="table header-border table-responsive-sm">
+                              <thead>
+                                <tr>
+                                  <th>{id}</th>
+                                  <th>{brands}</th>
+                                  <th>{supplierMargin}</th>
+                                  <th>{status}</th>
+                                  <th>{action}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {data1
+                                  .slice(startIndex, endIndex)
+                                  .map((data, index) => (
+                                    <tr key={index}>
+                                      <td>{data.id}</td>
+                                      <td>{data.brands}</td>
+                                      <td>
+                                        <div className="input-group mb-2 w-11">
+                                          <InputField
+                                            type="number"
+                                            className="form-control htt"
+                                            placeholder={data.supplier_Margin}
+                                            pattern="/^-?\d+\.?\d*$/"
+                                            value={marginValue}
+                                            onChange={handleInputChange}
+                                            onKeyPress={handleKeyPress}
+                                          />
+                                          <div className="input-group-append">
+                                            <Button
+                                              onClick={() =>
+                                                handleUpdate(data)
+                                              }
+                                              className="btn btn-outline-primary btn-sm group-btn btn-pad"
+                                              type="button"
+                                              text={update}
                                             />
-                                            <div className="input-group-append">
-                                              <Button
-                                                onClick={() =>
-                                                  handleUpdate(data)
-                                                }
-                                                className="btn btn-outline-primary btn-sm group-btn btn-pad"
-                                                type="button"
-                                                text={update}
-                                              />
-                                            </div>
                                           </div>
-                                        </td>
-                                        <td>
-                                          <span
-                                            className={
-                                              data.status === true
-                                                ? "badge badge-success"
-                                                : "badge badge-danger"
-                                            }
-                                          >
-                                            {data.status === true
-                                              ? "Active"
-                                              : "Non-Active"}
-                                          </span>
-                                        </td>
-                                        <td>
-                                          <div className="can-toggle">
-                                            <label
-                                              htmlFor={generateUniqueId(index)}
-                                            >
-                                              <div
-                                                className="can-toggle__switch"
-                                                data-unchecked="Off"
-                                                data-checked={
-                                                  data.status ? "ON" : "OFF"
-                                                } // Set label based on the status
-                                              ></div>
-                                            </label>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    ))}
-                                </tbody>
-                              </table>
-                              <div className="pagination-container">
-                                <ReactPaginate
-                                  previousLabel={"<"}
-                                  nextLabel={" >"}
-                                  breakLabel={"..."}
-                                  pageCount={Math.ceil(
-                                    data1.length / rowsPerPage
-                                  )}
-                                  marginPagesDisplayed={2}
-                                  onPageChange={handlePageChange}
-                                  containerClassName={"pagination"}
-                                  activeClassName={"active"}
-                                  initialPage={page - 1} // Use initialPage instead of forcePage
-                                  previousClassName={
-                                    page === 0 ? "disabled" : ""
-                                  }
-                                />
-                              </div>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <span
+                                          className={
+                                            data.status === true
+                                              ? "badge badge-success"
+                                              : "badge badge-danger"
+                                          }
+                                        >
+                                          {data.status === true
+                                            ? "Active"
+                                            : "Non-Active"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <div className="can-toggle">
+                                          <input id={generateUniqueId(index)} type="checkbox" />
+                                          <label htmlFor={generateUniqueId(index)}>
+                                            <div className="can-toggle__switch" data-checked={
+                                              data.status ? "ON" : "OFF"
+                                            } data-unchecked="Off"></div>
+                                          </label>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))}
+                              </tbody>
+                            </table>
+                            <div className="pagination-container">
+                              <ReactPaginate
+                                previousLabel={"<"}
+                                nextLabel={" >"}
+                                breakLabel={"..."}
+                                pageCount={Math.ceil(
+                                  data1.length / rowsPerPage
+                                )}
+                                marginPagesDisplayed={2}
+                                onPageChange={handlePageChange}
+                                containerClassName={"pagination"}
+                                activeClassName={"active"}
+                                initialPage={page - 1} // Use initialPage instead of forcePage
+                                previousClassName={
+                                  page === 0 ? "disabled" : ""
+                                }
+                              />
                             </div>
                           </div>
+                        </div>
                         {/*  ) : (
                            <NoRecord />
                          )} */}
