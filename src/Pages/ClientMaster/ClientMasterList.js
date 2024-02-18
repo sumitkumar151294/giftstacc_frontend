@@ -218,6 +218,7 @@ const ClientMasterList = () => {
                                     <td>
                                       <Link
                                         to="/lc-admin/client-brand-list"
+                                        state={{id:data.id}}
                                         className="btn btn-primary btn-sm float-right"
                                       >
                                         <i className="fa fa-eye"></i>&nbsp;

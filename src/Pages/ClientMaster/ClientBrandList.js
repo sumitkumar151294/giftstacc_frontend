@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
+import { useLocation, useNavigate } from "react-router-dom";
+import PageError from "../../Components/PageError/PageError";
 
 const customerdetails = [
   {
@@ -12,34 +14,12 @@ const customerdetails = [
     commision: "10%",
     margin: "15%",
     action: "",
-  },
-  {
-    name: "Supplier 2",
-    brand: "Flipcart",
-    discount: "10%",
-    commision: "15%",
-    margin: "10%",
-    action: "",
-  },
-  {
-    name: "abcd",
-    brand: "efgh",
-    discount: "66%",
-    commision: "89%",
-    margin: "88%",
-    action: "",
-  },
-  {
-    name: "ghij",
-    brand: "xlc",
-    discount: "13%",
-    commision: "54%",
-    margin: "20%",
-    action: "",
-  },
+  }
 ];
 
 const ClientBrandList = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const clientbrandlist = GetTranslationData("UIAdmin", "clientbrandlist");
   const clientbrandlistheading = GetTranslationData(
     "UIAdmin",
@@ -76,6 +56,7 @@ const ClientBrandList = () => {
   return (
     <>
       <ScrollToTop />
+      {location.state? 
       <div className="container-fluid">
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
@@ -204,6 +185,10 @@ const ClientBrandList = () => {
           </div>
         </div>
       </div>
+      :
+      <PageError pageError={{StatusCode:"401", ErrorName:"Not Authorised", ErrorDesription:"You are not authorised to view this page", url:"/", buttonText:"Back to home" }} />
+   
+      }
     </>
   );
 };
