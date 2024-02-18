@@ -21,24 +21,23 @@ const CategoryForm = ({ setIsLoading }) => {
   const [supplierListData, setSupplierListData] = useState([]);
   const supplierBrandData = [
     {
-id:"1",
-name: "API SANDBOX B2B"
-  }
-]
+      id: "1",
+      name: "API SANDBOX B2B",
+    }
+  ];
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
-  console.log(supplierMasterData, "supplierMasterData")
+  // const supplierBrandListData = useSelector((state)=> state?.supplierBrandListReducer?.data);
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [errors, setErrors] = useState({
-
     name: "",
-    supplierId: "",
-    supplierBrandId: "",
+    supplierId: null,
+    supplierBrandId: null,
   });
   const [createCategory, setCreateCategory] = useState({
-    supplierId: 0,
-    supplierBrandId: 0,
+    supplierId: null,
+    supplierBrandId: null,
     name: "",
   });
   const getCategoriesData = useSelector(
@@ -50,17 +49,13 @@ name: "API SANDBOX B2B"
     supplierBrandId: "",
   };
 
-  // To get the supplier name from redux store
-  // useEffect(() => {
-  //   dispatch(onGetSupplierList());
-  // }, []);
-
   // To get the Supplier Brand from redux store
 
   useEffect(() => {
     dispatch(onGetSupplierList());
+    dispatch(onGetSupplierBrandList());
   }, []);
-  
+
   useEffect(() => {
     let tempSupplier = [];
     Array.isArray(supplierMasterData) &&
@@ -71,15 +66,6 @@ name: "API SANDBOX B2B"
   }, [supplierMasterData]);
 
   // To get the dropdown values of Supplier Name
-
-  // To get the dropdown values of Supplier Brands
-  // const supplierBrandOptions = getSupplierBrand?.map(
-  //   (supplierBrand, index) => ({
-  //     label: supplierBrand.brands,
-  //     key: index,
-  //   })
-  // );
-
   // To get the labels form Api/Database
   const createUpdateBrandMapping = GetTranslationData(
     "UIAdmin",
@@ -116,7 +102,6 @@ name: "API SANDBOX B2B"
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsFormLoading(true);
 
     let isValid = true;
     const newErrors = { ...errors };
@@ -135,31 +120,31 @@ name: "API SANDBOX B2B"
     if (isValid) {
       try {
         setIsLoading(true);
-        dispatch(onPostCategory(createCategory) );
+        dispatch(onPostCategory(createCategory));
       } catch (error) {
       }
     }
-    
-  };
-useEffect(()=>{
-if(getCategoriesData?.post_status_code === "201"){
-  setIsFormLoading(false);
-  toast.success(getCategoriesData?.postMessage);
-  dispatch(onPostCategoryReset());
-  dispatch(onGetCategory());
-  setCreateCategory(resetCategoryFields);
-}
-},[getCategoriesData])
 
-useEffect(()=>{
-  if(getCategoriesData?.post_status_code === "500"){
-    setIsFormLoading(false);
-    toast.error(getCategoriesData?.postMessage);
-    dispatch(onPostCategoryReset());
-    dispatch(onGetCategory());
-    setCreateCategory(resetCategoryFields);
-  }
-  },[getCategoriesData])
+  };
+  useEffect(() => {
+    if (getCategoriesData?.post_status_code === "201") {
+      setIsFormLoading(false);
+      toast.success(getCategoriesData?.postMessage);
+      dispatch(onPostCategoryReset());
+      dispatch(onGetCategory());
+      setCreateCategory(resetCategoryFields);
+    }
+  }, [getCategoriesData])
+
+  useEffect(() => {
+    if (getCategoriesData?.post_status_code === "500") {
+      setIsFormLoading(false);
+      toast.error(getCategoriesData?.postMessage);
+      dispatch(onPostCategoryReset());
+      dispatch(onGetCategory());
+      setCreateCategory(resetCategoryFields);
+    }
+  }, [getCategoriesData])
 
   useEffect(() => {
     if (getCategoriesData.update_status_code === "201") {
@@ -198,8 +183,8 @@ useEffect(()=>{
                           <InputField
                             type="text"
                             className={` ${errors.name
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             name="categoryNam"
                             id="name-f"
@@ -217,13 +202,8 @@ useEffect(()=>{
                             onChange={(e) => handleChange(e, "supplierId")}
                             error={errors.supplierId}
                             ariaLabel="Select"
-                            className={` ${errors.supplierId
-                                ? "border-danger"
-                                : "form-select"
-                              }`}
-                              options={supplierListData}
-
-                            // options={supplierMasterData.map((name) => ({value: name.id, label: name.name}))}
+                            className="form-select"
+                            options={supplierListData}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -235,10 +215,7 @@ useEffect(()=>{
                             onChange={(e) => handleChange(e, "supplierBrandId")}
                             error={errors.supplierBrandId}
                             ariaLabel="Select"
-                            className={` ${errors.supplierBrandId
-                                ? "border-danger"
-                                : "form-select"
-                              }`}
+                            className="form-select"
                             // options={supplierBrandData}
                             options={supplierBrandData.map((brand) => ({ value: brand.id, label: brand.name }))}
                           />

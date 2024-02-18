@@ -143,10 +143,8 @@ const SupplierProductList = () => {
   const updateStatus = (id,index) =>{
     let tempData = [...data1];
     tempData[index].status =  !tempData[index].status
-    console.log(tempData)
     setData1(tempData)
   }
-console.log(data1)
   return (
     <>
       <ScrollToTop />
@@ -292,7 +290,6 @@ console.log(data1)
                                             <label
                                               htmlFor={generateUniqueId(index)}
                                             >
-                                            {console.log(data.status)}
                                               <div
                                                 className="can-toggle__switch"
                                                 data-unchecked="Off"

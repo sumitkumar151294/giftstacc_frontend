@@ -194,7 +194,6 @@ const resetFields = {
     setAdditionalFieldsError((prevErrors) => {
       const newErrors = [...prevErrors];
       newErrors[index] = { ...newErrors[index], [field]: "" };
-      console.log('newErrors',newErrors)
       return newErrors;
     });
   };
@@ -264,7 +263,6 @@ const resetFields = {
       if (field.resourceKey === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
-          console.log('prevErrors', prevErrors)
           newAdditionalFieldsError[index].resourceKey = fieldNameNotEmpty;
           return newAdditionalFieldsError;
         });

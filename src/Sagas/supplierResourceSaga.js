@@ -22,7 +22,6 @@ function* supplierResource({ payload }) {
       postSupplierResourceApi,
       payload
     );
-    debugger
     if (supplierResourceResponse.httpStatusCode === "201") {
       yield put(
         onSupplierResourceSubmitSuccess({

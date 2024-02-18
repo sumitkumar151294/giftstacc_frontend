@@ -22,7 +22,7 @@ const CategoryList = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
-
+  const supplierMaster = useSelector((state) => state?.supplierMasterReducer?.data)
   const headers = [
     { label: "categoryName", key: "name" },
     { label: "supplierName", key: "description" },
@@ -38,7 +38,6 @@ const CategoryList = () => {
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
   const getCategoryData = getCreateCategory?.categoryData;
-  console.log(getCategoryData, "getCreateCategory")
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
   const categoryName = GetTranslationData("UIAdmin", "categoryName");
@@ -84,7 +83,6 @@ const CategoryList = () => {
   };
   //To delete the data
   const handleDelete = (data) => {
-    console.log(data, "data");
     const deletedData = {
       enabled: false,
       deleted: true,
@@ -98,6 +96,11 @@ const CategoryList = () => {
     dispatch(onUpdateCategory(deletedData));
   };
 
+  // To get the Supplier Name in the Category List 
+  const getSupplierName = (supplierId) => {
+    const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
+    return supplier ? supplier.name : '';
+  };  
   return (
     <>
       <ScrollToTop />
@@ -175,6 +178,7 @@ const CategoryList = () => {
                           .map((data) => (
                             <tr key={data.id}>
                               <td>{data.name}</td>
+                              <td>{getSupplierName(data.supplierId)}</td>
                               <td>{data.supplierId}</td>
                               <td>{data.supplierBrandId}</td>
                               <td>
