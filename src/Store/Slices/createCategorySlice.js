@@ -64,7 +64,7 @@ export const userRoleSlice = createSlice({
         isError: false,
         postCategoryData: {},
         error: {},
-        message: "",
+        postMessage: "",
       };
     },
 
@@ -75,7 +75,7 @@ export const userRoleSlice = createSlice({
         isLoading: false,
         isError: false,
         postCategoryData:data,
-        message,
+        postMessage:message,
         post_status_code:status_code,
         error: {},
       };
@@ -86,11 +86,22 @@ export const userRoleSlice = createSlice({
       return {
         ...state,
         postCategoryData:data,
-        message,
+        postMessage:message,
         post_status_code:status_code,
         isLoading: false,
         isError: true,
         error: {},
+      };
+    },
+    onPostCategoryReset: (state) => {
+      return {
+        ...state,
+        isLoading: false,
+        postCategoryData: {},
+        postMessage: "",
+        error: {},
+        post_status_code: null,
+        isError: false,
       };
     },
 
@@ -101,7 +112,7 @@ export const userRoleSlice = createSlice({
         isError: false,
         updatedCategoryData: {},  
         error: {},
-        message: "",
+        updateMessage: "",
       };
     },
 
@@ -112,7 +123,7 @@ export const userRoleSlice = createSlice({
         isLoading: false,
         isError: false,
         updatedCategoryData: data,  
-        message,
+        updateMessage:message,
         update_status_code:status_code,
         error: {},
       };
@@ -123,11 +134,22 @@ export const userRoleSlice = createSlice({
       return {
         ...state,
         updatedCategoryData: data,  
-        message,
+        updateMessage:message,
         update_status_code:status_code,
         isLoading: false,
         isError: true,
         error: {},
+      };
+    },
+    onUpdateCategoryReset: (state) => {
+      return {
+        ...state,
+        isLoading: false,
+        updatedCategoryData: {},
+        updateMessage: "",
+        error: {},
+        update_status_code: null,
+        isError: false,
       };
     },
   },
@@ -139,9 +161,11 @@ export const {
   onPostCategory, 
   onPostCategorySuccess, 
   onPostCategoryError, 
+  onPostCategoryReset,
   onUpdateCategory,
   onUpdateCategorySuccess,
-  onUpdateCategoryError
+  onUpdateCategoryError,
+  onUpdateCategoryReset
 } = userRoleSlice.actions;
 
 export default userRoleSlice.reducer;

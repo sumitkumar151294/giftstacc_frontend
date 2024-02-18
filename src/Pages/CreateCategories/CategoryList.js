@@ -38,7 +38,7 @@ const CategoryList = () => {
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
   const getCategoryData = getCreateCategory?.categoryData;
-console.log(getCategoryData,"getCreateCategory")
+  console.log(getCategoryData, "getCreateCategory")
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
   const categoryName = GetTranslationData("UIAdmin", "categoryName");
@@ -60,13 +60,13 @@ console.log(getCategoryData,"getCreateCategory")
 
   const filteredCategoryList = Array.isArray(getCategoryData)
     ? getCategoryData.filter((item) =>
-        Object.values(item).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(item).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   useEffect(() => {
@@ -84,21 +84,18 @@ console.log(getCategoryData,"getCreateCategory")
   };
   //To delete the data
   const handleDelete = (data) => {
+    console.log(data, "data");
     const deletedData = {
+      enabled: false,
+      deleted: true,
       supplierId: data?.supplierId,
-      supplierBrandId:data?.supplierBrandId,
+      supplierBrandId: data?.supplierBrandId,
       name: data?.name,
       id: data?.id,
-      deleted: true,
+      description: "string",
     };
+    setIsLoading(true)
     dispatch(onUpdateCategory(deletedData));
-    setTimeout(() => {
-      setIsLoading(true);
-      dispatch(onGetCategory());
-      toast.success(categoryDeleteMessage);
-      setIsLoading(false);
-    }, 1000);
-    setIsLoading(true);
   };
 
   return (
@@ -195,22 +192,25 @@ console.log(getCategoryData,"getCreateCategory")
                           ))}
                       </tbody>
                     </table>
-                    <div className="pagination-container">
-                      <ReactPaginate
-                        previousLabel={"<"}
-                        nextLabel={" >"}
-                        breakLabel={"..."}
-                        pageCount={Math.ceil(
-                          filteredCategoryList.length / rowsPerPage
-                        )}
-                        marginPagesDisplayed={2}
-                        onPageChange={handlePageChange}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                        initialPage={page - 1} // Use initialPage instead of forcePage
-                        previousClassName={page === 1 ? "disabled" : ""}
-                      />
-                    </div>
+                    {filteredCategoryList > 5 && (
+                      <div className="pagination-container">
+                        <ReactPaginate
+                          previousLabel={"<"}
+                          nextLabel={" >"}
+                          breakLabel={"..."}
+                          pageCount={Math.ceil(
+                            filteredCategoryList.length / rowsPerPage
+                          )}
+                          marginPagesDisplayed={2}
+                          onPageChange={handlePageChange}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                          initialPage={page - 1} // Use initialPage instead of forcePage
+                          previousClassName={page === 1 ? "disabled" : ""}
+                        />
+                      </div>
+                    )}
+
                   </div>
                 ) : (
                   <NoRecord />

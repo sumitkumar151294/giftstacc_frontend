@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   onGetCategory,
   onPostCategory,
+  onPostCategoryReset,
+  onUpdateCategoryReset,
 } from "../../Store/Slices/createCategorySlice";
 import InputField from "../../Components/InputField/InputField";
 import Dropdown from "../../Components/Dropdown/Dropdown";
@@ -20,7 +22,7 @@ const CategoryForm = ({ setIsLoading }) => {
   const supplierBrandData = [
     {
 id:"1",
-name: "testingValue"
+name: "API SANDBOX B2B"
   }
 ]
   const supplierMasterData = useSelector(
@@ -39,8 +41,8 @@ name: "testingValue"
     supplierBrandId: 0,
     name: "",
   });
-  const getMessage = useSelector(
-    (state) => state.createCategoryReducer.message
+  const getCategoriesData = useSelector(
+    (state) => state.createCategoryReducer
   );
   const resetCategoryFields = {
     name: "",
@@ -132,25 +134,41 @@ name: "testingValue"
 
     if (isValid) {
       try {
-        await dispatch(
-          onPostCategory(createCategory)
-        );
-        toast.success(getMessage);
-        setCreateCategory(resetCategoryFields);
+        setIsLoading(true);
+        dispatch(onPostCategory(createCategory) );
       } catch (error) {
-        toast.error({ error_Occurred });
-      } finally {
-        setIsFormLoading(false);
       }
-    } else {
-      setIsFormLoading(false);
     }
-    setTimeout(() => {
-      dispatch(onGetCategory());
-    }, 1000);
-    setIsLoading(true);
+    
   };
+useEffect(()=>{
+if(getCategoriesData?.post_status_code === "201"){
+  setIsFormLoading(false);
+  toast.success(getCategoriesData?.postMessage);
+  dispatch(onPostCategoryReset());
+  dispatch(onGetCategory());
+  setCreateCategory(resetCategoryFields);
+}
+},[getCategoriesData])
 
+useEffect(()=>{
+  if(getCategoriesData?.post_status_code === "500"){
+    setIsFormLoading(false);
+    toast.error(getCategoriesData?.postMessage);
+    dispatch(onPostCategoryReset());
+    dispatch(onGetCategory());
+    setCreateCategory(resetCategoryFields);
+  }
+  },[getCategoriesData])
+
+  useEffect(() => {
+    if (getCategoriesData.update_status_code === "201") {
+      setIsFormLoading(false);
+      toast.success(getCategoriesData?.updateMessage);
+      dispatch(onUpdateCategoryReset());
+      dispatch(onGetCategory());
+    }
+  }, [getCategoriesData]);
   return (
     <>
       <ScrollToTop />
