@@ -38,7 +38,7 @@ const CategoryList = () => {
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
   const getCategoryData = getCreateCategory?.categoryData;
-
+console.log(getCategoryData,"getCreateCategory")
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
   const categoryName = GetTranslationData("UIAdmin", "categoryName");
@@ -85,12 +85,9 @@ const CategoryList = () => {
   //To delete the data
   const handleDelete = (data) => {
     const deletedData = {
+      supplierId: data?.supplierId,
+      supplierBrandId:data?.supplierBrandId,
       name: data?.name,
-      url: data?.url,
-      description: data?.description,
-      image: data?.image,
-      thumbnail: data?.thumbnail,
-      vendorName: data?.vendorName,
       id: data?.id,
       deleted: true,
     };
@@ -181,8 +178,8 @@ const CategoryList = () => {
                           .map((data) => (
                             <tr key={data.id}>
                               <td>{data.name}</td>
-                              <td>{data.vendorName}</td>
-                              <td>{data.description}</td>
+                              <td>{data.supplierId}</td>
+                              <td>{data.supplierBrandId}</td>
                               <td>
                                 <div className="d-flex">
                                   <Link

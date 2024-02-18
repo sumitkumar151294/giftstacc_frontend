@@ -17,27 +17,35 @@ import Button from "../../Components/Button/Button";
 const CategoryForm = ({ setIsLoading }) => {
   const dispatch = useDispatch();
   const [supplierListData, setSupplierListData] = useState([]);
+  const supplierBrandData = [
+    {
+id:"1",
+name: "testingValue"
+  }
+]
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
+  console.log(supplierMasterData, "supplierMasterData")
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [errors, setErrors] = useState({
-    categoryName: "",
-    supplierName: "",
-    supplierBrand: "",
+
+    name: "",
+    supplierId: "",
+    supplierBrandId: "",
   });
   const [createCategory, setCreateCategory] = useState({
-    categoryName: "",
-    supplierName: "",
-    supplierBrand: "",
+    supplierId: 0,
+    supplierBrandId: 0,
+    name: "",
   });
   const getMessage = useSelector(
     (state) => state.createCategoryReducer.message
   );
   const resetCategoryFields = {
-    categoryName: "",
-    supplierName: "",
-    supplierBrand: "",
+    name: "",
+    supplierId: "",
+    supplierBrandId: "",
   };
 
   // To get the supplier name from redux store
@@ -50,11 +58,12 @@ const CategoryForm = ({ setIsLoading }) => {
   useEffect(() => {
     dispatch(onGetSupplierList());
   }, []);
+  
   useEffect(() => {
     let tempSupplier = [];
     Array.isArray(supplierMasterData) &&
       supplierMasterData?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.name });
+        tempSupplier.push({ label: item.name, value: item.id });
       });
     setSupplierListData(tempSupplier);
   }, [supplierMasterData]);
@@ -124,14 +133,7 @@ const CategoryForm = ({ setIsLoading }) => {
     if (isValid) {
       try {
         await dispatch(
-          onPostCategory({
-            name: createCategory?.categoryName,
-            url: "string",
-            description: createCategory?.supplierBrand,
-            image: "string",
-            thumbnail: "string",
-            vendorName: createCategory?.supplierName,
-          })
+          onPostCategory(createCategory)
         );
         toast.success(getMessage);
         setCreateCategory(resetCategoryFields);
@@ -177,16 +179,15 @@ const CategoryForm = ({ setIsLoading }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.categoryName
+                            className={` ${errors.name
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="categoryNam"
                             id="name-f"
                             placeholder=""
-                            value={createCategory.categoryName}
-                            onChange={(e) => handleChange(e, "categoryName")}
+                            value={createCategory.name}
+                            onChange={(e) => handleChange(e, "name")}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -195,15 +196,16 @@ const CategoryForm = ({ setIsLoading }) => {
                             <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-                            onChange={(e) => handleChange(e, "supplierName")}
-                            error={errors.supplierName}
+                            onChange={(e) => handleChange(e, "supplierId")}
+                            error={errors.supplierId}
                             ariaLabel="Select"
-                            className={` ${
-                              errors.supplierName
+                            className={` ${errors.supplierId
                                 ? "border-danger"
                                 : "form-select"
-                            }`}
-                            options={supplierListData}
+                              }`}
+                              options={supplierListData}
+
+                            // options={supplierMasterData.map((name) => ({value: name.id, label: name.name}))}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -212,15 +214,15 @@ const CategoryForm = ({ setIsLoading }) => {
                             <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-                            onChange={(e) => handleChange(e, "supplierBrand")}
-                            error={errors.supplierBrand}
+                            onChange={(e) => handleChange(e, "supplierBrandId")}
+                            error={errors.supplierBrandId}
                             ariaLabel="Select"
-                            className={` ${
-                              errors.supplierBrand
+                            className={` ${errors.supplierBrandId
                                 ? "border-danger"
                                 : "form-select"
-                            }`}
-                            options={supplierListData}
+                              }`}
+                            // options={supplierBrandData}
+                            options={supplierBrandData.map((brand) => ({ value: brand.id, label: brand.name }))}
                           />
                         </div>
                       </div>

@@ -67,7 +67,7 @@ const SupplierProductList = () => {
   const data1 = [
     { id: 1, brands: "Havels", supplier_Margin:1, status:true },
     { id: 2, brands: "ZARA", supplier_Margin:1, status:true },
-    { id: 3, brands: "Havels", supplier_Margin:1, status:true },
+    { id: 3, brands: "Havels", supplier_Margin:1, status:false },
     { id: 4, brands: "Havels", supplier_Margin:1, status:true },
   ];
 
