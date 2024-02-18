@@ -32,12 +32,12 @@ const CategoryForm = ({ setIsLoading }) => {
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [errors, setErrors] = useState({
     name: "",
-    supplierId: null,
-    supplierBrandId: null,
+    supplierId: "",
+    supplierBrandId: "",
   });
   const [createCategory, setCreateCategory] = useState({
-    supplierId: null,
-    supplierBrandId: null,
+    supplierId: 1,
+    supplierBrandId: 1,
     name: "",
   });
   const getCategoriesData = useSelector(
@@ -152,6 +152,7 @@ const CategoryForm = ({ setIsLoading }) => {
       toast.success(getCategoriesData?.updateMessage);
       dispatch(onUpdateCategoryReset());
       dispatch(onGetCategory());
+      setCreateCategory(resetCategoryFields);
     }
   }, [getCategoriesData]);
   return (

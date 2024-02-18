@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import '../../scss/Pages/_CMS.scss'
 
 const CMS = () => {
   const [cmsData, setCmsData] = useState({
