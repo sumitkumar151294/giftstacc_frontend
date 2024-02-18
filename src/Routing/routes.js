@@ -67,7 +67,7 @@ function RouteConfiq() {
           element={<Layout Component={Orders} />}
         />
         <Route
-          path="/lc-admin/cms"
+          path="/lc-user-admin/cms"
           element={<Layout Component={CMS} />}
         />
          <Route
