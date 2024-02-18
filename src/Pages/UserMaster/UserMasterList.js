@@ -112,10 +112,10 @@ const UserMasterList = () => {
                               <td>{item.mobile}</td>
                               <td>{`${item.firstName}${item.lastName}`}</td>
                               <td>
-                                {Array.isArray(item.accessClientIds) &&
+                                {
                                   item.accessClientIds.length > 0 && (
                                     <div className="d-flex">
-                                      {Array.isArray(item.accessClientIds) &&
+                                      {(item.accessClientIds) &&
                                         item.accessClientIds
                                           .split(",")
                                           .map((clientId, index) => (
