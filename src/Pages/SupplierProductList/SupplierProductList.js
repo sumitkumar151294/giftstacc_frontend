@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
+import { onGetSupplierBrandList, onUpdateSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Dropdown from "../../Components/Dropdown/Dropdown";
-import { onGetSupplierList, onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
@@ -15,7 +15,7 @@ const SupplierProductList = () => {
   const dispatch = useDispatch();
   const [supplierList, setSupplierList] = useState([]);
   const SupplierBrandList = useSelector(
-    (state) => state.supplierBrandListReducer?.data?.data
+    (state) => state.supplierBrandListReducer.data
   );
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -37,11 +37,8 @@ const SupplierProductList = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
   }, []);
-  const [data1, setData1] = useState([
-    { id: 1, brands: "API SANDBOX B2B", supplier_Margin:1, status:true }
-  ]);
-  const filteredSupplierList = data1?.filter((vendor) =>
-  vendor?.brands.toLowerCase().includes(searchQuery?.toLowerCase())
+  let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
+  vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
     );
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -76,12 +73,16 @@ const SupplierProductList = () => {
     }
   }, [suppliers]);
 
-  const handleChange = (e) => { };
+  const   handleChange = (e) => {
+filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
+  vendor?.name.toLowerCase().includes(e.target?.toLowerCase())
+    );
+   };
 
   const userData = [
     {
       status: "Active",
-      count: data1?.length,
+      count: SupplierBrandList?.length,
       className: "btn btn-success btn-sm btn-margin",
     },
     {
@@ -101,7 +102,7 @@ const SupplierProductList = () => {
     },
     {
       status: "Total",
-      count: data1?.length,
+      count: SupplierBrandList?.length,
       className: "btn btn-secondary btn-sm btn-margin",
     },
   ];
@@ -115,8 +116,8 @@ const SupplierProductList = () => {
 
   useEffect(()=>{
     const tempMarginValue = [];
-    if (marginValue.length !== data1.length) {
-      data1.map((item)=>{
+    if (marginValue.length !== SupplierBrandList.length) {
+      SupplierBrandList.map((item)=>{
         tempMarginValue.push({value:0})
       })
       setMarginValue(tempMarginValue)
@@ -133,17 +134,18 @@ const SupplierProductList = () => {
   const handleUpdate = (data) => {
     const updatedValues = {
       id: data.id,
-      brands: data.brands,
-      supplier_Margin: marginValue,
-      status: data.status,
+      supplierMargin: marginValue,
+      clientCommission:data?.clientCommission,
+      customerDiscount:data?.customerDiscount,
+      clientId:data?.clientId,
     };
-    dispatch(onUpdateSupplierList(updatedValues));
+    dispatch(onUpdateSupplierBrandList(updatedValues));
   };
 
   const updateStatus = (id,index) =>{
-    let tempData = [...data1];
+    let tempData = [...SupplierBrandList];
     tempData[index].status =  !tempData[index].status
-    setData1(tempData)
+    
   }
   return (
     <>
@@ -176,7 +178,7 @@ const SupplierProductList = () => {
                       {filteredSupplierList &&
                         filteredSupplierList.length > 0 && (
                           <CSVLink
-                            data={data1}
+                            data={SupplierBrandList}
                             headers={headers}
                             filename={"SupplierBrandList.csv"}
                           >
@@ -247,7 +249,7 @@ const SupplierProductList = () => {
                                     .map((data, index) => (
                                       <tr key={index}>
                                         <td>{data.id}</td>
-                                        <td>{data.brands}</td>
+                                        <td>{data.name}</td>
                                         <td>
                                           <div className="input-group mb-2 w-11">
                                             <InputField
@@ -255,7 +257,7 @@ const SupplierProductList = () => {
                                               className="form-control htt"
                                               placeholder={data.supplier_Margin}
                                               pattern="/^-?\d+\.?\d*$/"
-                                              value={marginValue[index]?.value}
+                                              value={data?.supplierMargin}
                                               onChange={(e)=>handleInputChange(e,index)}
                                               onKeyPress={(e)=>handleKeyPress(e,index)}
                                             />
@@ -274,19 +276,19 @@ const SupplierProductList = () => {
                                         <td>
                                           <span
                                             className={
-                                              data.status === true
+                                              data.enabled === true
                                                 ? "badge badge-success"
                                                 : "badge badge-danger"
                                             }
                                           >
-                                            {data.status === true
+                                            {data.enabled === true
                                               ? "Active"
                                               : "Non-Active"}
                                           </span>
                                         </td>
                                         <td>
                                           <div className="can-toggle">
-                                          <input id={generateUniqueId(index)} type="checkbox" checked ={data.status }></input>
+                                          <input id={generateUniqueId(index)} type="checkbox" checked ={data.enabled }></input>
                                             <label
                                               htmlFor={generateUniqueId(index)}
                                             >
@@ -294,7 +296,7 @@ const SupplierProductList = () => {
                                                 className="can-toggle__switch"
                                                 data-unchecked="Off"
                                                 data-checked={
-                                                  data.status ===true ? "ON" : "OFF"
+                                                  data.enabled ===true ? "ON" : "OFF"
                                                 } // Set label based on the status
                                                 onClick={()=>updateStatus(data.id,index)}
                                               ></div>
@@ -312,7 +314,7 @@ const SupplierProductList = () => {
                                   nextLabel={" >"}
                                   breakLabel={"..."}
                                   pageCount={Math.ceil(
-                                    data1.length / rowsPerPage
+                                    SupplierBrandList.length / rowsPerPage
                                   )}
                                   marginPagesDisplayed={2}
                                   onPageChange={handlePageChange}

@@ -34,6 +34,7 @@ const Auth = () => {
           secretKey: SECRET_KEY,
         })
       );
+      sessionStorage.setItem('partnerKey', PARTNER_KEY);
     }else{
       setShowLoader(false);
       setShowError(true)

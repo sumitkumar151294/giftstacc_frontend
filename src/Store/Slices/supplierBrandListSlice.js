@@ -10,7 +10,7 @@ export const supplierBrandListSlice = createSlice({
     message: "",
   },
   reducers: {
-    onPostSupplierBrandList: (state) => {
+    onUpdateSupplierBrandList: (state) => {
       return {
         ...state,
         isLoading: true,
@@ -21,7 +21,7 @@ export const supplierBrandListSlice = createSlice({
       };
     },
 
-    onPostSupplierBrandListSuccess: (state, { payload }) => {
+    onUpdateSupplierBrandListSuccess: (state, { payload }) => {
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
@@ -34,7 +34,7 @@ export const supplierBrandListSlice = createSlice({
       };
     },
 
-    onPostSupplierBrandListError: (state, { payload }) => {
+    onUpdateSupplierBrandListError: (state, { payload }) => {
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
@@ -48,10 +48,10 @@ export const supplierBrandListSlice = createSlice({
     },
 
     onGetSupplierBrandList: (state) => {
-      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false };
+      return { ...state, isLoading: true, data: [], message: '', error: {}, isError: false };
     },
     onGetSupplierBrandListSuccess: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
+      const { data = [], message = '', status_code } = payload;
       return {
         ...state,
         isLoading: false,
@@ -78,9 +78,9 @@ export const supplierBrandListSlice = createSlice({
   },
 });
 export const {
-  onPostSupplierBrandList,
-  onPostSupplierBrandListSuccess,
-  onPostSupplierBrandListError, 
+  onUpdateSupplierBrandList,
+  onUpdateSupplierBrandListSuccess,
+  onUpdateSupplierBrandListError, 
   onGetSupplierBrandList, 
   onGetSupplierBrandListSuccess, 
   onGetSupplierBrandListError, 

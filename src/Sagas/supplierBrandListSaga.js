@@ -1,25 +1,25 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { onGetSupplierBrandList, onGetSupplierBrandListError, onGetSupplierBrandListSuccess, onPostSupplierBrandList, onPostSupplierBrandListError, onPostSupplierBrandListSuccess } from "../Store/Slices/supplierBrandListSlice";
-import { callSupplierBrandListGetApi, callSupplierBrandListPostApi } from "../Context/supplierBrandListApi";
+import { onGetSupplierBrandList, onGetSupplierBrandListError, onGetSupplierBrandListSuccess, onUpdateSupplierBrandList, onUpdateSupplierBrandListError, onUpdateSupplierBrandListSuccess } from "../Store/Slices/supplierBrandListSlice";
+import { callSupplierBrandListGetApi, callSupplierBrandListUpdateApi } from "../Context/supplierBrandListApi";
 
 
 
 function* supplierBrandList({ payload }) {
   try {
     const supplierBrandListResponse = yield call(
-      callSupplierBrandListPostApi,
+      callSupplierBrandListUpdateApi,
       payload
     );
-    if (supplierBrandListResponse.status === 5) {
-      yield put(
-        onPostSupplierBrandListSuccess({
+    if (supplierBrandListResponse) {
+          yield put(
+        onUpdateSupplierBrandListSuccess({
           data: supplierBrandListResponse.result,
           message: supplierBrandListResponse.result.message,
         })
       );
     } else {
       yield put(
-        onPostSupplierBrandListError({
+        onUpdateSupplierBrandListError({
           data: supplierBrandListResponse.result,
           message: supplierBrandListResponse.result.message,
         })
@@ -27,17 +27,17 @@ function* supplierBrandList({ payload }) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onPostSupplierBrandListError({ data: {}, message, status_code: 400 }));
+    yield put(onUpdateSupplierBrandListError({ data: {}, message, status_code: 400 }));
   }
 }
 function* onGetSupplierList() {
   try {
     const supplierBrandListResponse = yield call(callSupplierBrandListGetApi);
-    if (supplierBrandListResponse.status === 5) {
+      if (supplierBrandListResponse.httpStatusCode==="200") {
       yield put(
         onGetSupplierBrandListSuccess({
-          data: supplierBrandListResponse.result,
-          message: supplierBrandListResponse.result.message,
+          data: supplierBrandListResponse.response,
+          message: supplierBrandListResponse.errorMessage,
         })
       );
     } else {
@@ -50,11 +50,11 @@ function* onGetSupplierList() {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onGetSupplierBrandListError({ data: {}, message, status_code: 400 }));
+    yield put(onGetSupplierBrandListError({ data: [], message, status_code: 400 }));
   }
 }
 
 export default function* supplierBrandListSaga() {
-  yield takeLatest(onPostSupplierBrandList.type, supplierBrandList);
+  yield takeLatest(onUpdateSupplierBrandList.type, supplierBrandList);
   yield takeLatest(onGetSupplierBrandList.type, onGetSupplierList);
 }
