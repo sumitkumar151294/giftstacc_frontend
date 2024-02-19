@@ -134,7 +134,7 @@ filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.f
   const handleUpdate = (data) => {
     const updatedValues = {
       id: data.id,
-      supplierMargin: marginValue,
+      supplierMargin: data?.supplierMargin,
       clientCommission:data?.clientCommission,
       customerDiscount:data?.customerDiscount,
       clientId:data?.clientId,
