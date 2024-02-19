@@ -5,25 +5,23 @@ import { callSupplierBrandListGetApi, callSupplierBrandListUpdateApi } from "../
 
 
 function* supplierBrandList({ payload }) {
-  debugger
   try {
     const supplierBrandListResponse = yield call(
       callSupplierBrandListUpdateApi,
       payload
     );
     if (supplierBrandListResponse?.httpStatusCode ==="201" ) {
-      debugger
           yield put(
         onUpdateSupplierBrandListSuccess({
-          data: supplierBrandListResponse.result,
-          message: supplierBrandListResponse.result.message,
+          message: supplierBrandListResponse.errorMessage,
+          status_code:supplierBrandListResponse?.httpStatusCode
         })
       );
     } else {
       yield put(
         onUpdateSupplierBrandListError({
-          data: supplierBrandListResponse.result,
-          message: supplierBrandListResponse.result.message,
+          message: supplierBrandListResponse.errorMessage,
+          status_code:supplierBrandListResponse?.httpStatusCode
         })
       );
     }

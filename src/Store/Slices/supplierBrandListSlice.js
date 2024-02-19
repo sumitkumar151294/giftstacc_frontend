@@ -13,37 +13,35 @@ export const supplierBrandListSlice = createSlice({
     onUpdateSupplierBrandList: (state) => {
       return {
         ...state,
-        isLoading: true,
-        isError: false,
-        data: {},
-        error: {},
+        updateLoading: true,
         message: "",
+        updateStatusCode:null
       };
     },
 
     onUpdateSupplierBrandListSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
-        isError: false,
-        data,
         message,
-        status_code,
-        error: {},
+        updateStatusCode:status_code,
       };
     },
 
     onUpdateSupplierBrandListError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const {  message = "", status_code = 400 } = payload;
       return {
         ...state,
-        data,
         message,
-        status_code,
-        isLoading: false,
-        isError: true,
-        error: {},
+        updateStatusCode:status_code,
+      };
+    },
+
+    onUpdateSupplierBrandListReset: (state) => {
+      return {
+        ...state,
+        message:"",
+        updateStatusCode:null,
       };
     },
 
@@ -84,6 +82,7 @@ export const {
   onGetSupplierBrandList, 
   onGetSupplierBrandListSuccess, 
   onGetSupplierBrandListError, 
+  onUpdateSupplierBrandListReset
  } =
 supplierBrandListSlice.actions;
 
