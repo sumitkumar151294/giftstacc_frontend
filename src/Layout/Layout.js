@@ -15,7 +15,7 @@ const Layout = (props) => {
   dispatch(onLogout());
   localStorage.clear();
   sessionStorage.clear();
-  navigate("/lc-admin/login");
+  navigate("/");
   }
   }, []);
 

@@ -55,13 +55,13 @@ function* postClientMaster({ payload }) {
         onPostClientMasterSubmitError({
           data: postClientMasterResponse.response,
           message: postClientMasterResponse.errorMessage,
-        })
+                  })
       );
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(
-      onClientMasterSubmitError({ data: {}, message, status_code: 400 })
+        yield put(
+      onPostClientMasterSubmitError({ data: {}, message:error?.response?.data?.ErrorMessage, status_code: error?.response?.data?.HttpStatusCode })
     );
   }
 }
@@ -79,7 +79,7 @@ function* updateClientMaster({ payload }) {
     } else {
       yield put(
         onUpdateClientMasterSubmitError({
-          data: updateClientMaster.Response,
+          data: updateClientMasterResponse.Response,
           message: updateClientMasterResponse.errorMessage,
           status_code: updateClientMasterResponse.httpStatusCode
         })

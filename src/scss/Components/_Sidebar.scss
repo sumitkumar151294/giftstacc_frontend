@@ -195,6 +195,8 @@ $background-color_1: var(--sidebar-bg);
 						text-align: center;
 						border-radius: 3rem;
 						padding: 0;
+						background: transparent !important;
+						margin: 0.125rem 0 !important;
 					}
 				}
 			}
@@ -379,6 +381,11 @@ li {
 	-webkit-transition: background-color .2s linear, width .2s ease-in-out;
 	right: 2px;
 	position: absolute;
+}
+
+.menu-toggle .deznav .metismenu li a {
+	background: transparent;
+	margin: 0.125rem 0;
 }
 
 [data-sidebar-style="full"][data-layout="vertical"] {

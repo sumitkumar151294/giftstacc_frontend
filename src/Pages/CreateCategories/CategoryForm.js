@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   onGetCategory,
   onPostCategory,
+  onPostCategoryReset,
+  onUpdateCategoryReset,
 } from "../../Store/Slices/createCategorySlice";
 import InputField from "../../Components/InputField/InputField";
 import Dropdown from "../../Components/Dropdown/Dropdown";
@@ -17,58 +19,53 @@ import Button from "../../Components/Button/Button";
 const CategoryForm = ({ setIsLoading }) => {
   const dispatch = useDispatch();
   const [supplierListData, setSupplierListData] = useState([]);
+  const supplierBrandData = [
+    {
+      id: "1",
+      name: "API SANDBOX B2B",
+    }
+  ];
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
+  // const supplierBrandListData = useSelector((state)=> state?.supplierBrandListReducer?.data);
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [errors, setErrors] = useState({
-    categoryName: "",
-    supplierName: "",
-    supplierBrand: "",
+    name: "",
+    supplierId: "",
+    supplierBrandId: "",
   });
   const [createCategory, setCreateCategory] = useState({
-    categoryName: "",
-    supplierName: "",
-    supplierBrand: "",
+    supplierId: 1,
+    supplierBrandId: 1,
+    name: "",
   });
-  const getMessage = useSelector(
-    (state) => state.createCategoryReducer.message
+  const getCategoriesData = useSelector(
+    (state) => state.createCategoryReducer
   );
   const resetCategoryFields = {
-    categoryName: "",
-    supplierName: "",
-    supplierBrand: "",
+    name: "",
+    supplierId: "",
+    supplierBrandId: "",
   };
-
-  // To get the supplier name from redux store
-  // useEffect(() => {
-  //   dispatch(onGetSupplierList());
-  // }, []);
 
   // To get the Supplier Brand from redux store
 
   useEffect(() => {
     dispatch(onGetSupplierList());
+    dispatch(onGetSupplierBrandList());
   }, []);
+
   useEffect(() => {
     let tempSupplier = [];
     Array.isArray(supplierMasterData) &&
       supplierMasterData?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.name });
+        tempSupplier.push({ label: item.name, value: item.id });
       });
     setSupplierListData(tempSupplier);
   }, [supplierMasterData]);
 
   // To get the dropdown values of Supplier Name
-
-  // To get the dropdown values of Supplier Brands
-  // const supplierBrandOptions = getSupplierBrand?.map(
-  //   (supplierBrand, index) => ({
-  //     label: supplierBrand.brands,
-  //     key: index,
-  //   })
-  // );
-
   // To get the labels form Api/Database
   const createUpdateBrandMapping = GetTranslationData(
     "UIAdmin",
@@ -105,7 +102,6 @@ const CategoryForm = ({ setIsLoading }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsFormLoading(true);
 
     let isValid = true;
     const newErrors = { ...errors };
@@ -123,32 +119,42 @@ const CategoryForm = ({ setIsLoading }) => {
 
     if (isValid) {
       try {
-        await dispatch(
-          onPostCategory({
-            name: createCategory?.categoryName,
-            url: "string",
-            description: createCategory?.supplierBrand,
-            image: "string",
-            thumbnail: "string",
-            vendorName: createCategory?.supplierName,
-          })
-        );
-        toast.success(getMessage);
-        setCreateCategory(resetCategoryFields);
+        setIsLoading(true);
+        dispatch(onPostCategory(createCategory));
       } catch (error) {
-        toast.error({ error_Occurred });
-      } finally {
-        setIsFormLoading(false);
       }
-    } else {
-      setIsFormLoading(false);
     }
-    setTimeout(() => {
-      dispatch(onGetCategory());
-    }, 1000);
-    setIsLoading(true);
-  };
 
+  };
+  useEffect(() => {
+    if (getCategoriesData?.post_status_code === "201") {
+      setIsFormLoading(false);
+      toast.success(getCategoriesData?.postMessage);
+      dispatch(onPostCategoryReset());
+      dispatch(onGetCategory());
+      setCreateCategory(resetCategoryFields);
+    }
+  }, [getCategoriesData])
+
+  useEffect(() => {
+    if (getCategoriesData?.post_status_code === "500") {
+      setIsFormLoading(false);
+      toast.error(getCategoriesData?.postMessage);
+      dispatch(onPostCategoryReset());
+      dispatch(onGetCategory());
+      setCreateCategory(resetCategoryFields);
+    }
+  }, [getCategoriesData])
+
+  useEffect(() => {
+    if (getCategoriesData.update_status_code === "201") {
+      setIsFormLoading(false);
+      toast.success(getCategoriesData?.updateMessage);
+      dispatch(onUpdateCategoryReset());
+      dispatch(onGetCategory());
+      setCreateCategory(resetCategoryFields);
+    }
+  }, [getCategoriesData]);
   return (
     <>
       <ScrollToTop />
@@ -177,16 +183,15 @@ const CategoryForm = ({ setIsLoading }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.categoryName
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={` ${errors.name
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
                             name="categoryNam"
                             id="name-f"
                             placeholder=""
-                            value={createCategory.categoryName}
-                            onChange={(e) => handleChange(e, "categoryName")}
+                            value={createCategory.name}
+                            onChange={(e) => handleChange(e, "name")}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -195,14 +200,10 @@ const CategoryForm = ({ setIsLoading }) => {
                             <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-                            onChange={(e) => handleChange(e, "supplierName")}
-                            error={errors.supplierName}
+                            onChange={(e) => handleChange(e, "supplierId")}
+                            error={errors.supplierId}
                             ariaLabel="Select"
-                            className={` ${
-                              errors.supplierName
-                                ? "border-danger"
-                                : "form-select"
-                            }`}
+                            className="form-select"
                             options={supplierListData}
                           />
                         </div>
@@ -212,15 +213,12 @@ const CategoryForm = ({ setIsLoading }) => {
                             <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-                            onChange={(e) => handleChange(e, "supplierBrand")}
-                            error={errors.supplierBrand}
+                            onChange={(e) => handleChange(e, "supplierBrandId")}
+                            error={errors.supplierBrandId}
                             ariaLabel="Select"
-                            className={` ${
-                              errors.supplierBrand
-                                ? "border-danger"
-                                : "form-select"
-                            }`}
-                            options={supplierListData}
+                            className="form-select"
+                            // options={supplierBrandData}
+                            options={supplierBrandData.map((brand) => ({ value: brand.id, label: brand.name }))}
                           />
                         </div>
                       </div>

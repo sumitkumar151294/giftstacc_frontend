@@ -19,7 +19,7 @@ import {
 function* GetCategory() {
   try {
     const getCategoryResponse = yield call(callCreateCategoryGetApi);
-    if (getCategoryResponse.httpStatusCode === 200) {
+    if (getCategoryResponse.httpStatusCode === "200") {
       yield put(
         onGetCategorySuccess({
           data: getCategoryResponse.response,
@@ -42,11 +42,12 @@ function* GetCategory() {
 function* PostCategory({ payload }) {
   try {
     const postCategoryResponse = yield call(callCreateCategoryPostApi, payload);
-    if (postCategoryResponse.httpStatusCode === 200) {
+    if (postCategoryResponse.httpStatusCode === "201") {
       yield put(
         onPostCategorySuccess({
-          data: postCategoryResponse.response,
-          // message: postCategoryResponse.response,
+          postData: postCategoryResponse.response,
+          message: postCategoryResponse.errorMessage,
+          status_code: postCategoryResponse.httpStatusCode,
         })
       );
     } else {
@@ -59,7 +60,7 @@ function* PostCategory({ payload }) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onPostCategoryError({ data: {}, message, status_code: 400 }));
+    yield put(onPostCategoryError({ data: {}, message:error?.response?.data?.ErrorMessage, status_code: error?.response?.data?.HttpStatusCode }));
   }
 }
 
@@ -69,11 +70,12 @@ function* UpdateCategory({ payload }) {
       callCreateCategoryUpdateApi,
       payload
     );
-    if (updateCategoryResponse.httpStatusCode === 201) {
+    if (updateCategoryResponse.httpStatusCode === "201") {
       yield put(
         onUpdateCategorySuccess({
           data: updateCategoryResponse.response,
           message: updateCategoryResponse.errorMessage,
+          status_code: updateCategoryResponse.httpStatusCode,
         })
       );
     } else {

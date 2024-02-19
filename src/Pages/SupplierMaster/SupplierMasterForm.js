@@ -99,14 +99,14 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
     ])
   }
 
-  const getAdditionalFIeldData = (del = false) => {
+  const getAdditionalFIeldData = (del = false, supplierId) => {
     let tempAdditionField = [...additionalFields]
    const additionalData =  tempAdditionField.map((item)=>({
       ...item,
       enabled:true,
       deleted:del,
      fieldDescription: "test",  // Need to remove once APi is developed
-      supplierId:supplyPostData?.postData?.[0]?.id
+      supplierId:supplierId
   }))
     return additionalData;
   }
@@ -114,7 +114,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
   useEffect(() => {
       if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
         dispatch(onVendorReset());
-        dispatch(onSupplierResourceSubmit(getAdditionalFIeldData()));
+        dispatch(onSupplierResourceSubmit(getAdditionalFIeldData(false, supplyPostData?.postData?.[0]?.id)));
       }else if(supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading){
         dispatch(onUpdateSupplierListReset());
         if(isDelete){
@@ -122,9 +122,13 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
           dispatch(onGetSupplierList());
           dispatch(onGetSupplierResource());
         }else{
-          dispatch(onUpdateSupplierResource(getAdditionalFIeldData()));
+          dispatch(onUpdateSupplierResource(getAdditionalFIeldData(false, data?.id)));
         }
         resetData();
+      }else if(supplyPostData.post_status_code && supplyPostData.post_status_code !== "201" && !supplyPostData?.isLoading){
+          setIsFormLoading(false);
+          dispatch(onVendorReset());
+          toast.error(supplyPostData?.message)
       }
   }, [supplyPostData]);
 
@@ -198,7 +202,6 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
     setAdditionalFieldsError((prevErrors) => {
       const newErrors = [...prevErrors];
       newErrors[index] = { ...newErrors[index], [field]: "" };
-      console.log('newErrors',newErrors)
       return newErrors;
     });
   };
@@ -219,12 +222,10 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
         newErrors[key] = "";
       }
     }
-console.log('additionalFields', additionalFields);
     additionalFields?.forEach((field, index) => {
       if (field.fieldName === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
-          console.log('prevErrors', prevErrors)
           newAdditionalFieldsError[index].fieldName = fieldNameNotEmpty;
           return newAdditionalFieldsError;
         });
@@ -336,7 +337,7 @@ console.log('additionalFields', additionalFields);
                             onChange={(e) => handleChange(e, "status")}
                             error={errors?.enabled}
                             value={vendorData?.enabled ? 'Active' : vendorData?.enabled === undefined || vendorData?.enabled === "" ? '' : 'Non-Active'}
-                            className={`${errors.enabled ? "border-danger" : "form-select"}`}
+                            className={`${errors.enabled ? "border-danger-select" : "form-select"}`}
                             options={statusoptions}
                           />
                         </div>
@@ -465,8 +466,7 @@ console.log('additionalFields', additionalFields);
                             ))}
 
                           <div className="col-lg-3">
-                            <br />
-                            <div className="col-sm-12 form-group mb-7">
+                            <div className="col-sm-12 form-group mb-7 btn-m">
                               <Button
                                 className="btn btn-primary btn-sm float-right pad-aa mt-2"
                                 text={add_More}

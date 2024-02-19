@@ -22,7 +22,7 @@ const CategoryList = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
-
+  const supplierMaster = useSelector((state) => state?.supplierMasterReducer?.data)
   const headers = [
     { label: "categoryName", key: "name" },
     { label: "supplierName", key: "description" },
@@ -38,7 +38,6 @@ const CategoryList = () => {
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
   const getCategoryData = getCreateCategory?.categoryData;
-
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
   const categoryName = GetTranslationData("UIAdmin", "categoryName");
@@ -60,13 +59,13 @@ const CategoryList = () => {
 
   const filteredCategoryList = Array.isArray(getCategoryData)
     ? getCategoryData.filter((item) =>
-        Object.values(item).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(item).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   useEffect(() => {
@@ -85,25 +84,23 @@ const CategoryList = () => {
   //To delete the data
   const handleDelete = (data) => {
     const deletedData = {
-      name: data?.name,
-      url: data?.url,
-      description: data?.description,
-      image: data?.image,
-      thumbnail: data?.thumbnail,
-      vendorName: data?.vendorName,
-      id: data?.id,
+      enabled: false,
       deleted: true,
+      supplierId: data?.supplierId,
+      supplierBrandId: data?.supplierBrandId,
+      name: data?.name,
+      id: data?.id,
+      description: "string",
     };
+    setIsLoading(true)
     dispatch(onUpdateCategory(deletedData));
-    setTimeout(() => {
-      setIsLoading(true);
-      dispatch(onGetCategory());
-      toast.success(categoryDeleteMessage);
-      setIsLoading(false);
-    }, 1000);
-    setIsLoading(true);
   };
 
+  // To get the Supplier Name in the Category List 
+  const getSupplierName = (supplierId) => {
+    const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
+    return supplier ? supplier.name : '';
+  };  
   return (
     <>
       <ScrollToTop />
@@ -181,8 +178,9 @@ const CategoryList = () => {
                           .map((data) => (
                             <tr key={data.id}>
                               <td>{data.name}</td>
-                              <td>{data.vendorName}</td>
-                              <td>{data.description}</td>
+                              <td>{getSupplierName(data.supplierId)}</td>
+                              <td>{data.supplierId}</td>
+                              <td>{data.supplierBrandId}</td>
                               <td>
                                 <div className="d-flex">
                                   <Link
@@ -198,22 +196,25 @@ const CategoryList = () => {
                           ))}
                       </tbody>
                     </table>
-                    {(filteredCategoryList.length > 5) && (<div className="pagination-container">
-                      <ReactPaginate
-                        previousLabel={"<"}
-                        nextLabel={" >"}
-                        breakLabel={"..."}
-                        pageCount={Math.ceil(
-                          filteredCategoryList.length / rowsPerPage
-                        )}
-                        marginPagesDisplayed={2}
-                        onPageChange={handlePageChange}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                        initialPage={page - 1} // Use initialPage instead of forcePage
-                        previousClassName={page === 1 ? "disabled" : ""}
-                      />
-                    </div>)}
+                    {filteredCategoryList > 5 && (
+                      <div className="pagination-container">
+                        <ReactPaginate
+                          previousLabel={"<"}
+                          nextLabel={" >"}
+                          breakLabel={"..."}
+                          pageCount={Math.ceil(
+                            filteredCategoryList.length / rowsPerPage
+                          )}
+                          marginPagesDisplayed={2}
+                          onPageChange={handlePageChange}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                          initialPage={page - 1} // Use initialPage instead of forcePage
+                          previousClassName={page === 1 ? "disabled" : ""}
+                        />
+                      </div>
+                    )}
+
                   </div>
                 ) : (
                   <NoRecord />

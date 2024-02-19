@@ -44,12 +44,12 @@ const ClientMasterList = () => {
     setShowLoader(true)
     dispatch(onClientMasterSubmit());
     dispatch(onClientPaymentSubmit());
-      }, []);
+  }, []);
 
-        const handleEdit = (data,clientPayData) => {
-          const prefilled = {...clientPayData, ...data};
-          setData(prefilled);
-        };
+  const handleEdit = (data,clientPayData) => {
+    const prefilled = {...clientPayData, ...data};
+    setData(prefilled);
+  };
   const handleDelete = (data) => {
     const deletedData = {
       name: data?.name,
@@ -63,18 +63,12 @@ const ClientMasterList = () => {
       status: data?.status,
       dbLoginPwd: data?.dbLoginPwd,
       dbLoginId: data?.dbLoginId,
+      dbName: data?.dbName,
       platformDomainUrl: data?.platformDomainUrl,
       enabled: false,
       deleted: true,
     };
     dispatch(onUpdateClientMasterSubmit(deletedData));
-    setTimeout(() => {
-      setShowLoader(true);
-      if (clientList.status_code === 200) {
-        dispatch(onClientMasterSubmit());
-        setShowLoader(false);
-      }
-    }, 1000);
   };
 
   const headers = [
@@ -87,13 +81,13 @@ const ClientMasterList = () => {
 
   const filteredClientList = Array.isArray(clientList?.clientData)
     ? clientList?.clientData.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   const handlePageChange = (selected) => {
@@ -162,7 +156,7 @@ const ClientMasterList = () => {
                 ) : (
                   <>
                     {Array.isArray(filteredClientList) &&
-                    filteredClientList.length > 0 ? (
+                      filteredClientList.length > 0 ? (
                       <div className="table-responsive">
                         <>
                           <table className="table header-border table-responsive-sm">
@@ -224,6 +218,7 @@ const ClientMasterList = () => {
                                     <td>
                                       <Link
                                         to="/lc-admin/client-brand-list"
+                                        state={{id:data.id}}
                                         className="btn btn-primary btn-sm float-right"
                                       >
                                         <i className="fa fa-eye"></i>&nbsp;
@@ -234,22 +229,23 @@ const ClientMasterList = () => {
                                 ))}
                             </tbody>
                           </table>
-                          {(filteredClientList.length > 5) && (<div className="pagination-container">
-                            <ReactPaginate
-                              previousLabel={"<"}
-                              nextLabel={">"}
-                              breakLabel={"..."}
-                              pageCount={Math.ceil(
-                                filteredClientList.length / rowsPerPage
-                              )}
-                              marginPagesDisplayed={2}
-                              onPageChange={handlePageChange}
-                              containerClassName={"pagination"}
-                              activeClassName={page === 1 && "active"}
-                              initialPage={page - 1}
-                              previousClassName={page === 1 ? "disabled" : ""}
-                            />
-                          </div>
+                          {(filteredClientList.length > 5) && (
+                            <div className="pagination-container">
+                              <ReactPaginate
+                                previousLabel={"<"}
+                                nextLabel={">"}
+                                breakLabel={"..."}
+                                pageCount={Math.ceil(
+                                  filteredClientList.length / rowsPerPage
+                                )}
+                                marginPagesDisplayed={2}
+                                onPageChange={handlePageChange}
+                                containerClassName={"pagination"}
+                                activeClassName={page === 1 && "active"}
+                                initialPage={page - 1}
+                                previousClassName={page === 1 ? "disabled" : ""}
+                              />
+                            </div>
                           )}
                         </>
                       </div>
