@@ -54,7 +54,6 @@ const SupplierProductList = () => {
         SupplierBrandList?.map((item)=>{
           tempMarginValue.push({value:item.supplierMargin})
         })
-        debugger
         setMarginValue(tempMarginValue)
       }
   },[SupplierBrandList])
@@ -324,10 +323,11 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                             >
                                               <div
                                                 className="can-toggle__switch"
-                                                data-unchecked="Off"
+                                                data-unchecked={data?.enabled === true ? "OFF" : "ON"}
                                                 data-checked={
-                                                  data.enabled ===true ? "ON" : "OFF"
-                                                } // Set label based on the status
+                                                  data?.enabled === true ? "ON" : "OFF"
+                                                  
+                                                }
                                                 onClick={()=>updateStatus(data,index)}
                                               ></div>
                                             </label>
