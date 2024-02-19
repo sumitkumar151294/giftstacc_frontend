@@ -196,7 +196,7 @@ const CategoryList = () => {
                           ))}
                       </tbody>
                     </table>
-                    {filteredCategoryList > 5 && (
+                    {/* {filteredCategoryList > 5 && ( */}
                       <div className="pagination-container">
                         <ReactPaginate
                           previousLabel={"<"}
@@ -213,7 +213,7 @@ const CategoryList = () => {
                           previousClassName={page === 1 ? "disabled" : ""}
                         />
                       </div>
-                    )}
+                    {/* )} */}
 
                   </div>
                 ) : (

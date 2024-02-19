@@ -8,8 +8,8 @@ import PageError from "../../Components/PageError/PageError";
 
 const customerdetails = [
   {
-    name: "Qucksilver",
-    brand: "Amazon",
+    name: "	Navya Kumari",
+    brand: "API SANDBOX B2B",
     discount: "5%",
     commision: "10%",
     margin: "15%",
