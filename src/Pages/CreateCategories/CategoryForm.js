@@ -36,8 +36,8 @@ const CategoryForm = ({ setIsLoading }) => {
     supplierBrandId: "",
   });
   const [createCategory, setCreateCategory] = useState({
-    supplierId: 1,
-    supplierBrandId: 1,
+    supplierId: "",
+    supplierBrandId: "",
     name: "",
   });
   const getCategoriesData = useSelector(
@@ -153,6 +153,7 @@ const CategoryForm = ({ setIsLoading }) => {
       dispatch(onUpdateCategoryReset());
       dispatch(onGetCategory());
       setCreateCategory(resetCategoryFields);
+
     }
   }, [getCategoriesData]);
   return (
@@ -203,7 +204,11 @@ const CategoryForm = ({ setIsLoading }) => {
                             onChange={(e) => handleChange(e, "supplierId")}
                             error={errors.supplierId}
                             ariaLabel="Select"
-                            className="form-select"
+                            value={createCategory.supplierId}
+                            className={` ${errors.supplierId
+                              ? "border-danger"
+                              : "form-select"
+                              }`}
                             options={supplierListData}
                           />
                         </div>
@@ -215,8 +220,12 @@ const CategoryForm = ({ setIsLoading }) => {
                           <Dropdown
                             onChange={(e) => handleChange(e, "supplierBrandId")}
                             error={errors.supplierBrandId}
+                            value={createCategory.supplierBrandId}
                             ariaLabel="Select"
-                            className="form-select"
+                            className={` ${errors.supplierBrandId
+                              ? "border-danger"
+                              : "form-select"
+                              }`}
                             // options={supplierBrandData}
                             options={supplierBrandData.map((brand) => ({ value: brand.id, label: brand.name }))}
                           />

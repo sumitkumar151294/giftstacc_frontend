@@ -196,7 +196,7 @@ const CategoryList = () => {
                           ))}
                       </tbody>
                     </table>
-                    {filteredCategoryList > 5 && (
+                    {filteredCategoryList.length > 5 && (
                       <div className="pagination-container">
                         <ReactPaginate
                           previousLabel={"<"}
