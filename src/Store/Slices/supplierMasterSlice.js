@@ -55,7 +55,6 @@ export const supplierMasterSlice = createSlice({
     },
 
     onGetSupplierList: (state) => {
-      debugger
       return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false, status_code: null };
     },
     onGetSupplierListSuccess: (state, { payload }) => {
