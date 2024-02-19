@@ -26,6 +26,10 @@ function RouteConfiq() {
           path="/lc-admin/dashboard"
           element={<Layout Component={Dashboard} />}
         />
+         <Route
+          path="/lc-user-Admin/dashboard"
+          element={<Layout Component={Dashboard} />}
+        />
         <Route
           path="/lc-admin/supplier-master"
           element={<Layout Component={SupplierMasterList} />}
