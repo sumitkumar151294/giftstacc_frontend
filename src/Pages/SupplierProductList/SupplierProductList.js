@@ -14,6 +14,7 @@ import Button from "../../Components/Button/Button";
 const SupplierProductList = () => {
   const dispatch = useDispatch();
   const [supplierList, setSupplierList] = useState([]);
+  const [supplierBrandList, setSupplierBrandList] = useState([]);
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
@@ -36,10 +37,18 @@ const SupplierProductList = () => {
   const [rowsPerPage] = useState(5);
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
+    dispatch(onGetSupplierList());
   }, []);
-  let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
-  vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
-    );
+
+  useEffect(()=>{
+    let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
+    vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
+      );
+      setSupplierBrandList(filteredSupplierList)
+  },[SupplierBrandList])
+  
+
+
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -65,18 +74,21 @@ const SupplierProductList = () => {
     if(suppliers?.data.length && !supplierList.length){
       let tempSupplier = [];
       suppliers?.data?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.name });
+        tempSupplier.push({ label: item.name, value: item.code });
       });
       setSupplierList(tempSupplier);
-    }else if(!suppliers?.isLoading){
-      dispatch(onGetSupplierList());
     }
   }, [suppliers]);
 
-  const   handleChange = (e) => {
-filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
-  vendor?.name.toLowerCase().includes(e.target?.toLowerCase())
+  const handleChange = (e) => {
+    if(e.target.value==="Select"){
+      setSupplierBrandList(supplierBrandList)
+    }else{
+let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
+  vendor?.supplierCode.toLowerCase().includes(e.target?.value.toLowerCase())
     );
+    setSupplierBrandList(filteredSupplierList)
+    }
    };
 
   const userData = [
@@ -117,7 +129,7 @@ filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.f
   useEffect(()=>{
     const tempMarginValue = [];
     if (marginValue.length !== SupplierBrandList.length) {
-      SupplierBrandList.map((item)=>{
+      SupplierBrandList?.map((item)=>{
         tempMarginValue.push({value:0})
       })
       setMarginValue(tempMarginValue)
@@ -175,8 +187,8 @@ filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.f
                       </div>
                     </div>
                     <div className="d-flex align-items-center flex-wrap">
-                      {filteredSupplierList &&
-                        filteredSupplierList.length > 0 && (
+                      {supplierBrandList &&
+                        supplierBrandList.length > 0 && (
                           <CSVLink
                             data={SupplierBrandList}
                             headers={headers}
@@ -229,8 +241,8 @@ filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.f
                         <div className="card-header">
                           <h4 className="card-title">{supplierBrandLists}</h4>
                         </div>
-                        {Array.isArray(filteredSupplierList) &&
-                        filteredSupplierList.length > 0 ? (
+                        {Array.isArray(supplierBrandList) &&
+                          supplierBrandList.length > 0 ? (
                           <div className="card-body">
                             <div className="table-responsive">
                               <table className="table header-border table-responsive-sm">
@@ -244,7 +256,7 @@ filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.f
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {filteredSupplierList
+                                  {supplierBrandList
                                     .slice(startIndex, endIndex)
                                     .map((data, index) => (
                                       <tr key={index}>
@@ -307,7 +319,7 @@ filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.f
                                     ))}
                                 </tbody>
                               </table>
-                              {filteredSupplierList?.length > 5 &&
+                              {supplierBrandList?.length > 5 &&
                               <div className="pagination-container">
                                 <ReactPaginate
                                   previousLabel={"<"}
