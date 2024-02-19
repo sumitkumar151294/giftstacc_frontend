@@ -5,12 +5,14 @@ import { callSupplierBrandListGetApi, callSupplierBrandListUpdateApi } from "../
 
 
 function* supplierBrandList({ payload }) {
+  debugger
   try {
     const supplierBrandListResponse = yield call(
       callSupplierBrandListUpdateApi,
       payload
     );
-    if (supplierBrandListResponse) {
+    if (supplierBrandListResponse?.httpStatusCode ==="201" ) {
+      debugger
           yield put(
         onUpdateSupplierBrandListSuccess({
           data: supplierBrandListResponse.result,
