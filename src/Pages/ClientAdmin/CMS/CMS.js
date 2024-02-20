@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import HtmlEditor from "../HtmlEditor/HtmlEditor";
+import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 
 const CMS = () => {
   const [cmsData, setCmsData] = useState({
@@ -12,15 +13,12 @@ const CMS = () => {
     shortDescription: "",
     longDescription: "",
   });
-  const [isLoading, setIsLoading] = useState("true");
-  //   const dispatch = useDispatch();
-
+  // const [isLoading, setIsLoading] = useState("true");
   const handleChange = (e, fieldName) => {
     setCmsData({
       ...cmsData,
       [fieldName]: e.target.value,
     });
-
     // Remove the error message when the user starts typing
     setErrors({
       ...errors,
@@ -30,14 +28,13 @@ const CMS = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let isValid = true;
+    // let isValid = true;
     const newErrors = { ...errors };
-
     // Check if fields are empty and set corresponding error messages
     for (const key in cmsData) {
       if (cmsData[key] === "") {
         newErrors[key] = "This field is required";
-        isValid = false;
+        // isValid = false;
       } else {
         newErrors[key] = "";
       }
@@ -48,6 +45,23 @@ const CMS = () => {
     //   dispatch(onCmsSubmit(cmsData));
     // }
   };
+  const PageNames = ["About us",
+    "Privacy Policy", "Terms and Conditions", "LC Loyality Program"]
+
+
+
+  const array = [
+    { name: "John", age: 30, profession: "Engineer" },
+    { name: "Alice", age: 25, profession: "Teacher" },
+    { name: "Michael", age: 40, profession: "Doctor" },
+    { name: "Emily", age: 28, profession: "Artist" },
+    { name: "David", age: 35, profession: "Software Developer" },
+    { name: "Sophia", age: 22, profession: "Student" },
+    { name: "Daniel", age: 45, profession: "Lawyer" },
+    { name: "Emma", age: 33, profession: "Architect" },
+    { name: "Olivia", age: 29, profession: "Nurse" },
+    { name: "Matthew", age: 27, profession: "Entrepreneur" }
+  ];
 
   return (
     <>
@@ -75,22 +89,21 @@ const CMS = () => {
                         Select Page Name &nbsp;
                         <i class="fa fa-angle-down"></i>
                       </option>
-                      <option value="About us">About us</option>
-                      <option value="Privacy Policy">Privacy Policy</option>
-                      <option value="Terms and Conditions">
-                        Terms and Conditions
-                      </option>
-                      <option value="Contact us">Contact us</option>
-                      <option value="LC Loyality Program">
-                        LC Loyality Program
-                      </option>
+                      {
+                        PageNames.map((Option, index) =>
+                          <option key={index} value={Option}>{Option}
+                            &nbsp;
+                            <i class="fa fa-angle-down"></i>
+                          </option>
+                        )
+                      }
                     </select>
                     <p className="text-danger">{errors.pageName}</p>
                   </div>
                 </div>
               </div>
 
-              <div class="card-body ">
+              <div class="card-body">
                 <div class="form-group mb-2">
                   <label for="name-f">Short Description</label>
                   <textarea
@@ -104,21 +117,7 @@ const CMS = () => {
                   ></textarea>
                   <p className="text-danger">{errors.shortDescription}</p>
                 </div>
-
-                  <HtmlEditor/>
-                {/* <div class="form-group mb-2 if">
-                  <label for="name-f">Long Description</label>
-                  <textarea
-                    name="textarea"
-                    id="textarea"
-                    cols="60"
-                    rows="10"
-                    class="form-control bg-transparent"
-                    placeholder=""
-                    onChange={(e) => handleChange(e, "longDescription")}
-                  ></textarea>
-                  <p className="text-danger">{errors.longDescription}</p>
-                </div> */}
+                <HtmlEditor />
                 <div class="form-group mb-0 mt-2">
                   <button
                     type="submit"
@@ -129,12 +128,32 @@ const CMS = () => {
                   </button>
                 </div>
               </div>
+              <div className="card-body">
+                <div className="table-responsive">
+                  <table className="table header-border table-responsive-sm">
+                    <thead>
+                      <tr>
+                        <th>{GetTranslationData("UIClient","id")}</th>
+                        <th>{GetTranslationData("UIClient", "Page_Name")}</th>
+                        <th>{GetTranslationData("UIClient", "Page_Name")}</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <td>dcdasc</td>
+                      <td>dcdasc</td>
+                      <td>dcdasc</td>
+                      <td>dcdasc</td>
+                      <td>dcdasc</td>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      {/* )} */}
-
     </>
   );
 };
