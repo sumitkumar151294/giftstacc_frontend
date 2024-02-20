@@ -128,9 +128,7 @@ const CategoryList = () => {
                           onChange={handleSearch}
                         />
                         <span className="input-group-text">
-                          <Link>
-                            <i className="flaticon-381-search-2"></i>
-                          </Link>
+                        <i className="fa fa-search"></i>
                         </span>
                       </div>
                     )}
