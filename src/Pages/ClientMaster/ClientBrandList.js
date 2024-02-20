@@ -1,25 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import PageError from "../../Components/PageError/PageError";
-
-const customerdetails = [
-  {
-    name: "	Navya Kumari",
-    brand: "API SANDBOX B2B",
-    discount: "5%",
-    commision: "10%",
-    margin: "15%",
-    action: "",
-  }
-];
+import { useDispatch, useSelector } from "react-redux";
+import Dropdown from "../../Components/Dropdown/Dropdown";
+import {
+  onGetSupplierBrandList,
+  // onUpdateSupplierBrandListReset,
+} from "../../Store/Slices/supplierBrandListSlice";
+import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import { ToastContainer, toast } from "react-toastify";
+import ReactPaginate from "react-paginate";
+import { CSVLink } from "react-csv";
+import NoRecord from "../../Components/NoRecord/NoRecord";
 
 const ClientBrandList = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [supplierList, setSupplierList] = useState([]);
+  const [supplierBrandList, setSupplierBrandList] = useState([]);
+  const SupplierBrandList = useSelector(
+    (state) => state.supplierBrandListReducer.data
+  );
+  const SupplierBrandListUpdate = useSelector(
+    (state) => state.supplierBrandListReducer
+  );
+  const suppliers = useSelector((state) => state.supplierMasterReducer);
+  const [marginValue, setMarginValue] = useState([]);
+
+  const [customerDiscount, setCustomerDiscount] = useState("");
   const clientbrandlist = GetTranslationData("UIAdmin", "clientbrandlist");
   const clientbrandlistheading = GetTranslationData(
     "UIAdmin",
@@ -49,13 +61,154 @@ const ClientBrandList = () => {
     "UIAdmin",
     "clientbrandlistaction"
   );
-  const exportLabel = GetTranslationData("UIAdmin", "export_label");
+  const status = GetTranslationData(
+    "UIAdmin",
+    "Status_label"
+  );
   const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
+  const export_label = GetTranslationData("UIAdmin", "export_label");
   const update = GetTranslationData("UIAdmin", "update_label");
+  const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const [rowsPerPage] = useState(5);
+  const headers = [
+    { label: "name", key: "name" },
+    { label: "brandName", key: "brandName" },
+    { label: "customerDiscount", key: "customerDiscount" },
+    { label: "clientCommission", key: "clientCommission" },
+    { label: "supplierMargin", key: "supplierMargin" },
+    { label: "enabled", key: "enabled" },
+  ];
+  useEffect(() => {
+    dispatch(onGetSupplierBrandList());
+    dispatch(onGetSupplierList());
+  }, []);
+
+  useEffect(() => {
+    let filteredSupplierList =
+      Array.isArray(SupplierBrandList) &&
+      SupplierBrandList?.filter((vendor) =>
+        vendor?.name?.toLowerCase().includes(searchQuery?.toLowerCase())
+      );
+    setSupplierBrandList(filteredSupplierList);
+    const tempMarginValue = [];
+    if (marginValue.length !== SupplierBrandList.length) {
+      SupplierBrandList?.map((item) => {
+        tempMarginValue.push({ value: item.supplierMargin });
+      });
+        setMarginValue(tempMarginValue);
+    }
+  }, [SupplierBrandList]);
+
+  // useEffect(() => {
+  //   if (SupplierBrandListUpdate?.updateStatusCode === "201") {
+  //     toast.success(SupplierBrandListUpdate?.message);
+  //     dispatch(onGetSupplierBrandList());
+  //     dispatch(onUpdateSupplierBrandListReset());
+  //   }
+  // }, [SupplierBrandListUpdate]);
+
+  const [page, setPage] = useState(1);
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
+  };
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setPage(1);
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "e" || e.key === "+" || e.key === "-") {
+      e.preventDefault();
+    }
+  };
+  const generateUniqueId = (index) => `toggleSwitch-${index}`;
+  const filteredBrandList = Array.isArray(SupplierBrandList)
+    ? SupplierBrandList.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value?.toLowerCase().includes(searchQuery?.toLowerCase())
+        )
+      )
+    : [];
+
+  useEffect(() => {
+    if (suppliers?.data.length && !supplierList.length) {
+      let tempSupplier = [];
+      suppliers?.data?.map((item) => {
+        tempSupplier.push({ label: item.name, value: item.code });
+      });
+      setSupplierList(tempSupplier);
+    }
+  }, [suppliers]);
+
+  const handleChange = (e) => {
+    if (e.target.value === "Select") {
+      setSupplierBrandList(supplierBrandList);
+    } else {
+      let filteredSupplierList =
+        Array.isArray(SupplierBrandList) &&
+        SupplierBrandList?.filter((vendor) =>
+          vendor?.supplierCode
+            ?.toLowerCase()
+            .includes(e.target?.value?.toLowerCase())
+        );
+      setSupplierBrandList(filteredSupplierList);
+    }
+  };
+  const handleInputChange = (e, index) => {
+    const newValue = e.target.value < 0 ? 0 : e.target.value;
+
+    // Update for customerDiscount
+    setCustomerDiscount((prevCustomerDiscount) => {
+      const updatedCustomerDiscount = [...prevCustomerDiscount];
+      if (updatedCustomerDiscount[index]) {
+        updatedCustomerDiscount[index].value = newValue;
+      } else {
+      }
+      return updatedCustomerDiscount;
+    });
+
+    // Update for marginValue
+    setMarginValue((prevMarginValue) => {
+      const updatedMarginValue = [...prevMarginValue];
+      if (updatedMarginValue[index]) {
+        updatedMarginValue[index].value = newValue;
+      } else {
+      }
+      return updatedMarginValue;
+    });
+  };
+
+  const handleUpdate = (data, index) => {
+    const updatedValues = {
+      id: data.id,
+      supplierMargin: marginValue[index]?.value,
+      clientCommission: data?.clientCommission,
+      customerDiscount: data?.customerDiscount,
+      clientId: data?.clientId,
+    };
+    // dispatch(onUpdateSupplierBrandList(updatedValues));
+  };
+  const updateStatus = (data, index) => {
+    const updatedValues = {
+      id: data.id,
+      supplierMargin: marginValue[index]?.value,
+      clientCommission: data?.clientCommission,
+      customerDiscount: data?.customerDiscount,
+      clientId: data?.clientId,
+      enabled: !data?.enabled,
+    };
+    // dispatch(onUpdateSupplierBrandList(updatedValues));
+  };
   return (
     <>
       <ScrollToTop />
+      {console.log('sdff',location.state ? 'true': 'false')}
       {location.state? 
       <div className="container-fluid">
         <div className="row">
@@ -86,7 +239,7 @@ const ClientBrandList = () => {
                       className="btn btn-primary btn-sm btn-rounded mb-2"
                     >
                       <i className="fa fa-file-excel me-2"></i>
-                      {exportLabel}
+                      {export_label}
                     </a>
                   </div>
                 </div>
@@ -95,91 +248,156 @@ const ClientBrandList = () => {
                 <div className="row">
                   <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="name-f">{clientbrandlistheading}</label>
-                    <select
-                      className="form-select"
-                      aria-label="Default select example"
-                    >
-                      <option>{selectSuppliers}</option>
-                      <option defaultValue="First Client">All</option>
-                      <option defaultValue="First Client">Quicksilver</option>
-                      <option defaultValue="Second Client">Supplier 2</option>
-                      <option defaultValue="Third Client">Supplier 3</option>
-                    </select>
+                    <Dropdown
+                          className="form-select"
+                          aria-label="Default select example"
+                          onChange={(e) => handleChange(e, "status")}
+                          options={supplierList}
+                        />
                   </div>
                 </div>
-              </div>
-              <div className="card-body">
-                <div className="table-responsive">
-                  <table className="table header-border table-responsive-sm">
-                    <thead>
-                      <tr>
-                        <th>{clientbrandlistname}</th>
-                        <th>{clientbrandlistbrandname}</th>
-                        <th>{clientbrandlistdiscount}</th>
-                        <th>{clientbrandlistcommission}</th>
-                        <th>{clientbrandlistmargin}</th>
-                        <th>{clientbrandlistaction}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {customerdetails.map((data, index) => (
-                        <tr key={index}>
-                          <td>
-                            {data.name}
-                            <a href="#"></a>
-                          </td>
-                          <td>{data.brand}</td>
-                          <td>
-                            <div className="input-group mb-2 w-11">
-                              <InputField
-                                type="number"
-                                className="form-control update-val"
-                                placeholder={data.discount}
-                                pattern="/^-?\d+\.?\d*$/"
-                              />
-                              <div className="input-group-append">
-                                <Button
-                                  className="btn btn-outline-primary btn-sm group-btn"
-                                  type="button"
-                                  text={update}
-                                />
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="input-group mb-2 w-11">
-                              <InputField
-                                type="number"
-                                className="form-control update-val"
-                                placeholder={data.commision}
-                                pattern="/^-?\d+\.?\d*$/"
-                              />
-                              <div className="input-group-append">
-                                <Button
-                                  className="btn btn-outline-primary btn-sm group-btn"
-                                  type="button"
-                                  text={update}
-                                />
-                              </div>
-                            </div>
-                          </td>
-                          <td>{data.margin}</td>
-                          <td>
-                            <div className="can-toggle">
-                              <label htmlFor="a">
-                                <div
-                                  className="can-toggle__switch"
-                                  data-checked="On"
-                                  data-unchecked="off"
-                                ></div>
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                {filteredBrandList.length > 0 ? (
+                  <div className="card-body">
+                    <div className="table-responsive">
+                      <table className="table header-border table-responsive-sm">
+                        <thead>
+                          <tr>
+                            <th>{clientbrandlistname}</th>
+                            <th>{clientbrandlistbrandname}</th>
+                            <th>{clientbrandlistdiscount}</th>
+                            <th>{clientbrandlistcommission}</th>
+                            <th>{clientbrandlistmargin}</th>
+                            <th>{status}</th>
+                            <th>{clientbrandlistaction}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredBrandList
+                            .slice(startIndex, endIndex)
+                            .map((data, index) => (
+                              <tr key={data.id}>
+                                <td>
+                                  {data.name}
+                                  <a href="#"></a>
+                                </td>
+                                <td>{data.name}</td>
+                                <td>
+                                  <div className="input-group mb-2 w-11">
+                                    <InputField
+                                      type="number"
+                                      className="form-control update-val"
+                                      placeholder={data.customerDiscount}
+                                      pattern="/^-?\d+\.?\d*$/"
+                                      value={customerDiscount[index]?.value}
+                                      onChange={(e) =>
+                                        handleInputChange(e, index)
+                                      }
+                                      onKeyPress={(e) =>
+                                        handleKeyPress(e, index)
+                                      }
+                                    />
+                                    <div className="input-group-append">
+                                      <Button
+                                        onClick={() =>
+                                          handleUpdate(data, index)
+                                        }
+                                        className="btn btn-outline-primary btn-sm group-btn"
+                                        type="button"
+                                        text={update}
+                                      />
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="input-group mb-2 w-11">
+                                    <InputField
+                                      type="number"
+                                      className="form-control update-val"
+                                      value={marginValue[index]?.value}
+                                      onChange={(e) =>
+                                        handleInputChange(e, index)
+                                      }
+                                      onKeyPress={(e) =>
+                                        handleKeyPress(e, index)
+                                      }
+                                      placeholder={data.clientCommission}
+                                      pattern="/^-?\d+\.?\d*$/"
+                                    />
+                                    <div className="input-group-append">
+                                      <Button
+                                        onClick={() =>
+                                          handleUpdate(data, index)
+                                        }
+                                        className="btn btn-outline-primary btn-sm group-btn"
+                                        type="button"
+                                        text={update}
+                                      />
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>{data.supplierMargin}</td>
+                                <td>
+                                  <span
+                                    className={
+                                      data.enabled === true
+                                        ? "badge badge-success"
+                                        : "badge badge-danger"
+                                    }
+                                  >
+                                    {data.enabled === true
+                                      ? "Active"
+                                      : "Non-Active"}
+                                  </span>
+                                </td>
+                                <td>
+                                  <div className="can-toggle">
+                                    <input
+                                      id={generateUniqueId(index)}
+                                      type="checkbox"
+                                      checked={data.enabled}
+                                    ></input>
+                                    <label htmlFor={generateUniqueId(index)}>
+                                      <div
+                                        className="can-toggle__switch"
+                                        data-unchecked="Off"
+                                        data-checked="On" // Set label based on the status
+                                        onClick={() =>
+                                          updateStatus(data, index)
+                                        }
+                                      ></div>
+                                    </label>
+                                  </div>
+                                </td>
+                                <td></td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                      {filteredBrandList?.length > 5 && (
+                        <div className="pagination-container">
+                          <ReactPaginate
+                            previousLabel={"<"}
+                            nextLabel={">"}
+                            breakLabel={"..."}
+                            pageCount={Math.ceil(
+                              filteredBrandList.length / rowsPerPage
+                            )}
+                            filteredBrandList
+                            marginPagesDisplayed={2}
+                            onPageChange={handlePageChange}
+                            containerClassName={"pagination"}
+                            activeClassName={page === 1 && "active"}
+                            initialPage={page - 1}
+                            previousClassName={page === 1 ? "disabled" : ""}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <NoRecord />
+                )}
+                <ToastContainer />
               </div>
             </div>
           </div>
@@ -187,7 +405,6 @@ const ClientBrandList = () => {
       </div>
       :
       <PageError pageError={{StatusCode:"401", ErrorName:"Not Authorised", ErrorDesription:"You are not authorised to view this page", url:"/", buttonText:"Back to home" }} />
-   
       }
     </>
   );

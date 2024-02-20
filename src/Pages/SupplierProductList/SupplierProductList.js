@@ -15,7 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 const SupplierProductList = () => {
   const dispatch = useDispatch();
   const [supplierList, setSupplierList] = useState([]);
-  const [supplierBrandList, setSupplierBrandList] = useState([]);
+  const [copySupplierBrandList, setCopySupplierBrandList] = useState([]);
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
@@ -45,17 +45,7 @@ const SupplierProductList = () => {
   }, []);
 
   useEffect(()=>{
-    let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
-    vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
-      );
-      setSupplierBrandList(filteredSupplierList)
-      const tempMarginValue = [];
-      if (marginValue.length !== SupplierBrandList.length) {
-        SupplierBrandList?.map((item)=>{
-          tempMarginValue.push({value:item.supplierMargin})
-        })
-        setMarginValue(tempMarginValue)
-      }
+      setCopySupplierBrandList(SupplierBrandList)
   },[SupplierBrandList])
   
 
@@ -101,12 +91,12 @@ const SupplierProductList = () => {
 
   const handleChange = (e) => {
     if(e.target.value==="Select"){
-      setSupplierBrandList(supplierBrandList)
+      setCopySupplierBrandList(SupplierBrandList)
     }else{
 let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
   vendor?.supplierCode.toLowerCase().includes(e.target?.value.toLowerCase())
     );
-    setSupplierBrandList(filteredSupplierList)
+    setCopySupplierBrandList(filteredSupplierList)
     }
    };
 
@@ -143,31 +133,40 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
       e.preventDefault();
     }
   };
-  const [marginValue, setMarginValue] = useState([]);
 
 
 
-  const handleInputChange = (e,index) => {
+
+  const handleInputChange = (e,ids) => {
     const newValue = e.target.value<0 ? 0 : e.target.value;
-    const tempMarginValue = [...marginValue];
-    tempMarginValue[index].value = newValue;
-    setMarginValue(tempMarginValue);
+
+
+
+const updatedSupplier = copySupplierBrandList.map(item => {
+  if (item.id === ids) {
+    return {...item, supplierMargin:newValue};
+  } else {
+    return item;
+  }
+});
+setCopySupplierBrandList(updatedSupplier);
   };
-  const handleUpdate = (data,index) => {
+  const handleUpdate = (data) => {
     const updatedValues = {
       id: data.id,
-      supplierMargin: marginValue[index]?.value,
+      supplierMargin: data?.supplierMargin,
       clientCommission:data?.clientCommission,
       customerDiscount:data?.customerDiscount,
-      clientId:data?.clientId
+      clientId:data?.clientId,
+      enabled:data?.enabled
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
   };
 
-  const updateStatus = (data,index) =>{
+  const updateStatus = (data) =>{
     const updatedValues = {
       id: data.id,
-      supplierMargin: marginValue[index]?.value,
+      supplierMargin: data?.supplierMargin,
       clientCommission:data?.clientCommission,
       customerDiscount:data?.customerDiscount,
       clientId:data?.clientId,
@@ -175,6 +174,14 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
   }
+
+  useEffect(()=>{
+    let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
+    vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
+      );
+      setCopySupplierBrandList(filteredSupplierList);
+  },[searchQuery]);
+
   return (
     <>
       <ScrollToTop />
@@ -203,8 +210,8 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                       </div>
                     </div>
                     <div className="d-flex align-items-center flex-wrap">
-                      {supplierBrandList &&
-                        supplierBrandList.length > 0 && (
+                      {copySupplierBrandList &&
+                        copySupplierBrandList.length > 0 && (
                           <CSVLink
                             data={SupplierBrandList}
                             headers={headers}
@@ -220,13 +227,11 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                     </div>
                   </div>
                 </div>
-
                 <div className="card-body">
                   <form>
                     <div className="row flex-column px-1">
                       <div className="col-sm-3 form-group mb-2">
                         <label htmlFor="name-f">{selectSuppliers}</label>
-
                         <Dropdown
                           className="form-select"
                           aria-label="Default select example"
@@ -234,7 +239,6 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                           options={supplierList}
                         />
                       </div>
-
                       <div className="col-lg-9 d-flex justify-content-end m-auto mb-2 w-100-sm">
                         {userData.map((data, index) => (
                           <span className="mrr" key={index}>
@@ -250,15 +254,14 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                       </div>
                     </div>
                   </form>
-
                   <div className="row px-1">
                     <div className="col-lg-12">
                       <div>
                         <div className="card-header">
                           <h4 className="card-title">{supplierBrandLists}</h4>
                         </div>
-                        {Array.isArray(supplierBrandList) &&
-                          supplierBrandList.length > 0 ? (
+                        {Array.isArray(copySupplierBrandList) &&
+                          copySupplierBrandList.length > 0 ? (
                           <div className="card-body">
                             <div className="table-responsive">
                               <table className="table header-border table-responsive-sm">
@@ -272,7 +275,7 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {supplierBrandList
+                                  {copySupplierBrandList
                                     .slice(startIndex, endIndex)
                                     .map((data, index) => (
                                       <tr key={index}>
@@ -285,14 +288,14 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                               className="form-control htt"
                                               placeholder={data.supplier_Margin}
                                               pattern="/^-?\d+\.?\d*$/"
-                                              value={marginValue[index]?.value}
-                                              onChange={(e)=>handleInputChange(e,index)}
+                                              value={data?.supplierMargin}
+                                              onChange={(e)=>handleInputChange(e,data.id)}
                                               onKeyPress={(e)=>handleKeyPress(e,index)}
                                             />
                                              <div className="input-group-append">
                                             <Button
                                               onClick={() =>
-                                                handleUpdate(data,index)
+                                                handleUpdate(data,data.id)
                                               }
                                               className="btn btn-outline-primary btn-sm group-btn btn-pad"
                                               type="button"
@@ -322,11 +325,8 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                             >
                                               <div
                                                 className="can-toggle__switch"
-                                                data-unchecked={data?.enabled === true ? "OFF" : "ON"}
-                                                data-checked={
-                                                  data?.enabled === true ? "ON" : "OFF"
-                                                  
-                                                }
+                                                data-unchecked={"OFF"}
+                                                data-checked={"ON"}
                                                 onClick={()=>updateStatus(data,index)}
                                               ></div>
                                             </label>
@@ -336,7 +336,7 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                     ))}
                                 </tbody>
                               </table>
-                              {supplierBrandList?.length > 5 &&
+                              {copySupplierBrandList?.length > 5 &&
                               <div className="pagination-container">
                                 <ReactPaginate
                                   previousLabel={"<"}

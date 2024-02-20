@@ -22,7 +22,10 @@ const CategoryList = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
-  const supplierMaster = useSelector((state) => state?.supplierMasterReducer?.data)
+  const supplierMaster = useSelector((state) => state?.supplierMasterReducer?.data);
+  const supplierBrandData = useSelector(
+    (state) => state.supplierBrandListReducer.data
+  );
   const headers = [
     { label: "categoryName", key: "name" },
     { label: "supplierName", key: "description" },
@@ -101,6 +104,12 @@ const CategoryList = () => {
     const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
     return supplier ? supplier.name : '';
   };  
+   // To get the Supplier Brand Name in the Category List 
+  const getSupplierBrand = (supplierBrandId) => {
+    const supplier = Array.isArray(supplierBrandData) && supplierBrandData.find((s) => s.id === supplierBrandId);
+    return supplier ? supplier.name : '';
+  };  
+  
   return (
     <>
       <ScrollToTop />
@@ -179,7 +188,7 @@ const CategoryList = () => {
                             <tr key={data.id}>
                               <td>{data.name}</td>
                               <td>{getSupplierName(data.supplierId)}</td>
-                              <td>{data.supplierBrandId}</td>
+                              <td>{getSupplierBrand(data.supplierBrandId)}</td>
                               <td>
                                 <div className="d-flex">
                                   <Link
