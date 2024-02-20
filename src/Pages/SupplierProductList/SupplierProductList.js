@@ -19,7 +19,7 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  const SupplierBrandListUpdate = useSelector(
+    const SupplierBrandListUpdate = useSelector(
     (state) => state.supplierBrandListReducer
   );
   const suppliers = useSelector((state) => state.supplierMasterReducer);
@@ -280,7 +280,6 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                         <td>{data.name}</td>
                                         <td>
                                           <div className="input-group mb-2 w-11">
-                                          {console.log('marginValue',marginValue)}
                                             <InputField
                                               type="number"
                                               className="form-control htt"

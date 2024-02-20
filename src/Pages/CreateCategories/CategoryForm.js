@@ -19,12 +19,12 @@ import Button from "../../Components/Button/Button";
 const CategoryForm = ({ setIsLoading }) => {
   const dispatch = useDispatch();
   const [supplierListData, setSupplierListData] = useState([]);
-  const supplierBrandData = [
-    {
-      id: "1",
-      name: "API SANDBOX B2B",
-    }
-  ];
+  const [supplierBrandListData, setSupplierBrandListData] = useState([]);
+
+  const supplierBrandData = useSelector(
+    (state) => state.supplierBrandListReducer.data
+  );
+  console.log(supplierBrandData, "supplierBrandData");
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
@@ -36,8 +36,8 @@ const CategoryForm = ({ setIsLoading }) => {
     supplierBrandId: "",
   });
   const [createCategory, setCreateCategory] = useState({
-    supplierId: "",
-    supplierBrandId: "",
+    supplierId: null,
+    supplierBrandId: null,
     name: "",
   });
   const getCategoriesData = useSelector(
@@ -55,6 +55,16 @@ const CategoryForm = ({ setIsLoading }) => {
     dispatch(onGetSupplierList());
     dispatch(onGetSupplierBrandList());
   }, []);
+
+  useEffect(() => {
+    let supplierList = [];
+    Array.isArray(supplierBrandData) &&
+      supplierBrandData?.map((item) => {
+        supplierList.push({ label: item.name, value: item.id });
+      });
+    setSupplierBrandListData(supplierList);
+  }, [supplierBrandData]);
+
 
   useEffect(() => {
     let tempSupplier = [];
@@ -206,7 +216,7 @@ const CategoryForm = ({ setIsLoading }) => {
                             className={` ${errors.supplierId
                               ? "border-danger"
                               : "form-select"
-                              }`}
+                              }`}
                             options={supplierListData}
                           />
                         </div>
@@ -222,9 +232,9 @@ const CategoryForm = ({ setIsLoading }) => {
                             className={` ${errors.supplierBrandId
                               ? "border-danger"
                               : "form-select"
-                              }`}
-                            // options={supplierBrandData}
-                            options={supplierBrandData.map((brand) => ({ value: brand.id, label: brand.name }))}
+                              }`}
+                            options={supplierBrandListData}
+                          // options={Array.isArray(supplierBrandData) && supplierBrandData.map((item) => ({ value: item.id, label: item.name }))}
                           />
                         </div>
                       </div>

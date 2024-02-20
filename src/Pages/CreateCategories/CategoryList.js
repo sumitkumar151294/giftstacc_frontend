@@ -179,7 +179,6 @@ const CategoryList = () => {
                             <tr key={data.id}>
                               <td>{data.name}</td>
                               <td>{getSupplierName(data.supplierId)}</td>
-                              <td>{data.supplierId}</td>
                               <td>{data.supplierBrandId}</td>
                               <td>
                                 <div className="d-flex">
@@ -196,7 +195,7 @@ const CategoryList = () => {
                           ))}
                       </tbody>
                     </table>
-                    {/* {filteredCategoryList > 5 && ( */}
+                    {filteredCategoryList.length > 5 && (
                       <div className="pagination-container">
                         <ReactPaginate
                           previousLabel={"<"}
@@ -213,7 +212,7 @@ const CategoryList = () => {
                           previousClassName={page === 1 ? "disabled" : ""}
                         />
                       </div>
-                    {/* )} */}
+                    )}
 
                   </div>
                 ) : (
