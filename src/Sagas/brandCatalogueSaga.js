@@ -5,24 +5,27 @@ import { getBrandCatalogue } from "../Context/brandCatalogueApi";
 function* BrandCatalogue( ) {
   try {
     const brandCatalogueResponse = yield call(getBrandCatalogue);
-    if (brandCatalogueResponse.code === 1) {
-      yield put(
+    if (brandCatalogueResponse) {
+          yield put(
         onbrandCatalogueSuccess({
-          data: brandCatalogueResponse.data,
-          message: brandCatalogueResponse.message,
+          data: brandCatalogueResponse.response,
+          message: brandCatalogueResponse.errorMessage,
+          status_code: brandCatalogueResponse.httpStatusCode
+
         })
       );
     } else {
       yield put(
         onbrandCatalogueError({
-          data: brandCatalogueResponse.data,
-          message: brandCatalogueResponse.message,
+          data: brandCatalogueResponse.response,
+          message: brandCatalogueResponse.errorMessage,
+          status_code: brandCatalogueResponse.httpStatusCode
         })
       );
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onbrandCatalogueError({ data: {}, message, status_code: 400 }));
+    yield put(onbrandCatalogueError({ data: {}, message,  status_code: error.response.data.HttpStatusCode  }));
   }
 }
 export default function* BrandCatalogueSaga() {

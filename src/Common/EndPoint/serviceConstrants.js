@@ -38,8 +38,8 @@ const API = {
   
 
   //supplier-brand-list
-  supplierBrandListApi: "/supplier-brand",
-  updateSupplierBrandListApi: "/supplier-brand",
+  supplierBrandListApi: "/product",
+  updateSupplierBrandListApi: "/product",
 
 
   //client
