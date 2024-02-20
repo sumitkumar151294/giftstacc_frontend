@@ -19,7 +19,7 @@ import {
   onUpdateSupplierResource,
 } from "../../Store/Slices/supplierResourceSlice";
 
-const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
+const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, setIsLoading }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
@@ -44,6 +44,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
     "fieldValueNotEmpty"
   );
   const [isformLoading, setIsFormLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [vendorData, setVendorData] = useState({
     name: "",
     balanceThresholdAmount: "",
@@ -112,12 +113,15 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
   }
 
   useEffect(() => {
-      if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
-        dispatch(onVendorReset());
-        dispatch(onSupplierResourceSubmit(getAdditionalFIeldData(false, supplyPostData?.postData?.[0]?.id)));
-      }else if(supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading){
-        dispatch(onUpdateSupplierListReset());
-        if(isDelete){
+    setIsLoading(false)
+    if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
+      dispatch(onVendorReset());
+      dispatch(onSupplierResourceSubmit(getAdditionalFIeldData(false, supplyPostData?.postData?.[0]?.id)));
+    }else if(supplyPostData?.update_status_code === "201" && !supplyPostData?.isLoading){
+      dispatch(onUpdateSupplierListReset());
+      // setIsLoading(true)
+      if(isDelete){
+          setIsLoading(false)
           toast.success(supplyPostData?.message)
           dispatch(onGetSupplierList());
           dispatch(onGetSupplierResource());
@@ -303,7 +307,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                 <h4 className="card-title">{supplierMaster}</h4>
               </div>
               <div className="card-body">
-                {isformLoading ? (
+                {isformLoading || isLoading ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -313,7 +317,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                       <div className="row">
                         <div className="col-sm-8 form-group mb-2">
                           <label htmlFor="name-f">
-                            {supplierName}{" "}
+                            {supplierName}
                             <span className="text-danger">*</span>
                           </label>
                           <InputField

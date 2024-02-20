@@ -179,7 +179,6 @@ const CategoryList = () => {
                             <tr key={data.id}>
                               <td>{data.name}</td>
                               <td>{getSupplierName(data.supplierId)}</td>
-                              <td>{data.supplierId}</td>
                               <td>{data.supplierBrandId}</td>
                               <td>
                                 <div className="d-flex">

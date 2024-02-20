@@ -19,7 +19,7 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  const SupplierBrandListUpdate = useSelector(
+    const SupplierBrandListUpdate = useSelector(
     (state) => state.supplierBrandListReducer
   );
   const suppliers = useSelector((state) => state.supplierMasterReducer);
@@ -54,7 +54,6 @@ const SupplierProductList = () => {
         SupplierBrandList?.map((item)=>{
           tempMarginValue.push({value:item.supplierMargin})
         })
-        debugger
         setMarginValue(tempMarginValue)
       }
   },[SupplierBrandList])
@@ -199,7 +198,7 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                           placeholder={search_here_label}
                         />
                         <span className="input-group-text">
-                          <i className="flaticon-381-search-2"></i>
+                          <i className="fa fa-search"></i>
                         </span>
                       </div>
                     </div>
@@ -281,7 +280,6 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                         <td>{data.name}</td>
                                         <td>
                                           <div className="input-group mb-2 w-11">
-                                          {console.log('marginValue',marginValue)}
                                             <InputField
                                               type="number"
                                               className="form-control htt"
@@ -324,10 +322,11 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                             >
                                               <div
                                                 className="can-toggle__switch"
-                                                data-unchecked="Off"
+                                                data-unchecked={data?.enabled === true ? "OFF" : "ON"}
                                                 data-checked={
-                                                  data.enabled ===true ? "ON" : "OFF"
-                                                } // Set label based on the status
+                                                  data?.enabled === true ? "ON" : "OFF"
+                                                  
+                                                }
                                                 onClick={()=>updateStatus(data,index)}
                                               ></div>
                                             </label>

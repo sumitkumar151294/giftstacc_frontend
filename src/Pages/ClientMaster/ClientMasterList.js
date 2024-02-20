@@ -125,7 +125,7 @@ const ClientMasterList = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                        <i className="flaticon-381-search-2"></i>
+                        <i className="fa fa-search"></i>
                       </span>
                     </div>
                   </div>
