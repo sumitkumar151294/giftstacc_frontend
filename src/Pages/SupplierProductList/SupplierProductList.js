@@ -198,7 +198,7 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                           placeholder={search_here_label}
                         />
                         <span className="input-group-text">
-                          <i className="flaticon-381-search-2"></i>
+                          <i className="fa fa-search"></i>
                         </span>
                       </div>
                     </div>

@@ -163,6 +163,7 @@ const CategoryForm = ({ setIsLoading }) => {
       dispatch(onUpdateCategoryReset());
       dispatch(onGetCategory());
       setCreateCategory(resetCategoryFields);
+
     }
   }, [getCategoriesData]);
   return (
@@ -213,6 +214,7 @@ const CategoryForm = ({ setIsLoading }) => {
                             onChange={(e) => handleChange(e, "supplierId")}
                             error={errors.supplierId}
                             ariaLabel="Select"
+                            value={createCategory.supplierId}
                             className={` ${errors.supplierId
                               ? "border-danger"
                               : "form-select"
@@ -228,13 +230,14 @@ const CategoryForm = ({ setIsLoading }) => {
                           <Dropdown
                             onChange={(e) => handleChange(e, "supplierBrandId")}
                             error={errors.supplierBrandId}
+                            value={createCategory.supplierBrandId}
                             ariaLabel="Select"
                             className={` ${errors.supplierBrandId
                               ? "border-danger"
                               : "form-select"
                               }`}
-                            options={supplierBrandListData}
-                          // options={Array.isArray(supplierBrandData) && supplierBrandData.map((item) => ({ value: item.id, label: item.name }))}
+                            // options={supplierBrandData}
+                            options={supplierBrandData.map((brand) => ({ value: brand.id, label: brand.name }))}
                           />
                         </div>
                       </div>

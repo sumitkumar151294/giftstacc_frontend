@@ -97,7 +97,7 @@ export const userRoleSlice = createSlice({
       return {
         ...state,
         isLoading: false,
-        postCategoryData: {},
+        postCategoryData: null,
         postMessage: "",
         error: {},
         post_status_code: null,

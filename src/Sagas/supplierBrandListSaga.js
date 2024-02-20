@@ -33,7 +33,7 @@ function* supplierBrandList({ payload }) {
 function* onGetSupplierList() {
   try {
     const supplierBrandListResponse = yield call(callSupplierBrandListGetApi);
-      if (supplierBrandListResponse.httpStatusCode==="200") {
+    if (supplierBrandListResponse.httpStatusCode==="200") {
       yield put(
         onGetSupplierBrandListSuccess({
           data: supplierBrandListResponse.response,

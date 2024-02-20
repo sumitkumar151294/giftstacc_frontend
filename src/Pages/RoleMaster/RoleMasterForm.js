@@ -102,59 +102,57 @@ const RoleMasterForm = ({ data, setData}) => {
   }, [getModuleData, data]);
 
   // Handle input changes in the form
-  const handleInputChange = (e) => {
-    const { name, type, checked } = e.target;
-    if (name === "IsClientRole") {
-      setFormData({
-        ...formData,
-        isClientPlatformModule: checked
-      });
-    } else if (name === "selectAll") {
-      const updatedModules = formData.modules?.map((module) => ({
-        ...module,
-        checked: formData.isClientPlatformModule
-          ? module.isClientPlatformModule
-          : checked,
-      }));
-      setFormData({
-        ...formData,
-        modules: updatedModules,
-      });
-    } else if (type === "checkbox" && name === "view") {
-      let modules = formData.modules.map((md) => {
-        if (md.id === parseInt(e.target.id)) {
-          return { ...md, checked: !md.checked };
-        } else {
-          return md;
-        }
-      });
-      setFormData({ ...formData, modules });
-    } else if (type === "checkbox" && name === "add") {
-      let modules = formData.modules.map((md) => {
-        if (md.id === parseInt(e.target.id)) {
-          return { ...md, addAccess: !md.addAccess };
-        } else {
-          return md;
-        }
-      });
-      setFormData({ ...formData, modules });
-    } else if (type === "checkbox" && name === "edit") {
-      let modules = formData.modules.map((md) => {
-        if (md.id === parseInt(e.target.id)) {
-          return { ...md, editAccess: !md.editAccess };
-        } else {
-          return md;
-        }
-      });
-      setFormData({ ...formData, modules });
-    }
-    else {
-      setFormData({
-        ...formData,
-        [name]: e.target.value,
-      });
-    }
-  };
+const handleInputChange = (e) => {
+  const { name, type, checked } = e.target;
+  if (name === "IsClientRole") {
+    setFormData({
+      ...formData,
+      isClientPlatformModule: checked,
+    });
+  } else if (name === "selectAll") {
+    const updatedModules = formData.modules.map((module) => ({
+      ...module,
+      checked: checked,
+    }));
+    setFormData({
+      ...formData,
+      modules: updatedModules,
+    });
+  } else if (type === "checkbox" && name === "view") {
+    let modules = formData.modules.map((md) => {
+      if (md.id === parseInt(e.target.id)) {
+        return { ...md, checked: !md.checked };
+      } else {
+        return md;
+      }
+    });
+    setFormData({ ...formData, modules });
+  } else if (type === "checkbox" && name === "add") {
+    let modules = formData.modules.map((md) => {
+      if (md.id === parseInt(e.target.id)) {
+        return { ...md, addAccess: !md.addAccess };
+      } else {
+        return md;
+      }
+    });
+    setFormData({ ...formData, modules });
+  } else if (type === "checkbox" && name === "edit") {
+    let modules = formData.modules.map((md) => {
+      if (md.id === parseInt(e.target.id)) {
+        return { ...md, editAccess: !md.editAccess };
+      } else {
+        return md;
+      }
+    });
+    setFormData({ ...formData, modules });
+  } else {
+    setFormData({
+      ...formData,
+      [name]: e.target.value,
+    });
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

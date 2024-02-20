@@ -93,6 +93,7 @@ const SupplierMasterList = () => {
       enabled: false,
     };
     setIsDelete(true);
+    setIsLoading(true);
     dispatch(onUpdateSupplierList(deletedData));
   };
 
@@ -118,6 +119,8 @@ const SupplierMasterList = () => {
         setData={setVendorData}
         isDelete={isDelete}
         setIsDelete={setIsDelete}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
       <div className="container-fluid pt-0">
         <div className="row">
@@ -145,9 +148,7 @@ const SupplierMasterList = () => {
                               onChange={handleSearch}
                             />
                             <span className="input-group-text">
-                              <a href="#">
-                                <i className="flaticon-381-search-2"></i>
-                              </a>
+                              <i className="fa fa-search"></i>
                             </span>
                           </div>
                         </div>
