@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
+import { onGetSupplierBrandList, onUpdateSupplierBrandList, onUpdateSupplierBrandListReset } from "../../Store/Slices/supplierBrandListSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Dropdown from "../../Components/Dropdown/Dropdown";
-import { onGetSupplierList, onUpdateSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
+import { ToastContainer, toast } from "react-toastify";
 
 const SupplierProductList = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,9 @@ const SupplierProductList = () => {
   const [supplierBrandList, setSupplierBrandList] = useState([]);
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
+  );
+  const SupplierBrandListUpdate = useSelector(
+    (state) => state.supplierBrandListReducer
   );
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -45,8 +49,23 @@ const SupplierProductList = () => {
     vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
       );
       setSupplierBrandList(filteredSupplierList)
+      const tempMarginValue = [];
+      if (marginValue.length !== SupplierBrandList.length) {
+        SupplierBrandList?.map((item)=>{
+          tempMarginValue.push({value:item.supplierMargin})
+        })
+        setMarginValue(tempMarginValue)
+      }
   },[SupplierBrandList])
   
+
+  useEffect(()=>{
+    if(SupplierBrandListUpdate?.updateStatusCode==="201" ){
+      toast.success(SupplierBrandListUpdate?.message)
+      dispatch(onGetSupplierBrandList());
+      dispatch(onUpdateSupplierBrandListReset())
+    }
+  },[SupplierBrandListUpdate])
 
 
   const handlePageChange = (selected) => {
@@ -126,16 +145,7 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
   };
   const [marginValue, setMarginValue] = useState([]);
 
-  useEffect(()=>{
-    const tempMarginValue = [];
-    if (marginValue.length !== SupplierBrandList.length) {
-      SupplierBrandList?.map((item)=>{
-        tempMarginValue.push({value:0})
-      })
-      setMarginValue(tempMarginValue)
-    }
-    
-  },[])
+
 
   const handleInputChange = (e,index) => {
     const newValue = e.target.value<0 ? 0 : e.target.value;
@@ -143,20 +153,27 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
     tempMarginValue[index].value = newValue;
     setMarginValue(tempMarginValue);
   };
-  const handleUpdate = (data) => {
+  const handleUpdate = (data,index) => {
     const updatedValues = {
       id: data.id,
-      brands: data.brands,
-      supplier_Margin: marginValue,
-      status: data.status,
+      supplierMargin: marginValue[index]?.value,
+      clientCommission:data?.clientCommission,
+      customerDiscount:data?.customerDiscount,
+      clientId:data?.clientId
     };
-    dispatch(onUpdateSupplierList(updatedValues));
+    dispatch(onUpdateSupplierBrandList(updatedValues));
   };
 
-  const updateStatus = (id,index) =>{
-    let tempData = [...SupplierBrandList];
-    tempData[index].status =  !tempData[index].status
-    
+  const updateStatus = (data,index) =>{
+    const updatedValues = {
+      id: data.id,
+      supplierMargin: marginValue[index]?.value,
+      clientCommission:data?.clientCommission,
+      customerDiscount:data?.customerDiscount,
+      clientId:data?.clientId,
+      enabled:!data?.enabled
+    };
+    dispatch(onUpdateSupplierBrandList(updatedValues));
   }
   return (
     <>
@@ -263,19 +280,20 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                         <td>{data.name}</td>
                                         <td>
                                           <div className="input-group mb-2 w-11">
+                                          {console.log('marginValue',marginValue)}
                                             <InputField
                                               type="number"
                                               className="form-control htt"
                                               placeholder={data.supplier_Margin}
                                               pattern="/^-?\d+\.?\d*$/"
-                                              value={data?.supplierMargin}
+                                              value={marginValue[index]?.value}
                                               onChange={(e)=>handleInputChange(e,index)}
                                               onKeyPress={(e)=>handleKeyPress(e,index)}
                                             />
                                              <div className="input-group-append">
                                             <Button
                                               onClick={() =>
-                                                handleUpdate(data)
+                                                handleUpdate(data,index)
                                               }
                                               className="btn btn-outline-primary btn-sm group-btn btn-pad"
                                               type="button"
@@ -305,11 +323,12 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                                             >
                                               <div
                                                 className="can-toggle__switch"
-                                                data-unchecked="Off"
+                                                data-unchecked={data?.enabled === true ? "OFF" : "ON"}
                                                 data-checked={
-                                                  data.enabled ===true ? "ON" : "OFF"
-                                                } // Set label based on the status
-                                                onClick={()=>updateStatus(data.id,index)}
+                                                  data?.enabled === true ? "ON" : "OFF"
+                                                  
+                                                }
+                                                onClick={()=>updateStatus(data,index)}
                                               ></div>
                                             </label>
                                           </div>
@@ -344,6 +363,7 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
                            <NoRecord />
                          )}
                       </div>
+                      <ToastContainer />
                     </div>
                   </div>
                 </div>
