@@ -15,6 +15,7 @@ import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { ToastContainer, toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { CSVLink } from "react-csv";
+import NoRecord from "../../Components/NoRecord/NoRecord";
 
 const ClientBrandList = () => {
   const dispatch = useDispatch();
@@ -66,13 +67,15 @@ const ClientBrandList = () => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const [searchQuery, setSearchQuery] = useState("");
+
   const [rowsPerPage] = useState(5);
   const headers = [
-    { label: "id", key: "id" },
-    { label: "brands", key: "brands" },
-    { label: "supplier_Margin", key: "supplier_Margin" },
-    { label: "status", key: "status" },
-    { label: "action", key: "action" },
+    { label: "name", key: "name" },
+    { label: "brandName", key: "brandName" },
+    { label: "customerDiscount", key: "customerDiscount" },
+    { label: "clientCommission", key: "clientCommission" },
+    { label: "supplierMargin", key: "supplierMargin" },
+    { label: "enabled", key: "enabled" },
   ];
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
@@ -91,8 +94,7 @@ const ClientBrandList = () => {
       SupplierBrandList?.map((item) => {
         tempMarginValue.push({ value: item.supplierMargin });
       });
-      debugger;
-      setMarginValue(tempMarginValue);
+        setMarginValue(tempMarginValue);
     }
   }, [SupplierBrandList]);
 
@@ -108,6 +110,8 @@ const ClientBrandList = () => {
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -233,7 +237,7 @@ const ClientBrandList = () => {
                         <CSVLink
                           data={SupplierBrandList}
                           headers={headers}
-                          filename={"SupplierBrandList.csv"}
+                          filename={"Client BrandList.csv"}
                         >
                           <Button
                             className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
@@ -258,132 +262,148 @@ const ClientBrandList = () => {
                     </div>
                   </div>
                 </div>
-                <div className="card-body">
-                  <div className="table-responsive">
-                    <table className="table header-border table-responsive-sm">
-                      <thead>
-                        <tr>
-                          <th>{clientbrandlistname}</th>
-                          <th>{clientbrandlistbrandname}</th>
-                          <th>{clientbrandlistdiscount}</th>
-                          <th>{clientbrandlistcommission}</th>
-                          <th>{clientbrandlistmargin}</th>
-                          <th>{clientbrandlistaction}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Array.isArray(filteredBrandList) &&
-                          filteredBrandList.map((data, index) => (
-                            <tr key={index}>
-                              <td>
-                                {data.name}
-                                <a href="#"></a>
-                              </td>
-                              <td>{data.brandName}</td>
-                              <td>
-                                <div className="input-group mb-2 w-11">
-                                  <InputField
-                                    type="number"
-                                    className="form-control update-val"
-                                    placeholder={data.customerDiscount}
-                                    pattern="/^-?\d+\.?\d*$/"
-                                    value={customerDiscount[index]?.value}
-                                    onChange={(e) =>
-                                      handleInputChange(e, index)
-                                    }
-                                    onKeyPress={(e) => handleKeyPress(e, index)}
-                                  />
-                                  <div className="input-group-append">
-                                    <Button
-                                      onClick={() => handleUpdate(data, index)}
-                                      className="btn btn-outline-primary btn-sm group-btn"
-                                      type="button"
-                                      text={update}
+                {filteredBrandList.length > 0 ? (
+                  <div className="card-body">
+                    <div className="table-responsive">
+                      <table className="table header-border table-responsive-sm">
+                        <thead>
+                          <tr>
+                            <th>{clientbrandlistname}</th>
+                            <th>{clientbrandlistbrandname}</th>
+                            <th>{clientbrandlistdiscount}</th>
+                            <th>{clientbrandlistcommission}</th>
+                            <th>{clientbrandlistmargin}</th>
+                            <th>{clientbrandlistaction}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredBrandList
+                            .slice(startIndex, endIndex)
+                            .map((data, index) => (
+                              <tr key={data.id}>
+                                <td>
+                                  {data.name}
+                                  <a href="#"></a>
+                                </td>
+                                <td>{data.brandName}</td>
+                                <td>
+                                  <div className="input-group mb-2 w-11">
+                                    <InputField
+                                      type="number"
+                                      className="form-control update-val"
+                                      placeholder={data.customerDiscount}
+                                      pattern="/^-?\d+\.?\d*$/"
+                                      value={customerDiscount[index]?.value}
+                                      onChange={(e) =>
+                                        handleInputChange(e, index)
+                                      }
+                                      onKeyPress={(e) =>
+                                        handleKeyPress(e, index)
+                                      }
                                     />
+                                    <div className="input-group-append">
+                                      <Button
+                                        onClick={() =>
+                                          handleUpdate(data, index)
+                                        }
+                                        className="btn btn-outline-primary btn-sm group-btn"
+                                        type="button"
+                                        text={update}
+                                      />
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="input-group mb-2 w-11">
-                                  <InputField
-                                    type="number"
-                                    className="form-control update-val"
-                                    value={marginValue[index]?.value}
-                                    onChange={(e) =>
-                                      handleInputChange(e, index)
-                                    }
-                                    onKeyPress={(e) => handleKeyPress(e, index)}
-                                    placeholder={data.clientCommission}
-                                    pattern="/^-?\d+\.?\d*$/"
-                                  />
-                                  <div className="input-group-append">
-                                    <Button
-                                      onClick={() => handleUpdate(data, index)}
-                                      className="btn btn-outline-primary btn-sm group-btn"
-                                      type="button"
-                                      text={update}
+                                </td>
+                                <td>
+                                  <div className="input-group mb-2 w-11">
+                                    <InputField
+                                      type="number"
+                                      className="form-control update-val"
+                                      value={marginValue[index]?.value}
+                                      onChange={(e) =>
+                                        handleInputChange(e, index)
+                                      }
+                                      onKeyPress={(e) =>
+                                        handleKeyPress(e, index)
+                                      }
+                                      placeholder={data.clientCommission}
+                                      pattern="/^-?\d+\.?\d*$/"
                                     />
+                                    <div className="input-group-append">
+                                      <Button
+                                        onClick={() =>
+                                          handleUpdate(data, index)
+                                        }
+                                        className="btn btn-outline-primary btn-sm group-btn"
+                                        type="button"
+                                        text={update}
+                                      />
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                              <td>{data.supplierMargin}</td>
-                              <td>
-                                <span
-                                  className={
-                                    data.enabled === true
-                                      ? "badge badge-success"
-                                      : "badge badge-danger"
-                                  }
-                                >
-                                  {data.enabled === true
-                                    ? "Active"
-                                    : "Non-Active"}
-                                </span>
-                              </td>
-                              <td>
-                                <div className="can-toggle">
-                                  <input
-                                    id={generateUniqueId(index)}
-                                    type="checkbox"
-                                    checked={data.enabled}
-                                  ></input>
-                                  <label htmlFor={generateUniqueId(index)}>
-                                    <div
-                                      className="can-toggle__switch"
-                                      data-unchecked="Off"
-                                      data-checked={
-                                        data.enabled === true ? "ON" : "OFF"
-                                      } // Set label based on the status
-                                      onClick={() => updateStatus(data, index)}
-                                    ></div>
-                                  </label>
-                                </div>
-                              </td>
-                              <td></td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                    {filteredBrandList?.length > 5 && (
-                      <div className="pagination-container">
-                        <ReactPaginate
-                          previousLabel={"<"}
-                          nextLabel={" >"}
-                          breakLabel={"..."}
-                          pageCount={Math.ceil(
-                            filteredBrandList.length / rowsPerPage
-                          )}
-                          marginPagesDisplayed={2}
-                          onPageChange={handlePageChange}
-                          containerClassName={"pagination"}
-                          activeClassName={"active"}
-                          initialPage={page - 1} // Use initialPage instead of forcePage
-                          previousClassName={page === 0 ? "disabled" : ""}
-                        />
-                      </div>
-                    )}
+                                </td>
+                                <td>{data.supplierMargin}</td>
+                                <td>
+                                  <span
+                                    className={
+                                      data.enabled === true
+                                        ? "badge badge-success"
+                                        : "badge badge-danger"
+                                    }
+                                  >
+                                    {data.enabled === true
+                                      ? "Active"
+                                      : "Non-Active"}
+                                  </span>
+                                </td>
+                                <td>
+                                  <div className="can-toggle">
+                                    <input
+                                      id={generateUniqueId(index)}
+                                      type="checkbox"
+                                      checked={data.enabled}
+                                    ></input>
+                                    <label htmlFor={generateUniqueId(index)}>
+                                      <div
+                                        className="can-toggle__switch"
+                                        data-unchecked="Off"
+                                        data-checked={
+                                          data.enabled === true ? "ON" : "OFF"
+                                        } // Set label based on the status
+                                        onClick={() =>
+                                          updateStatus(data, index)
+                                        }
+                                      ></div>
+                                    </label>
+                                  </div>
+                                </td>
+                                <td></td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                      {filteredBrandList?.length > 5 && (
+                        <div className="pagination-container">
+                          <ReactPaginate
+                            previousLabel={"<"}
+                            nextLabel={">"}
+                            breakLabel={"..."}
+                            pageCount={Math.ceil(
+                              filteredBrandList.length / rowsPerPage
+                            )}
+                            filteredBrandList
+                            marginPagesDisplayed={2}
+                            onPageChange={handlePageChange}
+                            containerClassName={"pagination"}
+                            activeClassName={page === 1 && "active"}
+                            initialPage={page - 1}
+                            previousClassName={page === 1 ? "disabled" : ""}
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <NoRecord />
+                )}
                 <ToastContainer />
               </div>
             </div>
