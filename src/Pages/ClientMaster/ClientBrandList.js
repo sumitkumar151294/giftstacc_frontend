@@ -50,7 +50,10 @@ const ClientBrandList = () => {
   }, []);
 
   useEffect(()=>{
-      setCopySupplierBrandList(SupplierBrandList)
+      const filterData = SupplierBrandList?.filter((item)=>{
+        return item.enabled === true
+      })
+      setCopySupplierBrandList(filterData)
   },[SupplierBrandList])
   
 
@@ -95,10 +98,13 @@ const ClientBrandList = () => {
   }, [suppliers]);
 
   const handleChange = (e) => {
+    const filterData = SupplierBrandList?.filter((item)=>{
+      return item.enabled === true
+    })
     if(e.target.value==="Select"){
-      setCopySupplierBrandList(SupplierBrandList)
+      setCopySupplierBrandList(filterData)
     }else{
-let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
+let filteredSupplierList =  Array.isArray(filterData) && filterData?.filter((vendor) =>
   vendor?.supplierCode.toLowerCase().includes(e.target?.value.toLowerCase())
     );
     setCopySupplierBrandList(filteredSupplierList)
@@ -135,7 +141,8 @@ setCopySupplierBrandList(updatedSupplier);
       clientCommission:data?.clientCommission,
       customerDiscount:data?.customerDiscount,
       clientId:data?.clientId,
-      enabled:data?.enabled
+      enabled:data?.enabled,
+      clientEnabled:data?.clientEnabled
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
   };
@@ -147,13 +154,18 @@ setCopySupplierBrandList(updatedSupplier);
       clientCommission:data?.clientCommission,
       customerDiscount:data?.customerDiscount,
       clientId:data?.clientId,
-      enabled:!data?.enabled
+      enabled:!data?.enabled,
+      clientEnabled:!data?.clientEnabled
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
   }
 
   useEffect(()=>{
-    let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
+    const filterData = SupplierBrandList?.filter((item)=>{
+      return item.enabled === true
+    })
+    
+    let filteredSupplierList =  Array.isArray(filterData) && filterData?.filter((vendor) =>
     vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
       );
       setCopySupplierBrandList(filteredSupplierList);
@@ -300,6 +312,7 @@ setCopySupplierBrandList(updatedSupplier);
                                         </td>
                                         <td>{data.supplierMargin}</td>
                                         <td>
+                                        {console.log('client enabled',data.clientEnabled)}
                                           <span
                                             className={
                                               data.clientEnabled === true
