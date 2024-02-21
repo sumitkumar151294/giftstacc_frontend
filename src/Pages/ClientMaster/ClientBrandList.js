@@ -77,7 +77,6 @@ const ClientBrandList = () => {
   const [rowsPerPage] = useState(5);
   const headers = [
     { label: "name", key: "name" },
-    { label: "brands", key: "brands" },
     { label: "brandName", key: "brandName" },
     { label: "customerDiscount", key: "customerDiscount" },
     { label: "clientCommission", key: "clientCommission" },
