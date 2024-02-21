@@ -160,7 +160,8 @@ setCopySupplierBrandList(updatedSupplier);
       clientCommission:data?.clientCommission,
       customerDiscount:data?.customerDiscount,
       clientId:data?.clientId,
-      enabled:data?.enabled
+      enabled:data?.enabled,
+      clientEnabled:data?.clientEnabled
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
   };
@@ -172,7 +173,8 @@ setCopySupplierBrandList(updatedSupplier);
       clientCommission:data?.clientCommission,
       customerDiscount:data?.customerDiscount,
       clientId:data?.clientId,
-      enabled:!data?.enabled
+      enabled:!data?.enabled,
+      clientEnabled:data?.clientEnabled
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
   }

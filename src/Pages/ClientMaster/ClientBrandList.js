@@ -140,7 +140,7 @@ setCopySupplierBrandList(updatedSupplier);
       supplierMargin: data?.supplierMargin,
       clientCommission:data?.clientCommission,
       customerDiscount:data?.customerDiscount,
-      clientId:data?.clientId,
+      clientId:location?.state?.id,
       enabled:data?.enabled,
       clientEnabled:data?.clientEnabled
     };
@@ -153,8 +153,8 @@ setCopySupplierBrandList(updatedSupplier);
       supplierMargin: data?.supplierMargin,
       clientCommission:data?.clientCommission,
       customerDiscount:data?.customerDiscount,
-      clientId:data?.clientId,
-      enabled:!data?.enabled,
+      clientId:location?.state?.id,
+      enabled:data?.enabled,
       clientEnabled:!data?.clientEnabled
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
