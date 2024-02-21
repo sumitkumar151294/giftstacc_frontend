@@ -78,13 +78,13 @@ $primary-black: var(--primary-black);
   }
 }
 .card-body {
-  padding: 1.875rem !important;
+  padding: 0.875rem !important;
   padding-top: 0px !important;
 }
 
 .card-body {
   flex: 1 1 auto !important;
-  padding: 0px 26px 3px 26px;
+  // padding: 0px 26px 3px 26px;
 
   @media only screen and (max-width: 575px) {
     padding: 1rem;
