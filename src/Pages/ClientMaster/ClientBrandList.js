@@ -168,14 +168,14 @@ const ClientBrandList = () => {
     }
   };
   const handleInputChange = (e, ids) => {
-    debugger;
+    ;
     const newValue = e.target.value < 0 ? 0 : e.target.value;
 
     // Update for clientCommission
 
     const updateClientCommission = clientCommission?.map((item) => {
       if (item.id === ids) {
-        debugger;
+        ;
         return { ...item, clientCommission: newValue };
       } else {
         return item;
@@ -194,7 +194,7 @@ const ClientBrandList = () => {
   };
 
   const handleUpdate = (data) => {
-    debugger;
+    ;
     const updatedValues = {
       id: data.id,
       supplierMargin: data.supplierMargin,
@@ -206,7 +206,7 @@ const ClientBrandList = () => {
   };
 
   const handleUpdateClient = (data) => {
-    debugger;
+    ;
     const updatedValues = {
       id: data.id,
       supplierMargin: data.supplierMargin,
@@ -217,7 +217,7 @@ const ClientBrandList = () => {
     dispatch(onUpdateSupplierBrandList(updatedValues));
   };
   const updateStatus = (data) => {
-    debugger
+    
     const updatedValues = {
       id: data.id,
       supplierMargin: data.marginValue,
@@ -231,7 +231,6 @@ const ClientBrandList = () => {
   return (
     <>
       <ScrollToTop />
-      {console.log("sdff", location.state ? "true" : "false")}
       {location.state ? (
         <div className="container-fluid">
           <div className="row">
