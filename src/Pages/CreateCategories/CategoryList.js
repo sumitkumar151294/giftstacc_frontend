@@ -28,8 +28,8 @@ const CategoryList = () => {
   );
   const headers = [
     { label: "categoryName", key: "name" },
-    { label: "supplierName", key: "description" },
-    { label: "supplierBrand", key: "vendorName" },
+    { label: "supplierName", key: "supplierId" },
+    { label: "supplierBrand", key: "supplierBrandId" },
   ];
 
   // To get the categories
@@ -70,7 +70,7 @@ const CategoryList = () => {
       )
     )
     : [];
-
+ 
   useEffect(() => {
     if (getCategoryData) {
       setIsLoading(false);
@@ -109,6 +109,11 @@ const CategoryList = () => {
     const supplier = Array.isArray(supplierBrandData) && supplierBrandData.find((s) => s.id === supplierBrandId);
     return supplier ? supplier.name : '';
   };  
+  const namesArray = filteredCategoryList.map(data => ({
+    name: data.name,
+    supplierId: getSupplierName(data.supplierId),
+    supplierBrandId: getSupplierBrand(data.supplierBrandId),
+  }));
   
   return (
     <>
@@ -147,7 +152,7 @@ const CategoryList = () => {
                   <div className="d-flex align-items-center flex-wrap">
                     {getCategoryData && getCategoryData.length > 0 && (
                       <CSVLink
-                        data={filteredCategoryList}
+                        data={namesArray}
                         headers={headers}
                         filename={"Category.csv"}
                       >
