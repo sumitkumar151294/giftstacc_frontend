@@ -163,7 +163,7 @@ setCopySupplierBrandList(updatedSupplier);
   const filterData = Array.isArray(suppliers?.data) && suppliers?.data?.filter((item)=>{
    return item.code === code
   })
-  return filterData[0].name
+  return filterData[0]?.name.length ? filterData[0]?.name : ""
   };
 
   return (
@@ -302,19 +302,19 @@ setCopySupplierBrandList(updatedSupplier);
                                         <td>
                                           <span
                                             className={
-                                              data.enabled === true
+                                              data.clientEnabled === true
                                                 ? "badge badge-success"
                                                 : "badge badge-danger"
                                             }
                                           >
-                                            {data.enabled === true
+                                            {data.clientEnabled === true
                                               ? "Active"
                                               : "Non-Active"}
                                           </span>
                                         </td>
                                         <td>
                                           <div className="can-toggle">
-                                          <input id={generateUniqueId(index)} type="checkbox" checked ={data.enabled }></input>
+                                          <input id={generateUniqueId(index)} type="checkbox" checked ={data.clientEnabled }></input>
                                             <label
                                               htmlFor={generateUniqueId(index)}
                                             >
