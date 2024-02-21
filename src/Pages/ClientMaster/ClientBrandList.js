@@ -29,7 +29,7 @@ const ClientBrandList = () => {
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
-  const supplier_products = GetTranslationData("UIAdmin", "supplier_products");
+  const supplier_products = GetTranslationData("UIAdmin", "clientbrandlist");
   const supplierBrandLists = GetTranslationData(
     "UIAdmin",
     "supplierBrandLists"
@@ -159,6 +159,13 @@ setCopySupplierBrandList(updatedSupplier);
       setCopySupplierBrandList(filteredSupplierList);
   },[searchQuery]);
 
+  const getSupplierName = (code) =>{
+  const filterData = Array.isArray(suppliers?.data) && suppliers?.data?.filter((item)=>{
+   return item.code === code
+  })
+  return filterData[0].name
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -243,7 +250,7 @@ setCopySupplierBrandList(updatedSupplier);
                                     .slice(startIndex, endIndex)
                                     .map((data, index) => (
                                       <tr key={index}>
-                                        <td>{data.id}</td>
+                                        <td>{getSupplierName(data.supplierCode)}</td>
                                         <td>{data.name}</td>
                                         <td>
                                           <div className="input-group mb-2 w-11">
