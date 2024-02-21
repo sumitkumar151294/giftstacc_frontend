@@ -19,6 +19,8 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
+  const activeUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => item?.enabled)?.length;
+  const inactiveUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => !item?.enabled)?.length;
     const SupplierBrandListUpdate = useSelector(
     (state) => state.supplierBrandListReducer
   );
@@ -103,7 +105,7 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
   const userData = [
     {
       status: "Active",
-      count: SupplierBrandList?.length,
+      count: activeUsersCount,
       className: "btn btn-success btn-sm btn-margin",
     },
     {
@@ -113,7 +115,7 @@ let filteredSupplierList =  Array.isArray(SupplierBrandList) && SupplierBrandLis
     },
     {
       status: "Deactive",
-      count: "0",
+      count: inactiveUsersCount,
       className: "btn btn-warning btn-sm btn-margin",
     },
     {
