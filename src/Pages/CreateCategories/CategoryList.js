@@ -27,9 +27,9 @@ const CategoryList = () => {
     (state) => state.supplierBrandListReducer.data
   );
   const headers = [
-    { label: "categoryName", key: "name" },
-    { label: "supplierName", key: "supplierId" },
-    { label: "supplierBrand", key: "supplierBrandId" },
+    { label: "Category Name", key: "name" },
+    { label: "Supplier Name", key: "supplierId" },
+    { label: "Supplier Brand Name", key: "supplierBrandId" },
   ];
 
   // To get the categories
