@@ -76,11 +76,10 @@ const SupplierProductList = () => {
 
   const endIndex = startIndex + rowsPerPage;
   const headers = [
-    { label: "id", key: "id" },
-    { label: "brands", key: "brands" },
-    { label: "supplier_Margin", key: "supplier_Margin" },
-    { label: "status", key: "status" },
-    { label: "action", key: "action" },
+    { label: "Id", key: "id" },
+    { label: "Brands", key: "brands" },
+    { label: "Supplier Margin", key: "supplier_Margin" },
+    { label: "Status", key: "status" },
   ];
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
@@ -192,8 +191,7 @@ const SupplierProductList = () => {
     id: data.id,
     brands: data.name,
     supplier_Margin: data.supplierMargin,
-    status: data.enabled,
-    action: data.enabled,
+    status: data.enabled ?"Active":"Non-active",
   }));
 
   return (
@@ -229,7 +227,7 @@ const SupplierProductList = () => {
                           <CSVLink
                             data={excelData}
                             headers={headers}
-                            filename={"SupplierBrandList.csv"}
+                            filename={"SupplierProductList.csv"}
                           >
                             <Button
                               className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
