@@ -161,10 +161,11 @@ const SupplierProductList = () => {
     const updatedValues = {
       id: data.id,
       supplierMargin: data?.supplierMargin,
-      clientCommission: data?.clientCommission,
-      customerDiscount: data?.customerDiscount,
-      clientId: data?.clientId,
-      enabled: data?.enabled
+      clientCommission:data?.clientCommission,
+      customerDiscount:data?.customerDiscount,
+      clientId:data?.clientId,
+      enabled:data?.enabled,
+      clientEnabled:data?.clientEnabled
     };
     setIsLoading(true);
     dispatch(onUpdateSupplierBrandList(updatedValues));
@@ -174,10 +175,11 @@ const SupplierProductList = () => {
     const updatedValues = {
       id: data.id,
       supplierMargin: data?.supplierMargin,
-      clientCommission: data?.clientCommission,
-      customerDiscount: data?.customerDiscount,
-      clientId: data?.clientId,
-      enabled: !data?.enabled
+      clientCommission:data?.clientCommission,
+      customerDiscount:data?.customerDiscount,
+      clientId:data?.clientId,
+      enabled:!data?.enabled,
+      clientEnabled:data?.clientEnabled
     };
     setIsLoading(true)
     dispatch(onUpdateSupplierBrandList(updatedValues));

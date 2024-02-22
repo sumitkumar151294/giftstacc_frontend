@@ -12,7 +12,6 @@ const Dropdown = ({ value, onChange, error, ariaLabel, className, options }) => 
      
         <option >Select</option>
         {options?.map((option, index) => (
-          console.log(option?.data),
           <option key={index} value={option.value} name={option?.data}>
             {option.label}
           </option>
