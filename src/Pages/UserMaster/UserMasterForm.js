@@ -80,12 +80,12 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     if (isClientRole) {
       setUserData(prevUserData => ({
         ...prevUserData,
-        clientRoleId: prevUserData.clientRoleId === id ? 1 : id,
+        clientRoleId: prevUserData.clientRoleId === id ? "" : id,
       }));
     } else {
       setUserData(prevUserData => ({
         ...prevUserData,
-        role: prevUserData.role === id ? 1 : id,
+        role: prevUserData.role === id ? "" : id,
       }));
     }
 
