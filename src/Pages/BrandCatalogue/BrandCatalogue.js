@@ -106,7 +106,7 @@ const BrandCatalogue = () => {
     setClientListData(tempClient);
   }, [clientList]);
   const handleClick = (data) => {
-    navigate("/lc-admin/brand-detail", { state: data });
+    navigate("/lc-user-admin/brand-detail", { state: data });
   };
   return (
     <>

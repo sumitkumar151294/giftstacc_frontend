@@ -63,6 +63,10 @@ function RouteConfiq() {
           element={<Layout Component={BrandCatalogue} />}
         />
         <Route
+          path="/lc-user-admin/brand-detail"
+          element={<Layout Component={BrandDetail} />}
+        />
+         <Route
           path="/lc-admin/brand-detail"
           element={<Layout Component={BrandDetail} />}
         />
