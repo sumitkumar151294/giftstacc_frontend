@@ -82,10 +82,7 @@ const BrandDetail = () => {
                         </div>
                       </div>
                       <div className="only-right mt-2">
-                        <a
-                          className="mr-10 on-link"
-                          href={""}
-                        >
+                        <a className="mr-10 on-link" href={""}>
                           {termsandconditions}
                         </a>
                         <a className="mr-10 on-link">{storelocator}</a>

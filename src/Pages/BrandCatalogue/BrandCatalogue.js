@@ -40,7 +40,6 @@ const BrandCatalogue = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  console.log(SupplierBrandList)
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
@@ -87,7 +86,6 @@ const BrandCatalogue = () => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
   }, []);
-
 
   const handleClick = (data) => {
     navigate("/lc-user-admin/brand-detail", { state: data });
@@ -145,9 +143,14 @@ const BrandCatalogue = () => {
                       onChange={(e) => handleChange(e, "supplier")}
                       value={supplierList.supplier || ""}
                       className="form-select"
-                      options={ Array.isArray(supplierMasterData) ?
-                        supplierMasterData?.map((item) => 
-                        ({ label: item.name, value: item.name })): []}
+                      options={
+                        Array.isArray(supplierMasterData)
+                          ? supplierMasterData?.map((item) => ({
+                              label: item.name,
+                              value: item.name,
+                            }))
+                          : []
+                      }
                     />
                   </div>
                   <div className="col-sm-3 form-group mb-2">
@@ -156,9 +159,14 @@ const BrandCatalogue = () => {
                       onChange={(e) => handleChange(e, "client")}
                       value={supplierList?.client || ""}
                       className="form-select"
-                      options={Array.isArray(clientList) ?
-                        clientList?.map((item) => 
-                    ({ label: item.name, value: item.name })) :[]}
+                      options={
+                        Array.isArray(clientList)
+                          ? clientList?.map((item) => ({
+                              label: item.name,
+                              value: item.name,
+                            }))
+                          : []
+                      }
                     />
                   </div>
                 </div>
@@ -216,24 +224,25 @@ const BrandCatalogue = () => {
                                 ))}
                             </tbody>
                           </table>
-                          {filteredBrandCatalogueList.length >5 &&
-                          <div className="pagination-container">
-                            <ReactPaginate
-                              previousLabel={"<"}
-                              nextLabel={" >"}
-                              breakLabel={"..."}
-                              pageCount={Math.ceil(
-                                filteredBrandCatalogueList.length / rowsPerPage
-                              )}
-                              marginPagesDisplayed={2}
-                              onPageChange={handlePageChange}
-                              containerClassName={"pagination"}
-                              activeClassName={"active"}
-                              initialPage={page - 1} // Use initialPage instead of forcePage
-                              previousClassName={page === 0 ? "disabled" : ""}
-                            />
-                          </div>
-}
+                          {filteredBrandCatalogueList.length > 5 && (
+                            <div className="pagination-container">
+                              <ReactPaginate
+                                previousLabel={"<"}
+                                nextLabel={" >"}
+                                breakLabel={"..."}
+                                pageCount={Math.ceil(
+                                  filteredBrandCatalogueList.length /
+                                    rowsPerPage
+                                )}
+                                marginPagesDisplayed={2}
+                                onPageChange={handlePageChange}
+                                containerClassName={"pagination"}
+                                activeClassName={"active"}
+                                initialPage={page - 1} // Use initialPage instead of forcePage
+                                previousClassName={page === 0 ? "disabled" : ""}
+                              />
+                            </div>
+                          )}
                         </>
                       ) : (
                         <NoRecord />
