@@ -84,7 +84,7 @@ const BrandDetail = () => {
                       <div className="only-right mt-2">
                         <a
                           className="mr-10 on-link"
-                          href={"https://woohooqa.app.link/e/4fGfr5LoB7"}
+                          href={""}
                         >
                           {termsandconditions}
                         </a>

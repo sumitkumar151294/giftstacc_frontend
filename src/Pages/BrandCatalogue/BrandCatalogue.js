@@ -34,25 +34,24 @@ const BrandCatalogue = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const [supplierListData, setSupplierListData] = useState([]);
-  const [clientListData, setClientListData] = useState([]);
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data
   );
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
+  console.log(SupplierBrandList)
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
   });
   const headers = [
-    { label: "sku", key: "sku" },
-    { label: "name", key: "name" },
-    { label: "minPrice", key: "minPrice" },
-    { label: "maxPrice", key: "maxPrice" },
-    { label: "price", key: "price" },
+    { label: "Sku", key: "sku" },
+    { label: "Name", key: "name" },
+    { label: "Min Price", key: "minPrice" },
+    { label: "Max Price", key: "maxPrice" },
+    { label: "Price", key: "price" },
   ];
 
   const handlePageChange = (selected) => {
@@ -89,22 +88,7 @@ const BrandCatalogue = () => {
     dispatch(onGetSupplierList());
   }, []);
 
-  useEffect(() => {
-    let tempSupplier = [];
-    Array.isArray(supplierMasterData) &&
-      supplierMasterData?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.name });
-      });
-    setSupplierListData(tempSupplier);
-  }, [supplierMasterData]);
-  useEffect(() => {
-    let tempClient = [];
-    Array.isArray(clientList) &&
-      clientList?.map((item) => {
-        tempClient.push({ label: item.name, value: item.name });
-      });
-    setClientListData(tempClient);
-  }, [clientList]);
+
   const handleClick = (data) => {
     navigate("/lc-user-admin/brand-detail", { state: data });
   };
@@ -161,7 +145,9 @@ const BrandCatalogue = () => {
                       onChange={(e) => handleChange(e, "supplier")}
                       value={supplierList.supplier || ""}
                       className="form-select"
-                      options={supplierListData}
+                      options={ Array.isArray(supplierMasterData) ?
+                        supplierMasterData?.map((item) => 
+                        ({ label: item.name, value: item.name })): []}
                     />
                   </div>
                   <div className="col-sm-3 form-group mb-2">
@@ -170,7 +156,9 @@ const BrandCatalogue = () => {
                       onChange={(e) => handleChange(e, "client")}
                       value={supplierList?.client || ""}
                       className="form-select"
-                      options={clientListData}
+                      options={Array.isArray(clientList) ?
+                        clientList?.map((item) => 
+                    ({ label: item.name, value: item.name })) :[]}
                     />
                   </div>
                 </div>
