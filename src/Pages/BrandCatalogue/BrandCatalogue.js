@@ -218,7 +218,6 @@ const BrandCatalogue = () => {
                                       {" "}
                                       <button
                                         onClick={() => handleClick(data)}
-                                        href="productdetail.html"
                                         className="btn btn-primary btn-sm bt-link float-right"
                                       >
                                         <i className="fa fa-info"></i>&nbsp;
@@ -229,6 +228,7 @@ const BrandCatalogue = () => {
                                 ))}
                             </tbody>
                           </table>
+                          {filteredBrandCatalogueList.length >5 &&
                           <div className="pagination-container">
                             <ReactPaginate
                               previousLabel={"<"}
@@ -245,6 +245,7 @@ const BrandCatalogue = () => {
                               previousClassName={page === 0 ? "disabled" : ""}
                             />
                           </div>
+}
                         </>
                       ) : (
                         <NoRecord />
