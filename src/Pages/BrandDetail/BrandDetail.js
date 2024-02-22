@@ -1,53 +1,19 @@
 import React from "react";
-import img from "../../Assets/img/pizz1.jpg";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import Button from "../../Components/Button/Button";
+import { useLocation } from "react-router-dom";
 
 const BrandDetail = () => {
-  const brandDetail = [
-    {
-      title: "Amazon Shopping",
-      id: "SKU ID - 5621335",
-      description:
-        "An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms. An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.",
-      type: "DIGITAL",
-      pricerange: "₹10 - ₹10000",
-      pricedenomination: "100,200,300,400,500",
-    },
-  ];
-
-  const priceDenomination = [
-    {
-      pd1: "₹100",
-      pd2: "₹200",
-      pd3: "₹300",
-      pd4: "₹400",
-      pd5: "₹500",
-    },
-  ];
-
-  const description = [
-    {
-      title1: "Terms and Conditions",
-      title2: "Redemption Terms",
-      heading1: "1 - Redemption Information",
-      heading2: "2 - In Store Information",
-      TermsandConditions:
-        "An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms. An AmaAn Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms. An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.zon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms. An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms. An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.",
-      RedemptionInformation:
-        "An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.",
-      InStoreInformation:
-        "An Amazon Shopping Voucher is a prepaid payment instrument that can be used to purchase physical products from Amazon. An Amazon Shopping Voucher has an expiry of 12 months from the date of activation, subject to applicable terms.",
-    },
-  ];
-
+  const location = useLocation();
+  const data = location.state;
   const type = GetTranslationData("UIAdmin", "type");
   const pricerange = GetTranslationData("UIAdmin", "pricerange");
   const pricedenominations = GetTranslationData(
     "UIAdmin",
     "pricedenominations"
   );
+  const sku = GetTranslationData("UIAdmin", "sku");
   const termsandconditions = GetTranslationData(
     "UIAdmin",
     "termsandconditions"
@@ -64,84 +30,64 @@ const BrandDetail = () => {
               <div className="card">
                 <div className="card-body pt-4">
                   <div className="menu-product d-flex">
-                    <img src={img} />
+                    <img src={data.thumbnail} />
                     <div className="content-detail-wrap">
-                      {brandDetail.map((data, index) => (
-                        <div key={index}>
+                      <div>
+                        <div>
+                          <h4 className="head-style">
+                            <strong>{data?.name}</strong>
+                          </h4>
+                          <span className="fs-14 me-2">{sku} ID -</span>
+                          <span style={{ color: "#969ba0" }}>{data.sku}</span>
+                        </div>
+                        <p className="mt-1 clr-blk">{data.description}</p>
+                        <h5 className="mb-0">
+                          <span className="fs-14 me-2">{type} - </span>
+                          <strong className="text-danger txt">
+                            {data.type}
+                          </strong>
+                        </h5>
+                        <div className="d-flex justify-content-between mt-2">
+                          <div className="mt-3">
+                            <h6>{pricerange}</h6>
+                            <h4>{data.price}</h4>
+                          </div>
                           <div>
-                            <h4 className="head-style">
-                              <strong>{data.title}</strong>
-                            </h4>
-                            <span style={{ color: "#969ba0" }}>{data.id}</span>
-                          </div>
-                          <p className="mt-1 clr-blk">{data.description}</p>
-                          <h5 className="mb-0">
-                            <span className="fs-14 me-2">{type} - </span>
-                            <strong className="text-danger txt">
-                              {data.type}
-                            </strong>
-                          </h5>
-                          <div className="d-flex justify-content-between mt-2">
-                            <div className="mt-3">
-                              <h6>{pricerange}</h6>
-                              <h4>{data.pricerange}</h4>
-                            </div>
-                            <div>
-                              <h6>{pricedenominations}</h6>
-                              {priceDenomination.map((data, index) => (
-                                <div key={index} className="d-flex justify-content-between">
-                                  <Button
-                                    type="button"
-                                    className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                    text={data.pd1}
-                                  />
-                                  <Button
-                                    type="button"
-                                    className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                    text={data.pd2}
-                                  />
-                                  <Button
-                                    type="button"
-                                    className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                    text={data.pd3}
-                                  />
-                                  <Button
-                                    type="button"
-                                    className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                    text={data.pd4}
-                                  />
-                                  <Button
-                                    type="button"
-                                    className="btn btn-rounded btn-secondary btn-sm mr-10"
-                                    text={data.pd5}
-                                  />
-                                </div>
-                              ))}
+                            <h6>{pricedenominations}</h6>
+                            <div className="d-flex justify-content-between">
+                              <Button
+                                type="button"
+                                className="btn btn-rounded btn-secondary btn-sm mr-10"
+                                text={data.priceDenominations}
+                              />
                             </div>
                           </div>
                         </div>
-                      ))}
-                      {description.map((data, index) => (
-                        <div key={index}>
-                          <div className="tc mt-2">
-                            <h6>{data.title1}</h6>
-                            <p>{data.TermsandConditions}</p>
-                          </div>
-                          <div className=" tc mt-2">
-                            <h6>{data.title2}</h6>
-                            <h6>
-                              <strong>{data.heading1}</strong>
-                            </h6>
-                            <p>{data.RedemptionInformation}</p>
-                            <h6>
-                              <strong>{data.heading2}</strong>
-                            </h6>
-                            <p>{data.InStoreInformation}</p>
-                          </div>
+                      </div>
+                      <div>
+                        <div className="tc mt-2">
+                          <h6>{termsandconditions}</h6>
+                          <p>{data.tncContent}</p>
                         </div>
-                      ))}
+                        <div className=" tc mt-2">
+                          <h6>{data.title2}</h6>
+                          <h6>
+                            <strong>{data.heading1}</strong>
+                          </h6>
+                          <p>{data.RedemptionInformation}</p>
+                          <h6>
+                            <strong>{data.heading2}</strong>
+                          </h6>
+                          <p>{data.InStoreInformation}</p>
+                        </div>
+                      </div>
                       <div className="only-right mt-2">
-                        <a className="mr-10 on-link">{termsandconditions}</a>
+                        <a
+                          className="mr-10 on-link"
+                          href={"https://woohooqa.app.link/e/4fGfr5LoB7"}
+                        >
+                          {termsandconditions}
+                        </a>
                         <a className="mr-10 on-link">{storelocator}</a>
                       </div>
                     </div>
