@@ -34,8 +34,8 @@ const CategoryForm = ({ setIsLoading }) => {
     supplierBrandId: "",
   });
   const [createCategory, setCreateCategory] = useState({
-    supplierId: null,
-    supplierBrandId: null,
+    supplierId: "",
+    supplierBrandId: "",
     name: "",
   });
   const getCategoriesData = useSelector(
@@ -84,12 +84,17 @@ const CategoryForm = ({ setIsLoading }) => {
         supplierList.push({ label: item.name, value: item.id });
       });
     setSupplierBrandListData(supplierList);
-    }
     setCreateCategory({
       ...createCategory,
+      supplierBrandId: "",
       [fieldName]: e.target.value,
     });
-
+    }else{
+      setCreateCategory({
+        ...createCategory,
+        [fieldName]: e.target.value,
+      });
+    }
     setErrors({
       ...errors,
       [fieldName]: "",

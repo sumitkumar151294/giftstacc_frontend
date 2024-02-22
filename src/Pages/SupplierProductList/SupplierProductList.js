@@ -15,16 +15,16 @@ import Loader from "../../Components/Loader/Loader";
 
 const SupplierProductList = () => {
   const dispatch = useDispatch();
+  const [selectedSupplierCode, setSelectedSupplierCode] = useState("Select");
   const [isLoading, setIsLoading] = useState(false);
   const [supplierList, setSupplierList] = useState([]);
   const [copySupplierBrandList, setCopySupplierBrandList] = useState([]);
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  console.log("SupplierBrandList", SupplierBrandList);
   const activeUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => item?.enabled)?.length;
   const inactiveUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => !item?.enabled)?.length;
-    const SupplierBrandListUpdate = useSelector(
+  const SupplierBrandListUpdate = useSelector(
     (state) => state.supplierBrandListReducer
   );
   const suppliers = useSelector((state) => state.supplierMasterReducer);
@@ -63,7 +63,6 @@ const SupplierProductList = () => {
     }
   }, [SupplierBrandListUpdate])
 
-
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -96,13 +95,14 @@ const SupplierProductList = () => {
   }, [suppliers]);
 
   const handleChange = (e) => {
-    if (e.target.value === "Select") {
-      setCopySupplierBrandList(SupplierBrandList)
+    const selectedSupplierCode = e.target.value;
+    if (selectedSupplierCode === "Select") {
+      setCopySupplierBrandList(SupplierBrandList);
     } else {
       let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
-        vendor?.supplierCode.toLowerCase().includes(e.target?.value.toLowerCase())
+        vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase()
       );
-      setCopySupplierBrandList(filteredSupplierList)
+      setCopySupplierBrandList(filteredSupplierList);
     }
   };
 
@@ -140,14 +140,8 @@ const SupplierProductList = () => {
     }
   };
 
-
-
-
   const handleInputChange = (e, ids) => {
     const newValue = e.target.value < 0 ? 0 : e.target.value;
-
-
-
     const updatedSupplier = copySupplierBrandList.map(item => {
       if (item.id === ids) {
         return { ...item, supplierMargin: newValue };
@@ -161,11 +155,11 @@ const SupplierProductList = () => {
     const updatedValues = {
       id: data.id,
       supplierMargin: data?.supplierMargin,
-      clientCommission:data?.clientCommission,
-      customerDiscount:data?.customerDiscount,
-      clientId:data?.clientId,
-      enabled:data?.enabled,
-      clientEnabled:data?.clientEnabled
+      clientCommission: data?.clientCommission,
+      customerDiscount: data?.customerDiscount,
+      clientId: data?.clientId,
+      enabled: data?.enabled,
+      clientEnabled: data?.clientEnabled
     };
     setIsLoading(true);
     dispatch(onUpdateSupplierBrandList(updatedValues));
@@ -175,11 +169,11 @@ const SupplierProductList = () => {
     const updatedValues = {
       id: data.id,
       supplierMargin: data?.supplierMargin,
-      clientCommission:data?.clientCommission,
-      customerDiscount:data?.customerDiscount,
-      clientId:data?.clientId,
-      enabled:!data?.enabled,
-      clientEnabled:data?.clientEnabled
+      clientCommission: data?.clientCommission,
+      customerDiscount: data?.customerDiscount,
+      clientId: data?.clientId,
+      enabled: !data?.enabled,
+      clientEnabled: data?.clientEnabled
     };
     setIsLoading(true)
     dispatch(onUpdateSupplierBrandList(updatedValues));
@@ -187,18 +181,19 @@ const SupplierProductList = () => {
 
   useEffect(() => {
     let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
-      vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
+      vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase()) &&
+      (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
     );
     setCopySupplierBrandList(filteredSupplierList);
-  }, [searchQuery]);
+  }, [searchQuery, selectedSupplierCode]);
 
   // excel data to print
   const excelData = SupplierBrandList.map(data => ({
-    id:data.id,
+    id: data.id,
     brands: data.name,
-    supplier_Margin :data.supplierMargin,
-    status:data.enabled, 
-    action:data.enabled,
+    supplier_Margin: data.supplierMargin,
+    status: data.enabled,
+    action: data.enabled,
   }));
 
   return (
@@ -254,7 +249,10 @@ const SupplierProductList = () => {
                         <Dropdown
                           className="form-select"
                           aria-label="Default select example"
-                          onChange={(e) => handleChange(e, "status")}
+                          onChange={(e) => {
+                            setSelectedSupplierCode(e.target.value);
+                            handleChange(e);
+                          }}
                           options={supplierList}
                         />
                       </div>
