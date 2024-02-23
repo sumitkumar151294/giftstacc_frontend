@@ -21,6 +21,8 @@
 @import './Pages/SupplierProductList';
 @import './pages/SupplierMasterForm';
 @import './Pages//ClientAdmin/CMS';
+@import './Pages/OfferMasterForm';
+@import './Pages/OfferMasterList';
 
 @import './Utility/Card';
 @import './Utility/Rows';
@@ -31,6 +33,7 @@
 @import './Utility/Margin';
 @import './Utility/Padding';
 @import './Utility/Table';
+
 
 :root {
   --primary-green:#55bc49;
