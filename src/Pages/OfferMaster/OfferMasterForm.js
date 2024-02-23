@@ -7,8 +7,8 @@ import Button from "../../Components/Button/Button";
 const OfferMasterForm = () =>{
   const [addData, setAddData]=useState({
     placement: '',
-    fname: '',
-    lname: '',
+    title: '',
+    subtitle: '',
     link: '',
     displayOrder: '',
     image: null,
@@ -16,7 +16,7 @@ const OfferMasterForm = () =>{
   })
   const [errors, setErrors] = useState({
     placement: '',
-    fname: '',
+    title: '',
     lname: '',
     link: '',
     displayOrder: '',
@@ -81,7 +81,7 @@ const OfferMasterForm = () =>{
                                   <form onSubmit={handleSubmit}>
                                     <div className="row">
                                       <div className="col-sm-3 form-group mb-2">
-                                        <label htmlFor="status">{GetTranslationData("UIClient","placement")}    <span className="text-danger">*</span>
+                                        <label htmlFor="placement">{GetTranslationData("UIClient","placement")}    <span className="text-danger">*</span>
                                         </label>
                                         <Dropdown
                                           error=""
@@ -95,45 +95,45 @@ const OfferMasterForm = () =>{
                                         />
                                       </div>
                                       <div className="col-sm-5 form-group mb-2">
-                                        <label htmlFor="name-f">{GetTranslationData("UIClient", "title")}
+                                        <label htmlFor="title">{GetTranslationData("UIClient", "title")}
                                           <span className="text-danger">*</span>
                                         </label>
                                         <InputField
                                           type="text"
-                                          value={addData.fname}
-                                          onChange={(e) => handleInputChange(e, "fname")}
-                                          className={` ${errors.fname
+                                          value={addData.title}
+                                          onChange={(e) => handleInputChange(e, "title")}
+                                          className={` ${errors.title
                                             ? "border-danger"
                                             : "form-control"
                                             }`}
-                                          name="fname"
-                                          id="name-f"
+                                          name="title"
+                                          id="title"
                                           placeholder=""
                                         />
                                       </div>
                                       <div className="col-sm-4 form-group mb-2">
-                                        <label htmlFor="name-l">{GetTranslationData("UIClient", "sub-title")}
+                                        <label htmlFor="subtitle">{GetTranslationData("UIClient", "sub-title")}
                                            <span className="text-danger">*</span>
                                         </label>
                                         <InputField
                                           type="text"
                                           value={addData.lname}
-                                          onChange={(e) => handleInputChange(e, "lname")}
-                                          className={` ${errors.lname
+                                          onChange={(e) => handleInputChange(e, "subtitle")}
+                                          className={` ${errors.subtitle
                                             ? "border-danger"
                                             : "form-control"
                                             }`}
-                                          name="lname"
-                                          id="name-l"
+                                          name="subtitle"
+                                          id="subtitle"
                                           placeholder=""
                                         />
                                       </div>
                                       <div className="col-sm-5 form-group mb-2">
-                                        <label htmlFor="email">{GetTranslationData("UIClient","link_label")}
+                                        <label htmlFor="link">{GetTranslationData("UIClient","link_label")}
                                           <span className="text-danger">*</span>
                                         </label>
                                         <InputField
-                                          type="url"
+                                          type="text"
                                           value={addData.link}
                                           onChange={(e) => handleInputChange(e, "link")}
                                           className={` ${errors.link
@@ -146,7 +146,7 @@ const OfferMasterForm = () =>{
                                         />
                                       </div>
                                       <div className="col-sm-3 form-group mb-2">
-                                        <label htmlFor="email">{GetTranslationData("UIClient", "display-order")}
+                                        <label htmlFor="displayOrder">{GetTranslationData("UIClient", "display-order")}
                                            <span className="text-danger">*</span>
                                         </label>
                                         <InputField
@@ -163,11 +163,10 @@ const OfferMasterForm = () =>{
                                         />
                                       </div>
                                       <div className="col-sm-4 form-group mb-2">
-                                        <label htmlFor="pass">{GetTranslationData("UIClient", "uploadImage")}
+                                        <label htmlFor="image">{GetTranslationData("UIClient", "uploadImage")}
                                           <span className="text-danger">*</span>
                                         </label>
-                                        <div className="input-group"
-                                                >
+                                        <div className="input-group">
                                           <div className="form-file">
                                             <InputField
                                               type="file"
