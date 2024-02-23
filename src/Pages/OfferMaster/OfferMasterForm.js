@@ -17,7 +17,7 @@ const OfferMasterForm = () =>{
   const [errors, setErrors] = useState({
     placement: '',
     title: '',
-    lname: '',
+    subtitle: '',
     link: '',
     displayOrder: '',
     image: null,
