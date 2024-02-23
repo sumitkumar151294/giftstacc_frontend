@@ -43,10 +43,11 @@ const SupplierMasterList = () => {
   );
 
   const headers = [
-    { label: "id", key: "id" },
-    { label: "name", key: "name" },
-    { label: "balanceAvailable", key: "creditAmount" },
-    { label: "minThresholdAmount", key: "balanceThresholdAmount" },
+    { label: "Id", key: "id" },
+    { label: "Name", key: "name" },
+    { label: "Balance Available", key: "creditAmount" },
+    { label: "Min Threshold Amount", key: "balanceThresholdAmount" },
+    { label: "Status", key: "status" },
   ];
 
   const [rowsPerPage] = useState(5);
@@ -93,6 +94,7 @@ const SupplierMasterList = () => {
       enabled: false,
     };
     setIsDelete(true);
+    setIsLoading(true);
     dispatch(onUpdateSupplierList(deletedData));
   };
 
@@ -111,6 +113,17 @@ const SupplierMasterList = () => {
         )
       )
     : [];
+
+   
+    // excel data 
+    const excelData = Array.isArray(supplierMasterData?.data) && supplierMasterData?.data?.map(data => ({
+      id:data.id,
+      name:data.name,
+      creditAmount:data.creditAmount,
+      balanceThresholdAmount:data.balanceThresholdAmount,
+      status: data.enabled ? 'Active' : 'Non-active'
+    }));
+
   return (
     <>
       <SupplierMasterForm
@@ -118,6 +131,8 @@ const SupplierMasterList = () => {
         setData={setVendorData}
         isDelete={isDelete}
         setIsDelete={setIsDelete}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
       <div className="container-fluid pt-0">
         <div className="row">
@@ -145,9 +160,7 @@ const SupplierMasterList = () => {
                               onChange={handleSearch}
                             />
                             <span className="input-group-text">
-                              <a href="#">
-                                <i className="flaticon-381-search-2"></i>
-                              </a>
+                              <i className="fa fa-search"></i>
                             </span>
                           </div>
                         </div>
@@ -157,7 +170,7 @@ const SupplierMasterList = () => {
                         {supplierMasterData &&
                           supplierMasterData?.data.length > 0 && (
                             <CSVLink
-                              data={supplierMasterData?.data}
+                              data={excelData}
                               headers={headers}
                               filename={"SupplierMaster.csv"}
                             >

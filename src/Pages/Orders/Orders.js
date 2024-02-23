@@ -412,9 +412,7 @@ const Orders = () => {
                           onChange={handleSearch}
                         />
                         <span className="input-group-text">
-                          <a href="#">
-                            <i className="flaticon-381-search-2"></i>
-                          </a>
+                          <i className="fa fa-search"></i>
                         </span>
                       </div>
                     </div>
