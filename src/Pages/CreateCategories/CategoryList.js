@@ -22,11 +22,14 @@ const CategoryList = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
-  const supplierMaster = useSelector((state) => state?.supplierMasterReducer?.data)
+  const supplierMaster = useSelector((state) => state?.supplierMasterReducer?.data);
+  const supplierBrandData = useSelector(
+    (state) => state.supplierBrandListReducer.data
+  );
   const headers = [
-    { label: "categoryName", key: "name" },
-    { label: "supplierName", key: "description" },
-    { label: "supplierBrand", key: "vendorName" },
+    { label: "Category Name", key: "name" },
+    { label: "Supplier Name", key: "supplierId" },
+    { label: "Supplier Brand Name", key: "supplierBrandId" },
   ];
 
   // To get the categories
@@ -67,7 +70,7 @@ const CategoryList = () => {
       )
     )
     : [];
-
+ 
   useEffect(() => {
     if (getCategoryData) {
       setIsLoading(false);
@@ -101,6 +104,17 @@ const CategoryList = () => {
     const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
     return supplier ? supplier.name : '';
   };  
+   // To get the Supplier Brand Name in the Category List 
+  const getSupplierBrand = (supplierBrandId) => {
+    const supplier = Array.isArray(supplierBrandData) && supplierBrandData.find((s) => s.id === supplierBrandId);
+    return supplier ? supplier.name : '';
+  };  
+  const namesArray = filteredCategoryList.map(data => ({
+    name: data.name,
+    supplierId: getSupplierName(data.supplierId),
+    supplierBrandId: getSupplierBrand(data.supplierBrandId),
+  }));
+  
   return (
     <>
       <ScrollToTop />
@@ -128,9 +142,7 @@ const CategoryList = () => {
                           onChange={handleSearch}
                         />
                         <span className="input-group-text">
-                          <Link>
-                            <i className="flaticon-381-search-2"></i>
-                          </Link>
+                        <i className="fa fa-search"></i>
                         </span>
                       </div>
                     )}
@@ -138,7 +150,7 @@ const CategoryList = () => {
                   <div className="d-flex align-items-center flex-wrap">
                     {getCategoryData && getCategoryData.length > 0 && (
                       <CSVLink
-                        data={filteredCategoryList}
+                        data={namesArray}
                         headers={headers}
                         filename={"Category.csv"}
                       >
@@ -179,8 +191,7 @@ const CategoryList = () => {
                             <tr key={data.id}>
                               <td>{data.name}</td>
                               <td>{getSupplierName(data.supplierId)}</td>
-                              <td>{data.supplierId}</td>
-                              <td>{data.supplierBrandId}</td>
+                              <td>{getSupplierBrand(data.supplierBrandId)}</td>
                               <td>
                                 <div className="d-flex">
                                   <Link
@@ -196,7 +207,7 @@ const CategoryList = () => {
                           ))}
                       </tbody>
                     </table>
-                    {/* {filteredCategoryList > 5 && ( */}
+                    {filteredCategoryList.length > 5 && (
                       <div className="pagination-container">
                         <ReactPaginate
                           previousLabel={"<"}
@@ -213,7 +224,7 @@ const CategoryList = () => {
                           previousClassName={page === 1 ? "disabled" : ""}
                         />
                       </div>
-                    {/* )} */}
+                   )} 
 
                   </div>
                 ) : (

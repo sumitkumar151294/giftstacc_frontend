@@ -70,14 +70,23 @@ const ClientMasterList = () => {
     };
     dispatch(onUpdateClientMasterSubmit(deletedData));
   };
-
+  
   const headers = [
-    { label: clientList, key: "name" },
-    { label: "number", key: "number" },
-    { label: "email", key: "email" },
-    { label: "id", key: "id" },
-    { label: "status", key: "status" },
+    { label: "Client Id", key: "clientID" },
+    { label: "Contact Name", key: "contactName" },
+    { label: "Contact Number", key: "contactNumber" },
+    { label: "Contact Email", key: "contactEmail" },
+    { label: "Status", key: "status" }
   ];
+
+   // excel data to print
+   const excelData = Array.isArray(clientList?.clientData) && clientList?.clientData?.map(data => ({
+    contactName: data.name,
+    contactNumber: data.number,
+    contactEmail: data.email  ,
+    clientID: data.id,
+    status: data.enabled ?"Active":"Non-active",
+  }));
 
   const filteredClientList = Array.isArray(clientList?.clientData)
     ? clientList?.clientData.filter((vendor) =>
@@ -125,14 +134,14 @@ const ClientMasterList = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                        <i className="flaticon-381-search-2"></i>
+                        <i className="fa fa-search"></i>
                       </span>
                     </div>
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     {clientList?.clientData && clientList?.clientData?.length > 0 && (
                       <CSVLink
-                        data={clientList?.clientData}
+                        data={excelData}
                         headers={headers}
                         filename={"ClientMaster.csv"}
                       >

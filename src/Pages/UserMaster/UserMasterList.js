@@ -105,8 +105,20 @@ const UserMasterList = () => {
                           .map((item, index) => (
                             <tr key={index}>
                               <td>
-                                {getNameById(item?.adminRoleId)}{" "}
-                                {getNameById(item?.clientRoleId)}
+                              <span
+                                        className="badge badge-success mr-10"
+                                        key={index}
+                                      >
+                                       {getNameById(item?.adminRoleId)}
+                                      </span>
+                              <span
+                                        className="badge badge-success mr-10"
+                                        key={index}
+                                      >
+                                      {getNameById(item?.clientRoleId)}
+                                      </span>
+                                
+                                
                               </td>
                               <td>{item.email}</td>
                               <td>{item.mobile}</td>

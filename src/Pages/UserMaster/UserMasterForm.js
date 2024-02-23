@@ -73,24 +73,22 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     });
   }, [prefilledValues]);
 
-
   const handleRoleId = (e, id) => {
     const filteredData = roleList?.userRoleData?.filter(item => item.id === id);
     const isClientRole = filteredData[0].isClientPlatformRole;
     if (isClientRole) {
       setUserData(prevUserData => ({
         ...prevUserData,
-        clientRoleId: prevUserData.clientRoleId === id ? 1 : id,
+        clientRoleId: prevUserData.clientRoleId === id ? "" : id,
       }));
     } else {
       setUserData(prevUserData => ({
         ...prevUserData,
-        role: prevUserData.role === id ? 1 : id,
+        role: prevUserData.role === id ? "" : id,
       }));
     }
 
   };
-
 
   // to get role module access list
   const handleChange = (e, fieldName) => {
@@ -370,13 +368,15 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{role}</label>
+                          {/* client  */}
                           <div className="row ml-4">
-                            {Array.isArray(roleList?.userRoleData) && roleList?.userRoleData?.map((item) => (
-                              <div
-                                key={item?.id}
-                                className="form-check mt-2 col-lg-3"
+                            <label  className="role_name_bold" htmlFor="name-f">{client1}</label>
+                            {Array.isArray(roleList?.userRoleData) && roleList?.userRoleData?.map((item)  => (
+                             (item.isClientPlatformRole) &&
+                             ( <div
+                              key={item?.id}
+                              className="form-check mt-2 col-lg-3"
                               >
-
                                 <InputField
                                   id={item.id}
                                   type="checkbox"
@@ -385,20 +385,45 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                                   value={item.id}
                                   checked={(userData?.role === item.id || userData?.clientRoleId === item.id)}
                                   onChange={(e) => handleRoleId(e, item.id)}
-                                />
-
+                                  />
                                 <label
                                   className="form-check-label"
                                   htmlFor={item.id}
                                 >
                                   {item.name}
-                                  (
-                                  {item.isClientPlatformRole === true
-                                    ? `${client1}`
-                                    : `${admin}`}
-                                  )
+                                 
                                 </label>
-                              </div>
+                              </div>)
+
+                            ))}
+                            <p className="text-danger">{errors.clientRoleId}</p>
+                          </div>
+                          {/* admin */}
+                          <div className="row ml-4">
+                            <label className="role_name_bold" htmlFor="name-f">{admin}</label>
+                            {Array.isArray(roleList?.userRoleData) && roleList?.userRoleData?.map((item)  => (
+                             (!item.isClientPlatformRole) &&
+                             ( <div
+                              key={item?.id}
+                              className="form-check mt-2 col-lg-3"
+                              >
+                                <InputField
+                                  id={item.id}
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  name="role"
+                                  value={item.id}
+                                  checked={(userData?.role === item.id || userData?.clientRoleId === item.id)}
+                                  onChange={(e) => handleRoleId(e, item.id)}
+                                  />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor={item.id}
+                                >
+                                  {item.name}
+                                  
+                                </label>
+                              </div>)
 
                             ))}
                             <p className="text-danger">{errors.clientRoleId}</p>

@@ -18,13 +18,11 @@ import Button from "../../Components/Button/Button";
 
 const CategoryForm = ({ setIsLoading }) => {
   const dispatch = useDispatch();
-  const [supplierListData, setSupplierListData] = useState([]);
-  const supplierBrandData = [
-    {
-      id: "1",
-      name: "API SANDBOX B2B",
-    }
-  ];
+  const [supplierBrandListData, setSupplierBrandListData] = useState([]);
+
+  const supplierBrandData = useSelector(
+    (state) => state.supplierBrandListReducer.data
+  );
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
@@ -56,15 +54,6 @@ const CategoryForm = ({ setIsLoading }) => {
     dispatch(onGetSupplierBrandList());
   }, []);
 
-  useEffect(() => {
-    let tempSupplier = [];
-    Array.isArray(supplierMasterData) &&
-      supplierMasterData?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.id });
-      });
-    setSupplierListData(tempSupplier);
-  }, [supplierMasterData]);
-
   // To get the dropdown values of Supplier Name
   // To get the labels form Api/Database
   const createUpdateBrandMapping = GetTranslationData(
@@ -86,14 +75,26 @@ const CategoryForm = ({ setIsLoading }) => {
   );
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const field_Required = GetTranslationData("UIAdmin", "field_Required");
-  const error_Occurred = GetTranslationData("UIAdmin", "error_Occurred");
 
   const handleChange = (e, fieldName) => {
+    if(fieldName==="supplierId"){
+      let supplierList = [];
+    Array.isArray(supplierBrandData) &&
+      supplierBrandData?.filter(item=>{return item.supplierCode === e.target.selectedOptions.item('').getAttribute('name')}).map((item) => {
+        supplierList.push({ label: item.name, value: item.id });
+      });
+    setSupplierBrandListData(supplierList);
     setCreateCategory({
       ...createCategory,
+      supplierBrandId: "",
       [fieldName]: e.target.value,
     });
-
+    }else{
+      setCreateCategory({
+        ...createCategory,
+        [fieldName]: e.target.value,
+      });
+    }
     setErrors({
       ...errors,
       [fieldName]: "",
@@ -102,10 +103,8 @@ const CategoryForm = ({ setIsLoading }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     let isValid = true;
     const newErrors = { ...errors };
-
     for (const key in createCategory) {
       if (createCategory[key] === "") {
         newErrors[key] = { field_Required };
@@ -114,9 +113,7 @@ const CategoryForm = ({ setIsLoading }) => {
         newErrors[key] = "";
       }
     }
-
     setErrors(newErrors);
-
     if (isValid) {
       try {
         setIsLoading(true);
@@ -124,17 +121,7 @@ const CategoryForm = ({ setIsLoading }) => {
       } catch (error) {
       }
     }
-
   };
-  useEffect(() => {
-    if (getCategoriesData?.post_status_code === "201") {
-      setIsFormLoading(false);
-      toast.success(getCategoriesData?.postMessage);
-      dispatch(onPostCategoryReset());
-      dispatch(onGetCategory());
-      setCreateCategory(resetCategoryFields);
-    }
-  }, [getCategoriesData])
 
   useEffect(() => {
     if (getCategoriesData?.post_status_code === "500") {
@@ -143,18 +130,21 @@ const CategoryForm = ({ setIsLoading }) => {
       dispatch(onPostCategoryReset());
       dispatch(onGetCategory());
       setCreateCategory(resetCategoryFields);
-    }
-  }, [getCategoriesData])
-
-  useEffect(() => {
-    if (getCategoriesData.update_status_code === "201") {
+    }else if (getCategoriesData.update_status_code === "201") {
       setIsFormLoading(false);
       toast.success(getCategoriesData?.updateMessage);
       dispatch(onUpdateCategoryReset());
       dispatch(onGetCategory());
       setCreateCategory(resetCategoryFields);
+    }else if (getCategoriesData?.post_status_code === "201") {
+      setIsFormLoading(false);
+      toast.success(getCategoriesData?.postMessage);
+      dispatch(onPostCategoryReset());
+      dispatch(onGetCategory());
+      setCreateCategory(resetCategoryFields);
     }
-  }, [getCategoriesData]);
+  }, [getCategoriesData])
+
   return (
     <>
       <ScrollToTop />
@@ -203,11 +193,12 @@ const CategoryForm = ({ setIsLoading }) => {
                             onChange={(e) => handleChange(e, "supplierId")}
                             error={errors.supplierId}
                             ariaLabel="Select"
+                            value={createCategory.supplierId}
                             className={` ${errors.supplierId
                               ? "border-danger"
                               : "form-select"
-                              }`}
-                            options={supplierListData}
+                              }`}
+                            options={Array.isArray(supplierMasterData) ? supplierMasterData?.map((supplier) => ({ label: supplier.name, value: supplier.id,data:supplier.code })):[]}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -218,13 +209,13 @@ const CategoryForm = ({ setIsLoading }) => {
                           <Dropdown
                             onChange={(e) => handleChange(e, "supplierBrandId")}
                             error={errors.supplierBrandId}
+                            value={createCategory.supplierBrandId}
                             ariaLabel="Select"
                             className={` ${errors.supplierBrandId
                               ? "border-danger"
                               : "form-select"
-                              }`}
-                            // options={supplierBrandData}
-                            options={supplierBrandData.map((brand) => ({ value: brand.id, label: brand.name }))}
+                              }`}
+                            options={supplierBrandListData}
                           />
                         </div>
                       </div>
