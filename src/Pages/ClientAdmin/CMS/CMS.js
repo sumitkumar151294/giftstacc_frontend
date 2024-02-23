@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { onCmsSubmit } from "../../../Store/Slices/cmsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const CMS = () => {
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.cmsReducer)
   const [cmsData, setCmsData] = useState({
     pageName: "",
     shortDescription: "",
@@ -17,12 +21,20 @@ const CMS = () => {
   const handleChange = (e, fieldName) => {
     setCmsData({
       ...cmsData,
-      [fieldName]: e.target.value,
+      [fieldName]: e.target?.value,
     });
+
     // Remove the error message when the user starts typing
     setErrors({
       ...errors,
       [fieldName]: "",
+    });
+  };
+
+  const handleHTMLChange = (html) => {
+    setCmsData({
+      ...cmsData,
+      longDescription: html,
     });
   };
 
@@ -41,14 +53,21 @@ const CMS = () => {
     }
     setErrors(newErrors);
 
-    // if (isValid) {
-    //   dispatch(onCmsSubmit(cmsData));
-    // }
+   // if (isValid) {
+      dispatch(onCmsSubmit(cmsData));
+
+    //}
   };
-  const PageNames = ["About us",
-    "Privacy Policy", "Terms and Conditions", "LC Loyality Program"]
 
-
+  useEffect(()=>{
+    data.message
+  }, [data])
+  const PageNames = [
+    "About us",
+    "Privacy Policy",
+    "Terms and Conditions",
+    "LC Loyality Program",
+  ];
 
   const array = [
     { name: "John", age: 30, profession: "Engineer" },
@@ -60,12 +79,11 @@ const CMS = () => {
     { name: "Daniel", age: 45, profession: "Lawyer" },
     { name: "Emma", age: 33, profession: "Architect" },
     { name: "Olivia", age: 29, profession: "Nurse" },
-    { name: "Matthew", age: 27, profession: "Entrepreneur" }
+    { name: "Matthew", age: 27, profession: "Entrepreneur" },
   ];
 
   return (
     <>
-
       {/* {!isLoading ? (
           <Loader />
         ) : ( */}
@@ -74,8 +92,9 @@ const CMS = () => {
           <div class="col-xl-12 col-xxl-12">
             <div class="card">
               <div class="card-header d-flex justify-content-between">
-                <h4 class="card-title">CMS</h4>
-
+                <h4 class="card-title">
+                  {GetTranslationData("UIClient", "cms")}
+                </h4>
                 <div class="dropdown-side">
                   <div class="form-group mb-2">
                     <select
@@ -89,14 +108,13 @@ const CMS = () => {
                         Select Page Name &nbsp;
                         <i class="fa fa-angle-down"></i>
                       </option>
-                      {
-                        PageNames.map((Option, index) =>
-                          <option key={index} value={Option}>{Option}
-                            &nbsp;
-                            <i class="fa fa-angle-down"></i>
-                          </option>
-                        )
-                      }
+                      {PageNames.map((Option, index) => (
+                        <option key={index} value={Option}>
+                          {Option}
+                          &nbsp;
+                          <i class="fa fa-angle-down"></i>
+                        </option>
+                      ))}
                     </select>
                     <p className="text-danger">{errors.pageName}</p>
                   </div>
@@ -105,7 +123,9 @@ const CMS = () => {
 
               <div class="card-body">
                 <div class="form-group mb-2">
-                  <label for="name-f">Short Description</label>
+                  <label for="name-f">
+                    {GetTranslationData("UIClient", "short_description")}
+                  </label>
                   <textarea
                     name="textarea"
                     id="textarea"
@@ -113,18 +133,30 @@ const CMS = () => {
                     rows="10"
                     class="form-control bg-transparent"
                     placeholder=""
+                    value={cmsData.shortDescription}
                     onChange={(e) => handleChange(e, "shortDescription")}
                   ></textarea>
                   <p className="text-danger">{errors.shortDescription}</p>
                 </div>
-                <HtmlEditor />
+
+                <div class="form-group mb-2">
+                  <label for="name-f">
+                    {GetTranslationData("UIClient", "long_description")}
+                  </label>
+                  <HtmlEditor
+                    value={cmsData.longDescription}
+                    onChange={handleHTMLChange}
+                  />
+                  <p className="text-danger">{errors.longDescription}</p>
+                </div>
                 <div class="form-group mb-0 mt-2">
                   <button
                     type="submit"
                     class="btn btn-primary float-right pad-aa"
                     onClick={handleSubmit}
                   >
-                    Submit <i class="fa fa-arrow-right"></i>
+                    {GetTranslationData("UIClient", "sumbit")}{" "}
+                    <i class="fa fa-arrow-right"></i>
                   </button>
                 </div>
               </div>
@@ -133,23 +165,31 @@ const CMS = () => {
                   <table className="table header-border table-responsive-sm">
                     <thead>
                       <tr>
-                        <th>{GetTranslationData("UIClient","id")}</th>
+                        <th>{GetTranslationData("UIClient", "id")}</th>
                         <th>{GetTranslationData("UIClient", "Page_Name")}</th>
-                        <th>{GetTranslationData("UIClient", "Page_Name")}</th>
-                        <th>Description</th>
-                        <th>Action</th>
+                        <th>
+                          {GetTranslationData("UIClient", "short_description")}
+                        </th>
+                        <th>
+                          {GetTranslationData("UIClient", "long_description")}
+                        </th>
+                        <th>{GetTranslationData("UIClient", "action")}</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <td>dcdasc</td>
-                      <td>dcdasc</td>
-                      <td>dcdasc</td>
-                      <td>dcdasc</td>
-                      <td>dcdasc</td>
+                      {array.map((PageData, index) => (
+                        <tr key={index}>
+                          <td>{PageData.name}</td>
+                          <td>{PageData.age}</td>
+                          <td>{PageData.profession}</td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
+                  
                 </div>
               </div>
+
             </div>
           </div>
         </div>

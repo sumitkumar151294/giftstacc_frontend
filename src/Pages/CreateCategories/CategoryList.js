@@ -224,7 +224,7 @@ const CategoryList = () => {
                           previousClassName={page === 1 ? "disabled" : ""}
                         />
                       </div>
-                   )} 
+                   )}
 
                   </div>
                 ) : (
