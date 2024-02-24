@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import NoRecord from "../../Components/NoRecord/NoRecord";
-import { toast, ToastContainer } from "react-toastify";
+import {ToastContainer } from "react-toastify";
 import CategoryForm from "./CategoryForm";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
@@ -108,7 +108,7 @@ const CategoryList = () => {
   const getSupplierBrand = (supplierBrandId) => {
     const supplier = Array.isArray(supplierBrandData) && supplierBrandData.find((s) => s.id === supplierBrandId);
     return supplier ? supplier.name : '';
-  };  
+  };
   const namesArray = filteredCategoryList.map(data => ({
     name: data.name,
     supplierId: getSupplierName(data.supplierId),
@@ -224,7 +224,7 @@ const CategoryList = () => {
                           previousClassName={page === 1 ? "disabled" : ""}
                         />
                       </div>
-                   )} 
+                   )}
 
                   </div>
                 ) : (

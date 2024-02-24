@@ -13,6 +13,7 @@ import clientMasterReducer from './Slices/clientMasterSlice';
 import createCategoryReducer from './Slices/createCategorySlice';
 import brandCatalogueReducer from './Slices/brandCatalogueSlice';
 import clientPaymentReducer from './Slices/clientPaymentDetailSlice';
+import cmsReducer from './Slices/cmsSlice';
 import supplierResourceSlice from './Slices/supplierResourceSlice';
 
 const reducers = combineReducers({
@@ -29,7 +30,8 @@ const reducers = combineReducers({
     supplierMasterReducer:supplierMasterReducer,
     supplierBrandListReducer:supplierBrandListReducer,
     clientMasterReducer:clientMasterReducer,
-    createCategoryReducer:createCategoryReducer
+    createCategoryReducer:createCategoryReducer,
+    cmsReducer:cmsReducer
 });
 
 export default reducers;

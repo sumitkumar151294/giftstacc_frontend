@@ -283,7 +283,7 @@ const SupplierMasterList = () => {
                       <div>
                         <NoRecord />
                       </div>
-                      
+
                     )}
                   </>
                 </>

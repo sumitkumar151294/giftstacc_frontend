@@ -27,7 +27,9 @@ function* GetUserRole() {
 }
 function* PostUserRole({ payload }) {
   try {
+    debugger
     const postUserRoleResponse = yield call(callUserRolePostApi, payload);
+    debugger
     if (postUserRoleResponse.httpStatusCode === "201") {
       yield put(
         onPostUserRoleSuccess({

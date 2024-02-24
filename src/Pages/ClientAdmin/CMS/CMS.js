@@ -1,8 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { onCmsSubmit } from "../../../Store/Slices/cmsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../../../Components/Loader/Loader";
+import NoRecord from "../../../Components/NoRecord/NoRecord";
+import ReactPaginate from "react-paginate";
+import { ToastContainer } from "react-toastify";
 
 const CMS = () => {
+  const [page, setPage] = useState(1);
+  const [rowsPerPage] = useState(5);
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const dispatch = useDispatch();
+  // const data = useSelector(state => state.cmsReducer)
   const [cmsData, setCmsData] = useState({
     pageName: "",
     shortDescription: "",
@@ -13,12 +25,13 @@ const CMS = () => {
     shortDescription: "",
     longDescription: "",
   });
-  // const [isLoading, setIsLoading] = useState("true");
+  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e, fieldName) => {
     setCmsData({
       ...cmsData,
-      [fieldName]: e.target.value,
+      [fieldName]: e.target?.value,
     });
+
     // Remove the error message when the user starts typing
     setErrors({
       ...errors,
@@ -26,6 +39,15 @@ const CMS = () => {
     });
   };
 
+  const handleHTMLChange = (html) => {
+    setCmsData({
+      ...cmsData,
+      longDescription: html,
+    });
+  };
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     // let isValid = true;
@@ -42,15 +64,19 @@ const CMS = () => {
     setErrors(newErrors);
 
     // if (isValid) {
-    //   dispatch(onCmsSubmit(cmsData));
-    // }
+    dispatch(onCmsSubmit(cmsData));
+
+    //}
   };
-  const PageNames = ["About us",
-    "Privacy Policy", "Terms and Conditions", "LC Loyality Program"]
 
+  const PageNames = [
+    "About us",
+    "Privacy Policy",
+    "Terms and Conditions",
+    "LC Loyality Program",
+  ];
 
-
-  const array = [
+  const DataArray = [
     { name: "John", age: 30, profession: "Engineer" },
     { name: "Alice", age: 25, profession: "Teacher" },
     { name: "Michael", age: 40, profession: "Doctor" },
@@ -60,12 +86,11 @@ const CMS = () => {
     { name: "Daniel", age: 45, profession: "Lawyer" },
     { name: "Emma", age: 33, profession: "Architect" },
     { name: "Olivia", age: 29, profession: "Nurse" },
-    { name: "Matthew", age: 27, profession: "Entrepreneur" }
+    { name: "Matthew", age: 27, profession: "Entrepreneur" },
   ];
 
   return (
     <>
-
       {/* {!isLoading ? (
           <Loader />
         ) : ( */}
@@ -74,8 +99,9 @@ const CMS = () => {
           <div class="col-xl-12 col-xxl-12">
             <div class="card">
               <div class="card-header d-flex justify-content-between">
-                <h4 class="card-title">CMS</h4>
-
+                <h4 class="card-title">
+                  {GetTranslationData("UIClient", "cms")}
+                </h4>
                 <div class="dropdown-side">
                   <div class="form-group mb-2">
                     <select
@@ -89,14 +115,13 @@ const CMS = () => {
                         Select Page Name &nbsp;
                         <i class="fa fa-angle-down"></i>
                       </option>
-                      {
-                        PageNames.map((Option, index) =>
-                          <option key={index} value={Option}>{Option}
-                            &nbsp;
-                            <i class="fa fa-angle-down"></i>
-                          </option>
-                        )
-                      }
+                      {PageNames.map((Option, index) => (
+                        <option key={index} value={Option}>
+                          {Option}
+                          &nbsp;
+                          <i class="fa fa-angle-down"></i>
+                        </option>
+                      ))}
                     </select>
                     <p className="text-danger">{errors.pageName}</p>
                   </div>
@@ -105,7 +130,9 @@ const CMS = () => {
 
               <div class="card-body">
                 <div class="form-group mb-2">
-                  <label for="name-f">Short Description</label>
+                  <label for="name-f">
+                    {GetTranslationData("UIClient", "short_description")}
+                  </label>
                   <textarea
                     name="textarea"
                     id="textarea"
@@ -113,42 +140,97 @@ const CMS = () => {
                     rows="10"
                     class="form-control bg-transparent"
                     placeholder=""
+                    value={cmsData.shortDescription}
                     onChange={(e) => handleChange(e, "shortDescription")}
                   ></textarea>
                   <p className="text-danger">{errors.shortDescription}</p>
                 </div>
-                <HtmlEditor />
+
+                <div class="form-group mb-2">
+                  <label for="name-f">
+                    {GetTranslationData("UIClient", "long_description")}
+                  </label>
+                  <HtmlEditor
+                    value={cmsData.longDescription}
+                    onChange={handleHTMLChange}
+                  />
+                  <p className="text-danger">{errors.longDescription}</p>
+                </div>
                 <div class="form-group mb-0 mt-2">
                   <button
                     type="submit"
                     class="btn btn-primary float-right pad-aa"
                     onClick={handleSubmit}
                   >
-                    Submit <i class="fa fa-arrow-right"></i>
+                    {GetTranslationData("UIClient", "sumbit")}{" "}
+                    <i class="fa fa-arrow-right"></i>
                   </button>
                 </div>
               </div>
               <div className="card-body">
-                <div className="table-responsive">
-                  <table className="table header-border table-responsive-sm">
-                    <thead>
+                {isLoading ? (
+                  <div style={{ height: "400px" }}>
+                    <Loader classType={"absoluteLoader"} />
+                  </div>
+                ) : Array.isArray(DataArray) && DataArray.length > 0 ? (
+                  <div className="table-responsive">
+                    <table className="table header-border table-responsive-sm">
+                      <thead>
                       <tr>
-                        <th>{GetTranslationData("UIClient","id")}</th>
+                        <th>{GetTranslationData("UIClient", "id")}</th>
                         <th>{GetTranslationData("UIClient", "Page_Name")}</th>
-                        <th>{GetTranslationData("UIClient", "Page_Name")}</th>
-                        <th>Description</th>
-                        <th>Action</th>
+                        <th>
+                          {GetTranslationData("UIClient", "short_description")}
+                        </th>
+                        <th>
+                          {GetTranslationData("UIClient", "long_description")}
+                        </th>
+                        <th>{GetTranslationData("UIClient", "action")}</th>
                       </tr>
-                    </thead>
-                    <tbody>
-                      <td>dcdasc</td>
-                      <td>dcdasc</td>
-                      <td>dcdasc</td>
-                      <td>dcdasc</td>
-                      <td>dcdasc</td>
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {DataArray.slice(startIndex, endIndex).map((data) => (
+                          <tr>
+                            <td>{data.name}</td>
+                            <td>{data.age}</td>
+                            <td>{data.profession  }</td>
+                            <td>
+                              {/* <div className="d-flex">
+                                <Link
+                                  onClick={() => handleDelete(data)}
+                                  className="btn btn-danger shadow btn-xs sharp"
+                                >
+                                  <i className="fa fa-trash"></i>
+                                </Link>
+                                <ToastContainer />
+                              </div> */}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {DataArray.length > 5 && (
+                      <div className="pagination-container">
+                        <ReactPaginate
+                          previousLabel={"<"}
+                          nextLabel={" >"}
+                          breakLabel={"..."}
+                          pageCount={Math.ceil(
+                            DataArray.length / rowsPerPage
+                          )}
+                          marginPagesDisplayed={2}
+                          onPageChange={handlePageChange}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                          initialPage={page - 1} // Use initialPage instead of forcePage
+                          previousClassName={page === 1 ? "disabled" : ""}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <NoRecord />
+                )}
               </div>
             </div>
           </div>
