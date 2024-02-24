@@ -45,6 +45,14 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
+  const excelData = SupplierBrandList.map(data => ({
+    sku: data.sku,
+    name: data.name,
+    minPrice: data.minPrice,
+    maxPrice: data.maxPrice,
+    price: data.price,
+
+  }));
   const headers = [
     { label: "Sku", key: "sku" },
     { label: "Name", key: "name" },
@@ -120,7 +128,7 @@ const BrandCatalogue = () => {
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
                     <CSVLink
-                      data={SupplierBrandList}
+                      data={excelData}
                       headers={headers}
                       filename={"BrandCatalogue.csv"}
                     >
