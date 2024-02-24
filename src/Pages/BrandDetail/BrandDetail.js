@@ -28,7 +28,7 @@ const BrandDetail = () => {
           <div className="row">
             <div className="col-lg-12 col-xl-12">
               <div className="card">
-                <div className="card-body pt-4">
+                <div className="card-body">
                   <div className="menu-product d-flex">
                     <img src={data.thumbnail} />
                     <div className="content-detail-wrap">

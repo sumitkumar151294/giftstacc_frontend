@@ -59,5 +59,10 @@ const API = {
 
   //brand-catalogue
   brandCatalogue: "/brand-catalogue/all",
+
+  //faq-Master
+  getFaqMaster: "/",
+  postFaqMaster: "/",
+
 };
 export default API;
