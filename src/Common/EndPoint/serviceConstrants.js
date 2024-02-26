@@ -64,5 +64,9 @@ const API = {
   getFaqMaster: "/",
   postFaqMaster: "/",
 
+
+  //banner-master
+  getBannerMaster:"/",
+  postBannerMaster:"/"
 };
 export default API;

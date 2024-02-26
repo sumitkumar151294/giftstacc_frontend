@@ -16,6 +16,7 @@ import SupplierProductList from "../Pages/SupplierProductList/SupplierProductLis
 import PageError from "../Components/PageError/PageError";
 import CMS from "../Pages/ClientAdmin/CMS/CMS";
 import FaqMaster from "../Pages/Faq'sMaster/Faq'sMaster";
+import BannerMasterList from "../Pages/BannerMaster/BannerList";
 // import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 function RouteConfiq() {
   return (
@@ -62,6 +63,10 @@ function RouteConfiq() {
         <Route
           path="/lc-user-admin/brand-catalogue"
           element={<Layout Component={BrandCatalogue} />}
+        />
+        <Route
+          path="/lc-user-admin/banner-master"
+          element={<Layout Component={BannerMasterList} />}
         />
          <Route
           path="/lc-user-admin/faqMaster"

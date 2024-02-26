@@ -45,14 +45,13 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
-  const excelData = SupplierBrandList.map(data => ({
+  const excelData = SupplierBrandList.map((data) => ({
     sku: data.sku,
     name: data.name,
     minPrice: data.minPrice,
     maxPrice: data.maxPrice,
     price: data.price,
-
-  }));
+  }));
   const headers = [
     { label: "Sku", key: "sku" },
     { label: "Name", key: "name" },
@@ -220,13 +219,12 @@ const BrandCatalogue = () => {
                                     <td>{data.price}</td>
                                     <td>
                                       {" "}
-                                      <button
+                                      <Button
                                         onClick={() => handleClick(data)}
                                         className="btn btn-primary btn-sm bt-link float-right"
-                                      >
-                                        <i className="fa fa-info"></i>&nbsp;
-                                        {BrandDetail}
-                                      </button>
+                                        icons={"fa fa-info"}
+                                        text={BrandDetail}
+                                      />
                                     </td>
                                   </tr>
                                 ))}
