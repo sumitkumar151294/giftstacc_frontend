@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { onCmsSubmit } from "../Store/Slices/cmsSlice";
+import { onPostCms } from "../Store/Slices/cmsSlice";
 import { callCreateCategoryGetApi } from "../Context/createcategoryApi";
 import { callCmsPostAPI } from "../Context/cmsApi";
 
@@ -31,6 +31,6 @@ function* postCms({payload}) {
 }
 
 export default function* cmsSaga() {
-  yield takeLatest(onCmsSubmit.type, postCms);
+  yield takeLatest(onPostCms.type, postCms);
 
 }

@@ -3,13 +3,22 @@ import { createSlice } from "@reduxjs/toolkit";
 export const cmsSlice = createSlice({
   name: "cms",
   initialState: {
-
+    isLoading: false,
+    isError: false,
+    cmspostdata: {},
+    error: {},
+    message: "",
   },
   reducers: {
-    onCmsSubmit : (state) =>{
+    onPostCms : (state) =>{
       debugger
       return {
-       ...state
+       ...state,
+       isLoading: true,
+       isError: false,
+       cmspostdata: {},
+       error: {},
+       message: "",
       };
 
     }
@@ -17,7 +26,7 @@ export const cmsSlice = createSlice({
 });
 
 export const {
-  onCmsSubmit
+  onPostCms
 } = cmsSlice.actions;
 
 export default cmsSlice.reducer;

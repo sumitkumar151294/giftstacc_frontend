@@ -57,18 +57,18 @@ export const userRoleSlice = createSlice({
         isError: false,
       };
     },
-    onPostCategory: (state) => {
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-        postCategoryData: {},
-        error: {},
-        postMessage: "",
-      };
-    },
-
+      onPostCategory: (state) => {
+        return {
+          ...state,
+          isLoading: true,
+          isError: false,
+          postCategoryData: {},
+          error: {},
+          postMessage: "",
+        };
+      },
     onPostCategorySuccess: (state, { payload }) => {
+
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
@@ -81,7 +81,7 @@ export const userRoleSlice = createSlice({
       };
     },
 
-    onPostCategoryError: (state, { payload }) => {
+    onPostCategoryError: (state, {payload}) => {
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
