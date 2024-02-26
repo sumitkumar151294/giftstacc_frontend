@@ -4,9 +4,7 @@ export const faqMaster = createSlice({
   name: "faqMaster",
   initialState: {
     isLoading: false,
-    isError: false,
     data: {},
-    error: {},
     message: "",
   },
   reducers: {
@@ -14,11 +12,9 @@ export const faqMaster = createSlice({
       return {
         ...state,
         isLoading: true,
-        isError: false,
         postdata: {},
-        error: {},
         message: "",
-        status_code:null
+        status_code: null,
       };
     },
 
@@ -27,18 +23,16 @@ export const faqMaster = createSlice({
       return {
         ...state,
         isLoading: false,
-        isError: false,
-        postdata:postData,
+        postdata: postData,
         message,
         status_code,
-        error: {},
       };
     },
 
     onFaqMasterSubmitReset: (state) => {
       return {
         ...state,
-        status_code:null,
+        status_code: null,
       };
     },
 
@@ -46,45 +40,54 @@ export const faqMaster = createSlice({
       const { postData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        postdata:postData,
+        postdata: postData,
         message,
         status_code,
         isLoading: false,
-        isError: true,
-        error: {},
       };
     },
 
     onGetFaqMaster: (state) => {
-      return { ...state, isLoading: true, getData: {}, getmessage: '', error: {}, isError: false };
+      return {
+        ...state,
+        isLoading: true,
+        getData: {},
+        getmessage: "",
+      };
     },
     onGetFaqMasterSuccess: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
+      const { data = {}, message = "", status_code } = payload;
       return {
         ...state,
         isLoading: false,
-        isError: false,
-        getData:data,
-        error: {},
-        getmessage:message,
-        status_code
+        getData: data,
+        getmessage: message,
+        status_code,
       };
     },
     onGetFaqMasterError: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
+      const { data = {}, message = "", status_code } = payload;
       return {
         ...state,
         isLoading: false,
-        isError: true,
-        getData:data,
-        getmessage:message,
-        status_code
+        getData: data,
+        getmessage: message,
+        status_code,
       };
     },
-  
   },
 });
-export const { onFaqMasterSubmit, onFaqMasterSubmitReset, onFaqMasterSubmitError, onFaqMasterSubmitSuccess, onGetFaqMaster, onGetFaqMasterSuccess, onGetFaqMasterError, onFaqMasterUpdate, onFaqMasterUpdateSuccess, onFaqMasterUpdateError } =
-  faqMaster.actions;
+export const {
+  onFaqMasterSubmit,
+  onFaqMasterSubmitReset,
+  onFaqMasterSubmitError,
+  onFaqMasterSubmitSuccess,
+  onGetFaqMaster,
+  onGetFaqMasterSuccess,
+  onGetFaqMasterError,
+  onFaqMasterUpdate,
+  onFaqMasterUpdateSuccess,
+  onFaqMasterUpdateError,
+} = faqMaster.actions;
 
 export default faqMaster.reducer;

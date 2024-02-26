@@ -4,6 +4,7 @@ import {
   onGetFaqMaster,
 } from "../../Store/Slices/faqMasterSlice";
 import { useDispatch } from "react-redux";
+import InputField from "../../Components/InputField/InputField";
 
 const FaqMaster = () => {
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const FaqMaster = () => {
                 <div className="row">
                   <div className="col-sm-4 form-group mb-2">
                     <label htmlFor="name-l">Category</label>
-                    <input
+                    <InputField
                       type="text"
                       className={`form-control ${
                         errors.category ? "border-danger" : ""
@@ -87,7 +88,7 @@ const FaqMaster = () => {
                   </div>
                   <div className="col-sm-12 form-group mb-2">
                     <label htmlFor="name-f">Question</label>
-                    <input
+                    <InputField
                       type="text"
                       className={`form-control ${
                         errors.question ? "border-danger" : ""
