@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
-import { onCmsSubmit } from "../../../Store/Slices/cmsSlice";
+import { onCmsSubmit, onPostCms } from "../../../Store/Slices/cmsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../Components/Loader/Loader";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
 import ReactPaginate from "react-paginate";
-import { ToastContainer } from "react-toastify";
+
 
 const CMS = () => {
   const [page, setPage] = useState(1);
@@ -14,7 +14,7 @@ const CMS = () => {
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const dispatch = useDispatch();
-  // const data = useSelector(state => state.cmsReducer)
+  const data = useSelector(state => state.cmsReducer)
   const [cmsData, setCmsData] = useState({
     pageName: "",
     shortDescription: "",
@@ -23,7 +23,7 @@ const CMS = () => {
   const [errors, setErrors] = useState({
     pageName: "",
     shortDescription: "",
-    longDescription: "",
+    longDescription:"",
   });
   const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e, fieldName) => {
@@ -64,7 +64,7 @@ const CMS = () => {
     setErrors(newErrors);
 
     // if (isValid) {
-    dispatch(onCmsSubmit(cmsData));
+    dispatch(onPostCms(cmsData));
 
     //}
   };
@@ -176,34 +176,45 @@ const CMS = () => {
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
                       <thead>
-                      <tr>
-                        <th>{GetTranslationData("UIClient", "id")}</th>
-                        <th>{GetTranslationData("UIClient", "Page_Name")}</th>
-                        <th>
-                          {GetTranslationData("UIClient", "short_description")}
-                        </th>
-                        <th>
-                          {GetTranslationData("UIClient", "long_description")}
-                        </th>
-                        <th>{GetTranslationData("UIClient", "action")}</th>
-                      </tr>
+                        <tr>
+                          <th>{GetTranslationData("UIClient", "id")}</th>
+                          <th>{GetTranslationData("UIClient", "Page_Name")}</th>
+                          <th>
+                            {GetTranslationData(
+                              "UIClient",
+                              "short_description"
+                            )}
+                          </th>
+                          <th>
+                            {GetTranslationData("UIClient", "long_description")}
+                          </th>
+                          <th>{GetTranslationData("UIClient", "action")}</th>
+                        </tr>
                       </thead>
                       <tbody>
                         {DataArray.slice(startIndex, endIndex).map((data) => (
                           <tr>
                             <td>{data.name}</td>
+                            <td>{data.name}</td>
                             <td>{data.age}</td>
-                            <td>{data.profession  }</td>
+                            <td>{data.profession}</td>
                             <td>
-                              {/* <div className="d-flex">
-                                <Link
-                                  onClick={() => handleDelete(data)}
+                              <div className="d-flex">
+                                <a
+                                  className="btn btn-primary shadow btn-xs sharp me-1"
+                                  // onClick={() => handleEdit(vendor)}
+                                >
+                                  <i className="fas fa-pencil-alt"></i>
+                                </a>
+                                <a
                                   className="btn btn-danger shadow btn-xs sharp"
+                                  // onClick={() =>
+                                  //   handleDelete(vendor)
+                                  // }
                                 >
                                   <i className="fa fa-trash"></i>
-                                </Link>
-                                <ToastContainer />
-                              </div> */}
+                                </a>
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -215,9 +226,7 @@ const CMS = () => {
                           previousLabel={"<"}
                           nextLabel={" >"}
                           breakLabel={"..."}
-                          pageCount={Math.ceil(
-                            DataArray.length / rowsPerPage
-                          )}
+                          pageCount={Math.ceil(DataArray.length / rowsPerPage)}
                           marginPagesDisplayed={2}
                           onPageChange={handlePageChange}
                           containerClassName={"pagination"}

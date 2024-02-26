@@ -19,7 +19,6 @@ import Button from "../../Components/Button/Button";
 const CategoryForm = ({ setIsLoading }) => {
   const dispatch = useDispatch();
   const [supplierBrandListData, setSupplierBrandListData] = useState([]);
-
   const supplierBrandData = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
