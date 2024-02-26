@@ -1,19 +1,42 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import OfferMasterForm from './OfferMasterForm';
 import ReactPaginate from "react-paginate";
 import img from "../../Assets/img/pizz1.jpg";
 import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
+import NoRecord from '../../Components/NoRecord/NoRecord';
+import Button from '../../Components/Button/Button';
+import { onGetOfferMaster } from '../../Store/Slices/offerMasterSlice';
 
 const OfferMasterList = () =>{
     const [page, setPage] = useState(1);
+    
     const [rowsPerPage] = useState(5);
+    const dispatch=useDispatch();
     const startIndex = (page - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-
+    const getOfferMasterData = useSelector((state) => state.offerMasterReducer);
+    console.log("getOfferMasterData", getOfferMasterData);
     const handlePageChange = (selected) => {
         setPage(selected.selected + 1);
     };
-     
+    let filteredOfferMasterList;
+console.log(filteredOfferMasterList,"filteredOfferMasterList");
+    useEffect(()=>{
+         filteredOfferMasterList = Array.isArray(getOfferMasterData?.getData)
+        ? getOfferMasterData?.getData.filter((item) =>
+            Object.values(item).some((value) => value && typeof value === "string"))
+        : [];
+        debugger
+    }, [getOfferMasterData?.getData])
+
+    
+    
+
+    useEffect(()=>{
+        dispatch(onGetOfferMaster());
+    },[])
+   
     return(
         <>
             <OfferMasterForm/>
@@ -28,6 +51,8 @@ const OfferMasterList = () =>{
                                     </div>
                                 </div>                            
                                 <div class="card-body">
+                                    {console.log('filteredOfferMasterList', filteredOfferMasterList)}
+                                {filteredOfferMasterList && filteredOfferMasterList?.length > 0 ? ( 
                                    <div class="table-responsive">
                                         <table class="table header-border table-responsive-sm">
                                            <thead>
@@ -42,46 +67,28 @@ const OfferMasterList = () =>{
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td><img src={img} style={{ width: '50px' }}/></td>
-                                                <td><strong>Get the most out of it</strong>
-                                                </td>
-                                                <td>we provide the best offer and vouchers</td>
-                                                <td>https://demo1.way2webhost.com/LC-user-admin/bannermaster.html
-                                                </td>
-                                                <td>2</td>
-                                              
-                                                <td><span class="badge badge-success">{GetTranslationData("UIClient", "active_option")}</span>
-                                                </td>
-                                                <td><div class="d-flex">
-                                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-                                                    </div></td>
-                                            </tr>
-                                             <tr>
-                                                <td><img src={img} style={{ width: '50px' }}/></td>
-                                                <td><strong>Get the most out of it</strong>
-                                                </td>
-                                                <td>we provide the best offer and vouchers</td>
-                                                <td>https://demo1.way2webhost.com/LC-user-admin/bannermaster.html
-                                                </td>
-                                                <td>2</td>                                              
-                                                <td><span class="badge badge-success">{GetTranslationData("UIClient", "active_option")}</span>
-                                                </td>
-                                                <td><div class="d-flex">
-                                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            {filteredOfferMasterList.slice(startIndex, endIndex).map((data) => (
+                                              <tr key={data.id}>
+                                                <td><img src={data.img} style={{ width: '50px' }}/></td>
+                                                <td>{data.title}</td>
+                                                <td>{data.subtitle}</td>
+                                                <td>{data.link}</td>
+                                                <td>{data.displayOrder}</td>
+                                                <td>{data.status}</td>
+                                                <td><Button className="btn btn-primary shadow btn-xs sharp me-1"
+                                                /></td>
+                                              </tr>
+                                            ))}
                                         </tbody>
                                     </table>
+                                    {filteredOfferMasterList.length > 5 && (
                                     <div className="pagination-container">
                                         <ReactPaginate
                                            previousLabel={"<"}
                                            nextLabel={" >"}
                                            breakLabel={"..."}
-                                           pageCount=""
+                                           pageCount={Math.ceil(
+                                            filteredOfferMasterList.length / rowsPerPage)}
                                            marginPagesDisplayed={2}
                                            onPageChange={handlePageChange}
                                            containerClassName={"pagination"}
@@ -90,7 +97,11 @@ const OfferMasterList = () =>{
                                            previousClassName={page === 1 ? "disabled" : ""}
                                         />
                                     </div>
+                                    )}
                                 </div>
+                                ):(
+                                    <NoRecord/>
+                                )}
                             </div>
                         </div>
                     </div>        

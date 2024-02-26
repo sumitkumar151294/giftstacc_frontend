@@ -1,17 +1,20 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
 import InputField from "../../Components/InputField/InputField";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import Button from "../../Components/Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { onPostOfferMasterSubmit ,onPostOfferMasterReset,onGetOfferMaster} from '../../Store/Slices/offerMasterSlice';
+import { ToastContainer, toast } from "react-toastify";
 
-const OfferMasterForm = () =>{
+const OfferMasterForm = () => {
   const [addData, setAddData]=useState({
     placement: '',
     title: '',
     subtitle: '',
     link: '',
     displayOrder: '',
-    image: null,
+    image: "",
     status: '',
   })
   const [errors, setErrors] = useState({
@@ -20,16 +23,28 @@ const OfferMasterForm = () =>{
     subtitle: '',
     link: '',
     displayOrder: '',
-    image: null,
+    image: '',
     status: '',
   });
+
+  const resetAddData={
+    placement: '',
+    title: '',
+    subtitle: '',
+    link: '',
+    displayOrder: '',
+    image: "",
+    status: '',
+  }
 
   const top=GetTranslationData("UIClient", "top");
   const middle=GetTranslationData("UIClient", "middle");
   const bottom=GetTranslationData("UIClient", "bottom");
   const active=GetTranslationData("UIClient", "active_option");
   const non_active=GetTranslationData("UIClient", "non_active_option");
-  const field_Required=GetTranslationData("UIAdmin", "field_Required")
+  const field_Required=GetTranslationData("UIAdmin", "field_Required");
+  const dispatch = useDispatch();
+  const getOfferMasterData = useSelector((state) => state.offerMasterReducer);
 
   const placementoptions = [
     { value: "Top", label: top },
@@ -65,7 +80,21 @@ const OfferMasterForm = () =>{
       }
     }
     setErrors(newErrors);
+    if(isValid){
+        dispatch(onPostOfferMasterSubmit(addData));
+        setAddData(resetAddData);
+    }
   };
+
+  // useEffect(() => {
+  //   if (getOfferMasterData?.post_status_code === "201") {
+  //     debugger
+  //     toast.success(getOfferMasterData?.postMessage);
+  //     dispatch(onPostOfferMasterReset());
+  //     dispatch(onGetOfferMaster());
+  //     setAddData(resetAddData);
+  //   }
+  // }, [getOfferMasterData])
 
     return(
         <>           
@@ -174,6 +203,7 @@ const OfferMasterForm = () =>{
                                               className={` ${errors.image
                                                 ? "border-danger"
                                                 : "form-file-input form-control"}`}
+                                                onChange={(e) => handleInputChange(e, "image")}
                                             />
                                           </div>
                                           <span className="input-group-text">{GetTranslationData("UIClient", "upload")}</span>
