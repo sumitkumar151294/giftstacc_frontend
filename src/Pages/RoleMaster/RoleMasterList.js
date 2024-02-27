@@ -120,6 +120,7 @@ const RoleMasterList = () => {
                       </tbody>
                     </table>
                     <div className="pagination-container">
+                      {roleAccessListData.length > 5 &&
                       <ReactPaginate
                         previousLabel={"<"}
                         nextLabel={" >"}
@@ -133,7 +134,7 @@ const RoleMasterList = () => {
                         activeClassName={"active"}
                         initialPage={page - 1} // Use initialPage instead of forcePage
                         previousClassName={page === 0 ? "disabled" : ""}
-                      />
+                      />}
                     </div>
                   </div>
                 ) : (
