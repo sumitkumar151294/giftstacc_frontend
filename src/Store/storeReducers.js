@@ -15,6 +15,7 @@ import brandCatalogueReducer from './Slices/brandCatalogueSlice';
 import clientPaymentReducer from './Slices/clientPaymentDetailSlice';
 import supplierResourceSlice from './Slices/supplierResourceSlice';
 import addSpecialReducer from './Slices/addSpecialListSlice';
+import allocateBrandSlice from './Slices/allocateBrandSlice';
 
 const reducers = combineReducers({
     loginReducer:loginReducer,
@@ -32,6 +33,7 @@ const reducers = combineReducers({
     clientMasterReducer:clientMasterReducer,
     createCategoryReducer:createCategoryReducer,
     addSpecialReducer:addSpecialReducer,
+    allocateBrandSlice:allocateBrandSlice,
 });
 
 export default reducers;
