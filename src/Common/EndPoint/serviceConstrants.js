@@ -62,6 +62,7 @@ const API = {
 
   //offer-master
   postOfferMaster: "/offer-master",
-  getOfferMaster: "/offer-master"
+  getOfferMaster: "/offer-master",
+  updateOfferMaster: "/offer-master",
 };
 export default API;

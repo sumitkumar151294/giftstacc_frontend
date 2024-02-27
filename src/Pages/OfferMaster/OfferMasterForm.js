@@ -5,9 +5,10 @@ import Dropdown from "../../Components/Dropdown/Dropdown";
 import Button from "../../Components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { onPostOfferMasterSubmit ,onPostOfferMasterReset,onGetOfferMaster} from '../../Store/Slices/offerMasterSlice';
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
 
-const OfferMasterForm = () => {
+const OfferMasterForm = ({data,setData}) => {
+  console.log(data, "asdsd")
   const [addData, setAddData]=useState({
     placement: '',
     title: '',
@@ -26,7 +27,7 @@ const OfferMasterForm = () => {
     image: '',
     status: '',
   });
-
+  // To reset the Input Field
   const resetAddData={
     placement: '',
     title: '',
@@ -37,23 +38,22 @@ const OfferMasterForm = () => {
     status: '',
   }
 
+  // To get the label from translation API
   const top=GetTranslationData("UIClient", "top");
-  const middle=GetTranslationData("UIClient", "middle");
   const bottom=GetTranslationData("UIClient", "bottom");
   const active=GetTranslationData("UIClient", "active_option");
   const non_active=GetTranslationData("UIClient", "non_active_option");
   const field_Required=GetTranslationData("UIAdmin", "field_Required");
   const dispatch = useDispatch();
-  const getOfferMasterData = useSelector((state) => state.offerMasterReducer);
+  const offerMasterData = useSelector((state) => state.offerMasterReducer);
 
   const placementoptions = [
     { value: "Top", label: top },
-    { value: "Middle", label: middle },
     { value: "Bottom", label: bottom },
   ];    
   const statusoptions = [
-    { value: "Active", label: active },
-    { value: "Non-Active", label: non_active },
+    { value: true, label: active },
+    { value: false, label: non_active },
   ];  
 
   const handleInputChange = (e,fieldName) => {
@@ -81,20 +81,31 @@ const OfferMasterForm = () => {
     }
     setErrors(newErrors);
     if(isValid){
-        dispatch(onPostOfferMasterSubmit(addData));
-        setAddData(resetAddData);
+      dispatch(onPostOfferMasterSubmit(addData));       
     }
   };
+  
+  useEffect(()=>{
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+     setAddData({
+      placement: data?.placement || "",
+      title: data?.title || "",
+      subtitle:data?.subtitle || "",
+      link: data?.link || "",
+      displayOrder: data?.displayOrder || "",
+      // image: data?.image || "",
+      status: data?.status || "",
+     })
+  },[data])
 
-  // useEffect(() => {
-  //   if (getOfferMasterData?.post_status_code === "201") {
-  //     debugger
-  //     toast.success(getOfferMasterData?.postMessage);
-  //     dispatch(onPostOfferMasterReset());
-  //     dispatch(onGetOfferMaster());
-  //     setAddData(resetAddData);
-  //   }
-  // }, [getOfferMasterData])
+  useEffect(() => {
+    if (offerMasterData?.status_code === "201") {
+      toast.success(offerMasterData?.message);
+      dispatch(onPostOfferMasterReset());
+      dispatch(onGetOfferMaster());
+      setAddData(resetAddData);
+    }
+  }, [offerMasterData])
 
     return(
         <>           
@@ -146,7 +157,7 @@ const OfferMasterForm = () => {
                                         </label>
                                         <InputField
                                           type="text"
-                                          value={addData.lname}
+                                          value={addData.subtitle}
                                           onChange={(e) => handleInputChange(e, "subtitle")}
                                           className={` ${errors.subtitle
                                             ? "border-danger"
@@ -229,6 +240,7 @@ const OfferMasterForm = () => {
                                       </div>
                                     </div>
                                   </form>
+                                  <ToastContainer/>
                                 </div>
                             </div>
                         </div>

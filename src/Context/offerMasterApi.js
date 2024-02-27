@@ -9,3 +9,8 @@ export const callOfferMasterGetApi = async () => {
     const { data = {} } = await axiosInstance.get(API.getOfferMaster);
     return data;
   };
+  export const callOfferMasterUpdateApi = async (payload) => {
+    const { data = {} } = await axiosInstance.put(API.updateOfferMaster, payload);
+    return data;
+  };
+  

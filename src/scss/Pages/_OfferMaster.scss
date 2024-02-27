@@ -52,3 +52,21 @@ input[type=file]::file-selector-button {
 input[type=file]::file-selector-button:hover {
 	background-color: var(--rgba-primary-23);
 }
+
+.badge-success {
+    background-color: var(--bs-success);
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75em;
+    font-weight: 700;
+	line-height: 1.5;
+    color: var(--bs-white);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 1.03125rem;
+	border: 0.0625rem solid transparent;	
+}
