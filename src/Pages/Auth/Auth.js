@@ -53,7 +53,6 @@ const Auth = () => {
     }
     // get data from present url
     if (matchingConfig) {
-      debugger;
 
       const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } = matchingConfig;
       sessionStorage.setItem("partnerKey", PARTNER_KEY);

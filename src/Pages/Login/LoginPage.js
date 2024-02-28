@@ -104,7 +104,6 @@ const LoginPage = () => {
 
         // Wait for the dispatch to complete
         if (clientPartnerKey === "UIClient") {
-          debugger;
           dispatch(onClientLoginSubmit(loginData));
         } else {
           dispatch(onLoginSubmit(loginData));
@@ -117,14 +116,12 @@ const LoginPage = () => {
     }
   };
   useEffect(() => {
-    debugger;
     if (
       clientPartnerKey &&
       clientLoginDetails?.status_code === "201" &&
       isSubmit
     ) {
-      debugger;
-      setShowLoader(false);
+        setShowLoader(false);
       navigate("/lc-user-admin/dashboard");
       sessionStorage.setItem("login", true);
     } else if (loginDetails?.status_code === "201" && isSubmit) {
