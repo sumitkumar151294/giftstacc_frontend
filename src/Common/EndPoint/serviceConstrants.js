@@ -65,6 +65,11 @@ const API = {
   postFaqMaster: "/faq-master",
   updateFaqMaster: "/faq-master",
 
+//faq-category api
+getFaqCategory:'/faq-category',
+postFaqCategory:'/faq-category',
+updateFaqCategory:'/faq-category',
+
 
 
 

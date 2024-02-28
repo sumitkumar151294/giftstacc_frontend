@@ -15,6 +15,7 @@ import clientPaymentSaga from "./clientPaymentDetailSaga";
 import supplierResourceSaga from "./supplierResourceSaga";
 import FaqMasterSaga from "./faqMasterSaga";
 import bannerMasterSaga from "./bannerMasterSaga";
+import FaqCategorySaga from "./faqCategorySaga";
 export default function* rootSaga() {
   yield all([
     loginSaga(),
@@ -32,6 +33,7 @@ export default function* rootSaga() {
     BrandCatalogueSaga(),
     supplierResourceSaga(),
     FaqMasterSaga(),
-    bannerMasterSaga()
+    bannerMasterSaga(),
+    FaqCategorySaga()
   ]);
 }

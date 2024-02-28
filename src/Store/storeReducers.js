@@ -16,6 +16,7 @@ import clientPaymentReducer from './Slices/clientPaymentDetailSlice';
 import supplierResourceSlice from './Slices/supplierResourceSlice';
 import faqMasterReducer from './Slices/faqMasterSlice';
 import bannerMasterReducer from './Slices/bannerMasterSlice';
+import faqCategoryReducer from './Slices/faqCategorySlice';
 
 const reducers = combineReducers({
     loginReducer:loginReducer,
@@ -33,7 +34,8 @@ const reducers = combineReducers({
     clientMasterReducer:clientMasterReducer,
     createCategoryReducer:createCategoryReducer,
     faqMasterReducer:faqMasterReducer,
-    bannerMasterReducer:bannerMasterReducer
+    bannerMasterReducer:bannerMasterReducer,
+    faqCategoryReducer:faqCategoryReducer
 });
 
 export default reducers;

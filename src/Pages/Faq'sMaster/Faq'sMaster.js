@@ -8,15 +8,21 @@ import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../Components/InputField/InputField";
 import Loader from "../../Components/Loader/Loader";
 import ReactPaginate from "react-paginate";
+import { onGetFaqCategory } from "../../Store/Slices/faqCategorySlice";
+import Dropdown from "../../Components/Dropdown/Dropdown";
 
 const FaqMaster = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
   const faqMasterGetData = useSelector((state) => state.faqMasterReducer);
+  const faqCategory = useSelector((state) => state.faqCategoryReducer.getData);
+  console.log(faqCategory);
+
   const [faqInfo, setFaqInfo] = useState({
     categoryId: "",
     question: "",
     answer: "",
+    clientId: "2",
   });
 
   const [errors, setErrors] = useState({
@@ -44,6 +50,7 @@ const FaqMaster = () => {
   }, [faqMasterGetData]);
   useEffect(() => {
     dispatch(onGetFaqMaster());
+    dispatch(onGetFaqCategory());
   }, []);
 
   const handleChange = (e, fieldName) => {
@@ -78,15 +85,7 @@ const FaqMaster = () => {
     setErrors(newErrors);
 
     if (isValid) {
-      dispatch(
-        onFaqMasterSubmit({
-          clientId: "2",
-          categoryId: 1,
-          question: "string1",
-          answer: "string1",
-          id: 2,
-        })
-      );
+      dispatch(onFaqMasterSubmit(faqInfo));
     }
   };
 
@@ -103,19 +102,24 @@ const FaqMaster = () => {
                 <div className="row">
                   <div className="col-sm-4 form-group mb-2">
                     <label htmlFor="name-l">Category</label>
-                    <InputField
-                      type="text"
-                      className={`form-control ${
-                        errors.categoryId ? "border-danger" : ""
-                      }`}
-                      id="name-l"
-                      placeholder=""
-                      value={faqInfo.categoryId}
+                    <Dropdown
                       onChange={(e) => handleChange(e, "categoryId")}
+                      error={errors.categoryId}
+                      ariaLabel="Select"
+                      value={faqInfo.categoryId}
+                      className={` ${
+                        errors.categoryId ? "border-danger" : "form-select"
+                      }`}
+                      options={
+                        Array.isArray(faqCategory)
+                          ? faqCategory?.map((category) => ({
+                              label: category.name,
+                              value: category.id,
+                              data: category.code,
+                            }))
+                          : []
+                      }
                     />
-                    {errors.categoryId && (
-                      <div className="text-danger">{errors.categoryId}</div>
-                    )}
                   </div>
                   <div className="col-sm-12 form-group mb-2">
                     <label htmlFor="name-f">Question</label>
