@@ -12,15 +12,16 @@ import image from "../../Assets/img/logo.png";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { useNavigate } from "react-router";
 import bcrypt from "bcryptjs";
+import { onClientLoginSubmit } from "../../Store/Slices/clientLoginSlice";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showLoder, setShowLoader] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  const loginDetails = useSelector(
-    (state) => state.loginReducer
-  );
+  const clientPartnerKey = sessionStorage.getItem("partnerKey");
+  const loginDetails = useSelector((state) => state.loginReducer);
+  const clientLoginDetails = useSelector((state) => state.clientLoginReducer);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -102,7 +103,11 @@ const LoginPage = () => {
         setShowLoader(true);
 
         // Wait for the dispatch to complete
-        dispatch(onLoginSubmit(loginData));
+        if (clientPartnerKey) {
+          dispatch(onClientLoginSubmit(loginData));
+        } else {
+          dispatch(onLoginSubmit(loginData));
+        }
         setIsSubmit(true);
         // Define a function to show a toast notification based on loginDetails
       } catch (error) {
@@ -111,7 +116,17 @@ const LoginPage = () => {
     }
   };
   useEffect(() => {
-    if (loginDetails?.status_code === "201" && isSubmit) {
+    debugger;
+    if (
+      clientPartnerKey &&
+      clientLoginDetails?.status_code === "201" &&
+      isSubmit
+    ) {
+      debugger;
+      setShowLoader(false);
+      navigate("/lc-user-admin/dashboard");
+      sessionStorage.setItem("login", true);
+    } else if (loginDetails?.status_code === "201" && isSubmit) {
       setShowLoader(false);
       navigate("/lc-admin/dashboard");
       sessionStorage.setItem("login", true);
@@ -122,11 +137,13 @@ const LoginPage = () => {
     }
   }, [loginDetails]);
 
-  useEffect(()=>{
-if(sessionStorage.getItem('login')){
-  navigate("/lc-admin/dashboard");
-}
-  },[])
+  useEffect(() => {
+    if (sessionStorage.getItem("login")) {
+      navigate("/lc-admin/dashboard");
+    } else if (sessionStorage.getItem("login")) {
+      navigate("/lc-user-admin/dashboard");
+    }
+  }, []);
 
   return (
     <>
@@ -218,7 +235,10 @@ if(sessionStorage.getItem('login')){
                           </div>
                           <div className="text-center">
                             <Button
-                              text={GetTranslationData("UIAdmin", "sign_Me_Label")}
+                              text={GetTranslationData(
+                                "UIAdmin",
+                                "sign_Me_Label"
+                              )}
                               className="btn btn-primary btn-block btn-sm float-right p-btn mt-2"
                             />
                             <ToastContainer />
@@ -233,7 +253,7 @@ if(sessionStorage.getItem('login')){
           </div>
         </div>
       </div>
-    <Footer />
+      <Footer />
     </>
   );
 };

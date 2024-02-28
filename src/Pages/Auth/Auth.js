@@ -14,16 +14,20 @@ const Auth = () => {
   const [pageError, setPageError] = useState({StatusCode:"", ErrorName:"", ErrorDesription:"", url:"", buttonText:"" });
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
   const translationData = useSelector((state) => state.translationReducer);
-  const currentUrl = window.location.href;
+  const currentUrl = window.location.hash;
 
   useEffect(() => {
     setShowLoader(true);
     // Find the configuration that matches the current URL
     let matchingConfig = config.filter((item) =>
-      currentUrl.includes(item.API_URL)
+      currentUrl.includes(item.API_URL),
+
+      
     );
+
+
     if(matchingConfig.length>1){
-      if(currentUrl.includes("lc-user-admin") || currentUrl.includes("Lc-user-admin")){
+      if(currentUrl.includes("#/lc-user-admin") || currentUrl.includes("#/Lc-user-admin")){
         matchingConfig = matchingConfig.find(item=>(item.PARTNER_KEY === "UIClient"))
       }else{
         matchingConfig = matchingConfig.find(item=>(item.PARTNER_KEY === "UIAdmin"))
@@ -33,8 +37,11 @@ const Auth = () => {
     }
     // get data from present url
     if (matchingConfig) {
+      
       const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } =
         matchingConfig;
+        sessionStorage.setItem('partnerKey',PARTNER_KEY )
+
       dispatch(onTranslationReset())
       dispatch(
         onLoginAuthSubmit({
