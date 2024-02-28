@@ -13,10 +13,11 @@ function* FaqMaster() {
   try {
     const FaqMasterResponse = yield call(faqMasterGetApi);
     if (FaqMasterResponse.httpStatusCode === "200") {
-      yield put(
+            yield put(
         onGetFaqMasterSuccess({
           data: FaqMasterResponse.response,
-          message: FaqMasterResponse.response,
+          message: FaqMasterResponse.errorMessage,
+          status_code: FaqMasterResponse.httpStatusCode,
         })
       );
     } else {
@@ -42,12 +43,12 @@ function* FaqMaster() {
 function* postFaqMaster({ payload }) {
   try {
     const FaqMasterResponse = yield call(faqMasterPostApi, payload);
-    if (FaqMasterResponse.httpStatusCode === "200") {
-      yield put(
+    if (FaqMasterResponse.httpStatusCode === "201") {
+          yield put(
         onFaqMasterSubmitSuccess({
           data: FaqMasterResponse.response,
-          message: FaqMasterResponse.response,
-        })
+          message: FaqMasterResponse.errorMessage,
+          status_code: FaqMasterResponse.httpStatusCode,        })
       );
     } else {
       yield put(

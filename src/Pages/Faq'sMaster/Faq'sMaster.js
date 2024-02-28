@@ -1,24 +1,47 @@
 import React, { useEffect, useState } from "react";
 import {
   onFaqMasterSubmit,
+  onFaqMasterSubmitReset,
   onGetFaqMaster,
 } from "../../Store/Slices/faqMasterSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../Components/InputField/InputField";
+import Loader from "../../Components/Loader/Loader";
+import ReactPaginate from "react-paginate";
 
 const FaqMaster = () => {
   const dispatch = useDispatch();
+  const [showLoader, setShowLoader] = useState(false);
+  const faqMasterGetData = useSelector((state) => state.faqMasterReducer);
   const [faqInfo, setFaqInfo] = useState({
-    category: "",
+    categoryId: "",
     question: "",
     answer: "",
   });
 
   const [errors, setErrors] = useState({
-    category: "",
+    categoryId: "",
     question: "",
     answer: "",
   });
+  const [rowsPerPage] = useState(5);
+
+  const [page, setPage] = useState(1);
+  const startIndex = (page - 1) * rowsPerPage;
+
+  const endIndex = startIndex + rowsPerPage;
+  const handlePageChange = (selected) => {
+    setPage(selected.selected + 1);
+  };
+  useEffect(() => {
+    setShowLoader(false);
+  }, [showLoader]);
+  useEffect(() => {
+    if (faqMasterGetData.status_code === "201") {
+      dispatch(onFaqMasterSubmitReset());
+      dispatch(onGetFaqMaster());
+    }
+  }, [faqMasterGetData]);
   useEffect(() => {
     dispatch(onGetFaqMaster());
   }, []);
@@ -55,7 +78,15 @@ const FaqMaster = () => {
     setErrors(newErrors);
 
     if (isValid) {
-      dispatch(onFaqMasterSubmit(faqInfo));
+      dispatch(
+        onFaqMasterSubmit({
+          clientId: "2",
+          categoryId: 1,
+          question: "string1",
+          answer: "string1",
+          id: 2,
+        })
+      );
     }
   };
 
@@ -75,15 +106,15 @@ const FaqMaster = () => {
                     <InputField
                       type="text"
                       className={`form-control ${
-                        errors.category ? "border-danger" : ""
+                        errors.categoryId ? "border-danger" : ""
                       }`}
                       id="name-l"
                       placeholder=""
-                      value={faqInfo.category}
-                      onChange={(e) => handleChange(e, "category")}
+                      value={faqInfo.categoryId}
+                      onChange={(e) => handleChange(e, "categoryId")}
                     />
-                    {errors.category && (
-                      <div className="text-danger">{errors.category}</div>
+                    {errors.categoryId && (
+                      <div className="text-danger">{errors.categoryId}</div>
                     )}
                   </div>
                   <div className="col-sm-12 form-group mb-2">
@@ -130,30 +161,61 @@ const FaqMaster = () => {
                 </div>
               </form>
             </div>
-            <div className="card-body pt-4  ml-4">
-              <div className="table-responsive">
-                <table className="table header-border table-responsive-sm">
-                  <thead>
-                    <tr>
-                      <th>S.NO</th>
-                      <th>Date</th>
-                      <th>Category</th>
-                      <th>Question</th>
-                      <th>Answer</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>12-12-2023</td>
-                      <td>Coupon Redemption</td>
-                      <td>How can Redeem my Coupon?</td>
-                      <td>By Using coupon in the cart</td>
-                    </tr>
-                  </tbody>
-                </table>
+            {showLoader && faqMasterGetData.getData.length < 0 ? (
+              <div style={{ height: "400px" }}>
+                <Loader classType={"absoluteLoader"} />
               </div>
-            </div>
+            ) : (
+              <>
+                <div className="card-body pt-4  ml-4">
+                  <div className="table-responsive">
+                    <table className="table header-border table-responsive-sm">
+                      <thead>
+                        <tr>
+                          <th>S.NO</th>
+                          <th>Date</th>
+                          <th>Category</th>
+                          <th>Question</th>
+                          <th>Answer</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Array.isArray(faqMasterGetData.getData) &&
+                          faqMasterGetData.getData
+                            .slice(startIndex, endIndex)
+                            .map((data, index) => (
+                              <tr key={index}>
+                                <td>{data.id}</td>
+                                <td>12-12-2023</td>
+                                <td>{data.categoryId}</td>
+                                <td>{data.question}</td>
+                                <td>{data.answer}</td>
+                              </tr>
+                            ))}
+                      </tbody>
+                    </table>
+                    {faqMasterGetData.getData.length > 5 && (
+                      <div className="pagination-container">
+                        <ReactPaginate
+                          previousLabel={"<"}
+                          nextLabel={" >"}
+                          breakLabel={"..."}
+                          pageCount={Math.ceil(
+                            faqMasterGetData.getData.length / rowsPerPage
+                          )}
+                          marginPagesDisplayed={2}
+                          onPageChange={handlePageChange}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                          initialPage={page - 1} // Use initialPage instead of forcePage
+                          previousClassName={page === 0 ? "disabled" : ""}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

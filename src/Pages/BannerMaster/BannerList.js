@@ -55,7 +55,6 @@ const BannerMasterList = () => {
     setPage(selected.selected + 1);
   };
   const handleEdit = (data) => {
-    debugger;
     setPrefilledData(data);
   };
   const handleDelete = (data) => {

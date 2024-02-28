@@ -61,8 +61,11 @@ const API = {
   brandCatalogue: "/brand-catalogue/all",
 
   //faq-Master
-  getFaqMaster: "/",
-  postFaqMaster: "/",
+  getFaqMaster: "/faq-master",
+  postFaqMaster: "/faq-master",
+  updateFaqMaster: "/faq-master",
+
+
 
 
   //banner-master

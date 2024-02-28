@@ -12,7 +12,6 @@ import {
 import Button from "../../Components/Button/Button";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 const BannerForm = ({ prefilledData }) => {
-  debugger;
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
 
