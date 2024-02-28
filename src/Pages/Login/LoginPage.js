@@ -121,9 +121,9 @@ const LoginPage = () => {
       clientLoginDetails?.status_code === "201" &&
       isSubmit
     ) {
-        setShowLoader(false);
+      setShowLoader(false);
       navigate("/lc-user-admin/dashboard");
-      sessionStorage.setItem("login", true);
+      sessionStorage.setItem("UIClient", true);
     } else if (loginDetails?.status_code === "201" && isSubmit) {
       setShowLoader(false);
       navigate("/lc-admin/dashboard");
@@ -138,8 +138,10 @@ const LoginPage = () => {
   useEffect(() => {
     if (sessionStorage.getItem("login")) {
       navigate("/lc-admin/dashboard");
-    } else if (sessionStorage.getItem("login")) {
+    } else if (sessionStorage.getItem("UIClient")) {
       navigate("/lc-user-admin/dashboard");
+    } else {
+      navigate("/");
     }
   }, []);
 
