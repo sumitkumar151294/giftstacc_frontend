@@ -14,22 +14,18 @@ export const clientLoginSlice = createSlice({
       return {
         ...state,
         isLoading: true,
-        isError: false,
-        error: {},
-        status_code:null
+        status_code: null,
       };
     },
 
     onClientLoginSubmitSuccess: (state, { payload }) => {
-      const { data, message, status_code = 200 } = payload;
+      const { data, message, status_code = 201 } = payload;
       return {
         ...state,
         data,
         isLoading: false,
-        isError: false,
         status_code,
         message,
-        error: {},
       };
     },
 
@@ -41,21 +37,15 @@ export const clientLoginSlice = createSlice({
         isLoading: false,
         isError: true,
         message,
-        error: {},
-      };
-    },
-    onClientLogout: (state) => {
-      return {
-        data: {},
-        isError: false,
-        isLoading: false,
-        error: {},
-        message: "",
       };
     },
   },
 });
-export const { onClientLoginSubmit, onClientLoginSubmitError, onClientLoginSubmitSuccess,onLogout  } =
-  clientLoginSlice.actions;
+export const {
+  onClientLoginSubmit,
+  onClientLoginSubmitError,
+  onClientLoginSubmitSuccess,
+  onLogout,
+} = clientLoginSlice.actions;
 
 export default clientLoginSlice.reducer;

@@ -103,7 +103,8 @@ const LoginPage = () => {
         setShowLoader(true);
 
         // Wait for the dispatch to complete
-        if (clientPartnerKey) {
+        if (clientPartnerKey === "UIClient") {
+          debugger;
           dispatch(onClientLoginSubmit(loginData));
         } else {
           dispatch(onLoginSubmit(loginData));
@@ -135,7 +136,7 @@ const LoginPage = () => {
       sessionStorage.removeItem("login");
       toast.error(loginDetails?.message);
     }
-  }, [loginDetails]);
+  }, [loginDetails, clientLoginDetails]);
 
   useEffect(() => {
     if (sessionStorage.getItem("login")) {
