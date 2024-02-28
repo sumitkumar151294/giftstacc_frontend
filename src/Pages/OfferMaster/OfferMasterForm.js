@@ -4,11 +4,12 @@ import InputField from "../../Components/InputField/InputField";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import Button from "../../Components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { onPostOfferMasterSubmit ,onPostOfferMasterReset,onGetOfferMaster} from '../../Store/Slices/offerMasterSlice';
+import { onPostOfferMasterSubmit ,onPostOfferMasterReset,onGetOfferMaster, onUpdateOfferMaster, onUpdateOfferMasterReset} from '../../Store/Slices/offerMasterSlice';
 import { ToastContainer, toast } from 'react-toastify';
+import Loader from '../../Components/Loader/Loader';
 
 const OfferMasterForm = ({data,setData}) => {
-  console.log(data, "asdsd")
+  const [showLoader, setShowLoader] = useState(false);
   const [addData, setAddData]=useState({
     placement: '',
     title: '',
@@ -16,7 +17,7 @@ const OfferMasterForm = ({data,setData}) => {
     link: '',
     displayOrder: '',
     image: "",
-    status: '',
+    status: true,
   })
   const [errors, setErrors] = useState({
     placement: '',
@@ -44,6 +45,15 @@ const OfferMasterForm = ({data,setData}) => {
   const active=GetTranslationData("UIClient", "active_option");
   const non_active=GetTranslationData("UIClient", "non_active_option");
   const field_Required=GetTranslationData("UIAdmin", "field_Required");
+  const placement=GetTranslationData("UIClient","placement");
+  const title=GetTranslationData("UIClient", "title");
+  const subtitle=GetTranslationData("UIClient", "sub-title");
+  const link_label=GetTranslationData("UIClient","link_label");
+  const display_order=GetTranslationData("UIClient", "display-order");
+  const upload_image=GetTranslationData("UIClient", "uploadImage");
+  const upload=GetTranslationData("UIClient", "upload");
+  const status=GetTranslationData("UIClient", "status");
+  const submit=GetTranslationData("UIClient", "submitLabel");
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
 
@@ -81,7 +91,22 @@ const OfferMasterForm = ({data,setData}) => {
     }
     setErrors(newErrors);
     if(isValid){
-      dispatch(onPostOfferMasterSubmit(addData));       
+      setShowLoader(true);
+      if (!data) {
+      try {
+        dispatch(onPostOfferMasterSubmit(addData));
+      } 
+      catch (error) {
+      }
+    } else if (data) {
+      try {
+        const tempData = {...addData}
+        tempData.id=data?.id
+        dispatch(onUpdateOfferMaster(tempData));
+      } 
+      catch (error) {
+      }
+    }
     }
   };
   
@@ -94,18 +119,37 @@ const OfferMasterForm = ({data,setData}) => {
       link: data?.link || "",
       displayOrder: data?.displayOrder || "",
       // image: data?.image || "",
-      status: data?.status || "",
+      status: data?.status || ""
      })
   },[data])
 
   useEffect(() => {
     if (offerMasterData?.status_code === "201") {
+      setShowLoader(false);
       toast.success(offerMasterData?.message);
       dispatch(onPostOfferMasterReset());
       dispatch(onGetOfferMaster());
       setAddData(resetAddData);
     }
   }, [offerMasterData])
+  useEffect(() => {
+    if (offerMasterData.update_status_code === "201") {
+      setShowLoader(false);
+      toast.success(offerMasterData?.updateMessage);
+      dispatch(onGetOfferMaster());
+      dispatch(onUpdateOfferMasterReset());
+      setAddData(resetAddData);
+    }
+  }, [offerMasterData]);
+
+  useEffect(()=>{
+    if(offerMasterData.status_code === "500"){
+      setShowLoader(false);
+      toast.error(offerMasterData.message);
+      dispatch(onPostOfferMasterReset());
+      setAddData(resetAddData);
+    }
+  },[offerMasterData])
 
     return(
         <>           
@@ -117,11 +161,17 @@ const OfferMasterForm = ({data,setData}) => {
                                 <h4 className="card-title">{GetTranslationData("UIClient", "offerMaster")}</h4>
                             </div>                           
                             <div className="card-body ">
+                            {showLoader ? (
+                              <div style={{ height: "400px" }}>
+                                <Loader classType={"absoluteLoader"} />
+                              </div>
+                            ) : (
                                 <div className="container-fluid">
                                   <form onSubmit={handleSubmit}>
                                     <div className="row">
                                       <div className="col-sm-3 form-group mb-2">
-                                        <label htmlFor="placement">{GetTranslationData("UIClient","placement")}    <span className="text-danger">*</span>
+                                        <label htmlFor="placement">{placement}
+                                            <span className="text-danger">*</span>
                                         </label>
                                         <Dropdown
                                           error=""
@@ -135,7 +185,7 @@ const OfferMasterForm = ({data,setData}) => {
                                         />
                                       </div>
                                       <div className="col-sm-5 form-group mb-2">
-                                        <label htmlFor="title">{GetTranslationData("UIClient", "title")}
+                                        <label htmlFor="title">{title}
                                           <span className="text-danger">*</span>
                                         </label>
                                         <InputField
@@ -152,7 +202,7 @@ const OfferMasterForm = ({data,setData}) => {
                                         />
                                       </div>
                                       <div className="col-sm-4 form-group mb-2">
-                                        <label htmlFor="subtitle">{GetTranslationData("UIClient", "sub-title")}
+                                        <label htmlFor="subtitle">{subtitle}
                                            <span className="text-danger">*</span>
                                         </label>
                                         <InputField
@@ -169,7 +219,7 @@ const OfferMasterForm = ({data,setData}) => {
                                         />
                                       </div>
                                       <div className="col-sm-5 form-group mb-2">
-                                        <label htmlFor="link">{GetTranslationData("UIClient","link_label")}
+                                        <label htmlFor="link">{link_label}
                                           <span className="text-danger">*</span>
                                         </label>
                                         <InputField
@@ -186,7 +236,7 @@ const OfferMasterForm = ({data,setData}) => {
                                         />
                                       </div>
                                       <div className="col-sm-3 form-group mb-2">
-                                        <label htmlFor="displayOrder">{GetTranslationData("UIClient", "display-order")}
+                                        <label htmlFor="displayOrder">{display_order}
                                            <span className="text-danger">*</span>
                                         </label>
                                         <InputField
@@ -203,7 +253,7 @@ const OfferMasterForm = ({data,setData}) => {
                                         />
                                       </div>
                                       <div className="col-sm-4 form-group mb-2">
-                                        <label htmlFor="image">{GetTranslationData("UIClient", "uploadImage")}
+                                        <label htmlFor="image">{upload_image}
                                           <span className="text-danger">*</span>
                                         </label>
                                         <div className="input-group">
@@ -217,11 +267,11 @@ const OfferMasterForm = ({data,setData}) => {
                                                 onChange={(e) => handleInputChange(e, "image")}
                                             />
                                           </div>
-                                          <span className="input-group-text">{GetTranslationData("UIClient", "upload")}</span>
+                                          <span className="input-group-text">{upload}</span>
                                         </div>
                                       </div>
                                       <div className="col-sm-3 form-group mb-2">
-                                        <label htmlFor="status">{GetTranslationData("UIClient", "status")}
+                                        <label htmlFor="status">{status}
                                           <span className="text-danger">*</span>
                                         </label>
                                         <Dropdown
@@ -236,12 +286,14 @@ const OfferMasterForm = ({data,setData}) => {
                                         />
                                       </div>
                                       <div className="col-sm-12 form-group mb-0 mt-2">
-                                        <button className="btn btn-primary float-right pad-aa">{GetTranslationData("UIClient", "submit")} <i className="fa fa-arrow-right"></i></button>
+                                        <button className="btn btn-primary float-right pad-aa">{submit}<i className="fa fa-arrow-right"></i>
+                                        </button>
                                       </div>
                                     </div>
                                   </form>
                                   <ToastContainer/>
                                 </div>
+                            )}
                             </div>
                         </div>
                     </div>

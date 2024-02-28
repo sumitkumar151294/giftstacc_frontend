@@ -6,22 +6,27 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Button from "../../Components/Button/Button";
 import { onGetOfferMaster, onUpdateOfferMaster } from "../../Store/Slices/offerMasterSlice";
+import Loader from "../../Components/Loader/Loader";
 
 const OfferMasterList = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
+  
+  // To get the label from translation API
   const [prefilledValues, setPrefilledValues] = useState();
-  const image=GetTranslationData("UIClient", "image");
+  const offer_list=GetTranslationData("UIClient", "offer_list");
+  const image=GetTranslationData("UIClient", "imageLabel");
   const title=GetTranslationData("UIClient", "title");
   const subtitle=GetTranslationData("UIClient", "sub-title");
   const link_level=GetTranslationData("UIClient", "link_label");
   const display_order=GetTranslationData("UIClient", "display-order");
   const status=GetTranslationData("UIClient", "status");
-  const action=GetTranslationData("UIClient", "action");
+  const action=GetTranslationData("UIClient", "actionLabel");
   const dispatch = useDispatch();
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const filteredOfferMasterList = useSelector(
+  const offerMasterData = useSelector(
     (state) => state.offerMasterReducer.getData
   );
 
@@ -31,6 +36,7 @@ const OfferMasterList = () => {
 
   useEffect(() => {
     dispatch(onGetOfferMaster());
+    setIsLoading(true);
   }, []);
 
   const handleEdit = (data) => {
@@ -47,10 +53,16 @@ const OfferMasterList = () => {
       link: data.link,
       displayOrder: data.displayOrder,
       image: data.image,
-      status: data.status,
+      status:data.status,
     };
     dispatch(onUpdateOfferMaster(deletedData));
+    dispatch(onGetOfferMaster());
   };
+  useEffect(() => {
+    if(offerMasterData) {
+      setIsLoading(false);
+    }
+  }, [offerMasterData]);
   return (
     <>
       <OfferMasterForm 
@@ -65,13 +77,17 @@ const OfferMasterList = () => {
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div class="card-header">
                     <h4 class="card-title">
-                      {GetTranslationData("UIClient", "offer_list")}
+                      {offer_list}
                     </h4>
                   </div>
                 </div>
                 <div class="card-body">
-                  {filteredOfferMasterList &&
-                  filteredOfferMasterList?.length > 0 ? (
+                {isLoading && (
+                  <div style={{ height: "400px" }}>
+                    <Loader classType={"absoluteLoader"} />
+                  </div>
+                )}
+                  {offerMasterData?.length > 0 ? (
                     <div class="table-responsive">
                       <table class="table header-border table-responsive-sm">
                         <thead>
@@ -86,7 +102,7 @@ const OfferMasterList = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredOfferMasterList
+                          {offerMasterData
                             .slice(startIndex, endIndex)
                             .map((data) => (
                               <tr key={data.id}>
@@ -100,7 +116,11 @@ const OfferMasterList = () => {
                                 <td>{data.subtitle}</td>
                                 <td>{data.link}</td>
                                 <td>{data.displayOrder}</td>
-                                <td><span className="badge badge-success">{data.status}</span></td>
+                                <td>
+                                  <span className={`badge ${data.status ? 'badge-success': 'badge-danger'}`}>
+                                    {data.status ? 'Active' : 'Non-Active'}
+                                  </span>
+                                </td>
                                 <td>
                                 <Button
                                   className="btn btn-primary shadow btn-xs sharp me-1"
@@ -117,14 +137,14 @@ const OfferMasterList = () => {
                             ))}
                         </tbody>
                       </table>
-                      {filteredOfferMasterList.length > 5 && (
+                      {offerMasterData.length > 5 && (
                         <div className="pagination-container">
                           <ReactPaginate
                             previousLabel={"<"}
                             nextLabel={" >"}
                             breakLabel={"..."}
                             pageCount={Math.ceil(
-                              filteredOfferMasterList.length / rowsPerPage
+                              offerMasterData.length / rowsPerPage
                             )}
                             marginPagesDisplayed={2}
                             onPageChange={handlePageChange}

@@ -76,21 +76,29 @@ export const offerMasterSlice = createSlice({
             };
           },      
           onUpdateOfferMasterSuccess: (state, { payload }) => {
-            const { updateData = {}, message = "", status_code = 200 } = payload;
+            const { updateData = {}, updateMessage = "", update_status_code = 200 } = payload;
             return {
               ...state,
               updateData: updateData,  
-              updateMessage:message,
-              update_status_code:status_code
+              updateMessage:updateMessage,
+              update_status_code:update_status_code
             };
           },    
           onUpdateOfferMasterError: (state, { payload }) => {
-            const {updateData = {}, message = "", status_code = 400 } = payload;
+            const {updateData = {}, updateMessage = "", update_status_code = 400 } = payload;
             return {
               ...state,
-              updateCategoryData: updateData,  
-              updateMessage:message,
-              update_status_code:status_code
+              updateData: updateData,  
+              updateMessage:updateMessage,
+              update_status_code:update_status_code
+            };
+          },
+          onUpdateOfferMasterReset: (state) => {
+            return {
+              ...state,
+              updateData: {}, 
+              updateMessage:"",
+              update_status_code:null
             };
           },
     }
@@ -106,6 +114,7 @@ export const {onPostOfferMasterSubmit,
     onUpdateOfferMaster,
     onUpdateOfferMasterSuccess,
     onUpdateOfferMasterError,
+    onUpdateOfferMasterReset,
 } = offerMasterSlice.actions;
 
 export default offerMasterSlice.reducer;

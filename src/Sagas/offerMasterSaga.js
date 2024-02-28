@@ -71,16 +71,16 @@ function* GetOfferMaster() {
       yield put(
         onUpdateOfferMasterSuccess({
           updateData: updateOfferMasterResponse.response,
-          message: updateOfferMasterResponse.errorMessage,
-          status_code: updateOfferMasterResponse.httpStatusCode,
+          updateMessage: updateOfferMasterResponse.errorMessage,
+          update_status_code: updateOfferMasterResponse.httpStatusCode,
         })
       );
     } else {
       yield put(
         onUpdateOfferMasterError({
           updateData: updateOfferMasterResponse.response,
-          message: updateOfferMasterResponse.errorMessage,
-          status_code: updateOfferMasterResponse.httpStatusCode,
+          updateMessage: updateOfferMasterResponse.errorMessage,
+          update_status_code: updateOfferMasterResponse.httpStatusCode,
         })
       );
     }
