@@ -70,7 +70,7 @@ const CategoryList = () => {
       )
     )
     : [];
- 
+
   useEffect(() => {
     if (getCategoryData) {
       setIsLoading(false);
