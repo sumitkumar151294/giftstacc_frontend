@@ -87,6 +87,7 @@ const OfferMasterList = () => {
   const handleDelete = (data) => {
     const deletedData = {
       deleted:true,
+      enabled:false,
       id:data.id,
       placement: data.placement,
       title: data.title,
@@ -94,7 +95,7 @@ const OfferMasterList = () => {
       link: data.link,
       displayOrder: data.displayOrder,
       image: data.image,
-      status:data.status,
+      status:true,
     };
     dispatch(onUpdateOfferMaster(deletedData));
     dispatch(onGetOfferMaster());
@@ -122,15 +123,15 @@ const OfferMasterList = () => {
                     </h4>
                   </div>
                 </div>
-                <div class="card-body">
+                <div className="card-body">
                 {isLoading && (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 )}
                   {offerMasterData?.length > 0 ? (
-                    <div class="table-responsive">
-                      <table class="table header-border table-responsive-sm">
+                    <div className="table-responsive">
+                      <table className="table header-border table-responsive-sm">
                         <thead>
                           <tr>
                             <th>{image}</th>

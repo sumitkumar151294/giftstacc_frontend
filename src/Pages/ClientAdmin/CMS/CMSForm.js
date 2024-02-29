@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
-
+import Dropdown from "../../../Components/Dropdown/Dropdown";
 const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
   const sumbit = GetTranslationData("UIAdmin", "submit_label");
   const update = GetTranslationData("UIAdmin", "update_label");
@@ -33,7 +33,6 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     longDescription: "",
   });
   const handleChange = (e, fieldName) => {
-
     setCmsData({
       ...cmsData,
       [fieldName]: e.target?.value,
@@ -46,11 +45,18 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     });
   };
 
+  // const handleHTMLChange = (html) => {
+  //
+  //     setCmsData({
+  //       ...cmsData,
+  //       longDescription: html,
+  //     });
+  //   };
   const handleHTMLChange = (html) => {
-    setCmsData({
-      ...cmsData,
+    setCmsData((prevCmsData) => ({
+      ...prevCmsData,
       longDescription: html,
-    });
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -82,12 +88,12 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
           deleted: false,
           createdBy: 0,
           updatedBy: 0,
-          id:Cmsprefilled?.id,
-          title:cmsData?.title,
-          shortDescription:cmsData.shortDescription,
-          longDescription:cmsData.longDescription
+          id: Cmsprefilled?.id,
+          title: cmsData?.title,
+          shortDescription: cmsData.shortDescription,
+          longDescription: cmsData.longDescription,
         };
-        dispatch(onUpdateCms(updateusers))
+        dispatch(onUpdateCms(updateusers));
       }
     }
   };
@@ -103,10 +109,9 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       toast.success(getCMSdata.postMessage);
       setCmsData(resetCMSData);
       dispatch(onPostCmsReset());
-      dispatch(onGetCms());
+      toast.success(getCMSdata.postMessage);
     }
   }, [getCMSdata]);
-
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setCmsData({
@@ -117,7 +122,6 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
   }, [Cmsprefilled]);
   return (
     <>
-
       <div class="container-fluid">
         <div class="row">
           <div class="col-xl-12 col-xxl-12">
@@ -153,28 +157,28 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
               </div>
 
               <div class="card-body">
-              {isFormLoading ? (
+                {isFormLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classNameType={"absoluteLoader"} />
                   </div>
                 ) : (
-                <div class="form-group mb-2">
-                  <label for="name-f">
-                    {GetTranslationData("UIClient", "short_description")}
-                  </label>
-                  {console.log('cmsData.shortDescription',cmsData.shortDescription)}
-                  <textarea
-                    name="textarea"
-                    id="textarea"
-                    cols="60"
-                    rows="10"
-                    class="form-control bg-transparent"
-                    placeholder=""
-                    value={cmsData.shortDescription}
-                    onChange={(e) => handleChange(e, "shortDescription")}
-                  ></textarea>
-                  <p className="text-danger">{errors.shortDescription}</p>
-                </div>
+                  <div class="form-group mb-2">
+                    <label for="name-f">
+                      {GetTranslationData("UIClient", "short_description")}
+                    </label>
+
+                    <textarea
+                      name="textarea"
+                      id="textarea"
+                      cols="60"
+                      rows="10"
+                      class="form-control bg-transparent"
+                      placeholder=""
+                      value={cmsData.shortDescription}
+                      onChange={(e) => handleChange(e, "shortDescription")}
+                    ></textarea>
+                    <p className="text-danger">{errors.shortDescription}</p>
+                  </div>
                 )}
                 <div class="form-group mb-2">
                   <label for="name-f">
@@ -182,7 +186,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                   </label>
                   <HtmlEditor
                     value={cmsData.longDescription}
-                    onChange={handleHTMLChange}
+                    onChange={(data) => handleHTMLChange(data)}
                   />
                   <p className="text-danger">{errors.longDescription}</p>
                 </div>
@@ -196,14 +200,13 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                     <i class="fa fa-arrow-right"></i>
                   </button>
                   <ToastContainer />
-
-                                  </div>
+                </div>
               </div>
             </div>
           </div>
-            </div>
         </div>
-        </>
+      </div>
+    </>
   );
 };
 
