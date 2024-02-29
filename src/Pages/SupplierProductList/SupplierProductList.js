@@ -15,16 +15,16 @@ import Loader from "../../Components/Loader/Loader";
 
 const SupplierProductList = () => {
   const dispatch = useDispatch();
+  const [selectedSupplierCode, setSelectedSupplierCode] = useState("Select");
   const [isLoading, setIsLoading] = useState(false);
   const [supplierList, setSupplierList] = useState([]);
   const [copySupplierBrandList, setCopySupplierBrandList] = useState([]);
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  console.log("SupplierBrandList", SupplierBrandList);
   const activeUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => item?.enabled)?.length;
   const inactiveUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => !item?.enabled)?.length;
-    const SupplierBrandListUpdate = useSelector(
+  const SupplierBrandListUpdate = useSelector(
     (state) => state.supplierBrandListReducer
   );
   const suppliers = useSelector((state) => state.supplierMasterReducer);
@@ -63,7 +63,6 @@ const SupplierProductList = () => {
     }
   }, [SupplierBrandListUpdate])
 
-
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -77,11 +76,10 @@ const SupplierProductList = () => {
 
   const endIndex = startIndex + rowsPerPage;
   const headers = [
-    { label: "id", key: "id" },
-    { label: "brands", key: "brands" },
-    { label: "supplier_Margin", key: "supplier_Margin" },
-    { label: "status", key: "status" },
-    { label: "action", key: "action" },
+    { label: "Id", key: "id" },
+    { label: "Brands", key: "brands" },
+    { label: "Supplier Margin", key: "supplier_Margin" },
+    { label: "Status", key: "status" },
   ];
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
@@ -96,13 +94,14 @@ const SupplierProductList = () => {
   }, [suppliers]);
 
   const handleChange = (e) => {
-    if (e.target.value === "Select") {
-      setCopySupplierBrandList(SupplierBrandList)
+    const selectedSupplierCode = e.target.value;
+    if (selectedSupplierCode === "Select") {
+      setCopySupplierBrandList(SupplierBrandList);
     } else {
       let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
-        vendor?.supplierCode.toLowerCase().includes(e.target?.value.toLowerCase())
+        vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase()
       );
-      setCopySupplierBrandList(filteredSupplierList)
+      setCopySupplierBrandList(filteredSupplierList);
     }
   };
 
@@ -140,14 +139,8 @@ const SupplierProductList = () => {
     }
   };
 
-
-
-
   const handleInputChange = (e, ids) => {
     const newValue = e.target.value < 0 ? 0 : e.target.value;
-
-
-
     const updatedSupplier = copySupplierBrandList.map(item => {
       if (item.id === ids) {
         return { ...item, supplierMargin: newValue };
@@ -161,11 +154,11 @@ const SupplierProductList = () => {
     const updatedValues = {
       id: data.id,
       supplierMargin: data?.supplierMargin,
-      clientCommission:data?.clientCommission,
-      customerDiscount:data?.customerDiscount,
-      clientId:data?.clientId,
-      enabled:data?.enabled,
-      clientEnabled:data?.clientEnabled
+      clientCommission: data?.clientCommission,
+      customerDiscount: data?.customerDiscount,
+      clientId: data?.clientId,
+      enabled: data?.enabled,
+      clientEnabled: data?.clientEnabled
     };
     setIsLoading(true);
     dispatch(onUpdateSupplierBrandList(updatedValues));
@@ -175,11 +168,11 @@ const SupplierProductList = () => {
     const updatedValues = {
       id: data.id,
       supplierMargin: data?.supplierMargin,
-      clientCommission:data?.clientCommission,
-      customerDiscount:data?.customerDiscount,
-      clientId:data?.clientId,
-      enabled:!data?.enabled,
-      clientEnabled:data?.clientEnabled
+      clientCommission: data?.clientCommission,
+      customerDiscount: data?.customerDiscount,
+      clientId: data?.clientId,
+      enabled: !data?.enabled,
+      clientEnabled: data?.clientEnabled
     };
     setIsLoading(true)
     dispatch(onUpdateSupplierBrandList(updatedValues));
@@ -187,18 +180,18 @@ const SupplierProductList = () => {
 
   useEffect(() => {
     let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
-      vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
+      vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase()) &&
+      (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
     );
     setCopySupplierBrandList(filteredSupplierList);
-  }, [searchQuery]);
+  }, [searchQuery, selectedSupplierCode]);
 
   // excel data to print
-  const excelData = SupplierBrandList.map(data => ({
-    id:data.id,
+  const excelData = Array.isArray(SupplierBrandList)&&SupplierBrandList.map(data => ({
+    id: data.id,
     brands: data.name,
-    supplier_Margin :data.supplierMargin,
-    status:data.enabled, 
-    action:data.enabled,
+    supplier_Margin: data.supplierMargin,
+    status: data.enabled ?"Active":"Non-active",
   }));
 
   return (
@@ -220,7 +213,7 @@ const SupplierProductList = () => {
                           type="text"
                           value={searchQuery}
                           onChange={handleSearch}
-                          className="form-control only-high"
+                          className="form-control only-high "
                           placeholder={search_here_label}
                         />
                         <span className="input-group-text">
@@ -234,7 +227,7 @@ const SupplierProductList = () => {
                           <CSVLink
                             data={excelData}
                             headers={headers}
-                            filename={"SupplierBrandList.csv"}
+                            filename={"SupplierProductList.csv"}
                           >
                             <Button
                               className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
@@ -254,7 +247,10 @@ const SupplierProductList = () => {
                         <Dropdown
                           className="form-select"
                           aria-label="Default select example"
-                          onChange={(e) => handleChange(e, "status")}
+                          onChange={(e) => {
+                            setSelectedSupplierCode(e.target.value);
+                            handleChange(e);
+                          }}
                           options={supplierList}
                         />
                       </div>
@@ -309,7 +305,7 @@ const SupplierProductList = () => {
                                             <div className="input-group mb-2 w-11">
                                               <InputField
                                                 type="number"
-                                                className="form-control htt"
+                                                className="form-control htt  border-Radius"
                                                 placeholder={data.supplier_Margin}
                                                 pattern="/^-?\d+\.?\d*$/"
                                                 value={data?.supplierMargin}

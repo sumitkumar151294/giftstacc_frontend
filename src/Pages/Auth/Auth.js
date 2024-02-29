@@ -19,9 +19,18 @@ const Auth = () => {
   useEffect(() => {
     setShowLoader(true);
     // Find the configuration that matches the current URL
-    const matchingConfig = config.find((item) =>
+    let matchingConfig = config.filter((item) =>
       currentUrl.includes(item.API_URL)
     );
+    if(matchingConfig.length>1){
+      if(currentUrl.includes("lc-user-admin") || currentUrl.includes("Lc-user-admin")){
+        matchingConfig = matchingConfig.find(item=>(item.PARTNER_KEY === "UIClient"))
+      }else{
+        matchingConfig = matchingConfig.find(item=>(item.PARTNER_KEY === "UIAdmin"))
+      }
+          }else if(matchingConfig.length===1){
+      matchingConfig=matchingConfig[0];
+    }
     // get data from present url
     if (matchingConfig) {
       const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } =
@@ -34,7 +43,7 @@ const Auth = () => {
           secretKey: SECRET_KEY,
         })
       );
-      sessionStorage.setItem('partnerKey', PARTNER_KEY);
+      axiosInstance.defaults.headers['partner-code'] = PARTNER_KEY;
     }else{
       setShowLoader(false);
       setShowError(true)

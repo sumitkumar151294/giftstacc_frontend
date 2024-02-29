@@ -26,6 +26,12 @@ const CategoryForm = ({ setIsLoading }) => {
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
+  // const getModules = useSelector((state) => state.moduleReducer);
+  // const getModulesRoleId = getModules?.data;
+  // const getRolesAccess = getModules?.filteredData;
+  // console.log(getModules,"getRoleAccess",getModulesRoleId,getRolesAccess);
+
+  // const findRoleAccess = getRolesAccess.filte(r)
   // const supplierBrandListData = useSelector((state)=> state?.supplierBrandListReducer?.data);
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -34,8 +40,8 @@ const CategoryForm = ({ setIsLoading }) => {
     supplierBrandId: "",
   });
   const [createCategory, setCreateCategory] = useState({
-    supplierId: null,
-    supplierBrandId: null,
+    supplierId: "",
+    supplierBrandId: "",
     name: "",
   });
   const getCategoriesData = useSelector(
@@ -84,12 +90,17 @@ const CategoryForm = ({ setIsLoading }) => {
         supplierList.push({ label: item.name, value: item.id });
       });
     setSupplierBrandListData(supplierList);
-    }
     setCreateCategory({
       ...createCategory,
+      supplierBrandId: "",
       [fieldName]: e.target.value,
     });
-
+    }else{
+      setCreateCategory({
+        ...createCategory,
+        [fieldName]: e.target.value,
+      });
+    }
     setErrors({
       ...errors,
       [fieldName]: "",
