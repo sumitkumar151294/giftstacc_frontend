@@ -29,7 +29,7 @@ const reducers = combineReducers({
     supplierMasterReducer:supplierMasterReducer,
     supplierBrandListReducer:supplierBrandListReducer,
     clientMasterReducer:clientMasterReducer,
-    createCategoryReducer:createCategoryReducer
+    createCategoryReducer:createCategoryReducer,
 });
 
 export default reducers;
