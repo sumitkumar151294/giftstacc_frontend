@@ -106,6 +106,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
 
   useEffect(() => {
     if (getCMSdata.post_status_code === "201") {
+      toast.success(getCMSdata.postMessage);
       setCmsData(resetCMSData);
       dispatch(onPostCmsReset());
       toast.success(getCMSdata.postMessage);
@@ -113,7 +114,6 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
   }, [getCMSdata]);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-
     setCmsData({
       title: Cmsprefilled?.title || "",
       shortDescription: Cmsprefilled?.shortDescription || "",

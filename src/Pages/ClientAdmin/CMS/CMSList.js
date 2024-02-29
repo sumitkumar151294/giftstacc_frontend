@@ -21,7 +21,33 @@ const CMS = () => {
   const short_description = GetTranslationData("UIClient", "short_description");
   const long_description = GetTranslationData("UIClient", "long_description");
   const action = GetTranslationData("UIClient", "action");
-  const getdata = useSelector((state) => state.cmsReducer.getCMSData);
+  const getdata = [
+    {
+        "title": "Terms and Conditions",
+        "shortDescription": "About us",
+        "longDescription": "<p>Description for the about us page</p>",
+        "id": 1
+    },
+    {
+        "title": "About us",
+        "shortDescription": "Terms and conditons",
+        "longDescription": "<p>Description for the about us page</p>",
+        "id": 2
+    },
+    {
+        "title": "Testing Page",
+        "shortDescription": "Testing 1",
+        "longDescription": "<p>Description for the about us page</p>",
+        "id": 3
+    },
+    {
+        "title": "Privacy Policy",
+        "shortDescription": "Contact Us",
+        "longDescription": "<p>Description for the about us page</p>",
+        "id": 4
+    },
+  
+];
   const updateCMSdata= useSelector((state)=>state.cmsReducer)
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -72,11 +98,11 @@ if(updateCMSdata.update_status_code==="201"){
         Cmsprefilled={Cmsprefilled}
         setCmsprefilled={setCmsprefilled}
       />
-      <div class="container-fluid">
+      <div class="container-fluid mt-2 mb-2 pt-1">
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <div className="ontainer-fluid mt-2 mb-2 pt-1">
+              <div className="container-fluid mt-2 mb-2 pt-1">
                 <div className="card-body" >
                 {isLoading && getdata.length < 0 ? (
                  <NoRecord />

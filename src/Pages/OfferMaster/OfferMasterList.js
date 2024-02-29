@@ -7,6 +7,7 @@ import NoRecord from "../../Components/NoRecord/NoRecord";
 import Button from "../../Components/Button/Button";
 import { onGetOfferMaster, onUpdateOfferMaster } from "../../Store/Slices/offerMasterSlice";
 import Loader from "../../Components/Loader/Loader";
+import tempImage from '../../Assets/img/pizz1.jpg'
 
 const OfferMasterList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,10 +27,50 @@ const OfferMasterList = () => {
   const dispatch = useDispatch();
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const offerMasterData = useSelector(
-    (state) => state.offerMasterReducer.getData
-  );
+  const offerMasterData = [
+    {
+        "placement": "Top",
+        "title": "Get the most out of it ",
+        "subtitle": "we provide the best offer and vouchers",
+        "link": "https://demo1.way2webhost.com",
+        "displayOrder": "1",
+        "image": "C:\\fakepath\\krGkf.png",
+        "enabled": true,
+        "id": 21
+    },
+    {
+      "placement": "Top",
+      "title": "Get the most out of it ",
+      "subtitle": "we provide the best offer and vouchers",
+      "link": "https://demo1.way2webhost.com",
+      "displayOrder": "1",
+      "image": "C:\\fakepath\\krGkf.png",
+      "enabled": true,
+      "id": 21
+  },
+  {
+    "placement": "Top",
+    "title": "Get the most out of it ",
+    "subtitle": "we provide the best offer and vouchers",
+    "link": "https://demo1.way2webhost.com",
+    "displayOrder": "1",
+    "image": "C:\\fakepath\\krGkf.png",
+    "enabled": false,
+    "id": 21
+},
+{
+  "placement": "Top",
+  "title": "Get the most out of it ",
+  "subtitle": "we provide the best offer and vouchers",
+  "link": "https://demo1.way2webhost.com",
+  "displayOrder": "1",
+  "image": "C:\\fakepath\\krGkf.png",
+  "enabled": true,
+  "id": 21
+},
+   
 
+]
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -70,14 +111,14 @@ const OfferMasterList = () => {
          data={prefilledValues}
          setData={setPrefilledValues}
       />
-      <div className="container-fluid  pt-0">
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="card">
-              <div className="container-fluid">
-                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div className="card-header">
-                    <h4 className="card-title">
+      <div class="container-fluid  pt-0">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="container-fluid mt-2 mb-2 pt-1">
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div class="card-header">
+                    <h4 class="card-title">
                       {offer_list}
                     </h4>
                   </div>
@@ -109,7 +150,7 @@ const OfferMasterList = () => {
                               <tr key={data.id}>
                                 <td>
                                   <img
-                                    src={data.img}
+                                    src={tempImage}
                                     style={{ width: "50px" }}
                                   />
                                 </td>
