@@ -39,7 +39,7 @@ const reducers = combineReducers({
     faqMasterReducer:faqMasterReducer,
     bannerMasterReducer:bannerMasterReducer,
     faqCategoryReducer:faqCategoryReducer,
-    cmsReducer:cmsReduce,
+    cmsReducer:cmsReducer,
     cmsReducer:cmsReducer,
     offerMasterReducer:offerMasterReducer
 });

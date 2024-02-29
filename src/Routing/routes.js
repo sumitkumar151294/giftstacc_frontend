@@ -14,9 +14,7 @@ import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 import PageError from "../Components/PageError/PageError";
-import CMS from "../Pages/ClientAdmin/CMS/CMS";
-import FaqMaster from "../Pages/Faq'sMaster/Faq'sMaster";
-import BannerMasterList from "../Pages/BannerMaster/BannerList";
+
 import CMSList from "../Pages/ClientAdmin/CMS/CMSList";
 import OfferMasterList from "../Pages/OfferMaster/OfferMasterList";
 // import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
@@ -63,22 +61,6 @@ function RouteConfiq() {
           element={<Layout Component={BrandCatalogue} />}
         />
         <Route
-          path="/lc-user-admin/brand-catalogue"
-          element={<Layout Component={BrandCatalogue} />}
-        />
-        <Route
-          path="/lc-user-admin/banner-master"
-          element={<Layout Component={BannerMasterList} />}
-        />
-         <Route
-          path="/lc-user-admin/faqMaster"
-          element={<Layout Component={FaqMaster} />}
-        />
-        <Route
-          path="/lc-user-admin/brand-detail"
-          element={<Layout Component={BrandDetail} />}
-        />
-         <Route
           path="/lc-admin/brand-detail"
           element={<Layout Component={BrandDetail} />}
         />
@@ -94,6 +76,10 @@ function RouteConfiq() {
           path="/lc-user-admin/offer-master"
           element={<Layout Component={OfferMasterList} />}
         />
+           {/* <Route
+          path="/lc-user-admin/faq"
+          element={<Layout Component={Faq} />}
+        /> */}
          <Route
           path="*"
           element={<PageError pageError={{StatusCode:"404", ErrorName:"Route not found", ErrorDesription:"The page you were looking for is not found!", url:"/", buttonText:"Back to home" }}/>}

@@ -71,7 +71,7 @@ updateFaqCategory:'/faq-category',
 
   //banner-master
   getBannerMaster:"/",
-  postBannerMaster:"/"
+  postBannerMaster:"/",
 
 
   //CMS
