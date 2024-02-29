@@ -17,7 +17,7 @@ const OfferMasterForm = ({data,setData}) => {
     link: '',
     displayOrder: '',
     image: "",
-    status: true,
+    enabled:true
   })
   const [errors, setErrors] = useState({
     placement: '',
@@ -26,7 +26,7 @@ const OfferMasterForm = ({data,setData}) => {
     link: '',
     displayOrder: '',
     image: '',
-    status: '',
+    enabled:''
   });
   // To reset the Input Field
   const resetAddData={
@@ -36,7 +36,7 @@ const OfferMasterForm = ({data,setData}) => {
     link: '',
     displayOrder: '',
     image: "",
-    status: '',
+    enabled:''
   }
 
   // To get the label from translation API
@@ -67,10 +67,18 @@ const OfferMasterForm = ({data,setData}) => {
   ];  
 
   const handleInputChange = (e,fieldName) => {
-    setAddData({
-      ...addData,
-      [fieldName]: e.target.value,
-    });
+    if(fieldName==="enabled"){
+      setAddData({
+        ...addData,
+        [fieldName]: e.target.value ==="true" ? true:false,
+      });
+    }
+    else{
+      setAddData({
+         ...addData,
+         [fieldName]: e.target.value,
+      });
+    }
     setErrors({
       ...errors,
       [fieldName]: "",
@@ -113,13 +121,14 @@ const OfferMasterForm = ({data,setData}) => {
   useEffect(()=>{
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
      setAddData({
+      ...addData,
       placement: data?.placement || "",
       title: data?.title || "",
       subtitle:data?.subtitle || "",
       link: data?.link || "",
       displayOrder: data?.displayOrder || "",
       // image: data?.image || "",
-      status: data?.status || ""
+      enabled:data?.enabled || ""
      })
   },[data])
 
@@ -174,7 +183,6 @@ const OfferMasterForm = ({data,setData}) => {
                                             <span className="text-danger">*</span>
                                         </label>
                                         <Dropdown
-                                          error=""
                                           value={addData.placement || ""}
                                           onChange={(e) => handleInputChange(e, "placement")}
                                           className={` ${errors.placement
@@ -271,14 +279,13 @@ const OfferMasterForm = ({data,setData}) => {
                                         </div>
                                       </div>
                                       <div className="col-sm-3 form-group mb-2">
-                                        <label htmlFor="status">{status}
+                                        <label htmlFor="enabled">{status}
                                           <span className="text-danger">*</span>
                                         </label>
-                                        <Dropdown
-                                          error=""
-                                          value={addData.status || ""}
-                                          onChange={(e) => handleInputChange(e, "status")}
-                                          className={` ${errors.status
+                                        <Dropdown                                      
+                                          value={addData.enabled}
+                                          onChange={(e) => handleInputChange(e, "enabled")}
+                                          className={` ${errors.enabled
                                             ? "border-danger"
                                             : "form-select"
                                             }`}
