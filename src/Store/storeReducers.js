@@ -31,7 +31,6 @@ const reducers = combineReducers({
     supplierMasterReducer:supplierMasterReducer,
     supplierBrandListReducer:supplierBrandListReducer,
     clientMasterReducer:clientMasterReducer,
-    createCategoryReducer:createCategoryReducer,
     cmsReducer:cmsReducer,
     offerMasterReducer:offerMasterReducer
 });
