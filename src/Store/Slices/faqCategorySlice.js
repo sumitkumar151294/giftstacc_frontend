@@ -33,7 +33,9 @@ export const faqCategory = createSlice({
       return {
         ...state,
         status_code: null,
-        postdata: null,
+        postdata: {},
+        message: "",
+        isLoading: false,
       };
     },
 
@@ -63,7 +65,7 @@ export const faqCategory = createSlice({
         isLoading: false,
         getData: data,
         getmessage: message,
-        status_code :status_code,
+        status_code: status_code,
       };
     },
     onGetFaqCategoryError: (state, { payload }) => {
@@ -73,7 +75,7 @@ export const faqCategory = createSlice({
         isLoading: false,
         getData: data,
         getmessage: message,
-        status_code :status_code,
+        status_code: status_code,
       };
     },
   },
@@ -86,7 +88,6 @@ export const {
   onGetFaqCategory,
   onGetFaqCategorySuccess,
   onGetFaqCategoryError,
-
 } = faqCategory.actions;
 
 export default faqCategory.reducer;

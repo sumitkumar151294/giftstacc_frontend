@@ -312,7 +312,6 @@ setCopySupplierBrandList(updatedSupplier);
                                         </td>
                                         <td>{data.supplierMargin}</td>
                                         <td>
-                                        {console.log('client enabled',data.clientEnabled)}
                                           <span
                                             className={
                                               data.clientEnabled === true

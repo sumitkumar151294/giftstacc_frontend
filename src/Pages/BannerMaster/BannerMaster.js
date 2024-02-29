@@ -97,7 +97,6 @@ const BannerForm = ({ prefilledData }) => {
     setErrors(newErrors);
 
     if (isValid) {
-      console.log(bannerMaster);
       dispatch(onbannerMasterSubmit(bannerMaster));
     }
   };

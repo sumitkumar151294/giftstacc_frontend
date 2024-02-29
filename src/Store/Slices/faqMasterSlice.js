@@ -32,8 +32,10 @@ export const faqMaster = createSlice({
     onFaqMasterSubmitReset: (state) => {
       return {
         ...state,
+        postdata: {},
+        message: "",
         status_code: null,
-        postdata: null,
+        isLoading: false,
       };
     },
 
@@ -63,7 +65,7 @@ export const faqMaster = createSlice({
         isLoading: false,
         getData: data,
         getmessage: message,
-        status_code :status_code,
+        status_code: status_code,
       };
     },
     onGetFaqMasterError: (state, { payload }) => {
@@ -73,7 +75,7 @@ export const faqMaster = createSlice({
         isLoading: false,
         getData: data,
         getmessage: message,
-        status_code :status_code,
+        status_code: status_code,
       };
     },
   },
