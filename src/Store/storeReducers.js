@@ -15,6 +15,7 @@ import brandCatalogueReducer from './Slices/brandCatalogueSlice';
 import clientPaymentReducer from './Slices/clientPaymentDetailSlice';
 import cmsReducer from './Slices/cmsSlice';
 import supplierResourceSlice from './Slices/supplierResourceSlice';
+import offerMasterReducer from './Slices/offerMasterSlice';
 
 const reducers = combineReducers({
     loginReducer:loginReducer,
@@ -31,7 +32,8 @@ const reducers = combineReducers({
     supplierBrandListReducer:supplierBrandListReducer,
     clientMasterReducer:clientMasterReducer,
     createCategoryReducer:createCategoryReducer,
-    cmsReducer:cmsReducer
+    cmsReducer:cmsReduce
+    offerMasterReducer:offerMasterReducer
 });
 
 export default reducers;
