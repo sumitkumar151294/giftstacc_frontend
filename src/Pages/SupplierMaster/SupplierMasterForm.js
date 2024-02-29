@@ -233,7 +233,6 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
           newAdditionalFieldsError[index].fieldName = fieldNameNotEmpty;
           return newAdditionalFieldsError;
         });
-
         isValid = false;
       }
 
@@ -243,7 +242,6 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
           newAdditionalFieldsError[index].fieldValue = fieldValueNotEmpty;
           return newAdditionalFieldsError;
         });
-
         isValid = false;
       }
     });
@@ -295,7 +293,12 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
     const newFields = [...additionalFields];
     newFields.splice(index, 1);
     setAdditionalFields(newFields);
+  
+    const newErrors = [...additionalFieldsError];
+    newErrors.splice(index, 1);
+    setAdditionalFieldsError(newErrors);
   };
+    
 
   return (
     <>

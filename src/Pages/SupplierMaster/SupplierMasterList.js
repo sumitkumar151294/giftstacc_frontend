@@ -43,10 +43,11 @@ const SupplierMasterList = () => {
   );
 
   const headers = [
-    { label: "id", key: "id" },
-    { label: "name", key: "name" },
-    { label: "balanceAvailable", key: "creditAmount" },
-    { label: "minThresholdAmount", key: "balanceThresholdAmount" },
+    { label: "Id", key: "id" },
+    { label: "Name", key: "name" },
+    { label: "Balance Available", key: "creditAmount" },
+    { label: "Min Threshold Amount", key: "balanceThresholdAmount" },
+    { label: "Status", key: "status" },
   ];
 
   const [rowsPerPage] = useState(5);
@@ -112,6 +113,18 @@ const SupplierMasterList = () => {
         )
       )
     : [];
+
+  // excel data
+  const excelData =
+    Array.isArray(supplierMasterData?.data) &&
+    supplierMasterData?.data?.map((data) => ({
+      id: data.id,
+      name: data.name,
+      creditAmount: data.creditAmount,
+      balanceThresholdAmount: data.balanceThresholdAmount,
+      status: data.enabled ? "Active" : "Non-active",
+    }));
+
   return (
     <>
       <SupplierMasterForm
@@ -158,7 +171,7 @@ const SupplierMasterList = () => {
                         {supplierMasterData &&
                           supplierMasterData?.data.length > 0 && (
                             <CSVLink
-                              data={supplierMasterData?.data}
+                              data={excelData}
                               headers={headers}
                               filename={"SupplierMaster.csv"}
                             >
@@ -271,7 +284,6 @@ const SupplierMasterList = () => {
                       <div>
                         <NoRecord />
                       </div>
-                      
                     )}
                   </>
                 </>

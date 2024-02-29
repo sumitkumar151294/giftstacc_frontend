@@ -17,12 +17,13 @@ import PageError from "../../Components/PageError/PageError";
 const ClientBrandList = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const [selectedSupplierCode, setSelectedSupplierCode] = useState("Select");
   const [supplierList, setSupplierList] = useState([]);
   const [copySupplierBrandList, setCopySupplierBrandList] = useState([]);
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-    const SupplierBrandListUpdate = useSelector(
+  const SupplierBrandListUpdate = useSelector(
     (state) => state.supplierBrandListReducer
   );
   const suppliers = useSelector((state) => state.supplierMasterReducer);
@@ -49,22 +50,20 @@ const ClientBrandList = () => {
     dispatch(onGetSupplierList());
   }, []);
 
-  useEffect(()=>{
-      const filterData = SupplierBrandList?.filter((item)=>{
-        return item.enabled === true
-      })
-      setCopySupplierBrandList(filterData)
-  },[SupplierBrandList])
-  
+  useEffect(() => {
+    const filterData = SupplierBrandList?.filter((item) => {
+      return item.enabled === true
+    })
+    setCopySupplierBrandList(filterData)
+  }, [SupplierBrandList])
 
-  useEffect(()=>{
-    if(SupplierBrandListUpdate?.updateStatusCode==="201" ){
+  useEffect(() => {
+    if (SupplierBrandListUpdate?.updateStatusCode === "201") {
       toast.success(SupplierBrandListUpdate?.message)
       dispatch(onGetSupplierBrandList());
       dispatch(onUpdateSupplierBrandListReset())
     }
-  },[SupplierBrandListUpdate])
-
+  }, [SupplierBrandListUpdate])
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -88,7 +87,7 @@ const ClientBrandList = () => {
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
   useEffect(() => {
-    if(suppliers?.data.length && !supplierList.length){
+    if (suppliers?.data.length && !supplierList.length) {
       let tempSupplier = [];
       suppliers?.data?.map((item) => {
         tempSupplier.push({ label: item.name, value: item.code });
@@ -98,18 +97,19 @@ const ClientBrandList = () => {
   }, [suppliers]);
 
   const handleChange = (e) => {
-    const filterData = SupplierBrandList?.filter((item)=>{
+    const filterData = SupplierBrandList?.filter((item) => {
       return item.enabled === true
     })
-    if(e.target.value==="Select"){
-      setCopySupplierBrandList(filterData)
-    }else{
-let filteredSupplierList =  Array.isArray(filterData) && filterData?.filter((vendor) =>
-  vendor?.supplierCode.toLowerCase().includes(e.target?.value.toLowerCase())
-    );
-    setCopySupplierBrandList(filteredSupplierList)
+    const selectedSupplierCode = e.target.value;
+    if (selectedSupplierCode === "Select") {
+      setCopySupplierBrandList(filterData);
+    } else {
+      let filteredSupplierList = Array.isArray(filterData) && filterData?.filter((vendor) =>
+        vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase()
+      );
+      setCopySupplierBrandList(filteredSupplierList);
     }
-   };
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === "e" || e.key === "+" || e.key === "-") {
@@ -117,259 +117,258 @@ let filteredSupplierList =  Array.isArray(filterData) && filterData?.filter((ven
     }
   };
 
+  const handleInputChange = (e, ids, name) => {
+    const newValue = e.target.value < 0 ? 0 : e.target.value;
 
-
-
-  const handleInputChange = (e,ids,name) => {
-    const newValue = e.target.value<0 ? 0 : e.target.value;
-
-
-
-const updatedSupplier = copySupplierBrandList.map(item => {
-  if (item.id === ids ) {
-    return {...item, [name]:newValue};
-  } else {
-    return item;
-  }
-});
-setCopySupplierBrandList(updatedSupplier);
+    const updatedSupplier = copySupplierBrandList.map(item => {
+      if (item.id === ids) {
+        return { ...item, [name]: newValue };
+      } else {
+        return item;
+      }
+    });
+    setCopySupplierBrandList(updatedSupplier);
   };
   const handleUpdate = (data) => {
     const updatedValues = {
       id: data.id,
       supplierMargin: data?.supplierMargin,
-      clientCommission:data?.clientCommission,
-      customerDiscount:data?.customerDiscount,
-      clientId:location?.state?.id,
-      enabled:data?.enabled,
-      clientEnabled:data?.clientEnabled
+      clientCommission: data?.clientCommission,
+      customerDiscount: data?.customerDiscount,
+      clientId: location?.state?.id,
+      enabled: data?.enabled,
+      clientEnabled: data?.clientEnabled
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
   };
 
-  const updateStatus = (data) =>{
+  const updateStatus = (data) => {
     const updatedValues = {
       id: data.id,
       supplierMargin: data?.supplierMargin,
-      clientCommission:data?.clientCommission,
-      customerDiscount:data?.customerDiscount,
-      clientId:location?.state?.id,
-      enabled:data?.enabled,
-      clientEnabled:!data?.clientEnabled
+      clientCommission: data?.clientCommission,
+      customerDiscount: data?.customerDiscount,
+      clientId: location?.state?.id,
+      enabled: data?.enabled,
+      clientEnabled: !data?.clientEnabled
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
   }
 
-  useEffect(()=>{
-    const filterData = SupplierBrandList?.filter((item)=>{
+  useEffect(() => {
+    const filterData = SupplierBrandList?.filter((item) => {
       return item.enabled === true
     })
-    
-    let filteredSupplierList =  Array.isArray(filterData) && filterData?.filter((vendor) =>
-    vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase())
-      );
-      setCopySupplierBrandList(filteredSupplierList);
-  },[searchQuery]);
+    let filteredSupplierList = Array.isArray(filterData) && SupplierBrandList?.filter((vendor) =>
+      vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase()) &&
+      (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
+    );
+    setCopySupplierBrandList(filteredSupplierList);
+  }, [searchQuery, selectedSupplierCode]);
 
-  const getSupplierName = (code) =>{
-  const filterData = Array.isArray(suppliers?.data) && suppliers?.data?.filter((item)=>{
-   return item.code === code
-  })
-  return filterData[0]?.name.length ? filterData[0]?.name : ""
+  const getSupplierName = (code) => {
+    const filterData = Array.isArray(suppliers?.data) && suppliers?.data?.filter((item) => {
+      return item.code === code
+    })
+    return filterData[0]?.name.length ? filterData[0]?.name : ""
   };
 
   return (
     <>
       <ScrollToTop />
-      {location.state ? 
-      <div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-xl-12 col-xxl-12">
-              <div className="card d-flex justify-content-between ">
-                <div className="container-fluid mt-2 mb-2 ">
-                  <div className="d-flex justify-content-between align-items-center mb-4 mt-7-supplier flex-wrap">
-                    <div className="card-header">
-                      <h4 className="card-title">{supplier_products}</h4>
-                    </div>
-                    <div className="customer-search mb-sm-0 mb-3">
-                      <div className="input-group search-area">
-                        <InputField
-                          type="text"
-                          value={searchQuery}
-                          onChange={handleSearch}
-                          className="form-control only-high"
-                          placeholder={search_here_label}
-                        />
-                        <span className="input-group-text">
-                          <i className="fa fa-search"></i>
-                        </span>
+      {location.state ?
+        <div>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12 col-xxl-12">
+                <div className="card d-flex justify-content-between ">
+                  <div className="container-fluid mt-2 mb-2 ">
+                    <div className="d-flex justify-content-between align-items-center mb-4 mt-7-supplier flex-wrap">
+                      <div className="card-header">
+                        <h4 className="card-title">{supplier_products}</h4>
                       </div>
-                    </div>
-                    <div className="d-flex align-items-center flex-wrap">
-                      {copySupplierBrandList &&
-                        copySupplierBrandList.length > 0 && (
-                          <CSVLink
-                            data={SupplierBrandList}
-                            headers={headers}
-                            filename={"SupplierBrandList.csv"}
-                          >
-                            <Button
-                              className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                              icons={"fa fa-file-excel"}
-                              text={export_label}
-                            />
-                          </CSVLink>
-                        )}
+                      <div className="customer-search mb-sm-0 mb-3">
+                        <div className="input-group search-area">
+                          <InputField
+                            type="text"
+                            value={searchQuery}
+                            onChange={handleSearch}
+                            className="form-control only-high"
+                            placeholder={search_here_label}
+                          />
+                          <span className="input-group-text">
+                            <i className="fa fa-search"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="d-flex align-items-center flex-wrap">
+                        {copySupplierBrandList &&
+                          copySupplierBrandList.length > 0 && (
+                            <CSVLink
+                              data={SupplierBrandList}
+                              headers={headers}
+                              filename={"SupplierBrandList.csv"}
+                            >
+                              <Button
+                                className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                                icons={"fa fa-file-excel"}
+                                text={export_label}
+                              />
+                            </CSVLink>
+                          )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="card-body">
-                  <form>
-                    <div className="row flex-column px-1">
-                      <div className="col-sm-3 form-group mb-2">
-                        <label htmlFor="name-f">{selectSuppliers}</label>
-                        <Dropdown
-                          className="form-select"
-                          aria-label="Default select example"
-                          onChange={(e) => handleChange(e, "status")}
-                          options={supplierList}
-                        />
+                  <div className="card-body">
+                    <form>
+                      <div className="row flex-column px-1">
+                        <div className="col-sm-3 form-group mb-2">
+                          <label htmlFor="name-f">{selectSuppliers}</label>
+                          <Dropdown
+                            className="form-select"
+                            aria-label="Default select example"
+                            onChange={(e) => {
+                              setSelectedSupplierCode(e.target.value);
+                              handleChange(e);
+                            }}
+                            options={supplierList}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </form>
-                  <div className="row px-1">
-                    <div className="col-lg-12">
-                      <div>
-                        {Array.isArray(copySupplierBrandList) &&
-                          copySupplierBrandList.length > 0 ? (
-                          <div className="card-body">
-                            <div className="table-responsive">
-                              <table className="table header-border table-responsive-sm">
-                                <thead>
-                                  <tr>
-                                    <th>{supplierName}</th>
-                                    <th>{supplierBrandName}</th>
-                                    <th>{clientbrandlistdiscount}</th>
-                                    <th>{clientbrandlistcommission}</th>
-                                    <th>{supplierMargin}</th>
-                                    <th>{status}</th>
-                                    <th>{action}</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {copySupplierBrandList
-                                    .slice(startIndex, endIndex)
-                                    .map((data, index) => (
-                                      <tr key={index}>
-                                        <td>{getSupplierName(data.supplierCode)}</td>
-                                        <td>{data.name}</td>
-                                        <td>
-                                          <div className="input-group mb-2 w-11">
-                                            <InputField
-                                              type="number"
-                                              className="form-control htt"
-                                              placeholder={data.customerDiscount}
-                                              pattern="/^-?\d+\.?\d*$/"
-                                              value={data?.customerDiscount}
-                                              onChange={(e)=>handleInputChange(e,data.id,"customerDiscount")}
-                                              onKeyPress={(e)=>handleKeyPress(e,index)}
-                                            />
-                                             <div className="input-group-append">
-                                            <Button
-                                              onClick={() =>
-                                                handleUpdate(data,data.id)
+                    </form>
+                    <div className="row px-1">
+                      <div className="col-lg-12">
+                        <div>
+                          {Array.isArray(copySupplierBrandList) &&
+                            copySupplierBrandList.length > 0 ? (
+                            <div className="card-body">
+                              <div className="table-responsive">
+                                <table className="table header-border table-responsive-sm">
+                                  <thead>
+                                    <tr>
+                                      <th>{supplierName}</th>
+                                      <th>{supplierBrandName}</th>
+                                      <th>{clientbrandlistdiscount}</th>
+                                      <th>{clientbrandlistcommission}</th>
+                                      <th>{supplierMargin}</th>
+                                      <th>{status}</th>
+                                      <th>{action}</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {copySupplierBrandList
+                                      .slice(startIndex, endIndex)
+                                      .map((data, index) => (
+                                        <tr key={index}>
+                                          <td>{getSupplierName(data.supplierCode)}</td>
+                                          <td>{data.name}</td>
+                                          <td>
+                                            <div className="input-group mb-2 w-11">
+                                              <InputField
+                                                type="number"
+                                                className="form-control htt"
+                                                placeholder={data.customerDiscount}
+                                                pattern="/^-?\d+\.?\d*$/"
+                                                value={data?.customerDiscount}
+                                                onChange={(e) => handleInputChange(e, data.id, "customerDiscount")}
+                                                onKeyPress={(e) => handleKeyPress(e, index)}
+                                              />
+                                              <div className="input-group-append">
+                                                <Button
+                                                  onClick={() =>
+                                                    handleUpdate(data, data.id)
+                                                  }
+                                                  className="btn btn-outline-primary btn-sm group-btn btn-pad"
+                                                  type="button"
+                                                  text={update}
+                                                />
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="input-group mb-2 w-11">
+                                              <InputField
+                                                type="number"
+                                                className="form-control htt"
+                                                placeholder={data.clientCommission}
+                                                pattern="/^-?\d+\.?\d*$/"
+                                                value={data?.clientCommission}
+                                                onChange={(e) => handleInputChange(e, data.id, "clientCommission")}
+                                                onKeyPress={(e) => handleKeyPress(e, index)}
+                                              />
+                                              <div className="input-group-append">
+                                                <Button
+                                                  onClick={() =>
+                                                    handleUpdate(data, data.id)
+                                                  }
+                                                  className="btn btn-outline-primary btn-sm group-btn btn-pad"
+                                                  type="button"
+                                                  text={update}
+                                                />
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td>{data.supplierMargin}</td>
+                                          <td>
+                                            <span
+                                              className={
+                                                data.clientEnabled === true
+                                                  ? "badge badge-success"
+                                                  : "badge badge-danger"
                                               }
-                                              className="btn btn-outline-primary btn-sm group-btn btn-pad"
-                                              type="button"
-                                              text={update}
-                                            />
-                                          </div>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="input-group mb-2 w-11">
-                                            <InputField
-                                              type="number"
-                                              className="form-control htt"
-                                              placeholder={data.clientCommission}
-                                              pattern="/^-?\d+\.?\d*$/"
-                                              value={data?.clientCommission}
-                                              onChange={(e)=>handleInputChange(e,data.id,"clientCommission")}
-                                              onKeyPress={(e)=>handleKeyPress(e,index)}
-                                            />
-                                             <div className="input-group-append">
-                                            <Button
-                                              onClick={() =>
-                                                handleUpdate(data,data.id)
-                                              }
-                                              className="btn btn-outline-primary btn-sm group-btn btn-pad"
-                                              type="button"
-                                              text={update}
-                                            />
-                                          </div>
-                                          </div>
-                                        </td>
-                                        <td>{data.supplierMargin}</td>
-                                        <td>
-                                          <span
-                                            className={
-                                              data.clientEnabled === true
-                                                ? "badge badge-success"
-                                                : "badge badge-danger"
-                                            }
-                                          >
-                                            {data.clientEnabled === true
-                                              ? "Active"
-                                              : "Non-Active"}
-                                          </span>
-                                        </td>
-                                        <td>
-                                          <div className="can-toggle">
-                                          <input id={generateUniqueId(index)} type="checkbox" checked ={data.clientEnabled }></input>
-                                            <label
-                                              htmlFor={generateUniqueId(index)}
                                             >
-                                              <div
-                                                className="can-toggle__switch"
-                                                data-unchecked={"OFF"}
-                                                data-checked={"ON"}
-                                                onClick={()=>updateStatus(data,index)}
-                                              ></div>
-                                            </label>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    ))}
-                                </tbody>
-                              </table>
-                              {copySupplierBrandList?.length > 5 &&
-                              <div className="pagination-container">
-                                <ReactPaginate
-                                  previousLabel={"<"}
-                                  nextLabel={" >"}
-                                  breakLabel={"..."}
-                                  pageCount={Math.ceil(
-                                    SupplierBrandList.length / rowsPerPage
-                                  )}
-                                  marginPagesDisplayed={2}
-                                  onPageChange={handlePageChange}
-                                  containerClassName={"pagination"}
-                                  activeClassName={"active"}
-                                  initialPage={page - 1} // Use initialPage instead of forcePage
-                                  previousClassName={
-                                    page === 0 ? "disabled" : ""
-                                  }
-                                />
+                                              {data.clientEnabled === true
+                                                ? "Active"
+                                                : "Non-Active"}
+                                            </span>
+                                          </td>
+                                          <td>
+                                            <div className="can-toggle">
+                                              <input id={generateUniqueId(index)} type="checkbox" checked={data.clientEnabled}></input>
+                                              <label
+                                                htmlFor={generateUniqueId(index)}
+                                              >
+                                                <div
+                                                  className="can-toggle__switch"
+                                                  data-unchecked={"OFF"}
+                                                  data-checked={"ON"}
+                                                  onClick={() => updateStatus(data, index)}
+                                                ></div>
+                                              </label>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                  </tbody>
+                                </table>
+                                {copySupplierBrandList?.length > 5 &&
+                                  <div className="pagination-container">
+                                    <ReactPaginate
+                                      previousLabel={"<"}
+                                      nextLabel={" >"}
+                                      breakLabel={"..."}
+                                      pageCount={Math.ceil(
+                                        SupplierBrandList.length / rowsPerPage
+                                      )}
+                                      marginPagesDisplayed={2}
+                                      onPageChange={handlePageChange}
+                                      containerClassName={"pagination"}
+                                      activeClassName={"active"}
+                                      initialPage={page - 1} // Use initialPage instead of forcePage
+                                      previousClassName={
+                                        page === 0 ? "disabled" : ""
+                                      }
+                                    />
+                                  </div>
+                                }
                               </div>
-                              }
                             </div>
-                          </div>
-                         ) : (
-                           <NoRecord />
-                         )}
+                          ) : (
+                            <NoRecord />
+                          )}
+                        </div>
+                        <ToastContainer />
                       </div>
-                      <ToastContainer />
                     </div>
                   </div>
                 </div>
@@ -377,9 +376,8 @@ setCopySupplierBrandList(updatedSupplier);
             </div>
           </div>
         </div>
-      </div>
-      :
-      <PageError
+        :
+        <PageError
           pageError={{
             StatusCode: "401",
             ErrorName: "Not Authorised",
@@ -387,7 +385,7 @@ setCopySupplierBrandList(updatedSupplier);
             url: "/",
             buttonText: "Back to home",
           }}
-        /> }
+        />}
     </>
   );
 };

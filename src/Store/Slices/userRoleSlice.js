@@ -64,7 +64,7 @@ export const userRoleSlice = createSlice({
         ...state,
         postLoading: false,
         isError: false,
-        postRoleData: postData,  
+        postRoleData: postData,
         message,
         status_code,
         error: {},
