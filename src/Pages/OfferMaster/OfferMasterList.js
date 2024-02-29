@@ -7,6 +7,7 @@ import NoRecord from "../../Components/NoRecord/NoRecord";
 import Button from "../../Components/Button/Button";
 import { onGetOfferMaster, onUpdateOfferMaster } from "../../Store/Slices/offerMasterSlice";
 import Loader from "../../Components/Loader/Loader";
+import tempImage from '../../Assets/img/pizz1.jpg'
 
 const OfferMasterList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,10 +27,50 @@ const OfferMasterList = () => {
   const dispatch = useDispatch();
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const offerMasterData = useSelector(
-    (state) => state.offerMasterReducer.getData
-  );
+  const offerMasterData = [
+    {
+        "placement": "Top",
+        "title": "Get the most out of it ",
+        "subtitle": "we provide the best offer and vouchers",
+        "link": "https://demo1.way2webhost.com",
+        "displayOrder": "1",
+        "image": "C:\\fakepath\\krGkf.png",
+        "enabled": true,
+        "id": 21
+    },
+    {
+      "placement": "Top",
+      "title": "Get the most out of it ",
+      "subtitle": "we provide the best offer and vouchers",
+      "link": "https://demo1.way2webhost.com",
+      "displayOrder": "1",
+      "image": "C:\\fakepath\\krGkf.png",
+      "enabled": true,
+      "id": 21
+  },
+  {
+    "placement": "Top",
+    "title": "Get the most out of it ",
+    "subtitle": "we provide the best offer and vouchers",
+    "link": "https://demo1.way2webhost.com",
+    "displayOrder": "1",
+    "image": "C:\\fakepath\\krGkf.png",
+    "enabled": false,
+    "id": 21
+},
+{
+  "placement": "Top",
+  "title": "Get the most out of it ",
+  "subtitle": "we provide the best offer and vouchers",
+  "link": "https://demo1.way2webhost.com",
+  "displayOrder": "1",
+  "image": "C:\\fakepath\\krGkf.png",
+  "enabled": true,
+  "id": 21
+},
+   
 
+]
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -108,7 +149,7 @@ const OfferMasterList = () => {
                               <tr key={data.id}>
                                 <td>
                                   <img
-                                    src={data.img}
+                                    src={tempImage}
                                     style={{ width: "50px" }}
                                   />
                                 </td>
@@ -117,8 +158,8 @@ const OfferMasterList = () => {
                                 <td>{data.link}</td>
                                 <td>{data.displayOrder}</td>
                                 <td>
-                                  <span className={`badge ${data.status ? 'badge-success': 'badge-danger'}`}>
-                                    {data.status ? 'Active' : 'Non-Active'}
+                                  <span className={`badge ${data.enabled ? 'badge-success': 'badge-danger'}`}>
+                                    {data.enabled ? 'Active' : 'Non-Active'}
                                   </span>
                                 </td>
                                 <td>

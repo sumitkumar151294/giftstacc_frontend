@@ -38,8 +38,9 @@ const reducers = combineReducers({
     createCategoryReducer:createCategoryReducer,
     faqMasterReducer:faqMasterReducer,
     bannerMasterReducer:bannerMasterReducer,
-    faqCategoryReducer:faqCategoryReducer
+    faqCategoryReducer:faqCategoryReducer,
     cmsReducer:cmsReduce,
+    cmsReducer:cmsReducer,
     offerMasterReducer:offerMasterReducer
 });
 

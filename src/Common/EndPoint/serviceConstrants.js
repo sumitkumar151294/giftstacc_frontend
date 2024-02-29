@@ -77,7 +77,7 @@ updateFaqCategory:'/faq-category',
   //CMS
   postCMS: "/cms",
   getCMS:"/cms",
-  updateCMS:"/cms"
+  updateCMS:"/cms",
 
   //offer-master
   postOfferMaster: "/offer-master",
