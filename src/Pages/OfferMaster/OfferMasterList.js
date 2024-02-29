@@ -46,6 +46,7 @@ const OfferMasterList = () => {
   const handleDelete = (data) => {
     const deletedData = {
       deleted:true,
+      enabled:false,
       id:data.id,
       placement: data.placement,
       title: data.title,
@@ -53,7 +54,7 @@ const OfferMasterList = () => {
       link: data.link,
       displayOrder: data.displayOrder,
       image: data.image,
-      status:data.status,
+      status:true,
     };
     dispatch(onUpdateOfferMaster(deletedData));
     dispatch(onGetOfferMaster());
@@ -117,8 +118,8 @@ const OfferMasterList = () => {
                                 <td>{data.link}</td>
                                 <td>{data.displayOrder}</td>
                                 <td>
-                                  <span className={`badge ${data.status ? 'badge-success': 'badge-danger'}`}>
-                                    {data.status ? 'Active' : 'Non-Active'}
+                                  <span className={`badge ${data.enabled ? 'badge-success': 'badge-danger'}`}>
+                                    {data.enabled ? 'Active' : 'Non-Active'}
                                   </span>
                                 </td>
                                 <td>
