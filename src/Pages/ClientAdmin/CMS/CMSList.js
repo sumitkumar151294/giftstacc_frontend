@@ -52,6 +52,7 @@ const CMS = () => {
   };
   const handleEdit = (data) => {
     setCmsprefilled({
+      id:data?.id,
       title: data?.title,
       shortDescription: data?.shortDescription,
       longDescription: data?.longDescription
@@ -70,8 +71,8 @@ if(updateCMSdata.update_status_code==="201"){
       <CMSForm
         setIsLoading={setIsLoading}
         isLoading={isLoading}
-        data={Cmsprefilled}
-        setdata={setCmsprefilled}
+        Cmsprefilled={Cmsprefilled}
+        setCmsprefilled={setCmsprefilled}
       />
       <div class="container-fluid">
         <div class="row">

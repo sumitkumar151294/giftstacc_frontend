@@ -18,7 +18,7 @@ import Button from "../../Components/Button/Button";
 
 const CategoryList = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
@@ -98,7 +98,6 @@ const CategoryList = () => {
     setIsLoading(true)
     dispatch(onUpdateCategory(deletedData));
   };
-
   // To get the Supplier Name in the Category List
   const getSupplierName = (supplierId) => {
     const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
