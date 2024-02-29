@@ -110,7 +110,7 @@ export const userRoleSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        updatedCategoryData: {},  
+        updatedCategoryData: {},
         error: {},
         updateMessage: "",
       };
@@ -133,7 +133,7 @@ export const userRoleSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        updatedCategoryData: data,  
+        updatedCategoryData: data,
         updateMessage:message,
         update_status_code:status_code,
         isLoading: false,

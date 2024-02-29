@@ -1,15 +1,16 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { onGetCms, onGetCmsError, onGetCmsSuccess, onPostCms, onPostCmsError, onPostCmsSuccess } from "../Store/Slices/cmsSlice";
-import { callCmsPostAPI, callCmsgetAPI } from "../Context/cmsApi";
+import { onGetCms, onGetCmsError, onGetCmsSuccess, onPostCms, onPostCmsError, onPostCmsSuccess, onUpdateCms, onUpdateCmsError, onUpdateCmsSuccess } from "../Store/Slices/cmsSlice";
+import { callCmsPostAPI, callCmsgetAPI, callCmsupdateAPI } from "../Context/cmsApi";
 
 function* postCms({ payload }) {
   try {
     const cmsPostResponse = yield call(callCmsPostAPI, payload);
-    if (cmsPostResponse) {
+    if (cmsPostResponse.httpStatusCode === "201") {
       yield put(
         onPostCmsSuccess({
-          data: cmsPostResponse.response,
-          message: cmsPostResponse.response,
+          getdata: cmsPostResponse.response,
+          message: cmsPostResponse.errorMessage,
+          status_code: cmsPostResponse.httpStatusCode
         })
       );
     } else {
@@ -30,7 +31,6 @@ function* getCms() {
     const cmsgetResponse = yield call(callCmsgetAPI);
 
     if (cmsgetResponse.httpStatusCode === "200") {
-      debugger;
       yield put(
         onGetCmsSuccess({
           data: cmsgetResponse.response,
@@ -52,7 +52,34 @@ function* getCms() {
     yield put(onGetCmsError({ data: {}, message, status_code: 400 }));
   }
 }
+function* updateCms({payload}) {
+  try {
+    const cmsupdateResponse = yield call(callCmsupdateAPI,payload);
+
+    if (cmsupdateResponse.httpStatusCode === "201") {
+      yield put(
+        onUpdateCmsSuccess({
+          data: cmsupdateResponse.response,
+          message: cmsupdateResponse.errorMessage,
+          status_code: cmsupdateResponse.httpStatusCode,
+        })
+      );
+    } else {
+      yield put(
+        onUpdateCmsError({
+          data: cmsupdateResponse.response,
+          message: cmsupdateResponse.errorMessage,
+          status_code: cmsupdateResponse.httpStatusCode,
+        })
+      );
+    }
+  } catch (error) {
+    const message = error.response || "Something went wrong";
+    yield put(onUpdateCmsError({ data: {}, message, status_code: 400 }));
+  }
+}
 export default function* cmsSaga() {
   yield takeLatest(onPostCms.type, postCms);
   yield takeLatest(onGetCms.type, getCms);
+  yield takeLatest(onUpdateCms.type, updateCms);
 }

@@ -1,20 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
-import { onPostCms } from "../../../Store/Slices/cmsSlice";
+import {
+  onGetCms,
+  onPostCms,
+  onPostCmsReset,
+} from "../../../Store/Slices/cmsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
 
-const CMSForm = () => {
+const CMSForm = ({ setIsLoading, data, setdata }) => {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.cmsReducer);
-  const [isLoading, setIsLoading] = useState(false);
+  const getCMSdata = useSelector((state) => state.cmsReducer);
   const [cmsData, setCmsData] = useState({
-    pageName: "",
+    title: "",
     shortDescription: "",
     longDescription: "",
   });
+  const resetCMSData = [
+    {
+      title: "",
+      shortDescription: "",
+      longDescription: "",
+    },
+  ];
   const [errors, setErrors] = useState({
-    pageName: "",
+    title: "",
     shortDescription: "",
     longDescription: "",
   });
@@ -53,11 +64,9 @@ const CMSForm = () => {
     }
     setErrors(newErrors);
     if (isValid) {
-
-    dispatch(onPostCms(cmsData));
+      dispatch(onPostCms(cmsData));
     }
   };
-
   const PageNames = [
     "About us",
     "Privacy Policy",
@@ -65,6 +74,23 @@ const CMSForm = () => {
     "LC Loyality Program",
   ];
 
+  useEffect(() => {
+    if (getCMSdata.post_status_code === "201") {
+      toast.success(getCMSdata.postMessage);
+      dispatch(onPostCmsReset());
+      setCmsData(resetCMSData);
+      dispatch(onGetCms());
+    }
+  }, [getCMSdata]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    setCmsData({
+      title: data.title || "",
+      shortDescription: data.shortDescription || "",
+      longDescription: data.longDescription || "",
+    });
+  }, [data]);
   return (
     <>
       {/* {!isLoading ? (
@@ -83,8 +109,8 @@ const CMSForm = () => {
                     <select
                       class="form-select"
                       name="pageName"
-                      value={cmsData.pageName}
-                      onChange={(e) => handleChange(e, "pageName")}
+                      value={cmsData.title}
+                      onChange={(e) => handleChange(e, "title")}
                       aria-label="Default select example"
                     >
                       <option selected>
@@ -99,7 +125,7 @@ const CMSForm = () => {
                         </option>
                       ))}
                     </select>
-                    <p className="text-danger">{errors.pageName}</p>
+                    <p className="text-danger">{errors.title}</p>
                   </div>
                 </div>
               </div>
@@ -141,6 +167,7 @@ const CMSForm = () => {
                     {GetTranslationData("UIClient", "sumbit")}{" "}
                     <i class="fa fa-arrow-right"></i>
                   </button>
+                  <ToastContainer />
                 </div>
               </div>
             </div>

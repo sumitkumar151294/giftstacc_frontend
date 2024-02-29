@@ -41,9 +41,7 @@ function* GetCategory() {
 }
 function* PostCategory({ payload }) {
   try {
-    debugger
     const postCategoryResponse = yield call(callCreateCategoryPostApi, payload);
-    debugger
     if (postCategoryResponse.httpStatusCode === "201") {
       yield put(
         onPostCategorySuccess({

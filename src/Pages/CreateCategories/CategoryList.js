@@ -99,7 +99,7 @@ const CategoryList = () => {
     dispatch(onUpdateCategory(deletedData));
   };
 
-  // To get the Supplier Name in the Category List 
+  // To get the Supplier Name in the Category List
   const getSupplierName = (supplierId) => {
     const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
     return supplier ? supplier.name : '';

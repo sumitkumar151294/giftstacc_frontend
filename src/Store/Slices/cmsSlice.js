@@ -21,62 +21,45 @@ export const cmsSlice = createSlice({
       };
     },
     onGetCmsSuccess: (state, { payload }) => {
-      debugger;
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
         getCMSData: data,
         message,
         status_code,
       };
     },
     onGetCmsError: (state, { payload }) => {
-      debugger;
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
         getCMSData: data,
         message,
         status_code,
-        isLoading: false,
-        isError: true,
-        error: {},
       };
     },
     onGetCmsReset: (state) => {
       return {
         ...state,
-        isLoading: false,
         getCMSData: {},
         message: "",
-        error: {},
         status_code: null,
-        isError: false,
       };
     },
     onPostCms: (state) => {
-      debugger;
       return {
         ...state,
-        isLoading: true,
-        isError: false,
         postCMSData: {},
-        error: {},
         message: "",
       };
     },
     onPostCmsSuccess: (state, { payload }) => {
-      debugger;
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
-        isError: false,
         postCMSData: data,
         postMessage: message,
         post_status_code: status_code,
-        error: {},
       };
     },
     onPostCmsError: (state, { payload }) => {
@@ -86,20 +69,47 @@ export const cmsSlice = createSlice({
         postCMSdata: data,
         postMessage: message,
         post_status_code: status_code,
-        isLoading: false,
-        isError: true,
-        error: {},
       };
     },
     onPostCmsReset: (state) => {
       return {
         ...state,
-        isLoading: false,
         postCMSdata: null,
         postMessage: "",
-        error: {},
         post_status_code: null,
-        isError: false,
+      };
+    },
+    onUpdateCms: (state) => {
+      return {
+        ...state,
+        updatedCmsData: {},
+        updateMessage: "",
+      };
+    },
+    onUpdateCmsSuccess: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        updatedCmsData: data,
+        updateMessage: message,
+        update_status_code: status_code,
+      };
+    },
+    onUpdateCmsError: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 400 } = payload;
+      return {
+        ...state,
+        updatedCmsData: data,
+        updateMessage: message,
+        update_status_code: status_code,
+      };
+    },
+    onUpdateCmsReset: (state) => {
+      return {
+        ...state,
+        updatedCmsData: {},
+        updateMessage: "",
+        update_status_code: null,
       };
     },
   },
@@ -114,6 +124,10 @@ export const {
   onPostCmsSuccess,
   onPostCmsError,
   onPostCmsReset,
+  onUpdateCms,
+  onUpdateCmsSuccess,
+  onUpdateCmsError,
+  onUpdateCmsReset,
 } = cmsSlice.actions;
 
 export default cmsSlice.reducer;

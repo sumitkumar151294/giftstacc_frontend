@@ -5,34 +5,80 @@ import Loader from "../../../Components/Loader/Loader";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
 import ReactPaginate from "react-paginate";
 import CMSForm from "./CMSForm";
-import { onGetCms } from "../../../Store/Slices/cmsSlice";
+import { onGetCms, onPostCms, onUpdateCms, onUpdateCmsReset } from "../../../Store/Slices/cmsSlice";
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
+import { ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const CMS = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
+  const [Cmsprefilled, setCmsprefilled] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const id = GetTranslationData("UIClient", "id");
+  const Page_Name = GetTranslationData("UIClient", "Page_Name");
+  const short_description = GetTranslationData("UIClient", "short_description");
+  const long_description = GetTranslationData("UIClient", "long_description");
+  const action = GetTranslationData("UIClient", "action");
   const getdata = useSelector((state) => state.cmsReducer.getCMSData);
-  console.log(getdata);
+  const updateCMSdata= useSelector((state)=>state.cmsReducer)
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(onGetCms());
-    console.log("chirag-gupta")
-  },[]);
+    setIsLoading(true);
+  }, []);
+  useEffect(() => {
+    if (getdata) {
+      setIsLoading(false);
+    }
+  }, [getdata]);
+  const handleDelete = (data) => {
+    const deletedData = {
+      enabled: false,
+      deleted: true,
+      title: data?.title,
+      shortDescription: data?.shortDescription,
+      longDescription: data?.longDescription,
+      id: data?.id,
+    };
+    setIsLoading(true);
+    dispatch(onUpdateCms(deletedData));
+  };
+  const handleEdit = (data) => {
+    setCmsprefilled({
+      title: data?.title,
+      shortDescription: data?.shortDescription,
+      longDescription: data?.longDescription
+    });
+  };
+useEffect(()=>{
+if(updateCMSdata.update_status_code==="201"){
+  dispatch(onGetCms())
+  dispatch(onUpdateCmsReset())
 
+}
+},[updateCMSdata])
   return (
     <>
-      <CMSForm />
+      <ScrollToTop />
+      <CMSForm
+        setIsLoading={setIsLoading}
+        isLoading={isLoading}
+        data={Cmsprefilled}
+        setdata={setCmsprefilled}
+      />
       <div class="container-fluid">
         <div class="row">
-          <div class="col-xl-12 col-xxl-12">
+          <div class="col-lg-12">
             <div class="card">
-              <div className="card-body">
+              <div className="ontainer-fluid mt-2 mb-2 pt-1">
+                <div className="card-body" >
                 {isLoading && getdata.length < 0 ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
@@ -42,40 +88,31 @@ const CMS = () => {
                     <table className="table header-border table-responsive-sm">
                       <thead>
                         <tr>
-                          {/* <th>{GetTranslationData("UIClient", "id")}</th>
-                          <th>{GetTranslationData("UIClient", "Page_Name")}</th>
-                          <th>
-                            {GetTranslationData(
-                              "UIClient",
-                              "short_description"
-                            )}
-                          </th>
-                          <th>
-                            {GetTranslationData("UIClient", "long_description")}
-                          </th>
-                          <th>{GetTranslationData("UIClient", "action")}</th> */}
+                          <th>{id}</th>
+                          <th>{Page_Name}</th>
+                          <th>{short_description}</th>
+                          <th>{long_description}</th>
+                          <th>{action}</th>
                         </tr>
                       </thead>
                       <tbody>
                         {getdata.slice(startIndex, endIndex).map((data) => (
                           <tr>
                             <td>{data.id}</td>
-                            <td>{data.longDescription}</td>
+                            <td>{data.title}</td>
                             <td>{data.shortDescription}</td>
-                            {/* <td>{data}</td> */}
+                            <td>{data.longDescription}</td>
                             <td>
                               <div className="d-flex">
                                 <a
                                   className="btn btn-primary shadow btn-xs sharp me-1"
-                                  // onClick={() => handleEdit(vendor)}
+                                  onClick={() => handleEdit(data)}
                                 >
                                   <i className="fas fa-pencil-alt"></i>
                                 </a>
                                 <a
                                   className="btn btn-danger shadow btn-xs sharp"
-                                  // onClick={() =>
-                                  //   handleDelete(vendor)
-                                  // }
+                                  onClick={() => handleDelete(data)}
                                 >
                                   <i className="fa fa-trash"></i>
                                 </a>
@@ -109,6 +146,7 @@ const CMS = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   );
