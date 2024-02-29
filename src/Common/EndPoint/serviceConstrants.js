@@ -14,17 +14,16 @@ const API = {
 
   //use-role
   userRoleApi: "/user-role",
-  userRolePostApi:"/user-role",
+  userRolePostApi: "/user-role",
   updateUserRoleApi: "/user-role",
 
-
-  // user-role-module-access 
+  // user-role-module-access
   userRoleModuleAccess: "/user-role-module-access",
   userRolePostModuleAccess: "/user-role-module-access",
 
   //user-master
   userMasterApi: "/user",
-  userMasterPostApi:"/user",
+  userMasterPostApi: "/user",
   userMasterUpdateApi: "/user",
 
   //supplier-master
@@ -32,18 +31,14 @@ const API = {
   postSupplierMasterApi: "/supplier-master",
   updateSupplierMasterApi: "/supplier-master",
 
-
   //supplierResource
-  postSupplierResource:"/supplier-api-resource",
-  getSupplierResource:"/supplier-api-resource",
-  updateSupplierResource:"/supplier-api-resource",
-
-  
+  postSupplierResource: "/supplier-api-resource",
+  getSupplierResource: "/supplier-api-resource",
+  updateSupplierResource: "/supplier-api-resource",
 
   //supplier-brand-list
   supplierBrandListApi: "/product",
   updateSupplierBrandListApi: "/product",
-
 
   //client
   getClient: "/client-master",
@@ -62,5 +57,16 @@ const API = {
 
   //brand-catalogue
   brandCatalogue: "/brand-catalogue/all",
+
+
+  //CMS
+  postCMS: "/cms",
+  getCMS:"/cms",
+  updateCMS:"/cms",
+
+  //offer-master
+  postOfferMaster: "/offer-master",
+  getOfferMaster: "/offer-master",
+  updateOfferMaster: "/offer-master",
 };
 export default API;
