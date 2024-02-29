@@ -114,14 +114,15 @@ const SupplierMasterList = () => {
       )
     : [];
 
-   
-    // excel data 
-    const excelData = Array.isArray(supplierMasterData?.data) && supplierMasterData?.data?.map(data => ({
-      id:data.id,
-      name:data.name,
-      creditAmount:data.creditAmount,
-      balanceThresholdAmount:data.balanceThresholdAmount,
-      status: data.enabled ? 'Active' : 'Non-active'
+  // excel data
+  const excelData =
+    Array.isArray(supplierMasterData?.data) &&
+    supplierMasterData?.data?.map((data) => ({
+      id: data.id,
+      name: data.name,
+      creditAmount: data.creditAmount,
+      balanceThresholdAmount: data.balanceThresholdAmount,
+      status: data.enabled ? "Active" : "Non-active",
     }));
 
   return (
@@ -283,7 +284,6 @@ const SupplierMasterList = () => {
                       <div>
                         <NoRecord />
                       </div>
-                      
                     )}
                   </>
                 </>
