@@ -59,7 +59,7 @@ const API = {
   //CMS
   postCMS: "/cms",
   getCMS:"/cms",
-  updateCMS:"/cms"
+  updateCMS:"/cms",
 
   //offer-master
   postOfferMaster: "/offer-master",

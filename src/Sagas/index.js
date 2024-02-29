@@ -31,7 +31,7 @@ export default function* rootSaga() {
     createCategorySaga(),
     BrandCatalogueSaga(),
     supplierResourceSaga(),
-    cmsSaga()
+    cmsSaga(),
     offerMasterSaga(),
   ]);
 }
