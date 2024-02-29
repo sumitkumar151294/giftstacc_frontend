@@ -5,18 +5,16 @@ import Loader from "../../../Components/Loader/Loader";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
 import ReactPaginate from "react-paginate";
 import CMSForm from "./CMSForm";
-import { onGetCms, onPostCms, onUpdateCms, onUpdateCmsReset } from "../../../Store/Slices/cmsSlice";
+import { onGetCms, onUpdateCms, onUpdateCmsReset } from "../../../Store/Slices/cmsSlice";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
-import { ToastContainer } from "react-toastify";
-import { Link } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 const CMS = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const [Cmsprefilled, setCmsprefilled] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const id = GetTranslationData("UIClient", "id");
   const Page_Name = GetTranslationData("UIClient", "Page_Name");
@@ -62,7 +60,7 @@ useEffect(()=>{
 if(updateCMSdata.update_status_code==="201"){
   dispatch(onGetCms())
   dispatch(onUpdateCmsReset())
-
+  toast.success(updateCMSdata.updateMessage)
 }
 },[updateCMSdata])
   return (
@@ -81,9 +79,7 @@ if(updateCMSdata.update_status_code==="201"){
               <div className="ontainer-fluid mt-2 mb-2 pt-1">
                 <div className="card-body" >
                 {isLoading && getdata.length < 0 ? (
-                  <div style={{ height: "400px" }}>
-                    <Loader classType={"absoluteLoader"} />
-                  </div>
+                 <NoRecord />
                 ) : Array.isArray(getdata) && getdata.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -120,7 +116,7 @@ if(updateCMSdata.update_status_code==="201"){
                               </div>
                             </td>
                           </tr>
-                        ))}
+                      ))}
                       </tbody>
                     </table>
                     {getdata.length > 5 && (
@@ -137,11 +133,14 @@ if(updateCMSdata.update_status_code==="201"){
                           initialPage={page - 1} // Use initialPage instead of forcePage
                           previousClassName={page === 1 ? "disabled" : ""}
                         />
+                        <ToastContainer/>
                       </div>
                     )}
                   </div>
                 ) : (
-                  <NoRecord />
+                  <div style={{ height: "400px" }}>
+                  <Loader classType={"absoluteLoader"} />
+                </div>
                 )}
               </div>
             </div>

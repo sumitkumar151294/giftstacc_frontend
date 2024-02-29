@@ -74,9 +74,8 @@ export const cmsSlice = createSlice({
     onPostCmsReset: (state) => {
       return {
         ...state,
-        postCMSdata: null,
-        postMessage: "",
-        post_status_code: null,
+        postCMSData: null,
+        post_status_code: "",
       };
     },
     onUpdateCms: (state) => {
