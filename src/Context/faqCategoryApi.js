@@ -11,8 +11,4 @@ export const faqCategoryPostApi = async (payload) => {
   return data;
 };
 
-export const faqCategoryUpdateApi = async (payload) => {
-    const { data = {} } = await axiosInstance.put(API.updateFaqCategory, payload);
-    return data;
-  };
 
