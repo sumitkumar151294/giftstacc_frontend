@@ -198,7 +198,7 @@ const FaqMaster = () => {
                             ))}
                       </tbody>
                     </table>
-                    {faqMasterGetData.getData.length > 5 && (
+                    {faqMasterGetData.getData?.length > 5 && (
                       <div className="pagination-container">
                         <ReactPaginate
                           previousLabel={"<"}

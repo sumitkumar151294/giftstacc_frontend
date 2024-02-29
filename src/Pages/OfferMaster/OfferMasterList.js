@@ -114,7 +114,7 @@ const OfferMasterList = () => {
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <div class="container-fluid">
+              <div class="container-fluid mt-2 mb-2 pt-1">
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div class="card-header">
                     <h4 class="card-title">
