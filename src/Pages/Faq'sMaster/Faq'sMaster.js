@@ -21,7 +21,32 @@ import NoRecord from "../../Components/NoRecord/NoRecord";
 const FaqMaster = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
-  const faqMasterGetData = useSelector((state) => state.faqMasterReducer);
+  const faqMasterGetData = [
+    {
+      "categoryId": "Coupen Redemption",
+      "question": "How can Reedem my Coupen?",
+      "answer": "By Using coupen in the cart",
+      "id": 1
+  },
+  {
+    "categoryId": "Coupen Redemption",
+    "question": "How can Reedem my Coupen?",
+    "answer": "By Using coupen in the cart",
+    "id": 2
+},
+{
+  "categoryId": "Coupen Redemption",
+  "question": "How can Reedem my Coupen?",
+  "answer": "By Using coupen in the cart",
+  "id": 3
+},
+{
+  "categoryId": "Coupen Redemption",
+  "question": "How can Reedem my Coupen?",
+  "answer": "By Using coupen in the cart",
+  "id": 4
+},
+  ];
   const faqCategory = useSelector((state) => state.faqCategoryReducer.getData);
   const [rowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
@@ -178,14 +203,14 @@ const FaqMaster = () => {
                 </div>
               </form>
             </div>
-            {showLoader && faqMasterGetData?.getData?.length < 0 ? (
+            {showLoader && faqMasterGetData?.length < 0 ? (
               <div style={{ height: "400px" }}>
                 <Loader classType={"absoluteLoader"} />
               </div>
             ) : (
               <>
-                {Array.isArray(faqMasterGetData?.getData) &&
-                faqMasterGetData?.getData?.length > 0 ? (
+                {Array.isArray(faqMasterGetData) &&
+                faqMasterGetData?.length > 0 ? (
                   <div className="card-body pt-4  ml-4">
                     <div className="table-responsive">
                       <table className="table header-border table-responsive-sm">
@@ -199,8 +224,8 @@ const FaqMaster = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {Array.isArray(faqMasterGetData.getData) &&
-                            faqMasterGetData.getData
+                          {Array.isArray(faqMasterGetData) &&
+                            faqMasterGetData
                               .slice(startIndex, endIndex)
                               .map((data, index) => (
                                 <tr key={index}>
@@ -213,7 +238,7 @@ const FaqMaster = () => {
                               ))}
                         </tbody>
                       </table>
-                      {faqMasterGetData.getData?.length > 5 && (
+                      {faqMasterGetData?.length > 5 && (
                         <div className="pagination-container">
                           <ReactPaginate
                             previousLabel={"<"}

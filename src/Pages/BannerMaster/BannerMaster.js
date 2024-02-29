@@ -101,7 +101,8 @@ const BannerForm = ({ prefilledData }) => {
     }
   };
   return (
-    <div className="row ml-6 pt-4">
+    <div className="container-fluid">   
+    <div className="row">
       <div className="col-xl-12 col-xxl-12">
         <div className="card">
           <div className="card-header">
@@ -242,6 +243,7 @@ const BannerForm = ({ prefilledData }) => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

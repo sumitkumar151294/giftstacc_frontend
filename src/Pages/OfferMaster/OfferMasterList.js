@@ -163,7 +163,8 @@ const OfferMasterList = () => {
                                   </span>
                                 </td>
                                 <td>
-                                <Button
+                                  <div className="d-flex">
+                                  <Button
                                   className="btn btn-primary shadow btn-xs sharp me-1"
                                   onClick={() => handleEdit(data)}
                                   icon={"fas fa-pencil-alt"}
@@ -173,6 +174,7 @@ const OfferMasterList = () => {
                                   onClick={() => handleDelete(data)}
                                   icon={"fa fa-trash"}
                                 />
+                                  </div>
                                 </td>
                               </tr>
                             ))}

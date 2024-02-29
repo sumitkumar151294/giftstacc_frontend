@@ -78,7 +78,7 @@ const BannerMasterList = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="card">
-              <div className="container-fluid">
+              <div className="container-fluid mt-2 mb-2 pt-1">
                 <div className="card-header">
                   <h4 className="card-title">Banner List</h4>
                 </div>
