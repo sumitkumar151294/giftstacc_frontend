@@ -70,27 +70,27 @@ const OfferMasterList = () => {
          data={prefilledValues}
          setData={setPrefilledValues}
       />
-      <div class="container-fluid  pt-0">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div class="card-header">
-                    <h4 class="card-title">
+      <div className="container-fluid  pt-0">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card">
+              <div className="container-fluid">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="card-header">
+                    <h4 className="card-title">
                       {offer_list}
                     </h4>
                   </div>
                 </div>
-                <div class="card-body">
+                <div className="card-body">
                 {isLoading && (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 )}
                   {offerMasterData?.length > 0 ? (
-                    <div class="table-responsive">
-                      <table class="table header-border table-responsive-sm">
+                    <div className="table-responsive">
+                      <table className="table header-border table-responsive-sm">
                         <thead>
                           <tr>
                             <th>{image}</th>
