@@ -21,6 +21,7 @@
 @import './Pages/SupplierProductList';
 @import './pages/SupplierMasterForm';
 @import './Pages//ClientAdmin/CMS';
+@import './Pages/OfferMaster';
 
 @import './Utility/Card';
 @import './Utility/Rows';
@@ -31,6 +32,7 @@
 @import './Utility/Margin';
 @import './Utility/Padding';
 @import './Utility/Table';
+
 
 :root {
   --primary-green:#55bc49;
@@ -86,6 +88,7 @@
   --rgba-primary-20: rgba(0, 0, 0, 0.075);
   --rgba-primary-21: rgba(0, 0, 0, 0.125);
   --rgba-primary-22: rgba(0, 0, 0, 0.03);
+  --rgba-primary-23: rgba(255, 255, 255, 0.3);
   --font-family: 'Inter', sans-serif;
   --title: #000;
   --header-bg: #E9E9E9;
