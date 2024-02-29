@@ -13,6 +13,7 @@ import Loader from "../../Components/Loader/Loader";
 import PageError500 from "../../Components/PageError/PageError";
 import { config } from "../../Common/Client/ClientConfig";
 import axiosInstance from "../../Common/Axios/axiosInstance";
+import { onPartnerKeyLoginSubmit } from "../../Store/Slices/loginSlice";
 const Auth = () => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
@@ -53,10 +54,8 @@ const Auth = () => {
     }
     // get data from present url
     if (matchingConfig) {
-
       const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } = matchingConfig;
-      sessionStorage.setItem("partnerKey", PARTNER_KEY);
-
+      dispatch(onPartnerKeyLoginSubmit(PARTNER_KEY));
       dispatch(onTranslationReset());
       dispatch(
         onLoginAuthSubmit({

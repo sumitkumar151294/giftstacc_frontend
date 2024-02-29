@@ -12,16 +12,14 @@ import image from "../../Assets/img/logo.png";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { useNavigate } from "react-router";
 import bcrypt from "bcryptjs";
-import { onClientLoginSubmit } from "../../Store/Slices/clientLoginSlice";
+import { onClientLoginSubmit } from "../../Store/Slices/loginSlice";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showLoder, setShowLoader] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  const clientPartnerKey = sessionStorage.getItem("partnerKey");
   const loginDetails = useSelector((state) => state.loginReducer);
-  const clientLoginDetails = useSelector((state) => state.clientLoginReducer);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -103,7 +101,7 @@ const LoginPage = () => {
         setShowLoader(true);
 
         // Wait for the dispatch to complete
-        if (clientPartnerKey === "UIClient") {
+        if (loginDetails?.partner_Key === "UIClient") {
           dispatch(onClientLoginSubmit(loginData));
         } else {
           dispatch(onLoginSubmit(loginData));
@@ -117,28 +115,29 @@ const LoginPage = () => {
   };
   useEffect(() => {
     if (
-      clientPartnerKey &&
-      clientLoginDetails?.status_code === "201" &&
+      loginDetails.partner_Key === "UIClient" &&
+      loginDetails?.status_code === "201" &&
       isSubmit
     ) {
       setShowLoader(false);
       navigate("/lc-user-admin/dashboard");
-      sessionStorage.setItem("UIClient", true);
-    } else if (loginDetails?.status_code === "201" && isSubmit) {
+    } else if (
+      loginDetails.partner_Key === "UIAdmin" &&
+      loginDetails?.status_code === "201" &&
+      isSubmit
+    ) {
       setShowLoader(false);
       navigate("/lc-admin/dashboard");
-      sessionStorage.setItem("login", true);
     } else if (isSubmit && loginDetails?.status_code) {
       setShowLoader(false);
-      sessionStorage.removeItem("login");
       toast.error(loginDetails?.message);
     }
-  }, [loginDetails, clientLoginDetails]);
+  }, [loginDetails]);
 
   useEffect(() => {
-    if (sessionStorage.getItem("login")) {
+    if (loginDetails.partner_Key === "UIAdmin") {
       navigate("/lc-admin/dashboard");
-    } else if (sessionStorage.getItem("UIClient")) {
+    } else if (loginDetails.partner_Key === "UIClient") {
       navigate("/lc-user-admin/dashboard");
     } else {
       navigate("/");
