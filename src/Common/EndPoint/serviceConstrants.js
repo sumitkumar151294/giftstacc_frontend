@@ -55,9 +55,15 @@ const API = {
   //brand-catalogue
   brandCatalogue: "/brand-catalogue/all",
 
+
   //CMS
   postCMS: "/cms",
   getCMS:"/cms",
   updateCMS:"/cms"
+
+  //offer-master
+  postOfferMaster: "/offer-master",
+  getOfferMaster: "/offer-master",
+  updateOfferMaster: "/offer-master",
 };
 export default API;
