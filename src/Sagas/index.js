@@ -34,7 +34,7 @@ export default function* rootSaga() {
     createCategorySaga(),
     BrandCatalogueSaga(),
     supplierResourceSaga(),
- brand_Catalogue(),
+//  brand_Catalogue(),
     FaqMasterSaga(),
     bannerMasterSaga(),
     FaqCategorySaga(),
