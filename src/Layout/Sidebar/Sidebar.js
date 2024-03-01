@@ -13,6 +13,7 @@ const Sidebar = () => {
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   const [sideBarModules, setIsSideBarModules] = useState([]);
   const logout = GetTranslationData("UIAdmin", "logout");
+  const loginDetails = useSelector((state) => state.loginReducer);
   const currentUrl = useLocation();
   // To reset the redux store (logout the user)
   const handleLogout = (e) => {
@@ -20,7 +21,7 @@ const Sidebar = () => {
     dispatch(onLogout());
     localStorage.clear();
     sessionStorage.clear();
-    navigate("/");
+    loginDetails.partner_Key === "UIAdmin" ? navigate("/") :navigate("/lc-user-admin/login");
   };
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);

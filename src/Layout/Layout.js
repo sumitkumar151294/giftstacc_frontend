@@ -3,19 +3,20 @@ import Sidebar from "../Layout/Sidebar/Sidebar";
 import Header from "../Layout/Header/Header";
 import Footer from "./Footer/Footer";
 import { onLogout } from "../Store/Slices/loginSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const Layout = (props) => {
   const { Component } = props;
   const [showSideBar, setShowSideBar] = useState(false);
+  const loginDetails = useSelector((state) => state.loginReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-  if (!sessionStorage.getItem("login")) {
+  if (loginDetails?.isAdminLogin === null) {
   dispatch(onLogout());
   localStorage.clear();
   sessionStorage.clear();
-  navigate("/#/lc-useradmin/login");
+  loginDetails.partner_Key === "UIAdmin" ? navigate("/") :navigate("/lc-user-admin/login");
   }
   }, []);
 
