@@ -77,6 +77,14 @@ function RouteConfiq() {
           path="/lc-user-admin/cms"
           element={<Layout Component={CMSList} />}
         />
+          <Route
+          path="/lc-user-admin/brand-catalouge"
+          element={<Layout Component={BrandCatalogue} />}
+        />
+        <Route
+          path="/lc-user-admin/brand-detail"
+          element={<Layout Component={BrandDetail} />}
+        />
         <Route
           path="/lc-user-admin/offer-master"
           element={<Layout Component={OfferMasterList} />}
