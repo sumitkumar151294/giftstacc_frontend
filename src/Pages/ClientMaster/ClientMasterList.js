@@ -20,7 +20,7 @@ const ClientMasterList = () => {
   const [data, setData] = useState();
   const [showLoader, setShowLoader] = useState(false);
   const clientList = useSelector((state) => state.clientMasterReducer);
-  // const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
+  const getRoleAccess = useSelector((state)=> state.moduleReducer?.filteredData);
   const clientPayData = useSelector((state) => state.clientPaymentReducer.clientPaymentData);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -111,7 +111,9 @@ const ClientMasterList = () => {
   const endIndex = startIndex + rowsPerPage;
   return (
     <>
+     {getRoleAccess[0]?.addAccess && (
       <ClientMasterForm clientList={clientList} data={data} clientPayData={clientPayData}/>
+     )}
       <ScrollToTop />
       <div className="container-fluid pt-0">
         <div className="row">
@@ -176,7 +178,9 @@ const ClientMasterList = () => {
                                 <th>{email}</th>
                                 <th>{clientID}</th>
                                 <th>{status}</th>
+                                {getRoleAccess[0]?.editAccess && (
                                 <th>{action}</th>
+                                )}
                                 <th>{login}</th>
                               </tr>
                             </thead>
@@ -196,25 +200,26 @@ const ClientMasterList = () => {
                                       </span>
                                     </td>
                                     <td>{data.id}</td>
-                                    <td>
-                                      <span className={`badge ${data.enabled ? 'badge-success': 'badge-danger'}`}>
-                                        {data.enabled ? 'Active' : 'Non-Active'}
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex">
-                                        <Button
-                                          className="btn btn-primary shadow btn-xs sharp me-1"
-                                          icon={"fas fa-pencil-alt"}
-                                          onClick={() => handleEdit(data, clientPayData)}
-                                        />
-                                        <Button
-                                          className="btn btn-danger shadow btn-xs sharp"
-                                          icon={"fa fa-trash"}
-                                          onClick={() => handleDelete(data)}
-                                        />
-                                      </div>
-                                    </td>
+                                   <td>
+                                        <span className={`badge ${data.enabled ? 'badge-success': 'badge-danger'}`}>
+                                          {data.enabled ? 'Active' : 'Non-Active'}
+                                        </span>
+                                      </td>
+                                      {getRoleAccess[0]?.editAccess && (
+                                    <>
+                                      <td>
+                                          <div className="d-flex">
+                                            <Button
+                                              className="btn btn-primary shadow btn-xs sharp me-1"
+                                              icon={"fas fa-pencil-alt"}
+                                              onClick={() => handleEdit(data, clientPayData)} />
+                                            <Button
+                                              className="btn btn-danger shadow btn-xs sharp"
+                                              icon={"fa fa-trash"}
+                                              onClick={() => handleDelete(data)} />
+                                          </div>
+                                        </td></>
+                                    )}
                                     <td>
                                       <Link to="/lc-user-admin/login">
                                         <Button

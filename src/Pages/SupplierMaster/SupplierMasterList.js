@@ -38,6 +38,7 @@ const SupplierMasterList = () => {
   const balance_Available = GetTranslationData("UIAdmin", "balance_Available");
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
+  const getRoleAccess = useSelector((state) => state.moduleReducer.filteredData);
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer
   );
@@ -105,35 +106,37 @@ const SupplierMasterList = () => {
   }, []);
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
     ? supplierMasterData?.data.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
-   
-    // excel data 
-    const excelData = Array.isArray(supplierMasterData?.data) && supplierMasterData?.data?.map(data => ({
-      id:data.id,
-      name:data.name,
-      creditAmount:data.creditAmount,
-      balanceThresholdAmount:data.balanceThresholdAmount,
-      status: data.enabled ? 'Active' : 'Non-active'
-    }));
+
+  // excel data 
+  const excelData = Array.isArray(supplierMasterData?.data) && supplierMasterData?.data?.map(data => ({
+    id:data.id,
+    name:data.name,
+    creditAmount:data.creditAmount,
+    balanceThresholdAmount:data.balanceThresholdAmount,
+    status: data.enabled ? 'Active' : 'Non-active'
+  }));
 
   return (
     <>
-      <SupplierMasterForm
-        data={vendorData}
-        setData={setVendorData}
-        isDelete={isDelete}
-        setIsDelete={setIsDelete}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-      />
+      {getRoleAccess[0]?.addAccess && (
+        <SupplierMasterForm
+          data={vendorData}
+          setData={setVendorData}
+          isDelete={isDelete}
+          setIsDelete={setIsDelete}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
+      )}
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -200,7 +203,9 @@ const SupplierMasterList = () => {
                                   <th>{balance_Available}</th>
                                   <th>{minThresholdAmount}</th>
                                   <th>{status}</th>
-                                  <th>{action}</th>
+                                  {getRoleAccess[0]?.editAccess && (
+                                    <th>{action}</th>
+                                  )}
                                 </tr>
                               </thead>
                               <tbody>
@@ -224,31 +229,33 @@ const SupplierMasterList = () => {
                                               vendor.enabled
                                                 ? "badge-success"
                                                 : "badge-danger"
-                                            }`}
+                                              }`}
                                           >
                                             {vendor.enabled
                                               ? "Active"
                                               : "Non-Active"}
                                           </span>
                                         </td>
-                                        <td>
-                                          <div className="d-flex">
-                                            <a
-                                              className="btn btn-primary shadow btn-xs sharp me-1"
-                                              onClick={() => handleEdit(vendor)}
-                                            >
-                                              <i className="fas fa-pencil-alt"></i>
-                                            </a>
-                                            <a
-                                              className="btn btn-danger shadow btn-xs sharp"
-                                              onClick={() =>
-                                                handleDelete(vendor)
-                                              }
-                                            >
-                                              <i className="fa fa-trash"></i>
-                                            </a>
-                                          </div>
-                                        </td>
+                                        {getRoleAccess[0]?.editAccess && (
+                                          <td>
+                                            <div className="d-flex">
+                                              <a
+                                                className="btn btn-primary shadow btn-xs sharp me-1"
+                                                onClick={() => handleEdit(vendor)}
+                                              >
+                                                <i className="fas fa-pencil-alt"></i>
+                                              </a>
+                                              <a
+                                                className="btn btn-danger shadow btn-xs sharp"
+                                                onClick={() =>
+                                                  handleDelete(vendor)
+                                                }
+                                              >
+                                                <i className="fa fa-trash"></i>
+                                              </a>
+                                            </div>
+                                          </td>
+                                        )}
                                       </tr>
                                     ))
                                 ) : (
@@ -283,7 +290,7 @@ const SupplierMasterList = () => {
                       <div>
                         <NoRecord />
                       </div>
-                      
+
                     )}
                   </>
                 </>

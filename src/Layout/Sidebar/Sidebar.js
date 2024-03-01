@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetModule } from "../../Store/Slices/moduleSlice";
+import { allowModules, onGetModule } from "../../Store/Slices/moduleSlice";
 import Loader from "../../Components/Loader/Loader";
 import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
@@ -12,6 +12,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   const [sideBarModules, setIsSideBarModules] = useState([]);
+  const [selectedModuleId, setSelectedModuleId] = useState(null)
   const logout = GetTranslationData("UIAdmin", "logout");
   const currentUrl = useLocation();
   // To reset the redux store (logout the user)
@@ -24,7 +25,7 @@ const Sidebar = () => {
   };
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);
-  const userRoleModuleAccess = useSelector((state) => state.userRoleModuleAccessReducer?.data);
+    const userRoleModuleAccess = useSelector((state) => state.userRoleModuleAccessReducer?.data);
   const userRoleID = useSelector((state) => state.loginReducer?.data?.[0]?.adminRoleId);
   useEffect(() => {
     setIsSidebarLoading(true);
@@ -41,6 +42,7 @@ const Sidebar = () => {
       for(var i=0; i<tempideModules.length; i++){
         for(var j=0; j<filterData?.length; j++){
           if(tempideModules[i].id===filterData[j].moduleId){
+            tempideModules[i].moduleId = filterData[j].moduleId
             filterModules.push(tempideModules[i])
           }
         }
@@ -52,12 +54,21 @@ const Sidebar = () => {
   }, [getModuleData,userRoleModuleAccess]);
 
   // function to add active class on Li
-  const hanleClick = (e) => {
+  const hanleClick = (e, moduleId) => {
     document.querySelectorAll(".mm-active").forEach((e) => {
       e.classList.remove("mm-active");
     });
     e.target.closest(".nav-icn").classList.add("mm-active");
+    setSelectedModuleId(moduleId);
   };
+  const getModuleDataAccess = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
+
+ useEffect(() => {
+  if (getModuleDataAccess && selectedModuleId !== undefined) {
+    const roleAcessValues = Array.isArray(getModuleDataAccess) && getModuleDataAccess.filter(item => item.moduleId === selectedModuleId);
+    dispatch(allowModules(roleAcessValues));
+  }
+}, [userRoleModuleAccess, selectedModuleId]);
 
   return (
     <div className="deznav">
@@ -74,8 +85,8 @@ const Sidebar = () => {
                   key={index}
                   className={`nav-icn ${
                     item.routePath === currentUrl.pathname ? "mm-active" : ""
-                  }`}
-                  onClick={(e) => hanleClick(e)}
+                    }`}
+                  onClick={(e) => hanleClick(e, item.id)}
                 >
                   <Link
                     className="ai-icon"
@@ -83,8 +94,8 @@ const Sidebar = () => {
                     aria-expanded="false"
                   >
                     <img
-                    src={require(  `../../Assets/icon/${item.icon}.svg`)}
-                    alt={item.icon}
+                      src={require(  `../../Assets/icon/${item.icon}.svg`)}
+                      alt={item.icon}
                     />
                     <span className="nav-text ps-1">{item.name}</span>
                   </Link>
