@@ -38,9 +38,7 @@ const CategoryForm = ({ setIsLoading }) => {
     supplierBrandId: "",
     name: "",
   });
-  const getCategoriesData = useSelector(
-    (state) => state.createCategoryReducer
-  );
+  const getCategoriesData = useSelector((state) => state.createCategoryReducer);
   const resetCategoryFields = {
     name: "",
     supplierId: "",
@@ -77,19 +75,26 @@ const CategoryForm = ({ setIsLoading }) => {
   const field_Required = GetTranslationData("UIAdmin", "field_Required");
 
   const handleChange = (e, fieldName) => {
-    if(fieldName==="supplierId"){
+    if (fieldName === "supplierId") {
       let supplierList = [];
-    Array.isArray(supplierBrandData) &&
-      supplierBrandData?.filter(item=>{return item.supplierCode === e.target.selectedOptions.item('').getAttribute('name')}).map((item) => {
-        supplierList.push({ label: item.name, value: item.id });
+      Array.isArray(supplierBrandData) &&
+        supplierBrandData
+          ?.filter((item) => {
+            return (
+              item.supplierCode ===
+              e.target.selectedOptions.item("").getAttribute("name")
+            );
+          })
+          .map((item) => {
+            supplierList.push({ label: item.name, value: item.id });
+          });
+      setSupplierBrandListData(supplierList);
+      setCreateCategory({
+        ...createCategory,
+        supplierBrandId: "",
+        [fieldName]: e.target.value,
       });
-    setSupplierBrandListData(supplierList);
-    setCreateCategory({
-      ...createCategory,
-      supplierBrandId: "",
-      [fieldName]: e.target.value,
-    });
-    }else{
+    } else {
       setCreateCategory({
         ...createCategory,
         [fieldName]: e.target.value,
@@ -114,12 +119,26 @@ const CategoryForm = ({ setIsLoading }) => {
       }
     }
     setErrors(newErrors);
-    if (isValid) {
+    const duplicates =
+      Array.isArray(getCategoriesData.categoryData) &&
+      getCategoriesData.categoryData.filter(
+        (category) =>
+          category.name == createCategory.name &&
+          category.supplierId == createCategory.supplierId &&
+          category.supplierBrandId == createCategory.supplierBrandId
+      );
+    console.log(duplicates, "duplicate");
+
+    if (isValid && duplicates.length === 0) {
       try {
         setIsLoading(true);
         dispatch(onPostCategory(createCategory));
-      } catch (error) {
-      }
+      } catch (error) {}
+    } else if (isValid && duplicates) {
+      toast.error("Category Already Exists.");
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
     }
   };
 
@@ -130,20 +149,21 @@ const CategoryForm = ({ setIsLoading }) => {
       dispatch(onPostCategoryReset());
       dispatch(onGetCategory());
       setCreateCategory(resetCategoryFields);
-    }else if (getCategoriesData.update_status_code === "201") {
+    }
+    if (getCategoriesData.update_status_code === "201") {
       setIsFormLoading(false);
       toast.success(getCategoriesData?.updateMessage);
       dispatch(onUpdateCategoryReset());
       dispatch(onGetCategory());
       setCreateCategory(resetCategoryFields);
-    }else if (getCategoriesData?.post_status_code === "201") {
+    } else if (getCategoriesData?.post_status_code === "201") {
       setIsFormLoading(false);
       toast.success(getCategoriesData?.postMessage);
       dispatch(onPostCategoryReset());
       dispatch(onGetCategory());
       setCreateCategory(resetCategoryFields);
     }
-  }, [getCategoriesData])
+  }, [getCategoriesData]);
 
   return (
     <>
@@ -173,10 +193,9 @@ const CategoryForm = ({ setIsLoading }) => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.name
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.name ? "border-danger" : "form-control"
+                            }`}
                             name="categoryNam"
                             id="name-f"
                             placeholder=""
@@ -194,11 +213,20 @@ const CategoryForm = ({ setIsLoading }) => {
                             error={errors.supplierId}
                             ariaLabel="Select"
                             value={createCategory.supplierId}
-                            className={` ${errors.supplierId
-                              ? "border-danger"
-                              : "form-select"
-                              }`}
-                            options={Array.isArray(supplierMasterData) ? supplierMasterData?.map((supplier) => ({ label: supplier.name, value: supplier.id,data:supplier.code })):[]}
+                            className={` ${
+                              errors.supplierId
+                                ? "border-danger"
+                                : "form-select"
+                            }`}
+                            options={
+                              Array.isArray(supplierMasterData)
+                                ? supplierMasterData?.map((supplier) => ({
+                                    label: supplier.name,
+                                    value: supplier.id,
+                                    data: supplier.code,
+                                  }))
+                                : []
+                            }
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -211,10 +239,11 @@ const CategoryForm = ({ setIsLoading }) => {
                             error={errors.supplierBrandId}
                             value={createCategory.supplierBrandId}
                             ariaLabel="Select"
-                            className={` ${errors.supplierBrandId
-                              ? "border-danger"
-                              : "form-select"
-                              }`}
+                            className={` ${
+                              errors.supplierBrandId
+                                ? "border-danger"
+                                : "form-select"
+                            }`}
                             options={supplierBrandListData}
                           />
                         </div>
