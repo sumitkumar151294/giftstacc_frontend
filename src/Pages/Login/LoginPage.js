@@ -134,15 +134,13 @@ const LoginPage = () => {
     }
   }, [loginDetails]);
 
-  useEffect(() => {
-    if (loginDetails.partner_Key === "UIAdmin") {
-      navigate("/lc-admin/dashboard");
-    } else if (loginDetails.partner_Key === "UIClient") {
-      navigate("/lc-user-admin/dashboard");
-    } else {
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (loginDetails.partner_Key === "UIAdmin") {
+  //     navigate("/lc-admin/dashboard");
+  //   } else if (loginDetails.partner_Key === "UIClient") {
+  //     navigate("/lc-user-admin/dashboard");
+  //   }
+  // }, []);
 
   return (
     <>
