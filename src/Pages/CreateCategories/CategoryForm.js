@@ -25,13 +25,6 @@ const CategoryForm = ({ setIsLoading }) => {
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
-  // const getModules = useSelector((state) => state.moduleReducer);
-  // const getModulesRoleId = getModules?.data;
-  // const getRolesAccess = getModules?.filteredData;
-  // console.log(getModules,"getRoleAccess",getModulesRoleId,getRolesAccess);
-
-  // const findRoleAccess = getRolesAccess.filte(r)
-  // const supplierBrandListData = useSelector((state)=> state?.supplierBrandListReducer?.data);
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [errors, setErrors] = useState({
     name: "",
@@ -51,7 +44,6 @@ const CategoryForm = ({ setIsLoading }) => {
   };
 
   // To get the Supplier Brand from redux store
-
   useEffect(() => {
     dispatch(onGetSupplierList());
     dispatch(onGetSupplierBrandList());

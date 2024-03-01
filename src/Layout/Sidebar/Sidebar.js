@@ -12,6 +12,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   const [sideBarModules, setIsSideBarModules] = useState([]);
+  const [selectedModuleId, setSelectedModuleId] = useState(null)
   const logout = GetTranslationData("UIAdmin", "logout");
   const currentUrl = useLocation();
   // To reset the redux store (logout the user)
@@ -24,8 +25,11 @@ const Sidebar = () => {
   };
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);
+  const getModuleRoleId = getModuleData?.data;
   const userRoleModuleAccess = useSelector((state) => state.userRoleModuleAccessReducer?.data);
   const userRoleID = useSelector((state) => state.loginReducer?.data?.[0]?.adminRoleId);
+  const filterData1 = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
+
   useEffect(() => {
     setIsSidebarLoading(true);
     dispatch(onGetModule());
@@ -33,14 +37,15 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (!getModuleData.isLoading && userRoleModuleAccess.length>0) {
+    if (!getModuleData.isLoading && userRoleModuleAccess.length > 0) {
       setIsSidebarLoading(false);
-      let tempideModules= JSON.parse(JSON.stringify(getModuleData?.data));
-      const filterData = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item)=>{return (item.roleId===userRoleID && (item.addAccess || item.editAccess || item.viewAccess))});
+      let tempideModules = JSON.parse(JSON.stringify(getModuleData?.data));
+      const filterData = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
       const filterModules = []
-      for(var i=0; i<tempideModules.length; i++){
-        for(var j=0; j<filterData?.length; j++){
-          if(tempideModules[i].id===filterData[j].moduleId){
+      for (var i = 0; i < tempideModules.length; i++) {
+        for (var j = 0; j < filterData?.length; j++) {
+          if (tempideModules[i].id === filterData[j].moduleId) {
+            tempideModules[i].moduleId = filterData[j].moduleId
             filterModules.push(tempideModules[i])
           }
         }
@@ -49,20 +54,24 @@ const Sidebar = () => {
     } else {
       setIsSidebarLoading(true);
     }
-  }, [getModuleData,userRoleModuleAccess]);
+  }, [getModuleData, userRoleModuleAccess]);
 
-  useEffect(()=>{
-    const getValues = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item => item.roleId===userRoleID));
-    dispatch(allowModules(getValues));
- },[]);
- 
   // function to add active class on Li
-  const hanleClick = (e) => {
+  const hanleClick = (e, moduleId) => {
     document.querySelectorAll(".mm-active").forEach((e) => {
       e.classList.remove("mm-active");
     });
     e.target.closest(".nav-icn").classList.add("mm-active");
+    setSelectedModuleId(moduleId);
   };
+
+ useEffect(() => {
+  if (filterData1 && selectedModuleId !== undefined) {
+    const getValues = Array.isArray(filterData1) && filterData1.filter(item => item.moduleId === selectedModuleId);
+    dispatch(allowModules(getValues));
+    console.log(getValues,"getValues")
+  }
+}, [userRoleModuleAccess, selectedModuleId]);
 
   return (
     <div className="deznav">
@@ -77,10 +86,9 @@ const Sidebar = () => {
               sideBarModules?.map((item, index) => (
                 <li
                   key={index}
-                  className={`nav-icn ${
-                    item.routePath === currentUrl.pathname ? "mm-active" : ""
-                  }`}
-                  onClick={(e) => hanleClick(e)}
+                  className={`nav-icn ${item.routePath === currentUrl.pathname ? "mm-active" : ""
+                    }`}
+                  onClick={(e) => hanleClick(e, item.id)}
                 >
                   <Link
                     className="ai-icon"
@@ -88,8 +96,8 @@ const Sidebar = () => {
                     aria-expanded="false"
                   >
                     <img
-                    src={require(  `../../Assets/icon/${item.icon}.svg`)}
-                    alt={item.icon}
+                      src={require(`../../Assets/icon/${item.icon}.svg`)}
+                      alt={item.icon}
                     />
                     <span className="nav-text ps-1">{item.name}</span>
                   </Link>

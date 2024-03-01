@@ -19,6 +19,7 @@ const ClientMaster = (props) => {
   const [showLoader, setShowLoader] = useState(false);
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
   const getClientPaymentdata = useSelector((state) => state.clientPaymentReducer);
+  const getRoleAccess = useSelector((state)=> state.moduleReducer?.filteredData);
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
   const email = GetTranslationData("UIAdmin", "contact_Email_label");
@@ -418,6 +419,7 @@ const resetFields = {
       <div className="container-fluid">
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
+          {getRoleAccess[0]?.addAccess && (
             <div className="card">
               <div className="card-header">
                 <h4 className="card-title">
@@ -771,11 +773,11 @@ const resetFields = {
                       </div>
                       <div className="col-sm-12 form-group mb-0 mt-2">
                         <Button
-                          text={props.data ? update : add}
-                          icon={"fa fa-arrow-right"}
-                          onClick={handleSubmit}
-                          className="btn btn-primary btn-sm float-right p-btn mb-5 mt-2"
-                        />
+                        text={props.data ? update : add}
+                        icon={"fa fa-arrow-right"}
+                        onClick={handleSubmit}
+                        className="btn btn-primary btn-sm float-right p-btn mb-5 mt-2"
+                      />
                         <ToastContainer />
                       </div>
                     </div>
@@ -783,6 +785,7 @@ const resetFields = {
                 )}
               </div>
             </div>
+          )}
           </div>
         </div>
       </div>
