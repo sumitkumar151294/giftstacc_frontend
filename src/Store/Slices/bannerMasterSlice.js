@@ -120,6 +120,7 @@ export const {
   onUpdateBannerMaster,
   onUpdateBannerMasterSuccess,
   onUpdateBannerMasterError,
+  onUpdateBannerMasterReset
 } = bannerMaster.actions;
 
 export default bannerMaster.reducer;

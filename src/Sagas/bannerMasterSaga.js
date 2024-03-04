@@ -6,7 +6,7 @@ function* BannerMaster() {
   try {
     const BannerMasterResponse = yield call(bannerMasterGetApi);
     if (BannerMasterResponse.httpStatusCode === "200") {
-      yield put(
+        yield put(
         onGetbannerMasterSuccess({
           data: BannerMasterResponse.response,
           message: BannerMasterResponse.errorMessage,
@@ -31,7 +31,7 @@ function* postBannerMaster({ payload }) {
   try {
         const postBannerMasterResponse = yield call(bannerMasterPostApi, payload);
     if (postBannerMasterResponse.httpStatusCode === "201") {
-      yield put(
+        yield put(
         onbannerMasterSubmitSuccess({
           postData: postBannerMasterResponse.response,
           message: postBannerMasterResponse.errorMessage,
@@ -56,8 +56,8 @@ function* postBannerMaster({ payload }) {
 function* updateBannerMaster({ payload }) {
   try {
     const updateBannerMasterResponse = yield call(  bannerMasterUpdateApi, payload);
-        if (updateBannerMasterResponse.httpStatusCode == "201") {
-      yield put(
+        if (updateBannerMasterResponse.httpStatusCode === "201") {
+            yield put(
         onUpdateBannerMasterSuccess({
           data: updateBannerMasterResponse.Response,
           message: updateBannerMasterResponse.errorMessage,
