@@ -126,7 +126,6 @@ const OfferMasterList = () => {
                                   >
                                     {data.enabled ? "Active" : "Non-Active"}
                                   </span>
-                                  {console.log(data.enabled, "hjdf")}
                                 </td>
                                 <td>
                                   <Button

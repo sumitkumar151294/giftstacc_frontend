@@ -66,6 +66,7 @@ const OfferMasterForm = ({ data, setData }) => {
   const upload = GetTranslationData("UIClient", "upload");
   const status = GetTranslationData("UIClient", "status");
   const submit = GetTranslationData("UIClient", "submitLabel");
+  const update = GetTranslationData("UIClient", "update_label");
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
 
@@ -359,7 +360,7 @@ const OfferMasterForm = ({ data, setData }) => {
                             <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-                            value={addData.enabled || ""}
+                            value={addData.enabled}
                             onChange={(e) => handleInputChange(e, "enabled")}
                             className={` ${
                               errors.enabled ? "border-danger" : "form-select"
@@ -369,7 +370,7 @@ const OfferMasterForm = ({ data, setData }) => {
                         </div>
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button
-                            text={submit}
+                            text={data ? "update" : submit}
                             icon="fa fa-arrow-right"
                             className="btn btn-primary btn-sm float-right p-btn mt-2"
                           />
