@@ -16,8 +16,8 @@ import Dropdown from "../../../Components/Dropdown/Dropdown";
 import Button from "../../../Components/Button/Button";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { ToastContainer, toast } from "react-toastify";
-import NoRecord from "../../Components/NoRecord/NoRecord";
-import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
+import NoRecord from "../../../Components/NoRecord/NoRecord";
 
 const FaqMaster = () => {
   const dispatch = useDispatch();
