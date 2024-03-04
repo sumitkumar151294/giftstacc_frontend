@@ -13,6 +13,6 @@ export const bannerMasterPostApi = async (payload) => {
 
 
 export const bannerMasterUpdateApi = async (payload) => {
-    const { data = {} } = await axiosInstanceClient.put(API.postBannerMaster, payload);
+    const { data = {} } = await axiosInstanceClient.put(API.putBannerMaster, payload);
     return data;
   };

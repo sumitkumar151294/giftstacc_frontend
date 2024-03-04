@@ -73,8 +73,10 @@ updateFaqCategory:'/faq-category',
 
 
   //banner-master
-  getBannerMaster:"/",
-  postBannerMaster:"/",
+  getBannerMaster:"/banner-master",
+  postBannerMaster:"/banner-master",
+  putBannerMaster:"/banner-master",
+
 
 
   //CMS

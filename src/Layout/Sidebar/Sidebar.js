@@ -67,13 +67,13 @@ const Sidebar = () => {
 
   return (
     <div className="deznav">
-      <div className="deznav-scroll ps ps--active-y"> 
+      <div className="deznav-scroll mm-active ps ps--active-y">
         {isSidebarLoading ? (
           <div style={{ height: "400px" }}>
             <Loader classType={"absoluteLoader"} />
           </div>
         ) : (
-          <ul className="metismenu" id="menu">
+          <ul className="metismenu mm-show" id="menu">
             {sideBarModules.length &&
               sideBarModules?.map((item, index) => (
                 <li
@@ -107,7 +107,8 @@ const Sidebar = () => {
             </li>
           </ul>
         )}
-              </div>
+      </div>
+
     </div>
   );
 };

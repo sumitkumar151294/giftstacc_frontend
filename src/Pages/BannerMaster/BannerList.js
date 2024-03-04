@@ -2,55 +2,17 @@ import React, { useState } from "react";
 import BannerForm from "./BannerMaster";
 import ReactPaginate from "react-paginate";
 import Button from "../../Components/Button/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { onUpdateBannerMaster } from "../../Store/Slices/bannerMasterSlice";
 const BannerMasterList = () => {
   const dispatch = useDispatch();
-  const banners = [
-    {
-      id: 1,
-      title: "Get the most out of it",
-      subtitle: "We",
-      link: "https://example.com",
-      order: 2,
-      status: "Active",
-    },
-    {
-      id: 1,
-      title: "Get the most out of it",
-      subtitle: "are",
-      link: "https://example.com",
-      order: 2,
-      status: "Active",
-    },
-    {
-      id: 1,
-      title: "Get the most out of it",
-      subtitle: "We provide the best offer and vouchers",
-      link: "https://example.com",
-      order: 2,
-      status: "Active",
-    },
-    {
-      id: 1,
-      title: "Get the most out of it",
-      subtitle: "We provide the best offer and vouchers",
-      link: "https://example.com",
-      order: 2,
-      status: "Active",
-    },
-    {
-      id: 1,
-      title: "Get the most out of it",
-      subtitle: "We provide the best offer and vouchers",
-      link: "https://example.com",
-      order: 2,
-      status: "Active",
-    },
-  ];
-  const [rowsPerPage] = useState(5);
-  const [prefilledData, setPrefilledData] = useState();
+  const getBannerMaster = useSelector((state) => state.bannerMasterReducer?.getData);
   const [page, setPage] = useState(1);
+  const [rowsPerPage] = useState(5);
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
+  const [prefilledData, setPrefilledData] = useState();
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -58,14 +20,17 @@ const BannerMasterList = () => {
     setPrefilledData(data);
   };
   const handleDelete = (data) => {
+
+    debugger
     const deletedData = {
-      bannerPlacement: data,
-      bannerTitle: data?.title,
-      bannerSubtitle: data?.subtitle,
-      bannerLink: data?.link,
-      displayOrder: data?.order,
-      status: data?.status,
-      image: "",
+      clientId: "strisng",
+      bannerPlacement: data.bannerPlacement ,
+      bannerTitle: data.bannerTitle ,
+      bannerSubtitle: data.bannerSubtitle ,
+      bannerLink: data.bannerLink ,
+      displayOrder: data.displayOrder ,
+      image: data.image ,
+      id: data?.id,
       enabled: false,
       deleted: true,
     };
@@ -96,23 +61,25 @@ const BannerMasterList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {banners.map((banner) => (
+                        {Array.isArray(getBannerMaster) && getBannerMaster.slice(startIndex, endIndex).map((banner) => (
                           <tr key={banner.id}>
-                            <td>{banner.title}</td>
-                            <td>{banner.subtitle}</td>
-                            <td>{banner.link}</td>
-                            <td>{banner.order}</td>
+                            <td>{banner.bannerTitle}</td>
+                            <td>{banner.bannerSubtitle}</td>
+                            <td>{banner.bannerLink}</td>
+                            <td>{banner.displayOrder}</td>
                             <td>
-                              <span
-                                className={`badge ${
-                                  banner.status === "Active"
-                                    ? "badge-success"
-                                    : "badge-secondary"
-                                }`}
-                              >
-                                {banner.status}
-                              </span>
-                            </td>
+                                            <span
+                                              className={
+                                                banner.enabled === true
+                                                  ? "badge badge-success"
+                                                  : "badge badge-danger"
+                                              }
+                                            >
+                                              {banner.enabled === true
+                                                ? "Active"
+                                                : "Non-Active"}
+                                            </span>
+                                          </td>
                             <td>
                               <div className="d-flex">
                                 <Button
@@ -131,13 +98,13 @@ const BannerMasterList = () => {
                         ))}
                       </tbody>
                     </table>
-                    {banners.length > 5 && (
+                    {getBannerMaster.length > 5 && (
                       <div className="pagination-container">
                         <ReactPaginate
                           previousLabel={"<"}
                           nextLabel={" >"}
                           breakLabel={"..."}
-                          pageCount={Math.ceil(banners.length / rowsPerPage)}
+                          pageCount={Math.ceil(getBannerMaster.length / rowsPerPage)}
                           marginPagesDisplayed={2}
                           onPageChange={handlePageChange}
                           containerClassName={"pagination"}
