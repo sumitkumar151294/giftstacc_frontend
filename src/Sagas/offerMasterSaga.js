@@ -1,6 +1,11 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { callOfferMasterPostApi,callOfferMasterGetApi,callOfferMasterUpdateApi } from "../Context/offerMasterApi";
-import { onPostOfferMasterSubmit,
+import {
+  callOfferMasterPostApi,
+  callOfferMasterGetApi,
+  callOfferMasterUpdateApi,
+} from "../Context/offerMasterApi";
+import {
+  onPostOfferMasterSubmit,
   onPostOfferMasterSuccess,
   onPostOfferMasterError,
   onGetOfferMaster,
@@ -9,18 +14,18 @@ import { onPostOfferMasterSubmit,
   onUpdateOfferMaster,
   onUpdateOfferMasterSuccess,
   onUpdateOfferMasterError,
-  } from "../Store/Slices/offerMasterSlice";
+} from "../Store/Slices/offerMasterSlice";
 
-function* PostOfferMaster({payload}) {
-    try{
-      const postOfferMasterResponse = yield call(callOfferMasterPostApi,payload);
+function* PostOfferMaster({ payload }) {
+  try {
+    const postOfferMasterResponse = yield call(callOfferMasterPostApi, payload);
     if (postOfferMasterResponse.httpStatusCode === "201") {
-      yield put( 
-        onPostOfferMasterSuccess({       
-          postData:postOfferMasterResponse.response,
+      yield put(
+        onPostOfferMasterSuccess({
+          postData: postOfferMasterResponse.response,
           message: postOfferMasterResponse.errorMessage,
           status_code: postOfferMasterResponse.httpStatusCode,
-       })
+        })
       );
     } else {
       yield put(
@@ -31,14 +36,19 @@ function* PostOfferMaster({payload}) {
         })
       );
     }
-    }
-    catch (error) {
-      const message = error.response || "Something went wrong";
-      yield put(onPostOfferMasterError({ postData: {}, message, status_code: 400}));
-    }
+  } catch (error) {
+    const message = error.response || "Something went wrong";
+    yield put(
+      onPostOfferMasterError({
+        postData: {},
+        message: error?.response?.data?.ErrorMessage,
+        status_code: error?.response?.data?.HttpStatusCode,
+      })
+    );
+  }
 }
 
-function* GetOfferMaster() { 
+function* GetOfferMaster() {
   try {
     const getOfferMasterResponse = yield call(callOfferMasterGetApi);
     if (getOfferMasterResponse.httpStatusCode === "200") {
@@ -60,13 +70,18 @@ function* GetOfferMaster() {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onGetOfferMasterError({ getData: {}, message, status_code: 400 }));
+    yield put(
+      onGetOfferMasterError({ getData: {}, message, status_code: 400 })
+    );
   }
 }
 
-  function* PutOfferMaster({payload}) {
-    try {
-    const updateOfferMasterResponse = yield call(callOfferMasterUpdateApi,payload);
+function* PutOfferMaster({ payload }) {
+  try {
+    const updateOfferMasterResponse = yield call(
+      callOfferMasterUpdateApi,
+      payload
+    );
     if (updateOfferMasterResponse.httpStatusCode === "200") {
       yield put(
         onUpdateOfferMasterSuccess({
@@ -84,12 +99,18 @@ function* GetOfferMaster() {
         })
       );
     }
-    } catch (error) {
+  } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onUpdateOfferMasterError({ data: {}, message, status_code: 400 }));
-    }
+    debugger;
+    yield put(
+      onUpdateOfferMasterError({
+        updateData: {},
+        updateMessage: error?.response?.data?.ErrorMessage,
+        update_status_code: error?.response?.data?.HttpStatusCode,
+      })
+    );
   }
-
+}
 
 export default function* offerMasterSaga() {
   yield takeLatest(onPostOfferMasterSubmit.type, PostOfferMaster);
