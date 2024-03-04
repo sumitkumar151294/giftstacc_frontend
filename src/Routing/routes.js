@@ -21,11 +21,12 @@ function RouteConfiq() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/lc-user-admin/login" element={<LoginPage />} />
+
         <Route
           path="/lc-admin/dashboard"
           element={<Layout Component={Dashboard} />}
         />
+
         <Route
           path="/lc-admin/supplier-master"
           element={<Layout Component={SupplierMasterList} />}
@@ -66,6 +67,7 @@ function RouteConfiq() {
           path="/lc-admin/orders"
           element={<Layout Component={Orders} />}
         />
+        <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route
           path="/lc-user-admin/cms"
           element={<Layout Component={CMSList} />}
@@ -73,10 +75,20 @@ function RouteConfiq() {
         <Route
           path="/lc-user-admin/offer-master"
           element={<Layout Component={OfferMasterList} />}
-        />
-         <Route
+           />
+        <Route
           path="*"
-          element={<PageError pageError={{StatusCode:"404", ErrorName:"Route not found", ErrorDesription:"The page you were looking for is not found!", url:"/", buttonText:"Back to home" }}/>}
+          element={
+            <PageError
+              pageError={{
+                StatusCode: "404",
+                ErrorName: "Route not found",
+                ErrorDesription: "The page you were looking for is not found!",
+                url: "/",
+                buttonText: "Back to home",
+              }}
+            />
+          }
         />
       </Routes>
     </Router>
