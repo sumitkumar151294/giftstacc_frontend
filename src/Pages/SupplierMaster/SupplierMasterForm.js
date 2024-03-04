@@ -157,6 +157,14 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
         servicePath: data.servicePath||"",
         enabled: data.enabled,
       });
+      setErrors
+  ({
+    name: "",
+    balanceThresholdAmount: "",
+    creditAmount: "",
+    servicePath:"",
+    enabled:""
+      })
       const filterSupplierApiCred = supplyResource?.data?.filter((item)=>item?.supplierId===data?.id)
       setAdditionalFields(filterSupplierApiCred)
     }

@@ -71,6 +71,15 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       firstName: prefilledValues?.firstName || "",
       lastName: prefilledValues?.lastName || "",
     });
+    setErrors({
+      mobile:  "",
+      email:  "",
+      role: "",
+      clientRoleId: "",
+      accessClientIds:  [],
+      firstName: "",
+      lastName: "",
+    })
   }, [prefilledValues]);
 
   const handleRoleId = (e, id) => {

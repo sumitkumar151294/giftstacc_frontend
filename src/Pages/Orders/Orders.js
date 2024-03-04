@@ -25,7 +25,7 @@ const Orders = () => {
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
-  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
+  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData);
   const orders = GetTranslationData("UIAdmin", "orders");
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client");
@@ -352,22 +352,7 @@ const Orders = () => {
     dispatch(onGetSupplierList());
     dispatch(onClientMasterSubmit());
   }, []);
-  useEffect(() => {
-    let tempSupplier = [];
-    Array.isArray(supplierMasterData) &&
-      supplierMasterData?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.name });
-      });
-    setSupplierListData(tempSupplier);
-  }, [supplierMasterData]);
-  useEffect(() => {
-    let tempClient = [];
-    Array.isArray(clientList) &&
-      clientList?.map((item) => {
-        tempClient.push({ label: item.name, value: item.name });
-      });
-    setClientListData(tempClient);
-  }, [clientList]);
+
   const handleChange = (e, fieldName) => {
     setSupplierList({
       ...supplierList,
@@ -443,8 +428,14 @@ const Orders = () => {
                         onChange={(e) => handleChange(e, "supplier")}
                         defaultValue={supplierList.supplier || ""}
                         className="form-select"
-                        options={supplierListData}
-                      />
+                        options={
+                          Array.isArray(supplierMasterData)
+                            ? supplierMasterData?.map((item) => ({
+                                label: item.name,
+                                value: item.name,
+                              }))
+                            : []
+                        }                      />
                     </div>
                     <div className="col-sm-3 form-group mb-2">
                       <label htmlFor="client">{client}</label>
@@ -452,8 +443,14 @@ const Orders = () => {
                         onChange={(e) => handleChange(e, "client")}
                         defaultValue={supplierList?.client || ""}
                         className="form-select"
-                        options={clientListData}
-                      />
+                        options={
+                          Array.isArray(clientList)
+                            ? clientList?.map((item) => ({
+                                label: item.name,
+                                value: item.name,
+                              }))
+                            : []
+                        }                      />
                     </div>
                     <div className="col-xl-3">
                       <div className="example">

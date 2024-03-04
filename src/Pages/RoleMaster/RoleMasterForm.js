@@ -6,17 +6,22 @@ import {
   onPostUserRole,
   onPostUserRoleReset,
   onUpdateUserRole,
-  onUpdateUserRoleReset
+  onUpdateUserRoleReset,
 } from "../../Store/Slices/userRoleSlice";
 import InputField from "../../Components/InputField/InputField";
-import { ToastContainer, toast} from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import Button from "../../Components/Button/Button";
-import { onGetUserRoleModuleAccess, onPostUserRoleModuleAccess, onPostUserRoleModuleAccessReset, onUpdateUserRoleModuleAccess } from "../../Store/Slices/userRoleModuleAccessSlice";
+import {
+  onGetUserRoleModuleAccess,
+  onPostUserRoleModuleAccess,
+  onPostUserRoleModuleAccessReset,
+  onUpdateUserRoleModuleAccess,
+} from "../../Store/Slices/userRoleModuleAccessSlice";
 
 // Component for RoleMasterForm
-const RoleMasterForm = ({ data, setData}) => {
+const RoleMasterForm = ({ data, setData }) => {
   // Translation labels
   const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
   const roleName = GetTranslationData("UIAdmin", "role-name");
@@ -37,10 +42,10 @@ const RoleMasterForm = ({ data, setData}) => {
   const [isformLoading, setIsFormLoading] = useState(false);
   const [checkBoxError, setCheckBoxError] = useState(false);
   const getModuleData = useSelector((state) => state.moduleReducer.data);
-  const getModuleAccessData = useSelector((state) => state.userRoleModuleAccessReducer);
-  const getRoleDataId = useSelector(
-    (state) => state.userRoleReducer
+  const getModuleAccessData = useSelector(
+    (state) => state.userRoleModuleAccessReducer
   );
+  const getRoleDataId = useSelector((state) => state.userRoleReducer);
 
   //To get the data from redux store
 
@@ -64,7 +69,7 @@ const RoleMasterForm = ({ data, setData}) => {
   useEffect(() => {
     if (Array.isArray(getModuleData)) {
       // Check if getModuleData is an array
-      
+
       const modulesData = getModuleData.map((module) => ({
         id: module.id,
         isClientPlatformModule: module.isClientPlatformModule,
@@ -78,16 +83,18 @@ const RoleMasterForm = ({ data, setData}) => {
         modules: modulesData,
       });
       if (data) {
-        const moduleAccessList = getModuleAccessData?.data?.filter(item=> (item.roleId===data?.id));
-        for(var i=0; i<moduleAccessList.length; i++ ){
-        for(var j=0; j<modulesData.length; j++){
-         if(modulesData[j].id===moduleAccessList[i].moduleId){
-          modulesData[j].addAccess=moduleAccessList[i].addAccess
-          modulesData[j].checked=moduleAccessList[i].viewAccess
-          modulesData[j].editAccess=moduleAccessList[i].editAccess
-         }
+        const moduleAccessList = getModuleAccessData?.data?.filter(
+          (item) => item.roleId === data?.id
+        );
+        for (var i = 0; i < moduleAccessList.length; i++) {
+          for (var j = 0; j < modulesData.length; j++) {
+            if (modulesData[j].id === moduleAccessList[i].moduleId) {
+              modulesData[j].addAccess = moduleAccessList[i].addAccess;
+              modulesData[j].checked = moduleAccessList[i].viewAccess;
+              modulesData[j].editAccess = moduleAccessList[i].editAccess;
+            }
+          }
         }
-       }
         setFormData({
           ...formData,
           id: data.id,
@@ -97,62 +104,64 @@ const RoleMasterForm = ({ data, setData}) => {
           isClientPlatformModule: data?.isClientPlatformRole,
           modules: modulesData,
         });
+        setErrors({
+          name: "",
+        });
       }
     }
   }, [getModuleData, data]);
 
   // Handle input changes in the form
-const handleInputChange = (e) => {
-  const { name, type, checked } = e.target;
-  if (name === "IsClientRole") {
-    setFormData({
-      ...formData,
-      isClientPlatformModule: checked,
-    });
-  } else if (name === "selectAll") {
-    const updatedModules = formData.modules.map((module) => ({
-      ...module,
-      checked: checked,
-    }));
-    setFormData({
-      ...formData,
-      modules: updatedModules,
-    });
-  } else if (type === "checkbox" && name === "view") {
-    let modules = formData.modules.map((md) => {
-      if (md.id === parseInt(e.target.id)) {
-        return { ...md, checked: !md.checked };
-      } else {
-        return md;
-      }
-    });
-    setFormData({ ...formData, modules });
-  } else if (type === "checkbox" && name === "add") {
-    let modules = formData.modules.map((md) => {
-      if (md.id === parseInt(e.target.id)) {
-        return { ...md, addAccess: !md.addAccess };
-      } else {
-        return md;
-      }
-    });
-    setFormData({ ...formData, modules });
-  } else if (type === "checkbox" && name === "edit") {
-    let modules = formData.modules.map((md) => {
-      if (md.id === parseInt(e.target.id)) {
-        return { ...md, editAccess: !md.editAccess };
-      } else {
-        return md;
-      }
-    });
-    setFormData({ ...formData, modules });
-  } else {
-    setFormData({
-      ...formData,
-      [name]: e.target.value,
-    });
-  }
-};
-
+  const handleInputChange = (e) => {
+    const { name, type, checked } = e.target;
+    if (name === "IsClientRole") {
+      setFormData({
+        ...formData,
+        isClientPlatformModule: checked,
+      });
+    } else if (name === "selectAll") {
+      const updatedModules = formData.modules.map((module) => ({
+        ...module,
+        checked: checked,
+      }));
+      setFormData({
+        ...formData,
+        modules: updatedModules,
+      });
+    } else if (type === "checkbox" && name === "view") {
+      let modules = formData.modules.map((md) => {
+        if (md.id === parseInt(e.target.id)) {
+          return { ...md, checked: !md.checked };
+        } else {
+          return md;
+        }
+      });
+      setFormData({ ...formData, modules });
+    } else if (type === "checkbox" && name === "add") {
+      let modules = formData.modules.map((md) => {
+        if (md.id === parseInt(e.target.id)) {
+          return { ...md, addAccess: !md.addAccess };
+        } else {
+          return md;
+        }
+      });
+      setFormData({ ...formData, modules });
+    } else if (type === "checkbox" && name === "edit") {
+      let modules = formData.modules.map((md) => {
+        if (md.id === parseInt(e.target.id)) {
+          return { ...md, editAccess: !md.editAccess };
+        } else {
+          return md;
+        }
+      });
+      setFormData({ ...formData, modules });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: e.target.value,
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -187,79 +196,89 @@ const handleInputChange = (e) => {
     try {
       //To Submit the data
       if (!data) {
-          setIsFormLoading(true);
-          dispatch(onPostUserRole(JSON.stringify(postData)));
+        setIsFormLoading(true);
+        dispatch(onPostUserRole(JSON.stringify(postData)));
       } else if (data) {
-        postData.id=data.id
+        postData.id = data.id;
         setIsFormLoading(true);
         dispatch(onUpdateUserRole(JSON.stringify(postData)));
-    }
-    } catch (error) {
-    }
+      }
+    } catch (error) {}
   };
 
-  useEffect(()=>{
-if(getRoleDataId?.postRoleData?.length>0 && !getRoleDataId?.postLoading){
-  const accessPostData = formData?.modules?.map((md) => {
-    return {
-      roleId: getRoleDataId?.postRoleData?.[0]?.roleId,
-      moduleId: md.id,
-      viewAccess: md.checked,
-      addAccess: md.addAccess,
-      editAccess: md.editAccess,
-    };
-  });
-  dispatch(onPostUserRoleModuleAccess(accessPostData))
-  dispatch(onPostUserRoleReset());
-}else if(getRoleDataId?.status_code==="201" && !getRoleDataId?.updateLoading){
-  let moduleAccess = JSON.parse(JSON.stringify(getModuleAccessData?.data));
-  let moduleAccessList = moduleAccess?.filter(item=> (item.roleId===data?.id));
-  let accessPostData = formData?.modules
-  for(var i=0; i<moduleAccessList.length; i++ ){
-  for(var j=0; j<accessPostData.length; j++){
-   if(accessPostData[j].id===moduleAccessList[i].moduleId){
-    moduleAccessList[i].addAccess=accessPostData[j].addAccess
-    moduleAccessList[i].viewAccess=accessPostData[j].checked
-    moduleAccessList[i].editAccess=accessPostData[j].editAccess
-   }
-  }
- }
-  dispatch(onUpdateUserRoleModuleAccess(moduleAccessList))
-  dispatch(onUpdateUserRoleReset());
-}
-},[getRoleDataId])
-
-useEffect(()=>{
-  if(getModuleAccessData?.status_code==='201' && !getModuleAccessData?.isLoading){
-    setIsFormLoading(false)
-    dispatch(onGetUserRole());
-    dispatch(onGetUserRoleModuleAccess());
-    toast.success(getModuleAccessData?.message);
-    dispatch(onPostUserRoleModuleAccessReset());
-    setData()
-    if (Array.isArray(getModuleData)) {
-      // Check if getModuleData is an array
-      const modulesData = getModuleData.map((module) => ({
-        id: module.id,
-        isClientPlatformModule: module.isClientPlatformModule,
-        name: module.name,
-        checked: false,
-        addAccess: false,
-        editAccess: false,
-      }));
-      setFormData({
-        name: "",
-      description: "",
-      isClientPlatformModule: false,
-        modules: modulesData,
+  useEffect(() => {
+    if (
+      getRoleDataId?.postRoleData?.length > 0 &&
+      !getRoleDataId?.postLoading
+    ) {
+      const accessPostData = formData?.modules?.map((md) => {
+        return {
+          roleId: getRoleDataId?.postRoleData?.[0]?.roleId,
+          moduleId: md.id,
+          viewAccess: md.checked,
+          addAccess: md.addAccess,
+          editAccess: md.editAccess,
+        };
       });
+      dispatch(onPostUserRoleModuleAccess(accessPostData));
+      dispatch(onPostUserRoleReset());
+    } else if (
+      getRoleDataId?.status_code === "201" &&
+      !getRoleDataId?.updateLoading
+    ) {
+      let moduleAccess = JSON.parse(JSON.stringify(getModuleAccessData?.data));
+      let moduleAccessList = moduleAccess?.filter(
+        (item) => item.roleId === data?.id
+      );
+      let accessPostData = formData?.modules;
+      for (var i = 0; i < moduleAccessList.length; i++) {
+        for (var j = 0; j < accessPostData.length; j++) {
+          if (accessPostData[j].id === moduleAccessList[i].moduleId) {
+            moduleAccessList[i].addAccess = accessPostData[j].addAccess;
+            moduleAccessList[i].viewAccess = accessPostData[j].checked;
+            moduleAccessList[i].editAccess = accessPostData[j].editAccess;
+          }
+        }
+      }
+      dispatch(onUpdateUserRoleModuleAccess(moduleAccessList));
+      dispatch(onUpdateUserRoleReset());
     }
-  }
-},[getModuleAccessData])
+  }, [getRoleDataId]);
 
-  useEffect(()=>{
-    dispatch(onPostUserRoleReset())
-  },[])
+  useEffect(() => {
+    if (
+      getModuleAccessData?.status_code === "201" &&
+      !getModuleAccessData?.isLoading
+    ) {
+      setIsFormLoading(false);
+      dispatch(onGetUserRole());
+      dispatch(onGetUserRoleModuleAccess());
+      toast.success(getModuleAccessData?.message);
+      dispatch(onPostUserRoleModuleAccessReset());
+      setData();
+      if (Array.isArray(getModuleData)) {
+        // Check if getModuleData is an array
+        const modulesData = getModuleData.map((module) => ({
+          id: module.id,
+          isClientPlatformModule: module.isClientPlatformModule,
+          name: module.name,
+          checked: false,
+          addAccess: false,
+          editAccess: false,
+        }));
+        setFormData({
+          name: "",
+          description: "",
+          isClientPlatformModule: false,
+          modules: modulesData,
+        });
+      }
+    }
+  }, [getModuleAccessData]);
+
+  useEffect(() => {
+    dispatch(onPostUserRoleReset());
+  }, []);
 
   // Render the RoleMasterForm component
   return (
