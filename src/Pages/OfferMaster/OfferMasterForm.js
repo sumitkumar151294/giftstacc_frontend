@@ -15,18 +15,20 @@ const OfferMasterForm = ({data,setData}) => {
     title: '',
     subtitle: '',
     link: '',
-    displayOrder: '',
+    imagePlacement: '',
     image: "",
-    enabled:true
+    enabled:true,
+    link_test:''
   })
   const [errors, setErrors] = useState({
     placement: '',
     title: '',
     subtitle: '',
     link: '',
-    displayOrder: '',
+    imagePlacement: '',
     image: '',
-    enabled:''
+    enabled:'',
+    link_test:''
   });
   // To reset the Input Field
   const resetAddData={
@@ -34,14 +36,17 @@ const OfferMasterForm = ({data,setData}) => {
     title: '',
     subtitle: '',
     link: '',
-    displayOrder: '',
+    imagePlacement: '',
     image: "",
-    enabled:''
+    enabled:'',
+    link_test:''
   }
 
   // To get the label from translation API
   const top=GetTranslationData("UIClient", "top");
   const bottom=GetTranslationData("UIClient", "bottom");
+  const left=GetTranslationData("UIClient", "left_option");
+  const right=GetTranslationData("UIClient", "right_option");
   const active=GetTranslationData("UIClient", "active_option");
   const non_active=GetTranslationData("UIClient", "non_active_option");
   const field_Required=GetTranslationData("UIAdmin", "field_Required");
@@ -49,7 +54,8 @@ const OfferMasterForm = ({data,setData}) => {
   const title=GetTranslationData("UIClient", "title");
   const subtitle=GetTranslationData("UIClient", "sub-title");
   const link_label=GetTranslationData("UIClient","link_label");
-  const display_order=GetTranslationData("UIClient", "display-order");
+  const link_test=GetTranslationData("UIClient", "link_test");
+  const imagePlacement=GetTranslationData("UIClient", "image_placement");
   const upload_image=GetTranslationData("UIClient", "uploadImage");
   const upload=GetTranslationData("UIClient", "upload");
   const status=GetTranslationData("UIClient", "status");
@@ -65,6 +71,10 @@ const OfferMasterForm = ({data,setData}) => {
     { value: true, label: active },
     { value: false, label: non_active },
   ];  
+  const imagePlacementOptions = [
+    { value: "Left", label: left },
+    { value: "Right", label: right },
+  ];  
 
   const handleInputChange = (e,fieldName) => {
     if(fieldName==="enabled"){
@@ -72,17 +82,45 @@ const OfferMasterForm = ({data,setData}) => {
         ...addData,
         [fieldName]: e.target.value ==="true" ? true:false,
       });
+      setErrors({
+        ...errors,
+        [fieldName]: "",
+      });
+    }
+    else if(fieldName==="image"){
+      let img = new Image()
+      img.src = window.URL.createObjectURL(e.target.files[0])
+    
+        setAddData({
+          ...addData,
+          [fieldName]: e.target.value,
+        });
+      
+      img.onload = () => {
+        if(img.width > 100 || img.height > 100){
+          setErrors({
+            ...errors,
+            [fieldName]: "Image size should be less than 500 KB",
+          });
+          setAddData({
+            ...addData,
+            [fieldName]: e.target.value,
+          });
+          //return false
+        }
+   
+      }
     }
     else{
       setAddData({
          ...addData,
          [fieldName]: e.target.value,
       });
-    }
-    setErrors({
-      ...errors,
-      [fieldName]: "",
-    });
+      setErrors({
+        ...errors,
+        [fieldName]: "",
+      });
+    } 
   };
 
   const handleSubmit = (e) => {
@@ -126,7 +164,7 @@ const OfferMasterForm = ({data,setData}) => {
       title: data?.title || "",
       subtitle:data?.subtitle || "",
       link: data?.link || "",
-      displayOrder: data?.displayOrder || "",
+      imagePlacement: data?.imagePlacement || "",
       // image: data?.image || "",
       enabled:data?.enabled || ""
      })
@@ -243,21 +281,34 @@ const OfferMasterForm = ({data,setData}) => {
                                           placeholder=""
                                         />
                                       </div>
-                                      <div className="col-sm-3 form-group mb-2">
-                                        <label htmlFor="displayOrder">{display_order}
-                                           <span className="text-danger">*</span>
+                                      <div className="col-sm-4 form-group mb-2">
+                                        <label htmlFor="link_test">{link_test}
+                                          <span className="text-danger">*</span>
                                         </label>
                                         <InputField
                                           type="text"
-                                          value={addData.displayOrder}
-                                          onChange={(e) => handleInputChange(e, "displayOrder")}
-                                          className={` ${errors.displayOrder
+                                          value={addData.link_test}
+                                          onChange={(e) => handleInputChange(e, "link_test")}
+                                          className={` ${errors.subtitle
                                             ? "border-danger"
                                             : "form-control"
                                             }`}
-                                          name="displayOrder"
-                                          id="displayOrder"
-                                          placeholder=""
+                                          name="link_test"
+                                          id="link_test"
+                                        />
+                                      </div>
+                                      <div className="col-sm-3 form-group mb-2">
+                                        <label htmlFor="imagePlacement">{imagePlacement}
+                                           <span className="text-danger">*</span>
+                                        </label>
+                                        <Dropdown
+                                          value={addData.imagePlacement || ""}
+                                          onChange={(e) => handleInputChange(e, "imagePlacement")}
+                                          className={` ${errors.imagePlacement
+                                            ? "border-danger"
+                                            : "form-select"
+                                            }`}
+                                          options={imagePlacementOptions}
                                         />
                                       </div>
                                       <div className="col-sm-4 form-group mb-2">
@@ -268,6 +319,7 @@ const OfferMasterForm = ({data,setData}) => {
                                           <div className="form-file">
                                             <InputField
                                               type="file"
+                                              accept="image/jpg,image/png"
                                               value={addData.image}
                                               className={` ${errors.image
                                                 ? "border-danger"
@@ -277,6 +329,7 @@ const OfferMasterForm = ({data,setData}) => {
                                           </div>
                                           <span className="input-group-text">{upload}</span>
                                         </div>
+                                        {<p className="text-danger">{errors.image}</p>}
                                       </div>
                                       <div className="col-sm-3 form-group mb-2">
                                         <label htmlFor="enabled">{status}
@@ -293,8 +346,11 @@ const OfferMasterForm = ({data,setData}) => {
                                         />
                                       </div>
                                       <div className="col-sm-12 form-group mb-0 mt-2">
-                                        <button className="btn btn-primary float-right pad-aa">{submit}<i className="fa fa-arrow-right"></i>
-                                        </button>
+                                      <Button
+                                        text={submit}
+                                        icon="fa fa-arrow-right"
+                                        className="btn btn-primary btn-sm float-right p-btn mt-2"
+                                      />
                                       </div>
                                     </div>
                                   </form>

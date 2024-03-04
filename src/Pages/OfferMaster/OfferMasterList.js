@@ -21,7 +21,7 @@ const OfferMasterList = () => {
   const title=GetTranslationData("UIClient", "title");
   const subtitle=GetTranslationData("UIClient", "sub-title");
   const link_level=GetTranslationData("UIClient", "link_label");
-  const display_order=GetTranslationData("UIClient", "display-order");
+  const imagePlacement=GetTranslationData("UIClient", "image_placement");
   const status=GetTranslationData("UIClient", "status");
   const action=GetTranslationData("UIClient", "actionLabel");
   const dispatch = useDispatch();
@@ -93,9 +93,8 @@ const OfferMasterList = () => {
       title: data.title,
       subtitle:data.subtitle,
       link: data.link,
-      displayOrder: data.displayOrder,
-      image: data.image,
-      status:true,
+      imagePlacement: data.imagePlacement,
+      image: data.image
     };
     dispatch(onUpdateOfferMaster(deletedData));
     dispatch(onGetOfferMaster());
@@ -138,7 +137,7 @@ const OfferMasterList = () => {
                             <th>{title}</th>
                             <th>{subtitle}</th>
                             <th>{link_level}</th>
-                            <th>{display_order}</th>
+                            <th>{imagePlacement}</th>
                             <th>{status}</th>
                             <th>{action}</th>
                           </tr>
@@ -157,7 +156,7 @@ const OfferMasterList = () => {
                                 <td>{data.title}</td>
                                 <td>{data.subtitle}</td>
                                 <td>{data.link}</td>
-                                <td>{data.displayOrder}</td>
+                                <td>{data.imagePlacement}</td>
                                 <td>
                                   <span className={`badge ${data.enabled ? 'badge-success': 'badge-danger'}`}>
                                     {data.enabled ? 'Active' : 'Non-Active'}
