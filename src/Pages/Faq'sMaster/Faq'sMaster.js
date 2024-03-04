@@ -178,7 +178,7 @@ const FaqMaster = () => {
                 </div>
               </form>
             </div>
-            {showLoader && faqMasterGetData?.getData?.length < 0 ? (
+            {showLoader ? (
               <div style={{ height: "400px" }}>
                 <Loader classType={"absoluteLoader"} />
               </div>
@@ -233,8 +233,10 @@ const FaqMaster = () => {
                       )}
                     </div>
                   </div>
-                ) : (
+                ) : faqMasterGetData?.getData?.length < 0 ? (
                   <NoRecord />
+                ) : (
+                  <Loader />
                 )}
               </>
             )}
