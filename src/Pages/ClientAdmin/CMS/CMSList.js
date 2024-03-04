@@ -28,10 +28,12 @@ const CMS = () => {
   };
 
   useEffect(() => {
+    debugger
     dispatch(onGetCms());
     setIsLoading(true);
   }, []);
   useEffect(() => {
+    debugger
     if (getdata) {
       setIsLoading(false);
     }
@@ -57,6 +59,7 @@ const CMS = () => {
     });
   };
 useEffect(()=>{
+  debugger
 if(updateCMSdata.update_status_code==="201"){
   dispatch(onGetCms())
   dispatch(onUpdateCmsReset())

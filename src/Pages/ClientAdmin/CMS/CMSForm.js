@@ -32,31 +32,28 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     shortDescription: "",
     longDescription: "",
   });
-  const handleChange = (e, fieldName) => {
+  const handleChange = (e, fieldName,html) => {
     setCmsData({
       ...cmsData,
       [fieldName]: e.target?.value,
+      [html]:e.target?.value
     });
-
     // Remove the error message when the user starts typing
     setErrors({
       ...errors,
       [fieldName]: "",
     });
-  };
 
-  // const handleHTMLChange = (html) => {
-  //
-  //     setCmsData({
-  //       ...cmsData,
-  //       longDescription: html,
-  //     });
-  //   };
-  const handleHTMLChange = (html) => {
+  };
+  const handleHTMLChange = (html,fieldName) => {
     setCmsData((prevCmsData) => ({
       ...prevCmsData,
       longDescription: html,
     }));
+    setErrors({
+      ...errors,
+      [fieldName]: "",
+    });
   };
 
   const handleSubmit = (e) => {
@@ -108,100 +105,113 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     if (getCMSdata.post_status_code === "201") {
       setCmsData(resetCMSData);
       dispatch(onPostCmsReset());
+      dispatch(onGetCms());
       toast.success(getCMSdata.postMessage);
     }
   }, [getCMSdata]);
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-
     setCmsData({
       title: Cmsprefilled?.title || "",
       shortDescription: Cmsprefilled?.shortDescription || "",
       longDescription: Cmsprefilled?.longDescription || "",
     });
+    setErrors({
+      title:"",
+      longDescription:"",
+      shortDescription:""
+    });
   }, [Cmsprefilled]);
+
+  useEffect(() => {
+    if (getCMSdata.update_status_code === "201") {
+      setCmsprefilled(false);
+      setCmsData(resetCMSData);
+    }
+  });
   return (
     <>
       <div class="container-fluid">
         <div class="row">
           <div class="col-xl-12 col-xxl-12">
             <div class="card">
-              <div class="card-header d-flex justify-content-between">
-                <h4 class="card-title">
-                  {GetTranslationData("UIClient", "cms")}
-                </h4>
-                <div class="dropdown-side">
-                  <div class="form-group mb-2">
-                    <select
-                      class="form-select"
-                      name="pageName"
-                      value={cmsData.title}
-                      onChange={(e) => handleChange(e, "title")}
-                      aria-label="Default select example"
-                    >
-                      <option selected>
-                        Select Page Name &nbsp;
-                        <i class="fa fa-angle-down"></i>
-                      </option>
-                      {PageNames.map((Option, index) => (
-                        <option key={index} value={Option}>
-                          {Option}
-                          &nbsp;
-                          <i class="fa fa-angle-down"></i>
-                        </option>
-                      ))}
-                    </select>
-                    <p className="text-danger">{errors.title}</p>
-                  </div>
+              {isFormLoading ? (
+                <div style={{ height: "400px" }}>
+                  <Loader classType={"absoluteLoader"} />
                 </div>
-              </div>
+              ) : (
+                <>
+                  <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">
+                      {GetTranslationData("UIClient", "cms")}
+                    </h4>
+                    <div className="col-sm-3 form-group mb-2">
+                      <Dropdown
+                        onChange={(e) => handleChange(e, "title")}
+                        error={errors.title}
+                        defaultSelected="Select Page Name"
+                        value={cmsData.title}
+                        className={` ${
+                          errors.title ? "border-danger" : "form-select"
+                        }`}
+                        options={
+                          Array.isArray(PageNames)
+                            ? PageNames?.map((Pagename) => ({
+                                label: Pagename,
+                                value: Pagename,
+                              }))
+                            : []
+                        }
+                      />
+                      <p className="text-danger">{errors.title}</p>
+                    </div>
+                  </div>
 
-              <div class="card-body">
-                {isFormLoading ? (
-                  <div style={{ height: "400px" }}>
-                    <Loader classNameType={"absoluteLoader"} />
-                  </div>
-                ) : (
-                  <div class="form-group mb-2">
-                    <label for="name-f">
-                      {GetTranslationData("UIClient", "short_description")}
-                    </label>
+                  <div class="card-body">
+                    <div class="form-group mb-2">
+                      <label for="name-f">
+                        {GetTranslationData("UIClient", "short_description")}
+                      </label>
 
-                    <textarea
-                      name="textarea"
-                      id="textarea"
-                      cols="60"
-                      rows="10"
-                      class="form-control bg-transparent"
-                      placeholder=""
-                      value={cmsData.shortDescription}
-                      onChange={(e) => handleChange(e, "shortDescription")}
-                    ></textarea>
-                    <p className="text-danger">{errors.shortDescription}</p>
+                      <textarea
+                        name="textarea"
+                        id="textarea"
+                        cols="60"
+                        rows="10"
+                        class="form-control bg-transparent"
+                        placeholder=""
+                        value={cmsData.shortDescription}
+                        onChange={(e) => handleChange(e, "shortDescription")}
+                      ></textarea>
+                      <p className="text-danger">{errors.shortDescription}</p>
+                    </div>
+                    <div class="form-group mb-2">
+                      <label for="name-f">
+                        {GetTranslationData("UIClient", "long_description")}
+                      </label>
+                      <HtmlEditor
+                        value={cmsData.longDescription}
+                        onChange={(data) =>
+                          handleHTMLChange(data, "longDescription")
+                        }
+                      />
+                      <p className="text-danger">{errors.longDescription}</p>
+                    </div>
+                    <div class="form-group mb-0 mt-2">
+                      <button
+                        type="submit"
+                        class="btn btn-primary float-right pad-aa"
+                        onClick={handleSubmit}
+                      >
+                        {Cmsprefilled ? update : sumbit}
+                        <i class="fa fa-arrow-right"></i>
+                      </button>
+                      <ToastContainer />
+                    </div>
                   </div>
-                )}
-                <div class="form-group mb-2">
-                  <label for="name-f">
-                    {GetTranslationData("UIClient", "long_description")}
-                  </label>
-                  <HtmlEditor
-                    value={cmsData.longDescription}
-                    onChange={(data) => handleHTMLChange(data)}
-                  />
-                  <p className="text-danger">{errors.longDescription}</p>
-                </div>
-                <div class="form-group mb-0 mt-2">
-                  <button
-                    type="submit"
-                    class="btn btn-primary float-right pad-aa"
-                    onClick={handleSubmit}
-                  >
-                    {Cmsprefilled ? update : sumbit}
-                    <i class="fa fa-arrow-right"></i>
-                  </button>
-                  <ToastContainer />
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </div>
