@@ -3,20 +3,20 @@ import {
   onFaqMasterSubmit,
   onFaqMasterSubmitReset,
   onGetFaqMaster,
-} from "../../Store/Slices/faqMasterSlice";
+} from "../../../Store/Slices/ClientAdmin/faqMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
-import InputField from "../../Components/InputField/InputField";
-import Loader from "../../Components/Loader/Loader";
+import InputField from "../../../Components/InputField/InputField";
+import Loader from "../../../Components/Loader/Loader";
 import ReactPaginate from "react-paginate";
 import {
   onFaqCategorySubmitReset,
   onGetFaqCategory,
-} from "../../Store/Slices/faqCategorySlice";
-import Dropdown from "../../Components/Dropdown/Dropdown";
-import Button from "../../Components/Button/Button";
-import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+} from "../../../Store/Slices/ClientAdmin/faqCategorySlice";
+import Dropdown from "../../../Components/Dropdown/Dropdown";
+import Button from "../../../Components/Button/Button";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { ToastContainer, toast } from "react-toastify";
-import NoRecord from "../../Components/NoRecord/NoRecord";
+import NoRecord from "../../../Components/NoRecord/NoRecord";
 
 const FaqMaster = () => {
   const dispatch = useDispatch();

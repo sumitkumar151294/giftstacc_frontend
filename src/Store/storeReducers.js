@@ -15,9 +15,9 @@ import brandCatalogueReducer from './Slices/brandCatalogueSlice';
 import clientPaymentReducer from './Slices/clientPaymentDetailSlice';
 import cmsReducer from './Slices/cmsSlice';
 import supplierResourceSlice from './Slices/supplierResourceSlice';
-import faqMasterReducer from './Slices/faqMasterSlice';
+import faqMasterReducer from './Slices/ClientAdmin/faqMasterSlice';
 import bannerMasterReducer from './Slices/bannerMasterSlice';
-import faqCategoryReducer from './Slices/faqCategorySlice';
+import faqCategoryReducer from './Slices/ClientAdmin/faqCategorySlice';
 import offerMasterReducer from './Slices/offerMasterSlice';
 
 

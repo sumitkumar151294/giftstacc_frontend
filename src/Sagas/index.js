@@ -13,11 +13,11 @@ import supplierBrandListSaga from "./supplierBrandListSaga";
 import BrandCatalogueSaga from "./brandCatalogueSaga";
 import clientPaymentSaga from "./clientPaymentDetailSaga";
 import supplierResourceSaga from "./supplierResourceSaga";
-import FaqMasterSaga from "./faqMasterSaga";
 import bannerMasterSaga from "./bannerMasterSaga";
-import FaqCategorySaga from "./faqCategorySaga";
 import cmsSaga from "./cmsSaga";
 import offerMasterSaga from "./offerMasterSaga";
+import FaqMasterSaga from "./ClientAdmin/faqMasterSaga";
+import FaqCategorySaga from "./ClientAdmin/faqCategorySaga";
 export default function* rootSaga() {
   yield all([
     loginSaga(),

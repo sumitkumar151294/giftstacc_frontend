@@ -1,5 +1,5 @@
-import API from "../Common/EndPoint/serviceConstrants";
-import axiosInstanceClient from "../Common/Axios/axiosInstanceClient";
+import API from "../../Common/EndPoint/serviceConstrants";
+import axiosInstanceClient from "../../Common/Axios/axiosInstanceClient";
 
 export const faqMasterGetApi = async () => {
   const { data = {} } = await axiosInstanceClient.get(API.getFaqMaster);

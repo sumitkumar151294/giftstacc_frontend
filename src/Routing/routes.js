@@ -17,8 +17,8 @@ import PageError from "../Components/PageError/PageError";
 
 import CMSList from "../Pages/ClientAdmin/CMS/CMSList";
 import OfferMasterList from "../Pages/OfferMaster/OfferMasterList";
-import FaqMaster from "../Pages/Faq'sMaster/Faq'sMaster";
 import BannerMasterList from "../Pages/BannerMaster/BannerList";
+import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 // import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 function RouteConfiq() {
   return (

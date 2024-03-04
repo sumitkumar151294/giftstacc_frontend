@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 
-import { faqCategoryGetApi,faqCategoryPostApi} from "../Context/faqCategoryApi";
-import { onFaqCategorySubmit,onFaqCategorySubmitSuccess,onFaqCategorySubmitError,onGetFaqCategory,onGetFaqCategorySuccess,onGetFaqCategoryError } from "../Store/Slices/faqCategorySlice";
+import { faqCategoryGetApi,faqCategoryPostApi} from "../../Context/ClientAdmin/faqCategoryApi";
+import { onFaqCategorySubmit,onFaqCategorySubmitSuccess,onFaqCategorySubmitError,onGetFaqCategory,onGetFaqCategorySuccess,onGetFaqCategoryError } from "../../Store/Slices/ClientAdmin/faqCategorySlice";
 
 function* FaqCategory() {
   try {

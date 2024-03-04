@@ -6,8 +6,8 @@ import {
   onGetFaqMaster,
   onGetFaqMasterSuccess,
   onGetFaqMasterError,
-} from "../Store/Slices/faqMasterSlice";
-import { faqMasterPostApi, faqMasterGetApi } from "../Context/faqMasterApi";
+} from "../../Store/Slices/ClientAdmin/faqMasterSlice";
+import { faqMasterPostApi, faqMasterGetApi } from "../../Context/ClientAdmin/faqMasterApi";
 
 function* FaqMaster() {
   try {
