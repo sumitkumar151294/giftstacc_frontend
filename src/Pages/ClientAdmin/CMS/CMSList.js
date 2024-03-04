@@ -21,33 +21,7 @@ const CMS = () => {
   const short_description = GetTranslationData("UIClient", "short_description");
   const long_description = GetTranslationData("UIClient", "long_description");
   const action = GetTranslationData("UIClient", "action");
-  const getdata = [
-    {
-        "title": "Terms and Conditions",
-        "shortDescription": "About us",
-        "longDescription": "<p>Description for the about us page</p>",
-        "id": 1
-    },
-    {
-        "title": "About us",
-        "shortDescription": "Terms and conditons",
-        "longDescription": "<p>Description for the about us page</p>",
-        "id": 2
-    },
-    {
-        "title": "Testing Page",
-        "shortDescription": "Testing 1",
-        "longDescription": "<p>Description for the about us page</p>",
-        "id": 3
-    },
-    {
-        "title": "Privacy Policy",
-        "shortDescription": "Contact Us",
-        "longDescription": "<p>Description for the about us page</p>",
-        "id": 4
-    },
-  
-];
+  const getdata = useSelector((state) => state.cmsReducer.getCMSData);
   const updateCMSdata= useSelector((state)=>state.cmsReducer)
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);

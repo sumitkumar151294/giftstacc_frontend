@@ -1,13 +1,13 @@
 import API from "../Common/EndPoint/serviceConstrants";
-import axiosInstance from "../Common/Axios/axiosInstance";
+import axiosInstanceClient from "../Common/Axios/axiosInstanceClient";
 
 export const faqCategoryGetApi = async () => {
-  const { data = {} } = await axiosInstance.get(API.getFaqCategory);
+  const { data = {} } = await axiosInstanceClient.get(API.getFaqCategory);
   return data;
 };
 
 export const faqCategoryPostApi = async (payload) => {
-  const { data = {} } = await axiosInstance.post(API.postFaqCategory, payload);
+  const { data = {} } = await axiosInstanceClient.post(API.postFaqCategory, payload);
   return data;
 };
 
