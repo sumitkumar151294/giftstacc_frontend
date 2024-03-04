@@ -325,7 +325,7 @@ $background-color_1: var(--sidebar-bg);
 }
 
 .ps {
-	overflow: hidden !important;
+	overflow: scroll !important;
 	overflow-anchor: none;
 	-ms-overflow-style: none;
 	touch-action: auto;
@@ -524,3 +524,7 @@ li {
 		background-color: $background-color_1;
 	}
 }
+
+
+
+
