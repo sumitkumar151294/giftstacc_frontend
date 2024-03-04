@@ -6,6 +6,7 @@ import {
   onPostCms,
   onPostCmsReset,
   onUpdateCms,
+  onUpdateCmsReset,
 } from "../../../Store/Slices/cmsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,7 +15,10 @@ import Dropdown from "../../../Components/Dropdown/Dropdown";
 const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
   const sumbit = GetTranslationData("UIAdmin", "submit_label");
   const update = GetTranslationData("UIAdmin", "update_label");
-  const [isFormLoading, setIsFormLoading] = useState(false);
+  const _CMS = GetTranslationData("UIClient", "cms");
+  console.log(_CMS);
+  const _shortdescription = GetTranslationData("UIClient", "short_description");
+  const _longdescription = GetTranslationData("UIClient", "long_description");
   const dispatch = useDispatch();
   const getCMSdata = useSelector((state) => state.cmsReducer);
   const [cmsData, setCmsData] = useState({
@@ -32,20 +36,19 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     shortDescription: "",
     longDescription: "",
   });
-  const handleChange = (e, fieldName,html) => {
+  const handleChange = (e, fieldName, html) => {
     setCmsData({
       ...cmsData,
       [fieldName]: e.target?.value,
-      [html]:e.target?.value
+      [html]: e.target?.value,
     });
     // Remove the error message when the user starts typing
     setErrors({
       ...errors,
       [fieldName]: "",
     });
-
   };
-  const handleHTMLChange = (html,fieldName) => {
+  const handleHTMLChange = (html, fieldName) => {
     setCmsData((prevCmsData) => ({
       ...prevCmsData,
       longDescription: html,
@@ -104,9 +107,9 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
   useEffect(() => {
     if (getCMSdata.post_status_code === "201") {
       setCmsData(resetCMSData);
+      toast.success(getCMSdata.postMessage);
       dispatch(onPostCmsReset());
       dispatch(onGetCms());
-      toast.success(getCMSdata.postMessage);
     }
   }, [getCMSdata]);
 
@@ -118,34 +121,26 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       longDescription: Cmsprefilled?.longDescription || "",
     });
     setErrors({
-      title:"",
-      longDescription:"",
-      shortDescription:""
+      title: "",
+      longDescription: "",
+      shortDescription: "",
     });
   }, [Cmsprefilled]);
-
-  useEffect(() => {
-    if (getCMSdata.update_status_code === "201") {
-      setCmsprefilled(false);
-      setCmsData(resetCMSData);
-    }
-  });
+  
   return (
     <>
       <div class="container-fluid">
         <div class="row">
           <div class="col-xl-12 col-xxl-12">
             <div class="card">
-              {isFormLoading ? (
+              {getCMSdata.isLoading ? (
                 <div style={{ height: "400px" }}>
                   <Loader classType={"absoluteLoader"} />
                 </div>
               ) : (
                 <>
                   <div class="card-header d-flex justify-content-between">
-                    <h4 class="card-title">
-                      {GetTranslationData("UIClient", "cms")}
-                    </h4>
+                    <h4 class="card-title">{_CMS}</h4>
                     <div className="col-sm-3 form-group mb-2">
                       <Dropdown
                         onChange={(e) => handleChange(e, "title")}
@@ -170,9 +165,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
 
                   <div class="card-body">
                     <div class="form-group mb-2">
-                      <label for="name-f">
-                        {GetTranslationData("UIClient", "short_description")}
-                      </label>
+                      <label for="name-f">{_shortdescription}</label>
 
                       <textarea
                         name="textarea"
@@ -187,9 +180,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                       <p className="text-danger">{errors.shortDescription}</p>
                     </div>
                     <div class="form-group mb-2">
-                      <label for="name-f">
-                        {GetTranslationData("UIClient", "long_description")}
-                      </label>
+                      <label for="name-f">{_longdescription}</label>
                       <HtmlEditor
                         value={cmsData.longDescription}
                         onChange={(data) =>

@@ -16,11 +16,11 @@ const CMS = () => {
   const [Cmsprefilled, setCmsprefilled] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const id = GetTranslationData("UIClient", "id");
+  const id = GetTranslationData("UIAdmin", "id");
   const Page_Name = GetTranslationData("UIClient", "Page_Name");
   const short_description = GetTranslationData("UIClient", "short_description");
   const long_description = GetTranslationData("UIClient", "long_description");
-  const action = GetTranslationData("UIClient", "action");
+  const action = GetTranslationData("UIAdmin", "action");
   const getdata = useSelector((state) => state.cmsReducer.getCMSData);
   const updateCMSdata= useSelector((state)=>state.cmsReducer)
   const handlePageChange = (selected) => {
@@ -61,9 +61,9 @@ const CMS = () => {
 useEffect(()=>{
   debugger
 if(updateCMSdata.update_status_code==="201"){
+  toast.success(updateCMSdata.updateMessage)
   dispatch(onGetCms())
   dispatch(onUpdateCmsReset())
-  toast.success(updateCMSdata.updateMessage)
 }
 },[updateCMSdata])
   return (
