@@ -9,12 +9,12 @@ import {
   onUpdateCms,
   onUpdateCmsError,
   onUpdateCmsSuccess,
-} from "../Store/Slices/cmsSlice";
+} from "../../Store/Slices/ClientAdmin/cmsSlice";
 import {
   callCmsPostAPI,
   callCmsgetAPI,
   callCmsupdateAPI,
-} from "../Context/cmsApi";
+} from "../../Context/ClientAdmin/cmsApi";
 
 function* postCms({ payload }) {
   try {

@@ -14,7 +14,7 @@ import BrandCatalogueSaga from "./brandCatalogueSaga";
 import clientPaymentSaga from "./clientPaymentDetailSaga";
 import supplierResourceSaga from "./supplierResourceSaga";
 import bannerMasterSaga from "./bannerMasterSaga";
-import cmsSaga from "./cmsSaga";
+import cmsSaga from "./ClientAdmin/cmsSaga";
 import offerMasterSaga from "./ClientAdmin/offerMasterSaga";
 import FaqMasterSaga from "./ClientAdmin/faqMasterSaga";
 import FaqCategorySaga from "./ClientAdmin/faqCategorySaga";

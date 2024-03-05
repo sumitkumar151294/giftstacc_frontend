@@ -9,7 +9,7 @@ import {
   onGetCms,
   onUpdateCms,
   onUpdateCmsReset,
-} from "../../../Store/Slices/cmsSlice";
+} from "../../../Store/Slices/ClientAdmin/cmsSlice";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
 const CMS = () => {
@@ -25,8 +25,7 @@ const CMS = () => {
   const short_description = GetTranslationData("UIClient", "short_description");
   const long_description = GetTranslationData("UIClient", "long_description");
   const action = GetTranslationData("UIAdmin", "action");
-  const getdata = useSelector((state) => state.cmsReducer.getCMSData);
-  const updateCMSdata = useSelector((state) => state.cmsReducer);
+  const getData = useSelector((state) => state.cmsReducer.getCMSData);
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -36,8 +35,8 @@ const CMS = () => {
     setIsLoading(true);
   }, []);
   useEffect(() => {
-    if (getdata) {
-      const totalItems = getdata.length;
+    if (getData) {
+      const totalItems = getData.length;
       const totalPages = Math.ceil(totalItems / rowsPerPage);
       if (page > totalPages && page > 1) {
         setPage(page - 1);
@@ -46,7 +45,7 @@ const CMS = () => {
     } else {
       setIsLoading(false);
     }
-  }, [getdata]);
+  }, [getData]);
   const handleDelete = (data) => {
     const deletedData = {
       enabled: false,
@@ -87,11 +86,12 @@ const CMS = () => {
                     <div style={{ height: "400px" }}>
                       <Loader classType={"absoluteLoader"} />
                     </div>
-                  ) : Array.isArray(getdata) && getdata.length > 0 ? (
+                  ) : Array.isArray(getData) && getData.length > 0 ? (
                     <div className="table-responsive">
                       <table className="table header-border table-responsive-sm">
                         <thead>
                           <tr key={{ id }}>
+                            <th>{id}</th>
                             <th>{Page_Name}</th>
                             <th>{short_description}</th>
                             <th>{long_description}</th>
@@ -99,7 +99,7 @@ const CMS = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {getdata.slice(startIndex, endIndex).map((data) => (
+                          {getData.slice(startIndex, endIndex).map((data) => (
                             <tr>
                               <td>{data.id}</td>
                               <td>{data.title}</td>
@@ -125,13 +125,13 @@ const CMS = () => {
                           ))}
                         </tbody>
                       </table>
-                      {getdata.length > 5 && (
+                      {getData.length > 5 && (
                         <div className="pagination-container">
                           <ReactPaginate
                             previousLabel={"<"}
                             nextLabel={" >"}
                             breakLabel={"..."}
-                            pageCount={Math.ceil(getdata.length / rowsPerPage)}
+                            pageCount={Math.ceil(getData.length / rowsPerPage)}
                             marginPagesDisplayed={2}
                             onPageChange={handlePageChange}
                             containerClassName={"pagination"}
@@ -144,9 +144,7 @@ const CMS = () => {
                       )}
                     </div>
                   ) : (
-
-                      <NoRecord />
-
+                    <NoRecord />
                   )}
                 </div>
               </div>

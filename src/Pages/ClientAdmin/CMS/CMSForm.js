@@ -3,24 +3,24 @@ import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import {
   onGetCms,
-  onGetCmsReset,
   onPostCms,
   onPostCmsReset,
   onUpdateCms,
   onUpdateCmsReset,
-} from "../../../Store/Slices/cmsSlice";
+} from "../../../Store/Slices/ClientAdmin/cmsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
 const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
+
   const sumbit = GetTranslationData("UIAdmin", "submit_label");
   const update = GetTranslationData("UIAdmin", "update_label");
-  const _CMS = GetTranslationData("UIClient", "cms");
-  const _shortdescription = GetTranslationData("UIClient", "short_description");
-  const _longdescription = GetTranslationData("UIClient", "long_description");
+  const cms = GetTranslationData("UIClient", "cms");
+  const ShortDescription = GetTranslationData("UIClient", "short_description");
+  const LongDescription = GetTranslationData("UIClient", "long_description");
   const dispatch = useDispatch();
-  const getCMSdata = useSelector((state) => state.cmsReducer);
+  const getCmsData = useSelector((state) => state.cmsReducer);
   const [cmsData, setCmsData] = useState({
     clientId: "123",
     title: "",
@@ -107,17 +107,17 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
   };
   useEffect(() => {
 
-    if (getCMSdata.post_status_code === "201") {
-      toast.success(getCMSdata.postMessage);
+    if (getCmsData.post_status_code === "201") {
+      toast.success(getCmsData.postMessage);
       setCmsData(resetCMSData);
       dispatch(onPostCmsReset());
       dispatch(onGetCms());
-    } else if (getCMSdata.post_status_code === 400) {
+    } else if (getCmsData.post_status_code === 400) {
       setCmsData(resetCMSData);
-      toast.error(getCMSdata.message);
+      toast.error(getCmsData.message);
       dispatch(onPostCmsReset());
     }
-  }, [getCMSdata]);
+  }, [getCmsData]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -133,32 +133,32 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     });
   }, [Cmsprefilled]);
   useEffect(() => {
-    if (getCMSdata.update_status_code === "201") {
-      toast.success(getCMSdata.updateMessage);
+    if (getCmsData.update_status_code === "201") {
+      toast.success(getCmsData.updateMessage);
       setCmsData(resetCMSData);
       dispatch(onGetCms());
       dispatch(onUpdateCmsReset());
-    } else if (getCMSdata.update_status_code === 400) {
-      toast.error(getCMSdata.updateMessage);
+    } else if (getCmsData.update_status_code === 400) {
+      toast.error(getCmsData.updateMessage);
       setCmsData(resetCMSData);
       setCmsprefilled(false)
       dispatch(onUpdateCmsReset());
     }
-  }, [getCMSdata]);
+  }, [getCmsData]);
   return (
     <>
       <div className="container-fluid">
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
-              {getCMSdata.isLoading ? (
+              {getCmsData.isLoading ? (
                 <div style={{ height: "400px" }}>
                   <Loader classNameType={"absoluteLoader"} />
                 </div>
               ) : (
                 <>
                   <div className="card-header d-flex justify-content-between">
-                    <h4 className="card-title">{_CMS}</h4>
+                    <h4 className="card-title">{cms}</h4>
                     <div className="col-sm-3 form-group mb-2">
                       <Dropdown
                         onChange={(e) => handleChange(e, "title")}
@@ -183,7 +183,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
 
                   <div className="card-body">
                     <div className="form-group mb-2">
-                      <label for="name-f">{_shortdescription}</label>
+                      <label for="name-f">{ShortDescription}</label>
 
                       <textarea
                         name="textarea"
@@ -198,7 +198,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                       <p className="text-danger">{errors.shortDescription}</p>
                     </div>
                     <div className="form-group mb-2">
-                      <label for="name-f">{_longdescription}</label>
+                      <label for="name-f">{LongDescription}</label>
                       <HtmlEditor
                         value={cmsData.longDescription}
                         onChange={(data) =>
