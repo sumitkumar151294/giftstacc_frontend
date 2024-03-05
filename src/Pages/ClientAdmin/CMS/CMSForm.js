@@ -3,6 +3,7 @@ import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import {
   onGetCms,
+  onGetCmsReset,
   onPostCms,
   onPostCmsReset,
   onUpdateCms,
@@ -16,12 +17,12 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
   const sumbit = GetTranslationData("UIAdmin", "submit_label");
   const update = GetTranslationData("UIAdmin", "update_label");
   const _CMS = GetTranslationData("UIClient", "cms");
-  console.log(_CMS);
   const _shortdescription = GetTranslationData("UIClient", "short_description");
   const _longdescription = GetTranslationData("UIClient", "long_description");
   const dispatch = useDispatch();
   const getCMSdata = useSelector((state) => state.cmsReducer);
   const [cmsData, setCmsData] = useState({
+    clientId: "123",
     title: "",
     shortDescription: "",
     longDescription: "",
@@ -58,7 +59,12 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       [fieldName]: "",
     });
   };
-
+  const PageNames = [
+    "About us",
+    "Privacy Policy",
+    "Terms and Conditions",
+    "LC Loyality Program",
+  ];
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -77,6 +83,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       if (!Cmsprefilled) {
         const Usersdata = {
           ...cmsData,
+          clientId: "123",
           title: cmsData.title,
           shortDescription: cmsData.shortDescription,
           longDescription: cmsData.longDescription,
@@ -88,6 +95,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
           deleted: false,
           createdBy: 0,
           updatedBy: 0,
+          clientId: "123",
           id: Cmsprefilled?.id,
           title: cmsData?.title,
           shortDescription: cmsData.shortDescription,
@@ -97,20 +105,17 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       }
     }
   };
-  const PageNames = [
-    "About us",
-    "Privacy Policy",
-    "Terms and Conditions",
-    "LC Loyality Program",
-  ];
-
   useEffect(() => {
+
     if (getCMSdata.post_status_code === "201") {
       toast.success(getCMSdata.postMessage);
       setCmsData(resetCMSData);
-      toast.success(getCMSdata.postMessage);
       dispatch(onPostCmsReset());
       dispatch(onGetCms());
+    } else if (getCMSdata.post_status_code === 400) {
+      setCmsData(resetCMSData);
+      toast.error(getCMSdata.message);
+      dispatch(onPostCmsReset());
     }
   }, [getCMSdata]);
 
@@ -127,21 +132,33 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       shortDescription: "",
     });
   }, [Cmsprefilled]);
-  
+  useEffect(() => {
+    if (getCMSdata.update_status_code === "201") {
+      toast.success(getCMSdata.updateMessage);
+      setCmsData(resetCMSData);
+      dispatch(onGetCms());
+      dispatch(onUpdateCmsReset());
+    } else if (getCMSdata.update_status_code === 400) {
+      toast.error(getCMSdata.updateMessage);
+      setCmsData(resetCMSData);
+      setCmsprefilled(false)
+      dispatch(onUpdateCmsReset());
+    }
+  }, [getCMSdata]);
   return (
     <>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-12 col-xxl-12">
-            <div class="card">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12 col-xxl-12">
+            <div className="card">
               {getCMSdata.isLoading ? (
                 <div style={{ height: "400px" }}>
-                  <Loader classType={"absoluteLoader"} />
+                  <Loader classNameType={"absoluteLoader"} />
                 </div>
               ) : (
                 <>
-                  <div class="card-header d-flex justify-content-between">
-                    <h4 class="card-title">{_CMS}</h4>
+                  <div className="card-header d-flex justify-content-between">
+                    <h4 className="card-title">{_CMS}</h4>
                     <div className="col-sm-3 form-group mb-2">
                       <Dropdown
                         onChange={(e) => handleChange(e, "title")}
@@ -164,8 +181,8 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                     </div>
                   </div>
 
-                  <div class="card-body">
-                    <div class="form-group mb-2">
+                  <div className="card-body">
+                    <div className="form-group mb-2">
                       <label for="name-f">{_shortdescription}</label>
 
                       <textarea
@@ -173,14 +190,14 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                         id="textarea"
                         cols="60"
                         rows="10"
-                        class="form-control bg-transparent"
+                        className="form-control bg-transparent"
                         placeholder=""
                         value={cmsData.shortDescription}
                         onChange={(e) => handleChange(e, "shortDescription")}
                       ></textarea>
                       <p className="text-danger">{errors.shortDescription}</p>
                     </div>
-                    <div class="form-group mb-2">
+                    <div className="form-group mb-2">
                       <label for="name-f">{_longdescription}</label>
                       <HtmlEditor
                         value={cmsData.longDescription}
@@ -190,14 +207,14 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                       />
                       <p className="text-danger">{errors.longDescription}</p>
                     </div>
-                    <div class="form-group mb-0 mt-2">
+                    <div className="form-group mb-0 mt-2">
                       <button
                         type="submit"
-                        class="btn btn-primary float-right pad-aa"
+                        className="btn btn-primary float-right pad-aa"
                         onClick={handleSubmit}
                       >
                         {Cmsprefilled ? update : sumbit}
-                        <i class="fa fa-arrow-right"></i>
+                        <i className="fa fa-arrow-right"></i>
                       </button>
                       <ToastContainer />
                     </div>

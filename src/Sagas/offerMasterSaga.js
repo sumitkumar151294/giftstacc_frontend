@@ -101,7 +101,6 @@ function* PutOfferMaster({ payload }) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    debugger;
     yield put(
       onUpdateOfferMasterError({
         updateData: {},

@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import {
   onGetbannerMaster,
   onbannerMasterSubmit,
-  onbannerMasterSubmitReset,
   onUpdateBannerMasterReset,
 } from "../../Store/Slices/bannerMasterSlice";
 import Button from "../../Components/Button/Button";
@@ -84,7 +83,6 @@ const BannerForm = ({ prefilledData }) => {
     { value: "Non-active", label: "Non-active" },
   ];
   useEffect(() => {
-    debugger;
     dispatch(onGetbannerMaster());
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());

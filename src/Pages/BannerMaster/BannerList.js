@@ -20,8 +20,6 @@ const BannerMasterList = () => {
     setPrefilledData(data);
   };
   const handleDelete = (data) => {
-
-    debugger
     const deletedData = {
       clientId: "strisng",
       bannerPlacement: data.bannerPlacement ,

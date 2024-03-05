@@ -16,7 +16,7 @@ const UserMasterList = () => {
   const [prefilledValues, setPrefilledValues] = useState();
   useEffect(() => {
     dispatch(onGetUser());
-  }, []);
+  },[dispatch]);
   const UserList = GetTranslationData("UIAdmin", "User_list_label");
   const roleName = GetTranslationData("UIAdmin", "role_name_label");
   const email = GetTranslationData("UIAdmin", "email_label");
@@ -24,7 +24,6 @@ const UserMasterList = () => {
   const username = GetTranslationData("UIAdmin", "usernamee_label");
   const clients = GetTranslationData("UIAdmin", "clients_name_label");
   const action = GetTranslationData("UIAdmin", "action_label");
-  const not_Found = GetTranslationData("UIAdmin", "not_Found");
   const userList = useSelector((state) => state.userMasterReducer);
   const client = useSelector((state) => state.clientMasterReducer.clientData);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
