@@ -1,5 +1,5 @@
-import API from '../Common/EndPoint/serviceConstrants';
-import axiosInstanceClient from '../Common/Axios/axiosInstanceClient';
+import API from '../../Common/EndPoint/serviceConstrants';
+import axiosInstanceClient from '../../Common/Axios/axiosInstanceClient';
 
 export const callOfferMasterPostApi = async (payload) => {
   const { data = {} } = await axiosInstanceClient.post(API.postOfferMaster, payload);

@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OfferMasterForm from "./OfferMasterForm";
 import ReactPaginate from "react-paginate";
-import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import NoRecord from "../../Components/NoRecord/NoRecord";
-import Button from "../../Components/Button/Button";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import NoRecord from "../../../Components/NoRecord/NoRecord";
+import Button from "../../../Components/Button/Button";
 import {
   onGetOfferMaster,
   onUpdateOfferMaster,
-} from "../../Store/Slices/offerMasterSlice";
-import Loader from "../../Components/Loader/Loader";
-import offerImage from "../../Assets/img/pizz1.jpg";
+} from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
+import Loader from "../../../Components/Loader/Loader";
+import offerImage from "../../../Assets/img/pizz1.jpg";
+
 const OfferMasterList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
