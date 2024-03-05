@@ -11,7 +11,7 @@ export const clientMasterSlice = createSlice({
   },
   reducers: {
     onClientMasterSubmit: (state) => {
-      return {    
+      return {
         ...state,
         isLoading: true,
         clientData: {},

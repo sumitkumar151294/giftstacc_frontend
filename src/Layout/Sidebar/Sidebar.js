@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetModule } from "../../Store/Slices/moduleSlice";
+import { allowModules, onGetModule } from "../../Store/Slices/moduleSlice";
 import Loader from "../../Components/Loader/Loader";
 import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
@@ -13,6 +13,7 @@ const Sidebar = () => {
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   const [sideBarModules, setIsSideBarModules] = useState([]);
   const logout = GetTranslationData("UIAdmin", "logout");
+  const loginDetails = useSelector((state) => state.loginReducer);
   const currentUrl = useLocation();
   // To reset the redux store (logout the user)
   const handleLogout = (e) => {
@@ -20,7 +21,7 @@ const Sidebar = () => {
     dispatch(onLogout());
     localStorage.clear();
     sessionStorage.clear();
-    navigate("/");
+    loginDetails.partner_Key === "UIAdmin" ? navigate("/") :navigate("/lc-user-admin/login");
   };
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);
@@ -51,6 +52,11 @@ const Sidebar = () => {
     }
   }, [getModuleData,userRoleModuleAccess]);
 
+  useEffect(()=>{
+    const getValues = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item => item.roleId===userRoleID));
+    dispatch(allowModules(getValues));
+ },[]);
+ 
   // function to add active class on Li
   const hanleClick = (e) => {
     document.querySelectorAll(".mm-active").forEach((e) => {

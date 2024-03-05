@@ -187,7 +187,7 @@ const SupplierProductList = () => {
   }, [searchQuery, selectedSupplierCode]);
 
   // excel data to print
-  const excelData = SupplierBrandList.map(data => ({
+  const excelData = Array.isArray(SupplierBrandList)&&SupplierBrandList.map(data => ({
     id: data.id,
     brands: data.name,
     supplier_Margin: data.supplierMargin,
@@ -213,7 +213,7 @@ const SupplierProductList = () => {
                           type="text"
                           value={searchQuery}
                           onChange={handleSearch}
-                          className="form-control only-high"
+                          className="form-control only-high "
                           placeholder={search_here_label}
                         />
                         <span className="input-group-text">
@@ -305,7 +305,7 @@ const SupplierProductList = () => {
                                             <div className="input-group mb-2 w-11">
                                               <InputField
                                                 type="number"
-                                                className="form-control htt"
+                                                className="form-control htt  border-Radius"
                                                 placeholder={data.supplier_Margin}
                                                 pattern="/^-?\d+\.?\d*$/"
                                                 value={data?.supplierMargin}
