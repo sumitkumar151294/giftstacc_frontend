@@ -7,7 +7,7 @@ const Footer = () => {
     <div className="footer">
       <div className="copyright">
       <p>{GetTranslationData("UIAdmin", "footer_text")}
-      <a href="#" className="footer-link">Way2web World</a> {new Date().getFullYear()}</p>
+      <a href="https://www.way2webworld.com/" target="_blank" className="footer-link"> Way2web World</a> {new Date().getFullYear()}</p>
       </div>
     </div>
   );

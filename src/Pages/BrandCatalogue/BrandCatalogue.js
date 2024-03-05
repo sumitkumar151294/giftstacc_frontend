@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import img from "../../Assets/img/pizz1.jpg";
+import { useNavigate } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import { onbrandCatalogueSubmit } from "../../Store/Slices/brandCatalogueSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
-import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { CSVLink } from "react-csv";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
+import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 const BrandCatalogue = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
   const [page, setPage] = useState(1);
@@ -35,49 +34,42 @@ const BrandCatalogue = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const [supplierListData, setSupplierListData] = useState([]);
-  const [clientListData, setClientListData] = useState([]);
-
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data
   );
+  const SupplierBrandList = useSelector(
+    (state) => state.supplierBrandListReducer.data
+  );
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
-
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
   });
+  const excelData = SupplierBrandList.map((data) => ({
+    sku: data.sku,
+    name: data.name,
+    minPrice: data.minPrice,
+    maxPrice: data.maxPrice,
+    price: data.price,
+  }));
+  const headers = [
+    { label: "Sku", key: "sku" },
+    { label: "Name", key: "name" },
+    { label: "Min Price", key: "minPrice" },
+    { label: "Max Price", key: "maxPrice" },
+    { label: "Price", key: "price" },
+  ];
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
 
-  useEffect(() => {
-    setShowLoader(false);
-  }, [showLoader]);
-  useEffect(() => {
-    dispatch(onbrandCatalogueSubmit());
-    dispatch(onGetSupplierList());
-    dispatch(onClientMasterSubmit());
-  }, []);
-  const BrandCatalogueData = useSelector(
-    (state) => state.brandCatalogueReducer?.data
-  );
-  const headers = [
-    { label: "action", key: "action" },
-    { label: "id", key: "id" },
-    { label: "min_price", key: "min_price" },
-    { label: "max_price", key: "max_price" },
-    { label: "name", key: "name" },
-    { label: "price", key: "price" },
-    { label: "sku", key: "sku" },
-  ];
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
-  const filteredBrandCatalogueList = Array.isArray(BrandCatalogueData)
-    ? BrandCatalogueData.filter((vendor) =>
+  const filteredBrandCatalogueList = Array.isArray(SupplierBrandList)
+    ? SupplierBrandList.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
@@ -93,22 +85,18 @@ const BrandCatalogue = () => {
       [fieldName]: e.target.value,
     });
   };
+
   useEffect(() => {
-    let tempSupplier = [];
-    Array.isArray(supplierMasterData) &&
-      supplierMasterData?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.name });
-      });
-    setSupplierListData(tempSupplier);
-  }, [supplierMasterData]);
+    setShowLoader(false);
+  }, [showLoader]);
   useEffect(() => {
-    let tempClient = [];
-    Array.isArray(clientList) &&
-      clientList?.map((item) => {
-        tempClient.push({ label: item.name, value: item.name });
-      });
-    setClientListData(tempClient);
-  }, [clientList]);
+    dispatch(onGetSupplierBrandList());
+    dispatch(onGetSupplierList());
+  }, []);
+
+  const handleClick = (data) => {
+    navigate("/lc-user-admin/brand-detail", { state: data });
+  };
   return (
     <>
       <ScrollToTop />
@@ -131,26 +119,26 @@ const BrandCatalogue = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                      <i className="fa fa-search"></i>
+                        <a>
+                          <i className="flaticon-381-search-2"></i>&nbsp;
+                        </a>
                       </span>
                     </div>
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
-                    {BrandCatalogueData && BrandCatalogueData.length > 0 && (
-                      <CSVLink
-                        data={BrandCatalogueData}
-                        headers={headers}
-                        filename={"BrandCatalogue.csv"}
-                      >
-                        {filteredBrandCatalogueList.length > 0 && (
-                          <Button
-                            className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
-                            icons={"fa fa-file-excel me-2"}
-                            text={`${exportLabel}`}
-                          />
-                        )}
-                      </CSVLink>
-                    )}
+                    <CSVLink
+                      data={excelData}
+                      headers={headers}
+                      filename={"BrandCatalogue.csv"}
+                    >
+                      {filteredBrandCatalogueList.length > 0 && (
+                        <Button
+                          className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
+                          icons={"fa fa-file-excel me-2"}
+                          text={`${exportLabel}`}
+                        />
+                      )}
+                    </CSVLink>
                   </div>
                 </div>
               </div>
@@ -162,7 +150,14 @@ const BrandCatalogue = () => {
                       onChange={(e) => handleChange(e, "supplier")}
                       value={supplierList.supplier || ""}
                       className="form-select"
-                      options={supplierListData}
+                      options={
+                        Array.isArray(supplierMasterData)
+                          ? supplierMasterData?.map((item) => ({
+                              label: item.name,
+                              value: item.name,
+                            }))
+                          : []
+                      }
                     />
                   </div>
                   <div className="col-sm-3 form-group mb-2">
@@ -171,7 +166,14 @@ const BrandCatalogue = () => {
                       onChange={(e) => handleChange(e, "client")}
                       value={supplierList?.client || ""}
                       className="form-select"
-                      options={clientListData}
+                      options={
+                        Array.isArray(clientList)
+                          ? clientList?.map((item) => ({
+                              label: item.name,
+                              value: item.name,
+                            }))
+                          : []
+                      }
                     />
                   </div>
                 </div>
@@ -205,50 +207,48 @@ const BrandCatalogue = () => {
                                   <tr key={index}>
                                     <td>
                                       <img
-                                        src={img}
+                                        src={data.thumbnail}
                                         style={{ width: "50px" }}
                                       />
                                       <br />
                                     </td>
-                                    <td>
-                                      {data.sku}
-                                      <a href="#"></a>
-                                    </td>
+                                    <td>{data.sku}</td>
                                     <td>{data.name}</td>
-                                    <td>{data.min_price}</td>
-                                    <td>{data.max_price}</td>
+                                    <td>{data.minPrice}</td>
+                                    <td>{data.maxPrice}</td>
                                     <td>{data.price}</td>
                                     <td>
                                       {" "}
-                                      <Link
-                                        to={"/lc-admin/brand-detail"}
-                                        href="productdetail.html"
+                                      <Button
+                                        onClick={() => handleClick(data)}
                                         className="btn btn-primary btn-sm bt-link float-right"
-                                      >
-                                        <i className="fa fa-info"></i>&nbsp;
-                                        {BrandDetail}
-                                      </Link>
+                                        icons={"fa fa-info"}
+                                        text={BrandDetail}
+                                      />
                                     </td>
                                   </tr>
                                 ))}
                             </tbody>
                           </table>
-                          <div className="pagination-container">
-                            <ReactPaginate
-                              previousLabel={"<"}
-                              nextLabel={" >"}
-                              breakLabel={"..."}
-                              pageCount={Math.ceil(
-                                filteredBrandCatalogueList.length / rowsPerPage
-                              )}
-                              marginPagesDisplayed={2}
-                              onPageChange={handlePageChange}
-                              containerClassName={"pagination"}
-                              activeClassName={"active"}
-                              initialPage={page - 1} // Use initialPage instead of forcePage
-                              previousClassName={page === 0 ? "disabled" : ""}
-                            />
-                          </div>
+                          {filteredBrandCatalogueList.length > 5 && (
+                            <div className="pagination-container">
+                              <ReactPaginate
+                                previousLabel={"<"}
+                                nextLabel={" >"}
+                                breakLabel={"..."}
+                                pageCount={Math.ceil(
+                                  filteredBrandCatalogueList.length /
+                                    rowsPerPage
+                                )}
+                                marginPagesDisplayed={2}
+                                onPageChange={handlePageChange}
+                                containerClassName={"pagination"}
+                                activeClassName={"active"}
+                                initialPage={page - 1} // Use initialPage instead of forcePage
+                                previousClassName={page === 0 ? "disabled" : ""}
+                              />
+                            </div>
+                          )}
                         </>
                       ) : (
                         <NoRecord />

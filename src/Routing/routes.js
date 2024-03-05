@@ -1,7 +1,6 @@
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import LoginPage from "../Pages/Login/LoginPage";
-import HomePage from "../Components/HomePage/HomePage";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
 import BrandDetail from "../Pages/BrandDetail/BrandDetail";
@@ -16,17 +15,22 @@ import SupplierProductList from "../Pages/SupplierProductList/SupplierProductLis
 import PageError from "../Components/PageError/PageError";
 import CMS from "../Pages/ClientAdmin/CMS/CMS";
 import { CustomerList } from "../Pages/CustomerList/CustomerList";
+import CMSList from "../Pages/ClientAdmin/CMS/CMSList";
+import OfferMasterList from "../Pages/OfferMaster/OfferMasterList";
+import BannerMasterList from "../Pages/BannerMaster/BannerList";
+import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 // import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 function RouteConfiq() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/lc-user-admin/login" element={<LoginPage />} />
+
         <Route
           path="/lc-admin/dashboard"
           element={<Layout Component={Dashboard} />}
         />
+
         <Route
           path="/lc-admin/supplier-master"
           element={<Layout Component={SupplierMasterList} />}
@@ -67,17 +71,50 @@ function RouteConfiq() {
           path="/lc-admin/orders"
           element={<Layout Component={Orders} />}
         />
+        <Route path="/lc-user-admin/login" element={<LoginPage />} />
+        <Route path="/lc-user-admin/dashboard" element={<Layout Component={Dashboard} />} />
         <Route
           path="/lc-user-admin/cms"
-          element={<Layout Component={CMS} />}
+          element={<Layout Component={CMSList} />}
+        />
+          <Route
+          path="/lc-user-admin/brand-catalouge"
+          element={<Layout Component={BrandCatalogue} />}
         />
         <Route
-          path="/lc-admin/customer-list"
+          path="/lc-user-admin/brand-detail"
+          element={<Layout Component={BrandDetail} />}
+        />
+        <Route
+          path="/lc-user-admin/offer-master"
+          element={<Layout Component={OfferMasterList} />}
+        />
+        <Route
+          path="/lc-user-admin/customer-list"
           element={<Layout Component={CustomerList} />}
         />
          <Route
+           <Route
+          path="/lc-user-admin/faq"
+          element={<Layout Component={FaqMaster} />}
+        />
+          <Route
+          path="/lc-user-admin/banner-master"
+          element={<Layout Component={BannerMasterList} />}
+        />
+        <Route
           path="*"
-          element={<PageError pageError={{StatusCode:"404", ErrorName:"Route not found", ErrorDesription:"The page you were looking for is not found!", url:"/", buttonText:"Back to home" }}/>}
+          element={
+            <PageError
+              pageError={{
+                StatusCode: "404",
+                ErrorName: "Route not found",
+                ErrorDesription: "The page you were looking for is not found!",
+                url: "/",
+                buttonText: "Back to home",
+              }}
+            />
+          }
         />
       </Routes>
     </Router>

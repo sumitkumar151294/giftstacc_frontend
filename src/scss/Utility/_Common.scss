@@ -452,6 +452,7 @@ a:hover {
 
 .only-high {
   height: 3.5em;
+  border-radius: 25px 0px 0px 25px !important;
 }
 
 .btn-outline-primary {
@@ -526,4 +527,27 @@ body {
     margin-top: -7rem;
   }
 }
+
+.border-Radius{
+  border-radius: 12px 0px 0px 12px;
+}
+.absoluteLoader{
+  border-radius: 20px;
+
+
+.upload{
+  border-radius: 0px;
+    border: 1px solid lightgrey;
+    font-size: 12px;
+    padding: 8px;
+    cursor: pointer !important ;
+    
+}
+cursor{
+  cursor: pointer !important;
+}
+
+.border-Radius{
+  border-radius: 12px 0px 0px 12px;
+}}
 
