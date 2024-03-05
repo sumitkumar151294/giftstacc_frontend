@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { bannerMasterGetApi,bannerMasterPostApi,bannerMasterUpdateApi } from "../Context/bannerMasterApi";
-import { onbannerMasterSubmitError,onbannerMasterSubmitSuccess ,onbannerMasterSubmit,onGetbannerMasterError,onGetbannerMaster,onGetbannerMasterSuccess,onUpdateBannerMaster,onUpdateBannerMasterSuccess,onUpdateBannerMasterError} from "../Store/Slices/bannerMasterSlice";
+import { bannerMasterGetApi,bannerMasterPostApi,bannerMasterUpdateApi } from "../../Context/ClientAdmin/bannerMasterApi";
+import { onbannerMasterSubmitError,onbannerMasterSubmitSuccess ,onbannerMasterSubmit,onGetbannerMasterError,onGetbannerMaster,onGetbannerMasterSuccess,onUpdateBannerMaster,onUpdateBannerMasterSuccess,onUpdateBannerMasterError} from "../../Store/Slices/ClientAdmin/bannerMasterSlice";
 
 function* BannerMaster() {
   try {

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import BannerForm from "./BannerMaster";
 import ReactPaginate from "react-paginate";
-import Button from "../../Components/Button/Button";
+import Button from "../../../Components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { onUpdateBannerMaster } from "../../Store/Slices/bannerMasterSlice";
+import { onUpdateBannerMaster } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
 const BannerMasterList = () => {
   const dispatch = useDispatch();
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer?.getData);
@@ -96,7 +96,7 @@ const BannerMasterList = () => {
                         ))}
                       </tbody>
                     </table>
-                    {getBannerMaster.length > 5 && (
+                    {getBannerMaster?.length > 5 && (
                       <div className="pagination-container">
                         <ReactPaginate
                           previousLabel={"<"}
