@@ -532,7 +532,6 @@ const resetFields = {
                           className={"form-control"}
                           name="color"
                           id="color"
-                          // error={errors.color}
                           value={clientData.color || "#000000"}
                           onChange={(e) => handleChange(e, "color")}
                         />

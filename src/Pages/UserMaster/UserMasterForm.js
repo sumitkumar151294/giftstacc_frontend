@@ -58,7 +58,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   useEffect(() => {
     dispatch(onGetUserRole());
     dispatch(onClientMasterSubmit());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -243,7 +243,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       resetData();
     }
    
-  }, [onSubmitData]);
+  }, [onSubmitData,dispatch]);
 
 
 

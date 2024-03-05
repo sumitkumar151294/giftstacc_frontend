@@ -171,7 +171,6 @@ const OfferMasterForm = ({ data, setData }) => {
       enabled: data?.enabled || "",
     });
   }, [data]);
-  console.log(data, "data");
   useEffect(() => {
     if (offerMasterData?.status_code === "201") {
       setShowLoader(false);

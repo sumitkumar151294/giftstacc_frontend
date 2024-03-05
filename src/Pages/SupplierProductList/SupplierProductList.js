@@ -47,7 +47,7 @@ const SupplierProductList = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setCopySupplierBrandList(SupplierBrandList)
@@ -61,7 +61,7 @@ const SupplierProductList = () => {
       dispatch(onGetSupplierBrandList());
       dispatch(onUpdateSupplierBrandListReset())
     }
-  }, [SupplierBrandListUpdate])
+  }, [SupplierBrandListUpdate,dispatch])
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -91,7 +91,7 @@ const SupplierProductList = () => {
       });
       setSupplierList(tempSupplier);
     }
-  }, [suppliers]);
+  }, [suppliers,supplierList.length]);
 
   const handleChange = (e) => {
     const selectedSupplierCode = e.target.value;
@@ -184,7 +184,7 @@ const SupplierProductList = () => {
       (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
     );
     setCopySupplierBrandList(filteredSupplierList);
-  }, [searchQuery, selectedSupplierCode]);
+  }, [searchQuery, selectedSupplierCode, SupplierBrandList]);
 
   // excel data to print
   const excelData = Array.isArray(SupplierBrandList)&&SupplierBrandList.map(data => ({

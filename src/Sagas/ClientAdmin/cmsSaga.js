@@ -1,6 +1,20 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { onGetCms, onGetCmsError, onGetCmsSuccess, onPostCms, onPostCmsError, onPostCmsSuccess, onUpdateCms, onUpdateCmsError, onUpdateCmsSuccess } from "../Store/Slices/cmsSlice";
-import { callCmsPostAPI, callCmsgetAPI, callCmsupdateAPI } from "../Context/cmsApi";
+import {
+  onGetCms,
+  onGetCmsError,
+  onGetCmsSuccess,
+  onPostCms,
+  onPostCmsError,
+  onPostCmsSuccess,
+  onUpdateCms,
+  onUpdateCmsError,
+  onUpdateCmsSuccess,
+} from "../../Store/Slices/ClientAdmin/cmsSlice";
+import {
+  callCmsPostAPI,
+  callCmsgetAPI,
+  callCmsupdateAPI,
+} from "../../Context/ClientAdmin/cmsApi";
 
 function* postCms({ payload }) {
   try {
@@ -10,7 +24,7 @@ function* postCms({ payload }) {
         onPostCmsSuccess({
           getdata: cmsPostResponse.response,
           message: cmsPostResponse.errorMessage,
-          status_code: cmsPostResponse.httpStatusCode
+          status_code: cmsPostResponse.httpStatusCode,
         })
       );
     } else {
@@ -18,6 +32,7 @@ function* postCms({ payload }) {
         onPostCmsError({
           data: cmsPostResponse.response,
           message: cmsPostResponse.errorMessage,
+          status_code: cmsPostResponse.httpStatusCode,
         })
       );
     }
@@ -52,9 +67,9 @@ function* getCms() {
     yield put(onGetCmsError({ data: {}, message, status_code: 400 }));
   }
 }
-function* updateCms({payload}) {
+function* updateCms({ payload }) {
   try {
-    const cmsupdateResponse = yield call(callCmsupdateAPI,payload);
+    const cmsupdateResponse = yield call(callCmsupdateAPI, payload);
 
     if (cmsupdateResponse.httpStatusCode === "201") {
       yield put(
@@ -74,8 +89,13 @@ function* updateCms({payload}) {
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
-    yield put(onUpdateCmsError({ data: {}, message, status_code: 400 }));
+    yield put(
+      onUpdateCmsError({
+        updatedCmsData: {},
+        updateMessage: error?.response?.data?.ErrorMessage,
+        update_status_code: error?.response?.data?.HttpStatusCode,
+      })
+    );
   }
 }
 export default function* cmsSaga() {
