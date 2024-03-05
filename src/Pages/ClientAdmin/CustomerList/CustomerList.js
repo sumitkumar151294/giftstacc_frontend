@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import '../../scss/Pages/_CustomerList.scss';
-import ReactPaginate from "react-paginate";
-import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
-import InputField from '../../Components/InputField/InputField';
-import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
+import InputField from '../../../Components/InputField/InputField';
+import { GetTranslationData } from '../../../Components/GetTranslationData/GetTranslationData ';
+import { onGetCustomer } from '../../../Store/Slices/ClientAdmin/customerListSlice';
 
 export const CustomerList = () => {
+    const dispatch = useDispatch();
 
-    // To get the data of customer list from redux store
+    useEffect(()=> {
+        dispatch(onGetCustomer())
+      },[])
+          // To get the data of customer list from redux store
     const getCustomerList = useSelector((state) => state.customerListReducer?.customerData);
-    const [searchQuery, setSearchQuery] = useState("");
-  const [rowsPerPage] = useState(5);
-    const handleSearch = (e) => {
-        setSearchQuery(e.target.value);
-        setPage(1);
-    };
-
-  const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
-
-
-    const [page, setPage] = useState(1);
-    const startIndex = (page - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
+    const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
 
     return (
         <>
@@ -33,7 +22,7 @@ export const CustomerList = () => {
                 <div className="row">
                     <div className="col-xl-12 col-xxl-12">
                         <div className="card">
-                            <div className="containerrr mt-2 mb-2">
+                            <div className="container mt-2 mb-2">
                                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                     <div className="card-header">
                                         <h4 className="card-title">Customer List</h4>
@@ -42,10 +31,8 @@ export const CustomerList = () => {
                                         <div className="input-group search-area">
                                             <InputField
                                                 type="text"
-                                                value={searchQuery}
-                                                onChange={handleSearch}
                                                 className="form-control only-high"
-                                            placeholder={search_here_label}
+                                                placeholder={search_here_label}
                                             />
                                             <span className="input-group-text"><a><i className="flaticon-381-search-2"></i></a></span>
                                         </div>
@@ -54,7 +41,7 @@ export const CustomerList = () => {
                                         <a className="btn btn-primary btn-rounded me-3 mb-2"><i className="fa fa-file-excel me-2"></i>Export</a>
                                     </div>
                                 </div>
-                                <div className="card-body-resp">
+                                <div className="cd-body-responsive">
                                     <div className="table-responsive">
                                         <table className="table table-sm mb-0 table-striped">
                                             <thead>
@@ -67,7 +54,6 @@ export const CustomerList = () => {
                                             </thead>
                                             <tbody id="customers">
                                                 {getCustomerList
-                                                    .slice(startIndex, endIndex)
                                                     .map((customer, index) => (
                                                         <tr className="btn-reveal-trigger" key={index} >
                                                             <td className="py-3">

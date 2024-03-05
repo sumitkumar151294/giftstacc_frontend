@@ -13,13 +13,11 @@ import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 import PageError from "../Components/PageError/PageError";
-import CMS from "../Pages/ClientAdmin/CMS/CMS";
-import { CustomerList } from "../Pages/CustomerList/CustomerList";
+import { CustomerList } from "../Pages/ClientAdmin/CustomerList/CustomerList";
 import CMSList from "../Pages/ClientAdmin/CMS/CMSList";
 import OfferMasterList from "../Pages/OfferMaster/OfferMasterList";
 import BannerMasterList from "../Pages/BannerMaster/BannerList";
 import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
-// import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 function RouteConfiq() {
   return (
     <Router>
@@ -94,7 +92,6 @@ function RouteConfiq() {
           element={<Layout Component={CustomerList} />}
         />
          <Route
-           <Route
           path="/lc-user-admin/faq"
           element={<Layout Component={FaqMaster} />}
         />

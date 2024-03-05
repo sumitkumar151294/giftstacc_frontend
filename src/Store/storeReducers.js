@@ -15,7 +15,7 @@ import brandCatalogueReducer from './Slices/brandCatalogueSlice';
 import clientPaymentReducer from './Slices/clientPaymentDetailSlice';
 import cmsReducer from './Slices/cmsSlice';
 import supplierResourceSlice from './Slices/supplierResourceSlice';
-import customerListReducer from './Slices/customerListSlice';
+import customerListReducer from './Slices/ClientAdmin/customerListSlice';
 import faqMasterReducer from './Slices/ClientAdmin/faqMasterSlice';
 import bannerMasterReducer from './Slices/bannerMasterSlice';
 import faqCategoryReducer from './Slices/ClientAdmin/faqCategorySlice';
@@ -35,7 +35,7 @@ const reducers = combineReducers({
     supplierBrandListReducer:supplierBrandListReducer,
     clientMasterReducer:clientMasterReducer,
     createCategoryReducer:createCategoryReducer,
-    customerListReducer:customerListReducer
+    customerListReducer:customerListReducer,
     faqMasterReducer:faqMasterReducer,
     bannerMasterReducer:bannerMasterReducer,
     faqCategoryReducer:faqCategoryReducer,

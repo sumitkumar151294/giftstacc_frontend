@@ -3,18 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userRoleSlice = createSlice({
   name: "customer-list",
   initialState: {
-    isLoading: false,
-    isError: false,
-    customerData: {},
-    error: {},
-    message: "",
+    customerData: [],
   },
   reducers: {
     onGetCustomer: (state) => {
       return {
         ...state,
-        isLoading: true,
-        isError: false,
         customerData:  [
             {
                 name: 'Ricky Antony',
@@ -23,75 +17,76 @@ export const userRoleSlice = createSlice({
                 joined: '30/03/2018'
             },
             {
-                name: 'cicky Antony',
+                name: 'Ricky Antony',
                 email: 'info@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-                name: 'kicky Antony',
+                name: 'Ricky Antony',
                 email: 'info@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-                name: 'micky Antony',
+                name: 'Ricky Antony',
                 email: 'info@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-                name: 'licky Antony',
+                name: 'Ricky Antony',
                 email: 'info@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-                name: 'picky Antony',
+                name: 'Ricky Antony',
                 email: 'info@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
+            {
+              name: 'Ricky Antony',
+              email: 'info@example.com',
+              phone: '(201) 200-1851',
+              joined: '30/03/2018'
+          },
+          {
+            name: 'Ricky Antony',
+            email: 'info@example.com',
+            phone: '(201) 200-1851',
+            joined: '30/03/2018'
+        },
+        {
+          name: 'Ricky Antony',
+          email: 'info@example.com',
+          phone: '(201) 200-1851',
+          joined: '30/03/2018'
+      },
         ],
-        error: {},
-        message: "",
       };
     },
 
     onGetCustomerSuccess: (state, { payload }) => {
-      const { data ={} , message = "", status_code = 200 } = payload;
+      const { data =[] } = payload;
       return {
         ...state,
-        isLoading: false,
-        isError: false,
         customerData:data,
-        message,
-        status_code,
-        error: {},
       };
     },
 
     onGetCustomerError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { data = []} = payload;
       return {
         ...state,
         customerData:data,
-        message,
-        status_code,
-        isLoading: false,
-        isError: true,
-        error: {},
       };
     },
     onGetCustomerReset: (state) => {
       return {
         ...state,
-        isLoading: false,
-        customerData: {},
-        message: "",
-        error: {},
-        status_code: null,
-        isError: false,
+        customerData: [],
       };
     },
   },
