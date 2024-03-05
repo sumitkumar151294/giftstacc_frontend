@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toBeRequired } from "@testing-library/jest-dom/matchers";
 
 export const cmsSlice = createSlice({
   name: "cms",
@@ -13,7 +14,7 @@ export const cmsSlice = createSlice({
     onGetCms: (state) => {
       return {
         ...state,
-        isLoading: true,
+        isLoading: false,
         isError: false,
         getCMSData: {},
         error: {},
@@ -49,6 +50,7 @@ export const cmsSlice = createSlice({
     onPostCms: (state) => {
       return {
         ...state,
+        isLoading:true,
         postCMSData: {},
         message: "",
       };
@@ -57,6 +59,7 @@ export const cmsSlice = createSlice({
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
+        isLoading:false,
         postCMSData: data,
         postMessage: message,
         post_status_code: status_code,
@@ -66,6 +69,7 @@ export const cmsSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
+        isLoading:false,
         postCMSdata: data,
         postMessage: message,
         post_status_code: status_code,

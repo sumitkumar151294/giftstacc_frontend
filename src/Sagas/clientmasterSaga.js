@@ -59,7 +59,7 @@ function* postClientMaster({ payload }) {
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
+    // const message = error.response || "Something went wrong";
         yield put(
       onPostClientMasterSubmitError({ data: {}, message:error?.response?.data?.ErrorMessage, status_code: error?.response?.data?.HttpStatusCode })
     );
@@ -68,7 +68,7 @@ function* postClientMaster({ payload }) {
 function* updateClientMaster({ payload }) {
   try {
     const updateClientMasterResponse = yield call(  updateClientMasterApi, payload);
-        if (updateClientMasterResponse.httpStatusCode == "201") {
+        if (updateClientMasterResponse.httpStatusCode === "201") {
       yield put(
         onUpdateClientMasterSubmitSuccess({
           data: updateClientMasterResponse.Response,

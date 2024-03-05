@@ -1,7 +1,6 @@
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import LoginPage from "../Pages/Login/LoginPage";
-import HomePage from "../Components/HomePage/HomePage";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
 import BrandDetail from "../Pages/BrandDetail/BrandDetail";
@@ -14,7 +13,6 @@ import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 import PageError from "../Components/PageError/PageError";
-
 import CMSList from "../Pages/ClientAdmin/CMS/CMSList";
 import OfferMasterList from "../Pages/OfferMaster/OfferMasterList";
 import BannerMasterList from "../Pages/BannerMaster/BannerList";
