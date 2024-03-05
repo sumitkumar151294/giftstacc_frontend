@@ -56,6 +56,7 @@ const OfferMasterList = () => {
       title: data.title,
       subtitle: data.subtitle,
       link: data.link,
+      link_Text:data.link_Text,
       imagePlacement: data.imagePlacement,
       image: data.image,
     };
