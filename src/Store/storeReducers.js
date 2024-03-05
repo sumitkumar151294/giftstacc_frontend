@@ -15,7 +15,11 @@ import brandCatalogueReducer from './Slices/brandCatalogueSlice';
 import clientPaymentReducer from './Slices/clientPaymentDetailSlice';
 import cmsReducer from './Slices/cmsSlice';
 import supplierResourceSlice from './Slices/supplierResourceSlice';
+import faqMasterReducer from './Slices/ClientAdmin/faqMasterSlice';
+import bannerMasterReducer from './Slices/bannerMasterSlice';
+import faqCategoryReducer from './Slices/ClientAdmin/faqCategorySlice';
 import offerMasterReducer from './Slices/offerMasterSlice';
+
 
 const reducers = combineReducers({
     loginReducer:loginReducer,
@@ -31,6 +35,10 @@ const reducers = combineReducers({
     supplierMasterReducer:supplierMasterReducer,
     supplierBrandListReducer:supplierBrandListReducer,
     clientMasterReducer:clientMasterReducer,
+    createCategoryReducer:createCategoryReducer,
+    faqMasterReducer:faqMasterReducer,
+    bannerMasterReducer:bannerMasterReducer,
+    faqCategoryReducer:faqCategoryReducer,
     cmsReducer:cmsReducer,
     offerMasterReducer:offerMasterReducer
 });

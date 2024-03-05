@@ -13,6 +13,7 @@ import Loader from "../../Components/Loader/Loader";
 import PageError500 from "../../Components/PageError/PageError";
 import { config } from "../../Common/Client/ClientConfig";
 import axiosInstance from "../../Common/Axios/axiosInstance";
+import axiosInstanceClient from "../../Common/Axios/axiosInstanceClient";
 import { onPartnerKeyLoginSubmit } from "../../Store/Slices/loginSlice";
 const Auth = () => {
   const dispatch = useDispatch();
@@ -65,6 +66,7 @@ const Auth = () => {
         })
       );
       axiosInstance.defaults.headers["partner-code"] = PARTNER_KEY;
+      axiosInstanceClient.defaults.headers["partner-code"] = PARTNER_KEY;
     } else {
       setShowLoader(false);
       setShowError(true);
@@ -83,8 +85,9 @@ const Auth = () => {
     if (loginAuthData?.status_code === 200) {
       sessionStorage.setItem("clientCode", loginAuthData?.data?.[0]?.clientId);
       axiosInstance.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
-      axiosInstance.defaults.headers["client-code"] =
-        loginAuthData?.data?.[0]?.clientId;
+      axiosInstance.defaults.headers["client-code"] = loginAuthData?.data?.[0]?.clientId;
+      axiosInstanceClient.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
+      axiosInstanceClient.defaults.headers["client-code"] = loginAuthData?.data?.[0]?.clientId;
       dispatch(onTranslationSubmit());
       dispatch(onLoginAuthReset());
     } else if (loginAuthData?.status_code) {

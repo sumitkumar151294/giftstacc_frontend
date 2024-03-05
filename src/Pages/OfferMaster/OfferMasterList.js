@@ -5,31 +5,31 @@ import ReactPaginate from "react-paginate";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Button from "../../Components/Button/Button";
-import { onGetOfferMaster, onUpdateOfferMaster } from "../../Store/Slices/offerMasterSlice";
+import {
+  onGetOfferMaster,
+  onUpdateOfferMaster,
+} from "../../Store/Slices/offerMasterSlice";
 import Loader from "../../Components/Loader/Loader";
-
+import offerImage from "../../Assets/img/pizz1.jpg";
 const OfferMasterList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
-  
+
   // To get the label from translation API
   const [prefilledValues, setPrefilledValues] = useState();
-  const offer_list=GetTranslationData("UIClient", "offer_list");
-  const image=GetTranslationData("UIClient", "imageLabel");
-  const title=GetTranslationData("UIClient", "title");
-  const subtitle=GetTranslationData("UIClient", "sub-title");
-  const link_level=GetTranslationData("UIClient", "link_label");
-  const display_order=GetTranslationData("UIClient", "display-order");
-  const status=GetTranslationData("UIClient", "status");
-  const action=GetTranslationData("UIClient", "actionLabel");
+  const offer_list = GetTranslationData("UIClient", "offer_list");
+  const image = GetTranslationData("UIClient", "imageLabel");
+  const title = GetTranslationData("UIClient", "title");
+  const subtitle = GetTranslationData("UIClient", "sub-title");
+  const link_level = GetTranslationData("UIClient", "link_label");
+  const imagePlacement = GetTranslationData("UIClient", "image_placement");
+  const status = GetTranslationData("UIClient", "status");
+  const action = GetTranslationData("UIClient", "actionLabel");
   const dispatch = useDispatch();
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const offerMasterData = useSelector(
-    (state) => state.offerMasterReducer.getData
-  );
-
+  const offerMasterData = useSelector((state)=> state.offerMasterReducer.getData)
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -40,63 +40,59 @@ const OfferMasterList = () => {
   }, []);
 
   const handleEdit = (data) => {
-    const prefilled = {...data};
-    setPrefilledValues(prefilled); 
+    const prefilled = { ...data };
+    setPrefilledValues(prefilled);
   };
   const handleDelete = (data) => {
     const deletedData = {
-      deleted:true,
-      id:data.id,
+      deleted: true,
+      enabled: false,
+      id: data.id,
       placement: data.placement,
       title: data.title,
-      subtitle:data.subtitle,
+      subtitle: data.subtitle,
       link: data.link,
-      displayOrder: data.displayOrder,
+      imagePlacement: data.imagePlacement,
       image: data.image,
-      status:data.status,
     };
     dispatch(onUpdateOfferMaster(deletedData));
     dispatch(onGetOfferMaster());
   };
   useEffect(() => {
-    if(offerMasterData) {
+    if (offerMasterData) {
       setIsLoading(false);
     }
   }, [offerMasterData]);
+
   return (
     <>
-      <OfferMasterForm 
-         data={prefilledValues}
-         setData={setPrefilledValues}
-      />
-      <div class="container-fluid  pt-0">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div class="card-header">
-                    <h4 class="card-title">
-                      {offer_list}
-                    </h4>
+      <OfferMasterForm data={prefilledValues} setData={setPrefilledValues} />
+      <div className="container-fluid  pt-0">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card">
+              <div className="container-fluid">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="card-header">
+                    <h4 className="card-title">{offer_list}</h4>
                   </div>
                 </div>
-                <div class="card-body">
-                {isLoading && (
-                  <div style={{ height: "400px" }}>
-                    <Loader classType={"absoluteLoader"} />
-                  </div>
-                )}
+                <div className="card-body">
+                  {isLoading && (
+                    <div style={{ height: "400px" }}>
+                      <Loader classType={"absoluteLoader"} />
+                    </div>
+                  )}
                   {offerMasterData?.length > 0 ? (
-                    <div class="table-responsive">
-                      <table class="table header-border table-responsive-sm">
+                    <div className="table-responsive">
+                      <table className="table header-border table-responsive-sm">
                         <thead>
                           <tr>
                             <th>{image}</th>
                             <th>{title}</th>
                             <th>{subtitle}</th>
                             <th>{link_level}</th>
-                            <th>{display_order}</th>
+                            <th>{imagePlacement}</th>
                             <th>{status}</th>
                             <th>{action}</th>
                           </tr>
@@ -108,30 +104,36 @@ const OfferMasterList = () => {
                               <tr key={data.id}>
                                 <td>
                                   <img
-                                    src={data.img}
+                                    src={offerImage}
                                     style={{ width: "50px" }}
                                   />
                                 </td>
                                 <td>{data.title}</td>
                                 <td>{data.subtitle}</td>
                                 <td>{data.link}</td>
-                                <td>{data.displayOrder}</td>
+                                <td>{data.imagePlacement}</td>
                                 <td>
-                                  <span className={`badge ${data.status ? 'badge-success': 'badge-danger'}`}>
-                                    {data.status ? 'Active' : 'Non-Active'}
+                                  <span
+                                    className={`badge ${
+                                      data.enabled
+                                        ? "badge-success"
+                                        : "badge-danger"
+                                    }`}
+                                  >
+                                    {data.enabled ? "Active" : "Non-Active"}
                                   </span>
                                 </td>
                                 <td>
-                                <Button
-                                  className="btn btn-primary shadow btn-xs sharp me-1"
-                                  onClick={() => handleEdit(data)}
-                                  icon={"fas fa-pencil-alt"}
-                                />
-                                <Button
-                                  className="btn btn-danger shadow btn-xs sharp"
-                                  onClick={() => handleDelete(data)}
-                                  icon={"fa fa-trash"}
-                                />
+                                  <Button
+                                    className="btn btn-primary shadow btn-xs sharp me-1"
+                                    onClick={() => handleEdit(data)}
+                                    icon={"fas fa-pencil-alt"}
+                                  />
+                                  <Button
+                                    className="btn btn-danger shadow btn-xs sharp"
+                                    onClick={() => handleDelete(data)}
+                                    icon={"fa fa-trash"}
+                                  />
                                 </td>
                               </tr>
                             ))}

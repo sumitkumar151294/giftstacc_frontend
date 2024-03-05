@@ -75,11 +75,11 @@ if(updateCMSdata.update_status_code==="201"){
         Cmsprefilled={Cmsprefilled}
         setCmsprefilled={setCmsprefilled}
       />
-      <div class="container-fluid">
+      <div class="container-fluid mt-2 mb-2 pt-1">
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <div className="ontainer-fluid mt-2 mb-2 pt-1">
+              <div className="container-fluid mt-2 mb-2 pt-1">
                 <div className="card-body" >
                 {isLoading && getdata.length < 0 ? (
                  <NoRecord />

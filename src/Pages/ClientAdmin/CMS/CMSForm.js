@@ -106,6 +106,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
 
   useEffect(() => {
     if (getCMSdata.post_status_code === "201") {
+      toast.success(getCMSdata.postMessage);
       setCmsData(resetCMSData);
       toast.success(getCMSdata.postMessage);
       dispatch(onPostCmsReset());

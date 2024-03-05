@@ -59,6 +59,26 @@ const API = {
   brandCatalogue: "/brand-catalogue/all",
 
 
+  //faq-Master
+  getFaqMaster: "/faq-master",
+  postFaqMaster: "/faq-master",
+  updateFaqMaster: "/faq-master",
+
+//faq-category api
+getFaqCategory:'/faq-category',
+postFaqCategory:'/faq-category',
+updateFaqCategory:'/faq-category',
+
+
+
+
+  //banner-master
+  getBannerMaster:"/banner-master",
+  postBannerMaster:"/banner-master",
+  putBannerMaster:"/banner-master",
+
+
+
   //CMS
   postCMS: "/cms",
   getCMS:"/cms",
@@ -68,5 +88,6 @@ const API = {
   postOfferMaster: "/offer-master",
   getOfferMaster: "/offer-master",
   updateOfferMaster: "/offer-master",
+
 };
 export default API;

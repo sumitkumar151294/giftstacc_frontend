@@ -13,8 +13,11 @@ import supplierBrandListSaga from "./supplierBrandListSaga";
 import BrandCatalogueSaga from "./brandCatalogueSaga";
 import clientPaymentSaga from "./clientPaymentDetailSaga";
 import supplierResourceSaga from "./supplierResourceSaga";
+import bannerMasterSaga from "./bannerMasterSaga";
 import cmsSaga from "./cmsSaga";
 import offerMasterSaga from "./offerMasterSaga";
+import FaqMasterSaga from "./ClientAdmin/faqMasterSaga";
+import FaqCategorySaga from "./ClientAdmin/faqCategorySaga";
 export default function* rootSaga() {
   yield all([
     loginSaga(),
@@ -31,6 +34,10 @@ export default function* rootSaga() {
     createCategorySaga(),
     BrandCatalogueSaga(),
     supplierResourceSaga(),
+    //brand_Catalogue(),
+    FaqMasterSaga(),
+    bannerMasterSaga(),
+    FaqCategorySaga(),
     cmsSaga(),
     offerMasterSaga(),
   ]);

@@ -15,6 +15,8 @@ import SupplierProductList from "../Pages/SupplierProductList/SupplierProductLis
 import PageError from "../Components/PageError/PageError";
 import CMSList from "../Pages/ClientAdmin/CMS/CMSList";
 import OfferMasterList from "../Pages/OfferMaster/OfferMasterList";
+import BannerMasterList from "../Pages/BannerMaster/BannerList";
+import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 // import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 function RouteConfiq() {
   return (
@@ -68,14 +70,31 @@ function RouteConfiq() {
           element={<Layout Component={Orders} />}
         />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
+        <Route path="/lc-user-admin/dashboard" element={<Layout Component={Dashboard} />} />
         <Route
           path="/lc-user-admin/cms"
           element={<Layout Component={CMSList} />}
         />
+          <Route
+          path="/lc-user-admin/brand-catalouge"
+          element={<Layout Component={BrandCatalogue} />}
+        />
+        <Route
+          path="/lc-user-admin/brand-detail"
+          element={<Layout Component={BrandDetail} />}
+        />
         <Route
           path="/lc-user-admin/offer-master"
           element={<Layout Component={OfferMasterList} />}
-           />
+        />
+           <Route
+          path="/lc-user-admin/faq"
+          element={<Layout Component={FaqMaster} />}
+        />
+          <Route
+          path="/lc-user-admin/banner-master"
+          element={<Layout Component={BannerMasterList} />}
+        />
         <Route
           path="*"
           element={
