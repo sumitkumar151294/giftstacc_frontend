@@ -1,20 +1,8 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import {
-  callOfferMasterPostApi,
-  callOfferMasterGetApi,
-  callOfferMasterUpdateApi,
-} from "../Context/offerMasterApi";
-import {
-  onPostOfferMasterSubmit,
-  onPostOfferMasterSuccess,
-  onPostOfferMasterError,
-  onGetOfferMaster,
-  onGetOfferMasterSuccess,
-  onGetOfferMasterError,
-  onUpdateOfferMaster,
-  onUpdateOfferMasterSuccess,
-  onUpdateOfferMasterError,
-} from "../Store/Slices/offerMasterSlice";
+
+
+import { callOfferMasterGetApi, callOfferMasterPostApi, callOfferMasterUpdateApi } from "../../Context/ClientAdmin/offerMasterApi";
+import { onGetOfferMaster, onGetOfferMasterError, onGetOfferMasterSuccess, onPostOfferMasterError, onPostOfferMasterSubmit, onPostOfferMasterSuccess, onUpdateOfferMaster, onUpdateOfferMasterError, onUpdateOfferMasterSuccess } from "../../Store/Slices/ClientAdmin/offerMasterSlice";
 
 function* PostOfferMaster({ payload }) {
   try {
@@ -115,5 +103,6 @@ function* PutOfferMaster({ payload }) {
 export default function* offerMasterSaga() {
   yield takeLatest(onPostOfferMasterSubmit.type, PostOfferMaster);
   yield takeLatest(onGetOfferMaster.type, GetOfferMaster);
+
   yield takeLatest(onUpdateOfferMaster.type, PutOfferMaster);
 }

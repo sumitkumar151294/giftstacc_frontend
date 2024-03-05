@@ -17,9 +17,10 @@ import cmsReducer from './Slices/cmsSlice';
 import supplierResourceSlice from './Slices/supplierResourceSlice';
 import customerListReducer from './Slices/ClientAdmin/customerListSlice';
 import faqMasterReducer from './Slices/ClientAdmin/faqMasterSlice';
-import bannerMasterReducer from './Slices/bannerMasterSlice';
 import faqCategoryReducer from './Slices/ClientAdmin/faqCategorySlice';
-import offerMasterReducer from './Slices/offerMasterSlice';
+import offerMasterReducer from './Slices/ClientAdmin/offerMasterSlice';
+import bannerMasterReducer from './Slices/bannerMasterSlice';
+
 const reducers = combineReducers({
     loginReducer:loginReducer,
     supplierResourceReducer:supplierResourceSlice,

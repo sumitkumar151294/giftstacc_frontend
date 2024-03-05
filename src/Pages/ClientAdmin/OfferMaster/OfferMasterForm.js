@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import InputField from "../../Components/InputField/InputField";
-import Dropdown from "../../Components/Dropdown/Dropdown";
-import Button from "../../Components/Button/Button";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import InputField from "../../../Components/InputField/InputField";
+import Dropdown from "../../../Components/Dropdown/Dropdown";
+import Button from "../../../Components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onPostOfferMasterSubmit,
@@ -10,9 +10,9 @@ import {
   onGetOfferMaster,
   onUpdateOfferMaster,
   onUpdateOfferMasterReset,
-} from "../../Store/Slices/offerMasterSlice";
+} from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import { ToastContainer, toast } from "react-toastify";
-import Loader from "../../Components/Loader/Loader";
+import Loader from "../../../Components/Loader/Loader";
 
 const OfferMasterForm = ({ data, setData }) => {
   const [showLoader, setShowLoader] = useState(false);
