@@ -20,6 +20,7 @@ import faqCategoryReducer from "./Slices/ClientAdmin/faqCategorySlice";
 import offerMasterReducer from "./Slices/ClientAdmin/offerMasterSlice";
 import bannerMasterReducer from "./Slices/ClientAdmin/bannerMasterSlice";
 import commissionReportReducer from "./Slices/ClientAdmin/clientCommissionReportSlice";
+import addSpecialReducer from "./Slices/ClientAdmin/addSpecialListSlice";
 
 const reducers = combineReducers({
   loginReducer: loginReducer,
@@ -43,6 +44,7 @@ const reducers = combineReducers({
   cmsReducer: cmsReducer,
   offerMasterReducer: offerMasterReducer,
   commissionReportReducer: commissionReportReducer,
+  addSpecialReducer:addSpecialReducer
 });
 
 export default reducers;

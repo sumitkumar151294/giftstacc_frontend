@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const addSpecialSlice = createSlice({
-    name: "add-special",
+    name: "addSpecial",
     initialState: {
         data: {},
     },
