@@ -3,9 +3,9 @@ import BannerForm from "./BannerMaster";
 import ReactPaginate from "react-paginate";
 import Button from "../../../Components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { onUpdateBannerMaster } from "../../Store/Slices/bannerMasterSlice";
-import NoRecord from "../../Components/NoRecord/NoRecord";
-import Loader from "../../Components/Loader/Loader";
+import NoRecord from "../../../Components/NoRecord/NoRecord";
+import Loader from "../../../Components/Loader/Loader";
+import { onUpdateBannerMaster } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
 const BannerMasterList = () => {
   const dispatch = useDispatch();
   const getBannerMaster = useSelector(

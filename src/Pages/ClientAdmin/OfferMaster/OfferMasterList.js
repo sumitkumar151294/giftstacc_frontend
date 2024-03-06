@@ -104,10 +104,10 @@ const OfferMasterList = () => {
                             .map((data) => (
                               <tr key={data.id}>
                                 <td>
-                                  <img
+                                  {/* <img
                                     src={offerImage}
                                     style={{ width: "50px" }}
-                                  />
+                                  /> */}
                                 </td>
                                 <td>{data.title}</td>
                                 <td>{data.subtitle}</td>

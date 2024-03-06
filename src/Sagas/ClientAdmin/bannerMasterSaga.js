@@ -1,9 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import {
-  bannerMasterGetApi,
-  bannerMasterPostApi,
-  bannerMasterUpdateApi,
-} from "../Context/bannerMasterApi";
+import { bannerMasterGetApi,bannerMasterPostApi,bannerMasterUpdateApi } from "../../Context/ClientAdmin/bannerMasterApi";
 import {
   onbannerMasterSubmitError,
   onbannerMasterSubmitSuccess,
@@ -14,7 +10,8 @@ import {
   onUpdateBannerMaster,
   onUpdateBannerMasterSuccess,
   onUpdateBannerMasterError,
-} from "../Store/Slices/bannerMasterSlice";
+} 
+from "../../Store/Slices/ClientAdmin/bannerMasterSlice";
 
 function* BannerMaster() {
   try {

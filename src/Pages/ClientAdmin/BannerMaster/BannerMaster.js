@@ -10,12 +10,12 @@ import {
   onbannerMasterSubmit,
   onUpdateBannerMasterReset,
   onUpdateBannerMaster,
-} from "../../Store/Slices/bannerMasterSlice";
-import Button from "../../Components/Button/Button";
-import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+} from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
+import Button from "../../../Components/Button/Button";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
-import { onbannerMasterSubmitReset } from "../../../Store/Slices/bannerMasterSlice";
+import { onbannerMasterSubmitReset } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
 const BannerForm = ({ prefilledData }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");

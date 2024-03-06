@@ -120,7 +120,7 @@ const ClientMaster = (props) => {
   });
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    const selectedData = Array.isArray(props.clientPayData) ? props.clientPayData?.find(item => item.clientId === props.data?.id) : null;
+    const selectedData = Array.a(props.clientPayData) ? props.clientPayData?.find(item => item.clientId === props.data?.id) : null;
     setClientData({
       name: props.data?.name || "",
       number: props.data?.number || "",
@@ -532,6 +532,7 @@ const resetFields = {
                           className={"form-control"}
                           name="color"
                           id="color"
+                          // error={errors.color}
                           value={clientData.color || "#000000"}
                           onChange={(e) => handleChange(e, "color")}
                         />
