@@ -20,6 +20,7 @@ import CMSList from "../Pages/ClientAdmin/CMS/CMSList";
 import BannerMasterList from "../Pages/ClientAdmin/BannerMaster/BannerList";
 import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 import OfferMasterList from "../Pages/ClientAdmin/OfferMaster/OfferMasterList";
+import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/ClientCommissionReport";
 function RouteConfiq() {
   return (
     <Router>
@@ -108,6 +109,10 @@ function RouteConfiq() {
           <Route
           path="/lc-user-admin/banner-master"
           element={<Layout Component={BannerMasterList} />}
+        />
+        <Route
+          path="/lc-user-admin/client-commission-report"
+          element={<Layout Component={ClientCommissionReport} />}
         />
         <Route
           path="*"
