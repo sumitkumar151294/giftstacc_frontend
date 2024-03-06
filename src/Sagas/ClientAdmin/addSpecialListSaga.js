@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { onAddSpecialSubmit, onAddSpecialSubmitSuccess, onAddSpecialSubmitError, onGetAddSpecial, onGetAddSpecialSuccess, onGetAddSpecialError, onAddSpecialUpdate, onAddSpecialUpdateSuccess, onAddSpecialUpdateError
-} from "../Store/Slices/addSpecialListSlice";
-import { callAddSpecialListGetApi, callAddSpecialListPostApi, callAddSpecialListUpdateApi } from "../Context/addSpecialListApi";
+} from "../../Store/Slices/ClientAdmin/addSpecialListSlice";
+import { callAddSpecialListGetApi, callAddSpecialListPostApi, callAddSpecialListUpdateApi } from "../../Context/ClientAdmin/addSpecialListApi";
 
 function* OnAddSpecialSubmit({ payload }) {
   try {

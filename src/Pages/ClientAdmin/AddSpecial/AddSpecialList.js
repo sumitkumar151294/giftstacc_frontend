@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import AddSpecialForm from './AddSpecialForm'
 import { Link } from 'react-router-dom'
-import Button from '../../Components/Button/Button'
-import Loader from '../../Components/Loader/Loader'
+import Button from '../../../Components/Button/Button'
+import Loader from '../../../Components/Loader/Loader'
 
 const AddSpecialList = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -47,6 +47,7 @@ const AddSpecialList = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+
                                                     <tr>
                                                         <td><strong>Recommended Gifts</strong></td>
                                                         <td>1</td>

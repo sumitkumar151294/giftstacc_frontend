@@ -1,11 +1,10 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { postClientMasterApi } from "../Context/clientMasterApi";
-import { updateClientMasterApi } from "../Context/clientMasterApi";
-import { onPostAllocateBrand, onPostAllocateBrandError, onPostAllocateBrandSuccess, onUpdateAllocateBrand, onUpdateAllocateBrandError, onUpdateAllocateBrandSuccess } from "../Store/Slices/allocateBrandSlice";
+import { onPostAllocateBrand, onPostAllocateBrandError, onPostAllocateBrandSuccess, onUpdateAllocateBrand, onUpdateAllocateBrandError, onUpdateAllocateBrandSuccess } from "../../Store/Slices/ClientAdmin/allocateBrandSlice";
+import { callAddSpecialListPostApi, callAddSpecialListUpdateApi } from "../../Context/ClientAdmin/addSpecialListApi";
 
 function* PostAllocateBrand({ payload }) {
     try {
-        const postAlloacteBrandResponse = yield call(postClientMasterApi, payload);
+        const postAlloacteBrandResponse = yield call(callAddSpecialListPostApi, payload);
         if (postAlloacteBrandResponse.httpStatusCode === "201") {
             yield put(
                 onPostAllocateBrandSuccess({
@@ -31,7 +30,7 @@ function* PostAllocateBrand({ payload }) {
 }
 function* OnUpdateAllocateBrand({ payload }) {
     try {
-        const updateAllocateBrandResponse = yield call(updateClientMasterApi, payload);
+        const updateAllocateBrandResponse = yield call(callAddSpecialListUpdateApi, payload);
         if (updateAllocateBrandResponse.httpStatusCode == "201") {
             yield put(
                 onUpdateAllocateBrandSuccess({

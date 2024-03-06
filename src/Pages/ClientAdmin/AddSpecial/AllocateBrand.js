@@ -1,8 +1,8 @@
 import React from 'react'
-import InputField from '../../Components/InputField/InputField';
-import Button from '../../Components/Button/Button';
+import InputField from '../../../Components/InputField/InputField';
+import Button from '../../../Components/Button/Button';
 import { useDispatch } from 'react-redux';
-import { onPostAllocateBrand } from '../../Store/Slices/allocateBrandSlice';
+import { onPostAllocateBrand } from '../../../Store/Slices/ClientAdmin/allocateBrandSlice';
 
 const AllocateBrand = () => {
     const dispatch = useDispatch();

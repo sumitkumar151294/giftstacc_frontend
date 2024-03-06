@@ -4,7 +4,7 @@ const API = {
   loginApi: "/login",
 
   // client login
-  clientLogin:'/login',
+  clientLogin: '/login',
 
   //translation
   translationApi: "/translation-content-get-by-clientid",
@@ -64,23 +64,23 @@ const API = {
   postFaqMaster: "/faq-master",
   updateFaqMaster: "/faq-master",
 
-//faq-category api
-getFaqCategory:'/faq-category',
-postFaqCategory:'/faq-category',
-updateFaqCategory:'/faq-category',
+  //faq-category api
+  getFaqCategory: '/faq-category',
+  postFaqCategory: '/faq-category',
+  updateFaqCategory: '/faq-category',
 
-
-
+// add-special api
+  add_special: 'add-special',
 
   //banner-master
-  banner_master:"/banner-master",
+  banner_master: "/banner-master",
 
 
 
   //CMS
   postCMS: "/cms",
-  getCMS:"/cms",
-  updateCMS:"/cms",
+  getCMS: "/cms",
+  updateCMS: "/cms",
 
   //offer-master
   postOfferMaster: "/offer-master",

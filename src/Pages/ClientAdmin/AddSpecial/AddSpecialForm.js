@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import InputField from '../../Components/InputField/InputField'
-import Dropdown from '../../Components/Dropdown/Dropdown'
-import Button from '../../Components/Button/Button';
+import InputField from '../../../Components/InputField/InputField'
+import Dropdown from '../../../Components/Dropdown/Dropdown'
+import Button from '../../../Components/Button/Button';
 import { useDispatch } from 'react-redux';
-import { onAddSpecialSubmit, onAddSpecialUpdate } from '../../Store/Slices/addSpecialListSlice';
-import Loader from '../../Components/Loader/Loader';
+import { onAddSpecialSubmit, onAddSpecialUpdate } from '../../../Store/Slices/ClientAdmin/addSpecialListSlice';
+import Loader from '../../../Components/Loader/Loader';
 
 const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     const [isLoading, setIsLoading] = useState(false)
