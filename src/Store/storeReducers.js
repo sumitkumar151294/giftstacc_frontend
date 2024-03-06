@@ -12,13 +12,13 @@ import clientMasterReducer from "./Slices/clientMasterSlice";
 import createCategoryReducer from "./Slices/createCategorySlice";
 import brandCatalogueReducer from "./Slices/brandCatalogueSlice";
 import clientPaymentReducer from "./Slices/clientPaymentDetailSlice";
-import cmsReducer from "./Slices/cmsSlice";
+import cmsReducer from "./Slices/ClientAdmin/cmsSlice";
 import supplierResourceSlice from "./Slices/supplierResourceSlice";
 import customerListReducer from "./Slices/ClientAdmin/customerListSlice";
 import faqMasterReducer from "./Slices/ClientAdmin/faqMasterSlice";
 import faqCategoryReducer from "./Slices/ClientAdmin/faqCategorySlice";
 import offerMasterReducer from "./Slices/ClientAdmin/offerMasterSlice";
-import bannerMasterReducer from "./Slices/bannerMasterSlice";
+import bannerMasterReducer from "./Slices/ClientAdmin/bannerMasterSlice";
 import commissionReportReducer from "./Slices/ClientAdmin/clientCommissionReportSlice";
 
 const reducers = combineReducers({

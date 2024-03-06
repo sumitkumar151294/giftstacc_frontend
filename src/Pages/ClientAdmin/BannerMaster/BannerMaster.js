@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import InputField from "../../Components/InputField/InputField";
-import Dropdown from "../../Components/Dropdown/Dropdown";
+import InputField from "../../../Components/InputField/InputField";
+import Dropdown from "../../../Components/Dropdown/Dropdown";
 import { useSelector } from "react-redux";
-import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
-import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
+import { onGetSupplierList } from "../../../Store/Slices/supplierMasterSlice";
 import { useDispatch } from "react-redux";
 import {
   onGetbannerMaster,
   onbannerMasterSubmit,
-  onbannerMasterSubmitReset,
   onUpdateBannerMasterReset,
-} from "../../Store/Slices/bannerMasterSlice";
-import Button from "../../Components/Button/Button";
-import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
+} from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
+import Button from "../../../Components/Button/Button";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
 const BannerForm = ({ prefilledData }) => {
   const dispatch = useDispatch();
@@ -84,7 +83,6 @@ const BannerForm = ({ prefilledData }) => {
     { value: "Non-active", label: "Non-active" },
   ];
   useEffect(() => {
-    debugger;
     dispatch(onGetbannerMaster());
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());

@@ -13,9 +13,11 @@ import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 import PageError from "../Components/PageError/PageError";
+import AddSpecialList from "../Pages/ClientAdmin/AddSpecial/AddSpecialList";
+import AllocateBrand from "../Pages/ClientAdmin/AddSpecial/AllocateBrand";
 import { CustomerList } from "../Pages/ClientAdmin/CustomerList/CustomerList";
 import CMSList from "../Pages/ClientAdmin/CMS/CMSList";
-import BannerMasterList from "../Pages/BannerMaster/BannerList";
+import BannerMasterList from "../Pages/ClientAdmin/BannerMaster/BannerList";
 import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 import OfferMasterList from "../Pages/ClientAdmin/OfferMaster/OfferMasterList";
 import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/ClientCommissionReport";
@@ -91,6 +93,14 @@ function RouteConfiq() {
         <Route
           path="/lc-user-admin/customer-list"
           element={<Layout Component={CustomerList} />}
+        />
+        <Route
+          path="/lc-user-admin/add-special"
+          element={<Layout Component={AddSpecialList} />}
+        />
+        <Route
+          path="/lc-user-admin/allocate-brand"
+          element={<Layout Component={AllocateBrand} />}
         />
          <Route
           path="/lc-user-admin/faq"
