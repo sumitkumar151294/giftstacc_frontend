@@ -20,6 +20,7 @@ import faqCategoryReducer from "./Slices/ClientAdmin/faqCategorySlice";
 import offerMasterReducer from "./Slices/ClientAdmin/offerMasterSlice";
 import bannerMasterReducer from "./Slices/ClientAdmin/bannerMasterSlice";
 import commissionReportReducer from "./Slices/ClientAdmin/clientCommissionReportSlice";
+import emailEventMasterReducer from "./Slices/ClientAdmin/emailEventMasterSlice";
 
 const reducers = combineReducers({
   loginReducer: loginReducer,
@@ -43,6 +44,7 @@ const reducers = combineReducers({
   cmsReducer: cmsReducer,
   offerMasterReducer: offerMasterReducer,
   commissionReportReducer: commissionReportReducer,
+  emailEventMasterReducer:emailEventMasterReducer,
 });
 
 export default reducers;
