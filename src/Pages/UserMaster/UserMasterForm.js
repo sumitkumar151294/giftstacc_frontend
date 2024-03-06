@@ -58,7 +58,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   useEffect(() => {
     dispatch(onGetUserRole());
     dispatch(onClientMasterSubmit());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -118,7 +118,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       };
     }
     setUserData(newUserdetailData);
-
 
     if (fieldName === "email") {
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -185,6 +184,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         if (!prefilledValues) {
           const UsersData = {
             ...userData,
+            firstName:userData.firstName.trim(),
             accessClientIds: userData.accessClientIds.toString(),
             mobile: userData.mobile,
             adminRoleId: parseInt(userData.role),
@@ -243,7 +243,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       resetData();
     }
    
-  }, [onSubmitData]);
+  }, [onSubmitData,dispatch]);
 
 
 

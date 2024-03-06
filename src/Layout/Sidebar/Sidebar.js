@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetModule } from "../../Store/Slices/moduleSlice";
+import { allowModules, onGetModule } from "../../Store/Slices/moduleSlice";
 import Loader from "../../Components/Loader/Loader";
 import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
@@ -13,6 +13,7 @@ const Sidebar = () => {
   const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   const [sideBarModules, setIsSideBarModules] = useState([]);
   const logout = GetTranslationData("UIAdmin", "logout");
+  const loginDetails = useSelector((state) => state.loginReducer);
   const currentUrl = useLocation();
   // To reset the redux store (logout the user)
   const handleLogout = (e) => {
@@ -20,7 +21,7 @@ const Sidebar = () => {
     dispatch(onLogout());
     localStorage.clear();
     sessionStorage.clear();
-    navigate("/");
+    loginDetails.partner_Key === "UIAdmin" ? navigate("/") : navigate("/lc-user-admin/login");
   };
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);
@@ -33,14 +34,14 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (!getModuleData.isLoading && userRoleModuleAccess.length>0) {
+    if (!getModuleData.isLoading && userRoleModuleAccess.length > 0) {
       setIsSidebarLoading(false);
-      let tempideModules= JSON.parse(JSON.stringify(getModuleData?.data));
-      const filterData = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item)=>{return (item.roleId===userRoleID && (item.addAccess || item.editAccess || item.viewAccess))});
+      let tempideModules = JSON.parse(JSON.stringify(getModuleData?.data));
+      const filterData = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
       const filterModules = []
-      for(var i=0; i<tempideModules.length; i++){
-        for(var j=0; j<filterData?.length; j++){
-          if(tempideModules[i].id===filterData[j].moduleId){
+      for (var i = 0; i < tempideModules.length; i++) {
+        for (var j = 0; j < filterData?.length; j++) {
+          if (tempideModules[i].id === filterData[j].moduleId) {
             filterModules.push(tempideModules[i])
           }
         }
@@ -49,7 +50,12 @@ const Sidebar = () => {
     } else {
       setIsSidebarLoading(true);
     }
-  }, [getModuleData,userRoleModuleAccess]);
+  }, [getModuleData, userRoleModuleAccess]);
+
+  useEffect(() => {
+    const getValues = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item => item.roleId === userRoleID));
+    dispatch(allowModules(getValues));
+  }, []);
 
   // function to add active class on Li
   const hanleClick = (e) => {
@@ -61,20 +67,19 @@ const Sidebar = () => {
 
   return (
     <div className="deznav">
-      <div className="deznav-scroll">
+      <div className="deznav-scroll mm-active ps ps--active-y">
         {isSidebarLoading ? (
           <div style={{ height: "400px" }}>
             <Loader classType={"absoluteLoader"} />
           </div>
         ) : (
-          <ul className="metismenu" id="menu">
+          <ul className="metismenu mm-show" id="menu">
             {sideBarModules.length &&
               sideBarModules?.map((item, index) => (
                 <li
                   key={index}
-                  className={`nav-icn ${
-                    item.routePath === currentUrl.pathname ? "mm-active" : ""
-                  }`}
+                  className={`nav-icn ${item.routePath === currentUrl.pathname ? "mm-active" : ""
+                    }`}
                   onClick={(e) => hanleClick(e)}
                 >
                   <Link
@@ -83,8 +88,8 @@ const Sidebar = () => {
                     aria-expanded="false"
                   >
                     <img
-                    src={require(  `../../Assets/icon/${item.icon}.svg`)}
-                    alt={item.icon}
+                      src={require(`../../Assets/icon/${item.icon}.svg`)}
+                      alt={item.icon}
                     />
                     <span className="nav-text ps-1">{item.name}</span>
                   </Link>
@@ -103,6 +108,7 @@ const Sidebar = () => {
           </ul>
         )}
       </div>
+
     </div>
   );
 };

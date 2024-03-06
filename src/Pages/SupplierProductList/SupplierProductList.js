@@ -47,7 +47,7 @@ const SupplierProductList = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setCopySupplierBrandList(SupplierBrandList)
@@ -61,7 +61,7 @@ const SupplierProductList = () => {
       dispatch(onGetSupplierBrandList());
       dispatch(onUpdateSupplierBrandListReset())
     }
-  }, [SupplierBrandListUpdate])
+  }, [SupplierBrandListUpdate,dispatch])
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -91,7 +91,7 @@ const SupplierProductList = () => {
       });
       setSupplierList(tempSupplier);
     }
-  }, [suppliers]);
+  }, [suppliers,supplierList.length]);
 
   const handleChange = (e) => {
     const selectedSupplierCode = e.target.value;
@@ -184,10 +184,10 @@ const SupplierProductList = () => {
       (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
     );
     setCopySupplierBrandList(filteredSupplierList);
-  }, [searchQuery, selectedSupplierCode]);
+  }, [searchQuery, selectedSupplierCode, SupplierBrandList]);
 
   // excel data to print
-  const excelData = SupplierBrandList.map(data => ({
+  const excelData = Array.isArray(SupplierBrandList)&&SupplierBrandList.map(data => ({
     id: data.id,
     brands: data.name,
     supplier_Margin: data.supplierMargin,
@@ -213,7 +213,7 @@ const SupplierProductList = () => {
                           type="text"
                           value={searchQuery}
                           onChange={handleSearch}
-                          className="form-control only-high"
+                          className="form-control only-high "
                           placeholder={search_here_label}
                         />
                         <span className="input-group-text">
@@ -305,7 +305,7 @@ const SupplierProductList = () => {
                                             <div className="input-group mb-2 w-11">
                                               <InputField
                                                 type="number"
-                                                className="form-control htt"
+                                                className="form-control htt  border-Radius"
                                                 placeholder={data.supplier_Margin}
                                                 pattern="/^-?\d+\.?\d*$/"
                                                 value={data?.supplierMargin}
