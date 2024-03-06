@@ -30,7 +30,7 @@ const OfferMasterList = () => {
   const dispatch = useDispatch();
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const offerMasterData = useSelector((state)=> state.offerMasterReducer.getData)
+  const offerMasterData = useSelector((state) => state.offerMasterReducer.getData)
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -115,27 +115,30 @@ const OfferMasterList = () => {
                                 <td>{data.imagePlacement}</td>
                                 <td>
                                   <span
-                                    className={`badge ${
-                                      data.enabled
+                                    className={`badge ${data.enabled
                                         ? "badge-success"
                                         : "badge-danger"
-                                    }`}
+                                      }`}
                                   >
                                     {data.enabled ? "Active" : "Non-Active"}
                                   </span>
                                 </td>
-                                <td>
-                                  <Button
-                                    className="btn btn-primary shadow btn-xs sharp me-1"
-                                    onClick={() => handleEdit(data)}
-                                    icon={"fas fa-pencil-alt"}
-                                  />
-                                  <Button
-                                    className="btn btn-danger shadow btn-xs sharp"
-                                    onClick={() => handleDelete(data)}
-                                    icon={"fa fa-trash"}
-                                  />
+                                <td >
+                                  <div className="d-flex">
+                                    <Button
+                                      className="btn btn-primary shadow btn-xs sharp me-1"
+                                      onClick={() => handleEdit(data)}
+                                      icon={"fas fa-pencil-alt"}
+                                    />
+                                    <Button
+                                      className="btn btn-danger shadow btn-xs sharp"
+                                      onClick={() => handleDelete(data)}
+                                      icon={"fa fa-trash"}
+                                    />
+                                  </div>
                                 </td>
+
+
                               </tr>
                             ))}
                         </tbody>
