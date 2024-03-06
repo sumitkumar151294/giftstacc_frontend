@@ -30,6 +30,15 @@ const BannerForm = ({ prefilledData }) => {
     status: "",
     image: "string",
   });
+  const resetField = {
+    bannerPlacement: "",
+    bannerTitle: "",
+    bannerSubtitle: "",
+    bannerLink: "",
+    displayOrder: "",
+    status: "",
+    image: "",
+  };
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
@@ -54,20 +63,22 @@ const BannerForm = ({ prefilledData }) => {
       });
     }
   }, [prefilledData]);
-  console.log();
   useEffect(() => {
     if (getBannerMaster.update_status_code === "201") {
       toast.success(getBannerMaster.message);
+      setBannerMaster(resetField);
+
       dispatch(onUpdateBannerMasterReset());
       dispatch(onGetbannerMaster());
     }
   }, [getBannerMaster]);
 
   useEffect(() => {
-    if (getBannerMaster.status_code === "200") {
+    if (getBannerMaster.status_code === "201") {
       toast.success(getBannerMaster.message);
-      dispatch(onGetbannerMaster());
+      setBannerMaster(resetField);
       dispatch(onbannerMasterSubmitReset());
+      dispatch(onGetbannerMaster());
     }
   }, [getBannerMaster]);
 
