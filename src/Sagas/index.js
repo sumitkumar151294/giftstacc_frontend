@@ -13,6 +13,8 @@ import supplierBrandListSaga from "./supplierBrandListSaga";
 import BrandCatalogueSaga from "./brandCatalogueSaga";
 import clientPaymentSaga from "./clientPaymentDetailSaga";
 import supplierResourceSaga from "./supplierResourceSaga";
+import addSpecialResourceSaga from "./addSpecialListSaga";
+import allocateBrandSaga from "./allocateBrandSaga";
 import bannerMasterSaga from "./ClientAdmin//bannerMasterSaga";
 import cmsSaga from "./ClientAdmin/cmsSaga";
 import offerMasterSaga from "./ClientAdmin/offerMasterSaga";
@@ -34,6 +36,8 @@ export default function* rootSaga() {
     createCategorySaga(),
     BrandCatalogueSaga(),
     supplierResourceSaga(),
+    addSpecialResourceSaga(),
+    allocateBrandSaga(),
     FaqMasterSaga(),
     bannerMasterSaga(),
     FaqCategorySaga(),

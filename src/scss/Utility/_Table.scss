@@ -56,9 +56,11 @@ table {
         padding: 0.9375rem 0.625rem;
     }
 }
+thead,
 tbody,
 tfoot,
 td,
+tr,
 th {
     border-color: $border-color_3;
     border-style: solid;
