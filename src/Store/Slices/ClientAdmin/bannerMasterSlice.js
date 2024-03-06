@@ -33,6 +33,8 @@ export const bannerMaster = createSlice({
       return {
         ...state,
         status_code: null,
+        data: {},
+
       };
     },
 

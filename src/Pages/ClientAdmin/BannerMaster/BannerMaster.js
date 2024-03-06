@@ -9,17 +9,16 @@ import {
   onGetbannerMaster,
   onbannerMasterSubmit,
   onUpdateBannerMasterReset,
+  onUpdateBannerMaster,
 } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
 import Button from "../../../Components/Button/Button";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
+import { onbannerMasterSubmitReset } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
 const BannerForm = ({ prefilledData }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
-  const supplierMasterData = useSelector(
-    (state) => state.supplierMasterReducer?.data
-  );
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const [bannerMaster, setBannerMaster] = useState({
@@ -55,18 +54,22 @@ const BannerForm = ({ prefilledData }) => {
       });
     }
   }, [prefilledData]);
+  console.log();
+  useEffect(() => {
+    if (getBannerMaster.update_status_code === "201") {
+      toast.success(getBannerMaster.message);
+      dispatch(onUpdateBannerMasterReset());
+      dispatch(onGetbannerMaster());
+    }
+  }, [getBannerMaster]);
 
   useEffect(() => {
-    if (getBannerMaster.message) {
-      if (getBannerMaster.update_status_code === "201") {
-        toast.success(getBannerMaster.message);
-        dispatch(onUpdateBannerMasterReset());
-        dispatch(onGetbannerMaster());
-      } else {
-        toast.error(getBannerMaster.message);
-      }
+    if (getBannerMaster.status_code === "200") {
+      toast.success(getBannerMaster.message);
+      dispatch(onGetbannerMaster());
+      dispatch(onbannerMasterSubmitReset());
     }
-  }, [getBannerMaster.message]);
+  }, [getBannerMaster]);
 
   const [errors, setErrors] = useState({
     bannerPlacement: "",
@@ -79,9 +82,14 @@ const BannerForm = ({ prefilledData }) => {
   });
 
   const statusoptions = [
-    { value: "Active", label: "Active" },
-    { value: "Non-active", label: "Non-active" },
+    { value: true, label: "Active" },
+    { value: false, label: "Non-active" },
   ];
+  const bannerPlacement = [
+    { value: "Top", label: "Top" },
+    { value: "Bottom", label: "Bottom" },
+  ];
+
   useEffect(() => {
     dispatch(onGetbannerMaster());
     dispatch(onGetSupplierBrandList());
@@ -89,17 +97,17 @@ const BannerForm = ({ prefilledData }) => {
   }, []);
   // Add more states for other form fields as necessary
   const handleChange = (e, fieldName) => {
+    // Update the bannerMaster state with the new value
     setBannerMaster({
       ...bannerMaster,
       [fieldName]: e.target.value,
     });
 
-    setBannerMaster({
-      ...bannerMaster,
-      [fieldName]: e.target.value,
+    // Remove the error message for the field being edited
+    setErrors({
+      ...errors,
+      [fieldName]: "",
     });
-
-    // Remove the error message when the user starts typing
   };
 
   const handleSubmit = (e) => {
@@ -119,7 +127,17 @@ const BannerForm = ({ prefilledData }) => {
     setErrors(newErrors);
 
     if (isValid) {
-      dispatch(onbannerMasterSubmit(bannerMaster));
+      if (!prefilledData) {
+        dispatch(onbannerMasterSubmit(bannerMaster));
+      } else {
+        dispatch(
+          onUpdateBannerMaster({
+            ...bannerMaster,
+            id: prefilledData?.id,
+            clientId: "strisng",
+          })
+        );
+      }
     }
   };
   return (
@@ -147,14 +165,7 @@ const BannerForm = ({ prefilledData }) => {
                         id="bannerPlacement"
                         value={bannerMaster.bannerPlacement}
                         onChange={(e) => handleChange(e, "bannerPlacement")}
-                        options={
-                          Array.isArray(supplierMasterData)
-                            ? supplierMasterData?.map((item) => ({
-                                label: item.name,
-                                value: item.name,
-                              }))
-                            : []
-                        }
+                        options={bannerPlacement}
                       ></Dropdown>
                     </div>
 
@@ -232,7 +243,7 @@ const BannerForm = ({ prefilledData }) => {
                           errors.status ? "border-danger-select" : "form-select"
                         }`}
                         id="status"
-                        value={bannerMaster?.status ? "Active" : "Non-active"}
+                        value={bannerMaster?.status}
                         onChange={(e) => handleChange(e, "status")}
                         options={statusoptions}
                       ></Dropdown>
