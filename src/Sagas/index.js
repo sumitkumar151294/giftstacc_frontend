@@ -20,9 +20,11 @@ import cmsSaga from "./ClientAdmin/cmsSaga";
 import offerMasterSaga from "./ClientAdmin/offerMasterSaga";
 import FaqMasterSaga from "./ClientAdmin/faqMasterSaga";
 import FaqCategorySaga from "./ClientAdmin/faqCategorySaga";
+import clientMappingSaga from "./clientProductMappingSaga";
 export default function* rootSaga() {
   yield all([
     loginSaga(),
+    clientMappingSaga(),
     translationSaga(),
     loginAuthSaga(),
     moduleSaga(),
