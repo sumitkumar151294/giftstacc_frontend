@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BannerForm from "./BannerMaster";
 import ReactPaginate from "react-paginate";
 import Button from "../../../Components/Button/Button";
@@ -38,6 +38,16 @@ const BannerMasterList = () => {
     };
     dispatch(onUpdateBannerMaster(deletedData));
   };
+  useEffect(() => {
+    if (getBannerMaster) {
+      const totalItems = getBannerMaster.length;
+      const totalPages = Math.ceil(totalItems / rowsPerPage);
+      if (page > totalPages && page > 1) {
+        setPage(page - 1);
+      }
+    } else {
+    }
+  }, [getBannerMaster]);
   return (
     <>
       <BannerForm prefilledData={prefilledData} />
@@ -118,7 +128,7 @@ const BannerMasterList = () => {
                             containerClassName={"pagination"}
                             activeClassName={"active"}
                             initialPage={page - 1} // Use initialPage instead of forcePage
-                            previousClassName={page === 0 ? "disabled" : ""}
+                            previousClassName={page === 1 ? "disabled" : ""}
                           />
                         </div>
                       )}
