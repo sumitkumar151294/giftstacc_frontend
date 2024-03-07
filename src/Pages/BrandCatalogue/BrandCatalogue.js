@@ -12,9 +12,11 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
+import { onClientProductMappingSubmit } from "../../Store/Slices/clientProductMappingSlice";
 const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [getProduct, setGetProduct] = useState();
   const [showLoader, setShowLoader] = useState(false);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -37,21 +39,44 @@ const BrandCatalogue = () => {
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data
   );
+  const clientProductMapping = useSelector(
+    (state) => state.clientProductMappingReducer?.clientData
+  );
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
+  useEffect(() => {
+    const matchingProductsData =
+      Array.isArray(clientProductMapping) &&
+      clientProductMapping
+        .map((clientProduct) => {
+          const matchingProduct =
+            Array.isArray(SupplierBrandList) &&
+            SupplierBrandList.find((supplierProduct) => {
+              return supplierProduct.id === clientProduct.productId;
+            });
+
+          return matchingProduct || null;
+        })
+        .filter((product) => product !== null);
+
+    setGetProduct(matchingProductsData);
+  }, []);
+  console.log(getProduct);
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
   });
-  const excelData = SupplierBrandList.map((data) => ({
-    sku: data.sku,
-    name: data.name,
-    minPrice: data.minPrice,
-    maxPrice: data.maxPrice,
-    price: data.price,
-  }));
+  const excelData =
+    Array.isArray(getProduct) &&
+    getProduct.map((data) => ({
+      sku: data.sku,
+      name: data.name,
+      minPrice: data.minPrice,
+      maxPrice: data.maxPrice,
+      price: data.price,
+    }));
   const headers = [
     { label: "Sku", key: "sku" },
     { label: "Name", key: "name" },
@@ -68,8 +93,8 @@ const BrandCatalogue = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
-  const filteredBrandCatalogueList = Array.isArray(SupplierBrandList)
-    ? SupplierBrandList.filter((vendor) =>
+  const filteredBrandCatalogueList = Array.isArray(getProduct)
+    ? getProduct.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
@@ -90,6 +115,7 @@ const BrandCatalogue = () => {
     setShowLoader(false);
   }, [showLoader]);
   useEffect(() => {
+    dispatch(onClientProductMappingSubmit());
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
   }, []);

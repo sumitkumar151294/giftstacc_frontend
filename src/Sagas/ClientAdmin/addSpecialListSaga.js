@@ -6,7 +6,7 @@ import { callAddSpecialListGetApi, callAddSpecialListPostApi, callAddSpecialList
 function* OnAddSpecialSubmit({ payload }) {
   try {
     const addSpecialResponse = yield call(callAddSpecialListPostApi, payload);
-    if (addSpecialResponse.httpStatusCode === "200") {
+    if (addSpecialResponse.httpStatusCode === "201") {
       yield put(
         onAddSpecialSubmitSuccess({
           data: addSpecialResponse.response,
