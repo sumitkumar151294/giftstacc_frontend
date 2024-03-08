@@ -1,3 +1,5 @@
+import InputField from "../../../Components/InputField/InputField";
+
 const AbandonedCartReport = () => {
   return (
     <div className="container-fluid">
@@ -12,11 +14,11 @@ const AbandonedCartReport = () => {
 
                 <div className="customer-search mb-sm-0 mb-3">
                   <div className="input-group search-area">
-                    <input
-                      type="text"
-                      className="form-control only-high"
-                      placeholder="Mobile/Email/Name"
-                    />
+                    <InputField
+                         type="text"
+                         className="form-control only-high"
+                         placeholder="Mobile/Email/Name"
+                        />
                     <span className="input-group-text">
                       <a href="javascript:void(0)">
                         <i className="flaticon-381-search-2"></i>
@@ -26,7 +28,7 @@ const AbandonedCartReport = () => {
                 </div>
 
                 <div className="example">
-                  <input
+                   <InputField
                     type="text"
                     className="form-control input-daterange-timepicker"
                     name="daterange"
