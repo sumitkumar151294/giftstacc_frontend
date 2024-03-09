@@ -47,7 +47,7 @@ const reducers = combineReducers({
   offerMasterReducer: offerMasterReducer,
   commissionReportReducer: commissionReportReducer,
   addSpecialReducer:addSpecialReducer,
-  clientProductMappingReducer:clientProductMappingReducer
+  clientProductMappingReducer:clientProductMappingReducer,
   emailEventMasterReducer:emailEventMasterReducer,
 });
 

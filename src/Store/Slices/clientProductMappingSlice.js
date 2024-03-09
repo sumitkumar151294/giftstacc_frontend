@@ -5,7 +5,7 @@ export const clientProductMappingSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    clientData: {},
+    clientData: [],
     error: {},
     message: "",
   },
@@ -14,7 +14,7 @@ export const clientProductMappingSlice = createSlice({
       return {
         ...state,
         isLoading: true,
-        clientData: {},
+        clientData: [],
         message: "",
         error: {},
         isError: false,
@@ -33,7 +33,7 @@ export const clientProductMappingSlice = createSlice({
       };
     },
     onClientProductMappingSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
@@ -47,7 +47,7 @@ export const clientProductMappingSlice = createSlice({
       return {
         ...state,
         isLoading: false,
-        clientData: {},
+        clientData: [],
         message: "",
         error: {},
         status_code: null,
@@ -59,7 +59,8 @@ export const clientProductMappingSlice = createSlice({
         ...state,
         postClientLoading: true,
         postClientData: {},
-        postMessage: "",
+        post_status_code:null,
+        message: "",
         error: {},
         isError: false,
       };
@@ -72,7 +73,7 @@ export const clientProductMappingSlice = createSlice({
         isError: false,
         postClientData:postData,
         error: {},
-        postMessage:message,
+        message:message,
         post_status_code:status_code,
       };
     },
@@ -83,7 +84,7 @@ export const clientProductMappingSlice = createSlice({
         postClientLoading: false,
         isError: true,
         postClientData: postData,
-        postMessage:message,
+        message:message,
         post_status_code:status_code,
       };
     },
@@ -91,7 +92,7 @@ export const clientProductMappingSlice = createSlice({
       return {
         ...state,
         postClientData: {},
-        postMessage: "",
+        message: "",
         post_status_code: null,
         postClientLoading: false,
         error: {},
