@@ -92,7 +92,7 @@ productDetail:[
                                         <a className="btn btn-primary btn-sm btn-rounded me-3 mb-2"><i className="fa fa-file-excel me-2"></i>Export</a>
                                     </div>
                                 </div>
-{data.map((data,index)=>(
+    {data.map((data,index)=>(
                                 <div className="card-body-1 p-0 main" key={index} >
                                         <div>
                                             <div className="d-flex justify-content-between weak1">
