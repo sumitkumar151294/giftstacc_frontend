@@ -13,14 +13,18 @@ import supplierBrandListSaga from "./supplierBrandListSaga";
 import BrandCatalogueSaga from "./brandCatalogueSaga";
 import clientPaymentSaga from "./clientPaymentDetailSaga";
 import supplierResourceSaga from "./supplierResourceSaga";
-import FaqMasterSaga from "./faqMasterSaga";
-import bannerMasterSaga from "./bannerMasterSaga";
-import FaqCategorySaga from "./faqCategorySaga";
-import cmsSaga from "./cmsSaga";
-import offerMasterSaga from "./offerMasterSaga";
+import addSpecialResourceSaga from "./ClientAdmin/addSpecialListSaga";
+import allocateBrandSaga from "./ClientAdmin/allocateBrandSaga";
+import bannerMasterSaga from "./ClientAdmin//bannerMasterSaga";
+import cmsSaga from "./ClientAdmin/cmsSaga";
+import offerMasterSaga from "./ClientAdmin/offerMasterSaga";
+import FaqMasterSaga from "./ClientAdmin/faqMasterSaga";
+import FaqCategorySaga from "./ClientAdmin/faqCategorySaga";
+import clientMappingSaga from "./clientProductMappingSaga";
 export default function* rootSaga() {
   yield all([
     loginSaga(),
+    clientMappingSaga(),
     translationSaga(),
     loginAuthSaga(),
     moduleSaga(),
@@ -34,7 +38,8 @@ export default function* rootSaga() {
     createCategorySaga(),
     BrandCatalogueSaga(),
     supplierResourceSaga(),
-    //brand_Catalogue(),
+    addSpecialResourceSaga(),
+    allocateBrandSaga(),
     FaqMasterSaga(),
     bannerMasterSaga(),
     FaqCategorySaga(),

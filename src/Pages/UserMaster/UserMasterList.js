@@ -16,7 +16,7 @@ const UserMasterList = () => {
   const [prefilledValues, setPrefilledValues] = useState();
   useEffect(() => {
     dispatch(onGetUser());
-  }, []);
+  },[dispatch]);
   const UserList = GetTranslationData("UIAdmin", "User_list_label");
   const roleName = GetTranslationData("UIAdmin", "role_name_label");
   const email = GetTranslationData("UIAdmin", "email_label");
@@ -24,11 +24,11 @@ const UserMasterList = () => {
   const username = GetTranslationData("UIAdmin", "usernamee_label");
   const clients = GetTranslationData("UIAdmin", "clients_name_label");
   const action = GetTranslationData("UIAdmin", "action_label");
-  const not_Found = GetTranslationData("UIAdmin", "not_Found");
   const userList = useSelector((state) => state.userMasterReducer);
   const client = useSelector((state) => state.clientMasterReducer.clientData);
   const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer?.userRoleData);
+  const getRoleAccess = useSelector((state) => state.moduleReducer?.filteredData);
   const handleEdit = (data) => {
     const prefilled = data;
     setPrefilledValues(prefilled);
@@ -69,10 +69,12 @@ const UserMasterList = () => {
     : [];
   return (
     <>
+     {getRoleAccess[0]?.addAccess && (
       <UserMasterForm
         prefilledValues={prefilledValues}
         setPrefilledValues={setPrefilledValues}
       />
+     )}
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -96,7 +98,9 @@ const UserMasterList = () => {
                           <th>{mobile}</th>
                           <th>{username}</th>
                           <th>{clients}</th>
+                          {getRoleAccess[0]?.editAccess && (
                           <th>{action}</th>
+                          )}
                         </tr>
                       </thead>
                       <tbody>
@@ -143,6 +147,7 @@ const UserMasterList = () => {
                                     </div>
                                   )}
                               </td>
+                              {getRoleAccess[0]?.editAccess && (
                               <td>
                                 <Button
                                   className="btn btn-primary shadow btn-xs sharp me-1"
@@ -150,6 +155,7 @@ const UserMasterList = () => {
                                   icon={"fas fa-pencil-alt"}
                                 />
                               </td>
+                              )}
                             </tr>
                           ))}
                       </tbody>

@@ -19,9 +19,11 @@
 @import './Pages/UserMaster';
 @import './Pages/SupplierProductList';
 @import './pages/SupplierMasterForm';
-@import './Pages//ClientAdmin/CMS';
-@import './Pages/ClientAdmin/HtmlEditor.scss';
-@import './Pages/OfferMaster';
+@import './Pages/ClientAdmin/CustomerList';
+@import './Pages/ClientAdmin/OfferMaster';
+@import './Pages/ClientAdmin/EmailEventMaster';
+@import './Pages/ClientAdmin/FailedOrders';
+@import './Pages/ClientAdmin/AbandonedCartReport';
 @import './Utility/Card';
 @import './Utility/Rows';
 @import './Utility/Column';
@@ -46,6 +48,7 @@
   --primary-red-4: #ea0030;
   --primary-white: #fff;
   --primary-greyish: #616161;
+  --primary-grey-row: #f2f4fa;
   --primary-white-2: #fbfbfb;
   --primary-black: #000;
   --primary-skin-2: #ededed;
@@ -60,6 +63,7 @@
   --primary-black-2: #212130;
   --primary-dark-blue: #0049e0;
   --primary-grey: #969ba0;
+  --primary-grey-row: #f2f4fa;
   --primary-input-bg: #e9ecef;
   --primary-alice: aliceblue;
   --primary-alice-2: #f8f8f8;

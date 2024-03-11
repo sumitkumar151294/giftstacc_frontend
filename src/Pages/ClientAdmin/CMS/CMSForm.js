@@ -6,18 +6,23 @@ import {
   onPostCms,
   onPostCmsReset,
   onUpdateCms,
-} from "../../../Store/Slices/cmsSlice";
+  onUpdateCmsReset,
+} from "../../../Store/Slices/ClientAdmin/cmsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
 const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
+
   const sumbit = GetTranslationData("UIAdmin", "submit_label");
   const update = GetTranslationData("UIAdmin", "update_label");
-  const [isFormLoading, setIsFormLoading] = useState(false);
+  const cms = GetTranslationData("UIClient", "cms");
+  const ShortDescription = GetTranslationData("UIClient", "short_description");
+  const LongDescription = GetTranslationData("UIClient", "long_description");
   const dispatch = useDispatch();
-  const getCMSdata = useSelector((state) => state.cmsReducer);
+  const getCmsData = useSelector((state) => state.cmsReducer);
   const [cmsData, setCmsData] = useState({
+    clientId: "123",
     title: "",
     shortDescription: "",
     longDescription: "",
@@ -32,33 +37,34 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     shortDescription: "",
     longDescription: "",
   });
-  const handleChange = (e, fieldName) => {
+  const handleChange = (e, fieldName, html) => {
     setCmsData({
       ...cmsData,
       [fieldName]: e.target?.value,
+      [html]: e.target?.value,
     });
-
     // Remove the error message when the user starts typing
     setErrors({
       ...errors,
       [fieldName]: "",
     });
   };
-
-  // const handleHTMLChange = (html) => {
-  //
-  //     setCmsData({
-  //       ...cmsData,
-  //       longDescription: html,
-  //     });
-  //   };
-  const handleHTMLChange = (html) => {
+  const handleHTMLChange = (html, fieldName) => {
     setCmsData((prevCmsData) => ({
       ...prevCmsData,
       longDescription: html,
     }));
+    setErrors({
+      ...errors,
+      [fieldName]: "",
+    });
   };
-
+  const PageNames = [
+    "About us",
+    "Privacy Policy",
+    "Terms and Conditions",
+    "LC Loyality Program",
+  ];
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -77,6 +83,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       if (!Cmsprefilled) {
         const Usersdata = {
           ...cmsData,
+          clientId: "123",
           title: cmsData.title,
           shortDescription: cmsData.shortDescription,
           longDescription: cmsData.longDescription,
@@ -88,6 +95,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
           deleted: false,
           createdBy: 0,
           updatedBy: 0,
+          clientId: "123",
           id: Cmsprefilled?.id,
           title: cmsData?.title,
           shortDescription: cmsData.shortDescription,
@@ -97,21 +105,20 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       }
     }
   };
-  const PageNames = [
-    "About us",
-    "Privacy Policy",
-    "Terms and Conditions",
-    "LC Loyality Program",
-  ];
-
   useEffect(() => {
-    if (getCMSdata.post_status_code === "201") {
-      toast.success(getCMSdata.postMessage);
+
+    if (getCmsData.post_status_code === "201") {
+      toast.success(getCmsData.postMessage);
       setCmsData(resetCMSData);
       dispatch(onPostCmsReset());
-      toast.success(getCMSdata.postMessage);
+      dispatch(onGetCms());
+    } else if (getCmsData.post_status_code === 400) {
+      setCmsData(resetCMSData);
+      toast.error(getCmsData.message);
+      dispatch(onPostCmsReset());
     }
-  }, [getCMSdata]);
+  }, [getCmsData]);
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setCmsData({
@@ -119,89 +126,101 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       shortDescription: Cmsprefilled?.shortDescription || "",
       longDescription: Cmsprefilled?.longDescription || "",
     });
+    setErrors({
+      title: "",
+      longDescription: "",
+      shortDescription: "",
+    });
   }, [Cmsprefilled]);
+  useEffect(() => {
+    if (getCmsData.update_status_code === "201") {
+      toast.success(getCmsData.updateMessage);
+      setCmsData(resetCMSData);
+      dispatch(onGetCms());
+      dispatch(onUpdateCmsReset());
+    } else if (getCmsData.update_status_code === 400) {
+      toast.error(getCmsData.updateMessage);
+      setCmsData(resetCMSData);
+      setCmsprefilled(false)
+      dispatch(onUpdateCmsReset());
+    }
+  }, [getCmsData]);
   return (
     <>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-12 col-xxl-12">
-            <div class="card">
-              <div class="card-header d-flex justify-content-between">
-                <h4 class="card-title">
-                  {GetTranslationData("UIClient", "cms")}
-                </h4>
-                <div class="dropdown-side">
-                  <div class="form-group mb-2">
-                    <select
-                      class="form-select"
-                      name="pageName"
-                      value={cmsData.title}
-                      onChange={(e) => handleChange(e, "title")}
-                      aria-label="Default select example"
-                    >
-                      <option selected>
-                        Select Page Name &nbsp;
-                        <i class="fa fa-angle-down"></i>
-                      </option>
-                      {PageNames.map((Option, index) => (
-                        <option key={index} value={Option}>
-                          {Option}
-                          &nbsp;
-                          <i class="fa fa-angle-down"></i>
-                        </option>
-                      ))}
-                    </select>
-                    <p className="text-danger">{errors.title}</p>
-                  </div>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12 col-xxl-12">
+            <div className="card">
+              {getCmsData?.isLoading ? (
+                <div style={{ height: "400px" }}>
+                  <Loader classNameType={"absoluteLoader"} />
                 </div>
-              </div>
+              ) : (
+                <>
+                  <div className="card-header d-flex justify-content-between">
+                    <h4 className="card-title">{cms}</h4>
+                    <div className="col-sm-3 form-group mb-2">
+                      <Dropdown
+                        onChange={(e) => handleChange(e, "title")}
+                        error={errors.title}
+                        defaultSelected="Select Page Name"
+                        value={cmsData.title}
+                        className={` ${
+                          errors.title ? "border-danger" : "form-select"
+                        }`}
+                        options={
+                          Array.isArray(PageNames)
+                            ? PageNames?.map((Pagename) => ({
+                                label: Pagename,
+                                value: Pagename,
+                              }))
+                            : []
+                        }
+                      />
+                      <p className="text-danger">{errors.title}</p>
+                    </div>
+                  </div>
 
-              <div class="card-body">
-                {isFormLoading ? (
-                  <div style={{ height: "400px" }}>
-                    <Loader classNameType={"absoluteLoader"} />
-                  </div>
-                ) : (
-                  <div class="form-group mb-2">
-                    <label for="name-f">
-                      {GetTranslationData("UIClient", "short_description")}
-                    </label>
+                  <div className="card-body">
+                    <div className="form-group mb-2">
+                      <label for="name-f">{ShortDescription}</label>
 
-                    <textarea
-                      name="textarea"
-                      id="textarea"
-                      cols="60"
-                      rows="10"
-                      class="form-control bg-transparent"
-                      placeholder=""
-                      value={cmsData.shortDescription}
-                      onChange={(e) => handleChange(e, "shortDescription")}
-                    ></textarea>
-                    <p className="text-danger">{errors.shortDescription}</p>
+                      <textarea
+                        name="textarea"
+                        id="textarea"
+                        cols="60"
+                        rows="10"
+                        className="form-control bg-transparent"
+                        placeholder=""
+                        value={cmsData.shortDescription}
+                        onChange={(e) => handleChange(e, "shortDescription")}
+                      ></textarea>
+                      <p className="text-danger">{errors.shortDescription}</p>
+                    </div>
+                    <div className="form-group mb-2">
+                      <label for="name-f">{LongDescription}</label>
+                      <HtmlEditor
+                        value={cmsData.longDescription}
+                        onChange={(data) =>
+                          handleHTMLChange(data, "longDescription")
+                        }
+                      />
+                      <p className="text-danger">{errors.longDescription}</p>
+                    </div>
+                    <div className="form-group mb-0 mt-2">
+                      <button
+                        type="submit"
+                        className="btn btn-primary float-right pad-aa"
+                        onClick={handleSubmit}
+                      >
+                        {Cmsprefilled ? update : sumbit}
+                        <i className="fa fa-arrow-right"></i>
+                      </button>
+                      <ToastContainer />
+                    </div>
                   </div>
-                )}
-                <div class="form-group mb-2">
-                  <label for="name-f">
-                    {GetTranslationData("UIClient", "long_description")}
-                  </label>
-                  <HtmlEditor
-                    value={cmsData.longDescription}
-                    onChange={(data) => handleHTMLChange(data)}
-                  />
-                  <p className="text-danger">{errors.longDescription}</p>
-                </div>
-                <div class="form-group mb-0 mt-2">
-                  <button
-                    type="submit"
-                    class="btn btn-primary float-right pad-aa"
-                    onClick={handleSubmit}
-                  >
-                    {Cmsprefilled ? update : sumbit}
-                    <i class="fa fa-arrow-right"></i>
-                  </button>
-                  <ToastContainer />
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </div>
