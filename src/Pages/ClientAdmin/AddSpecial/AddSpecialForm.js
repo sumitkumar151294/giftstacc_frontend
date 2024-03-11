@@ -43,8 +43,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       sectionName: prefilledValues?.sectionName || "",
       displayOrder: prefilledValues?.displayOrder || "",
       status: prefilledValues?.status || "",
-      maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || "",
-      id: prefilledValues?.id || "",
+      maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || ""
     });
     setError({
       sectionName: "",
@@ -106,7 +105,9 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
         };
         dispatch(onAddSpecialSubmit(submissionData));
       } else {
-        dispatch(onAddSpecialUpdate(formData));
+        const tempData = {...formData}
+        tempData.id = prefilledValues?.id
+        dispatch(onAddSpecialUpdate(tempData));
       }
     }
   };
