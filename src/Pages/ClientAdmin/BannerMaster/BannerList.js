@@ -40,7 +40,7 @@ const BannerMasterList = () => {
   };
   useEffect(() => {
     if (getBannerMaster) {
-      const totalItems = getBannerMaster.length;
+      const totalItems = getBannerMaster?.length;
       const totalPages = Math.ceil(totalItems / rowsPerPage);
       if (page > totalPages && page > 1) {
         setPage(page - 1);
@@ -55,7 +55,7 @@ const BannerMasterList = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="card">
-              <div className="container-fluid">
+              <div className="container-fluid pt-0">
                 <div className="card-header">
                   <h4 className="card-title">Banner List</h4>
                 </div>
@@ -121,7 +121,7 @@ const BannerMasterList = () => {
                             nextLabel={" >"}
                             breakLabel={"..."}
                             pageCount={Math.ceil(
-                              getBannerMaster.length / rowsPerPage
+                              getBannerMaster?.length / rowsPerPage
                             )}
                             marginPagesDisplayed={2}
                             onPageChange={handlePageChange}
@@ -134,7 +134,7 @@ const BannerMasterList = () => {
                       )}
                     </div>
                   </div>
-                ) : getBannerMaster.length < 0 ? (
+                ) : getBannerMaster?.length < 0 ? (
                   <NoRecord />
                 ) : (
                   <Loader />
