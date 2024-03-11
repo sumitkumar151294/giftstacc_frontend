@@ -5,13 +5,14 @@ import Button from "../../../Components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onAddSpecialSubmit,
+  onAddSpecialSubmitReset,
   onAddSpecialUpdate,
   onGetAddSpecial,
 } from "../../../Store/Slices/ClientAdmin/addSpecialListSlice";
 import Loader from "../../../Components/Loader/Loader";
 import { ToastContainer, toast } from "react-toastify";
 
-const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
+const AddSpecialForm = ({ prefilledValues }) => {
   const [isLoading, setIsLoading] = useState(false);
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
   const dispatch = useDispatch();
@@ -44,7 +45,6 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       displayOrder: prefilledValues?.displayOrder || "",
       status: prefilledValues?.status || "",
       maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || "",
-      id: prefilledValues?.id || "",
     });
     setError({
       sectionName: "",
@@ -74,6 +74,8 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
         toast.success(getAddSpecial.message);
         setFormData(resetField);
         dispatch(onGetAddSpecial());
+      } else if (getAddSpecial?.message?.data?.HttpStatusCode === "500") {
+        toast.error(getAddSpecial.message?.data?.ErrorMessage);
       }
     } else if (prefilledValues) {
       if (getAddSpecial?.status_code === "201") {
@@ -82,7 +84,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
         dispatch(onGetAddSpecial());
       }
     }
-  }, [getAddSpecial.status_code]);
+  }, [getAddSpecial.status_code, getAddSpecial.message?.data?.HttpStatusCode]);
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -97,7 +99,10 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     }
     setError(newErrors);
     if (isValid) {
-      if (!prefilledValues) {
+      console.log(formData);
+      if (prefilledValues) {
+        dispatch(onAddSpecialUpdate({ ...formData, id: prefilledValues?.id }));
+      } else {
         const submissionData = {
           ...formData,
           displayOrder: parseInt(formData.displayOrder), // Convert displayOrder to integer
@@ -105,8 +110,6 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
           status: formData.status === "Active" ? true : false, // Convert status to boolean based on selection
         };
         dispatch(onAddSpecialSubmit(submissionData));
-      } else {
-        dispatch(onAddSpecialUpdate(formData));
       }
     }
   };

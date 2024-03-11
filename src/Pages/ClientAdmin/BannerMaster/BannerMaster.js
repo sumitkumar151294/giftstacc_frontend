@@ -79,6 +79,8 @@ const BannerForm = ({ prefilledData }) => {
       setBannerMaster(resetField);
       dispatch(onbannerMasterSubmitReset());
       dispatch(onGetbannerMaster());
+    } else if (getBannerMaster?.status_code === "500") {
+      toast.error(getBannerMaster.message);
     }
   }, [getBannerMaster]);
 

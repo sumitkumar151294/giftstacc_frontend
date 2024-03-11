@@ -13,7 +13,6 @@ import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
 const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
-
   const sumbit = GetTranslationData("UIAdmin", "submit_label");
   const update = GetTranslationData("UIAdmin", "update_label");
   const cms = GetTranslationData("UIClient", "cms");
@@ -106,14 +105,16 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     }
   };
   useEffect(() => {
-
-    if (getCmsData.post_status_code === "201") {
+    if (getCmsData.postMessage?.data?.HttpStatusCode === "500") {
+      setCmsData(resetCMSData);
+      toast.error(getCmsData?.postMessage?.data?.ErrorMessage);
+      dispatch(onPostCmsReset());
+    } else if (getCmsData.post_status_code === "201") {
       toast.success(getCmsData.postMessage);
       setCmsData(resetCMSData);
       dispatch(onPostCmsReset());
       dispatch(onGetCms());
     } else if (getCmsData.post_status_code === 400) {
-      setCmsData(resetCMSData);
       toast.error(getCmsData.message);
       dispatch(onPostCmsReset());
     }
@@ -141,7 +142,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     } else if (getCmsData.update_status_code === 400) {
       toast.error(getCmsData.updateMessage);
       setCmsData(resetCMSData);
-      setCmsprefilled(false)
+      setCmsprefilled(false);
       dispatch(onUpdateCmsReset());
     }
   }, [getCmsData]);
