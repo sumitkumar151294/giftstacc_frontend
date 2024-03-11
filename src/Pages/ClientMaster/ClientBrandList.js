@@ -49,7 +49,7 @@ const ClientBrandList = () => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
   }, []);
-
+ 
   useEffect(() => {
     const filterData = SupplierBrandList?.filter((item) => {
       return item.enabled === true
@@ -119,7 +119,6 @@ const ClientBrandList = () => {
 
   const handleInputChange = (e, ids, name) => {
     const newValue = e.target.value < 0 ? 0 : e.target.value;
-
     const updatedSupplier = copySupplierBrandList.map(item => {
       if (item.id === ids) {
         return { ...item, [name]: newValue };
@@ -159,7 +158,8 @@ const ClientBrandList = () => {
     const filterData = SupplierBrandList?.filter((item) => {
       return item.enabled === true
     })
-    let filteredSupplierList = Array.isArray(filterData) && SupplierBrandList?.filter((vendor) =>
+    let filteredSupplierList = Array.isArray(filterData) && filterData
+    ?.filter((vendor) =>
       vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase()) &&
       (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
     );
