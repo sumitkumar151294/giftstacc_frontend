@@ -23,6 +23,7 @@ const CategoryList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
   const supplierMaster = useSelector((state) => state?.supplierMasterReducer?.data);
+  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
   const supplierBrandData = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
@@ -118,7 +119,9 @@ const CategoryList = () => {
   return (
     <>
       <ScrollToTop />
+      {getRoleAccess[0]?.addAccess && (
       <CategoryForm setIsLoading={setIsLoading} />
+      )}
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -181,7 +184,9 @@ const CategoryList = () => {
                           <th>{categoryName}</th>
                           <th>{supplierName}</th>
                           <th>{supplierBrand}</th>
+                          {getRoleAccess[0]?.editAccess && (
                           <th>{action}</th>
+                          )}
                         </tr>
                       </thead>
                       <tbody>
@@ -192,6 +197,7 @@ const CategoryList = () => {
                               <td>{data.name}</td>
                               <td>{getSupplierName(data.supplierId)}</td>
                               <td>{getSupplierBrand(data.supplierBrandId)}</td>
+                              {getRoleAccess[0]?.editAccess && (
                               <td>
                                 <div className="d-flex">
                                   <Link
@@ -203,6 +209,7 @@ const CategoryList = () => {
                                   <ToastContainer />
                                 </div>
                               </td>
+                              )}
                             </tr>
                           ))}
                       </tbody>
