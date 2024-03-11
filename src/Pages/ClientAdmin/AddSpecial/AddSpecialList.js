@@ -68,7 +68,7 @@ const AddSpecialList = () => {
                   </div>
                 ) : (
                   <div className="card-body card-body-user">
-                    {getAddSpecial.length > 0 ? (
+                    {getAddSpecial?.length > 0 ? (
                       <div className="table-responsive">
                         <table className="table header-border table-responsive-sm">
                           <thead>
@@ -151,7 +151,7 @@ const AddSpecialList = () => {
                           </div>
                         )}
                       </div>
-                    ) : getAddSpecial.length < 0 ? (
+                    ) : getAddSpecial?.length < 0 ? (
                       <NoRecord />
                     ) : (
                       <Loader />

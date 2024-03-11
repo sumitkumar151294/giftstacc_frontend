@@ -62,21 +62,20 @@ const BrandCatalogue = () => {
 
     setGetProduct(matchingProductsData);
   }, []);
-  console.log(getProduct);
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
   });
-  const excelData =
-    Array.isArray(getProduct) &&
-    getProduct.map((data) => ({
-      sku: data.sku,
-      name: data.name,
-      minPrice: data.minPrice,
-      maxPrice: data.maxPrice,
-      price: data.price,
-    }));
+  // const excelData =
+    // Array.isArray(getProduct) &&
+    // getProduct.map((data) => ({
+    //   sku: data.sku,
+    //   name: data.name,
+    //   minPrice: data.minPrice,
+    //   maxPrice: data.maxPrice,
+    //   price: data.price,
+    // }));
   const headers = [
     { label: "Sku", key: "sku" },
     { label: "Name", key: "name" },
@@ -152,7 +151,7 @@ const BrandCatalogue = () => {
                     </div>
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
-                    <CSVLink
+                    {/* <CSVLink
                       data={excelData}
                       headers={headers}
                       filename={"BrandCatalogue.csv"}
@@ -164,7 +163,7 @@ const BrandCatalogue = () => {
                           text={`${exportLabel}`}
                         />
                       )}
-                    </CSVLink>
+                    </CSVLink> */}
                   </div>
                 </div>
               </div>
