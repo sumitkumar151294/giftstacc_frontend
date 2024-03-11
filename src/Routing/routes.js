@@ -124,6 +124,7 @@ function RouteConfiq() {
         <Route
           path="/lc-user-admin/failed-orders"
           element={<Layout Component={FailedOrders} />}
+          />
           <Route
           path="/lc-user-admin/abandoned-cart-report"
           element={<Layout Component={AbandonedCartReport} />}
