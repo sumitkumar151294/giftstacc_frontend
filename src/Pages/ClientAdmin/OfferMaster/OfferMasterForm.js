@@ -14,7 +14,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
 
-const OfferMasterForm = ({ data, setData }) => {
+const OfferMasterForm = ({ data }) => {
   const [showLoader, setShowLoader] = useState(false);
   const [addData, setAddData] = useState({
     placement: "",
@@ -24,7 +24,7 @@ const OfferMasterForm = ({ data, setData }) => {
     imagePlacement: "",
     image: "",
     enabled: true,
-    link_text: "",
+    linkText: "",
   });
   const [errors, setErrors] = useState({
     placement: "",
@@ -33,8 +33,8 @@ const OfferMasterForm = ({ data, setData }) => {
     link: "",
     imagePlacement: "",
     image: "",
+    linkText: "",
     enabled: "",
-    link_text: "",
   });
   // To reset the Input Field
   const resetAddData = {
@@ -44,8 +44,8 @@ const OfferMasterForm = ({ data, setData }) => {
     link: "",
     imagePlacement: "",
     image: "",
+    linkText: "",
     enabled: "",
-    link_text: "",
   };
 
   // To get the label from translation API
@@ -60,7 +60,7 @@ const OfferMasterForm = ({ data, setData }) => {
   const title = GetTranslationData("UIClient", "title");
   const subtitle = GetTranslationData("UIClient", "sub-title");
   const link_label = GetTranslationData("UIClient", "link_label");
-  const link_text = GetTranslationData("UIClient", "link_text");
+  const linkText = GetTranslationData("UIClient", "linkText");
   const imagePlacement = GetTranslationData("UIClient", "image_placement");
   const upload_image = GetTranslationData("UIClient", "uploadImage");
   const upload = GetTranslationData("UIClient", "upload");
@@ -134,8 +134,8 @@ const OfferMasterForm = ({ data, setData }) => {
     let isValid = true;
     const newErrors = { ...errors };
     for (const key in addData) {
-      if (addData[key] === "") {
-        newErrors[key] = { field_Required };
+      if (addData[key] === "" || addData[key] === undefined) {
+            newErrors[key] = field_Required;
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -145,7 +145,7 @@ const OfferMasterForm = ({ data, setData }) => {
     if (isValid) {
       setShowLoader(true);
       if (!data) {
-        try {
+            try {
           dispatch(onPostOfferMasterSubmit(addData));
         } catch (error) {}
       } else if (data) {
@@ -167,17 +167,25 @@ const OfferMasterForm = ({ data, setData }) => {
       subtitle: data?.subtitle || "",
       link: data?.link || "",
       imagePlacement: data?.imagePlacement || "",
+      linkText: data?.linkText,
       // image: data?.image || "",
       enabled: data?.enabled || "",
+    });
+    setErrors({
+      StatusCode: "",
+      ErrorName: "",
+      ErrorDesription: "",
+      url: "",
+      buttonText: "",
     });
   }, [data]);
   useEffect(() => {
     if (offerMasterData?.status_code === "201") {
-      setShowLoader(false);
+        setShowLoader(false);
       toast.success(offerMasterData?.message);
+      setAddData(resetAddData);
       dispatch(onPostOfferMasterReset());
       dispatch(onGetOfferMaster());
-      setAddData(resetAddData);
     }
   }, [offerMasterData]);
   useEffect(() => {
@@ -294,22 +302,17 @@ const OfferMasterForm = ({ data, setData }) => {
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
-                          {/* <label htmlFor="link_text">{link_text}
-                                          <span className="text-danger">*</span>
-                                        </label> */}
-                          <label htmlFor="link_text">
+                          <label htmlFor="linkText">
                             {"Link Text"}
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
-                            value={addData.link_text}
-                            onChange={(e) => handleInputChange(e, "link_text")}
+                            value={addData.linkText}
+                            onChange={(e) => handleInputChange(e, "linkText")}
                             className={` ${
-                              errors.subtitle ? "border-danger" : "form-control"
+                              errors.linkText ? "border-danger" : "form-control"
                             }`}
-                            name="link_text"
-                            id="link_text"
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
