@@ -41,6 +41,7 @@ const CategoryList = () => {
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
   const getCategoryData = getCreateCategory?.categoryData;
+  const getListData= getCreateCategory?.isLoading;
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
   const categoryName = GetTranslationData("UIAdmin", "categoryName");
@@ -167,7 +168,7 @@ const CategoryList = () => {
               </div>
 
               <div className="card-body">
-                {isLoading ? (
+                {getListData ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>

@@ -145,3 +145,16 @@ $w100: var(--w100);
     width: 41.6666666667%;
   }
 }
+@media (min-width: 992px){
+  .col-lg-1 {
+    flex: 0 0 auto;
+    width: 8.3333333333%;
+  }
+}
+
+@media (min-width: 992px){
+  .col-lg-2 {
+    flex: 0 0 auto;
+    width: 16.6666666667%;
+  }
+}

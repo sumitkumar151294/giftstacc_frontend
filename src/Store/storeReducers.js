@@ -20,6 +20,8 @@ import faqCategoryReducer from "./Slices/ClientAdmin/faqCategorySlice";
 import offerMasterReducer from "./Slices/ClientAdmin/offerMasterSlice";
 import bannerMasterReducer from "./Slices/ClientAdmin/bannerMasterSlice";
 import commissionReportReducer from "./Slices/ClientAdmin/clientCommissionReportSlice";
+import addSpecialReducer from "./Slices/ClientAdmin/addSpecialListSlice";
+import clientProductMappingReducer from "./Slices/clientProductMappingSlice";
 import emailEventMasterReducer from "./Slices/ClientAdmin/emailEventMasterSlice";
 
 const reducers = combineReducers({
@@ -44,6 +46,8 @@ const reducers = combineReducers({
   cmsReducer: cmsReducer,
   offerMasterReducer: offerMasterReducer,
   commissionReportReducer: commissionReportReducer,
+  addSpecialReducer:addSpecialReducer,
+  clientProductMappingReducer:clientProductMappingReducer,
   emailEventMasterReducer:emailEventMasterReducer,
 });
 

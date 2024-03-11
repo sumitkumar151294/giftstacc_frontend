@@ -41,5 +41,8 @@ const API = {
   cms_api: "/cms",
   //offer-master
   offer_master: "/offer-master",
+  //client-product-mapping
+  client_product_mapping:"/client-product-mapping"
+
 };
 export default API;
