@@ -10,7 +10,6 @@
 @import './Components/Loader';
 @import './Components/NoRecord';
 @import './Components/Sidebar';
-
 @import './Pages/BrandCatalogue';
 @import './Pages/BrandDetail';
 @import './Pages/ClientMaster';
@@ -20,8 +19,11 @@
 @import './Pages/UserMaster';
 @import './Pages/SupplierProductList';
 @import './pages/SupplierMasterForm';
-@import './Pages//ClientAdmin/CMS';
-
+@import './Pages/ClientAdmin/CustomerList';
+@import './Pages/ClientAdmin/OfferMaster';
+@import './Pages/ClientAdmin/EmailEventMaster';
+@import './Pages/ClientAdmin/FailedOrders';
+@import './Pages/ClientAdmin/AbandonedCartReport';
 @import './Utility/Card';
 @import './Utility/Rows';
 @import './Utility/Column';
@@ -31,7 +33,6 @@
 @import './Utility/Margin';
 @import './Utility/Padding';
 @import './Utility/Table';
-
 :root {
   --primary-green:#55bc49;
   --primary-green-2:#5fc054;
@@ -47,6 +48,7 @@
   --primary-red-4: #ea0030;
   --primary-white: #fff;
   --primary-greyish: #616161;
+  --primary-grey-row: #f2f4fa;
   --primary-white-2: #fbfbfb;
   --primary-black: #000;
   --primary-skin-2: #ededed;
@@ -61,6 +63,7 @@
   --primary-black-2: #212130;
   --primary-dark-blue: #0049e0;
   --primary-grey: #969ba0;
+  --primary-grey-row: #f2f4fa;
   --primary-input-bg: #e9ecef;
   --primary-alice: aliceblue;
   --primary-alice-2: #f8f8f8;
@@ -86,6 +89,7 @@
   --rgba-primary-20: rgba(0, 0, 0, 0.075);
   --rgba-primary-21: rgba(0, 0, 0, 0.125);
   --rgba-primary-22: rgba(0, 0, 0, 0.03);
+  --rgba-primary-23: rgba(255, 255, 255, 0.3);
   --font-family: 'Inter', sans-serif;
   --title: #000;
   --header-bg: #E9E9E9;

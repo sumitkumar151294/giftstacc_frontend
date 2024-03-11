@@ -22,6 +22,7 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
+  const getProductListData = useSelector((state)=> state.supplierBrandListReducer?.isLoading);
   const activeUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => item?.enabled)?.length;
   const inactiveUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => !item?.enabled)?.length;
   const SupplierBrandListUpdate = useSelector(
@@ -47,7 +48,7 @@ const SupplierProductList = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setCopySupplierBrandList(SupplierBrandList)
@@ -61,7 +62,7 @@ const SupplierProductList = () => {
       dispatch(onGetSupplierBrandList());
       dispatch(onUpdateSupplierBrandListReset())
     }
-  }, [SupplierBrandListUpdate])
+  }, [SupplierBrandListUpdate,dispatch])
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -91,7 +92,7 @@ const SupplierProductList = () => {
       });
       setSupplierList(tempSupplier);
     }
-  }, [suppliers]);
+  }, [suppliers,supplierList.length]);
 
   const handleChange = (e) => {
     const selectedSupplierCode = e.target.value;
@@ -184,7 +185,7 @@ const SupplierProductList = () => {
       (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
     );
     setCopySupplierBrandList(filteredSupplierList);
-  }, [searchQuery, selectedSupplierCode]);
+  }, [searchQuery, selectedSupplierCode, SupplierBrandList]);
 
   // excel data to print
   const excelData = Array.isArray(SupplierBrandList)&&SupplierBrandList.map(data => ({
@@ -271,7 +272,7 @@ const SupplierProductList = () => {
                   </form>
                   <div className="row px-1">
                     <div className="col-lg-12">
-                      {isLoading ? (
+                      {getProductListData ? (
                         <div style={{ height: "400px" }}>
                           <Loader classType={"absoluteLoader"} />
                         </div>

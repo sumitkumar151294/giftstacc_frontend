@@ -11,6 +11,12 @@ export const moduleSlice = createSlice({
     filteredData: [],
   },
   reducers: {
+    allowModules:(state , { payload }) => {
+      return{
+        ...state,
+        filteredData: payload,
+      }
+    }, 
     onGetModule: (state) => {
       return {
         ...state,

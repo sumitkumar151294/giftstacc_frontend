@@ -13,6 +13,7 @@ import Button from "../../Components/Button/Button";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import PageError from "../../Components/PageError/PageError";
+import { onClientProductMappingSubmit, onPostClientProductMappingReset, onPostClientProductMappingSubmit, onUpdateClientProductMappingReset, onUpdateClientProductMappingSubmit } from "../../Store/Slices/clientProductMappingSlice";
 
 const ClientBrandList = () => {
   const location = useLocation();
@@ -20,21 +21,18 @@ const ClientBrandList = () => {
   const [selectedSupplierCode, setSelectedSupplierCode] = useState("Select");
   const [supplierList, setSupplierList] = useState([]);
   const [copySupplierBrandList, setCopySupplierBrandList] = useState([]);
+  const [copyClientMapping, setCopyClientMapping] = useState([]);
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  const SupplierBrandListUpdate = useSelector(
-    (state) => state.supplierBrandListReducer
+  const ClientProducts = useSelector(
+    (state) => state.clientProductMappingReducer
   );
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
   const supplier_products = GetTranslationData("UIAdmin", "clientbrandlist");
-  const supplierBrandLists = GetTranslationData(
-    "UIAdmin",
-    "supplierBrandLists"
-  );
   const supplierName = GetTranslationData("UIAdmin", "supplierName");
   const supplierBrandName = GetTranslationData("UIAdmin", "clientbrandlistbrandname");
   const supplierMargin = GetTranslationData("UIAdmin", "supplierMargin");
@@ -48,6 +46,7 @@ const ClientBrandList = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
+    dispatch(onClientProductMappingSubmit());
   }, []);
 
   useEffect(() => {
@@ -58,12 +57,21 @@ const ClientBrandList = () => {
   }, [SupplierBrandList])
 
   useEffect(() => {
-    if (SupplierBrandListUpdate?.updateStatusCode === "201") {
-      toast.success(SupplierBrandListUpdate?.message)
-      dispatch(onGetSupplierBrandList());
-      dispatch(onUpdateSupplierBrandListReset())
+   const copyData = Array.isArray(ClientProducts.clientData) && [...ClientProducts.clientData]
+    setCopyClientMapping(copyData);
+  }, [ClientProducts.clientData])
+
+  useEffect(() => {
+    if (ClientProducts?.post_status_code === "201") {
+      toast.success(ClientProducts?.message)
+      dispatch(onClientProductMappingSubmit());
+      dispatch(onPostClientProductMappingReset());
+    }else if (ClientProducts?.update_status_code === "201") {
+      toast.success(ClientProducts?.updateMessage)
+      dispatch(onClientProductMappingSubmit());
+      dispatch(onUpdateClientProductMappingReset());
     }
-  }, [SupplierBrandListUpdate])
+  }, [ClientProducts])
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -119,40 +127,80 @@ const ClientBrandList = () => {
 
   const handleInputChange = (e, ids, name) => {
     const newValue = e.target.value < 0 ? 0 : e.target.value;
-
-    const updatedSupplier = copySupplierBrandList.map(item => {
-      if (item.id === ids) {
+    const mapping = [...copyClientMapping];
+    const isUpdate = copyClientMapping.find((item)=>(
+      item.productId === ids
+    ))
+    if(!isUpdate){
+      mapping.push({
+          productId: ids,
+          clientId: location?.state?.id,
+          customerDiscount: 1,
+          clientCommission: 1,
+          enabled:false
+      })
+    }
+    const updatedClinetMapping = mapping.map(item => {
+      if (item.productId === ids) {
         return { ...item, [name]: newValue };
       } else {
         return item;
       }
     });
-    setCopySupplierBrandList(updatedSupplier);
+    setCopyClientMapping(updatedClinetMapping);
   };
+
+
   const handleUpdate = (data) => {
-    const updatedValues = {
-      id: data.id,
-      supplierMargin: data?.supplierMargin,
-      clientCommission: data?.clientCommission,
-      customerDiscount: data?.customerDiscount,
-      clientId: location?.state?.id,
-      enabled: data?.enabled,
-      clientEnabled: data?.clientEnabled
-    };
-    dispatch(onUpdateSupplierBrandList(updatedValues));
+    const isUpdate = copyClientMapping.find((item)=>(
+      item.productId === data?.id
+    ))
+    if(isUpdate && isUpdate?.id){
+      const updatedValues = {
+        clientCommission: isUpdate?.clientCommission,
+        customerDiscount: isUpdate?.customerDiscount,
+        clientId: location?.state?.id,
+        enabled: isUpdate?.enabled,
+        productId: data?.id,
+        id: isUpdate?.id
+      };
+      dispatch(onUpdateClientProductMappingSubmit(updatedValues))
+    }else{
+      const updatedValues = {
+        clientCommission: isUpdate?.clientCommission,
+        customerDiscount: isUpdate?.customerDiscount,
+        clientId: location?.state?.id,
+        enabled: false,
+        productId: data?.id
+      };
+      dispatch(onPostClientProductMappingSubmit(updatedValues))
+    }
   };
 
   const updateStatus = (data) => {
-    const updatedValues = {
-      id: data.id,
-      supplierMargin: data?.supplierMargin,
-      clientCommission: data?.clientCommission,
-      customerDiscount: data?.customerDiscount,
-      clientId: location?.state?.id,
-      enabled: data?.enabled,
-      clientEnabled: !data?.clientEnabled
-    };
-    dispatch(onUpdateSupplierBrandList(updatedValues));
+    const isUpdate = copyClientMapping.find((item)=>(
+      item.productId === data?.id
+    ))
+    if(isUpdate){
+      const updatedValues = {
+        clientCommission: isUpdate?.clientCommission,
+        customerDiscount: isUpdate?.customerDiscount,
+        clientId: location?.state?.id,
+        enabled: !isUpdate?.enabled,
+        productId: data?.id,
+        id: isUpdate?.id
+      };
+      dispatch(onUpdateClientProductMappingSubmit(updatedValues))
+    }else{
+      const updatedValues = {
+        clientCommission: 1,
+        customerDiscount: 1,
+        clientId: location?.state?.id,
+        enabled: true,
+        productId: data?.id
+      };
+      dispatch(onPostClientProductMappingSubmit(updatedValues))
+    }
   }
 
   useEffect(() => {
@@ -172,6 +220,13 @@ const ClientBrandList = () => {
     })
     return filterData[0]?.name.length ? filterData[0]?.name : ""
   };
+
+  const getValues = (id, name) =>{  
+    const data = copyClientMapping.find((item)=>(
+      item.productId === id
+    ))
+    return data?.[name] ? data?.[name] : "";
+  }
 
   return (
     <>
@@ -269,7 +324,7 @@ const ClientBrandList = () => {
                                                 className="form-control htt"
                                                 placeholder={data.customerDiscount}
                                                 pattern="/^-?\d+\.?\d*$/"
-                                                value={data?.customerDiscount}
+                                                value={getValues(data.id, "customerDiscount")}
                                                 onChange={(e) => handleInputChange(e, data.id, "customerDiscount")}
                                                 onKeyPress={(e) => handleKeyPress(e, index)}
                                               />
@@ -292,7 +347,7 @@ const ClientBrandList = () => {
                                                 className="form-control htt"
                                                 placeholder={data.clientCommission}
                                                 pattern="/^-?\d+\.?\d*$/"
-                                                value={data?.clientCommission}
+                                                value={getValues(data.id, "clientCommission")}
                                                 onChange={(e) => handleInputChange(e, data.id, "clientCommission")}
                                                 onKeyPress={(e) => handleKeyPress(e, index)}
                                               />
@@ -312,19 +367,19 @@ const ClientBrandList = () => {
                                           <td>
                                             <span
                                               className={
-                                                data.clientEnabled === true
+                                                getValues(data.id, "enabled") === true
                                                   ? "badge badge-success"
                                                   : "badge badge-danger"
                                               }
                                             >
-                                              {data.clientEnabled === true
+                                              { getValues(data.id, "enabled") === true
                                                 ? "Active"
                                                 : "Non-Active"}
                                             </span>
                                           </td>
                                           <td>
                                             <div className="can-toggle">
-                                              <input id={generateUniqueId(index)} type="checkbox" checked={data.clientEnabled}></input>
+                                              <input id={generateUniqueId(index)} type="checkbox" checked={ getValues(data.id, "enabled")}></input>
                                               <label
                                                 htmlFor={generateUniqueId(index)}
                                               >

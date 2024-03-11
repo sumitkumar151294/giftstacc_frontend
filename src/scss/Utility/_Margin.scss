@@ -46,14 +46,18 @@
 .ml-4 {
 	margin-left: 10px !important;
 }
-
+.ml-6 {
+	margin-left: 15px !important;
+}
 .mrr {
 	margin-right: 10px !important;
 }
 .m-auto {
     margin: auto;
 }
-
+.me-1 {
+	margin-right: 0.25rem !important;
+}
 @media (min-width: 576px) {
 	.mb-sm-0 {
 		margin-bottom: 0 !important;

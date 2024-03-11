@@ -1,16 +1,25 @@
-import React from 'react';
+import React from "react";
 
-const Dropdown = ({ value, onChange, error, ariaLabel, className, options }) => {
+const Dropdown = ({
+  value,
+  onChange,
+  error,
+  ariaLabel,
+  defaultSelected = "Select",
+  className,
+  options,
+}) => {
   return (
     <div>
       <select
         value={value}
         onChange={onChange}
         aria-label={ariaLabel}
-        className={` ${error ? "border-danger border-danger-select" : className}`}
+        className={` ${
+          error ? "border-danger border-danger-select" : className
+        }`}
       >
-     
-        <option >Select</option>
+        <option>{defaultSelected}</option>
         {options?.map((option, index) => (
           <option key={index} value={option.value} name={option?.data}>
             {option.label}

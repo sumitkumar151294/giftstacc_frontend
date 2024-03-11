@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import NoRecord from "../../Components/NoRecord/NoRecord";
-import { toast, ToastContainer } from "react-toastify";
+import {ToastContainer } from "react-toastify";
 import CategoryForm from "./CategoryForm";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
@@ -18,7 +18,7 @@ import Button from "../../Components/Button/Button";
 
 const CategoryList = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
@@ -42,6 +42,7 @@ const CategoryList = () => {
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
   const getCategoryData = getCreateCategory?.categoryData;
+  const getListData= getCreateCategory?.isLoading;
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
   const categoryName = GetTranslationData("UIAdmin", "categoryName");
@@ -71,7 +72,7 @@ const CategoryList = () => {
       )
     )
     : [];
- 
+
   useEffect(() => {
     if (getCategoryData) {
       setIsLoading(false);
@@ -99,8 +100,7 @@ const CategoryList = () => {
     setIsLoading(true)
     dispatch(onUpdateCategory(deletedData));
   };
-
-  // To get the Supplier Name in the Category List 
+  // To get the Supplier Name in the Category List
   const getSupplierName = (supplierId) => {
     const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
     return supplier ? supplier.name : '';
@@ -109,7 +109,7 @@ const CategoryList = () => {
   const getSupplierBrand = (supplierBrandId) => {
     const supplier = Array.isArray(supplierBrandData) && supplierBrandData.find((s) => s.id === supplierBrandId);
     return supplier ? supplier.name : '';
-  };  
+  };
   const namesArray = filteredCategoryList.map(data => ({
     name: data.name,
     supplierId: getSupplierName(data.supplierId),
@@ -171,7 +171,7 @@ const CategoryList = () => {
               </div>
 
               <div className="card-body">
-                {isLoading ? (
+                {getListData ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -231,7 +231,7 @@ const CategoryList = () => {
                           previousClassName={page === 1 ? "disabled" : ""}
                         />
                       </div>
-                   )} 
+                   )}
 
                   </div>
                 ) : (
