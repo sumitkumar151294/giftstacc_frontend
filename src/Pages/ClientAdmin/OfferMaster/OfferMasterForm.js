@@ -24,7 +24,7 @@ const OfferMasterForm = ({ data, setData }) => {
     imagePlacement: "",
     image: "",
     enabled: true,
-    link_text: "",
+    link_Text: "",
   });
   const [errors, setErrors] = useState({
     placement: "",
@@ -34,7 +34,7 @@ const OfferMasterForm = ({ data, setData }) => {
     imagePlacement: "",
     image: "",
     enabled: "",
-    link_text: "",
+    link_Text: "",
   });
   // To reset the Input Field
   const resetAddData = {
@@ -45,7 +45,7 @@ const OfferMasterForm = ({ data, setData }) => {
     imagePlacement: "",
     image: "",
     enabled: "",
-    link_text: "",
+    link_Text: "",
   };
 
   // To get the label from translation API
@@ -166,6 +166,7 @@ const OfferMasterForm = ({ data, setData }) => {
       title: data?.title || "",
       subtitle: data?.subtitle || "",
       link: data?.link || "",
+      link_Text: data?.link_Text || "",
       imagePlacement: data?.imagePlacement || "",
       // image: data?.image || "",
       enabled: data?.enabled || "",
@@ -303,13 +304,13 @@ const OfferMasterForm = ({ data, setData }) => {
                           </label>
                           <InputField
                             type="text"
-                            value={addData.link_text}
-                            onChange={(e) => handleInputChange(e, "link_text")}
+                            value={addData.link_Text}
+                            onChange={(e) => handleInputChange(e, "link_Text")}
                             className={` ${
                               errors.subtitle ? "border-danger" : "form-control"
                             }`}
-                            name="link_text"
-                            id="link_text"
+                            name="link_Text"
+                            id="link_Text"
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
