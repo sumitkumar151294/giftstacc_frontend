@@ -26,7 +26,7 @@ const EmailEventMaster = () => {
   });
   const dispatch = useDispatch();
   const emailEventMaster = useSelector((state) => state.emailEventMasterReducer?.emailEventData);
-
+  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
@@ -150,6 +150,7 @@ const EmailEventMaster = () => {
                     <h4 className="card-title">{emaileventmaster}</h4>
                   </div>
                 </div>
+                {getRoleAccess[0]?.addAccess && (
                 <div className="row">
                   <div className="col-xl-7 col-xxl-7">
                     <div className="card">
@@ -262,6 +263,7 @@ const EmailEventMaster = () => {
                     </div>
                   </div>
                 </div>
+                )}
                 <div className="card-body">
                 {emailEventMaster.length > 0 ? (
                   <div className="table-responsive">
@@ -272,7 +274,7 @@ const EmailEventMaster = () => {
                           <th>{emaileventmastername}</th>
                           <th>{emaileventmasterdate}</th>
                           <th>{emaileventmastersubject}</th>
-                          <th>{emaileventmasteraction}</th>
+                          {getRoleAccess[0]?.editAccess && (<th>{emaileventmasteraction}</th>)}
                         </tr>
                       </thead>
                         <tbody>
@@ -284,6 +286,7 @@ const EmailEventMaster = () => {
                               <td>{item.status}</td>
                               <td>{item.date}</td>
                               <td>{item.placeholders}%</td>
+                              {getRoleAccess[0]?.editAccess && (
                               <td>
                                 <div className="d-flex">
                                   <a
@@ -300,6 +303,7 @@ const EmailEventMaster = () => {
                                   </a>
                                 </div>
                               </td>
+                              )}
                             </tr>
                           ))}
                         </tbody>

@@ -16,19 +16,24 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
 import { onbannerMasterSubmitReset } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
-const BannerForm = ({ prefilledData }) => {
+const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
-  const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
+  const active = GetTranslationData("UIClient", "active_option");
+  const non_active = GetTranslationData("UIClient", "non_active_option");
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
+  const imagePlacement = GetTranslationData("UIClient", "image_placement");
+  const upload_image = GetTranslationData("UIClient", "uploadImage");
+  const upload = GetTranslationData("UIClient", "upload");
+  const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const [bannerMaster, setBannerMaster] = useState({
     bannerPlacement: "",
     bannerTitle: "",
     bannerSubtitle: "",
     bannerLink: "",
     displayOrder: "",
-    status: "",
-    image: "string",
+    enabled: "",
+    image: "",
   });
   const resetField = {
     bannerPlacement: "",
@@ -36,7 +41,7 @@ const BannerForm = ({ prefilledData }) => {
     bannerSubtitle: "",
     bannerLink: "",
     displayOrder: "",
-    status: "",
+    enabled: "",
     image: "",
   };
   useEffect(() => {
@@ -49,16 +54,18 @@ const BannerForm = ({ prefilledData }) => {
         bannerSubtitle: prefilledData.bannerSubtitle || "",
         bannerLink: prefilledData.bannerLink || "",
         displayOrder: prefilledData.displayOrder || "",
-        status: prefilledData.enabled || "",
-        image: prefilledData.image || "",
+        image: "",
+        enabled:
+          prefilledData?.enabled !== undefined ? prefilledData?.enabled : "", // image: prefilledData.image || "",
       });
+
       setErrors({
         bannerPlacement: "",
         bannerTitle: "",
         bannerSubtitle: "",
         bannerLink: "",
         displayOrder: "",
-        status: "",
+        // status: "",
         image: "",
       });
     }
@@ -69,6 +76,7 @@ const BannerForm = ({ prefilledData }) => {
       setBannerMaster(resetField);
 
       dispatch(onUpdateBannerMasterReset());
+      setPrefilledData("");
       dispatch(onGetbannerMaster());
     }
   }, [getBannerMaster]);
@@ -79,6 +87,8 @@ const BannerForm = ({ prefilledData }) => {
       setBannerMaster(resetField);
       dispatch(onbannerMasterSubmitReset());
       dispatch(onGetbannerMaster());
+    } else if (getBannerMaster?.status_code === "500") {
+      toast.error(getBannerMaster.message);
     }
   }, [getBannerMaster]);
 
@@ -88,13 +98,13 @@ const BannerForm = ({ prefilledData }) => {
     bannerSubtitle: "",
     bannerLink: "",
     displayOrder: "",
-    status: "",
+    enabled: "",
     image: "",
   });
 
   const statusoptions = [
-    { value: true, label: "Active" },
-    { value: false, label: "Non-active" },
+    { value: true, label: active },
+    { value: false, label: non_active },
   ];
   const bannerPlacement = [
     { value: "Top", label: "Top" },
@@ -139,29 +149,36 @@ const BannerForm = ({ prefilledData }) => {
 
     if (isValid) {
       if (!prefilledData) {
-        dispatch(onbannerMasterSubmit(bannerMaster));
+        dispatch(
+          onbannerMasterSubmit({
+            ...bannerMaster,
+            enabled: bannerMaster.enabled === "true" ? true : false, // Convert status to boolean based on selection
+          })
+        );
       } else {
         dispatch(
           onUpdateBannerMaster({
             ...bannerMaster,
             id: prefilledData?.id,
             clientId: "strisng",
+            enabled: bannerMaster.enabled === "true" ? true : false,
           })
         );
       }
     }
   };
+
   return (
     <>
       <ScrollToTop />
       <ToastContainer />
-      <div className="row ml-6 pt-4">
+      <div className="row ml-6 pt-4 rows">
         <div className="col-xl-12 col-xxl-12">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title">Banner Master</h4>
             </div>
-            <div className="card-body pt-2 ml-6    mb-4">
+            <div className="card-body pt-2 ml-6  mb-4  ">
               <div className="container-fluid pt-0">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
@@ -233,29 +250,40 @@ const BannerForm = ({ prefilledData }) => {
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="uploadImage">Upload Image</label>
-                      <div className="input-group   ">
-                        <InputField
-                          type="file"
-                          className={`form-control upload ${
-                            errors.image ? "border-danger" : ""
-                          }`}
-                          id="uploadImage"
-                          onChange={(e) => handleChange(e, "image")}
-                        />
-                        <span className="input-group-text cursor">Upload</span>
+                      <label htmlFor="image">
+                        {upload_image}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <div className="input-group">
+                        <div className="form-file">
+                          <InputField
+                            type="file"
+                            accept="image/jpg,image/png"
+                            value={bannerMaster.image}
+                            className={` ${
+                              errors.image
+                                ? "border-danger"
+                                : "form-file-input form-control"
+                            }`}
+                            onChange={(e) => handleChange(e, "image")}
+                          />
+                        </div>
+                        <span className="input-group-text">{upload}</span>
                       </div>
+                      {<p className="text-danger">{errors.image}</p>}
                     </div>
 
                     <div className="col-sm-3 form-group mb-2">
                       <label htmlFor="status">Status</label>
                       <Dropdown
                         className={`${
-                          errors.status ? "border-danger-select" : "form-select"
+                          errors.enabled
+                            ? "border-danger-select"
+                            : "form-select"
                         }`}
                         id="status"
-                        value={bannerMaster?.status}
-                        onChange={(e) => handleChange(e, "status")}
+                        value={bannerMaster?.enabled}
+                        onChange={(e) => handleChange(e, "enabled")}
                         options={statusoptions}
                       ></Dropdown>
                     </div>

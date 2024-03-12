@@ -101,7 +101,7 @@ const FaqMaster = () => {
       dispatch(onFaqMasterSubmit(faqInfo));
     }
   };
-const getCategoryName=(Categorydata)=>{
+const FaqMasterCategory=(Categorydata)=>{
 const category=Array.isArray(faqCategory) && faqCategory.find((data)=>data.id === Categorydata);
 return category ? category.name : "";
 }
@@ -212,7 +212,7 @@ return category ? category.name : "";
                                   <tr key={index}>
                                     <td>{data.id}</td>
                                     <td>12-12-2023</td>
-                                    <td>{getCategoryName(data.categoryId)}</td>
+                                    <td>{FaqMasterCategory(data.categoryId)}</td>
                                     <td>{data.question}</td>
                                     <td>{data.answer}</td>
                                   </tr>

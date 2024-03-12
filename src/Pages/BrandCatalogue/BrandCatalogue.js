@@ -46,6 +46,7 @@ const BrandCatalogue = () => {
     (state) => state.supplierBrandListReducer.data
   );
   useEffect(() => {
+    debugger
     const matchingProductsData =
       Array.isArray(clientProductMapping) &&
       clientProductMapping
@@ -61,7 +62,7 @@ const BrandCatalogue = () => {
         .filter((product) => product !== null);
 
     setGetProduct(matchingProductsData);
-  }, []);
+  }, [clientProductMapping, SupplierBrandList]);
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
@@ -114,9 +115,9 @@ const BrandCatalogue = () => {
     setShowLoader(false);
   }, [showLoader]);
   useEffect(() => {
-    dispatch(onClientProductMappingSubmit());
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
+    dispatch(onClientProductMappingSubmit(sessionStorage.getItem("clientCode")));
   }, []);
 
   const handleClick = (data) => {
@@ -144,9 +145,7 @@ const BrandCatalogue = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                        <a>
-                          <i className="flaticon-381-search-2"></i>&nbsp;
-                        </a>
+                      <i className="fa fa-search"></i>
                       </span>
                     </div>
                   </div>
@@ -185,7 +184,7 @@ const BrandCatalogue = () => {
                       }
                     />
                   </div>
-                  <div className="col-sm-3 form-group mb-2">
+                  {/* <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="client">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
@@ -200,7 +199,7 @@ const BrandCatalogue = () => {
                           : []
                       }
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="card-body">
@@ -228,7 +227,7 @@ const BrandCatalogue = () => {
                             <tbody>
                               {filteredBrandCatalogueList
                                 .slice(startIndex, endIndex)
-                                .map((data, index) => (
+                                ?.map((data, index) => (
                                   <tr key={index}>
                                     <td>
                                       <img

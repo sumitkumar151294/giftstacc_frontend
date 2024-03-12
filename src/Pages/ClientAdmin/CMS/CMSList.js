@@ -12,6 +12,7 @@ import {
 } from "../../../Store/Slices/ClientAdmin/cmsSlice";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
+import PageError from "../../../Components/PageError/PageError";
 const CMS = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -26,6 +27,31 @@ const CMS = () => {
   const long_description = GetTranslationData("UIClient", "long_description");
   const action = GetTranslationData("UIAdmin", "action");
   const getData = useSelector((state) => state.cmsReducer.getCMSData);
+  const getCmsData = useSelector((state) => state.cmsReducer);
+  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
+  const [showError, setShowError] = useState(false);
+  const [pageError, setPageError] = useState({
+    StatusCode: "",
+    ErrorName: "",
+    ErrorDesription: "",
+    url: "",
+    buttonText: "",
+  });
+  useEffect(() => {
+    setShowError(false);
+
+    if (getCmsData.message.status === 404) {
+      setShowError(true);
+      setPageError({
+        StatusCode: "404",
+        ErrorName: "not found",
+        ErrorDesription:
+          "Your application url is not registerd to our application",
+        url: "/",
+        buttonText: "Back to Home",
+      });
+    }
+  }, [getCmsData]);
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -70,88 +96,101 @@ const CMS = () => {
   return (
     <>
       <ScrollToTop />
-      <CMSForm
-        setIsLoading={setIsLoading}
-        isLoading={isLoading}
-        Cmsprefilled={Cmsprefilled}
-        setCmsprefilled={setCmsprefilled}
-      />
-      <div class="container-fluid mt-2 mb-2 pt-1">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div className="container-fluid mt-2 mb-2 pt-1">
-                <div className="card-body">
-                  {isLoading ? (
-                    <div style={{ height: "400px" }}>
-                      <Loader classType={"absoluteLoader"} />
-                    </div>
-                  ) : Array.isArray(getData) && getData.length > 0 ? (
-                    <div className="table-responsive">
-                      <table className="table header-border table-responsive-sm">
-                        <thead>
-                          <tr key={{ id }}>
-                            <th>{id}</th>
-                            <th>{Page_Name}</th>
-                            <th>{short_description}</th>
-                            <th>{long_description}</th>
-                            <th>{action}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {getData.slice(startIndex, endIndex).map((data) => (
-                            <tr>
-                              <td>{data.id}</td>
-                              <td>{data.title}</td>
-                              <td>{data.shortDescription}</td>
-                              <td>{data.longDescription}</td>
-                              <td>
-                                <div className="d-flex">
-                                  <a
-                                    className="btn btn-primary shadow btn-xs sharp me-1"
-                                    onClick={() => handleEdit(data)}
-                                  >
-                                    <i className="fas fa-pencil-alt"></i>
-                                  </a>
-                                  <a
-                                    className="btn btn-danger shadow btn-xs sharp"
-                                    onClick={() => handleDelete(data)}
-                                  >
-                                    <i className="fa fa-trash"></i>
-                                  </a>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                      {getData.length > 5 && (
-                        <div className="pagination-container">
-                          <ReactPaginate
-                            previousLabel={"<"}
-                            nextLabel={" >"}
-                            breakLabel={"..."}
-                            pageCount={Math.ceil(getData.length / rowsPerPage)}
-                            marginPagesDisplayed={2}
-                            onPageChange={handlePageChange}
-                            containerClassName={"pagination"}
-                            activeClassName={"active"}
-                            initialPage={page - 1} // Use initialPage instead of forcePage
-                            previousClassName={page === 1 ? "disabled" : ""}
-                          />
-                          <ToastContainer />
+      {showError ? (
+        <PageError pageError={pageError} />
+      ) : (
+        <>
+          {getRoleAccess[0]?.addAccess && (<CMSForm
+            setIsLoading={setIsLoading}
+            isLoading={isLoading}
+            Cmsprefilled={Cmsprefilled}
+            setCmsprefilled={setCmsprefilled}
+          />
+          )}
+          <div class="container-fluid mt-2 mb-2 pt-1">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div className="container-fluid mt-2 mb-2 pt-1">
+                    <div className="card-body">
+                      {isLoading ? (
+                        <div style={{ height: "400px" }}>
+                          <Loader classType={"absoluteLoader"} />
                         </div>
+                      ) : Array.isArray(getData) && getData.length > 0 ? (
+                        <div className="table-responsive">
+                          <table className="table header-border table-responsive-sm">
+                            <thead>
+                              <tr key={{ id }}>
+                                <th>{id}</th>
+                                <th>{Page_Name}</th>
+                                <th>{short_description}</th>
+                                <th>{long_description}</th>
+                                {getRoleAccess[0]?.editAccess && (<th>{action}</th>)}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {getData
+                                .slice(startIndex, endIndex)
+                                .map((data) => (
+                                  <tr>
+                                    <td>{data.id}</td>
+                                    <td>{data.title}</td>
+                                    <td>{data.shortDescription}</td>
+                                    <td>{data.longDescription}</td>
+                                    {getRoleAccess[0]?.editAccess && (
+                                    <td>
+                                      <div className="d-flex">
+                                        <a
+                                          className="btn btn-primary shadow btn-xs sharp me-1"
+                                          onClick={() => handleEdit(data)}
+                                        >
+                                          <i className="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a
+                                          className="btn btn-danger shadow btn-xs sharp"
+                                          onClick={() => handleDelete(data)}
+                                        >
+                                          <i className="fa fa-trash"></i>
+                                        </a>
+                                      </div>
+                                    </td>
+                                    )}
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                          {getData.length > 5 && (
+                            <div className="pagination-container">
+                              <ReactPaginate
+                                previousLabel={"<"}
+                                nextLabel={" >"}
+                                breakLabel={"..."}
+                                pageCount={Math.ceil(
+                                  getData.length / rowsPerPage
+                                )}
+                                marginPagesDisplayed={2}
+                                onPageChange={handlePageChange}
+                                containerClassName={"pagination"}
+                                activeClassName={"active"}
+                                initialPage={page - 1} // Use initialPage instead of forcePage
+                                previousClassName={page === 1 ? "disabled" : ""}
+                              />
+                              <ToastContainer />
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <NoRecord />
                       )}
                     </div>
-                  ) : (
-                    <NoRecord />
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 };
