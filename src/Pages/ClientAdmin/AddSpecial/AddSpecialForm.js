@@ -11,7 +11,7 @@ import {
 import Loader from "../../../Components/Loader/Loader";
 import { ToastContainer, toast } from "react-toastify";
 
-const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
+const AddSpecialForm = ({ prefilledValues }) => {
   const [isLoading, setIsLoading] = useState(false);
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       sectionName: prefilledValues?.sectionName || "",
       displayOrder: prefilledValues?.displayOrder || "",
       status: prefilledValues?.status || "",
-      maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || ""
+      maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || "",
     });
     setError({
       sectionName: "",
@@ -73,6 +73,8 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
         toast.success(getAddSpecial.message);
         setFormData(resetField);
         dispatch(onGetAddSpecial());
+      } else if (getAddSpecial?.message?.data?.HttpStatusCode === "500") {
+        toast.error(getAddSpecial.message?.data?.ErrorMessage);
       }
     } else if (prefilledValues) {
       if (getAddSpecial?.status_code === "201") {
@@ -81,7 +83,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
         dispatch(onGetAddSpecial());
       }
     }
-  }, [getAddSpecial.status_code]);
+  }, [getAddSpecial.status_code, getAddSpecial.message?.data?.HttpStatusCode]);
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -96,7 +98,10 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     }
     setError(newErrors);
     if (isValid) {
-      if (!prefilledValues) {
+      console.log(formData);
+      if (prefilledValues) {
+        dispatch(onAddSpecialUpdate({ ...formData, id: prefilledValues?.id }));
+      } else {
         const submissionData = {
           ...formData,
           displayOrder: parseInt(formData.displayOrder), // Convert displayOrder to integer
@@ -104,10 +109,6 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
           status: formData.status === "Active" ? true : false, // Convert status to boolean based on selection
         };
         dispatch(onAddSpecialSubmit(submissionData));
-      } else {
-        const tempData = {...formData}
-        tempData.id = prefilledValues?.id
-        dispatch(onAddSpecialUpdate(tempData));
       }
     }
   };
