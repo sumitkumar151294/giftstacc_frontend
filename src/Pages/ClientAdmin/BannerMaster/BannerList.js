@@ -58,7 +58,10 @@ const BannerMasterList = () => {
   }, [getBannerMaster]);
   return (
     <>
-      {getRoleAccess[0]?.addAccess && (<BannerForm prefilledData={prefilledData} />)}
+      <BannerForm
+        prefilledData={prefilledData}
+        setPrefilledData={setPrefilledData}
+      />
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -138,7 +141,7 @@ const BannerMasterList = () => {
                             containerClassName={"pagination"}
                             activeClassName={"active"}
                             initialPage={page - 1} // Use initialPage instead of forcePage
-                            previousClassName={page === 1 ? "disabled" : ""}
+                            previousClassName={page === 1 ? "disabled" : ""}
                           />
                         </div>
                       )}

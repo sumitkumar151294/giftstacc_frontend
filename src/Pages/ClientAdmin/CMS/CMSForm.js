@@ -137,12 +137,12 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     if (getCmsData.update_status_code === "201") {
       toast.success(getCmsData.updateMessage);
       setCmsData(resetCMSData);
-      dispatch(onGetCms());
       dispatch(onUpdateCmsReset());
+      setCmsprefilled("");
+      dispatch(onGetCms());
     } else if (getCmsData.update_status_code === 400) {
       toast.error(getCmsData.updateMessage);
       setCmsData(resetCMSData);
-      setCmsprefilled(false);
       dispatch(onUpdateCmsReset());
     }
   }, [getCmsData]);

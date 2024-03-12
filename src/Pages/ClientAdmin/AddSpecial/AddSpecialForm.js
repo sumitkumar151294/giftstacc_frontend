@@ -83,6 +83,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       if (getAddSpecial?.status_code === "201") {
         toast.success(getAddSpecial.message);
         setFormData(resetField);
+        setPrefilledValues("");
         dispatch(onGetAddSpecial());
       }
     }
