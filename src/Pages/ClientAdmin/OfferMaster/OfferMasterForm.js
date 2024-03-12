@@ -66,7 +66,7 @@ const OfferMasterForm = ({ data }) => {
   const upload = GetTranslationData("UIClient", "upload");
   const status = GetTranslationData("UIClient", "status");
   const submit = GetTranslationData("UIClient", "submitLabel");
-  const update = GetTranslationData("UIClient", "update_label");
+  const update = GetTranslationData("UIAdmin", "update_label");
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
 
@@ -166,9 +166,8 @@ const OfferMasterForm = ({ data }) => {
       title: data?.title || "",
       subtitle: data?.subtitle || "",
       link: data?.link || "",
-      link_Text:data?.link_Text || "",
       imagePlacement: data?.imagePlacement || "",
-      linkText: data?.linkText,
+      linkText: data?.linkText || "",
       // image: data?.image || "",
       enabled: data?.enabled !== undefined ? data?.enabled : ""  ,
     });

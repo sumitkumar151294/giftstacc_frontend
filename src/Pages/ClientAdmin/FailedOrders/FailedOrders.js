@@ -80,7 +80,7 @@ productDetail:[
                                     <div className="customer-search mb-sm-0 mb-3">
                                         <div className="input-group search-area">
                                             <InputField type="text" className="form-control only-high" placeholder="Mobile/Email/Name" />
-                                            <span className="input-group-text"><a><i className="flaticon-381-search-2"></i></a></span>
+                                            <span className="input-group-text"><i className="fa fa-search"></i></span>
                                         </div>
                                     </div>
                                     <div className="example">

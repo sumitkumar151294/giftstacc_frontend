@@ -61,8 +61,8 @@ const BrandCatalogue = () => {
         .filter((product) => product !== null);
 
     setGetProduct(matchingProductsData);
-  }, []);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
+  }, [getProduct]);
+  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
@@ -144,9 +144,7 @@ const BrandCatalogue = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                        <a>
-                          <i className="flaticon-381-search-2"></i>&nbsp;
-                        </a>
+                      <i className="fa fa-search"></i>
                       </span>
                     </div>
                   </div>
@@ -185,7 +183,7 @@ const BrandCatalogue = () => {
                       }
                     />
                   </div>
-                  <div className="col-sm-3 form-group mb-2">
+                  {/* <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="client">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
@@ -200,7 +198,7 @@ const BrandCatalogue = () => {
                           : []
                       }
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="card-body">
@@ -228,7 +226,7 @@ const BrandCatalogue = () => {
                             <tbody>
                               {filteredBrandCatalogueList
                                 .slice(startIndex, endIndex)
-                                .map((data, index) => (
+                                ?.map((data, index) => (
                                   <tr key={index}>
                                     <td>
                                       <img

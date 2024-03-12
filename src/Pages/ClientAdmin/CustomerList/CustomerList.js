@@ -34,7 +34,7 @@ export const CustomerList = () => {
                                                 className="form-control only-high"
                                                 placeholder={search_here_label}
                                             />
-                                            <span className="input-group-text"><a><i className="flaticon-381-search-2"></i></a></span>
+                                            <span className="input-group-text"><i className="fa fa-search"></i></span>
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center flex-wrap">

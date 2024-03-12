@@ -26,7 +26,7 @@ const AllocateBrand = () => {
                                     <div className="customer-search mb-sm-0 mb-3">
                                         <div className="input-group search-area">
                                             <input type="text" className="form-control only-high" placeholder="Search here......" />
-                                            <span className="input-group-text"><a href="javascript:void(0)"><i className="flaticon-381-search-2"></i></a></span>
+                                            <span className="input-group-text"><i className="fa fa-search"></i></span>
                                         </div>
                                     </div>
                                 </div>
