@@ -152,7 +152,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
-              {getCmsData.isLoading ? (
+              {getCmsData?.isLoading ? (
                 <div style={{ height: "400px" }}>
                   <Loader classNameType={"absoluteLoader"} />
                 </div>

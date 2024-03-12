@@ -164,7 +164,7 @@ const BannerForm = ({ prefilledData }) => {
               <h4 className="card-title">Banner Master</h4>
             </div>
             <div className="card-body pt-2 ml-6    mb-4">
-              <div className="container-fluid">
+              <div className="container-fluid pt-0">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-sm-3 form-group mb-2">

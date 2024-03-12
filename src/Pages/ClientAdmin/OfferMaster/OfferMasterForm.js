@@ -24,7 +24,11 @@ const OfferMasterForm = ({ data }) => {
     imagePlacement: "",
     image: "",
     enabled: true,
+<<<<<<< HEAD
     linkText: "",
+=======
+    link_Text: "",
+>>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
   });
   const [errors, setErrors] = useState({
     placement: "",
@@ -35,6 +39,10 @@ const OfferMasterForm = ({ data }) => {
     image: "",
     linkText: "",
     enabled: "",
+<<<<<<< HEAD
+=======
+    link_Text: "",
+>>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
   });
   // To reset the Input Field
   const resetAddData = {
@@ -46,6 +54,10 @@ const OfferMasterForm = ({ data }) => {
     image: "",
     linkText: "",
     enabled: "",
+<<<<<<< HEAD
+=======
+    link_Text: "",
+>>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
   };
 
   // To get the label from translation API
@@ -79,8 +91,8 @@ const OfferMasterForm = ({ data }) => {
     { value: false, label: non_active },
   ];
   const imagePlacementOptions = [
-    { value: "Left", label: "left" },
-    { value: "Right", label: "right" },
+    { value: "Left", label: left },
+    { value: "Right", label: right },
   ];
 
   const handleInputChange = (e, fieldName) => {
@@ -166,10 +178,11 @@ const OfferMasterForm = ({ data }) => {
       title: data?.title || "",
       subtitle: data?.subtitle || "",
       link: data?.link || "",
+      link_Text:data?.link_Text || "",
       imagePlacement: data?.imagePlacement || "",
       linkText: data?.linkText,
       // image: data?.image || "",
-      enabled: data?.enabled || "",
+      enabled: data?.enabled !== undefined ? data?.enabled : ""  ,
     });
     setErrors({
       StatusCode: "",
@@ -204,11 +217,8 @@ const OfferMasterForm = ({ data }) => {
       toast.error(offerMasterData.message);
       dispatch(onPostOfferMasterReset());
       setAddData(resetAddData);
-    }
-  }, [offerMasterData]);
-
-  useEffect(() => {
-    if (offerMasterData.update_status_code === "400") {
+    } 
+    else if (offerMasterData.update_status_code === "400") {
       setShowLoader(false);
       toast.error(offerMasterData.updateMessage);
       dispatch(onUpdateOfferMasterReset());
@@ -264,7 +274,6 @@ const OfferMasterForm = ({ data }) => {
                             }`}
                             name="title"
                             id="title"
-                            placeholder=""
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
@@ -281,7 +290,6 @@ const OfferMasterForm = ({ data }) => {
                             }`}
                             name="subtitle"
                             id="subtitle"
-                            placeholder=""
                           />
                         </div>
                         <div className="col-sm-5 form-group mb-2">
@@ -298,21 +306,34 @@ const OfferMasterForm = ({ data }) => {
                             }`}
                             name="link"
                             id="link"
-                            placeholder=""
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
+<<<<<<< HEAD
                           <label htmlFor="linkText">
                             {"Link Text"}
+=======
+                          <label htmlFor="link_text">{link_text}
+>>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
+<<<<<<< HEAD
                             value={addData.linkText}
                             onChange={(e) => handleInputChange(e, "linkText")}
+=======
+                            value={addData.link_Text}
+                            onChange={(e) => handleInputChange(e, "link_Text")}
+>>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
                             className={` ${
                               errors.linkText ? "border-danger" : "form-control"
                             }`}
+<<<<<<< HEAD
+=======
+                            name="link_Text"
+                            id="link_Text"
+>>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -372,7 +393,7 @@ const OfferMasterForm = ({ data }) => {
                         </div>
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button
-                            text={data ? "update" : submit}
+                            text={data ? update : submit}
                             icon="fa fa-arrow-right"
                             className="btn btn-primary btn-sm float-right p-btn mt-2"
                           />

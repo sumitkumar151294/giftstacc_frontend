@@ -21,6 +21,9 @@ import BannerMasterList from "../Pages/ClientAdmin/BannerMaster/BannerList";
 import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 import OfferMasterList from "../Pages/ClientAdmin/OfferMaster/OfferMasterList";
 import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/ClientCommissionReport";
+import EmailEventMaster from "../Pages/ClientAdmin/EmailEventMaster/EmailEventMaster";
+import FailedOrders from "../Pages/ClientAdmin/FailedOrders/FailedOrders";
+import AbandonedCartReport from "../Pages/ClientAdmin/AbandonedCartReport/AbandonedCartReport";
 function RouteConfiq() {
   return (
     <Router>
@@ -75,6 +78,10 @@ function RouteConfiq() {
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route path="/lc-user-admin/dashboard" element={<Layout Component={Dashboard} />} />
         <Route
+          path="/lc-user-admin/orders"
+          element={<Layout Component={Orders} />}
+        />
+        <Route
           path="/lc-user-admin/cms"
           element={<Layout Component={CMSList} />}
         />
@@ -113,6 +120,18 @@ function RouteConfiq() {
         <Route
           path="/lc-user-admin/client-commission-report"
           element={<Layout Component={ClientCommissionReport} />}
+        />
+        <Route
+          path="/lc-user-admin/email-event-master"
+          element={<Layout Component={EmailEventMaster} />}
+        />
+        <Route
+          path="/lc-user-admin/failed-orders"
+          element={<Layout Component={FailedOrders} />}
+          />
+          <Route
+          path="/lc-user-admin/abandoned-cart-report"
+          element={<Layout Component={AbandonedCartReport} />}
         />
         <Route
           path="*"
