@@ -19,8 +19,10 @@ import { onbannerMasterSubmitReset } from "../../../Store/Slices/ClientAdmin/ban
 const BannerForm = ({ prefilledData }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
-  const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
+  const active = GetTranslationData("UIClient", "active_option");
+  const non_active = GetTranslationData("UIClient", "non_active_option");
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
+  const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const [bannerMaster, setBannerMaster] = useState({
     bannerPlacement: "",
     bannerTitle: "",
@@ -95,8 +97,8 @@ const BannerForm = ({ prefilledData }) => {
   });
 
   const statusoptions = [
-    { value: true, label: "Active" },
-    { value: false, label: "Non-active" },
+    { value: true, label: active },
+    { value: false, label: non_active },
   ];
   const bannerPlacement = [
     { value: "Top", label: "Top" },
@@ -153,17 +155,19 @@ const BannerForm = ({ prefilledData }) => {
       }
     }
   };
+
+  
   return (
     <>
       <ScrollToTop />
       <ToastContainer />
-      <div className="row ml-6 pt-4">
+      <div className="row ml-6 pt-4 rows">
         <div className="col-xl-12 col-xxl-12">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title">Banner Master</h4>
             </div>
-            <div className="card-body pt-2 ml-6    mb-4">
+            <div className="card-body pt-2 ml-6  mb-4  ">
               <div className="container-fluid pt-0">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
