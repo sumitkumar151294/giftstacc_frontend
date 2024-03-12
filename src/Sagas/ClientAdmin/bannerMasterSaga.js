@@ -56,7 +56,6 @@ function* postBannerMaster({ payload }) {
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
     yield put(
       onbannerMasterSubmitError({
         data: {},

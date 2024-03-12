@@ -101,7 +101,10 @@ const FaqMaster = () => {
       dispatch(onFaqMasterSubmit(faqInfo));
     }
   };
-
+const getCategoryName=(Categorydata)=>{
+const category=Array.isArray(faqCategory) && faqCategory.find((data)=>data.id === Categorydata);
+return category ? category.name : "";
+}
   return (
     <>
       <ScrollToTop />
@@ -209,7 +212,7 @@ const FaqMaster = () => {
                                   <tr key={index}>
                                     <td>{data.id}</td>
                                     <td>12-12-2023</td>
-                                    <td>{data.categoryId}</td>
+                                    <td>{getCategoryName(data.categoryId)}</td>
                                     <td>{data.question}</td>
                                     <td>{data.answer}</td>
                                   </tr>

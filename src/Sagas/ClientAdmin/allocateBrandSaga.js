@@ -22,7 +22,6 @@ function* PostAllocateBrand({ payload }) {
             );
         }
     } catch (error) {
-        const message = error.response || "Something went wrong";
         yield put(
             onPostAllocateBrandError({ data: {}, message: error?.response?.data?.ErrorMessage, status_code: error?.response?.data?.HttpStatusCode })
         );
@@ -31,7 +30,7 @@ function* PostAllocateBrand({ payload }) {
 function* OnUpdateAllocateBrand({ payload }) {
     try {
         const updateAllocateBrandResponse = yield call(callAddSpecialListUpdateApi, payload);
-        if (updateAllocateBrandResponse.httpStatusCode == "201") {
+        if (updateAllocateBrandResponse.httpStatusCode === "201") {
             yield put(
                 onUpdateAllocateBrandSuccess({
                     data: updateAllocateBrandResponse.Response,

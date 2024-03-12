@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
@@ -477,3 +478,4 @@ useEffect(()=>{
 };
 
 export default RoleMasterForm;
+/* eslint-enable react-hooks/exhaustive-deps */
