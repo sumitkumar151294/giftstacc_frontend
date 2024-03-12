@@ -46,7 +46,7 @@ const ClientBrandList = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
-    dispatch(onClientProductMappingSubmit());
+    dispatch(onClientProductMappingSubmit(location?.state?.id));
   }, []);
 
   useEffect(() => {
@@ -64,11 +64,11 @@ const ClientBrandList = () => {
   useEffect(() => {
     if (ClientProducts?.post_status_code === "201") {
       toast.success(ClientProducts?.message)
-      dispatch(onClientProductMappingSubmit());
+      dispatch(onClientProductMappingSubmit(location?.state?.id));
       dispatch(onPostClientProductMappingReset());
     }else if (ClientProducts?.update_status_code === "201") {
       toast.success(ClientProducts?.updateMessage)
-      dispatch(onClientProductMappingSubmit());
+      dispatch(onClientProductMappingSubmit(location?.state?.id));
       dispatch(onUpdateClientProductMappingReset());
     }
   }, [ClientProducts])
@@ -193,8 +193,8 @@ const ClientBrandList = () => {
       dispatch(onUpdateClientProductMappingSubmit(updatedValues))
     }else{
       const updatedValues = {
-        clientCommission: 1,
-        customerDiscount: 1,
+        clientCommission: 0,
+        customerDiscount: 0,
         clientId: location?.state?.id,
         enabled: true,
         productId: data?.id

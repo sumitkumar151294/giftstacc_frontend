@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { clientProductMappingGetApi, clientProductMappingPostApi, clientProductMappingUpdateApi, } from "../Context/clientProductMappingApi";
 import { onClientProductMappingSubmit,onClientProductMappingSubmitSuccess,onClientProductMappingSubmitError,onPostClientProductMappingSubmit,onPostClientProductMappingSubmitSuccess,onPostClientProductMappingSubmitError,onUpdateClientProductMappingSubmit,onUpdateClientProductMappingSubmitSuccess,onUpdateClientProductMappingSubmitError } from "../Store/Slices/clientProductMappingSlice";
-function* clientProductMapping() {
+function* clientProductMapping({payload}) {
+  debugger
   try {
-    const clientProductMappingResponse = yield call(clientProductMappingGetApi);
+    const clientProductMappingResponse = yield call(clientProductMappingGetApi, payload);
     if (clientProductMappingResponse.httpStatusCode === "200") {
       yield put(
         onClientProductMappingSubmitSuccess({
