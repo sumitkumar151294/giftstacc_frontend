@@ -46,6 +46,7 @@ const BrandCatalogue = () => {
     (state) => state.supplierBrandListReducer.data
   );
   useEffect(() => {
+    debugger
     const matchingProductsData =
       Array.isArray(clientProductMapping) &&
       clientProductMapping
@@ -61,8 +62,8 @@ const BrandCatalogue = () => {
         .filter((product) => product !== null);
 
     setGetProduct(matchingProductsData);
-  }, [getProduct]);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData);
+  }, [clientProductMapping, SupplierBrandList]);
+  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
@@ -114,9 +115,9 @@ const BrandCatalogue = () => {
     setShowLoader(false);
   }, [showLoader]);
   useEffect(() => {
-    dispatch(onClientProductMappingSubmit());
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
+    dispatch(onClientProductMappingSubmit(sessionStorage.getItem("clientCode")));
   }, []);
 
   const handleClick = (data) => {
