@@ -25,6 +25,7 @@ const FaqMaster = () => {
   const [showLoader, setShowLoader] = useState(false);
   const faqMasterGetData = useSelector((state) => state.faqMasterReducer);
   const faqCategory = useSelector((state) => state.faqCategoryReducer);
+  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
   const [rowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const [showError, setShowError] = useState(false);
@@ -137,6 +138,7 @@ const FaqMaster = () => {
                   <div className="card-header d-flex justify-content-between">
                     <h4 className="card-title">FAQ's Categories</h4>
                   </div>
+                  {getRoleAccess[0]?.addAccess && (
                   <div className="card-body pt-4 ml-4">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
@@ -208,6 +210,7 @@ const FaqMaster = () => {
                       </div>
                     </form>
                   </div>
+                  )}
                   {showLoader ? (
                     <div style={{ height: "400px" }}>
                       <Loader classType={"absoluteLoader"} />

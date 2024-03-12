@@ -32,6 +32,7 @@ const OfferMasterList = () => {
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
+  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -106,10 +107,12 @@ const OfferMasterList = () => {
         <PageError pageError={pageError} />
       ) : (
         <>
+        {getRoleAccess[0]?.addAccess && (
           <OfferMasterForm
             data={prefilledValues}
             setData={setPrefilledValues}
           />
+        )}
           <div className="container-fluid  pt-0">
             <div className="row">
               <div className="col-lg-12">
@@ -137,7 +140,9 @@ const OfferMasterList = () => {
                                 <th>{link_level}</th>
                                 <th>{imagePlacement}</th>
                                 <th>{status}</th>
-                                <th>{action}</th>
+                                {getRoleAccess[0]?.editAccess && (
+                                  <th>{action}</th>
+                                )}
                               </tr>
                             </thead>
                             <tbody>
@@ -166,6 +171,7 @@ const OfferMasterList = () => {
                                         {data.enabled ? "Active" : "Non-Active"}
                                       </span>
                                     </td>
+                                    {getRoleAccess[0]?.editAccess && (
                                     <td>
                                       <div className="d-flex">
                                         <Button
@@ -180,6 +186,7 @@ const OfferMasterList = () => {
                                         />
                                       </div>
                                     </td>
+                                    )}
                                   </tr>
                                 ))}
                             </tbody>
