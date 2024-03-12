@@ -24,11 +24,7 @@ const OfferMasterForm = ({ data }) => {
     imagePlacement: "",
     image: "",
     enabled: true,
-<<<<<<< HEAD
     linkText: "",
-=======
-    link_Text: "",
->>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
   });
   const [errors, setErrors] = useState({
     placement: "",
@@ -39,10 +35,6 @@ const OfferMasterForm = ({ data }) => {
     image: "",
     linkText: "",
     enabled: "",
-<<<<<<< HEAD
-=======
-    link_Text: "",
->>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
   });
   // To reset the Input Field
   const resetAddData = {
@@ -54,10 +46,6 @@ const OfferMasterForm = ({ data }) => {
     image: "",
     linkText: "",
     enabled: "",
-<<<<<<< HEAD
-=======
-    link_Text: "",
->>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
   };
 
   // To get the label from translation API
@@ -309,31 +297,17 @@ const OfferMasterForm = ({ data }) => {
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
-<<<<<<< HEAD
                           <label htmlFor="linkText">
                             {"Link Text"}
-=======
-                          <label htmlFor="link_text">{link_text}
->>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
-<<<<<<< HEAD
                             value={addData.linkText}
                             onChange={(e) => handleInputChange(e, "linkText")}
-=======
-                            value={addData.link_Text}
-                            onChange={(e) => handleInputChange(e, "link_Text")}
->>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
                             className={` ${
                               errors.linkText ? "border-danger" : "form-control"
                             }`}
-<<<<<<< HEAD
-=======
-                            name="link_Text"
-                            id="link_Text"
->>>>>>> ad11d268f74b0ad5b452d90a2ff6ceca3a28c91b
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
