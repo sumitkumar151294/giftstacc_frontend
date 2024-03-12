@@ -121,7 +121,7 @@ const BannerMasterList = () => {
                             nextLabel={" >"}
                             breakLabel={"..."}
                             pageCount={Math.ceil(
-                              getBannerMaster.length / rowsPerPage
+                              getBannerMaster?.length / rowsPerPage
                             )}
                             marginPagesDisplayed={2}
                             onPageChange={handlePageChange}
@@ -134,7 +134,7 @@ const BannerMasterList = () => {
                       )}
                     </div>
                   </div>
-                ) : getBannerMaster.length < 0 ? (
+                ) : getBannerMaster?.length < 0 ? (
                   <NoRecord />
                 ) : (
                   <Loader />
