@@ -11,6 +11,7 @@ const BannerMasterList = () => {
   const getBannerMaster = useSelector(
     (state) => state.bannerMasterReducer?.getData
   );
+  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
@@ -50,7 +51,7 @@ const BannerMasterList = () => {
   }, [getBannerMaster]);
   return (
     <>
-      <BannerForm prefilledData={prefilledData} />
+      {getRoleAccess[0]?.addAccess && (<BannerForm prefilledData={prefilledData} />)}
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -70,7 +71,7 @@ const BannerMasterList = () => {
                             <th>Link</th>
                             <th>Display Order</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            {getRoleAccess[0]?.editAccess && (<th>Action</th>)}
                           </tr>
                         </thead>
                         <tbody>
@@ -96,6 +97,7 @@ const BannerMasterList = () => {
                                         : "Non-Active"}
                                     </span>
                                   </td>
+                                  {getRoleAccess[0]?.editAccess && (
                                   <td>
                                     <div className="d-flex">
                                       <Button
@@ -110,6 +112,7 @@ const BannerMasterList = () => {
                                       />
                                     </div>
                                   </td>
+                                  )}
                                 </tr>
                               ))}
                         </tbody>

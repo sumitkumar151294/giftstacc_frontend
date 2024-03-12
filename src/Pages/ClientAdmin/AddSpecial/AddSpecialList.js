@@ -14,6 +14,7 @@ const AddSpecialList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [prefilledValues, setPrefilledValues] = useState();
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
+  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
   const [showError, setShowError] = useState(false);
   const [pageError, setPageError] = useState({
     StatusCode: "",
@@ -77,7 +78,7 @@ const AddSpecialList = () => {
         <PageError pageError={pageError} />
       ) : (
         <>
-          <AddSpecialForm prefilledValues={prefilledValues} />
+          {getRoleAccess[0]?.addAccess && (<AddSpecialForm prefilledValues={prefilledValues} />)}
           <div className="container-fluid pt-0">
             <div className="row">
               <div className="col-lg-12">
@@ -103,7 +104,7 @@ const AddSpecialList = () => {
                                   <th>Display Order</th>
                                   <th>Max. no. of Brands</th>
                                   <th>Status</th>
-                                  <th>Action</th>
+                                  {getRoleAccess[0]?.editAccess && (<th>Action</th>)}
                                   <th></th>
                                 </tr>
                               </thead>
@@ -131,6 +132,7 @@ const AddSpecialList = () => {
                                               : "Non-Active"}
                                           </span>
                                         </td>{" "}
+                                        {getRoleAccess[0]?.editAccess && (
                                         <td>
                                           <div className="d-flex">
                                             <Button
@@ -149,6 +151,7 @@ const AddSpecialList = () => {
                                             />
                                           </div>
                                         </td>
+                                        )}
                                         <td>
                                           <Link
                                             to="/lc-user-admin/allocate-brand"

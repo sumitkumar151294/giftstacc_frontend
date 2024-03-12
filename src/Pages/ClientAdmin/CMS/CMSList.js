@@ -28,6 +28,7 @@ const CMS = () => {
   const action = GetTranslationData("UIAdmin", "action");
   const getData = useSelector((state) => state.cmsReducer.getCMSData);
   const getCmsData = useSelector((state) => state.cmsReducer);
+  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
   const [showError, setShowError] = useState(false);
   const [pageError, setPageError] = useState({
     StatusCode: "",
@@ -99,12 +100,13 @@ const CMS = () => {
         <PageError pageError={pageError} />
       ) : (
         <>
-          <CMSForm
+          {getRoleAccess[0]?.addAccess && (<CMSForm
             setIsLoading={setIsLoading}
             isLoading={isLoading}
             Cmsprefilled={Cmsprefilled}
             setCmsprefilled={setCmsprefilled}
           />
+          )}
           <div class="container-fluid mt-2 mb-2 pt-1">
             <div class="row">
               <div class="col-lg-12">
@@ -124,7 +126,7 @@ const CMS = () => {
                                 <th>{Page_Name}</th>
                                 <th>{short_description}</th>
                                 <th>{long_description}</th>
-                                <th>{action}</th>
+                                {getRoleAccess[0]?.editAccess && (<th>{action}</th>)}
                               </tr>
                             </thead>
                             <tbody>
@@ -136,6 +138,7 @@ const CMS = () => {
                                     <td>{data.title}</td>
                                     <td>{data.shortDescription}</td>
                                     <td>{data.longDescription}</td>
+                                    {getRoleAccess[0]?.editAccess && (
                                     <td>
                                       <div className="d-flex">
                                         <a
@@ -152,6 +155,7 @@ const CMS = () => {
                                         </a>
                                       </div>
                                     </td>
+                                    )}
                                   </tr>
                                 ))}
                             </tbody>
