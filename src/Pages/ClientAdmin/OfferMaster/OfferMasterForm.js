@@ -14,7 +14,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
 
-const OfferMasterForm = ({ data }) => {
+const OfferMasterForm = ({ data ,setPrefilledValues}) => {
   const [showLoader, setShowLoader] = useState(false);
   const [addData, setAddData] = useState({
     placement: "",
@@ -192,9 +192,10 @@ const OfferMasterForm = ({ data }) => {
     if (offerMasterData.update_status_code === "201") {
       setShowLoader(false);
       toast.success(offerMasterData?.updateMessage);
-      dispatch(onGetOfferMaster());
-      dispatch(onUpdateOfferMasterReset());
       setAddData(resetAddData);
+      dispatch(onUpdateOfferMasterReset());
+      setPrefilledValues("")
+      dispatch(onGetOfferMaster());
     }
   }, [offerMasterData]);
 
@@ -369,7 +370,8 @@ const OfferMasterForm = ({ data }) => {
                             text={data ? update : submit}
                             icon="fa fa-arrow-right"
                             className="btn btn-primary btn-sm float-right p-btn mt-2"
-                          />
+                            />
+                            {console.log("data",data )}
                         </div>
                       </div>
                     </form>

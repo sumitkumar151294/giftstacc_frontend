@@ -110,7 +110,7 @@ const OfferMasterList = () => {
         {getRoleAccess[0]?.addAccess && (
           <OfferMasterForm
             data={prefilledValues}
-            setData={setPrefilledValues}
+            setPrefilledValues={setPrefilledValues}
           />
         )}
           <div className="container-fluid  pt-0">
