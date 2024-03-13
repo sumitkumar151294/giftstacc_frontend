@@ -18,6 +18,7 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import { ToastContainer, toast } from "react-toastify";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
+import { format } from "date-fns";
 
 const FaqMaster = () => {
   const dispatch = useDispatch();
@@ -211,7 +212,7 @@ return category ? category.name : "";
                                 .map((data, index) => (
                                   <tr key={index}>
                                     <td>{data.id}</td>
-                                    <td>12-12-2023</td>
+                                    <td>{format(new Date(data.createdOn).toLocaleDateString(), 'dd-MM-yyyy')}</td>
                                     <td>{FaqMasterCategory(data.categoryId)}</td>
                                     <td>{data.question}</td>
                                     <td>{data.answer}</td>
