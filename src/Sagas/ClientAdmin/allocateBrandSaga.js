@@ -2,13 +2,11 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { onPostAllocateBrand,onGetAllocateBrand,onGetAllocateBrandError,onGetAllocateBrandSuccess, onPostAllocateBrandError, onPostAllocateBrandSuccess, onUpdateAllocateBrand, onUpdateAllocateBrandError, onUpdateAllocateBrandSuccess } from "../../Store/Slices/ClientAdmin/allocateBrandSlice";
 import { callAddSpecialListPostApi, callAddSpecialListUpdateApi,callAddSpecialListGetApi } from "../../Context/ClientAdmin/addSpecialListApi";
 function* getCms() {
-    debugger
     try {
       const allocateBrandsgetResponse = yield call(callAddSpecialListGetApi);
   
       if (allocateBrandsgetResponse.httpStatusCode === "200") {
-        debugger
-        yield put(
+            yield put(
             onGetAllocateBrandSuccess({
             data: allocateBrandsgetResponse.response,
             message: allocateBrandsgetResponse.errorMessage,
@@ -31,8 +29,7 @@ function* getCms() {
   }
 function* PostAllocateBrand({ payload }) {
     try {
-        debugger
-        const postAlloacteBrandResponse = yield call(callAddSpecialListPostApi, payload);
+            const postAlloacteBrandResponse = yield call(callAddSpecialListPostApi, payload);
         if (postAlloacteBrandResponse.httpStatusCode === "201") {
             yield put(
                 onPostAllocateBrandSuccess({

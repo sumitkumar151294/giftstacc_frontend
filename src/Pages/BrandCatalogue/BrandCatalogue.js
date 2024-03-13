@@ -18,6 +18,7 @@ const BrandCatalogue = () => {
   const dispatch = useDispatch();
   const [getProduct, setGetProduct] = useState();
   const [showLoader, setShowLoader] = useState(false);
+  const [copyBrandCatalogue, setCopyBrandCatalogue] = useState([]);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const heading = GetTranslationData("UIAdmin", "heading");
@@ -45,6 +46,7 @@ const BrandCatalogue = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
+
   useEffect(() => {
     const matchingProductsData =
       Array.isArray(clientProductMapping) &&
@@ -53,7 +55,10 @@ const BrandCatalogue = () => {
           const matchingProduct =
             Array.isArray(SupplierBrandList) &&
             SupplierBrandList.find((supplierProduct) => {
-              return supplierProduct.id === clientProduct.productId;
+              return (
+                supplierProduct.id === clientProduct.productId &&
+                supplierProduct.enabled === clientProduct.enabled
+              );
             });
 
           return matchingProduct || null;
@@ -61,22 +66,22 @@ const BrandCatalogue = () => {
         .filter((product) => product !== null);
 
     setGetProduct(matchingProductsData);
-  }, []);
-  console.log(getProduct);
+    setCopyBrandCatalogue(matchingProductsData);
+  }, [clientProductMapping, SupplierBrandList]);
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
   });
-  const excelData =
-    Array.isArray(getProduct) &&
-    getProduct.map((data) => ({
-      sku: data.sku,
-      name: data.name,
-      minPrice: data.minPrice,
-      maxPrice: data.maxPrice,
-      price: data.price,
-    }));
+  const excelData = Array.isArray(getProduct)
+    ? getProduct.map((data) => ({
+        sku: data.sku,
+        name: data.name,
+        minPrice: data.minPrice,
+        maxPrice: data.maxPrice, // Assuming you want to correct the casing here
+        price: data.price,
+      }))
+    : [];
   const headers = [
     { label: "Sku", key: "sku" },
     { label: "Name", key: "name" },
@@ -93,8 +98,8 @@ const BrandCatalogue = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
-  const filteredBrandCatalogueList = Array.isArray(getProduct)
-    ? getProduct.filter((vendor) =>
+  const filteredBrandCatalogueList = Array.isArray(copyBrandCatalogue)
+    ? copyBrandCatalogue.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
@@ -104,20 +109,38 @@ const BrandCatalogue = () => {
       )
     : [];
 
-  const handleChange = (e, fieldName) => {
-    setSupplierList({
-      ...supplierList,
-      [fieldName]: e.target.value,
-    });
+  const handleChange = (e) => {
+    const selectedSupplierName = e.target.value;
+    if (selectedSupplierName === "Select") {
+      setCopyBrandCatalogue(getProduct);
+    } else {
+      const selectedSupplier = supplierMasterData.find(
+        (supplier) => supplier.name === selectedSupplierName
+      );
+      if (selectedSupplier) {
+        const filteredProducts = getProduct.filter(
+          (product) =>
+            product.supplierCode.toLowerCase() ===
+            selectedSupplier.code.toLowerCase()
+        );
+        setCopyBrandCatalogue(filteredProducts);
+      }
+    }
+    setSupplierList((prevState) => ({
+      ...prevState,
+      supplier: selectedSupplierName,
+    }));
   };
 
   useEffect(() => {
     setShowLoader(false);
   }, [showLoader]);
   useEffect(() => {
-    dispatch(onClientProductMappingSubmit());
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
+    dispatch(
+      onClientProductMappingSubmit(sessionStorage.getItem("clientCode"))
+    );
   }, []);
 
   const handleClick = (data) => {
@@ -145,9 +168,7 @@ const BrandCatalogue = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                        <a>
-                          <i className="flaticon-381-search-2"></i>&nbsp;
-                        </a>
+                        <i className="fa fa-search"></i>
                       </span>
                     </div>
                   </div>
@@ -186,7 +207,7 @@ const BrandCatalogue = () => {
                       }
                     />
                   </div>
-                  <div className="col-sm-3 form-group mb-2">
+                  {/* <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="client">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
@@ -201,7 +222,7 @@ const BrandCatalogue = () => {
                           : []
                       }
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="card-body">
@@ -229,11 +250,11 @@ const BrandCatalogue = () => {
                             <tbody>
                               {filteredBrandCatalogueList
                                 .slice(startIndex, endIndex)
-                                .map((data, index) => (
+                                ?.map((data, index) => (
                                   <tr key={index}>
                                     <td>
                                       <img
-                                        src={data.thumbnail}
+                                        src={data.small}
                                         style={{ width: "50px" }}
                                       />
                                       <br />
