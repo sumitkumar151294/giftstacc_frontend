@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import InputField from '../../../Components/InputField/InputField';
@@ -78,3 +79,4 @@ export const CustomerList = () => {
         </>
     )
 }
+/* eslint-enable react-hooks/exhaustive-deps */

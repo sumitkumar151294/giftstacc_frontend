@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import InputField from "../../../Components/InputField/InputField";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
@@ -15,6 +16,7 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
+  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const [isLoading, setIsLoading] = useState(false);
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
   const dispatch = useDispatch();
@@ -143,30 +145,28 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                     <form onSubmit={(e) => handleSubmit(e)}>
                       <div className="row">
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="name-f">Section Name</label>
+                          <label htmlFor="name-f">Section Name <span className="text-danger">*</span></label>
                           <InputField
                             type="text"
                             value={formData?.sectionName}
-                            className={`${
-                              error.sectionName
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={`${error.sectionName
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
                             name="fname"
                             id="name-f"
                             onChange={(e) => handleInput(e, "sectionName")}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="displayOrder">Display Order</label>
+                          <label htmlFor="displayOrder">Display Order <span className="text-danger">*</span></label>
                           <InputField
                             type="number"
                             value={formData?.displayOrder}
-                            className={`${
-                              error.displayOrder
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={`${error.displayOrder
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
                             name="displayOrder"
                             id="displayOrder"
                             onChange={(e) => handleInput(e, "displayOrder")}
@@ -174,31 +174,30 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
 
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="status">Status</label>
+                          <label htmlFor="status">Status <span className="text-danger">*</span></label>
                           <Dropdown
                             aria-label="Default select example"
                             onChange={(e) => handleInput(e, "status")}
                             value={formData?.status}
-                            className={`${
-                              error.status
-                                ? "border-danger-select"
-                                : "form-select"
-                            }`}
+                            className={`${error.status
+                              ? "border-danger-select"
+                              : "form-select"
+                              }`}
                             options={statusoptions}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
                             Max. No. of Brands
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="number"
                             value={formData?.maximumNumberOfBrands}
-                            className={`${
-                              error.maximumNumberOfBrands
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={`${error.maximumNumberOfBrands
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
                             name="maximumNumberOfBrands"
                             id="maximumNumberOfBrands"
                             onChange={(e) =>
@@ -206,6 +205,13 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             }
                           />
                         </div>
+                        <span
+                          className="form-check-label"
+                          htmlFor="basic_checkbox_1"
+                          style={{ marginLeft: "5px", marginTop: "10px" }}
+                        >
+                          {requiredLevel}
+                        </span>
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button
                             className="btn btn-primary float-right pad-aa"
@@ -228,3 +234,4 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
 };
 
 export default AddSpecialForm;
+/* eslint-enable react-hooks/exhaustive-deps */

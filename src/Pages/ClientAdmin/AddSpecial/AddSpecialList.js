@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import AddSpecialForm from "./AddSpecialForm";
 import { Link } from "react-router-dom";
@@ -208,3 +209,4 @@ const AddSpecialList = () => {
 };
 
 export default AddSpecialList;
+/* eslint-enable react-hooks/exhaustive-deps */

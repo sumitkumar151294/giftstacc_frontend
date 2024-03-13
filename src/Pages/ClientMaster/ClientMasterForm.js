@@ -13,12 +13,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../Components/Button/Button";
-import { onClientPaymentSubmit, onPostClientPaymentReset, onPostClientPaymentSubmit, onUpdateClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
-const ClientMaster = (props) => {
+import {
+  onClientPaymentSubmit,
+  onPostClientPaymentReset,
+  onPostClientPaymentSubmit,
+  onUpdateClientPaymentSubmit,
+} from "../../Store/Slices/clientPaymentDetailSlice";
+const ClientMaster = ({ data, clientPayData, setdata }) => {
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(false);
   const clientMasterDetails = useSelector((state) => state.clientMasterReducer);
-  const getClientPaymentdata = useSelector((state) => state.clientPaymentReducer);
+  const getClientPaymentdata = useSelector(
+    (state) => state.clientPaymentReducer
+  );
   const contactName = GetTranslationData("UIAdmin", "contact_Name_label");
   const contactNumber = GetTranslationData("UIAdmin", "contact_Number_label");
   const email = GetTranslationData("UIAdmin", "contact_Email_label");
@@ -41,7 +48,7 @@ const ClientMaster = (props) => {
     "UIAdmin",
     "database_User_Pass_Label"
   );
-  const db_name =  GetTranslationData("UIAdmin", "db_name");
+  const db_name = GetTranslationData("UIAdmin", "db_name");
   const mode = GetTranslationData("UIAdmin", "mode_Label");
   const themeDetails = GetTranslationData("UIAdmin", "Theme_Details_Label");
   const DatabaseCredentials = GetTranslationData("UIAdmin", " Database_Label");
@@ -58,6 +65,11 @@ const ClientMaster = (props) => {
     "UIAdmin",
     "platform_Domain_Url"
   );
+  const dc_ipAddress = GetTranslationData("UIAdmin", "ip_address");
+  const dc_userId = GetTranslationData("UIAdmin", "user_id");
+  const dc_userPassword = GetTranslationData("UIAdmin", "user_password");
+  const dc_name = GetTranslationData("UIAdmin", "name");
+  const dc_value = GetTranslationData("UIAdmin", "value");
 
   const statusoptions = [
     { value: true, label: "Active" },
@@ -79,7 +91,7 @@ const ClientMaster = (props) => {
       clientId: "",
       resourceValue: "",
       mode: "",
-      id: ""
+      id: "",
     },
   ]);
   const [additionalFieldsError, setAdditionalFieldsError] = useState([
@@ -88,7 +100,7 @@ const ClientMaster = (props) => {
       clientId: "",
       resourceValue: "",
       mode: "",
-      id: props.data?.id,
+      id: data?.id,
     },
   ]);
   const [clientData, setClientData] = useState({
@@ -102,7 +114,7 @@ const ClientMaster = (props) => {
     dbLoginId: "",
     dbLoginPwd: "",
     dbIpAddress: "",
-    dbName:"",
+    dbName: "",
     platformDomainUrl: "",
   });
   const [errors, setErrors] = useState({
@@ -115,26 +127,28 @@ const ClientMaster = (props) => {
     dbLoginPwd: "",
     dbIpAddress: "",
     themes: "",
-    dbName:"",
+    dbName: "",
     platformDomainUrl: "",
   });
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    const selectedData = Array.isArray(props.clientPayData) ? props.clientPayData?.find(item => item.clientId === props.data?.id) : null;
+    const selectedData = Array.isArray(clientPayData)
+      ? clientPayData?.find((item) => item.clientId === data?.id)
+      : null;
     setClientData({
-      name: props.data?.name || "",
-      number: props.data?.number || "",
-      id: props.data?.id,
-      email: props.data?.email || "",
-      dbIpAddress: props.data?.dbIpAddress || "",
-      color: props.data?.color,
-      logoUrl: props.data?.logoUrl || "",
-      themes: props.data?.themes || "",
-      status: props.data?.enabled || "",
-      dbLoginPwd: props.data?.dbLoginPwd || "",
-      dbLoginId: props.data?.dbLoginId || "",
-      dbName: props.data?.dbName || "",
-      platformDomainUrl: props?.data?.platformDomainUrl,
+      name: data?.name || "",
+      number: data?.number || "",
+      id: data?.id,
+      email: data?.email || "",
+      dbIpAddress: data?.dbIpAddress || "",
+      color: data?.color,
+      logoUrl: data?.logoUrl || "",
+      themes: data?.themes || "",
+      status: data?.enabled || "",
+      dbLoginPwd: data?.dbLoginPwd || "",
+      dbLoginId: data?.dbLoginId || "",
+      dbName: data?.dbName || "",
+      platformDomainUrl: data?.platformDomainUrl,
     });
     setAdditionalFields([
       {
@@ -142,10 +156,9 @@ const ClientMaster = (props) => {
         clientId: selectedData?.clientId || "",
         resourceValue: selectedData?.resourceValue || "",
         mode: selectedData?.mode || "",
-        id: selectedData?.id
-      }
-    ]
-    )
+        id: selectedData?.id,
+      },
+    ]);
     setErrors({
       name: "",
       number: "",
@@ -154,36 +167,34 @@ const ClientMaster = (props) => {
       color: "",
       logoUrl: "",
       dbIpAddress: "",
-      dbName:"",
+      dbName: "",
       themes: "",
       platformDomainUrl: "",
     });
+  }, [data]);
 
-  }, [props.data]);
-
-
-const resetFields = {
-  name: "",
-  number: "",
-  email: "",
-  enabled: true,
-  color: "",
-  logoUrl: "",
-  themes: "",
-  dbLoginId: "",
-  dbLoginPwd: "",
-  dbIpAddress: "",
-  dbName:"",
-  platformDomainUrl: "",
-}
+  const resetFields = {
+    name: "",
+    number: "",
+    email: "",
+    enabled: true,
+    color: "",
+    logoUrl: "",
+    themes: "",
+    dbLoginId: "",
+    dbLoginPwd: "",
+    dbIpAddress: "",
+    dbName: "",
+    platformDomainUrl: "",
+  };
   const resetAdditionalFields = [
     {
       resourceKey: "",
       clientId: "",
       resourceValue: "",
       mode: "",
-      id: ""
-    }
+      id: "",
+    },
   ];
   const handleAddMoreData = (field, index, e) => {
     setAdditionalFields((prevFields) => {
@@ -256,7 +267,7 @@ const resetFields = {
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
-    const newErrors = {...errors};
+    const newErrors = { ...errors };
     const newAdditionalFieldsError = [...additionalFieldsError];
 
     additionalFields?.forEach((field, index) => {
@@ -329,51 +340,49 @@ const resetFields = {
     setErrors(newErrors);
 
     if (isValid) {
-      if (!props.data) {
+      if (!data) {
         try {
           setShowLoader(true);
           dispatch(onPostClientMasterSubmit(clientData));
-        } catch (error) {
-        }
-      } else if (props.data) {
+        } catch (error) {}
+      } else if (data) {
         try {
           setShowLoader(true);
           dispatch(onUpdateClientMasterSubmit(clientData));
           const updateAdditionalFIels = () => {
-            let tempAdditionField = [...additionalFields]
-          const additionalData =  tempAdditionField.map((item)=>({
+            let tempAdditionField = [...additionalFields];
+            const additionalData = tempAdditionField.map((item) => ({
               ...item,
-            clientId: item.clientId,
-            resourceKey: item.resourceKey,
-            resourceValue: item.resourceValue,
-            mode: item.mode,
-            id: item.id
-          }))
+              clientId: item.clientId,
+              resourceKey: item.resourceKey,
+              resourceValue: item.resourceValue,
+              mode: item.mode,
+              id: item.id,
+            }));
             return additionalData;
-          }
+          };
           dispatch(onUpdateClientPaymentSubmit(updateAdditionalFIels()));
-
-        } catch (error) {
-        }
+        } catch (error) {}
       }
     }
   };
 
   // To call the API after intial API call
   useEffect(() => {
-    if (clientMasterDetails?.postClientData?.length > 0 && !clientMasterDetails?.postClientLoading) {
+    if (
+      clientMasterDetails?.postClientData?.length > 0 &&
+      !clientMasterDetails?.postClientLoading
+    ) {
       const paymentData = additionalFields.map((field) => ({
         clientId: clientMasterDetails?.postClientData?.[0]?.id,
         resourceKey: field.resourceKey,
         resourceValue: field.resourceValue,
         mode: field.mode,
       }));
-      dispatch(onPostClientMasterReset())
+      dispatch(onPostClientMasterReset());
       dispatch(onPostClientPaymentSubmit(paymentData));
     }
   }, [clientMasterDetails]);
-
-
 
   useEffect(() => {
     if (getClientPaymentdata.post_status_code === "201") {
@@ -393,21 +402,22 @@ const resetFields = {
       toast.success(clientMasterDetails?.updateMessage);
       dispatch(onClientMasterSubmit());
       dispatch(onClientPaymentSubmit());
-      dispatch(onUpdateClientMasterReset())
+      dispatch(onUpdateClientMasterReset());
       setClientData(resetFields);
+      setdata("");
       setAdditionalFields(resetAdditionalFields);
     }
   }, [clientMasterDetails]);
 
-  useEffect(()=>{
-    if(clientMasterDetails?.post_status_code === "500"){
+  useEffect(() => {
+    if (clientMasterDetails?.post_status_code === "500") {
       setShowLoader(false);
       toast.error(clientMasterDetails.postMessage);
-      dispatch(onPostClientMasterReset())
+      dispatch(onPostClientMasterReset());
       setClientData(resetFields);
       setAdditionalFields(resetAdditionalFields);
     }
-  },[clientMasterDetails])
+  }, [clientMasterDetails]);
 
   useEffect(() => {
     dispatch(onPostClientMasterReset());
@@ -439,8 +449,9 @@ const resetFields = {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${errors.name ? "border-danger" : "form-control"
-                            }`}
+                          className={` ${
+                            errors.name ? "border-danger" : "form-control"
+                          }`}
                           name="contactName"
                           id="contact-name"
                           error={errors.name}
@@ -455,8 +466,9 @@ const resetFields = {
                         </label>
                         <InputField
                           type="number"
-                          className={` ${errors.number ? "border-danger" : "form-control"
-                            }`}
+                          className={` ${
+                            errors.number ? "border-danger" : "form-control"
+                          }`}
                           name="contactNumber"
                           id="contact-number"
                           value={clientData.number}
@@ -473,8 +485,9 @@ const resetFields = {
                         </label>
                         <InputField
                           type="email"
-                          className={` ${errors.email ? "border-danger" : "form-control"
-                            }`}
+                          className={` ${
+                            errors.email ? "border-danger" : "form-control"
+                          }`}
                           name="contactEmail"
                           id="contact-email"
                           value={clientData.email}
@@ -490,10 +503,11 @@ const resetFields = {
                         </label>
                         <InputField
                           type="platformDomainUrl"
-                          className={` ${errors.platformDomainUrl
-                            ? "border-danger"
-                            : "form-control"
-                            }`}
+                          className={` ${
+                            errors.platformDomainUrl
+                              ? "border-danger"
+                              : "form-control"
+                          }`}
                           name="contactplatformDomainUrl"
                           id="contact-platformDomainUrl"
                           value={clientData.platformDomainUrl}
@@ -519,9 +533,7 @@ const resetFields = {
                           options={statusoptions}
                         />
                       </div>
-                      <h3 className="mt-3 border">
-                        {themeDetails}{" "}
-                      </h3>
+                      <h3 className="mt-3 border">{themeDetails} </h3>
                       <div className="col-sm-3 form-group mb-2">
                         <label htmlFor="color">
                           {color}
@@ -544,8 +556,9 @@ const resetFields = {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${errors.logoUrl ? "border-danger" : "form-control"
-                            }`}
+                          className={` ${
+                            errors.logoUrl ? "border-danger" : "form-control"
+                          }`}
                           name="logo"
                           id="logo"
                           error={errors.logoUrl}
@@ -568,9 +581,7 @@ const resetFields = {
                         />
                       </div>
                       <div className="row mt-3">
-                        <h3 className="border" >
-                          {DatabaseCredentials}
-                        </h3>
+                        <h3 className="border">{DatabaseCredentials}</h3>
 
                         <div className="col-sm-3 form-group mb-2">
                           <h4>
@@ -578,15 +589,16 @@ const resetFields = {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${errors.dbIpAddress
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.dbIpAddress
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="ipAddress"
                             id="ipAddress"
                             value={clientData.dbIpAddress}
                             error={errors.dbIpAddress}
-                            placeholder={key}
+                            placeholder={dc_ipAddress}
                             onChange={(e) => handleChange(e, "dbIpAddress")}
                           />
                         </div>
@@ -597,15 +609,16 @@ const resetFields = {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${errors.dbLoginId
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.dbLoginId
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="username"
                             id="user-name"
                             value={clientData.dbLoginId}
                             error={errors.dbLoginId}
-                            placeholder={key}
+                            placeholder={dc_userId}
                             onChange={(e) => handleChange(e, "dbLoginId")}
                           />
                         </div>
@@ -616,15 +629,16 @@ const resetFields = {
                           </h4>
                           <InputField
                             type="password"
-                            className={` ${errors.dbLoginPwd
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.dbLoginPwd
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="password"
                             id="password"
                             value={clientData.dbLoginPwd}
                             error={errors.dbLoginPwd}
-                            placeholder={key}
+                            placeholder={dc_userPassword}
                             onChange={(e) => handleChange(e, "dbLoginPwd")}
                           />
                         </div>
@@ -635,129 +649,136 @@ const resetFields = {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${errors.dbLoginPwd
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.dbLoginPwd
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="dbName"
                             id="dbName"
                             value={clientData.dbName}
                             error={errors.dbName}
-                            placeholder={key}
+                            placeholder={dc_name}
                             onChange={(e) => handleChange(e, "dbName")}
                           />
                         </div>
                       </div>
 
                       <div className="row mt-3">
-                        <h3 className="border">
-                          {razorpay}
-                        </h3>
+                        <h3 className="border">{razorpay}</h3>
 
-                        {Array.isArray(additionalFields) && additionalFields.map((field, index) => (
-                          <React.Fragment key={index}>
-                            <div className="col-lg-3 mt-2">
-                              <div className="row p-0">
-                                <h4>
-                                  {fieldName}
-                                  <span className="text-danger">*</span>
-                                </h4>
-                                <div className="col-sm-12 form-group mb-2">
-                                  <InputField
-                                    type="text"
+                        {Array.isArray(additionalFields) &&
+                          additionalFields.map((field, index) => (
+                            <React.Fragment key={index}>
+                              <div className="col-lg-3 mt-2">
+                                <div className="row p-0">
+                                  <h4>
+                                    {fieldName}
+                                    <span className="text-danger">*</span>
+                                  </h4>
+                                  <div className="col-sm-12 form-group mb-2">
+                                    <InputField
+                                      type="text"
                                       className={` ${
-                                        additionalFieldsError[index]?.resourceKey
+                                        additionalFieldsError[index]
+                                          ?.resourceKey
                                           ? "border-danger"
                                           : "form-control"
                                       }`}
-                                    name="resourceKey"
-                                    id="resourceKey"
-                                    placeholder={key}
-                                    value={additionalFields[index].resourceKey}
-                                    onChange={(e) => {
-                                      handleAddMoreData(
-                                        "resourceKey",
-                                        index,
-                                        e
-                                      );
-                                    }}
-                                  />
+                                      name="resourceKey"
+                                      id="resourceKey"
+                                      placeholder={dc_name}
+                                      value={
+                                        additionalFields[index].resourceKey
+                                      }
+                                      onChange={(e) => {
+                                        handleAddMoreData(
+                                          "resourceKey",
+                                          index,
+                                          e
+                                        );
+                                      }}
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
 
-                            <div className="col-lg-3 mt-2">
-                              <div className="row p-0">
-                                <h4>
-                                  {fieldValue}{" "}
-                                  <span className="text-danger">*</span>
-                                </h4>
-                                <div className="col-sm-12 form-group mb-2">
-                                  <InputField
-                                    type="text"
-                                    className={` ${additionalFieldsError[index]?.resourceValue
-                                      ? "border-danger"
-                                      : "form-control"
+                              <div className="col-lg-3 mt-2">
+                                <div className="row p-0">
+                                  <h4>
+                                    {fieldValue}{" "}
+                                    <span className="text-danger">*</span>
+                                  </h4>
+                                  <div className="col-sm-12 form-group mb-2">
+                                    <InputField
+                                      type="text"
+                                      className={` ${
+                                        additionalFieldsError[index]
+                                          ?.resourceValue
+                                          ? "border-danger"
+                                          : "form-control"
                                       }`}
-                                    name="resourceValue"
-                                    id="production-key"
-                                    placeholder={key}
-                                    value={
-                                      additionalFields[index].resourceValue
-                                    }
-                                    onChange={(e) => {
-                                      handleAddMoreData(
-                                        "resourceValue",
-                                        index,
-                                        e
-                                      );
-                                    }}
-                                  />
+                                      name="resourceValue"
+                                      id="production-key"
+                                      placeholder={dc_value}
+                                      value={
+                                        additionalFields[index].resourceValue
+                                      }
+                                      onChange={(e) => {
+                                        handleAddMoreData(
+                                          "resourceValue",
+                                          index,
+                                          e
+                                        );
+                                      }}
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="col-lg-3 mt-2">
-                              <div className="row p-0">
-                                <h4>
-                                  {mode} <span className="text-danger">*</span>
-                                </h4>
-                                <div className="col-sm-12 form-group mb-2">
-                                  <Dropdown
-                                    type="text"
-                                    className={` ${additionalFieldsError[index]?.mode
-                                      ? "border-danger"
-                                      : "form-select"
+                              <div className="col-lg-3 mt-2">
+                                <div className="row p-0">
+                                  <h4>
+                                    {mode}{" "}
+                                    <span className="text-danger">*</span>
+                                  </h4>
+                                  <div className="col-sm-12 form-group mb-2">
+                                    <Dropdown
+                                      type="text"
+                                      className={` ${
+                                        additionalFieldsError[index]?.mode
+                                          ? "border-danger"
+                                          : "form-select"
                                       }`}
-                                    name="mode"
-                                    id="mode"
-                                    placeholder={key}
-                                    value={additionalFields[index]?.mode}
-                                    onChange={(e) => {
-                                      handleAddMoreData("mode", index, e);
-                                    }}
-                                    options={modes}
-                                  />
+                                      name="mode"
+                                      id="mode"
+                                      placeholder={key}
+                                      value={additionalFields[index]?.mode}
+                                      onChange={(e) => {
+                                        handleAddMoreData("mode", index, e);
+                                      }}
+                                      options={modes}
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
 
-                            {index < additionalFields.length - 1 && (
-                              <div
-                                className="col-lg-3 mt-4"
-                                key={`delete-${index}`}
-                              >
-                                <div className="col-sm-12 form-group mb-7">
-                                  <Button
-                                    className="btn btn-danger btn-sm float-right pad-aa mt-2"
-                                    text={delete_Button}
-                                    icon={"fa fa-trash"}
-                                    onClick={() => handleDelete(index)}
-                                  />
+                              {index < additionalFields.length - 1 && (
+                                <div
+                                  className="col-lg-3 mt-4"
+                                  key={`delete-${index}`}
+                                >
+                                  <div className="col-sm-12 form-group mb-7">
+                                    <Button
+                                      className="btn btn-danger btn-sm float-right pad-aa mt-2"
+                                      text={delete_Button}
+                                      icon={"fa fa-trash"}
+                                      onClick={() => handleDelete(index)}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            )}
-                          </React.Fragment>
-                        ))}
+                              )}
+                            </React.Fragment>
+                          ))}
                         <div className="col-lg-3 mt-4">
                           <div className="col-sm-12 form-group mb-7">
                             <Button
@@ -771,7 +792,7 @@ const resetFields = {
                       </div>
                       <div className="col-sm-12 form-group mb-0 mt-2">
                         <Button
-                          text={props.data ? update : add}
+                          text={data ? update : add}
                           icon={"fa fa-arrow-right"}
                           onClick={handleSubmit}
                           className="btn btn-primary btn-sm float-right p-btn mb-5 mt-2"
