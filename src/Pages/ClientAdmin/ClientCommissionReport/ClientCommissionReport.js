@@ -18,22 +18,35 @@ const ClientCommissionReport = () => {
     supplier: "",
     brand: "",
   });
-  const selectSupplierOptions = [
-    { value: "Qwik Silver", label: "Qwik Silver" },
-    { value: "Supplier 2", label: "Supplier 2" },
-    { value: "Supplier 3", label: "Supplier 3" },
+  const headers = [
+    { label: "Supplier", key: "supplier" },
+    { label: "Brand", key: "brand" },
+    { label: "No. Of Vouchers", key: "noOfVouchers" },
+    { label: "Total Face Value", key: "totalFaceValue" },
+    { label: "Total Paid Amount", key: "totalPaidAmount" },
+    { label: "Commission%", key: "commission" },
+    { label: "Commission Amount", key: "commissionAmount" },
   ];
   const selectBrandOptions = [
     { value: "Amazon", label: "Amazon" },
     { value: "Flipcart", label: "Flipcart" },
     { value: "Nykaa", label: "Nykaa" },
   ];
-
+  const export_label = GetTranslationData("UIAdmin", "export_label");
+  const totalFaceValue = GetTranslationData("UIClient", "totalFaceValue");
+  const totalPaidAmount = GetTranslationData("UIClient", "totalPaidAmount");
+  const commission = GetTranslationData("UIClient", "commission");
+  const ordersupplier = GetTranslationData("UIAdmin", "ordersupplier");
+  const orderbrand = GetTranslationData("UIAdmin", "orderbrand");
+  const ordervouchers = GetTranslationData("UIAdmin", "ordervouchers");
+  const commissionAmount = GetTranslationData("UIClient", "commissionAmount");
   const dispatch = useDispatch();
   const clientCommissionReport = useSelector(
     (state) => state.commissionReportReducer?.reportData
   );
-
+  const supplierMasterData = useSelector(
+    (state) => state.supplierMasterReducer?.data
+  );
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
@@ -52,6 +65,15 @@ const ClientCommissionReport = () => {
   useEffect(() => {
     dispatch(onGetCommissionReport());
   }, []);
+  const namesArray = clientCommissionReport.map((data) => ({
+    supplier: data.supplier,
+    brand: data.brand,
+    noOfVouchers: data.noOfVouchers,
+    totalFaceValue: data.totalFaceValue,
+    totalPaidAmount: data.totalPaidAmount,
+    commission: data.commission,
+    commissionAmount: data.commissionAmount,
+  }));
   return (
     <div className="container-fluid">
       <div className="row">
@@ -67,7 +89,14 @@ const ClientCommissionReport = () => {
                     value={addData.supplier || ""}
                     onChange={(e) => handleInputChange(e, "supplier")}
                     className="form-select"
-                    options={selectSupplierOptions}
+                    options={
+                      Array.isArray(supplierMasterData)
+                        ? supplierMasterData?.map((item) => ({
+                            label: item.name,
+                            value: item.name,
+                          }))
+                        : []
+                    }
                   />
                 </div>
                 <div className="ddop">
@@ -87,12 +116,22 @@ const ClientCommissionReport = () => {
                   />
                 </div>
                 <div className="d-flex align-items-center flex-wrap">
-                  <a
-                    href="javascript:void(0);"
-                    className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                  >
-                    <i className="fa fa-file-excel me-2"></i>Export
-                  </a>
+                  {clientCommissionReport &&
+                    clientCommissionReport.length > 0 && (
+                      <CSVLink
+                        data={namesArray}
+                        headers={headers}
+                        filename={"ClientCommissionReport.csv"}
+                      >
+                        {clientCommissionReport.length > 0 && (
+                          <Button
+                            className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                            text={export_label}
+                            icons={"fa fa-file-excel"}
+                          />
+                        )}
+                      </CSVLink>
+                    )}
                 </div>
               </div>
             </div>
@@ -102,13 +141,13 @@ const ClientCommissionReport = () => {
                   <table className="table header-border table-responsive-sm">
                     <thead>
                       <tr>
-                        <th>Supplier</th>
-                        <th>Brand</th>
-                        <th>No. of Vouchers</th>
-                        <th>Total Face Value</th>
-                        <th>Total Paid Amount</th>
-                        <th>Commission%</th>
-                        <th>Commission Amount</th>
+                        <th>{ordersupplier}</th>
+                        <th>{orderbrand}</th>
+                        <th>{ordervouchers}</th>
+                        <th>{totalFaceValue}</th>
+                        <th>{totalPaidAmount}</th>
+                        <th>{commission}</th>
+                        <th>{commissionAmount}</th>
                       </tr>
                     </thead>
                     <tbody>
