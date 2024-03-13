@@ -6,6 +6,34 @@ export const allocateBrandSlice = createSlice({
     clientData: {},
   },
   reducers: {
+    onGetAllocateBrand: (state) => {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        getAllocateBrandData: {},
+        error: {},
+        message: "",
+      };
+    },
+    onGetAllocateBrandSuccess: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        getAllocateBrandData: data,
+        message,
+        status_code,
+      };
+    },
+    onGetAllocateBrandError: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 400 } = payload;
+      return {
+        ...state,
+        getAllocateBrandData: data,
+        message,
+        status_code,
+      };
+    },
     onPostAllocateBrand: (state) => {
       return {    
         ...state,
@@ -66,6 +94,9 @@ export const {
     onUpdateAllocateBrand,
     onUpdateAllocateBrandSuccess,
     onUpdateAllocateBrandError,
+    onGetAllocateBrandError,
+    onGetAllocateBrand,
+    onGetAllocateBrandSuccess
 } = allocateBrandSlice.actions;
 
 export default allocateBrandSlice.reducer;

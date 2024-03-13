@@ -1,10 +1,35 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { onPostAllocateBrand, onPostAllocateBrandError, onPostAllocateBrandSuccess, onUpdateAllocateBrand, onUpdateAllocateBrandError, onUpdateAllocateBrandSuccess } from "../../Store/Slices/ClientAdmin/allocateBrandSlice";
-import { callAddSpecialListPostApi, callAddSpecialListUpdateApi } from "../../Context/ClientAdmin/addSpecialListApi";
-
+import { onPostAllocateBrand,onGetAllocateBrand,onGetAllocateBrandError,onGetAllocateBrandSuccess, onPostAllocateBrandError, onPostAllocateBrandSuccess, onUpdateAllocateBrand, onUpdateAllocateBrandError, onUpdateAllocateBrandSuccess } from "../../Store/Slices/ClientAdmin/allocateBrandSlice";
+import { callAddSpecialListPostApi, callAddSpecialListUpdateApi,callAddSpecialListGetApi } from "../../Context/ClientAdmin/addSpecialListApi";
+function* getCms() {
+    try {
+      const allocateBrandsgetResponse = yield call(callAddSpecialListGetApi);
+  
+      if (allocateBrandsgetResponse.httpStatusCode === "200") {
+            yield put(
+            onGetAllocateBrandSuccess({
+            data: allocateBrandsgetResponse.response,
+            message: allocateBrandsgetResponse.errorMessage,
+            status_code: allocateBrandsgetResponse.httpStatusCode,
+          })
+        );
+      } else {
+        yield put(
+            onGetAllocateBrandError({
+            data: allocateBrandsgetResponse.response,
+            message: allocateBrandsgetResponse.errorMessage,
+            status_code: allocateBrandsgetResponse.httpStatusCode,
+          })
+        );
+      }
+    } catch (error) {
+      const message = error.response || "Something went wrong";
+      yield put(onGetAllocateBrandError({ data: {}, message, status_code: 400 }));
+    }
+  }
 function* PostAllocateBrand({ payload }) {
     try {
-        const postAlloacteBrandResponse = yield call(callAddSpecialListPostApi, payload);
+            const postAlloacteBrandResponse = yield call(callAddSpecialListPostApi, payload);
         if (postAlloacteBrandResponse.httpStatusCode === "201") {
             yield put(
                 onPostAllocateBrandSuccess({
@@ -58,4 +83,6 @@ function* OnUpdateAllocateBrand({ payload }) {
 export default function* allocateBrandSaga() {
     yield takeLatest(onPostAllocateBrand.type, PostAllocateBrand);
     yield takeLatest(onUpdateAllocateBrand.type, OnUpdateAllocateBrand);
+    yield takeLatest(onGetAllocateBrand.type, getCms);
+
 }

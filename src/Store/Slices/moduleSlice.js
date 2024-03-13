@@ -52,13 +52,7 @@ export const moduleSlice = createSlice({
         isError: true,
         error: {},
       };
-    },
-    allowModules:(state , { payload }) => {
-      return{
-        ...state,
-        filteredData: payload,
-      }
-    }, 
+    }
   },
 });
 export const {onGetModule, onGetModuleSuccess, onGetModuleError , allowModules } =

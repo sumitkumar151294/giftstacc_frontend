@@ -129,11 +129,10 @@ const UserMasterList = () => {
                               <td>{`${item.firstName}${item.lastName}`}</td>
                               <td>
                                 {
-                                  item.accessClientIds.length > 0 && (
+                                  item?.accessClientIds?.length > 0 && (
                                     <div className="d-flex">
-                                      {(item.accessClientIds) &&
-                                        item.accessClientIds
-                                          .split(",")
+                                      {(item?.accessClientIds) &&
+                                        item?.accessClientIds?.split(",")
                                           .map((clientId, index) => (
                                             <span
                                               key={index}
