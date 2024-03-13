@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import InputField from "../../../Components/InputField/InputField";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
@@ -10,15 +11,19 @@ import {
 } from "../../../Store/Slices/ClientAdmin/addSpecialListSlice";
 import Loader from "../../../Components/Loader/Loader";
 import { ToastContainer, toast } from "react-toastify";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 
-const AddSpecialForm = ({ prefilledValues }) => {
+const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
+  const active = GetTranslationData("UIClient", "active_option");
+  const non_active = GetTranslationData("UIClient", "non_active_option");
+  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const [isLoading, setIsLoading] = useState(false);
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     sectionName: "",
     displayOrder: "",
-    status: "",
+    status: true,
     maximumNumberOfBrands: "",
   });
   const [error, setError] = useState({
@@ -34,15 +39,17 @@ const AddSpecialForm = ({ prefilledValues }) => {
     maximumNumberOfBrands: "",
   };
   const statusoptions = [
-    { value: "Active", label: "Active" },
-    { value: "Non-Active", label: "Non-Active" },
+    { value: true, label: active },
+    { value: false, label: non_active },
   ];
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setFormData({
       sectionName: prefilledValues?.sectionName || "",
       displayOrder: prefilledValues?.displayOrder || "",
-      status: prefilledValues?.status || "",
+      status:
+        prefilledValues?.status !== undefined ? prefilledValues?.status : "",
+
       maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || "",
     });
     setError({
@@ -73,17 +80,16 @@ const AddSpecialForm = ({ prefilledValues }) => {
         toast.success(getAddSpecial.message);
         setFormData(resetField);
         dispatch(onGetAddSpecial());
-      } else if (getAddSpecial?.message?.data?.HttpStatusCode === "500") {
-        toast.error(getAddSpecial.message?.data?.ErrorMessage);
       }
     } else if (prefilledValues) {
       if (getAddSpecial?.status_code === "201") {
         toast.success(getAddSpecial.message);
         setFormData(resetField);
+        setPrefilledValues("");
         dispatch(onGetAddSpecial());
       }
     }
-  }, [getAddSpecial.status_code, getAddSpecial.message?.data?.HttpStatusCode]);
+  }, [getAddSpecial.status_code]);
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -98,20 +104,27 @@ const AddSpecialForm = ({ prefilledValues }) => {
     }
     setError(newErrors);
     if (isValid) {
-      console.log(formData);
-      if (prefilledValues) {
-        dispatch(onAddSpecialUpdate({ ...formData, id: prefilledValues?.id }));
-      } else {
+      if (!prefilledValues) {
         const submissionData = {
           ...formData,
           displayOrder: parseInt(formData.displayOrder), // Convert displayOrder to integer
           maximumNumberOfBrands: parseInt(formData.maximumNumberOfBrands), // Convert maxNumBrand to integer
-          status: formData.status === "Active" ? true : false, // Convert status to boolean based on selection
+          status: formData.status === "true" ? true : false, // Convert status to boolean based on selection
         };
         dispatch(onAddSpecialSubmit(submissionData));
+      } else {
+        const tempData = { ...formData };
+        tempData.id = prefilledValues?.id;
+        dispatch(
+          onAddSpecialUpdate({
+            ...tempData,
+            status: formData.status === "true" ? true : false,
+          })
+        );
       }
     }
   };
+
   return (
     <>
       <ToastContainer />
@@ -132,30 +145,28 @@ const AddSpecialForm = ({ prefilledValues }) => {
                     <form onSubmit={(e) => handleSubmit(e)}>
                       <div className="row">
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="name-f">Section Name</label>
+                          <label htmlFor="name-f">Section Name <span className="text-danger">*</span></label>
                           <InputField
                             type="text"
                             value={formData?.sectionName}
-                            className={`${
-                              error.sectionName
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={`${error.sectionName
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
                             name="fname"
                             id="name-f"
                             onChange={(e) => handleInput(e, "sectionName")}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="displayOrder">Display Order</label>
+                          <label htmlFor="displayOrder">Display Order <span className="text-danger">*</span></label>
                           <InputField
                             type="number"
                             value={formData?.displayOrder}
-                            className={`${
-                              error.displayOrder
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={`${error.displayOrder
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
                             name="displayOrder"
                             id="displayOrder"
                             onChange={(e) => handleInput(e, "displayOrder")}
@@ -163,31 +174,30 @@ const AddSpecialForm = ({ prefilledValues }) => {
                         </div>
 
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="status">Status</label>
+                          <label htmlFor="status">Status <span className="text-danger">*</span></label>
                           <Dropdown
                             aria-label="Default select example"
                             onChange={(e) => handleInput(e, "status")}
-                            value={formData?.status ? "Active" : "Non-Active"}
-                            className={`${
-                              error.status
-                                ? "border-danger-select"
-                                : "form-select"
-                            }`}
+                            value={formData?.status}
+                            className={`${error.status
+                              ? "border-danger-select"
+                              : "form-select"
+                              }`}
                             options={statusoptions}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
                             Max. No. of Brands
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="number"
                             value={formData?.maximumNumberOfBrands}
-                            className={`${
-                              error.maximumNumberOfBrands
-                                ? "border-danger"
-                                : "form-control"
-                            }`}
+                            className={`${error.maximumNumberOfBrands
+                              ? "border-danger"
+                              : "form-control"
+                              }`}
                             name="maximumNumberOfBrands"
                             id="maximumNumberOfBrands"
                             onChange={(e) =>
@@ -195,6 +205,13 @@ const AddSpecialForm = ({ prefilledValues }) => {
                             }
                           />
                         </div>
+                        <span
+                          className="form-check-label"
+                          htmlFor="basic_checkbox_1"
+                          style={{ marginLeft: "5px", marginTop: "10px" }}
+                        >
+                          {requiredLevel}
+                        </span>
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button
                             className="btn btn-primary float-right pad-aa"
@@ -217,3 +234,4 @@ const AddSpecialForm = ({ prefilledValues }) => {
 };
 
 export default AddSpecialForm;
+/* eslint-enable react-hooks/exhaustive-deps */

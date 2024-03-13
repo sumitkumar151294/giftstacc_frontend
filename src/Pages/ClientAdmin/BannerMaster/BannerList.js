@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import BannerForm from "./BannerMaster";
 import ReactPaginate from "react-paginate";
@@ -6,7 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
 import Loader from "../../../Components/Loader/Loader";
 import { onUpdateBannerMaster } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 const BannerMasterList = () => {
+  const title_label = GetTranslationData("UIClient", "title");
+  const sub_title = GetTranslationData("UIClient", "sub-title");
+  const link_label = GetTranslationData("UIClient", "link_label");
+  const display_order = GetTranslationData("UIClient", "display-order");
+  const status = GetTranslationData("UIClient", "status");
+  const actionLabel = GetTranslationData("UIClient", "actionLabel");
   const dispatch = useDispatch();
   const getBannerMaster = useSelector(
     (state) => state.bannerMasterReducer?.getData
@@ -51,7 +59,10 @@ const BannerMasterList = () => {
   }, [getBannerMaster]);
   return (
     <>
-      {getRoleAccess[0]?.addAccess && (<BannerForm prefilledData={prefilledData} />)}
+      <BannerForm
+        prefilledData={prefilledData}
+        setPrefilledData={setPrefilledData}
+      />
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -66,12 +77,12 @@ const BannerMasterList = () => {
                       <table className="table header-border table-responsive-sm">
                         <thead>
                           <tr>
-                            <th>Title</th>
-                            <th>Subtitle</th>
-                            <th>Link</th>
-                            <th>Display Order</th>
-                            <th>Status</th>
-                            {getRoleAccess[0]?.editAccess && (<th>Action</th>)}
+                            <th>{title_label}</th>
+                            <th>{sub_title}</th>
+                            <th>{link_label}</th>
+                            <th>{display_order}</th>
+                            <th>{status}</th>
+                            <th>{actionLabel}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -131,7 +142,7 @@ const BannerMasterList = () => {
                             containerClassName={"pagination"}
                             activeClassName={"active"}
                             initialPage={page - 1} // Use initialPage instead of forcePage
-                            previousClassName={page === 1 ? "disabled" : ""}
+                            previousClassName={page === 1 ? "disabled" : ""}
                           />
                         </div>
                       )}
@@ -151,3 +162,4 @@ const BannerMasterList = () => {
   );
 };
 export default BannerMasterList;
+/* eslint-enable react-hooks/exhaustive-deps */

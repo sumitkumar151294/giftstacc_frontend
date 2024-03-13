@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
@@ -7,12 +8,12 @@ import Loader from "../../Components/Loader/Loader";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
-import { CSVLink } from "react-csv";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import { onClientProductMappingSubmit } from "../../Store/Slices/clientProductMappingSlice";
+import { CSVLink } from "react-csv";
 const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const BrandCatalogue = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const heading = GetTranslationData("UIAdmin", "heading");
+  const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const image = GetTranslationData("UIAdmin", "image");
   const sku = GetTranslationData("UIAdmin", "sku");
   const name = GetTranslationData("UIAdmin", "name");
@@ -29,10 +31,8 @@ const BrandCatalogue = () => {
   const price = GetTranslationData("UIAdmin", "price");
   const action = GetTranslationData("UIAdmin", "action");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
-  const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
   const supplier = GetTranslationData("UIAdmin", "supplier");
-  const client = GetTranslationData("UIAdmin", "client");
   const [searchQuery, setSearchQuery] = useState("");
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -53,7 +53,10 @@ const BrandCatalogue = () => {
           const matchingProduct =
             Array.isArray(SupplierBrandList) &&
             SupplierBrandList.find((supplierProduct) => {
-              return supplierProduct.id === clientProduct.productId;
+                        return (
+                supplierProduct.id === clientProduct.productId &&
+                supplierProduct.enabled === clientProduct.enabled
+              );
             });
 
           return matchingProduct || null;
@@ -61,21 +64,20 @@ const BrandCatalogue = () => {
         .filter((product) => product !== null);
 
     setGetProduct(matchingProductsData);
-  }, []);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
-  const [supplierList, setSupplierList] = useState({
+  }, [clientProductMapping, SupplierBrandList]);
+         const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
   });
-  // const excelData =
-    // Array.isArray(getProduct) &&
-    // getProduct.map((data) => ({
-    //   sku: data.sku,
-    //   name: data.name,
-    //   minPrice: data.minPrice,
-    //   maxPrice: data.maxPrice,
-    //   price: data.price,
-    // }));
+  const excelData = Array.isArray(getProduct)
+    ? getProduct.map((data) => ({
+        sku: data.sku,
+        name: data.name,
+        minPrice: data.minPrice,
+        maxPrice: data.maxPrice, // Assuming you want to correct the casing here
+        price: data.price,
+      }))
+    : [];
   const headers = [
     { label: "Sku", key: "sku" },
     { label: "Name", key: "name" },
@@ -114,9 +116,11 @@ const BrandCatalogue = () => {
     setShowLoader(false);
   }, [showLoader]);
   useEffect(() => {
-    dispatch(onClientProductMappingSubmit());
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
+    dispatch(
+      onClientProductMappingSubmit(sessionStorage.getItem("clientCode"))
+    );
   }, []);
 
   const handleClick = (data) => {
@@ -144,14 +148,12 @@ const BrandCatalogue = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                        <a>
-                          <i className="flaticon-381-search-2"></i>&nbsp;
-                        </a>
+                        <i className="fa fa-search"></i>
                       </span>
                     </div>
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
-                    {/* <CSVLink
+                    <CSVLink
                       data={excelData}
                       headers={headers}
                       filename={"BrandCatalogue.csv"}
@@ -163,7 +165,7 @@ const BrandCatalogue = () => {
                           text={`${exportLabel}`}
                         />
                       )}
-                    </CSVLink> */}
+                    </CSVLink>
                   </div>
                 </div>
               </div>
@@ -185,7 +187,7 @@ const BrandCatalogue = () => {
                       }
                     />
                   </div>
-                  <div className="col-sm-3 form-group mb-2">
+                  {/* <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="client">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
@@ -200,7 +202,7 @@ const BrandCatalogue = () => {
                           : []
                       }
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="card-body">
@@ -228,11 +230,11 @@ const BrandCatalogue = () => {
                             <tbody>
                               {filteredBrandCatalogueList
                                 .slice(startIndex, endIndex)
-                                .map((data, index) => (
+                                ?.map((data, index) => (
                                   <tr key={index}>
                                     <td>
                                       <img
-                                        src={data.thumbnail}
+                                        src={data.small}
                                         style={{ width: "50px" }}
                                       />
                                       <br />
@@ -291,3 +293,4 @@ const BrandCatalogue = () => {
 };
 
 export default BrandCatalogue;
+/* eslint-enable react-hooks/exhaustive-deps */

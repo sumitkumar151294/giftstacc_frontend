@@ -5,6 +5,9 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../../Components/InputField/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetCommissionReport } from "../../../Store/Slices/ClientAdmin/clientCommissionReportSlice";
+import { CSVLink } from "react-csv";
+import Button from "../../../Components/Button/Button";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 
 const ClientCommissionReport = () => {
   const [page, setPage] = useState(1);
@@ -18,6 +21,15 @@ const ClientCommissionReport = () => {
     supplier: "",
     brand: "",
   });
+  const headers = [
+    { label: "Supplier", key: "supplier" },
+    { label: "Brand", key: "brand" },
+    { label: "No. Of Vouchers", key: "noOfVouchers" },
+    { label: "Total Face Value", key: "totalFaceValue" },
+    { label: "Total Paid Amount", key: "totalPaidAmount" },
+    { label: "Commission%", key: "commission" },
+    { label: "Commission Amount", key: "commissionAmount" }
+  ];
   const selectSupplierOptions = [
     { value: "Qwik Silver", label: "Qwik Silver" },
     { value: "Supplier 2", label: "Supplier 2" },
@@ -28,7 +40,7 @@ const ClientCommissionReport = () => {
     { value: "Flipcart", label: "Flipcart" },
     { value: "Nykaa", label: "Nykaa" },
   ];
-
+  const export_label = GetTranslationData("UIAdmin", "export_label");
   const dispatch = useDispatch();
   const clientCommissionReport = useSelector(
     (state) => state.commissionReportReducer?.reportData
@@ -52,6 +64,15 @@ const ClientCommissionReport = () => {
   useEffect(() => {
     dispatch(onGetCommissionReport());
   }, []);
+  const namesArray = clientCommissionReport.map(data => ({
+    supplier:data.supplier,
+    brand:data.brand,
+    noOfVouchers:data.noOfVouchers,
+    totalFaceValue:data.totalFaceValue,
+    totalPaidAmount:data.totalPaidAmount,
+    commission:data.commission,
+    commissionAmount:data.commissionAmount
+  }));
   return (
     <div className="container-fluid">
       <div className="row">
@@ -87,13 +108,22 @@ const ClientCommissionReport = () => {
                   />
                 </div>
                 <div className="d-flex align-items-center flex-wrap">
-                  <a
-                    href="javascript:void(0);"
-                    className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                  >
-                    <i className="fa fa-file-excel me-2"></i>Export
-                  </a>
-                </div>
+                    {clientCommissionReport && clientCommissionReport.length > 0 && (
+                      <CSVLink
+                        data={namesArray}
+                        headers={headers}
+                        filename={"ClientCommissionReport.csv"}
+                      >
+                        {clientCommissionReport.length > 0 && (
+                          <Button
+                            className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                            text={export_label}
+                            icons={"fa fa-file-excel"}
+                          />
+                        )}
+                      </CSVLink>
+                    )}
+                  </div>
               </div>
             </div>
             <div className="card-body">

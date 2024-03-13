@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OfferMasterForm from "./OfferMasterForm";
@@ -10,7 +11,6 @@ import {
   onUpdateOfferMaster,
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import Loader from "../../../Components/Loader/Loader";
-import offerImage from "../../../Assets/img/pizz1.jpg";
 import PageError from "../../../Components/PageError/PageError";
 
 const OfferMasterList = () => {
@@ -110,14 +110,14 @@ const OfferMasterList = () => {
         {getRoleAccess[0]?.addAccess && (
           <OfferMasterForm
             data={prefilledValues}
-            setData={setPrefilledValues}
+            setPrefilledValues={setPrefilledValues}
           />
         )}
           <div className="container-fluid  pt-0">
             <div className="row">
               <div className="col-lg-12">
                 <div className="card">
-                  <div className="container-fluid">
+                  <div className="container-fluid pt-1">
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
                         <h4 className="card-title">{offer_list}</h4>
@@ -228,3 +228,4 @@ const OfferMasterList = () => {
 };
 
 export default OfferMasterList;
+/* eslint-enable react-hooks/exhaustive-deps */

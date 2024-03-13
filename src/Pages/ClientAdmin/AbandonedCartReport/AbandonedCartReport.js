@@ -20,9 +20,7 @@ const AbandonedCartReport = () => {
                          placeholder="Mobile/Email/Name"
                         />
                     <span className="input-group-text">
-                      <a href="javascript:void(0)">
-                        <i className="flaticon-381-search-2"></i>
-                      </a>
+                    <i className="fa fa-search"></i>
                     </span>
                   </div>
                 </div>

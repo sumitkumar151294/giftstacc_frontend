@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import InputField from '../../../Components/InputField/InputField';
@@ -34,7 +35,7 @@ export const CustomerList = () => {
                                                 className="form-control only-high"
                                                 placeholder={search_here_label}
                                             />
-                                            <span className="input-group-text"><a><i className="flaticon-381-search-2"></i></a></span>
+                                            <span className="input-group-text"><i className="fa fa-search"></i></span>
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center flex-wrap">
@@ -78,3 +79,4 @@ export const CustomerList = () => {
         </>
     )
 }
+/* eslint-enable react-hooks/exhaustive-deps */

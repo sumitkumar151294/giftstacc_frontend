@@ -17,7 +17,7 @@ import Button from "../../Components/Button/Button";
 import { onClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSlice";
 const ClientMasterList = () => {
   const dispatch = useDispatch();
-  const [data, setData] = useState();
+  const [data, setdata] = useState();
   const [showLoader, setShowLoader] = useState(false);
   const clientList = useSelector((state) => state.clientMasterReducer);
   const getRoleAccess = useSelector((state)=> state.moduleReducer?.filteredData);
@@ -48,7 +48,7 @@ const ClientMasterList = () => {
 
   const handleEdit = (data,clientPayData) => {
     const prefilled = {...clientPayData, ...data};
-    setData(prefilled);
+    setdata(prefilled);
   };
   const handleDelete = (data) => {
     const deletedData = {
@@ -112,7 +112,7 @@ const ClientMasterList = () => {
   return (
     <>
      {getRoleAccess[0]?.addAccess && (
-      <ClientMasterForm clientList={clientList} data={data} clientPayData={clientPayData}/>
+      <ClientMasterForm clientList={clientList} data={data} clientPayData={clientPayData} setdata={setdata}/>
      )}
       <ScrollToTop />
       <div className="container-fluid pt-0">

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import Loader from "../../Components/Loader/Loader";
@@ -239,20 +240,20 @@ const SupplierMasterList = () => {
                                         {getRoleAccess[0]?.editAccess && (
                                           <td>
                                             <div className="d-flex">
-                                              <a
+                                              <Button
                                                 className="btn btn-primary shadow btn-xs sharp me-1"
                                                 onClick={() => handleEdit(vendor)}
                                               >
                                                 <i className="fas fa-pencil-alt"></i>
-                                              </a>
-                                              <a
+                                              </Button>
+                                              <Button
                                                 className="btn btn-danger shadow btn-xs sharp"
                                                 onClick={() =>
                                                   handleDelete(vendor)
                                                 }
                                               >
                                                 <i className="fa fa-trash"></i>
-                                              </a>
+                                              </Button>
                                             </div>
                                           </td>
                                         )}
@@ -303,3 +304,4 @@ const SupplierMasterList = () => {
 };
 
 export default SupplierMasterList;
+/* eslint-enable react-hooks/exhaustive-deps */
