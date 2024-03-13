@@ -13,6 +13,7 @@ import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import { onClientProductMappingSubmit } from "../../Store/Slices/clientProductMappingSlice";
+import { CSVLink } from "react-csv";
 const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const BrandCatalogue = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const heading = GetTranslationData("UIAdmin", "heading");
+  const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const image = GetTranslationData("UIAdmin", "image");
   const sku = GetTranslationData("UIAdmin", "sku");
   const name = GetTranslationData("UIAdmin", "name");
