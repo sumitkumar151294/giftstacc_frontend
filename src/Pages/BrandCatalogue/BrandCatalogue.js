@@ -18,6 +18,7 @@ const BrandCatalogue = () => {
   const dispatch = useDispatch();
   const [getProduct, setGetProduct] = useState();
   const [showLoader, setShowLoader] = useState(false);
+  const [copyBrandCatalogue, setCopyBrandCatalogue] = useState([]);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const heading = GetTranslationData("UIAdmin", "heading");
@@ -45,6 +46,7 @@ const BrandCatalogue = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
+
   useEffect(() => {
     const matchingProductsData =
       Array.isArray(clientProductMapping) &&
@@ -53,7 +55,7 @@ const BrandCatalogue = () => {
           const matchingProduct =
             Array.isArray(SupplierBrandList) &&
             SupplierBrandList.find((supplierProduct) => {
-                        return (
+              return (
                 supplierProduct.id === clientProduct.productId &&
                 supplierProduct.enabled === clientProduct.enabled
               );
@@ -64,6 +66,7 @@ const BrandCatalogue = () => {
         .filter((product) => product !== null);
 
     setGetProduct(matchingProductsData);
+    setCopyBrandCatalogue(matchingProductsData);
   }, [clientProductMapping, SupplierBrandList]);
   const clientList = useSelector((state) => state?.clientMasterReducer?.data);
   const [supplierList, setSupplierList] = useState({
@@ -95,8 +98,8 @@ const BrandCatalogue = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
-  const filteredBrandCatalogueList = Array.isArray(getProduct)
-    ? getProduct.filter((vendor) =>
+  const filteredBrandCatalogueList = Array.isArray(copyBrandCatalogue)
+    ? copyBrandCatalogue.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
@@ -106,11 +109,27 @@ const BrandCatalogue = () => {
       )
     : [];
 
-  const handleChange = (e, fieldName) => {
-    setSupplierList({
-      ...supplierList,
-      [fieldName]: e.target.value,
-    });
+  const handleChange = (e) => {
+    const selectedSupplierName = e.target.value;
+    if (selectedSupplierName === "Select") {
+      setCopyBrandCatalogue(getProduct);
+    } else {
+      const selectedSupplier = supplierMasterData.find(
+        (supplier) => supplier.name === selectedSupplierName
+      );
+      if (selectedSupplier) {
+        const filteredProducts = getProduct.filter(
+          (product) =>
+            product.supplierCode.toLowerCase() ===
+            selectedSupplier.code.toLowerCase()
+        );
+        setCopyBrandCatalogue(filteredProducts);
+      }
+    }
+    setSupplierList((prevState) => ({
+      ...prevState,
+      supplier: selectedSupplierName,
+    }));
   };
 
   useEffect(() => {
