@@ -68,7 +68,8 @@ const BrandCatalogue = () => {
     setGetProduct(matchingProductsData);
     setCopyBrandCatalogue(matchingProductsData);
   }, [clientProductMapping, SupplierBrandList]);
-         const [supplierList, setSupplierList] = useState({
+  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
+  const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
   });

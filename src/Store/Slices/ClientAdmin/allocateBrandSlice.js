@@ -17,7 +17,6 @@ export const allocateBrandSlice = createSlice({
       };
     },
     onGetAllocateBrandSuccess: (state, { payload }) => {
-      debugger
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
