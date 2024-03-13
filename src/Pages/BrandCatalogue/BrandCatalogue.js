@@ -53,7 +53,10 @@ const BrandCatalogue = () => {
           const matchingProduct =
             Array.isArray(SupplierBrandList) &&
             SupplierBrandList.find((supplierProduct) => {
-              return supplierProduct.id === clientProduct.productId;
+                        return (
+                supplierProduct.id === clientProduct.productId &&
+                supplierProduct.enabled === clientProduct.enabled
+              );
             });
 
           return matchingProduct || null;
@@ -67,15 +70,15 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
-  // const excelData =
-    // Array.isArray(getProduct) &&
-    // getProduct.map((data) => ({
-    //   sku: data.sku,
-    //   name: data.name,
-    //   minPrice: data.minPrice,
-    //   maxPrice: data.maxPrice,
-    //   price: data.price,
-    // }));
+  const excelData = Array.isArray(getProduct)
+    ? getProduct.map((data) => ({
+        sku: data.sku,
+        name: data.name,
+        minPrice: data.minPrice,
+        maxPrice: data.maxPrice, // Assuming you want to correct the casing here
+        price: data.price,
+      }))
+    : [];
   const headers = [
     { label: "Sku", key: "sku" },
     { label: "Name", key: "name" },
@@ -116,7 +119,9 @@ const BrandCatalogue = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
-    dispatch(onClientProductMappingSubmit(sessionStorage.getItem("clientCode")));
+    dispatch(
+      onClientProductMappingSubmit(sessionStorage.getItem("clientCode"))
+    );
   }, []);
 
   const handleClick = (data) => {
@@ -144,12 +149,12 @@ const BrandCatalogue = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                      <i className="fa fa-search"></i>
+                        <i className="fa fa-search"></i>
                       </span>
                     </div>
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
-                    {/* <CSVLink
+                    <CSVLink
                       data={excelData}
                       headers={headers}
                       filename={"BrandCatalogue.csv"}
@@ -161,7 +166,7 @@ const BrandCatalogue = () => {
                           text={`${exportLabel}`}
                         />
                       )}
-                    </CSVLink> */}
+                    </CSVLink>
                   </div>
                 </div>
               </div>
@@ -230,7 +235,7 @@ const BrandCatalogue = () => {
                                   <tr key={index}>
                                     <td>
                                       <img
-                                        src={data.thumbnail}
+                                        src={data.small}
                                         style={{ width: "50px" }}
                                       />
                                       <br />
