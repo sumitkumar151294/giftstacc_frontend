@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
   onFaqMasterSubmit,
@@ -29,6 +30,7 @@ const FaqMaster = () => {
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
+  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const [faqInfo, setFaqInfo] = useState({
     categoryId: "",
     question: "",
@@ -101,7 +103,10 @@ const FaqMaster = () => {
       dispatch(onFaqMasterSubmit(faqInfo));
     }
   };
-
+  const FaqMasterCategory = (Categorydata) => {
+    const category = Array.isArray(faqCategory) && faqCategory.find((data) => data.id === Categorydata);
+    return category ? category.name : "";
+  }
   return (
     <>
       <ScrollToTop />
@@ -116,33 +121,31 @@ const FaqMaster = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="name-l">Category</label>
+                      <label htmlFor="name-l">Category <span className="text-danger">*</span></label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "categoryId")}
                         error={errors.categoryId}
                         ariaLabel="Select"
                         value={faqInfo.categoryId}
-                        className={` ${
-                          errors.categoryId ? "border-danger" : "form-select"
-                        }`}
+                        className={` ${errors.categoryId ? "border-danger" : "form-select"
+                          }`}
                         options={
                           Array.isArray(faqCategory)
                             ? faqCategory?.map((category) => ({
-                                label: category.name,
-                                value: category.id,
-                                data: category.code,
-                              }))
+                              label: category.name,
+                              value: category.id,
+                              data: category.code,
+                            }))
                             : []
                         }
                       />
                     </div>
                     <div className="col-sm-12 form-group mb-2">
-                      <label htmlFor="name-f">Question</label>
+                      <label htmlFor="name-f">Question <span className="text-danger">*</span></label>
                       <InputField
                         type="text"
-                        className={`form-control ${
-                          errors.question ? "border-danger" : ""
-                        }`}
+                        className={`form-control ${errors.question ? "border-danger" : ""
+                          }`}
                         id="name-f"
                         placeholder=""
                         value={faqInfo.question}
@@ -153,14 +156,13 @@ const FaqMaster = () => {
                       )}
                     </div>
                     <div className="col-sm-12 form-group mb-2">
-                      <label htmlFor="textarea">Answer</label>
+                      <label htmlFor="textarea">Answer <span className="text-danger">*</span></label>
                       <textarea
                         id="textarea"
                         cols="60"
                         rows="10"
-                        className={`form-control bg-transparent ${
-                          errors.answer ? "border-danger" : ""
-                        }`}
+                        className={`form-control bg-transparent ${errors.answer ? "border-danger" : ""
+                          }`}
                         placeholder=""
                         value={faqInfo.answer}
                         onChange={(e) => handleChange(e, "answer")}
@@ -170,6 +172,13 @@ const FaqMaster = () => {
                       )}
                     </div>
                   </div>
+                  <span
+                    className="form-check-label"
+                    htmlFor="basic_checkbox_1"
+                    style={{ marginLeft: "5px", marginTop: "10px" }}
+                  >
+                    {requiredLevel}
+                  </span>
                   <div className="col-sm-12 form-group mb-0 mt-2">
                     <Button
                       type="submit"
@@ -188,7 +197,7 @@ const FaqMaster = () => {
               ) : (
                 <>
                   {Array.isArray(faqMasterGetData?.getData) &&
-                  faqMasterGetData?.getData?.length > 0 ? (
+                    faqMasterGetData?.getData?.length > 0 ? (
                     <div className="card-body pt-4  ml-4">
                       <div className="table-responsive">
                         <table className="table header-border table-responsive-sm">
@@ -208,8 +217,8 @@ const FaqMaster = () => {
                                 .map((data, index) => (
                                   <tr key={index}>
                                     <td>{data.id}</td>
-                                    <td>12-12-2023</td>
-                                    <td>{data.categoryId}</td>
+                                    <td>{new Date(data?.createdOn).toLocaleDateString("en-GB")}</td>
+                                    <td>{FaqMasterCategory(data.categoryId)}</td>
                                     <td>{data.question}</td>
                                     <td>{data.answer}</td>
                                   </tr>
@@ -252,3 +261,4 @@ const FaqMaster = () => {
 };
 
 export default FaqMaster;
+/* eslint-enable react-hooks/exhaustive-deps */

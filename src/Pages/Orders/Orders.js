@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
@@ -25,7 +26,8 @@ const Orders = () => {
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
-  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
+  const ClientLogin = useSelector((state) => state.loginReducer.isAdminLogin);
+  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData);
   const orders = GetTranslationData("UIAdmin", "orders");
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client");
@@ -446,7 +448,7 @@ const Orders = () => {
                         options={supplierListData}
                       />
                     </div>
-                    <div className="col-sm-3 form-group mb-2">
+                    {ClientLogin && <div className="col-sm-3 form-group mb-2">
                       <label htmlFor="client">{client}</label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "client")}
@@ -454,7 +456,7 @@ const Orders = () => {
                         className="form-select"
                         options={clientListData}
                       />
-                    </div>
+                    </div>}
                     <div className="col-xl-3">
                       <div className="example">
                         <p className="mb-1">{date}</p>
@@ -541,3 +543,4 @@ const Orders = () => {
 };
 
 export default Orders;
+/* eslint-enable react-hooks/exhaustive-deps */

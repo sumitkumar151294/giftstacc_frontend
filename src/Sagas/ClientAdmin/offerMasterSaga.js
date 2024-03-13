@@ -25,7 +25,6 @@ function* PostOfferMaster({ payload }) {
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
     yield put(
       onPostOfferMasterError({
         postData: {},
@@ -88,7 +87,6 @@ function* PutOfferMaster({ payload }) {
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
     yield put(
       onUpdateOfferMasterError({
         updateData: {},

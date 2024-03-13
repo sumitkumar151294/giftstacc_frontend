@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import InputField from "../../../Components/InputField/InputField";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
@@ -16,27 +17,30 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
 import { onbannerMasterSubmitReset } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
-const BannerForm = ({ prefilledData }) => {
+const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
-  const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
+  const active = GetTranslationData("UIClient", "active_option");
+  const non_active = GetTranslationData("UIClient", "non_active_option");
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
+  const upload_image = GetTranslationData("UIClient", "uploadImage");
+  const upload = GetTranslationData("UIClient", "upload");
+  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const [bannerMaster, setBannerMaster] = useState({
-    bannerPlacement: "",
     bannerTitle: "",
     bannerSubtitle: "",
     bannerLink: "",
     displayOrder: "",
-    status: "",
-    image: "string",
+    enabled: "",
+    image: "",
   });
   const resetField = {
-    bannerPlacement: "",
     bannerTitle: "",
     bannerSubtitle: "",
     bannerLink: "",
     displayOrder: "",
-    status: "",
+    enabled: "",
     image: "",
   };
   useEffect(() => {
@@ -44,21 +48,22 @@ const BannerForm = ({ prefilledData }) => {
 
     if (prefilledData) {
       setBannerMaster({
-        bannerPlacement: prefilledData.bannerPlacement || "",
+        // bannerPlacement: prefilledData.bannerPlacement || "",
         bannerTitle: prefilledData.bannerTitle || "",
         bannerSubtitle: prefilledData.bannerSubtitle || "",
         bannerLink: prefilledData.bannerLink || "",
         displayOrder: prefilledData.displayOrder || "",
-        status: prefilledData.enabled || "",
-        image: prefilledData.image || "",
+        image: "",
+        enabled:
+          prefilledData?.enabled !== undefined ? prefilledData?.enabled : "", // image: prefilledData.image || "",
       });
+
       setErrors({
-        bannerPlacement: "",
         bannerTitle: "",
         bannerSubtitle: "",
         bannerLink: "",
         displayOrder: "",
-        status: "",
+        // status: "",
         image: "",
       });
     }
@@ -67,8 +72,8 @@ const BannerForm = ({ prefilledData }) => {
     if (getBannerMaster.update_status_code === "201") {
       toast.success(getBannerMaster.message);
       setBannerMaster(resetField);
-
       dispatch(onUpdateBannerMasterReset());
+      setPrefilledData("");
       dispatch(onGetbannerMaster());
     }
   }, [getBannerMaster]);
@@ -79,26 +84,23 @@ const BannerForm = ({ prefilledData }) => {
       setBannerMaster(resetField);
       dispatch(onbannerMasterSubmitReset());
       dispatch(onGetbannerMaster());
+    } else if (getBannerMaster?.status_code === "500") {
+      toast.error(getBannerMaster.message);
     }
   }, [getBannerMaster]);
 
   const [errors, setErrors] = useState({
-    bannerPlacement: "",
     bannerTitle: "",
     bannerSubtitle: "",
     bannerLink: "",
     displayOrder: "",
-    status: "",
+    enabled: "",
     image: "",
   });
 
   const statusoptions = [
-    { value: true, label: "Active" },
-    { value: false, label: "Non-active" },
-  ];
-  const bannerPlacement = [
-    { value: "Top", label: "Top" },
-    { value: "Bottom", label: "Bottom" },
+    { value: true, label: active },
+    { value: false, label: non_active },
   ];
 
   useEffect(() => {
@@ -139,54 +141,46 @@ const BannerForm = ({ prefilledData }) => {
 
     if (isValid) {
       if (!prefilledData) {
-        dispatch(onbannerMasterSubmit(bannerMaster));
+        dispatch(
+          onbannerMasterSubmit({
+            ...bannerMaster,
+            enabled: bannerMaster.enabled === "true" ? true : false, // Convert status to boolean based on selection
+          })
+        );
       } else {
         dispatch(
           onUpdateBannerMaster({
             ...bannerMaster,
             id: prefilledData?.id,
             clientId: "strisng",
+            enabled: bannerMaster.enabled === "true" ? true : false,
           })
         );
       }
     }
   };
+
   return (
     <>
       <ScrollToTop />
       <ToastContainer />
-      <div className="row ml-6 pt-4">
+      <div className="container-fluid">
+      <div className="row">
         <div className="col-xl-12 col-xxl-12">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title">Banner Master</h4>
             </div>
-            <div className="card-body pt-2 ml-6    mb-4">
-              <div className="container-fluid">
+            <div className="card-body pt-2 ml-6  mb-4  ">
+              <div className="container-fluid pt-0">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
-                    <div className="col-sm-3 form-group mb-2">
-                      <label htmlFor="bannerPlacement">Banner Placement</label>
-                      <Dropdown
-                        className={`${
-                          errors.bannerPlacement
-                            ? "border-danger-select"
-                            : "form-select"
-                        }`}
-                        id="bannerPlacement"
-                        value={bannerMaster.bannerPlacement}
-                        onChange={(e) => handleChange(e, "bannerPlacement")}
-                        options={bannerPlacement}
-                      ></Dropdown>
-                    </div>
-
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="bannerTitle">Banner Title</label>
+                      <label htmlFor="bannerTitle">Banner Title <span className="text-danger">*</span></label>
                       <InputField
                         type="text"
-                        className={`form-control ${
-                          errors.bannerTitle ? "border-danger" : ""
-                        }`}
+                        className={`form-control ${errors.bannerTitle ? "border-danger" : ""
+                          }`}
                         id="bannerTitle"
                         value={bannerMaster.bannerTitle}
                         onChange={(e) => handleChange(e, "bannerTitle")}
@@ -194,12 +188,11 @@ const BannerForm = ({ prefilledData }) => {
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="bannerSubtitle">Banner Subtitle</label>
+                      <label htmlFor="bannerSubtitle">Banner Subtitle <span className="text-danger">*</span></label>
                       <InputField
                         type="text"
-                        className={`form-control ${
-                          errors.bannerSubtitle ? "border-danger" : ""
-                        }`}
+                        className={`form-control ${errors.bannerSubtitle ? "border-danger" : ""
+                          }`}
                         id="bannerSubtitle"
                         value={bannerMaster.bannerSubtitle}
                         onChange={(e) => handleChange(e, "bannerSubtitle")}
@@ -207,25 +200,23 @@ const BannerForm = ({ prefilledData }) => {
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="bannerLink">Banner Link</label>
+                      <label htmlFor="bannerLink">Banner Link <span className="text-danger">*</span></label>
                       <InputField
                         type="text"
-                        className={`form-control ${
-                          errors.bannerLink ? "border-danger" : ""
-                        }`}
+                        className={`form-control ${errors.bannerLink ? "border-danger" : ""
+                          }`}
                         id="bannerLink"
                         value={bannerMaster.bannerLink}
                         onChange={(e) => handleChange(e, "bannerLink")}
                       />
                     </div>
 
-                    <div className="col-sm-3 form-group mb-2">
-                      <label htmlFor="displayOrder">Display Order</label>
+                    <div className="col-sm-4 form-group mb-2">
+                      <label htmlFor="displayOrder">Display Order <span className="text-danger">*</span></label>
                       <InputField
-                        type="text"
-                        className={`form-control ${
-                          errors.displayOrder ? "border-danger" : ""
-                        }`}
+                        type="number"
+                        className={`form-control ${errors.displayOrder ? "border-danger" : ""
+                          }`}
                         id="displayOrder"
                         value={bannerMaster.displayOrder}
                         onChange={(e) => handleChange(e, "displayOrder")}
@@ -233,51 +224,56 @@ const BannerForm = ({ prefilledData }) => {
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="uploadImage">Upload Image</label>
-                      <div className="input-group   ">
-                        <InputField
-                          type="file"
-                          className={`form-control upload ${
-                            errors.image ? "border-danger" : ""
-                          }`}
-                          id="uploadImage"
-                          onChange={(e) => handleChange(e, "image")}
-                        />
-                        <span className="input-group-text cursor">Upload</span>
+                      <label htmlFor="image">
+                        {upload_image}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <div className="input-group">
+                        <div className="form-file">
+                          <InputField
+                            type="file"
+                            accept="image/jpg,image/png"
+                            value={bannerMaster.image}
+                            className={` ${errors.image
+                              ? "border-danger"
+                              : "form-file-input form-control"
+                              }`}
+                            onChange={(e) => handleChange(e, "image")}
+                          />
+                        </div>
+                        <span className="input-group-text">{upload}</span>
                       </div>
+                      {<p className="text-danger">{errors.image}</p>}
                     </div>
 
-                    <div className="col-sm-3 form-group mb-2">
-                      <label htmlFor="status">Status</label>
+                    <div className="col-sm-4 form-group mb-2">
+                      <label htmlFor="status">Status <span className="text-danger">*</span></label>
                       <Dropdown
-                        className={`${
-                          errors.status ? "border-danger-select" : "form-select"
-                        }`}
+                        className={`${errors.enabled
+                          ? "border-danger-select"
+                          : "form-select"
+                          }`}
                         id="status"
-                        value={bannerMaster?.status}
-                        onChange={(e) => handleChange(e, "status")}
+                        value={bannerMaster?.enabled}
+                        onChange={(e) => handleChange(e, "enabled")}
                         options={statusoptions}
                       ></Dropdown>
                     </div>
-                    {prefilledData ? (
-                      <div className="col-sm-12 form-group mb-0 mt-2">
-                        <Button
-                          type="submit"
-                          className="btn btn-primary float-right"
-                          icon={"fa fa-arrow-right"}
-                          text={update}
-                        ></Button>
-                      </div>
-                    ) : (
-                      <div className="col-sm-12 form-group mb-0 mt-2">
-                        <Button
-                          type="submit"
-                          className="btn btn-primary float-right"
-                          icon={"fa fa-arrow-right"}
-                          text={submitTranslation}
-                        ></Button>
-                      </div>
-                    )}
+                    <span
+                      className="form-check-label"
+                      htmlFor="basic_checkbox_1"
+                      style={{ marginLeft: "5px", marginTop: "10px" }}
+                    >
+                      {requiredLevel}
+                    </span>
+                    <div className="col-sm-12 form-group mb-0 mt-2">
+                      <Button
+                        type="submit"
+                        className="btn btn-primary btn-sm float-right p-btn mt-2"
+                        icon={"fa fa-arrow-right"}
+                        text={prefilledData ? update : submitTranslation}
+                      ></Button>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -285,7 +281,9 @@ const BannerForm = ({ prefilledData }) => {
           </div>
         </div>
       </div>
+      </div>
     </>
   );
 };
 export default BannerForm;
+/* eslint-enable react-hooks/exhaustive-deps */

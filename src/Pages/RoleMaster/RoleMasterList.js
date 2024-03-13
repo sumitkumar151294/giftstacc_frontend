@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
@@ -149,3 +150,4 @@ const RoleMasterList = () => {
   );
 };
 export default RoleMasterList;
+/* eslint-enable react-hooks/exhaustive-deps */

@@ -50,7 +50,6 @@ function* PostAllocateBrand({ payload }) {
             );
         }
     } catch (error) {
-        const message = error.response || "Something went wrong";
         yield put(
             onPostAllocateBrandError({ data: {}, message: error?.response?.data?.ErrorMessage, status_code: error?.response?.data?.HttpStatusCode })
         );

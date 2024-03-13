@@ -49,7 +49,7 @@ export const cmsSlice = createSlice({
     onPostCms: (state) => {
       return {
         ...state,
-        isLoading:true,
+        isLoading: true,
         postCMSData: {},
         message: "",
       };
@@ -58,7 +58,7 @@ export const cmsSlice = createSlice({
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading:false,
+        isLoading: false,
         postCMSData: data,
         postMessage: message,
         post_status_code: status_code,
@@ -68,7 +68,7 @@ export const cmsSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        isLoading:false,
+        isLoading: false,
         postCMSdata: data,
         postMessage: message,
         post_status_code: status_code,
@@ -79,6 +79,7 @@ export const cmsSlice = createSlice({
         ...state,
         postCMSData: null,
         post_status_code: "",
+        postMessage: null,
       };
     },
     onUpdateCms: (state) => {

@@ -6,7 +6,7 @@ const AbandonedCartReport = () => {
       <div className="row">
         <div className="col-xl-12 col-xxl-12">
           <div className="card">
-            <div className="container-fluid">
+            <div className="container-fluid pt-0">
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="card-header">
                   <h4 className="card-title">Abandoned Cart Report</h4>
@@ -20,9 +20,7 @@ const AbandonedCartReport = () => {
                          placeholder="Mobile/Email/Name"
                         />
                     <span className="input-group-text">
-                      <a href="javascript:void(0)">
-                        <i className="flaticon-381-search-2"></i>
-                      </a>
+                    <i className="fa fa-search"></i>
                     </span>
                   </div>
                 </div>

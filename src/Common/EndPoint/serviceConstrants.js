@@ -42,8 +42,8 @@ const API = {
   //offer-master
   offer_master: "/offer-master",
   //client-product-mapping
-  client_product_mapping:"/client-product-mapping",
-
+  client_product_mapping:"/client-product-mapping-by-client-Id",
+  client_product_map:"/client-product-mapping",
   //allocate brand
   allocate_Brand:"/allocate-brands"
 

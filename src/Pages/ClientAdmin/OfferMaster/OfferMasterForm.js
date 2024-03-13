@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import InputField from "../../../Components/InputField/InputField";
@@ -14,7 +15,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
 
-const OfferMasterForm = ({ data, setData }) => {
+const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const [showLoader, setShowLoader] = useState(false);
   const [addData, setAddData] = useState({
     placement: "",
@@ -24,7 +25,7 @@ const OfferMasterForm = ({ data, setData }) => {
     imagePlacement: "",
     image: "",
     enabled: true,
-    link_text: "",
+    linkText: "",
   });
   const [errors, setErrors] = useState({
     placement: "",
@@ -33,8 +34,8 @@ const OfferMasterForm = ({ data, setData }) => {
     link: "",
     imagePlacement: "",
     image: "",
+    linkText: "",
     enabled: "",
-    link_text: "",
   });
   // To reset the Input Field
   const resetAddData = {
@@ -44,8 +45,8 @@ const OfferMasterForm = ({ data, setData }) => {
     link: "",
     imagePlacement: "",
     image: "",
+    linkText: "",
     enabled: "",
-    link_text: "",
   };
 
   // To get the label from translation API
@@ -60,13 +61,13 @@ const OfferMasterForm = ({ data, setData }) => {
   const title = GetTranslationData("UIClient", "title");
   const subtitle = GetTranslationData("UIClient", "sub-title");
   const link_label = GetTranslationData("UIClient", "link_label");
-  const link_text = GetTranslationData("UIClient", "link_text");
   const imagePlacement = GetTranslationData("UIClient", "image_placement");
   const upload_image = GetTranslationData("UIClient", "uploadImage");
   const upload = GetTranslationData("UIClient", "upload");
   const status = GetTranslationData("UIClient", "status");
   const submit = GetTranslationData("UIClient", "submitLabel");
-  const update = GetTranslationData("UIClient", "update_label");
+  const update = GetTranslationData("UIAdmin", "update_label");
+  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
 
@@ -79,8 +80,8 @@ const OfferMasterForm = ({ data, setData }) => {
     { value: false, label: non_active },
   ];
   const imagePlacementOptions = [
-    { value: "Left", label: "left" },
-    { value: "Right", label: "right" },
+    { value: "Left", label: left },
+    { value: "Right", label: right },
   ];
 
   const handleInputChange = (e, fieldName) => {
@@ -134,8 +135,8 @@ const OfferMasterForm = ({ data, setData }) => {
     let isValid = true;
     const newErrors = { ...errors };
     for (const key in addData) {
-      if (addData[key] === "") {
-        newErrors[key] = { field_Required };
+      if (addData[key] === "" || addData[key] === undefined) {
+        newErrors[key] = field_Required;
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -147,13 +148,13 @@ const OfferMasterForm = ({ data, setData }) => {
       if (!data) {
         try {
           dispatch(onPostOfferMasterSubmit(addData));
-        } catch (error) {}
+        } catch (error) { }
       } else if (data) {
         try {
           const tempData = { ...addData };
           tempData.id = data?.id;
           dispatch(onUpdateOfferMaster(tempData));
-        } catch (error) {}
+        } catch (error) { }
       }
     }
   };
@@ -167,26 +168,35 @@ const OfferMasterForm = ({ data, setData }) => {
       subtitle: data?.subtitle || "",
       link: data?.link || "",
       imagePlacement: data?.imagePlacement || "",
+      linkText: data?.linkText || "",
       // image: data?.image || "",
-      enabled: data?.enabled || "",
+      enabled: data?.enabled !== undefined ? data?.enabled : "",
+    });
+    setErrors({
+      StatusCode: "",
+      ErrorName: "",
+      ErrorDesription: "",
+      url: "",
+      buttonText: "",
     });
   }, [data]);
   useEffect(() => {
     if (offerMasterData?.status_code === "201") {
       setShowLoader(false);
       toast.success(offerMasterData?.message);
+      setAddData(resetAddData);
       dispatch(onPostOfferMasterReset());
       dispatch(onGetOfferMaster());
-      setAddData(resetAddData);
     }
   }, [offerMasterData]);
   useEffect(() => {
     if (offerMasterData.update_status_code === "201") {
       setShowLoader(false);
       toast.success(offerMasterData?.updateMessage);
-      dispatch(onGetOfferMaster());
-      dispatch(onUpdateOfferMasterReset());
       setAddData(resetAddData);
+      dispatch(onUpdateOfferMasterReset());
+      setPrefilledValues("")
+      dispatch(onGetOfferMaster());
     }
   }, [offerMasterData]);
 
@@ -197,10 +207,7 @@ const OfferMasterForm = ({ data, setData }) => {
       dispatch(onPostOfferMasterReset());
       setAddData(resetAddData);
     }
-  }, [offerMasterData]);
-
-  useEffect(() => {
-    if (offerMasterData.update_status_code === "400") {
+    else if (offerMasterData.update_status_code === "400") {
       setShowLoader(false);
       toast.error(offerMasterData.updateMessage);
       dispatch(onUpdateOfferMasterReset());
@@ -236,9 +243,8 @@ const OfferMasterForm = ({ data, setData }) => {
                           <Dropdown
                             value={addData.placement || ""}
                             onChange={(e) => handleInputChange(e, "placement")}
-                            className={` ${
-                              errors.placement ? "border-danger" : "form-select"
-                            }`}
+                            className={` ${errors.placement ? "border-danger-select" : "form-select"
+                              }`}
                             options={placementoptions}
                           />
                         </div>
@@ -251,12 +257,10 @@ const OfferMasterForm = ({ data, setData }) => {
                             type="text"
                             value={addData.title}
                             onChange={(e) => handleInputChange(e, "title")}
-                            className={` ${
-                              errors.title ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.title ? "border-danger" : "form-control"
+                              }`}
                             name="title"
                             id="title"
-                            placeholder=""
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
@@ -268,12 +272,10 @@ const OfferMasterForm = ({ data, setData }) => {
                             type="text"
                             value={addData.subtitle}
                             onChange={(e) => handleInputChange(e, "subtitle")}
-                            className={` ${
-                              errors.subtitle ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.subtitle ? "border-danger" : "form-control"
+                              }`}
                             name="subtitle"
                             id="subtitle"
-                            placeholder=""
                           />
                         </div>
                         <div className="col-sm-5 form-group mb-2">
@@ -285,31 +287,23 @@ const OfferMasterForm = ({ data, setData }) => {
                             type="text"
                             value={addData.link}
                             onChange={(e) => handleInputChange(e, "link")}
-                            className={` ${
-                              errors.link ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.link ? "border-danger" : "form-control"
+                              }`}
                             name="link"
                             id="link"
-                            placeholder=""
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
-                          {/* <label htmlFor="link_text">{link_text}
-                                          <span className="text-danger">*</span>
-                                        </label> */}
-                          <label htmlFor="link_text">
+                          <label htmlFor="linkText">
                             {"Link Text"}
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
-                            value={addData.link_text}
-                            onChange={(e) => handleInputChange(e, "link_text")}
-                            className={` ${
-                              errors.subtitle ? "border-danger" : "form-control"
-                            }`}
-                            name="link_text"
-                            id="link_text"
+                            value={addData.linkText}
+                            onChange={(e) => handleInputChange(e, "linkText")}
+                            className={` ${errors.linkText ? "border-danger" : "form-control"
+                              }`}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -322,11 +316,10 @@ const OfferMasterForm = ({ data, setData }) => {
                             onChange={(e) =>
                               handleInputChange(e, "imagePlacement")
                             }
-                            className={` ${
-                              errors.imagePlacement
-                                ? "border-danger"
-                                : "form-select"
-                            }`}
+                            className={` ${errors.imagePlacement
+                              ? "border-danger-select"
+                              : "form-select"
+                              }`}
                             options={imagePlacementOptions}
                           />
                         </div>
@@ -341,17 +334,15 @@ const OfferMasterForm = ({ data, setData }) => {
                                 type="file"
                                 accept="image/jpg,image/png"
                                 value={addData.image}
-                                className={` ${
-                                  errors.image
-                                    ? "border-danger"
-                                    : "form-file-input form-control"
-                                }`}
+                                className={` ${errors.image
+                                  ? "border-danger"
+                                  : "form-file-input form-control"
+                                  }`}
                                 onChange={(e) => handleInputChange(e, "image")}
                               />
                             </div>
                             <span className="input-group-text">{upload}</span>
                           </div>
-                          {<p className="text-danger">{errors.image}</p>}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="enabled">
@@ -361,15 +352,21 @@ const OfferMasterForm = ({ data, setData }) => {
                           <Dropdown
                             value={addData.enabled}
                             onChange={(e) => handleInputChange(e, "enabled")}
-                            className={` ${
-                              errors.enabled ? "border-danger" : "form-select"
-                            }`}
+                            className={` ${errors.enabled ? "border-danger-select" : "form-select"
+                              }`}
                             options={statusoptions}
                           />
                         </div>
+                        <span
+                          className="form-check-label"
+                          htmlFor="basic_checkbox_1"
+                          style={{ marginLeft: "5px", marginTop: "10px" }}
+                        >
+                          {requiredLevel}
+                        </span>
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button
-                            text={data ? "update" : submit}
+                            text={data ? update : submit}
                             icon="fa fa-arrow-right"
                             className="btn btn-primary btn-sm float-right p-btn mt-2"
                           />
@@ -388,3 +385,4 @@ const OfferMasterForm = ({ data, setData }) => {
   );
 };
 export default OfferMasterForm;
+/* eslint-enable react-hooks/exhaustive-deps */

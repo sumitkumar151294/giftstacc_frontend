@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetSupplierBrandList, onUpdateSupplierBrandList, onUpdateSupplierBrandListReset } from "../../Store/Slices/supplierBrandListSlice";
+import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
@@ -46,7 +47,7 @@ const ClientBrandList = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
-    dispatch(onClientProductMappingSubmit());
+    dispatch(onClientProductMappingSubmit(location?.state?.id));
   }, []);
 
   useEffect(() => {
@@ -64,11 +65,11 @@ const ClientBrandList = () => {
   useEffect(() => {
     if (ClientProducts?.post_status_code === "201") {
       toast.success(ClientProducts?.message)
-      dispatch(onClientProductMappingSubmit());
+      dispatch(onClientProductMappingSubmit(location?.state?.id));
       dispatch(onPostClientProductMappingReset());
     }else if (ClientProducts?.update_status_code === "201") {
       toast.success(ClientProducts?.updateMessage)
-      dispatch(onClientProductMappingSubmit());
+      dispatch(onClientProductMappingSubmit(location?.state?.id));
       dispatch(onUpdateClientProductMappingReset());
     }
   }, [ClientProducts])
@@ -193,8 +194,8 @@ const ClientBrandList = () => {
       dispatch(onUpdateClientProductMappingSubmit(updatedValues))
     }else{
       const updatedValues = {
-        clientCommission: 1,
-        customerDiscount: 1,
+        clientCommission: 0,
+        customerDiscount: 0,
         clientId: location?.state?.id,
         enabled: true,
         productId: data?.id
@@ -446,3 +447,4 @@ const ClientBrandList = () => {
 };
 
 export default ClientBrandList;
+/* eslint-enable react-hooks/exhaustive-deps */

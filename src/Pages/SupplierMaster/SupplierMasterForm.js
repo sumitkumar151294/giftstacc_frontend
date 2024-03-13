@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,7 +45,6 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
     "fieldValueNotEmpty"
   );
   const [isformLoading, setIsFormLoading] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [vendorData, setVendorData] = useState({
     name: "",
     balanceThresholdAmount: "",
@@ -111,7 +111,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
   }))
     return additionalData;
   }
-
+/* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     setIsLoading(false)
     if (supplyPostData.post_status_code === "201" && !supplyPostData?.isLoading) {
@@ -134,8 +134,8 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
           dispatch(onVendorReset());
           toast.error(supplyPostData?.message)
       }
-  }, [supplyPostData]);
 
+  }, [supplyPostData]);
   useEffect(()=>{
   if(supplyResource?.status_code === "201" && !supplyResource?.isLoading){
     toast.success(supplyResource?.message)
@@ -513,3 +513,4 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
 };
 
 export default SupplierMasterForm;
+/* eslint-enable react-hooks/exhaustive-deps */

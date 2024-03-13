@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
@@ -13,12 +14,12 @@ import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
 const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
-
   const sumbit = GetTranslationData("UIAdmin", "submit_label");
   const update = GetTranslationData("UIAdmin", "update_label");
   const cms = GetTranslationData("UIClient", "cms");
   const ShortDescription = GetTranslationData("UIClient", "short_description");
   const LongDescription = GetTranslationData("UIClient", "long_description");
+  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const dispatch = useDispatch();
   const getCmsData = useSelector((state) => state.cmsReducer);
   const [cmsData, setCmsData] = useState({
@@ -106,14 +107,16 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     }
   };
   useEffect(() => {
-
-    if (getCmsData.post_status_code === "201") {
+    if (getCmsData.postMessage?.data?.HttpStatusCode === "500") {
+      setCmsData(resetCMSData);
+      toast.error(getCmsData?.postMessage?.data?.ErrorMessage);
+      dispatch(onPostCmsReset());
+    } else if (getCmsData.post_status_code === "201") {
       toast.success(getCmsData.postMessage);
       setCmsData(resetCMSData);
       dispatch(onPostCmsReset());
       dispatch(onGetCms());
     } else if (getCmsData.post_status_code === 400) {
-      setCmsData(resetCMSData);
       toast.error(getCmsData.message);
       dispatch(onPostCmsReset());
     }
@@ -136,12 +139,12 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     if (getCmsData.update_status_code === "201") {
       toast.success(getCmsData.updateMessage);
       setCmsData(resetCMSData);
-      dispatch(onGetCms());
       dispatch(onUpdateCmsReset());
+      setCmsprefilled("");
+      dispatch(onGetCms());
     } else if (getCmsData.update_status_code === 400) {
       toast.error(getCmsData.updateMessage);
       setCmsData(resetCMSData);
-      setCmsprefilled(false)
       dispatch(onUpdateCmsReset());
     }
   }, [getCmsData]);
@@ -151,7 +154,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
-              {getCmsData.isLoading ? (
+              {getCmsData?.isLoading ? (
                 <div style={{ height: "400px" }}>
                   <Loader classNameType={"absoluteLoader"} />
                 </div>
@@ -165,15 +168,14 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                         error={errors.title}
                         defaultSelected="Select Page Name"
                         value={cmsData.title}
-                        className={` ${
-                          errors.title ? "border-danger" : "form-select"
-                        }`}
+                        className={` ${errors.title ? "border-danger" : "form-select"
+                          }`}
                         options={
                           Array.isArray(PageNames)
                             ? PageNames?.map((Pagename) => ({
-                                label: Pagename,
-                                value: Pagename,
-                              }))
+                              label: Pagename,
+                              value: Pagename,
+                            }))
                             : []
                         }
                       />
@@ -183,7 +185,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
 
                   <div className="card-body">
                     <div className="form-group mb-2">
-                      <label for="name-f">{ShortDescription}</label>
+                      <label for="name-f">{ShortDescription} <span className="text-danger">*</span></label>
 
                       <textarea
                         name="textarea"
@@ -198,7 +200,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                       <p className="text-danger">{errors.shortDescription}</p>
                     </div>
                     <div className="form-group mb-2">
-                      <label for="name-f">{LongDescription}</label>
+                      <label for="name-f">{LongDescription} <span className="text-danger">*</span></label>
                       <HtmlEditor
                         value={cmsData.longDescription}
                         onChange={(data) =>
@@ -207,6 +209,13 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                       />
                       <p className="text-danger">{errors.longDescription}</p>
                     </div>
+                    <span
+                      className="form-check-label"
+                      htmlFor="basic_checkbox_1"
+                      style={{ marginLeft: "5px", marginTop: "10px" }}
+                    >
+                      {requiredLevel}
+                    </span>
                     <div className="form-group mb-0 mt-2">
                       <button
                         type="submit"
@@ -230,3 +239,4 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
 };
 
 export default CMSForm;
+/* eslint-enable react-hooks/exhaustive-deps */
