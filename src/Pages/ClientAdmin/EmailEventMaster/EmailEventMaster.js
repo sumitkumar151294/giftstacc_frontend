@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState,useEffect } from "react";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { useDispatch, useSelector } from "react-redux";
@@ -340,3 +341,4 @@ const EmailEventMaster = () => {
 };
 
 export default EmailEventMaster;
+/* eslint-enable react-hooks/exhaustive-deps */

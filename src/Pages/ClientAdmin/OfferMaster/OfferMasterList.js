@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OfferMasterForm from "./OfferMasterForm";
@@ -10,7 +11,6 @@ import {
   onUpdateOfferMaster,
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import Loader from "../../../Components/Loader/Loader";
-import offerImage from "../../../Assets/img/pizz1.jpg";
 import PageError from "../../../Components/PageError/PageError";
 
 const OfferMasterList = () => {
@@ -228,3 +228,4 @@ const OfferMasterList = () => {
 };
 
 export default OfferMasterList;
+/* eslint-enable react-hooks/exhaustive-deps */

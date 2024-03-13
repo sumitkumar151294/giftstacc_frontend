@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
   onFaqMasterSubmit,
@@ -255,3 +256,4 @@ return category ? category.name : "";
 };
 
 export default FaqMaster;
+/* eslint-enable react-hooks/exhaustive-deps */
