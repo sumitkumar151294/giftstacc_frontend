@@ -18,7 +18,6 @@ import Button from "../../Components/Button/Button";
 
 const CategoryList = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
@@ -36,7 +35,6 @@ const CategoryList = () => {
   // To get the categories
   useEffect(() => {
     dispatch(onGetCategory());
-    setIsLoading(true);
   }, []);
 
   // To get the data from redux store
@@ -73,12 +71,6 @@ const CategoryList = () => {
     )
     : [];
 
-  useEffect(() => {
-    if (getCategoryData) {
-      setIsLoading(false);
-    }
-  }, [getCategoryData]);
-
   // For Pagination
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -97,7 +89,6 @@ const CategoryList = () => {
       id: data?.id,
       description: "string",
     };
-    setIsLoading(true)
     dispatch(onUpdateCategory(deletedData));
   };
   // To get the Supplier Name in the Category List
@@ -120,7 +111,7 @@ const CategoryList = () => {
     <>
       <ScrollToTop />
       {getRoleAccess[0]?.addAccess && (
-      <CategoryForm setIsLoading={setIsLoading} />
+      <CategoryForm  />
       )}
       <div className="container-fluid pt-0">
         <div className="row">

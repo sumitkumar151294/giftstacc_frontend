@@ -17,7 +17,6 @@ const AllocateBrand = () => {
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -58,6 +57,7 @@ const AllocateBrand = () => {
 
     setGetProduct(matchingProductsData);
   }, [getAllocateBrands, SupplierBrandList]);
+  
   const filteredBrandCatalogueList = Array.isArray(getProduct)
     ? getProduct.filter((vendor) =>
         Object.values(vendor).some(
@@ -75,10 +75,7 @@ const AllocateBrand = () => {
       if (page > totalPages && page > 1) {
         setPage(page - 1);
       }
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-    }
+    } 
   }, [getAllocateBrands?.getAllocateBrandData]);
 
   const handleSubmit = () => {
@@ -87,7 +84,9 @@ const AllocateBrand = () => {
         name: "asd",
       })
     );
-  };  return (
+  }; 
+  
+  return (
     <>
       <div className="container-fluid">
         <div className="row">

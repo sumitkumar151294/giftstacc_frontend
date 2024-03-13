@@ -16,7 +16,6 @@ import Loader from "../../Components/Loader/Loader";
 const SupplierProductList = () => {
   const dispatch = useDispatch();
   const [selectedSupplierCode, setSelectedSupplierCode] = useState("Select");
-  const [isLoading, setIsLoading] = useState(false);
   const [supplierList, setSupplierList] = useState([]);
   const [copySupplierBrandList, setCopySupplierBrandList] = useState([]);
   const SupplierBrandList = useSelector(
@@ -57,7 +56,6 @@ const SupplierProductList = () => {
 
   useEffect(() => {
     if (SupplierBrandListUpdate?.updateStatusCode === "201") {
-      setIsLoading(false);
       toast.success(SupplierBrandListUpdate?.message)
       dispatch(onGetSupplierBrandList());
       dispatch(onUpdateSupplierBrandListReset())
@@ -161,7 +159,6 @@ const SupplierProductList = () => {
       enabled: data?.enabled,
       clientEnabled: data?.clientEnabled
     };
-    setIsLoading(true);
     dispatch(onUpdateSupplierBrandList(updatedValues));
   };
 
@@ -175,7 +172,6 @@ const SupplierProductList = () => {
       enabled: !data?.enabled,
       clientEnabled: data?.clientEnabled
     };
-    setIsLoading(true)
     dispatch(onUpdateSupplierBrandList(updatedValues));
   }
 
