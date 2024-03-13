@@ -46,7 +46,6 @@ const BrandCatalogue = () => {
     (state) => state.supplierBrandListReducer.data
   );
   useEffect(() => {
-    debugger
     const matchingProductsData =
       Array.isArray(clientProductMapping) &&
       clientProductMapping

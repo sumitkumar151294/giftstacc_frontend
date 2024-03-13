@@ -19,7 +19,8 @@ const BrandDetail = () => {
     "termsandconditions"
   );
   const storelocator = GetTranslationData("UIAdmin", "storelocator");
-
+  const formattedContent = data.tncContent.replace(/<br\s*\/?>/gi, '\n');
+  const paragraphs = formattedContent.split('\n');
   return (
     <>
       <ScrollToTop />
@@ -67,7 +68,10 @@ const BrandDetail = () => {
                       <div>
                         <div className="tc mt-2">
                           <h6>{termsandconditions}</h6>
-                          <p>{data.tncContent}</p>
+                          {paragraphs.map((paragraph, index) => (
+                            <p key={index}>{paragraph}</p>
+                          ))}
+                          {console.log(data.tncContent, "testdescription")}
                         </div>
                         <div className=" tc mt-2">
                           <h6>{data.title2}</h6>
