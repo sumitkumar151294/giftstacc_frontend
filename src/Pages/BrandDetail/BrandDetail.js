@@ -19,8 +19,8 @@ const BrandDetail = () => {
     "termsandconditions"
   );
   const storelocator = GetTranslationData("UIAdmin", "storelocator");
-  const formattedContent = data.tncContent.replace(/<br\s*\/?>/gi, '\n');
-  const paragraphs = formattedContent.split('\n');
+  const formattedContent = data.tncContent.replace(/<br\s*\/?>/gi, "\n");
+  const paragraphs = formattedContent.split("\n");
   return (
     <>
       <ScrollToTop />
@@ -31,7 +31,7 @@ const BrandDetail = () => {
               <div className="card">
                 <div className="card-body">
                   <div className="menu-product d-flex">
-                    <img src={data.thumbnail} />
+                    <img src={data.mobile} />
                     <div className="content-detail-wrap">
                       <div>
                         <div>
@@ -66,14 +66,16 @@ const BrandDetail = () => {
                         </div>
                       </div>
                       <div>
-                        <div className="tc mt-2">
-                          <h6>{termsandconditions}</h6>
-                          {paragraphs.map((paragraph, index) => (
-                            <p key={index}>{paragraph}</p>
-                          ))}
-                          {console.log(data.tncContent, "testdescription")}
-                        </div>
-                        <div className=" tc mt-2">
+                        {data.tncContent !== "" && (
+                          <div className="tc mt-2">
+                            <h6>{termsandconditions}</h6>
+                            {paragraphs.map((paragraph, index) => (
+                              <p key={index}>{paragraph}</p>
+                            ))}
+                            {console.log(data.tncContent, "testdescription")}
+                          </div>
+                        )}
+                        {/* <div className=" tc mt-2">
                           <h6>{data.title2}</h6>
                           <h6>
                             <strong>{data.heading1}</strong>
@@ -83,7 +85,7 @@ const BrandDetail = () => {
                             <strong>{data.heading2}</strong>
                           </h6>
                           <p>{data.InStoreInformation}</p>
-                        </div>
+                        </div>  */}
                       </div>
                       <div className="only-right mt-2">
                         <a className="mr-10 on-link" href={""}>
