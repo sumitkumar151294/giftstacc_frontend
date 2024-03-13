@@ -19,6 +19,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
   const cms = GetTranslationData("UIClient", "cms");
   const ShortDescription = GetTranslationData("UIClient", "short_description");
   const LongDescription = GetTranslationData("UIClient", "long_description");
+  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const dispatch = useDispatch();
   const getCmsData = useSelector((state) => state.cmsReducer);
   const [cmsData, setCmsData] = useState({
@@ -167,15 +168,14 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                         error={errors.title}
                         defaultSelected="Select Page Name"
                         value={cmsData.title}
-                        className={` ${
-                          errors.title ? "border-danger" : "form-select"
-                        }`}
+                        className={` ${errors.title ? "border-danger" : "form-select"
+                          }`}
                         options={
                           Array.isArray(PageNames)
                             ? PageNames?.map((Pagename) => ({
-                                label: Pagename,
-                                value: Pagename,
-                              }))
+                              label: Pagename,
+                              value: Pagename,
+                            }))
                             : []
                         }
                       />
@@ -185,7 +185,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
 
                   <div className="card-body">
                     <div className="form-group mb-2">
-                      <label for="name-f">{ShortDescription}</label>
+                      <label for="name-f">{ShortDescription} <span className="text-danger">*</span></label>
 
                       <textarea
                         name="textarea"
@@ -200,7 +200,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                       <p className="text-danger">{errors.shortDescription}</p>
                     </div>
                     <div className="form-group mb-2">
-                      <label for="name-f">{LongDescription}</label>
+                      <label for="name-f">{LongDescription} <span className="text-danger">*</span></label>
                       <HtmlEditor
                         value={cmsData.longDescription}
                         onChange={(data) =>
@@ -209,6 +209,13 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                       />
                       <p className="text-danger">{errors.longDescription}</p>
                     </div>
+                    <span
+                      className="form-check-label"
+                      htmlFor="basic_checkbox_1"
+                      style={{ marginLeft: "5px", marginTop: "10px" }}
+                    >
+                      {requiredLevel}
+                    </span>
                     <div className="form-group mb-0 mt-2">
                       <button
                         type="submit"
