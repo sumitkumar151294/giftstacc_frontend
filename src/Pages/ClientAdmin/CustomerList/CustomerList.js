@@ -18,11 +18,11 @@ export const CustomerList = () => {
     return (
         <>
             <ScrollToTop />
-            <div className="container-fluid pt-0">
+            <div className="container-fluid ">
                 <div className="row">
                     <div className="col-xl-12 col-xxl-12">
                         <div className="card">
-                            <div className="container mt-2 mb-2">
+                            <div className="container pt-0 mt-2 mb-2">
                                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                     <div className="card-header">
                                         <h4 className="card-title">Customer List</h4>
