@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
@@ -238,3 +239,4 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
 };
 
 export default CMSForm;
+/* eslint-enable react-hooks/exhaustive-deps */

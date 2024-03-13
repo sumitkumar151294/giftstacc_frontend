@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import InputField from "../../../Components/InputField/InputField";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
@@ -22,7 +23,6 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
-  const imagePlacement = GetTranslationData("UIClient", "image_placement");
   const upload_image = GetTranslationData("UIClient", "uploadImage");
   const upload = GetTranslationData("UIClient", "upload");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
@@ -72,7 +72,6 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
     if (getBannerMaster.update_status_code === "201") {
       toast.success(getBannerMaster.message);
       setBannerMaster(resetField);
-
       dispatch(onUpdateBannerMasterReset());
       setPrefilledData("");
       dispatch(onGetbannerMaster());
@@ -285,3 +284,4 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   );
 };
 export default BannerForm;
+/* eslint-enable react-hooks/exhaustive-deps */

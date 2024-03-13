@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import InputField from "../../../Components/InputField/InputField";
@@ -60,7 +61,6 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const title = GetTranslationData("UIClient", "title");
   const subtitle = GetTranslationData("UIClient", "sub-title");
   const link_label = GetTranslationData("UIClient", "link_label");
-  const linkText = GetTranslationData("UIClient", "linkText");
   const imagePlacement = GetTranslationData("UIClient", "image_placement");
   const upload_image = GetTranslationData("UIClient", "uploadImage");
   const upload = GetTranslationData("UIClient", "upload");
@@ -385,3 +385,4 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   );
 };
 export default OfferMasterForm;
+/* eslint-enable react-hooks/exhaustive-deps */

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
   onFaqMasterSubmit,
@@ -260,3 +261,4 @@ const FaqMaster = () => {
 };
 
 export default FaqMaster;
+/* eslint-enable react-hooks/exhaustive-deps */

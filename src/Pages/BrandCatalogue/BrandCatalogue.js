@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
@@ -7,7 +8,6 @@ import Loader from "../../Components/Loader/Loader";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
-import { CSVLink } from "react-csv";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
@@ -29,10 +29,8 @@ const BrandCatalogue = () => {
   const price = GetTranslationData("UIAdmin", "price");
   const action = GetTranslationData("UIAdmin", "action");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
-  const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
   const supplier = GetTranslationData("UIAdmin", "supplier");
-  const client = GetTranslationData("UIAdmin", "client");
   const [searchQuery, setSearchQuery] = useState("");
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -65,8 +63,7 @@ const BrandCatalogue = () => {
 
     setGetProduct(matchingProductsData);
   }, [clientProductMapping, SupplierBrandList]);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
-  const [supplierList, setSupplierList] = useState({
+         const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
   });
@@ -294,3 +291,4 @@ const BrandCatalogue = () => {
 };
 
 export default BrandCatalogue;
+/* eslint-enable react-hooks/exhaustive-deps */

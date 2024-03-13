@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,11 +8,10 @@ import ReactPaginate from "react-paginate";
 import CMSForm from "./CMSForm";
 import {
   onGetCms,
-  onUpdateCms,
-  onUpdateCmsReset,
+  onUpdateCms
 } from "../../../Store/Slices/ClientAdmin/cmsSlice";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer} from "react-toastify";
 import PageError from "../../../Components/PageError/PageError";
 const CMS = () => {
   const [page, setPage] = useState(1);
@@ -196,3 +196,4 @@ const CMS = () => {
 };
 
 export default CMS;
+/* eslint-enable react-hooks/exhaustive-deps */

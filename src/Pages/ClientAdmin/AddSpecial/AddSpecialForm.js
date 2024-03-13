@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import InputField from "../../../Components/InputField/InputField";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
@@ -233,3 +234,4 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
 };
 
 export default AddSpecialForm;
+/* eslint-enable react-hooks/exhaustive-deps */

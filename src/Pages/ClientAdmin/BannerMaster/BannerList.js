@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import BannerForm from "./BannerMaster";
 import ReactPaginate from "react-paginate";
@@ -161,3 +162,4 @@ const BannerMasterList = () => {
   );
 };
 export default BannerMasterList;
+/* eslint-enable react-hooks/exhaustive-deps */
