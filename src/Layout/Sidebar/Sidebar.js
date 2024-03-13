@@ -54,10 +54,7 @@ const Sidebar = () => {
     }
   }, [getModuleData, userRoleModuleAccess]);
 
-  useEffect(() => {
-    const getValues = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item => item.roleId === userRoleID));
-    dispatch(allowModules(getValues));
-  }, []);
+
 
   // function to add active class on Li
   const hanleClick = (e, moduleId) => {
@@ -70,11 +67,15 @@ const Sidebar = () => {
   const getModuleDataAccess = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
 
  useEffect(() => {
-  if (getModuleDataAccess && selectedModuleId !== undefined) {
+  if (getModuleDataAccess && selectedModuleId !== null) {
     const roleAcessValues = Array.isArray(getModuleDataAccess) && getModuleDataAccess.filter(item => item.moduleId === selectedModuleId);
     dispatch(allowModules(roleAcessValues));
+  }else if(getModuleDataAccess && selectedModuleId === null){
+    const data = sideBarModules.find(item=>(item.routePath.toLowerCase() === currentUrl.pathname.toLowerCase()))
+    const roleAcessValues = Array.isArray(getModuleDataAccess) && getModuleDataAccess.filter(item => item.moduleId === data?.moduleId);
+    dispatch(allowModules(roleAcessValues));
   }
-}, [userRoleModuleAccess, selectedModuleId]);
+}, [userRoleModuleAccess, selectedModuleId, sideBarModules]);
 
   return (
     <div className="deznav">
