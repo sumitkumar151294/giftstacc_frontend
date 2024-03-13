@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { useDispatch, useSelector } from "react-redux";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
@@ -26,7 +26,7 @@ const EmailEventMaster = () => {
   });
   const dispatch = useDispatch();
   const emailEventMaster = useSelector((state) => state.emailEventMasterReducer?.emailEventData);
-  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
+  const getRoleAccess = useSelector((state) => state.moduleReducer.filteredData);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
@@ -60,7 +60,7 @@ const EmailEventMaster = () => {
 
   };
 
-  const tableData = [        
+  const tableData = [
     {
       variable: "%suborderid%",
       meaning: "Sub Order ID",
@@ -134,23 +134,25 @@ const EmailEventMaster = () => {
   const emaileventmasteraction = GetTranslationData('UIAdmin', 'emaileventmasteraction');
   const meaning = GetTranslationData('UIAdmin', 'meaning');
   const variable = GetTranslationData('UIAdmin', 'variable');
+  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+
 
   useEffect(() => {
     dispatch(onGetEmailEventMaster());
   }, []);
   return (
     <>
-    <ScrollToTop />
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-xl-12 col-xxl-12">
-              <div className="card">
-                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div className="card-header">
-                    <h4 className="card-title">{emaileventmaster}</h4>
-                  </div>
+      <ScrollToTop />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12 col-xxl-12">
+            <div className="card">
+              <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                <div className="card-header">
+                  <h4 className="card-title">{emaileventmaster}</h4>
                 </div>
-                {getRoleAccess[0]?.addAccess && (
+              </div>
+              {getRoleAccess[0]?.addAccess && (
                 <div className="row">
                   <div className="col-xl-7 col-xxl-7">
                     <div className="card">
@@ -162,46 +164,53 @@ const EmailEventMaster = () => {
                             value={name.eventName}
                             onChange={(e) => handleChange(e, "eventName")}
                             className="form-control"
-                            name="fname"                            
+                            name="fname"
                             id="name-f"
                           />
                         </div>
                         <div className=" form-group mb-2">
                           <label htmlFor="name-f">{emaileventmastersms}</label>
                           <div className=" bootstrap-tagsinput border_type">
-                          <InputField
-                            type="text"
-                            value={name.smsBody}
-                            onChange={(e) => handleChange(e, "smsBody")}
-                            className="input-tags "
-                            data-role="tagsinput"
-                          />
+                            <InputField
+                              type="text"
+                              value={name.smsBody}
+                              onChange={(e) => handleChange(e, "smsBody")}
+                              className="input-tags "
+                              data-role="tagsinput"
+                            />
                           </div>
                         </div>
                         <div className="form-group mb-2">
                           <label htmlFor="name-f">{emaileventmastersubject}</label>
                           <div className=" bootstrap-tagsinput border_type">
-                          <InputField
-                            type="text"
-                            value={name.subject}
-                            onChange={(e) => handleChange(e, "subject")}
-                            className="input-tags "
-                            data-role="tagsinput"
-                          />
+                            <InputField
+                              type="text"
+                              value={name.subject}
+                              onChange={(e) => handleChange(e, "subject")}
+                              className="input-tags "
+                              data-role="tagsinput"
+                            />
                           </div>
                         </div>
                         <div className="form-group mb-2">
                           <label htmlFor="name-f">{emaileventmastermail}</label>
                           <div className=" bootstrap-tagsinput border_type">
-                          <InputField
-                            type="text"
-                            value={name.mailBody}
-                            onChange={(e) => handleChange(e, "mailBody")}
-                            className="input-tags "
-                            data-role="tagsinput"
-                          />
+                            <InputField
+                              type="text"
+                              value={name.mailBody}
+                              onChange={(e) => handleChange(e, "mailBody")}
+                              className="input-tags "
+                              data-role="tagsinput"
+                            />
                           </div>
                         </div>
+                        <span
+                          className="form-check-label"
+                          htmlFor="basic_checkbox_1"
+                          style={{ marginLeft: "5px", marginTop: "10px" }}
+                        >
+                          {requiredLevel}
+                        </span>
                         <div className="form-group mb-0 mt-2">
                           <button
                             className="btn btn-primary float-right pad-aa"
@@ -263,8 +272,8 @@ const EmailEventMaster = () => {
                     </div>
                   </div>
                 </div>
-                )}
-                <div className="card-body">
+              )}
+              <div className="card-body">
                 {emailEventMaster.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -277,16 +286,16 @@ const EmailEventMaster = () => {
                           {getRoleAccess[0]?.editAccess && (<th>{emaileventmasteraction}</th>)}
                         </tr>
                       </thead>
-                        <tbody>
-                          {emailEventMaster.slice(startIndex, endIndex).map((item)=> (
-                             <tr>
-                              <td>
-                                {item.id}
-                              </td>
-                              <td>{item.status}</td>
-                              <td>{item.date}</td>
-                              <td>{item.placeholders}%</td>
-                              {getRoleAccess[0]?.editAccess && (
+                      <tbody>
+                        {emailEventMaster.slice(startIndex, endIndex).map((item) => (
+                          <tr>
+                            <td>
+                              {item.id}
+                            </td>
+                            <td>{item.status}</td>
+                            <td>{item.date}</td>
+                            <td>{item.placeholders}%</td>
+                            {getRoleAccess[0]?.editAccess && (
                               <td>
                                 <div className="d-flex">
                                   <a
@@ -303,11 +312,11 @@ const EmailEventMaster = () => {
                                   </a>
                                 </div>
                               </td>
-                              )}
-                            </tr>
-                          ))}
-                        </tbody>
-                     </table>
+                            )}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                     {emailEventMaster.length > 5 && (
                       <div className="pagination-container">
                         <ReactPaginate
@@ -328,13 +337,13 @@ const EmailEventMaster = () => {
                     )}
                   </div>
                 ) : (
-                      <NoRecord />   
+                  <NoRecord />
                 )}
-                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </>
   );
 };
