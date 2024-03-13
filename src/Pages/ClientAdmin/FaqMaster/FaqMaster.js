@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { format } from "date-fns";
 import {
   onFaqMasterSubmit,
   onFaqMasterSubmitReset,
@@ -25,7 +26,9 @@ const FaqMaster = () => {
   const [showLoader, setShowLoader] = useState(false);
   const faqMasterGetData = useSelector((state) => state.faqMasterReducer);
   const faqCategory = useSelector((state) => state.faqCategoryReducer);
-  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
   const [rowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const [showError, setShowError] = useState(false);
@@ -123,7 +126,6 @@ const FaqMaster = () => {
       dispatch(onFaqMasterSubmit(faqInfo));
     }
   };
-
   return (
     <>
       {showError ? (
@@ -139,77 +141,79 @@ const FaqMaster = () => {
                     <h4 className="card-title">FAQ's Categories</h4>
                   </div>
                   {getRoleAccess[0]?.addAccess && (
-                  <div className="card-body pt-4 ml-4">
-                    <form onSubmit={handleSubmit}>
-                      <div className="row">
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="name-l">Category</label>
-                          <Dropdown
-                            onChange={(e) => handleChange(e, "categoryId")}
-                            error={errors.categoryId}
-                            ariaLabel="Select"
-                            value={faqInfo.categoryId}
-                            className={` ${
-                              errors.categoryId
-                                ? "border-danger"
-                                : "form-select"
-                            }`}
-                            options={
-                              Array.isArray(faqCategory?.getData)
-                                ? faqCategory?.getData?.map((category) => ({
-                                    label: category.name,
-                                    value: category.id,
-                                    data: category.code,
-                                  }))
-                                : []
-                            }
-                          />
+                    <div className="card-body pt-4 ml-4">
+                      <form onSubmit={handleSubmit}>
+                        <div className="row">
+                          <div className="col-sm-4 form-group mb-2">
+                            <label htmlFor="name-l">Category</label>
+                            <Dropdown
+                              onChange={(e) => handleChange(e, "categoryId")}
+                              error={errors.categoryId}
+                              ariaLabel="Select"
+                              value={faqInfo.categoryId}
+                              className={` ${
+                                errors.categoryId
+                                  ? "border-danger"
+                                  : "form-select"
+                              }`}
+                              options={
+                                Array.isArray(faqCategory?.getData)
+                                  ? faqCategory?.getData?.map((category) => ({
+                                      label: category.name,
+                                      value: category.id,
+                                      data: category.code,
+                                    }))
+                                  : []
+                              }
+                            />
+                          </div>
+                          <div className="col-sm-12 form-group mb-2">
+                            <label htmlFor="name-f">Question</label>
+                            <InputField
+                              type="text"
+                              className={`form-control ${
+                                errors.question ? "border-danger" : ""
+                              }`}
+                              id="name-f"
+                              placeholder=""
+                              value={faqInfo.question}
+                              onChange={(e) => handleChange(e, "question")}
+                            />
+                            {errors.question && (
+                              <div className="text-danger">
+                                {errors.question}
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-sm-12 form-group mb-2">
+                            <label htmlFor="textarea">Answer</label>
+                            <textarea
+                              id="textarea"
+                              cols="60"
+                              rows="10"
+                              className={`form-control bg-transparent ${
+                                errors.answer ? "border-danger" : ""
+                              }`}
+                              placeholder=""
+                              value={faqInfo.answer}
+                              onChange={(e) => handleChange(e, "answer")}
+                            ></textarea>
+                            {errors.answer && (
+                              <div className="text-danger">{errors.answer}</div>
+                            )}
+                          </div>
                         </div>
-                        <div className="col-sm-12 form-group mb-2">
-                          <label htmlFor="name-f">Question</label>
-                          <InputField
-                            type="text"
-                            className={`form-control ${
-                              errors.question ? "border-danger" : ""
-                            }`}
-                            id="name-f"
-                            placeholder=""
-                            value={faqInfo.question}
-                            onChange={(e) => handleChange(e, "question")}
-                          />
-                          {errors.question && (
-                            <div className="text-danger">{errors.question}</div>
-                          )}
+                        <div className="col-sm-12 form-group mb-0 mt-2">
+                          <Button
+                            type="submit"
+                            className="btn btn-primary float-right"
+                            icon={"fa fa-arrow-right"}
+                            text={submitTranslation}
+                          ></Button>
+                          <ToastContainer />
                         </div>
-                        <div className="col-sm-12 form-group mb-2">
-                          <label htmlFor="textarea">Answer</label>
-                          <textarea
-                            id="textarea"
-                            cols="60"
-                            rows="10"
-                            className={`form-control bg-transparent ${
-                              errors.answer ? "border-danger" : ""
-                            }`}
-                            placeholder=""
-                            value={faqInfo.answer}
-                            onChange={(e) => handleChange(e, "answer")}
-                          ></textarea>
-                          {errors.answer && (
-                            <div className="text-danger">{errors.answer}</div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-sm-12 form-group mb-0 mt-2">
-                        <Button
-                          type="submit"
-                          className="btn btn-primary float-right"
-                          icon={"fa fa-arrow-right"}
-                          text={submitTranslation}
-                        ></Button>
-                        <ToastContainer />
-                      </div>
-                    </form>
-                  </div>
+                      </form>
+                    </div>
                   )}
                   {showLoader ? (
                     <div style={{ height: "400px" }}>
@@ -238,7 +242,14 @@ const FaqMaster = () => {
                                     .map((data, index) => (
                                       <tr key={index}>
                                         <td>{data.id}</td>
-                                        <td>12-12-2023</td>
+                                        <td>
+                                          {format(
+                                            new Date(
+                                              data.createdOn
+                                            ).toLocaleDateString(),
+                                            "dd-MM-yyyy"
+                                          )}
+                                        </td>
                                         <td>{data.categoryId}</td>
                                         <td>{data.question}</td>
                                         <td>{data.answer}</td>
