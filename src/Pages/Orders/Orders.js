@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
@@ -543,4 +542,3 @@ const Orders = () => {
 };
 
 export default Orders;
-/* eslint-enable react-hooks/exhaustive-deps */

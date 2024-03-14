@@ -1,20 +1,44 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import InputField from '../../../Components/InputField/InputField';
 import { GetTranslationData } from '../../../Components/GetTranslationData/GetTranslationData ';
 import { onGetCustomer } from '../../../Store/Slices/ClientAdmin/customerListSlice';
+import Button from '../../../Components/Button/Button';
+import { CSVLink } from 'react-csv';
 
 export const CustomerList = () => {
+    const customerListData = useSelector((state) => state.customerListReducer?.customerData);
+    const [searchQuery, setSearchQuery] = useState("");
+    const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
     const dispatch = useDispatch();
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(onGetCustomer())
-      },[])
-          // To get the data of customer list from redux store
-    const getCustomerList = useSelector((state) => state.customerListReducer?.customerData);
+    }, [])
+
     const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
+    const headers = [
+        { label: "name", key: "name" },
+        { label: "email", key: "email" },
+        { label: "phone", key: "phone" },
+        { label: "joined", key: "joined" },
+    ];
+
+    const customerListFiltered = Array.isArray(customerListData)
+        ? customerListData.filter((vendor) =>
+            Object.values(vendor).some(
+                (value) =>
+                    value &&
+                    typeof value === "string" &&
+                    value.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+        )
+        : [];
+
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+    };
 
     return (
         <>
@@ -34,12 +58,28 @@ export const CustomerList = () => {
                                                 type="text"
                                                 className="form-control only-high"
                                                 placeholder={search_here_label}
+                                                defaultValue={searchQuery}
+                                                onChange={handleSearch}
                                             />
                                             <span className="input-group-text"><i className="fa fa-search"></i></span>
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center flex-wrap">
-                                        <a className="btn btn-primary btn-rounded me-3 mb-2"><i className="fa fa-file-excel me-2"></i>Export</a>
+                                        {customerListData && customerListData.length > 0 && (
+                                            <CSVLink
+                                                data={customerListData}
+                                                headers={headers}
+                                                filename={"customerlist.csv"}
+                                            >
+                                                {customerListData.length > 0 && (
+                                                    <Button
+                                                        className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                                                        text={exportLabel}
+                                                        icons={"fa fa-file-excel"}
+                                                    />
+                                                )}
+                                            </CSVLink>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="cd-body-responsive">
@@ -54,7 +94,7 @@ export const CustomerList = () => {
                                                 </tr>
                                             </thead>
                                             <tbody id="customers">
-                                                {getCustomerList
+                                                {customerListFiltered
                                                     .map((customer, index) => (
                                                         <tr className="btn-reveal-trigger" key={index} >
                                                             <td className="py-3">
@@ -79,4 +119,3 @@ export const CustomerList = () => {
         </>
     )
 }
-/* eslint-enable react-hooks/exhaustive-deps */

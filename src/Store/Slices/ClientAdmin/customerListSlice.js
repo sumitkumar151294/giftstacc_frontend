@@ -11,50 +11,50 @@ export const userRoleSlice = createSlice({
         ...state,
         customerData:  [
             {
-                name: 'Ricky Antony',
-                email: 'info@example.com',
+                name: 'abc',
+                email: 'abc@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-                name: 'Ricky Antony',
-                email: 'info@example.com',
+                name: 'def',
+                email: 'def@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-                name: 'Ricky Antony',
-                email: 'info@example.com',
+                name: 'ghi',
+                email: 'ghi@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-                name: 'Ricky Antony',
-                email: 'info@example.com',
+                name: 'jkl',
+                email: 'jkl@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-                name: 'Ricky Antony',
-                email: 'info@example.com',
+                name: 'mno',
+                email: 'mno@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-                name: 'Ricky Antony',
-                email: 'info@example.com',
+                name: 'pqr',
+                email: 'pqr@example.com',
                 phone: '(201) 200-1851',
                 joined: '30/03/2018'
             },
             {
-              name: 'Ricky Antony',
-              email: 'info@example.com',
+              name: 'stu',
+              email: 'stu@example.com',
               phone: '(201) 200-1851',
               joined: '30/03/2018'
           },
           {
-            name: 'Ricky Antony',
-            email: 'info@example.com',
+            name: 'vwx',
+            email: 'vwx@example.com',
             phone: '(201) 200-1851',
             joined: '30/03/2018'
         },
