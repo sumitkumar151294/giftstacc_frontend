@@ -8,11 +8,14 @@ import { onGetCommissionReport } from "../../../Store/Slices/ClientAdmin/clientC
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../../Components/Button/Button";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const ClientCommissionReport = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
-
+  const [dateStart, setDateStart] = useState();
+  const [dateEnd, setDateEnd] = useState();
   const [addData, setAddData] = useState({
     supplier: "",
     brand: "",
@@ -77,6 +80,12 @@ const ClientCommissionReport = () => {
     commission: data.commission,
     commissionAmount: data.commissionAmount,
   }));
+
+  // for date picker 
+  const onChangeHandler = (value) => {
+    setDateStart(value[0]);
+    setDateEnd(value[1]);
+  }
   return (
     <div className="container-fluid">
       <div className="row">
@@ -95,9 +104,9 @@ const ClientCommissionReport = () => {
                     options={
                       Array.isArray(supplierMasterData)
                         ? supplierMasterData?.map((item) => ({
-                            label: item.name,
-                            value: item.name,
-                          }))
+                          label: item.name,
+                          value: item.name,
+                        }))
                         : []
                     }
                   />
@@ -111,11 +120,24 @@ const ClientCommissionReport = () => {
                   />
                 </div>
                 <div className="example">
-                  <InputField
+                  {/* <InputField
                     type="text"
                     value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
                     className="form-control input-daterange-timepicker"
                     name="daterange"
+                  /> */}
+                  <DatePicker
+                    id="dateStartEnd"
+                    placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
+                    selectsRange={true}
+                    startDate={dateStart}
+                    endDate={dateEnd}
+                    onChange={onChangeHandler}
+                    dateFormat="dd MMM yyyy h:mm aa" // Date format including time
+                    // showTimeSelect // Enable time selection
+                    timeFormat="HH:mm" // Time format
+                    className={'form-control form-control-sm'}
+                    showDisabledMonthNavigation
                   />
                 </div>
                 <div className="d-flex align-items-center flex-wrap">
