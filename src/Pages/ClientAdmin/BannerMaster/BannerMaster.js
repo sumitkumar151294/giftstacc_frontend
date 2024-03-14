@@ -26,7 +26,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const upload_image = GetTranslationData("UIClient", "uploadImage");
   const upload = GetTranslationData("UIClient", "upload");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
-  const displayOrder = GetTranslationData("UIAdmin", "display-order");
+  const displayOrder = GetTranslationData("UIClient", "display-order");
   const banner_master = GetTranslationData("UIAdmin", "bannerMaster");
   const banner_title = GetTranslationData("UIAdmin", "bannerTitle");
   const banner_subtitle = GetTranslationData("UIAdmin", "banner-subTitle");
