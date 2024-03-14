@@ -17,6 +17,13 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const addSpecialMaster=GetTranslationData("UIClient", "addSpecialMaster");
+  const section_name=GetTranslationData("UIClient", "section_name");
+  const status = GetTranslationData("UIClient", "status");
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+  const maxNoOfbrands = GetTranslationData("UIClient", "maxNoOfbrands");
+  const submit = GetTranslationData("UIClient", "submitLabel");
+  const update = GetTranslationData("UIAdmin", "update_label");
   const [isLoading, setIsLoading] = useState(false);
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
   const dispatch = useDispatch();
@@ -133,7 +140,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="card-header">
-                <h4 className="card-title">Add Special Master</h4>
+                <h4 className="card-title">{addSpecialMaster}</h4>
               </div>
               <div className="card-body card-body-user">
                 {isLoading ? (
@@ -145,7 +152,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                     <form onSubmit={(e) => handleSubmit(e)}>
                       <div className="row">
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="name-f">Section Name <span className="text-danger">*</span></label>
+                          <label htmlFor="name-f">{section_name} <span className="text-danger">*</span></label>
                           <InputField
                             type="text"
                             value={formData?.sectionName}
@@ -159,7 +166,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="displayOrder">Display Order <span className="text-danger">*</span></label>
+                          <label htmlFor="displayOrder">{displayOrder} <span className="text-danger">*</span></label>
                           <InputField
                             type="number"
                             value={formData?.displayOrder}
@@ -174,7 +181,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
 
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="status">Status <span className="text-danger">*</span></label>
+                          <label htmlFor="status">{status} <span className="text-danger">*</span></label>
                           <Dropdown
                             aria-label="Default select example"
                             onChange={(e) => handleInput(e, "status")}
@@ -188,7 +195,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
-                            Max. No. of Brands
+                            {maxNoOfbrands}
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
@@ -215,7 +222,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button
                             className="btn btn-primary float-right pad-aa"
-                            text={prefilledValues ? "Update" : "Submit"}
+                            text={prefilledValues ? update : submit}
                             icon={"fa fa-arrow-right"}
                           />
                         </div>

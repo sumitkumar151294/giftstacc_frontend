@@ -8,14 +8,19 @@ import { onGetCustomer } from '../../../Store/Slices/ClientAdmin/customerListSli
 
 export const CustomerList = () => {
     const dispatch = useDispatch();
-
+    const customerList = GetTranslationData("UIClient", "customerList");
+    const export_label = GetTranslationData("UIAdmin", "export_label");
+    const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
+    const nameLabel = GetTranslationData("UIAdmin", "failedordersname");
+    const email_label=GetTranslationData("UIAdmin", "email_label");
+    const phone_no_label=GetTranslationData("UIAdmin", "phone_no_label");
+    const joined_label=GetTranslationData("UIAdmin", "joined_label");
     useEffect(()=> {
         dispatch(onGetCustomer())
       },[])
           // To get the data of customer list from redux store
     const getCustomerList = useSelector((state) => state.customerListReducer?.customerData);
-    const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
-
+   
     return (
         <>
             <ScrollToTop />
@@ -26,7 +31,7 @@ export const CustomerList = () => {
                             <div className="container pt-0 mt-2 mb-2">
                                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                     <div className="card-header">
-                                        <h4 className="card-title">Customer List</h4>
+                                        <h4 className="card-title">{customerList}</h4>
                                     </div>
                                     <div className="customer-search mb-sm-0 mb-3">
                                         <div className="input-group search-area">
@@ -39,7 +44,7 @@ export const CustomerList = () => {
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center flex-wrap">
-                                        <a className="btn btn-primary btn-rounded me-3 mb-2"><i className="fa fa-file-excel me-2"></i>Export</a>
+                                        <a className="btn btn-primary btn-rounded me-3 mb-2"><i className="fa fa-file-excel me-2"></i>{export_label}</a>
                                     </div>
                                 </div>
                                 <div className="cd-body-responsive">
@@ -47,10 +52,10 @@ export const CustomerList = () => {
                                         <table className="table table-sm mb-0 table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Phone</th>
-                                                    <th>Joined</th>
+                                                    <th>{nameLabel}</th>
+                                                    <th>{email_label}</th>
+                                                    <th>{phone_no_label}</th>
+                                                    <th>{joined_label}</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="customers">

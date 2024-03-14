@@ -15,6 +15,10 @@ const AllocateBrand = () => {
   const getAllocateBrands = useSelector((state) => state.allocateBrandReducer);
   console.log(getAllocateBrands?.getAllocateBrandData);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
+  const allocateBrands=GetTranslationData("UIClient", "allocateBrands");
+  const brand_name=GetTranslationData("UIClient", "brand_name");
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+  const action = GetTranslationData("UIClient", "actionLabel");
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
@@ -95,7 +99,7 @@ const AllocateBrand = () => {
               <div className="container-fluid pt-1">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="card-header">
-                    <h4 className="card-title">Allocate Brands</h4>
+                    <h4 className="card-title">{allocateBrands}</h4>
                   </div>
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
@@ -120,9 +124,9 @@ const AllocateBrand = () => {
                   <table className="table header-border table-responsive-sm">
                     <thead>
                       <tr>
-                        <th>Brands Name</th>
-                        <th>Display Order</th>
-                        <th>Action</th>
+                        <th>{brand_name}</th>
+                        <th>{displayOrder}</th>
+                        <th>{action}</th>
                       </tr>
                     </thead>
                     <tbody>

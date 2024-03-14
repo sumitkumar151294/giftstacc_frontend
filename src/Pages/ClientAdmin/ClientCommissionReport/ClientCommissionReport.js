@@ -35,6 +35,7 @@ const ClientCommissionReport = () => {
     { value: "Flipcart", label: "Flipcart" },
     { value: "Nykaa", label: "Nykaa" },
   ];
+  const client_Commission_Report = GetTranslationData("UIAdmin", "clientCommissionReport");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const totalFaceValue = GetTranslationData("UIClient", "totalFaceValue");
   const totalPaidAmount = GetTranslationData("UIClient", "totalPaidAmount");
@@ -85,7 +86,7 @@ const ClientCommissionReport = () => {
             <div className="container-fluid pt-0">
               <div className="d-flex justify-content-between align-items-center  flex-wrap">
                 <div className="card-header">
-                  <h4 className="card-title">Client Commission Report</h4>
+                  <h4 className="card-title">{client_Commission_Report}</h4>
                 </div>
                 <div className="ddop">
                   <Dropdown
