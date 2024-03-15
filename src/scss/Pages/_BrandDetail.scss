@@ -20,8 +20,12 @@ $color_2: var(--primary-dark-blue);
 	padding: 12px;
 	border-radius: 5px;
 }
-.head-style {
-	font-size: 1.125rem;
+.pt-4 {
+  padding-top: 1.5rem !important;
+}
+
+.head-style{
+font-size: 1.125rem !important;
 }
 .fs-14 {
 	font-size: 0.875rem !important;
