@@ -15,12 +15,11 @@ const BannerMasterList = () => {
   const display_order = GetTranslationData("UIClient", "display-order");
   const status = GetTranslationData("UIClient", "status");
   const actionLabel = GetTranslationData("UIClient", "actionLabel");
-  const bannerList = GetTranslationData("UIClient", "bannerList");
   const dispatch = useDispatch();
   const getBannerMaster = useSelector(
     (state) => state.bannerMasterReducer?.getData
   );
-  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
+  const getRoleAccess = useSelector((state) => state.moduleReducer.filteredData);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
@@ -58,6 +57,7 @@ const BannerMasterList = () => {
     } else {
     }
   }, [getBannerMaster]);
+  
   return (
     <>
       <BannerForm
@@ -70,7 +70,7 @@ const BannerMasterList = () => {
             <div className="card">
               <div className="container-fluid pt-0">
                 <div className="card-header">
-                  <h4 className="card-title">{bannerList}</h4>
+                  <h4 className="card-title">Banner List</h4>
                 </div>
                 {getBannerMaster?.length > 0 ? (
                   <div className="card-body">
@@ -110,20 +110,20 @@ const BannerMasterList = () => {
                                     </span>
                                   </td>
                                   {getRoleAccess[0]?.editAccess && (
-                                  <td>
-                                    <div className="d-flex">
-                                      <Button
-                                        className="btn btn-primary shadow btn-xs sharp me-1"
-                                        icon={"fas fa-pencil-alt"}
-                                        onClick={() => handleEdit(banner)}
-                                      ></Button>
-                                      <Button
-                                        className="btn btn-danger shadow btn-xs sharp"
-                                        icon={"fa fa-trash"}
-                                        onClick={() => handleDelete(banner)}
-                                      />
-                                    </div>
-                                  </td>
+                                    <td>
+                                      <div className="d-flex">
+                                        <Button
+                                          className="btn btn-primary shadow btn-xs sharp me-1"
+                                          icon={"fas fa-pencil-alt"}
+                                          onClick={() => handleEdit(banner)}
+                                        ></Button>
+                                        <Button
+                                          className="btn btn-danger shadow btn-xs sharp"
+                                          icon={"fa fa-trash"}
+                                          onClick={() => handleDelete(banner)}
+                                        />
+                                      </div>
+                                    </td>
                                   )}
                                 </tr>
                               ))}
@@ -149,11 +149,9 @@ const BannerMasterList = () => {
                       )}
                     </div>
                   </div>
-                ) : getBannerMaster?.length < 0 ? (
-                  <NoRecord />
-                ) : (
-                  <Loader />
-                )}
+                ) :
+                  (<NoRecord />)
+                }
               </div>
             </div>
           </div>

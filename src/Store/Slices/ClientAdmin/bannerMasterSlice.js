@@ -68,7 +68,7 @@ export const bannerMaster = createSlice({
       };
     },
     onGetbannerMasterError: (state, { payload }) => {
-      const { data = {}, message = "", status_code } = payload;
+      const { data = {}, message, status_code } = payload;
       return {
         ...state,
         isLoading: false,
