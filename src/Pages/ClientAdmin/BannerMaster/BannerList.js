@@ -15,6 +15,7 @@ const BannerMasterList = () => {
   const display_order = GetTranslationData("UIClient", "display-order");
   const status = GetTranslationData("UIClient", "status");
   const actionLabel = GetTranslationData("UIClient", "actionLabel");
+  const bannerList = GetTranslationData("UIClient", "bannerList");
   const dispatch = useDispatch();
   const getBannerMaster = useSelector(
     (state) => state.bannerMasterReducer?.getData
@@ -69,7 +70,7 @@ const BannerMasterList = () => {
             <div className="card">
               <div className="container-fluid pt-0">
                 <div className="card-header">
-                  <h4 className="card-title">Banner List</h4>
+                  <h4 className="card-title">{bannerList}</h4>
                 </div>
                 {getBannerMaster?.length > 0 ? (
                   <div className="card-body">
