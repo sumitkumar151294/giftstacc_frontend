@@ -27,10 +27,10 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const upload = GetTranslationData("UIClient", "upload");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const displayOrder = GetTranslationData("UIClient", "display-order");
-  const banner_master = GetTranslationData("UIAdmin", "bannerMaster");
-  const banner_title = GetTranslationData("UIAdmin", "bannerTitle");
-  const banner_subtitle = GetTranslationData("UIAdmin", "banner-subTitle");
-  const banner_link = GetTranslationData("UIAdmin", "banner-link");
+  const banner_master = GetTranslationData("UIClient", "bannerMaster");
+  const banner_title = GetTranslationData("UIClient", "bannerTitle");
+  const banner_subtitle = GetTranslationData("UIClient", "banner-subTitle");
+  const banner_link = GetTranslationData("UIClient", "banner-link");
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const [bannerMaster, setBannerMaster] = useState({
     bannerTitle: "",

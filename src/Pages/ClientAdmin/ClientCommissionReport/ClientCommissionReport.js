@@ -35,7 +35,7 @@ const ClientCommissionReport = () => {
     { value: "Flipcart", label: "Flipcart" },
     { value: "Nykaa", label: "Nykaa" },
   ];
-  const client_Commission_Report = GetTranslationData("UIAdmin", "clientCommissionReport");
+  const client_Commission_Report = GetTranslationData("UIClient", "clientCommissionReport");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const totalFaceValue = GetTranslationData("UIClient", "totalFaceValue");
   const totalPaidAmount = GetTranslationData("UIClient", "totalPaidAmount");

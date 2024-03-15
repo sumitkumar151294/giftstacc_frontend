@@ -2,7 +2,7 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import InputField from "../../../Components/InputField/InputField";
 
 const AbandonedCartReport = () => {
-   const abandonedCartReport = GetTranslationData("UIAdmin", "abandonedCartReport");
+   const abandonedCartReport = GetTranslationData("UIClient", "abandonedCartReport");
     const name_label = GetTranslationData("UIAdmin", "failedordersname");
     const email_label = GetTranslationData("UIAdmin", "failedordersemail");
     const mobile_label = GetTranslationData("UIAdmin", "failedordersmobile");
@@ -10,6 +10,7 @@ const AbandonedCartReport = () => {
     const export_label = GetTranslationData("UIAdmin", "export_label");
     const status = GetTranslationData("UIClient", "status");
     const action = GetTranslationData("UIClient", "actionLabel");
+    console.log(abandonedCartReport,name_label,email_label,mobile_label)
   return (
     <div className="container-fluid">
       <div className="row">
