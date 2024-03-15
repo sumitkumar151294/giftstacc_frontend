@@ -76,6 +76,9 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       if (cmsData[key] === "") {
         newErrors[key] = "This field is required";
         isValid = false;
+      }else if (cmsData[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
       } else {
         newErrors[key] = "";
       }

@@ -31,6 +31,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const banner_title = GetTranslationData("UIClient", "bannerTitle");
   const banner_subtitle = GetTranslationData("UIClient", "banner-subTitle");
   const banner_link = GetTranslationData("UIClient", "banner-link");
+  const status = GetTranslationData("UIClient", "status");
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const [bannerMaster, setBannerMaster] = useState({
     bannerTitle: "",
@@ -138,7 +139,10 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
       if (bannerMaster[key] === "") {
         newErrors[key] = " ";
         isValid = false;
-      } else {
+      } else if (bannerMaster[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
+      }else {
         newErrors[key] = "";
       }
     }
@@ -190,6 +194,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                         value={bannerMaster.bannerTitle}
                         onChange={(e) => handleChange(e, "bannerTitle")}
                       />
+                      {<p className="text-danger">{errors.bannerTitle}</p>}
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
@@ -202,6 +207,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                         value={bannerMaster.bannerSubtitle}
                         onChange={(e) => handleChange(e, "bannerSubtitle")}
                       />
+                      {<p className="text-danger">{errors.bannerSubtitle}</p>}
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
@@ -214,6 +220,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                         value={bannerMaster.bannerLink}
                         onChange={(e) => handleChange(e, "bannerLink")}
                       />
+                      {<p className="text-danger">{errors.bannerLink}</p>}
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
@@ -226,6 +233,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                         value={bannerMaster.displayOrder}
                         onChange={(e) => handleChange(e, "displayOrder")}
                       />
+                      {<p className="text-danger">{errors.displayOrder}</p>}
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
@@ -252,7 +260,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="status">Status <span className="text-danger">*</span></label>
+                      <label htmlFor="status">{status}<span className="text-danger">*</span></label>
                       <Dropdown
                         className={`${errors.enabled
                           ? "border-danger-select"

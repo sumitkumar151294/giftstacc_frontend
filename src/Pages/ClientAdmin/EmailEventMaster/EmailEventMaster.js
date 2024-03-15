@@ -58,7 +58,10 @@ const EmailEventMaster = () => {
       if (name[key] === "") {
         newErrors[key] = "This field is required";
         isValid = false;
-      } else {
+      }else if (name[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
+      }  else {
         newErrors[key] = "";
       }
     }
@@ -195,6 +198,7 @@ const EmailEventMaster = () => {
                             name="fname"
                             id="name-f"
                           />
+                          {<p className="text-danger">{errors.eventName}</p>}
                         </div>
                         <div className=" form-group mb-2">
                           <label htmlFor="name-f">{emaileventmastersms}</label>
@@ -206,6 +210,7 @@ const EmailEventMaster = () => {
                               className="input-tags "
                               data-role="tagsinput"
                             />
+                            {<p className="text-danger">{errors.smsBody}</p>}
                           </div>
                         </div>
                         <div className="form-group mb-2">
@@ -220,6 +225,7 @@ const EmailEventMaster = () => {
                               className="input-tags "
                               data-role="tagsinput"
                             />
+                            {<p className="text-danger">{errors.subject}</p>}
                           </div>
                         </div>
                         <div className="form-group mb-2">
@@ -232,6 +238,7 @@ const EmailEventMaster = () => {
                               className="input-tags "
                               data-role="tagsinput"
                             />
+                            {<p className="text-danger">{errors.mailBody}</p>}
                           </div>
                         </div>
                         <span
