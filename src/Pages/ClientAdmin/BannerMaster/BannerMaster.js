@@ -26,6 +26,11 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const upload_image = GetTranslationData("UIClient", "uploadImage");
   const upload = GetTranslationData("UIClient", "upload");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+  const banner_master = GetTranslationData("UIClient", "bannerMaster");
+  const banner_title = GetTranslationData("UIClient", "bannerTitle");
+  const banner_subtitle = GetTranslationData("UIClient", "banner-subTitle");
+  const banner_link = GetTranslationData("UIClient", "banner-link");
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const [bannerMaster, setBannerMaster] = useState({
     bannerTitle: "",
@@ -169,14 +174,14 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
         <div className="col-xl-12 col-xxl-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title">Banner Master</h4>
+              <h4 className="card-title">{banner_master}</h4>
             </div>
             <div className="card-body pt-2 ml-6  mb-4  ">
               <div className="container-fluid pt-0">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="bannerTitle">Banner Title <span className="text-danger">*</span></label>
+                      <label htmlFor="bannerTitle">{banner_title} <span className="text-danger">*</span></label>
                       <InputField
                         type="text"
                         className={`form-control ${errors.bannerTitle ? "border-danger" : ""
@@ -188,7 +193,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="bannerSubtitle">Banner Subtitle <span className="text-danger">*</span></label>
+                      <label htmlFor="bannerSubtitle">{banner_subtitle}<span className="text-danger">*</span></label>
                       <InputField
                         type="text"
                         className={`form-control ${errors.bannerSubtitle ? "border-danger" : ""
@@ -200,7 +205,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="bannerLink">Banner Link <span className="text-danger">*</span></label>
+                      <label htmlFor="bannerLink">{banner_link} <span className="text-danger">*</span></label>
                       <InputField
                         type="text"
                         className={`form-control ${errors.bannerLink ? "border-danger" : ""
@@ -212,7 +217,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="displayOrder">Display Order <span className="text-danger">*</span></label>
+                      <label htmlFor="displayOrder">{displayOrder} <span className="text-danger">*</span></label>
                       <InputField
                         type="number"
                         className={`form-control ${errors.displayOrder ? "border-danger" : ""
