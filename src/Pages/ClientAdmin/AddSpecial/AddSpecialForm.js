@@ -105,6 +105,9 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       if (formData[key] === "") {
         newErrors[key] = " ";
         isValid = false;
+      }else if (formData[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
       } else {
         newErrors[key] = "";
       }
@@ -164,6 +167,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             id="name-f"
                             onChange={(e) => handleInput(e, "sectionName")}
                           />
+                          {<p className="text-danger">{error.sectionName}</p>}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="displayOrder">{displayOrder} <span className="text-danger">*</span></label>

@@ -103,6 +103,10 @@ const FaqMaster = () => {
         newErrors[key] = " ";
         isValid = false;
       }
+      else if (faqInfo[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
+      }
     }
     setErrors(newErrors);
     if (isValid) {
@@ -157,9 +161,7 @@ const FaqMaster = () => {
                         value={faqInfo.question}
                         onChange={(e) => handleChange(e, "question")}
                       />
-                      {errors.question && (
-                        <div className="text-danger">{errors.question}</div>
-                      )}
+                       {<p className="text-danger">{errors.question}</p>}
                     </div>
                     <div className="col-sm-12 form-group mb-2">
                       <label htmlFor="textarea">{answer} <span className="text-danger">*</span></label>
@@ -173,9 +175,7 @@ const FaqMaster = () => {
                         value={faqInfo.answer}
                         onChange={(e) => handleChange(e, "answer")}
                       ></textarea>
-                      {errors.answer && (
-                        <div className="text-danger">{errors.answer}</div>
-                      )}
+                      {<p className="text-danger">{errors.answer}</p>}
                     </div>
                   </div>
                   <span
