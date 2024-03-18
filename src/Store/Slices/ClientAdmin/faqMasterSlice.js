@@ -78,6 +78,15 @@ export const faqMaster = createSlice({
         status_code: status_code,
       };
     },
+    onGetFaqMasterReset: (state) => {
+      return {
+        ...state,
+        getData: {},
+        getmessage: "",
+        status_code: null,
+        isLoading: false,
+      };
+    },
   },
 });
 export const {
@@ -88,6 +97,7 @@ export const {
   onGetFaqMaster,
   onGetFaqMasterSuccess,
   onGetFaqMasterError,
+  onGetFaqMasterReset,
   onFaqMasterUpdate,
   onFaqMasterUpdateSuccess,
   onFaqMasterUpdateError,

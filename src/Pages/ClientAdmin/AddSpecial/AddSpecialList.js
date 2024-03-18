@@ -45,19 +45,6 @@ const AddSpecialList = () => {
   };
 
   useEffect(() => {
-    if (getAddSpecial?.getmessage?.status === 404) {
-      setShowError(true);
-      setPageError({
-        StatusCode: "404",
-        ErrorName: "not found",
-        ErrorDesription:
-          "Your application url is not registerd to our application",
-        url: "/",
-        buttonText: "Back to Home",
-      });
-    }
-  }, []);
-  useEffect(() => {
     if (getAddSpecial) {
       const totalItems = getAddSpecial?.getData?.length;
       const totalPages = Math.ceil(totalItems / rowsPerPage);
@@ -198,10 +185,8 @@ const AddSpecialList = () => {
                               </div>
                             )}
                           </div>
-                        ) : getAddSpecial?.getData?.length < 0 ? (
+                        ) :(
                           <NoRecord />
-                        ) : (
-                          <Loader />
                         )}
                       </div>
                     )}

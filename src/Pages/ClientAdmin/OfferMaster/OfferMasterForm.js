@@ -187,6 +187,10 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       setAddData(resetAddData);
       dispatch(onPostOfferMasterReset());
       dispatch(onGetOfferMaster());
+    } 
+    else if (offerMasterData.status_code===404){
+      dispatch(onPostOfferMasterReset());
+      toast.error(offerMasterData.message);
     }
   }, [offerMasterData]);
   useEffect(() => {

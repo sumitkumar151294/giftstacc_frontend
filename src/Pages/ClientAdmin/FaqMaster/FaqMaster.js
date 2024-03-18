@@ -4,6 +4,7 @@ import {
   onFaqMasterSubmit,
   onFaqMasterSubmitReset,
   onGetFaqMaster,
+  onGetFaqMasterReset,
 } from "../../../Store/Slices/ClientAdmin/faqMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../../Components/InputField/InputField";
@@ -64,7 +65,7 @@ const FaqMaster = () => {
       dispatch(onGetFaqMaster());
     } 
     else if (faqMasterGetData.status_code===404){
-      dispatch(onFaqMasterSubmitReset());
+      dispatch(onGetFaqMasterReset());
       toast.error(faqMasterGetData.getmessage);
     }
   }, [faqMasterGetData]);

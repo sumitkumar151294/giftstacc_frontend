@@ -4,6 +4,7 @@ import HtmlEditor from "../../../Components/HtmlEditor/HtmlEditor";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import {
   onGetCms,
+  onGetCmsReset,
   onPostCms,
   onPostCmsReset,
   onUpdateCms,
@@ -120,6 +121,9 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     } else if (getCmsData.post_status_code === 400) {
       toast.error(getCmsData.message);
       dispatch(onPostCmsReset());
+    } else if (getCmsData.status_code === 404) {
+      toast.error(getCmsData.message);
+      dispatch(onGetCmsReset());
     }
   }, [getCmsData]);
 
@@ -169,15 +173,14 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                         error={errors.title}
                         defaultSelected="Select Page Name"
                         value={cmsData.title}
-                        className={` ${
-                          errors.title ? "border-danger" : "form-select"
-                        }`}
+                        className={` ${errors.title ? "border-danger" : "form-select"
+                          }`}
                         options={
                           Array.isArray(PageNames)
                             ? PageNames?.map((Pagename) => ({
-                                label: Pagename,
-                                value: Pagename,
-                              }))
+                              label: Pagename,
+                              value: Pagename,
+                            }))
                             : []
                         }
                       />
