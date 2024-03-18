@@ -151,7 +151,11 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       if (userData[key] === "") {
         newErrors[key] = " ";
         isValid = false;
-      } else
+      }else if (userData[key].length > 100) {
+        newErrors[key] = "Length must be 100 or fewer";
+        isValid = false;
+      }
+      else{
         if (key === "email" && newErrors[key] !== "") {
           isValid = false;
         } else if (key === "mobile" && newErrors[key] !== "") {
@@ -159,6 +163,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         } else {
           newErrors[key] = "";
         }
+      }
     }
     setErrors(newErrors);
     if (userData.clientRoleId?.length === 0) {
@@ -312,6 +317,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                             error={errors.firstName}
                             value={userData.firstName}
                           />
+                          <p className="text-danger">{errors.firstName}</p>
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
@@ -328,6 +334,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                             error={errors.lastName}
                             value={userData.lastName}
                           />
+                          <p className="text-danger">{errors.lastName}</p>
                         </div>
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{client}</label>

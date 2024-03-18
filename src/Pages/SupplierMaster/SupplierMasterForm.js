@@ -222,6 +222,9 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
       if (vendorData[key] === "") {
         newErrors[key] = " ";
         isValid = false;
+      }else if (vendorData[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
       } else {
         newErrors[key] = "";
       }
@@ -234,12 +237,27 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
           return newAdditionalFieldsError;
         });
         isValid = false;
+      }else  if (field.fieldName.length > 250) {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].fieldName = "Length must be 250 or fewer";
+          return newAdditionalFieldsError;
+        });
+        isValid = false;
       }
-
+        
       if (field.fieldValue === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].fieldValue = fieldValueNotEmpty;
+          return newAdditionalFieldsError;
+        });
+        isValid = false;
+      }
+      else  if (field.fieldValue.length > 250) {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].fieldValue = "Length must be 250 or fewer";
           return newAdditionalFieldsError;
         });
         isValid = false;
@@ -334,6 +352,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
                             placeholder=""
                             onChange={(e) => handleChange(e, "name")}
                           />
+                          {<p className="text-danger">{errors.name}</p>}
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
@@ -403,6 +422,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
                             placeholder=""
                             onChange={(e) => handleChange(e, "servicePath")}
                           />
+                          {<p className="text-danger">{errors.servicePath}</p>}
                         </div>
                         <div className="row mt-3">
                           <h3 style={{ borderBottom: "1px solid #ededed" }}>
@@ -429,6 +449,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
                                         handleAddMoreData("fieldName", index, e)
                                       }
                                     />
+                                    <p className="text-danger">{additionalFieldsError[index].fieldName}</p>
                                   </div>
                                 </div>
 
@@ -453,6 +474,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
                                         )
                                       }
                                     />
+                                    <p className="text-danger">{additionalFieldsError[index].fieldValue}</p>
                                   </div>
                                 </div>
 

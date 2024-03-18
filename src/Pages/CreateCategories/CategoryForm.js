@@ -120,7 +120,10 @@ const CategoryForm = ({ setIsLoading }) => {
       if (createCategory[key] === "") {
         newErrors[key] = { field_Required };
         isValid = false;
-      } else {
+      } else if (createCategory[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
+      }else {
         newErrors[key] = "";
       }
     }
@@ -192,6 +195,7 @@ const CategoryForm = ({ setIsLoading }) => {
                             value={createCategory.name}
                             onChange={(e) => handleChange(e, "name")}
                           />
+                          {<p className="text-danger">{errors.name}</p>}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="vendor-category">
