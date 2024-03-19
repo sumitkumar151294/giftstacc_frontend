@@ -142,7 +142,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       });
     }
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { 
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -180,7 +180,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     setErrors(newErrors);
 
     try {
-      if (isValid) {
+      if (isValid) { 
         if (!prefilledValues) {
           const UsersData = {
             ...userData,
@@ -221,7 +221,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
 
   const resetData = () =>{
         setUserData({
-          userName: "",
           mobile: "",
           email: "",
           role: "",
@@ -239,8 +238,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
       setTimeout(() => {
         dispatch(onGetUser());
       }, 1000);
-      
       resetData();
+      
     }
    
   }, [onSubmitData,dispatch]);
