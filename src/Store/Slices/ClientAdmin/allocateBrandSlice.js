@@ -35,7 +35,7 @@ export const allocateBrandSlice = createSlice({
       };
     },
     onPostAllocateBrand: (state) => {
-      return {    
+      return {
         ...state,
         allocateData: {},
         message: "",
@@ -45,7 +45,7 @@ export const allocateBrandSlice = createSlice({
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        allocateData:data,
+        allocateData: data,
         message,
         status_code,
       };
@@ -60,7 +60,7 @@ export const allocateBrandSlice = createSlice({
       };
     },
     onUpdateAllocateBrand: (state) => {
-            return {
+      return {
         ...state,
         postAllocateData: {},
         postMessage: "",
@@ -70,9 +70,9 @@ export const allocateBrandSlice = createSlice({
       const { postData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        postAllocateData:postData,
-        postMessage:message,
-        post_status_code:status_code,
+        postAllocateData: postData,
+        postMessage: message,
+        post_status_code: status_code,
       };
     },
     onUpdateAllocateBrandError: (state, { payload }) => {
@@ -80,23 +80,91 @@ export const allocateBrandSlice = createSlice({
       return {
         ...state,
         postAllocateData: postData,
-        postMessage:message,
-        post_status_code:status_code,
+        postMessage: message,
+        post_status_code: status_code,
+      };
+    },
+    onAllocateBrandById: (state) => {
+      return {
+        ...state,
+        getAllocateBrandsById: {},
+        getAllocateBrandsByIdMessage: "",
+      };
+    },
+    onAllocateBrandByIdSuccess: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        getAllocateBrandsById: data,
+        getAllocateBrandsByIdMessage: message,
+        getAllocateBrandsById_status_code: status_code,
+      };
+    },
+    onAllocateBrandByIdError: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 400 } = payload;
+      return {
+        ...state,
+        getAllocateBrandsById: data,
+        getAllocateBrandsByIdMessage: message,
+        getAllocateBrandsById_status_code: status_code,
+      };
+    },
+    onUpdateAllocateBrandById: (state) => {
+      return {
+        ...state,
+        updateAllocateBrandById: {},
+        updateMessage: "",
+      };
+    },
+    onUpdateAllocateBrandByIdSuccess: (state, { payload }) => {
+      const { updateData = {}, message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        updateAllocateBrandById: updateData,
+        updateMessage: message,
+        update_status_code: status_code,
+      };
+    },
+    onUpdateAllocateBrandByIdError: (state, { payload }) => {
+      const { updateData = {}, message = "", status_code = 400 } = payload;
+      return {
+        ...state,
+        updateAllocateBrandById: updateData,
+        updateMessage: message,
+        update_status_code: status_code,
+      };
+    },
+    onUpdateAllocateBrandByIdReset: (state) => {
+      return {
+        ...state,
+        updateLoading: false,
+        updateAllocateBrandById: {},
+        updateMessage: "",
+        error: {},
+        update_status_code: null,
+        isError: false,
       };
     },
   },
 });
 
 export const {
-    onPostAllocateBrand,
-    onPostAllocateBrandSuccess,
-    onPostAllocateBrandError,
-    onUpdateAllocateBrand,
-    onUpdateAllocateBrandSuccess,
-    onUpdateAllocateBrandError,
-    onGetAllocateBrandError,
-    onGetAllocateBrand,
-    onGetAllocateBrandSuccess
+  onPostAllocateBrand,
+  onPostAllocateBrandSuccess,
+  onPostAllocateBrandError,
+  onUpdateAllocateBrand,
+  onUpdateAllocateBrandSuccess,
+  onUpdateAllocateBrandError,
+  onGetAllocateBrandError,
+  onGetAllocateBrand,
+  onGetAllocateBrandSuccess,
+  onAllocateBrandById,
+  onAllocateBrandByIdError,
+  onAllocateBrandByIdSuccess,
+  onUpdateAllocateBrandByIdError,
+  onUpdateAllocateBrandByIdSuccess,
+  onUpdateAllocateBrandById,
+  onUpdateAllocateBrandByIdReset
 } = allocateBrandSlice.actions;
 
 export default allocateBrandSlice.reducer;

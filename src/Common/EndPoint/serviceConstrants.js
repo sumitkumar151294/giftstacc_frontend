@@ -45,7 +45,10 @@ const API = {
   client_product_mapping:"/client-product-mapping-by-client-Id",
   client_product_map:"/client-product-mapping",
   //allocate brand
-  allocate_Brand:"/allocate-brands"
+  allocate_Brand:"/allocate-brands",
+  allocate_Brand_Id:"/allocate-brands-by-addSpecial-id",
+
+  
 
 };
 export default API;

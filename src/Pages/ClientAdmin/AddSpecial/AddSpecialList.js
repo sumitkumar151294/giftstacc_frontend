@@ -154,6 +154,7 @@ const AddSpecialList = () => {
                                         <td>
                                           <Link
                                             to="/lc-user-admin/allocate-brand"
+                                            state={{data:Special}}
                                             className="btn btn-primary btn-sm float-right"
                                           >
                                             <i className="fa fa-plus"></i>&nbsp;
@@ -202,4 +203,3 @@ const AddSpecialList = () => {
 };
 
 export default AddSpecialList;
-/* eslint-enable react-hooks/exhaustive-deps */

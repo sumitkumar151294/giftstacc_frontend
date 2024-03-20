@@ -129,7 +129,7 @@ const ClientBrandList = () => {
   const handleInputChange = (e, ids, name) => {
     const newValue = e.target.value < 0 ? 0 : e.target.value;
     const mapping = [...copyClientMapping];
-    const isUpdate = copyClientMapping.find((item)=>(
+    const isUpdate = Array.isArray(copyClientMapping) && copyClientMapping?.find((item)=>(
       item.productId === ids
     ))
     if(!isUpdate){
@@ -153,7 +153,7 @@ const ClientBrandList = () => {
 
 
   const handleUpdate = (data) => {
-    const isUpdate = copyClientMapping.find((item)=>(
+    const isUpdate =  Array.isArray(copyClientMapping) && copyClientMapping?.find((item)=>(
       item.productId === data?.id
     ))
     if(isUpdate && isUpdate?.id){
@@ -179,7 +179,7 @@ const ClientBrandList = () => {
   };
 
   const updateStatus = (data) => {
-    const isUpdate = copyClientMapping.find((item)=>(
+    const isUpdate =  Array.isArray(copyClientMapping) && copyClientMapping?.find((item)=>(
       item.productId === data?.id
     ))
     if(isUpdate){
@@ -223,7 +223,7 @@ const ClientBrandList = () => {
   };
 
   const getValues = (id, name) =>{  
-    const data = copyClientMapping.find((item)=>(
+    const data =  Array.isArray(copyClientMapping) && copyClientMapping?.find((item)=>(
       item.productId === id
     ))
     return data?.[name] ? data?.[name] : "";
