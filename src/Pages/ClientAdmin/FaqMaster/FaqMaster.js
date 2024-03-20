@@ -4,6 +4,7 @@ import {
   onFaqMasterSubmit,
   onFaqMasterSubmitReset,
   onGetFaqMaster,
+  onGetFaqMasterReset,
 } from "../../../Store/Slices/ClientAdmin/faqMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../../Components/InputField/InputField";
@@ -61,8 +62,11 @@ const FaqMaster = () => {
       setFaqInfo(resetField);
       dispatch(onFaqMasterSubmitReset());
       dispatch(onFaqCategorySubmitReset());
-
       dispatch(onGetFaqMaster());
+    } 
+    else if (faqMasterGetData.status_code===404){
+      dispatch(onGetFaqMasterReset());
+      toast.error(faqMasterGetData.getmessage);
     }
   }, [faqMasterGetData]);
   useEffect(() => {
@@ -95,6 +99,10 @@ const FaqMaster = () => {
     for (const key in faqInfo) {
       if (faqInfo[key].trim() === "") {
         newErrors[key] = " ";
+        isValid = false;
+      }
+      else if (faqInfo[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
       }
     }
@@ -151,9 +159,7 @@ const FaqMaster = () => {
                         value={faqInfo.question}
                         onChange={(e) => handleChange(e, "question")}
                       />
-                      {errors.question && (
-                        <div className="text-danger">{errors.question}</div>
-                      )}
+                       {<p className="text-danger">{errors.question}</p>}
                     </div>
                     <div className="col-sm-12 form-group mb-2">
                       <label htmlFor="textarea">Answer <span className="text-danger">*</span></label>
@@ -167,9 +173,7 @@ const FaqMaster = () => {
                         value={faqInfo.answer}
                         onChange={(e) => handleChange(e, "answer")}
                       ></textarea>
-                      {errors.answer && (
-                        <div className="text-danger">{errors.answer}</div>
-                      )}
+                      {<p className="text-danger">{errors.answer}</p>}
                     </div>
                   </div>
                   <span
@@ -245,11 +249,9 @@ const FaqMaster = () => {
                         )}
                       </div>
                     </div>
-                  ) : faqMasterGetData?.getData?.length < 0 ? (
-                    <NoRecord />
-                  ) : (
-                    <Loader />
-                  )}
+                  ) :
+                    (<NoRecord />)
+                  }
                 </>
               )}
             </div>

@@ -8,11 +8,14 @@ import { onGetCommissionReport } from "../../../Store/Slices/ClientAdmin/clientC
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../../Components/Button/Button";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const ClientCommissionReport = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
-
+  const [dateStart, setDateStart] = useState();
+  const [dateEnd, setDateEnd] = useState();
   const [addData, setAddData] = useState({
     supplier: "",
     brand: "",
@@ -35,6 +38,7 @@ const ClientCommissionReport = () => {
     { value: "Flipcart", label: "Flipcart" },
     { value: "Nykaa", label: "Nykaa" },
   ];
+  const client_Commission_Report = GetTranslationData("UIClient", "clientCommissionReport");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const totalFaceValue = GetTranslationData("UIClient", "totalFaceValue");
   const totalPaidAmount = GetTranslationData("UIClient", "totalPaidAmount");
@@ -77,6 +81,12 @@ const ClientCommissionReport = () => {
     commission: data.commission,
     commissionAmount: data.commissionAmount,
   }));
+
+  // for date picker 
+  const onChangeHandler = (value) => {
+    setDateStart(value[0]);
+    setDateEnd(value[1]);
+  }
   return (
     <div className="container-fluid">
       <div className="row">
@@ -85,7 +95,7 @@ const ClientCommissionReport = () => {
             <div className="container-fluid pt-0">
               <div className="d-flex justify-content-between align-items-center  flex-wrap">
                 <div className="card-header">
-                  <h4 className="card-title">Client Commission Report</h4>
+                  <h4 className="card-title">{client_Commission_Report}</h4>
                 </div>
                 <div className="ddop">
                   <Dropdown
@@ -95,9 +105,9 @@ const ClientCommissionReport = () => {
                     options={
                       Array.isArray(supplierMasterData)
                         ? supplierMasterData?.map((item) => ({
-                            label: item.name,
-                            value: item.name,
-                          }))
+                          label: item.name,
+                          value: item.name,
+                        }))
                         : []
                     }
                   />
@@ -111,11 +121,24 @@ const ClientCommissionReport = () => {
                   />
                 </div>
                 <div className="example">
-                  <InputField
+                  {/* <InputField
                     type="text"
                     value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
                     className="form-control input-daterange-timepicker"
                     name="daterange"
+                  /> */}
+                  <DatePicker
+                    id="dateStartEnd"
+                    placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
+                    selectsRange={true}
+                    startDate={dateStart}
+                    endDate={dateEnd}
+                    onChange={onChangeHandler}
+                    dateFormat="dd MMM yyyy h:mm aa" // Date format including time
+                    // showTimeSelect // Enable time selection
+                    timeFormat="HH:mm" // Time format
+                    className={'form-control form-control-sm'}
+                    showDisabledMonthNavigation
                   />
                 </div>
                 <div className="d-flex align-items-center flex-wrap">

@@ -106,15 +106,15 @@ const SupplierMasterList = () => {
     dispatch(onGetSupplierResource());
   }, []);
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
-    ? supplierMasterData?.data.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+  ? supplierMasterData?.data.filter((vendor) =>
+      Object.values(vendor).some((value) =>
+        value && typeof value === "string" && value.toLowerCase().includes(searchQuery)
+      ) ||
+      vendor.id.toString().toLowerCase().includes(searchQuery) ||
+      vendor.creditAmount.toString().toLowerCase().includes(searchQuery) ||
+      vendor.balanceThresholdAmount.toString().toLowerCase().includes(searchQuery)
     )
-    : [];
+  : [];
 
 
   // excel data 

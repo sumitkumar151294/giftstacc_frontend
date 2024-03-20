@@ -26,6 +26,12 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const upload_image = GetTranslationData("UIClient", "uploadImage");
   const upload = GetTranslationData("UIClient", "upload");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+  const banner_master = GetTranslationData("UIClient", "bannerMaster");
+  const banner_title = GetTranslationData("UIClient", "bannerTitle");
+  const banner_subtitle = GetTranslationData("UIClient", "banner-subTitle");
+  const banner_link = GetTranslationData("UIClient", "banner-link");
+  const status = GetTranslationData("UIClient", "status");
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const [bannerMaster, setBannerMaster] = useState({
     bannerTitle: "",
@@ -86,6 +92,9 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
       dispatch(onGetbannerMaster());
     } else if (getBannerMaster?.status_code === "500") {
       toast.error(getBannerMaster.message);
+    } else if(getBannerMaster.status_code===404) {
+      dispatch(onbannerMasterSubmitReset());
+      toast.error(getBannerMaster.getmessage);
     }
   }, [getBannerMaster]);
 
@@ -133,7 +142,10 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
       if (bannerMaster[key] === "") {
         newErrors[key] = " ";
         isValid = false;
-      } else {
+      } else if (bannerMaster[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
+      }else {
         newErrors[key] = "";
       }
     }
@@ -169,14 +181,14 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
         <div className="col-xl-12 col-xxl-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title">Banner Master</h4>
+              <h4 className="card-title">{banner_master}</h4>
             </div>
             <div className="card-body pt-2 ml-6  mb-4  ">
               <div className="container-fluid pt-0">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="bannerTitle">Banner Title <span className="text-danger">*</span></label>
+                      <label htmlFor="bannerTitle">{banner_title} <span className="text-danger">*</span></label>
                       <InputField
                         type="text"
                         className={`form-control ${errors.bannerTitle ? "border-danger" : ""
@@ -185,10 +197,11 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                         value={bannerMaster.bannerTitle}
                         onChange={(e) => handleChange(e, "bannerTitle")}
                       />
+                      {<p className="text-danger">{errors.bannerTitle}</p>}
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="bannerSubtitle">Banner Subtitle <span className="text-danger">*</span></label>
+                      <label htmlFor="bannerSubtitle">{banner_subtitle}<span className="text-danger">*</span></label>
                       <InputField
                         type="text"
                         className={`form-control ${errors.bannerSubtitle ? "border-danger" : ""
@@ -197,10 +210,11 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                         value={bannerMaster.bannerSubtitle}
                         onChange={(e) => handleChange(e, "bannerSubtitle")}
                       />
+                      {<p className="text-danger">{errors.bannerSubtitle}</p>}
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="bannerLink">Banner Link <span className="text-danger">*</span></label>
+                      <label htmlFor="bannerLink">{banner_link} <span className="text-danger">*</span></label>
                       <InputField
                         type="text"
                         className={`form-control ${errors.bannerLink ? "border-danger" : ""
@@ -209,10 +223,11 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                         value={bannerMaster.bannerLink}
                         onChange={(e) => handleChange(e, "bannerLink")}
                       />
+                      {<p className="text-danger">{errors.bannerLink}</p>}
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="displayOrder">Display Order <span className="text-danger">*</span></label>
+                      <label htmlFor="displayOrder">{displayOrder} <span className="text-danger">*</span></label>
                       <InputField
                         type="number"
                         className={`form-control ${errors.displayOrder ? "border-danger" : ""
@@ -221,6 +236,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                         value={bannerMaster.displayOrder}
                         onChange={(e) => handleChange(e, "displayOrder")}
                       />
+                      {<p className="text-danger">{errors.displayOrder}</p>}
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
@@ -247,7 +263,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                     </div>
 
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="status">Status <span className="text-danger">*</span></label>
+                      <label htmlFor="status">{status}<span className="text-danger">*</span></label>
                       <Dropdown
                         className={`${errors.enabled
                           ? "border-danger-select"

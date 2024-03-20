@@ -138,7 +138,12 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       if (addData[key] === "" || addData[key] === undefined) {
         newErrors[key] = field_Required;
         isValid = false;
-      } else {
+      }
+      else if (addData[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
+      }
+      else {
         newErrors[key] = "";
       }
     }
@@ -187,6 +192,10 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       setAddData(resetAddData);
       dispatch(onPostOfferMasterReset());
       dispatch(onGetOfferMaster());
+    } 
+    else if (offerMasterData.status_code===404){
+      dispatch(onPostOfferMasterReset());
+      toast.error(offerMasterData.message);
     }
   }, [offerMasterData]);
   useEffect(() => {
@@ -262,6 +271,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             name="title"
                             id="title"
                           />
+                          {<p className="text-danger">{errors.title}</p>}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="subtitle">
@@ -277,6 +287,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             name="subtitle"
                             id="subtitle"
                           />
+                          {<p className="text-danger">{errors.subtitle}</p>}
                         </div>
                         <div className="col-sm-5 form-group mb-2">
                           <label htmlFor="link">
@@ -292,6 +303,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             name="link"
                             id="link"
                           />
+                          {errors.link && <small className="text-danger">{errors.link}</small>}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="linkText">
@@ -305,6 +317,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             className={` ${errors.linkText ? "border-danger" : "form-control"
                               }`}
                           />
+                          {<p className="text-danger">{errors.linkText}</p>}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="imagePlacement">

@@ -60,12 +60,12 @@ export const offerMasterSlice = createSlice({
           },
       
           onGetOfferMasterError: (state, { payload }) => {
-            const { getData = {}, message = "", status_code = 400 } = payload;
+            const { getData = {}, message, status_code } = payload;
             return {
               ...state,
               getData:getData,
-              message,
-              status_code
+              message:message,
+              status_code:status_code
             };
           },
           onUpdateOfferMaster: (state) => {
