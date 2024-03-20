@@ -69,13 +69,22 @@ export const faqMaster = createSlice({
       };
     },
     onGetFaqMasterError: (state, { payload }) => {
-      const { data = {}, message = "", status_code } = payload;
+      const { data = {}, message, status_code } = payload;
       return {
         ...state,
         isLoading: false,
         getData: data,
         getmessage: message,
         status_code: status_code,
+      };
+    },
+    onGetFaqMasterReset: (state) => {
+      return {
+        ...state,
+        getData: {},
+        getmessage: "",
+        status_code: null,
+        isLoading: false,
       };
     },
   },
@@ -88,6 +97,7 @@ export const {
   onGetFaqMaster,
   onGetFaqMasterSuccess,
   onGetFaqMasterError,
+  onGetFaqMasterReset,
   onFaqMasterUpdate,
   onFaqMasterUpdateSuccess,
   onFaqMasterUpdateError,

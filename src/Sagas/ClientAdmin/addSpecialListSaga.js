@@ -48,9 +48,9 @@ function* OnGetAddSpecial() {
         })
       );
     }
-  } catch (error) {
-    const message = error.response || "Something went wrong";
-    yield put(onGetAddSpecialError({ data: {}, message, status_code: 400 }));
+  } catch (error) { 
+    const message = error.message || "Something went wrong";
+    yield put(onGetAddSpecialError({ data: {}, message, status_code: error.response.status }));
   }
 }
 function* OnAddSpecialUpdate({ payload }) {

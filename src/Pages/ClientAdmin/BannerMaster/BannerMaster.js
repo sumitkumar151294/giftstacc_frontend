@@ -92,6 +92,9 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
       dispatch(onGetbannerMaster());
     } else if (getBannerMaster?.status_code === "500") {
       toast.error(getBannerMaster.message);
+    } else if(getBannerMaster.status_code===404) {
+      dispatch(onbannerMasterSubmitReset());
+      toast.error(getBannerMaster.getmessage);
     }
   }, [getBannerMaster]);
 

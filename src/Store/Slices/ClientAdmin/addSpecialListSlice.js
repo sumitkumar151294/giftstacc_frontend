@@ -57,7 +57,7 @@ export const addSpecialSlice = createSlice({
             };
         },
         onGetAddSpecialError: (state, { payload }) => {
-            const { data = {}, message = '', status_code } = payload;
+            const { data = {}, message, status_code } = payload;
             return {
                 ...state,
                 getData: data,

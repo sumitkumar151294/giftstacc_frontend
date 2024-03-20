@@ -12,6 +12,7 @@ import { CSVLink } from "react-csv";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
+import DatePickerInput from "../../Components/DatePicker/DatePicker";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -460,11 +461,13 @@ const Orders = () => {
                     <div className="col-xl-3">
                       <div className="example">
                         <p className="mb-1">{date}</p>
-                        <InputField
-                          type="text"
-                          className="form-control input-daterange-timepicker"
-                          name="daterange"
-                          placeholder="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
+                        <DatePickerInput
+                         placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
+                         selectsRange={true}
+                         dateFormat="dd MMM yyyy h:mm aa"
+                         timeFormat="HH:mm"
+                         className={'form-control form-control-sm'}
+                         showDisabledMonthNavigation
                         />
                       </div>
                     </div>

@@ -55,10 +55,10 @@ function* GetOfferMaster() {
         })
       );
     }
-  } catch (error) {
-    const message = error.response || "Something went wrong";
+  } catch (error) { 
+    const message = error.message || "Something went wrong";
     yield put(
-      onGetOfferMasterError({ getData: {}, message, status_code: 400 })
+      onGetOfferMasterError({ getData: {}, message, status_code: error.response.status })
     );
   }
 }

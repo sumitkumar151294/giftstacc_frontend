@@ -78,6 +78,21 @@ $w100: var(--w100);
 }
 
 @media only screen and (min-width: 992px) {
+  .col-lg-1 {
+    flex: 0 0 auto;
+    width: 8.3333333333%;
+  }
+
+  .col-lg-2 {
+    flex: 0 0 auto;
+    width: 16.6666666667%;
+  }
+
+  .col-lg-3 {
+    flex: 0 0 auto;
+    width: 25%;
+  }
+
   .col-lg-4 {
     flex: 0 0 auto;
     width: 33.3333333333%;
