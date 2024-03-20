@@ -13,8 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
+import Button from "../../../Components/Button/Button";
 const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
-  const sumbit = GetTranslationData("UIAdmin", "submit_label");
+  const submit = GetTranslationData("UIClient", "submitLabel");
   const update = GetTranslationData("UIAdmin", "update_label");
   const cms = GetTranslationData("UIClient", "cms");
   const ShortDescription = GetTranslationData("UIClient", "short_description");
@@ -74,6 +75,9 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     for (const key in cmsData) {
       if (cmsData[key] === "") {
         newErrors[key] = "This field is required";
+        isValid = false;
+      }else if (cmsData[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -168,14 +172,15 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                         error={errors.title}
                         defaultSelected="Select Page Name"
                         value={cmsData.title}
-                        className={` ${errors.title ? "border-danger" : "form-select"
-                          }`}
+                        className={` ${
+                          errors.title ? "border-danger" : "form-select"
+                        }`}
                         options={
                           Array.isArray(PageNames)
                             ? PageNames?.map((Pagename) => ({
-                              label: Pagename,
-                              value: Pagename,
-                            }))
+                                label: Pagename,
+                                value: Pagename,
+                              }))
                             : []
                         }
                       />
@@ -185,7 +190,10 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
 
                   <div className="card-body">
                     <div className="form-group mb-2">
-                      <label for="name-f">{ShortDescription} <span className="text-danger">*</span></label>
+                      <label for="name-f">
+                        {ShortDescription}{" "}
+                        <span className="text-danger">*</span>
+                      </label>
 
                       <textarea
                         name="textarea"
@@ -200,7 +208,9 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                       <p className="text-danger">{errors.shortDescription}</p>
                     </div>
                     <div className="form-group mb-2">
-                      <label for="name-f">{LongDescription} <span className="text-danger">*</span></label>
+                      <label for="name-f">
+                        {LongDescription} <span className="text-danger">*</span>
+                      </label>
                       <HtmlEditor
                         value={cmsData.longDescription}
                         onChange={(data) =>
@@ -217,14 +227,13 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                       {requiredLevel}
                     </span>
                     <div className="form-group mb-0 mt-2">
-                      <button
+                      <Button
                         type="submit"
-                        className="btn btn-primary float-right pad-aa"
+                        text={Cmsprefilled ? update : submit}
+                        icon="fa fa-arrow-right"
+                        className="btn btn-primary btn-sm float-right p-btn mt-2"
                         onClick={handleSubmit}
-                      >
-                        {Cmsprefilled ? update : sumbit}
-                        <i className="fa fa-arrow-right"></i>
-                      </button>
+                      />
                       <ToastContainer />
                     </div>
                   </div>

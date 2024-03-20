@@ -111,7 +111,7 @@ const CategoryForm = ({ setIsLoading }) => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => { 
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -126,8 +126,8 @@ const CategoryForm = ({ setIsLoading }) => {
     setErrors(newErrors);
     if (isValid) {
       try {
-        setIsLoading(true);
         dispatch(onPostCategory(createCategory));
+        setIsLoading(true);
       } catch (error) {}
     }
   };

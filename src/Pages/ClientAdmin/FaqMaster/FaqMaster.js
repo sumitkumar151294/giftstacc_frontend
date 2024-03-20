@@ -31,6 +31,12 @@ const FaqMaster = () => {
   const endIndex = startIndex + rowsPerPage;
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const faq_categories = GetTranslationData("UIClient", "faq_categories");
+  const category = GetTranslationData("UIClient", "category");
+  const question = GetTranslationData("UIClient", "question");
+  const answer = GetTranslationData("UIClient", "answer");
+  const dateLabel=GetTranslationData("UIClient", "dateLabel");
+  const serNoLabel=GetTranslationData("UIClient", "serNoLabel");
   const [faqInfo, setFaqInfo] = useState({
     categoryId: "",
     question: "",
@@ -97,6 +103,10 @@ const FaqMaster = () => {
         newErrors[key] = " ";
         isValid = false;
       }
+      else if (faqInfo[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
+      }
     }
     setErrors(newErrors);
     if (isValid) {
@@ -115,13 +125,13 @@ const FaqMaster = () => {
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="card-header d-flex justify-content-between">
-                <h4 className="card-title">FAQ's Categories</h4>
+                <h4 className="card-title">{faq_categories}</h4>
               </div>
               <div className="card-body pt-4 ml-4">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="name-l">Category <span className="text-danger">*</span></label>
+                      <label htmlFor="name-l">{category} <span className="text-danger">*</span></label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "categoryId")}
                         error={errors.categoryId}
@@ -141,7 +151,7 @@ const FaqMaster = () => {
                       />
                     </div>
                     <div className="col-sm-12 form-group mb-2">
-                      <label htmlFor="name-f">Question <span className="text-danger">*</span></label>
+                      <label htmlFor="name-f">{question} <span className="text-danger">*</span></label>
                       <InputField
                         type="text"
                         className={`form-control ${errors.question ? "border-danger" : ""
@@ -151,12 +161,10 @@ const FaqMaster = () => {
                         value={faqInfo.question}
                         onChange={(e) => handleChange(e, "question")}
                       />
-                      {errors.question && (
-                        <div className="text-danger">{errors.question}</div>
-                      )}
+                       {<p className="text-danger">{errors.question}</p>}
                     </div>
                     <div className="col-sm-12 form-group mb-2">
-                      <label htmlFor="textarea">Answer <span className="text-danger">*</span></label>
+                      <label htmlFor="textarea">{answer} <span className="text-danger">*</span></label>
                       <textarea
                         id="textarea"
                         cols="60"
@@ -167,9 +175,7 @@ const FaqMaster = () => {
                         value={faqInfo.answer}
                         onChange={(e) => handleChange(e, "answer")}
                       ></textarea>
-                      {errors.answer && (
-                        <div className="text-danger">{errors.answer}</div>
-                      )}
+                      {<p className="text-danger">{errors.answer}</p>}
                     </div>
                   </div>
                   <span
@@ -203,11 +209,11 @@ const FaqMaster = () => {
                         <table className="table header-border table-responsive-sm">
                           <thead>
                             <tr>
-                              <th>S.NO</th>
-                              <th>Date</th>
-                              <th>Category</th>
-                              <th>Question</th>
-                              <th>Answer</th>
+                              <th>{serNoLabel}</th>
+                              <th>{dateLabel}</th>
+                              <th>{category}</th>
+                              <th>{question}</th>
+                              <th>{answer}</th>
                             </tr>
                           </thead>
                           <tbody>

@@ -1,6 +1,16 @@
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import InputField from "../../../Components/InputField/InputField";
 
 const AbandonedCartReport = () => {
+   const abandonedCartReport = GetTranslationData("UIClient", "abandonedCartReport");
+    const name_label = GetTranslationData("UIAdmin", "failedordersname");
+    const email_label = GetTranslationData("UIAdmin", "failedordersemail");
+    const mobile_label = GetTranslationData("UIAdmin", "failedordersmobile");
+    const cart_Label = GetTranslationData("UIAdmin", "failedorderscartvalue");
+    const export_label = GetTranslationData("UIAdmin", "export_label");
+    const status = GetTranslationData("UIClient", "status");
+    const action = GetTranslationData("UIClient", "actionLabel");
+    console.log(abandonedCartReport,name_label,email_label,mobile_label)
   return (
     <div className="container-fluid">
       <div className="row">
@@ -9,9 +19,8 @@ const AbandonedCartReport = () => {
             <div className="container-fluid pt-0">
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="card-header">
-                  <h4 className="card-title">Abandoned Cart Report</h4>
+                  <h4 className="card-title">{abandonedCartReport}</h4>
                 </div>
-
                 <div className="customer-search mb-sm-0 mb-3">
                   <div className="input-group search-area">
                     <InputField
@@ -33,13 +42,12 @@ const AbandonedCartReport = () => {
                     value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
                   />
                 </div>
-
                 <div className="d-flex align-items-center flex-wrap">
                   <a
                     href="javascript:void(0);"
                     className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
                   >
-                    <i className="fa fa-file-excel me-2"></i>Export
+                    <i className="fa fa-file-excel me-2"></i>{export_label}
                   </a>
                 </div>
               </div>
@@ -47,32 +55,32 @@ const AbandonedCartReport = () => {
               <div className="card-body p-0">
                 <div className="d-flex justify-content-between weak">
                   <div className="1st">
-                    <h6>Name</h6>
+                    <h6>{name_label}</h6>
                     <p>Jaswant Rawat</p>
                   </div>
 
                   <div className="1st">
-                    <h6>Email</h6>
+                    <h6>{email_label}</h6>
                     <p>jaswantjojo21@gmail.com</p>
                   </div>
 
                   <div className="1st">
-                    <h6>Mobile</h6>
+                    <h6>{mobile_label}</h6>
                     <p>9876543210</p>
                   </div>
 
                   <div className="1st">
-                    <h6>Total Cart Value</h6>
+                    <h6>{cart_Label}</h6>
                     <p>₹5000</p>
                   </div>
 
                   <div className="1st">
-                    <h6>Status</h6>
+                    <h6>{status}</h6>
                     <span className="btn btn-danger btn-xxs">Pending</span>
                   </div>
 
                   <div className="1st">
-                    <h6>Action</h6>
+                    <h6>{action}</h6>
                     <button
                       type="button"
                       className="btn btn-rounded btn-secondary btn-xxs"
