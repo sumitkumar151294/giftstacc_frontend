@@ -29,7 +29,6 @@ const CategoryForm = ({ setIsLoading }) => {
   // const getModules = useSelector((state) => state.moduleReducer);
   // const getModulesRoleId = getModules?.data;
   // const getRolesAccess = getModules?.filteredData;
-  // console.log(getModules,"getRoleAccess",getModulesRoleId,getRolesAccess);
 
   // const findRoleAccess = getRolesAccess.filte(r)
   // const supplierBrandListData = useSelector((state)=> state?.supplierBrandListReducer?.data);

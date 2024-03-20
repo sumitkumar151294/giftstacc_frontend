@@ -72,7 +72,6 @@ const BrandDetail = () => {
                             {paragraphs.map((paragraph, index) => (
                               <p key={index}>{paragraph}</p>
                             ))}
-                            {console.log(data.tncContent, "testdescription")}
                           </div>
                         )}
                         {/* <div className=" tc mt-2">

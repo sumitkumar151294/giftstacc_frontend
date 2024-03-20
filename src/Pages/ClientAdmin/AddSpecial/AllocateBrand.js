@@ -13,7 +13,6 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 const AllocateBrand = () => {
   const dispatch = useDispatch();
   const getAllocateBrands = useSelector((state) => state.allocateBrandReducer);
-  console.log(getAllocateBrands?.getAllocateBrandData);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
