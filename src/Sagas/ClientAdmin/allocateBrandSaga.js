@@ -1,7 +1,8 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { onPostAllocateBrand,onGetAllocateBrand,onGetAllocateBrandError,onGetAllocateBrandSuccess, onPostAllocateBrandError, onPostAllocateBrandSuccess, onUpdateAllocateBrand, onUpdateAllocateBrandError, onUpdateAllocateBrandSuccess } from "../../Store/Slices/ClientAdmin/allocateBrandSlice";
+import { onPostAllocateBrand,onGetAllocateBrand,onGetAllocateBrandError,onGetAllocateBrandSuccess, onPostAllocateBrandError, onPostAllocateBrandSuccess, onUpdateAllocateBrand, onUpdateAllocateBrandError, onUpdateAllocateBrandSuccess,onAllocateBrandByIdSuccess,onAllocateBrandByIdError,onAllocateBrandById ,onUpdateAllocateBrandById,onUpdateAllocateBrandByIdSuccess,onUpdateAllocateBrandByIdError} from "../../Store/Slices/ClientAdmin/allocateBrandSlice";
 import { callAddSpecialListPostApi, callAddSpecialListUpdateApi,callAddSpecialListGetApi } from "../../Context/ClientAdmin/addSpecialListApi";
-function* getCms() {
+import { callAllocateBrandsUpdateApi, callAllocateBrandsbyIdApi } from "../../Context/ClientAdmin/allocateBrandApi";
+function* getAddSpecial() {
     try {
       const allocateBrandsgetResponse = yield call(callAddSpecialListGetApi);
   
@@ -79,10 +80,69 @@ function* OnUpdateAllocateBrand({ payload }) {
         );
     }
 }
+function* getAllocateBrandsById({ payload }) {
+    try {
+        const AllocateBrandResponseById = yield call(callAllocateBrandsbyIdApi, payload);
+        if (AllocateBrandResponseById.httpStatusCode === "200") {
+                yield put(
+                onAllocateBrandByIdSuccess({
+                    data: AllocateBrandResponseById.response,
+                    message: AllocateBrandResponseById.errorMessage,
+                    status_code: AllocateBrandResponseById.httpStatusCode
+                })
+            );
+        } else {
+                yield put(
+                onAllocateBrandByIdError({
+                    data: AllocateBrandResponseById.response,
+                    message: AllocateBrandResponseById.errorMessage,
+                    status_code: AllocateBrandResponseById.httpStatusCode
+                })
+            );
+        }
+    } catch (error) {
+        const message = error.response || "Something went wrong";
+        yield put(
+            onAllocateBrandByIdError({ data: {}, message, status_code: 400 })
+        );
+    }
+}
+function* updateAllocateBrandsById( {payload} ) {
+    try {
+        const updateAllocateBrandResponseById = yield call(callAllocateBrandsUpdateApi, payload);
+        if (updateAllocateBrandResponseById.httpStatusCode === "201") {
+                yield put(
+                onUpdateAllocateBrandByIdSuccess({
+                    data: updateAllocateBrandResponseById.response,
+                    message: updateAllocateBrandResponseById.errorMessage,
+                    status_code: updateAllocateBrandResponseById.httpStatusCode
+                })
+            );
+        } else {
+                yield put(
+                onUpdateAllocateBrandByIdError({
+                    data: updateAllocateBrandResponseById.response,
+                    message: updateAllocateBrandResponseById.errorMessage,
+                    status_code: updateAllocateBrandResponseById.httpStatusCode
+                })
+            );
+        }
+    } catch (error) {
+        const message = error.response || "Something went wrong";
+        yield put(
+            onUpdateAllocateBrandByIdError({ data: {}, message, status_code: 400 })
+        );
+    }
+}
+
 
 export default function* allocateBrandSaga() {
     yield takeLatest(onPostAllocateBrand.type, PostAllocateBrand);
     yield takeLatest(onUpdateAllocateBrand.type, OnUpdateAllocateBrand);
-    yield takeLatest(onGetAllocateBrand.type, getCms);
+    yield takeLatest(onGetAllocateBrand.type, getAddSpecial);
+    yield takeLatest(onAllocateBrandById.type, getAllocateBrandsById);
+    yield takeLatest(onUpdateAllocateBrandById.type, updateAllocateBrandsById);
+
+
 
 }

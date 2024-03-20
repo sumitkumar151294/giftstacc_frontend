@@ -3,17 +3,21 @@ import InputField from "../../../Components/InputField/InputField";
 import Button from "../../../Components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  onAllocateBrandById,
   onGetAllocateBrand,
-  onPostAllocateBrand,
+  onUpdateAllocateBrandById,
+  onUpdateAllocateBrandByIdReset,
 } from "../../../Store/Slices/ClientAdmin/allocateBrandSlice";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { useLocation } from "react-router-dom";
 
 const AllocateBrand = () => {
   const dispatch = useDispatch();
-  const getAllocateBrands = useSelector((state) => state.allocateBrandReducer);
-  console.log(getAllocateBrands?.getAllocateBrandData);
+  const location = useLocation();
+  const getAllocateBrands = useSelector((state) => state?.allocateBrandReducer);
+  const [copyClientMapping, setCopyClientMapping] = useState([]);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,6 +27,7 @@ const AllocateBrand = () => {
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
+  const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
@@ -33,8 +38,19 @@ const AllocateBrand = () => {
   );
 
   useEffect(() => {
+    dispatch(onAllocateBrandById(location?.state?.data?.id));
     dispatch(onGetAllocateBrand());
   }, []);
+  useEffect(() => {
+    if (getAllocateBrands?.update_status_code === "201") {
+      toast.success(getAllocateBrands?.updateMessage);
+      dispatch(onUpdateAllocateBrandByIdReset());
+      dispatch(onAllocateBrandById(location?.state?.data?.id));
+    } else if (getAllocateBrands?.update_status_code === "400") {
+      toast.error(getAllocateBrands?.updateMessage);
+    }
+  }, [getAllocateBrands?.update_status_code]);
+
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -45,10 +61,13 @@ const AllocateBrand = () => {
       Array.isArray(clientProductMapping) &&
       clientProductMapping
         .map((clientProduct) => {
-                const matchingProduct =
+          const matchingProduct =
             Array.isArray(SupplierBrandList) &&
             SupplierBrandList.find((supplierProduct) => {
-              return supplierProduct.id === clientProduct.productId;
+              return (
+                supplierProduct.id === clientProduct.productId &&
+                supplierProduct.enabled === clientProduct.enabled
+              );
             });
 
           return matchingProduct || null;
@@ -57,7 +76,7 @@ const AllocateBrand = () => {
 
     setGetProduct(matchingProductsData);
   }, [getAllocateBrands, SupplierBrandList]);
-  
+
   const filteredBrandCatalogueList = Array.isArray(getProduct)
     ? getProduct.filter((vendor) =>
         Object.values(vendor).some(
@@ -68,6 +87,7 @@ const AllocateBrand = () => {
         )
       )
     : [];
+
   useEffect(() => {
     if (getAllocateBrands) {
       const totalItems = filteredBrandCatalogueList.length;
@@ -75,17 +95,88 @@ const AllocateBrand = () => {
       if (page > totalPages && page > 1) {
         setPage(page - 1);
       }
-    } 
+    }
   }, [getAllocateBrands?.getAllocateBrandData]);
 
-  const handleSubmit = () => {
-    dispatch(
-      onPostAllocateBrand({
-        name: "asd",
-      })
+  const updateStatus = (data) => {
+    const isUpdate =
+      Array.isArray(copyClientMapping) &&
+      copyClientMapping?.find((item) => item.productId === data?.id);
+    const deletedData = [
+      {
+        enabled: isUpdate?.enabled === true ? false : true,
+        deleted: false,
+        productId: isUpdate?.productId,
+        addSpecialId: isUpdate?.addSpecialId,
+        displayOrder: isUpdate?.displayOrder,
+        id: isUpdate?.id,
+      },
+    ];
+
+    dispatch(onUpdateAllocateBrandById(deletedData));
+  };
+  useEffect(() => {
+    // Make sure this runs whenever getAllocateBrands.getAllocateBrandsById changes
+    if (Array.isArray(getAllocateBrands?.getAllocateBrandsById)) {
+      const copyData = getAllocateBrands?.getAllocateBrandsById.map((item) => ({
+        ...item,
+      }));
+      setCopyClientMapping(copyData);
+    } else {
+      setCopyClientMapping([]);
+    }
+  }, [getAllocateBrands]); // Fixed dependency array
+
+  const getValues = (id, name) => {
+    // Fixed typo in property name
+    const data = copyClientMapping.find((item) => item.productId === id);
+    return data && data[name] !== undefined ? data[name] : "";
+  };
+
+  const handleKeyPress = (e) => {
+    // Preventing characters that are not numbers or navigation keys
+    if (e.key === "e" || e.key === "+" || e.key === "-") {
+      e.preventDefault();
+    }
+  };
+
+  const handleInputChange = (e, ids, name) => {
+    const newValue = Math.max(0, e.target.value); // Ensures non-negative values
+    const existingIndex = copyClientMapping.findIndex(
+      (item) => item.productId === ids
     );
-  }; 
-  
+
+    const addSpecialIdForNewItem = copyClientMapping[0]?.addSpecialId;
+
+    if (existingIndex !== -1) {
+      // If item exists, update it directly
+      copyClientMapping[existingIndex] = {
+        ...copyClientMapping[existingIndex],
+        [name]: parseInt(newValue),
+      };
+    } else {
+      copyClientMapping.push({
+        productId: ids,
+        [name]: parseInt(newValue),
+        addSpecialId: addSpecialIdForNewItem, // Use the determined value for new items
+        enabled: true, // Assuming new items should be enabled by default
+      });
+    }
+
+    setCopyClientMapping([...copyClientMapping]);
+  };
+
+  const handleSubmit = () => {
+    const updates = copyClientMapping.map((product) => ({
+      productId: product.productId,
+      displayOrder: product.displayOrder,
+      addSpecialId: product?.addSpecialId,
+      id: product?.id,
+    }));
+
+    dispatch(onUpdateAllocateBrandById(updates));
+  };
+
   return (
     <>
       <div className="container-fluid">
@@ -137,24 +228,35 @@ const AllocateBrand = () => {
                                 <div className="input-group mb-2 w-11">
                                   <InputField
                                     type="number"
-                                    className="form-control"
-                                    placeholder="1"
+                                    className="form-control htt"
+                                    placeholder={data.displayOrder}
                                     pattern="/^-?\d+\.?\d*$/"
-                                    onKeyPress={(event) => {
-                                      if (event.target.value.length === 2)
-                                        return false;
-                                    }}
+                                    value={getValues(data.id, "displayOrder")}
+                                    onChange={(e) =>
+                                      handleInputChange(
+                                        e,
+                                        data.id,
+                                        "displayOrder"
+                                      )
+                                    }
+                                    onKeyPress={(e) => handleKeyPress(e, index)}
                                   />
                                 </div>
                               </td>
+
                               <td>
                                 <div className="can-toggle">
-                                  <InputField id="a" type="checkbox" />
-                                  <label htmlFor="a">
+                                  <input
+                                    id={generateUniqueId(index)}
+                                    type="checkbox"
+                                    checked={getValues(data?.id, "enabled")}
+                                  ></input>
+                                  <label htmlFor={generateUniqueId(index)}>
                                     <div
                                       className="can-toggle__switch"
-                                      data-checked="On"
-                                      data-unchecked="Off"
+                                      data-unchecked={"OFF"}
+                                      data-checked={"ON"}
+                                      onClick={() => updateStatus(data, index)}
                                     ></div>
                                   </label>
                                 </div>
@@ -192,6 +294,7 @@ const AllocateBrand = () => {
                   onClick={() => handleSubmit()}
                 />
               </div>
+              <ToastContainer />
             </div>
           </div>
         </div>
