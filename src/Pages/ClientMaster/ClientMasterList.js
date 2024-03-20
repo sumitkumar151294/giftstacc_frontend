@@ -161,7 +161,7 @@ const ClientMasterList = () => {
               </div>
               <div className="card-body">
                 {showLoader ? (
-                  <div style={{ height: "400px" }}>
+                  <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
