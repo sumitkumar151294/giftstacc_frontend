@@ -121,12 +121,12 @@ const AddSpecialList = () => {
                                         <td>
                                           <span
                                             className={
-                                              Special.status === true
+                                              Special.enabled === true
                                                 ? "badge badge-success"
                                                 : "badge badge-danger"
                                             }
                                           >
-                                            {Special.status === true
+                                            {Special.enabled === true
                                               ? "Active"
                                               : "Non-Active"}
                                           </span>

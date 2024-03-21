@@ -17,33 +17,37 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
-  const addSpecialMaster=GetTranslationData("UIClient", "addSpecialMaster");
-  const section_name=GetTranslationData("UIClient", "section_name");
-  const status = GetTranslationData("UIClient", "status");
-  const displayOrder = GetTranslationData("UIClient", "display-order");
-  const maxNoOfbrands = GetTranslationData("UIClient", "maxNoOfbrands");
-  const submit = GetTranslationData("UIClient", "submitLabel");
-  const update = GetTranslationData("UIAdmin", "update_label");
   const [isLoading, setIsLoading] = useState(false);
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     sectionName: "",
     displayOrder: "",
-    status: true,
     maximumNumberOfBrands: "",
+    description: "",
+    IsSpecial:"",
+    enabled:""
+    
   });
   const [error, setError] = useState({
     sectionName: "",
     displayOrder: "",
-    status: "",
     maximumNumberOfBrands: "",
+    description: "",
+    IsSpecial:"",
+    enabled:""
+
+
   });
   const resetField = {
     sectionName: "",
     displayOrder: "",
-    status: "",
     maximumNumberOfBrands: "",
+    description: "",
+    IsSpecial:"",
+    enabled:""
+
+
   };
   const statusoptions = [
     { value: true, label: active },
@@ -54,16 +58,19 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     setFormData({
       sectionName: prefilledValues?.sectionName || "",
       displayOrder: prefilledValues?.displayOrder || "",
-      status:
-        prefilledValues?.status !== undefined ? prefilledValues?.status : "",
-
+      enabled:
+        prefilledValues?.enabled !== undefined ? prefilledValues?.enabled : "",
       maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || "",
+      description:prefilledValues?.description || ""
     });
     setError({
       sectionName: "",
       displayOrder: "",
-      status: "",
+      enabled: "",
       maximumNumberOfBrands: "",
+      description: "",
+      IsSpecial:""
+
     });
   }, [prefilledValues]);
   useEffect(() => {
@@ -87,9 +94,6 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
         toast.success(getAddSpecial.message);
         setFormData(resetField);
         dispatch(onGetAddSpecial());
-      } else if(getAddSpecial?.status_code === 404){
-        console.log("getAddSpecial",getAddSpecial);
-        toast.error(getAddSpecial.getmessage);
       }
     } else if (prefilledValues) {
       if (getAddSpecial?.status_code === "201") {
@@ -100,6 +104,17 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       }
     }
   }, [getAddSpecial.status_code]);
+  const handleInputChange = (e) => {
+    const { name, checked } = e.target;
+    if (name === "IsSpecial") {
+      
+      setFormData({
+        ...formData,
+        IsSpecial: checked,
+      });
+    }
+   
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -107,9 +122,6 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     for (const key in formData) {
       if (formData[key] === "") {
         newErrors[key] = " ";
-        isValid = false;
-      }else if (formData[key].length > 250) {
-        newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -122,7 +134,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
           ...formData,
           displayOrder: parseInt(formData.displayOrder), // Convert displayOrder to integer
           maximumNumberOfBrands: parseInt(formData.maximumNumberOfBrands), // Convert maxNumBrand to integer
-          status: formData.status === "true" ? true : false, // Convert status to boolean based on selection
+          enabled: formData.enabled === "true" ? true : false, // Convert status to boolean based on selection
         };
         dispatch(onAddSpecialSubmit(submissionData));
       } else {
@@ -131,7 +143,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
         dispatch(
           onAddSpecialUpdate({
             ...tempData,
-            status: formData.status === "true" ? true : false,
+            enabled: formData.enabled === "true" ? true : false,
           })
         );
       }
@@ -146,7 +158,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="card-header">
-                <h4 className="card-title">{addSpecialMaster}</h4>
+                <h4 className="card-title">Add Special Master</h4>
               </div>
               <div className="card-body card-body-user">
                 {isLoading ? (
@@ -158,29 +170,34 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                     <form onSubmit={(e) => handleSubmit(e)}>
                       <div className="row">
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="name-f">{section_name} <span className="text-danger">*</span></label>
+                          <label htmlFor="name-f">
+                            Section Name <span className="text-danger">*</span>
+                          </label>
                           <InputField
                             type="text"
                             value={formData?.sectionName}
-                            className={`${error.sectionName
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={`${
+                              error.sectionName
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
                             onChange={(e) => handleInput(e, "sectionName")}
                           />
-                          {<p className="text-danger">{error.sectionName}</p>}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="displayOrder">{displayOrder} <span className="text-danger">*</span></label>
+                          <label htmlFor="displayOrder">
+                            Display Order <span className="text-danger">*</span>
+                          </label>
                           <InputField
                             type="number"
                             value={formData?.displayOrder}
-                            className={`${error.displayOrder
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={`${
+                              error.displayOrder
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="displayOrder"
                             id="displayOrder"
                             onChange={(e) => handleInput(e, "displayOrder")}
@@ -188,30 +205,34 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
 
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="status">{status} <span className="text-danger">*</span></label>
+                          <label htmlFor="enabled">
+                            Status <span className="text-danger">*</span>
+                          </label>
                           <Dropdown
                             aria-label="Default select example"
-                            onChange={(e) => handleInput(e, "status")}
-                            value={formData?.status}
-                            className={`${error.status
-                              ? "border-danger-select"
-                              : "form-select"
-                              }`}
+                            onChange={(e) => handleInput(e, "enabled")}
+                            value={formData?.enabled}
+                            className={`${
+                              error.enabled
+                                ? "border-danger-select"
+                                : "form-select"
+                            }`}
                             options={statusoptions}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
-                            {maxNoOfbrands}
+                            Max. No. of Brands
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="number"
                             value={formData?.maximumNumberOfBrands}
-                            className={`${error.maximumNumberOfBrands
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={`${
+                              error.maximumNumberOfBrands
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="maximumNumberOfBrands"
                             id="maximumNumberOfBrands"
                             onChange={(e) =>
@@ -219,6 +240,40 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             }
                           />
                         </div>
+                        <div className="col-sm-3 form-group mb-2">
+                          <label htmlFor="maxNumBrand">
+                            Description
+                            <span className="text-danger">*</span>
+                          </label>
+                          <InputField
+                            type="text"
+                            value={formData?.description}
+                            className={`${
+                              error.description
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
+                            name="description"
+                            id="description"
+                            onChange={(e) => handleInput(e, "description")}
+                          />
+                        </div>
+                        <div className="col-sm-3 form-group mb-2  mt-4 padd">
+                            <InputField 
+                              className="form-check-input"
+                              type="checkbox"
+                              name="IsSpecial"
+                              value={formData?.IsSpecial}
+                              checked={formData?.IsSpecial}
+                              id="flexCheckDefault1"
+                              onChange={handleInputChange}
+                            />
+                            <label
+                              className="form-check-label fnt-15"
+                              htmlFor="flexCheckDefault1"
+                            >
+IsSpecial                            </label>
+                          </div>
                         <span
                           className="form-check-label"
                           htmlFor="basic_checkbox_1"
@@ -229,7 +284,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button
                             className="btn btn-primary float-right pad-aa"
-                            text={prefilledValues ? update : submit}
+                            text={prefilledValues ? "Update" : "Submit"}
                             icon={"fa fa-arrow-right"}
                           />
                         </div>
