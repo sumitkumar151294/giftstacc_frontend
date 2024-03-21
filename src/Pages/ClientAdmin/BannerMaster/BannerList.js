@@ -19,7 +19,9 @@ const BannerMasterList = () => {
   const getBannerMaster = useSelector(
     (state) => state.bannerMasterReducer?.getData
   );
-  const getRoleAccess = useSelector((state) => state.moduleReducer.filteredData);
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
@@ -57,7 +59,7 @@ const BannerMasterList = () => {
     } else {
     }
   }, [getBannerMaster]);
-  
+
   return (
     <>
       <BannerForm
@@ -149,9 +151,11 @@ const BannerMasterList = () => {
                       )}
                     </div>
                   </div>
-                ) :
-                  (<NoRecord />)
-                }
+                ) : getBannerMaster?.length < 0 ? (
+                  <NoRecord />
+                ) : (
+                  <NoRecord />
+                )}
               </div>
             </div>
           </div>

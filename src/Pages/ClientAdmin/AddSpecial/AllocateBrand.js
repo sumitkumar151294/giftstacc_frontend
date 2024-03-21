@@ -19,8 +19,8 @@ const AllocateBrand = () => {
   const getAllocateBrands = useSelector((state) => state?.allocateBrandReducer);
   const [copyClientMapping, setCopyClientMapping] = useState([]);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
-  const allocateBrands=GetTranslationData("UIClient", "allocateBrands");
-  const brand_name=GetTranslationData("UIClient", "brand_name");
+  const allocateBrands = GetTranslationData("UIClient", "allocateBrands");
+  const brand_name = GetTranslationData("UIClient", "brand_name");
   const displayOrder = GetTranslationData("UIClient", "display-order");
   const action = GetTranslationData("UIClient", "actionLabel");
   const [page, setPage] = useState(1);
@@ -106,6 +106,7 @@ const AllocateBrand = () => {
     const isUpdate =
       Array.isArray(copyClientMapping) &&
       copyClientMapping?.find((item) => item.productId === data?.id);
+
     const deletedData = [
       {
         enabled: isUpdate?.enabled === true ? false : true,
