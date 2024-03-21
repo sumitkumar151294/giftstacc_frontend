@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
@@ -34,6 +33,7 @@ const BrandCatalogue = () => {
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
   const supplier = GetTranslationData("UIAdmin", "supplier");
+  const client = GetTranslationData("UIAdmin", "client");
   const [searchQuery, setSearchQuery] = useState("");
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -46,6 +46,7 @@ const BrandCatalogue = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
+  
 
   useEffect(() => {
     const matchingProductsData =
@@ -68,7 +69,7 @@ const BrandCatalogue = () => {
     setGetProduct(matchingProductsData);
     setCopyBrandCatalogue(matchingProductsData);
   }, [clientProductMapping, SupplierBrandList]);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
+  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
@@ -98,6 +99,7 @@ const BrandCatalogue = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
+  
   const filteredBrandCatalogueList = Array.isArray(copyBrandCatalogue)
     ? copyBrandCatalogue.filter((vendor) =>
         Object.values(vendor).some(
@@ -109,6 +111,7 @@ const BrandCatalogue = () => {
       )
     : [];
 
+    
   const handleChange = (e) => {
     const selectedSupplierName = e.target.value;
     if (selectedSupplierName === "Select") {
@@ -131,6 +134,7 @@ const BrandCatalogue = () => {
       supplier: selectedSupplierName,
     }));
   };
+
 
   useEffect(() => {
     setShowLoader(false);
@@ -178,7 +182,7 @@ const BrandCatalogue = () => {
                       headers={headers}
                       filename={"BrandCatalogue.csv"}
                     >
-                      {filteredBrandCatalogueList.length > 0 && (
+                      {filteredBrandCatalogueList.length >=+ 0 && (
                         <Button
                           className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
                           icons={"fa fa-file-excel me-2"}
@@ -207,7 +211,7 @@ const BrandCatalogue = () => {
                       }
                     />
                   </div>
-                  {/* <div className="col-sm-3 form-group mb-2">
+                  <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="client">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
@@ -222,7 +226,7 @@ const BrandCatalogue = () => {
                           : []
                       }
                     />
-                  </div> */}
+                  </div>
                 </div>
               </div>
               <div className="card-body">
@@ -248,9 +252,11 @@ const BrandCatalogue = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {filteredBrandCatalogueList
+                              {filteredBrandCatalogueList.length > 0 ? (
+                                  Array.isArray(filteredBrandCatalogueList) &&
+                              filteredBrandCatalogueList
                                 .slice(startIndex, endIndex)
-                                ?.map((data, index) => (
+                                .map((data, index) => (
                                   <tr key={index}>
                                     <td>
                                       <img
@@ -274,7 +280,10 @@ const BrandCatalogue = () => {
                                       />
                                     </td>
                                   </tr>
-                                ))}
+                                ))
+                                ) : (
+                                  <NoRecord />
+                                )}
                             </tbody>
                           </table>
                           {filteredBrandCatalogueList.length > 5 && (
@@ -313,4 +322,3 @@ const BrandCatalogue = () => {
 };
 
 export default BrandCatalogue;
-/* eslint-enable react-hooks/exhaustive-deps */
