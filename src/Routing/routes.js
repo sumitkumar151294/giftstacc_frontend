@@ -30,12 +30,10 @@ function RouteConfiq() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-
         <Route
           path="/lc-admin/dashboard"
           element={<Layout Component={Dashboard} />}
         />
-
         <Route
           path="/lc-admin/supplier-master"
           element={<Layout Component={SupplierMasterList} />}
@@ -75,9 +73,16 @@ function RouteConfiq() {
         <Route
           path="/lc-admin/orders"
           element={<Layout Component={Orders} />}
+        />{" "}
+        <Route
+          path="/lc-admin/brandcatalouge"
+          element={<Layout Component={BrandCatalogue} />}
         />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
-        <Route path="/lc-user-admin/dashboard" element={<Layout Component={Dashboard} />} />
+        <Route
+          path="/lc-user-admin/dashboard"
+          element={<Layout Component={Dashboard} />}
+        />
         <Route
           path="/lc-user-admin/orders"
           element={<Layout Component={Orders} />}
@@ -86,7 +91,7 @@ function RouteConfiq() {
           path="/lc-user-admin/cms"
           element={<Layout Component={CMSList} />}
         />
-          <Route
+        <Route
           path="/lc-user-admin/brand-catalouge"
           element={<Layout Component={BrandCatalogue} />}
         />
@@ -110,11 +115,11 @@ function RouteConfiq() {
           path="/lc-user-admin/allocate-brand"
           element={<Layout Component={AllocateBrand} />}
         />
-         <Route
+        <Route
           path="/lc-user-admin/faq"
           element={<Layout Component={FaqMaster} />}
         />
-          <Route
+        <Route
           path="/lc-user-admin/banner-master"
           element={<Layout Component={BannerMasterList} />}
         />
@@ -129,8 +134,8 @@ function RouteConfiq() {
         <Route
           path="/lc-user-admin/failed-orders"
           element={<Layout Component={FailedOrders} />}
-          />
-          <Route
+        />
+        <Route
           path="/lc-user-admin/abandoned-cart-report"
           element={<Layout Component={AbandonedCartReport} />}
         />

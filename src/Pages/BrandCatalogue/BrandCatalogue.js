@@ -14,6 +14,7 @@ import Button from "../../Components/Button/Button";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import { onClientProductMappingSubmit } from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
+
 const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const BrandCatalogue = () => {
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
   const supplier = GetTranslationData("UIAdmin", "supplier");
+  const client = GetTranslationData("UIAdmin", "client_label");
   const [searchQuery, setSearchQuery] = useState("");
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -46,7 +48,7 @@ const BrandCatalogue = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-
+  const LoginId = useSelector((state) => state?.loginReducer);
   useEffect(() => {
     const matchingProductsData =
       Array.isArray(clientProductMapping) &&
@@ -68,7 +70,8 @@ const BrandCatalogue = () => {
     setGetProduct(matchingProductsData);
     setCopyBrandCatalogue(matchingProductsData);
   }, [clientProductMapping, SupplierBrandList]);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
+  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData);
+  console.log(clientList?.name);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
@@ -193,6 +196,7 @@ const BrandCatalogue = () => {
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="supplier">{supplier}</label>
+
                     <Dropdown
                       onChange={(e) => handleChange(e, "supplier")}
                       value={supplierList.supplier || ""}
@@ -207,7 +211,7 @@ const BrandCatalogue = () => {
                       }
                     />
                   </div>
-                  {/* <div className="col-sm-3 form-group mb-2">
+                  {LoginId.isAdminLogin && <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="client">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
@@ -222,7 +226,8 @@ const BrandCatalogue = () => {
                           : []
                       }
                     />
-                  </div> */}
+                  </div>}
+
                 </div>
               </div>
               <div className="card-body">
