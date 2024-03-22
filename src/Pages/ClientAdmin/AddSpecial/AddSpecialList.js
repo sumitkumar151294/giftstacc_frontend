@@ -9,8 +9,16 @@ import ReactPaginate from "react-paginate";
 import { onAddSpecialUpdate } from "../../../Store/Slices/ClientAdmin/addSpecialListSlice";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
 import PageError from "../../../Components/PageError/PageError";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 
 const AddSpecialList = () => {
+  const section_name=GetTranslationData("UIClient", "section_name");
+  const status = GetTranslationData("UIClient", "status");
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+  const maxNoOfbrands = GetTranslationData("UIClient", "maxNoOfbrands");
+  const action = GetTranslationData("UIClient", "actionLabel");
+  const addSpecialList=GetTranslationData("UIClient", "addSpecialList");
+  const allocateBrands=GetTranslationData("UIClient", "allocateBrands");
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [prefilledValues, setPrefilledValues] = useState();
@@ -36,19 +44,6 @@ const AddSpecialList = () => {
     setPrefilledValues(prefilled);
   };
 
-  useEffect(() => {
-    if (getAddSpecial?.getmessage?.status === 404) {
-      setShowError(true);
-      setPageError({
-        StatusCode: "404",
-        ErrorName: "not found",
-        ErrorDesription:
-          "Your application url is not registerd to our application",
-        url: "/",
-        buttonText: "Back to Home",
-      });
-    }
-  }, []);
   useEffect(() => {
     if (getAddSpecial) {
       const totalItems = getAddSpecial?.getData?.length;
@@ -90,7 +85,7 @@ const AddSpecialList = () => {
                   <div className="container-fluid pt-1">
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
-                        <h4 className="card-title">Add Special List</h4>
+                        <h4 className="card-title">{addSpecialList}</h4>
                       </div>
                     </div>
                     {isLoading ? (
@@ -104,11 +99,11 @@ const AddSpecialList = () => {
                             <table className="table header-border table-responsive-sm">
                               <thead>
                                 <tr>
-                                  <th>Section Name</th>
-                                  <th>Display Order</th>
-                                  <th>Max. no. of Brands</th>
-                                  <th>Status</th>
-                                  {getRoleAccess[0]?.editAccess && (<th>Action</th>)}
+                                  <th>{section_name}</th>
+                                  <th>{displayOrder}</th>
+                                  <th>{maxNoOfbrands}</th>
+                                  <th>{status}</th>
+                                  {getRoleAccess[0]?.editAccess && (<th>{action}</th>)}
                                   <th></th>
                                 </tr>
                               </thead>
@@ -126,12 +121,12 @@ const AddSpecialList = () => {
                                         <td>
                                           <span
                                             className={
-                                              Special.status === true
+                                              Special.enabled === true
                                                 ? "badge badge-success"
                                                 : "badge badge-danger"
                                             }
                                           >
-                                            {Special.status === true
+                                            {Special.enabled === true
                                               ? "Active"
                                               : "Non-Active"}
                                           </span>
@@ -159,10 +154,11 @@ const AddSpecialList = () => {
                                         <td>
                                           <Link
                                             to="/lc-user-admin/allocate-brand"
+                                            state={{data:Special}}
                                             className="btn btn-primary btn-sm float-right"
                                           >
                                             <i className="fa fa-plus"></i>&nbsp;
-                                            Allocate Brands
+                                            {allocateBrands}
                                           </Link>
                                         </td>
                                       </tr>
@@ -190,10 +186,8 @@ const AddSpecialList = () => {
                               </div>
                             )}
                           </div>
-                        ) : getAddSpecial?.getData?.length < 0 ? (
+                        ) :(
                           <NoRecord />
-                        ) : (
-                          <Loader />
                         )}
                       </div>
                     )}
@@ -209,4 +203,3 @@ const AddSpecialList = () => {
 };
 
 export default AddSpecialList;
-/* eslint-enable react-hooks/exhaustive-deps */

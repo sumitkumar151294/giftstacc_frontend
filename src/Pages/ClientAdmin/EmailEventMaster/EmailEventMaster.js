@@ -7,6 +7,7 @@ import InputField from "../../../Components/InputField/InputField";
 import { onGetEmailEventMaster } from "../../../Store/Slices/ClientAdmin/emailEventMasterSlice";
 import ReactPaginate from "react-paginate";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
+import Button from "../../../Components/Button/Button";
 
 const EmailEventMaster = () => {
   const [page, setPage] = useState(1);
@@ -26,8 +27,12 @@ const EmailEventMaster = () => {
     mailBody: "",
   });
   const dispatch = useDispatch();
-  const emailEventMaster = useSelector((state) => state.emailEventMasterReducer?.emailEventData);
-  const getRoleAccess = useSelector((state) => state.moduleReducer.filteredData);
+  const emailEventMaster = useSelector(
+    (state) => state.emailEventMasterReducer?.emailEventData
+  );
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
@@ -53,12 +58,14 @@ const EmailEventMaster = () => {
       if (name[key] === "") {
         newErrors[key] = "This field is required";
         isValid = false;
-      } else {
+      }else if (name[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
+      }  else {
         newErrors[key] = "";
       }
     }
     setErrors(newErrors);
-
   };
 
   const tableData = [
@@ -123,20 +130,43 @@ const EmailEventMaster = () => {
       meaning: "Sub Order ID",
     },
   ];
-
-  const emaileventmaster = GetTranslationData('UIAdmin', 'emaileventmaster');
-  const emaileventmastername = GetTranslationData('UIAdmin', 'emaileventmastername');
-  const emaileventmastersms = GetTranslationData('UIAdmin', 'emaileventmastersms');
-  const emaileventmastersubject = GetTranslationData('UIAdmin', 'emaileventmastersubject');
-  const emaileventmastermail = GetTranslationData('UIAdmin', 'emaileventmastermail');
-  const emaileventmasterkeywords = GetTranslationData('UIAdmin', 'emaileventmasterkeywords');
-  const emaileventmastersno = GetTranslationData('UIAdmin', 'emaileventmastersno');
-  const emaileventmasterdate = GetTranslationData('UIAdmin', 'emaileventmasterdate');
-  const emaileventmasteraction = GetTranslationData('UIAdmin', 'emaileventmasteraction');
-  const meaning = GetTranslationData('UIAdmin', 'meaning');
-  const variable = GetTranslationData('UIAdmin', 'variable');
+  const submit = GetTranslationData("UIClient", "submitLabel");
+  const emaileventmaster = GetTranslationData("UIAdmin", "emaileventmaster");
+  const emaileventmastername = GetTranslationData(
+    "UIAdmin",
+    "emaileventmastername"
+  );
+  const emaileventmastersms = GetTranslationData(
+    "UIAdmin",
+    "emaileventmastersms"
+  );
+  const emaileventmastersubject = GetTranslationData(
+    "UIAdmin",
+    "emaileventmastersubject"
+  );
+  const emaileventmastermail = GetTranslationData(
+    "UIAdmin",
+    "emaileventmastermail"
+  );
+  const emaileventmasterkeywords = GetTranslationData(
+    "UIAdmin",
+    "emaileventmasterkeywords"
+  );
+  const emaileventmastersno = GetTranslationData(
+    "UIAdmin",
+    "emaileventmastersno"
+  );
+  const emaileventmasterdate = GetTranslationData(
+    "UIAdmin",
+    "emaileventmasterdate"
+  );
+  const emaileventmasteraction = GetTranslationData(
+    "UIAdmin",
+    "emaileventmasteraction"
+  );
+  const meaning = GetTranslationData("UIAdmin", "meaning");
+  const variable = GetTranslationData("UIAdmin", "variable");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
-
 
   useEffect(() => {
     dispatch(onGetEmailEventMaster());
@@ -168,6 +198,7 @@ const EmailEventMaster = () => {
                             name="fname"
                             id="name-f"
                           />
+                          {<p className="text-danger">{errors.eventName}</p>}
                         </div>
                         <div className=" form-group mb-2">
                           <label htmlFor="name-f">{emaileventmastersms}</label>
@@ -179,10 +210,13 @@ const EmailEventMaster = () => {
                               className="input-tags "
                               data-role="tagsinput"
                             />
+                            {<p className="text-danger">{errors.smsBody}</p>}
                           </div>
                         </div>
                         <div className="form-group mb-2">
-                          <label htmlFor="name-f">{emaileventmastersubject}</label>
+                          <label htmlFor="name-f">
+                            {emaileventmastersubject}
+                          </label>
                           <div className=" bootstrap-tagsinput border_type">
                             <InputField
                               type="text"
@@ -191,6 +225,7 @@ const EmailEventMaster = () => {
                               className="input-tags "
                               data-role="tagsinput"
                             />
+                            {<p className="text-danger">{errors.subject}</p>}
                           </div>
                         </div>
                         <div className="form-group mb-2">
@@ -203,6 +238,7 @@ const EmailEventMaster = () => {
                               className="input-tags "
                               data-role="tagsinput"
                             />
+                            {<p className="text-danger">{errors.mailBody}</p>}
                           </div>
                         </div>
                         <span
@@ -213,12 +249,13 @@ const EmailEventMaster = () => {
                           {requiredLevel}
                         </span>
                         <div className="form-group mb-0 mt-2">
-                          <button
-                            className="btn btn-primary float-right pad-aa"
+                          <Button
+                            type="submit"
+                            text={submit}
+                            icon="fa fa-arrow-right"
+                            className="btn btn-primary btn-sm float-right p-btn mt-2"
                             onClick={() => handleSubmit()}
-                          >
-                            Submit <i className="fa fa-arrow-right"></i>
-                          </button>
+                          />
                         </div>
                       </div>
                     </div>
@@ -226,7 +263,9 @@ const EmailEventMaster = () => {
                   <div className="col-xl-5 col-xxl-5">
                     <div className="card">
                       <div className="card-header d-flex justify-content-between">
-                        <h4 className="card-title">{emaileventmasterkeywords}</h4>
+                        <h4 className="card-title">
+                          {emaileventmasterkeywords}
+                        </h4>
                         <div className="customer-search mb-sm-0 mb-3">
                           <div className="input-group search-area">
                             <input
@@ -284,38 +323,40 @@ const EmailEventMaster = () => {
                           <th>{emaileventmastername}</th>
                           <th>{emaileventmasterdate}</th>
                           <th>{emaileventmastersubject}</th>
-                          {getRoleAccess[0]?.editAccess && (<th>{emaileventmasteraction}</th>)}
+                          {getRoleAccess[0]?.editAccess && (
+                            <th>{emaileventmasteraction}</th>
+                          )}
                         </tr>
                       </thead>
                       <tbody>
-                        {emailEventMaster.slice(startIndex, endIndex).map((item) => (
-                          <tr>
-                            <td>
-                              {item.id}
-                            </td>
-                            <td>{item.status}</td>
-                            <td>{item.date}</td>
-                            <td>{item.placeholders}%</td>
-                            {getRoleAccess[0]?.editAccess && (
-                              <td>
-                                <div className="d-flex">
-                                  <a
-                                    href="#"
-                                    className="btn btn-primary shadow btn-xs sharp me-1"
-                                  >
-                                    <i className="fas fa-pencil-alt"></i>
-                                  </a>
-                                  <a
-                                    href="#"
-                                    className="btn btn-danger shadow btn-xs sharp"
-                                  >
-                                    <i className="fa fa-trash"></i>
-                                  </a>
-                                </div>
-                              </td>
-                            )}
-                          </tr>
-                        ))}
+                        {emailEventMaster
+                          .slice(startIndex, endIndex)
+                          .map((item) => (
+                            <tr>
+                              <td>{item.id}</td>
+                              <td>{item.status}</td>
+                              <td>{item.date}</td>
+                              <td>{item.placeholders}%</td>
+                              {getRoleAccess[0]?.editAccess && (
+                                <td>
+                                  <div className="d-flex">
+                                    <a
+                                      href="#"
+                                      className="btn btn-primary shadow btn-xs sharp me-1"
+                                    >
+                                      <i className="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a
+                                      href="#"
+                                      className="btn btn-danger shadow btn-xs sharp"
+                                    >
+                                      <i className="fa fa-trash"></i>
+                                    </a>
+                                  </div>
+                                </td>
+                              )}
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                     {emailEventMaster.length > 5 && (

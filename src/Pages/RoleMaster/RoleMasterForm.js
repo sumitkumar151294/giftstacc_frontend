@@ -155,6 +155,7 @@ const handleInputChange = (e) => {
 };
 
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = { ...errors };
@@ -377,11 +378,12 @@ useEffect(()=>{
                               addAccess,
                               isClientPlatformModule,
                             }) => (
+                              formData.isClientPlatformModule === isClientPlatformModule &&
                               <div className="row mb-3 mt-3" key={id}>
                                 <h4
                                   className="col-lg-3"
                                   htmlFor={`flexCheckDefault-${id}`}
-                                >
+                                  >
                                   {name
                                     .replace(/([A-Z])/g, " $1")
                                     .split(" ")
@@ -392,12 +394,11 @@ useEffect(()=>{
                                     )
                                     .join(" ")}{" "}
                                   (
-                                  {isClientPlatformModule === true
+                                  {isClientPlatformModule 
                                     ? `${client}`
                                     : `${admin}`}
                                   )
                                 </h4>
-
                                 <div className="col-lg-9 d-flex justify-content-end">
                                   <div className="form-check form-check-inline">
                                     <label className="form-check-label">
@@ -441,8 +442,8 @@ useEffect(()=>{
                                       {edit}
                                     </label>
                                   </div>
-                                </div>
-                              </div>
+                                </div> 
+                              </div>  
                             )
                           )}
 

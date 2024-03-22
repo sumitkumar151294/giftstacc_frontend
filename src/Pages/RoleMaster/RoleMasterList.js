@@ -97,7 +97,7 @@ const RoleMasterList = () => {
                                  Array.isArray(userRoleAccessListData) && userRoleAccessListData?.filter(item=> (item.roleId===data?.id && (item.viewAccess || item.addAccess || item.editAccess))).map(moduleData=>(
                                       <span
                                         className="badge badge-success mr-10"
-                                        key={index}
+                                        key={moduleData.id}
                                       >
                                        {getModuleName(moduleData?.moduleId)}
                                       </span>

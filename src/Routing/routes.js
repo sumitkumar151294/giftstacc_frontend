@@ -5,12 +5,16 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
 import BrandDetail from "../Pages/BrandDetail/BrandDetail";
 import Orders from "../Pages/Orders/Orders";
+import EmailEventMaster from "../Pages/EmailEventMaster/EmailEventMaster";
 import ClientBrandList from "../Pages/ClientMaster/ClientBrandList";
-import RoleMasterList from "../Pages/RoleMaster/RoleMasterList";
 import ClientMasterList from "../Pages/ClientMaster/ClientMasterList";
+import Customerlist from "../Pages/CustomerList/CustomerList";
+import RoleMasterList from "../Pages/RoleMaster/RoleMasterList";
 import CategoryList from "../Pages/CreateCategories/CategoryList";
+import FailedOrders from "../Pages/FailedOrders/FailedOrders";
 import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
+import AbandonedCartReport from "../Pages/AbandonedCart/AbandonedCart";
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 import PageError from "../Components/PageError/PageError";
 import AddSpecialList from "../Pages/ClientAdmin/AddSpecial/AddSpecialList";
@@ -21,9 +25,6 @@ import BannerMasterList from "../Pages/ClientAdmin/BannerMaster/BannerList";
 import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 import OfferMasterList from "../Pages/ClientAdmin/OfferMaster/OfferMasterList";
 import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/ClientCommissionReport";
-import EmailEventMaster from "../Pages/ClientAdmin/EmailEventMaster/EmailEventMaster";
-import FailedOrders from "../Pages/ClientAdmin/FailedOrders/FailedOrders";
-import AbandonedCartReport from "../Pages/ClientAdmin/AbandonedCartReport/AbandonedCartReport";
 function RouteConfiq() {
   return (
     <Router>

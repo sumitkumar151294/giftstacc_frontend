@@ -32,7 +32,7 @@ const OfferMasterList = () => {
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
-  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
+  const getRoleAccess = useSelector((state) => state.moduleReducer.filteredData);
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -62,19 +62,7 @@ const OfferMasterList = () => {
       setIsLoading(false);
     }
   }, [offerMasterData]);
-  useEffect(() => {
-    if (offerMasterData?.message?.status === 404) {
-      setShowError(true);
-      setPageError({
-        StatusCode: "404",
-        ErrorName: "not found",
-        ErrorDesription:
-          "Your application url is not registerd to our application",
-        url: "/",
-        buttonText: "Back to Home",
-      });
-    }
-  }, []);
+  
   const handleEdit = (data) => {
     const prefilled = { ...data };
     setPrefilledValues(prefilled);
@@ -107,12 +95,12 @@ const OfferMasterList = () => {
         <PageError pageError={pageError} />
       ) : (
         <>
-        {getRoleAccess[0]?.addAccess && (
-          <OfferMasterForm
-            data={prefilledValues}
-            setPrefilledValues={setPrefilledValues}
-          />
-        )}
+          {getRoleAccess[0]?.addAccess && (
+            <OfferMasterForm
+              data={prefilledValues}
+              setPrefilledValues={setPrefilledValues}
+            />
+          )}
           <div className="container-fluid  pt-0">
             <div className="row">
               <div className="col-lg-12">
@@ -162,30 +150,29 @@ const OfferMasterList = () => {
                                     <td>{data.imagePlacement}</td>
                                     <td>
                                       <span
-                                        className={`badge ${
-                                          data.enabled
+                                        className={`badge ${data.enabled
                                             ? "badge-success"
                                             : "badge-danger"
-                                        }`}
+                                          }`}
                                       >
                                         {data.enabled ? "Active" : "Non-Active"}
                                       </span>
                                     </td>
                                     {getRoleAccess[0]?.editAccess && (
-                                    <td>
-                                      <div className="d-flex">
-                                        <Button
-                                          className="btn btn-primary shadow btn-xs sharp me-1"
-                                          onClick={() => handleEdit(data)}
-                                          icon={"fas fa-pencil-alt"}
-                                        />
-                                        <Button
-                                          className="btn btn-danger shadow btn-xs sharp"
-                                          onClick={() => handleDelete(data)}
-                                          icon={"fa fa-trash"}
-                                        />
-                                      </div>
-                                    </td>
+                                      <td>
+                                        <div className="d-flex">
+                                          <Button
+                                            className="btn btn-primary shadow btn-xs sharp me-1"
+                                            onClick={() => handleEdit(data)}
+                                            icon={"fas fa-pencil-alt"}
+                                          />
+                                          <Button
+                                            className="btn btn-danger shadow btn-xs sharp"
+                                            onClick={() => handleDelete(data)}
+                                            icon={"fa fa-trash"}
+                                          />
+                                        </div>
+                                      </td>
                                     )}
                                   </tr>
                                 ))}
@@ -210,11 +197,8 @@ const OfferMasterList = () => {
                             </div>
                           )}
                         </div>
-                      ) : offerMasterData?.getData?.length < 0 ? (
-                        <NoRecord />
-                      ) : (
-                        <Loader />
-                      )}
+                      ) :
+                        (<NoRecord />)}
                     </div>
                   </div>
                 </div>
@@ -222,7 +206,7 @@ const OfferMasterList = () => {
             </div>
           </div>
         </>
-      )}{" "}
+      )}
     </>
   );
 };

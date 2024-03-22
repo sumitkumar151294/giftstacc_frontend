@@ -106,15 +106,15 @@ const SupplierMasterList = () => {
     dispatch(onGetSupplierResource());
   }, []);
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
-    ? supplierMasterData?.data.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+  ? supplierMasterData?.data.filter((vendor) =>
+      Object.values(vendor).some((value) =>
+        value && typeof value === "string" && value.toLowerCase().includes(searchQuery)
+      ) ||
+      vendor.id.toString().toLowerCase().includes(searchQuery) ||
+      vendor.creditAmount.toString().toLowerCase().includes(searchQuery) ||
+      vendor.balanceThresholdAmount.toString().toLowerCase().includes(searchQuery)
     )
-    : [];
+  : [];
 
 
   // excel data 
@@ -240,14 +240,14 @@ const SupplierMasterList = () => {
                                         {getRoleAccess[0]?.editAccess && (
                                           <td>
                                             <div className="d-flex">
-                                              <Button
+                                              <a
                                                 className="btn btn-primary shadow btn-xs sharp me-1"
                                                 icon={"fas fa-pencil-alt"}
                                                 onClick={() => handleEdit(vendor)}
                                               >
                                                 <i className="fas fa-pencil-alt"></i>
-                                              </Button>
-                                              <Button
+                                              </a>
+                                              <a
                                                 className="btn btn-danger shadow btn-xs sharp"
                                                 icon={"fa fa-trash"}
                                                 onClick={() =>
@@ -255,7 +255,7 @@ const SupplierMasterList = () => {
                                                 }
                                               >
                                                 <i className="fa fa-trash"></i>
-                                              </Button>
+                                              </a>
                                             </div>
                                           </td>
                                         )}

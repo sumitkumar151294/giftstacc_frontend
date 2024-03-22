@@ -54,6 +54,18 @@ const CategoryList = () => {
     "category_deleted"
   );
 
+   // To get the Supplier Name in the Category List
+   const getSupplierName = (supplierId) => {
+    const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
+    return supplier ? supplier.name : '';
+  };  
+   // To get the Supplier Brand Name in the Category List 
+  const getSupplierBrand = (supplierBrandId) => {
+    const supplier = Array.isArray(supplierBrandData) && supplierBrandData.find((s) => s.id === supplierBrandId);
+    return supplier ? supplier.name : '';
+  };
+ 
+
   // To search the data
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -61,15 +73,24 @@ const CategoryList = () => {
   };
 
   const filteredCategoryList = Array.isArray(getCategoryData)
-    ? getCategoryData.filter((item) =>
+  ? getCategoryData.filter((item) =>
       Object.values(item).some(
         (value) =>
           value &&
           typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+          value.toLowerCase().includes(searchQuery)
+      ) ||
+      getSupplierName(item.supplierId).toLowerCase().includes(searchQuery) ||
+      getSupplierBrand(item.supplierBrandId).toLowerCase().includes(searchQuery)
     )
-    : [];
+  : [];
+
+  const namesArray = filteredCategoryList.map(data => ({
+    name: data.name,
+    supplierId: getSupplierName(data.supplierId),
+    supplierBrandId: getSupplierBrand(data.supplierBrandId),
+  }));
+
 
   // For Pagination
   const startIndex = (page - 1) * rowsPerPage;
@@ -91,21 +112,7 @@ const CategoryList = () => {
     };
     dispatch(onUpdateCategory(deletedData));
   };
-  // To get the Supplier Name in the Category List
-  const getSupplierName = (supplierId) => {
-    const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
-    return supplier ? supplier.name : '';
-  };  
-   // To get the Supplier Brand Name in the Category List 
-  const getSupplierBrand = (supplierBrandId) => {
-    const supplier = Array.isArray(supplierBrandData) && supplierBrandData.find((s) => s.id === supplierBrandId);
-    return supplier ? supplier.name : '';
-  };
-  const namesArray = filteredCategoryList.map(data => ({
-    name: data.name,
-    supplierId: getSupplierName(data.supplierId),
-    supplierBrandId: getSupplierBrand(data.supplierBrandId),
-  }));
+ 
   
   return (
     <>

@@ -4,6 +4,7 @@ import {
   onFaqMasterSubmit,
   onFaqMasterSubmitReset,
   onGetFaqMaster,
+  onGetFaqMasterReset,
 } from "../../../Store/Slices/ClientAdmin/faqMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../../Components/InputField/InputField";
@@ -61,10 +62,12 @@ const FaqMaster = () => {
       setFaqInfo(resetField);
       dispatch(onFaqMasterSubmitReset());
       dispatch(onFaqCategorySubmitReset());
-
       dispatch(onGetFaqMaster());
+    } else if (faqMasterGetData.status_code === 404) {
+      dispatch(onGetFaqMasterReset());
+      toast.error(faqMasterGetData.getmessage);
     }
-  }, [faqMasterGetData]);
+  }, [faqMasterGetData?.status_code]);
   useEffect(() => {
     dispatch(onGetFaqMaster());
     dispatch(onGetFaqCategory());
@@ -89,13 +92,15 @@ const FaqMaster = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
-    const newErrors = {};
+    const newErrors = { ...errors };
 
     // Check if fields are empty and set corresponding error messages
     for (const key in faqInfo) {
-      if (faqInfo[key].trim() === "") {
+      if (faqInfo[key] === "") {
         newErrors[key] = " ";
         isValid = false;
+      } else {
+        newErrors[key] = "";
       }
     }
     setErrors(newErrors);
@@ -104,9 +109,11 @@ const FaqMaster = () => {
     }
   };
   const FaqMasterCategory = (Categorydata) => {
-    const category = Array.isArray(faqCategory) && faqCategory.find((data) => data.id === Categorydata);
+    const category =
+      Array.isArray(faqCategory) &&
+      faqCategory.find((data) => data.id === Categorydata);
     return category ? category.name : "";
-  }
+  };
   return (
     <>
       <ScrollToTop />
@@ -121,55 +128,60 @@ const FaqMaster = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="name-l">Category <span className="text-danger">*</span></label>
+                      <label htmlFor="name-l">
+                        Category <span className="text-danger">*</span>
+                      </label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "categoryId")}
                         error={errors.categoryId}
                         ariaLabel="Select"
                         value={faqInfo.categoryId}
-                        className={` ${errors.categoryId ? "border-danger" : "form-select"
-                          }`}
+                        className={` ${
+                          errors.categoryId ? "border-danger" : "form-select"
+                        }`}
                         options={
                           Array.isArray(faqCategory)
                             ? faqCategory?.map((category) => ({
-                              label: category.name,
-                              value: category.id,
-                              data: category.code,
-                            }))
+                                label: category.name,
+                                value: category.id,
+                                data: category.code,
+                              }))
                             : []
                         }
                       />
                     </div>
                     <div className="col-sm-12 form-group mb-2">
-                      <label htmlFor="name-f">Question <span className="text-danger">*</span></label>
+                      <label htmlFor="name-f">
+                        Question <span className="text-danger">*</span>
+                      </label>
                       <InputField
                         type="text"
-                        className={`form-control ${errors.question ? "border-danger" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.question ? "border-danger" : ""
+                        }`}
                         id="name-f"
                         placeholder=""
                         value={faqInfo.question}
                         onChange={(e) => handleChange(e, "question")}
                       />
-                      {errors.question && (
-                        <div className="text-danger">{errors.question}</div>
-                      )}
+                      {<p className="text-danger">{errors.question}</p>}
                     </div>
                     <div className="col-sm-12 form-group mb-2">
-                      <label htmlFor="textarea">Answer <span className="text-danger">*</span></label>
+                      <label htmlFor="textarea">
+                        Answer <span className="text-danger">*</span>
+                      </label>
                       <textarea
                         id="textarea"
                         cols="60"
                         rows="10"
-                        className={`form-control bg-transparent ${errors.answer ? "border-danger" : ""
-                          }`}
+                        className={`form-control bg-transparent ${
+                          errors.answer ? "border-danger" : ""
+                        }`}
                         placeholder=""
                         value={faqInfo.answer}
                         onChange={(e) => handleChange(e, "answer")}
                       ></textarea>
-                      {errors.answer && (
-                        <div className="text-danger">{errors.answer}</div>
-                      )}
+                      {<p className="text-danger">{errors.answer}</p>}
                     </div>
                   </div>
                   <span
@@ -197,7 +209,7 @@ const FaqMaster = () => {
               ) : (
                 <>
                   {Array.isArray(faqMasterGetData?.getData) &&
-                    faqMasterGetData?.getData?.length > 0 ? (
+                  faqMasterGetData?.getData?.length > 0 ? (
                     <div className="card-body pt-4  ml-4">
                       <div className="table-responsive">
                         <table className="table header-border table-responsive-sm">
@@ -217,8 +229,14 @@ const FaqMaster = () => {
                                 .map((data, index) => (
                                   <tr key={index}>
                                     <td>{data.id}</td>
-                                    <td>{new Date(data?.createdOn).toLocaleDateString("en-GB")}</td>
-                                    <td>{FaqMasterCategory(data.categoryId)}</td>
+                                    <td>
+                                      {new Date(
+                                        data?.createdOn
+                                      ).toLocaleDateString("en-GB")}
+                                    </td>
+                                    <td>
+                                      {FaqMasterCategory(data.categoryId)}
+                                    </td>
                                     <td>{data.question}</td>
                                     <td>{data.answer}</td>
                                   </tr>
@@ -245,10 +263,8 @@ const FaqMaster = () => {
                         )}
                       </div>
                     </div>
-                  ) : faqMasterGetData?.getData?.length < 0 ? (
-                    <NoRecord />
                   ) : (
-                    <Loader />
+                    <NoRecord />
                   )}
                 </>
               )}
@@ -261,4 +277,3 @@ const FaqMaster = () => {
 };
 
 export default FaqMaster;
-/* eslint-enable react-hooks/exhaustive-deps */
