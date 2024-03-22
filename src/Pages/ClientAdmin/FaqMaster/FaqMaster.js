@@ -41,7 +41,7 @@ const FaqMaster = () => {
     categoryId: "",
     question: "",
     answer: "",
-    clientId: "",
+    clientId: "2",
   };
   const [errors, setErrors] = useState({
     categoryId: "",

@@ -242,12 +242,14 @@ const SupplierMasterList = () => {
                                             <div className="d-flex">
                                               <Button
                                                 className="btn btn-primary shadow btn-xs sharp me-1"
+                                                icon={"fas fa-pencil-alt"}
                                                 onClick={() => handleEdit(vendor)}
                                               >
                                                 <i className="fas fa-pencil-alt"></i>
                                               </Button>
                                               <Button
                                                 className="btn btn-danger shadow btn-xs sharp"
+                                                icon={"fa fa-trash"}
                                                 onClick={() =>
                                                   handleDelete(vendor)
                                                 }
