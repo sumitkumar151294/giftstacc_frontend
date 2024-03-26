@@ -240,11 +240,10 @@ const SupplierMasterList = () => {
                                         {getRoleAccess[0]?.editAccess && (
                                           <td>
                                             <div className="d-flex">
-                                              <a
+                                              <Button
                                                 className="btn btn-primary shadow btn-xs sharp me-1"
                                                 icon={"fas fa-pencil-alt"}
                                                 onClick={() => handleEdit(vendor)}
-                                                icon={"fas fa-pencil-alt"}
                                               >
 
                                               </Button>
