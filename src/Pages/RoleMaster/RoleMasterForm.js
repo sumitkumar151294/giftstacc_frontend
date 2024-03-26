@@ -111,7 +111,10 @@ const handleInputChange = (e) => {
       isClientPlatformModule: checked,
     });
   } else if (name === "selectAll") {
-    const updatedModules = formData.modules.map((module) => ({
+    const fetchModulesAccordingToIsClient = formData?.modules?.filter((item)=>{
+      return item.isClientPlatformModule === formData.isClientPlatformModule
+    })
+    const updatedModules = fetchModulesAccordingToIsClient.map((module) => ({
       ...module,
       checked: checked,
     }));
