@@ -102,6 +102,8 @@ const AddSpecialList = () => {
                                   <th>{section_name}</th>
                                   <th>{displayOrder}</th>
                                   <th>{maxNoOfbrands}</th>
+                                  <th>is Special</th>
+
                                   <th>{status}</th>
                                   {getRoleAccess[0]?.editAccess && (<th>{action}</th>)}
                                   <th></th>
@@ -118,15 +120,17 @@ const AddSpecialList = () => {
                                         </td>
                                         <td>{Special.displayOrder}</td>
                                         <td>{Special.maximumNumberOfBrands}</td>
+                                        <td>{Special.IsSpecial}</td>
+
                                         <td>
                                           <span
                                             className={
-                                              Special.status === true
+                                              Special.enabled === true
                                                 ? "badge badge-success"
                                                 : "badge badge-danger"
                                             }
                                           >
-                                            {Special.status === true
+                                            {Special.enabled === true
                                               ? "Active"
                                               : "Non-Active"}
                                           </span>
