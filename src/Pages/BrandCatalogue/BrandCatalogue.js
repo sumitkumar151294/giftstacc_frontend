@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
@@ -45,7 +44,7 @@ const BrandCatalogue = () => {
   const clientProductMapping = useSelector(
     (state) => state.clientProductMappingReducer?.clientData
   );
-  const SupplierBrandList = useSelector(
+  const SupplierBrandList = uszeSelector(
     (state) => state.supplierBrandListReducer.data
   );
   const LoginId = useSelector((state) => state?.loginReducer);
@@ -70,8 +69,7 @@ const BrandCatalogue = () => {
     setGetProduct(matchingProductsData);
     setCopyBrandCatalogue(matchingProductsData);
   }, [clientProductMapping, SupplierBrandList]);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData);
-  console.log(clientList?.name);
+  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData); 
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
@@ -101,6 +99,7 @@ const BrandCatalogue = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
+  
   const filteredBrandCatalogueList = Array.isArray(copyBrandCatalogue)
     ? copyBrandCatalogue.filter((vendor) =>
         Object.values(vendor).some(
@@ -111,7 +110,6 @@ const BrandCatalogue = () => {
         )
       )
     : [];
-
     const handleChange = (e, name) => {
       const selectedSupplierName = e.target.value;
       if(selectedSupplierName==="Select" && name==="client"){
@@ -140,6 +138,7 @@ const BrandCatalogue = () => {
         [name]: selectedSupplierName,
       }));
     };
+
 
   useEffect(() => {
     setShowLoader(false);
@@ -186,7 +185,7 @@ const BrandCatalogue = () => {
                       headers={headers}
                       filename={"BrandCatalogue.csv"}
                     >
-                      {filteredBrandCatalogueList.length > 0 && (
+                      {filteredBrandCatalogueList.length >=+ 0 && (
                         <Button
                           className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
                           icons={"fa fa-file-excel me-2"}
@@ -216,7 +215,9 @@ const BrandCatalogue = () => {
                       }
                     />
                   </div>
+
                   {LoginId.isAdminLogin && <div className="col-sm-3 form-group mb-2">
+
                     <label htmlFor="client">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
@@ -231,8 +232,8 @@ const BrandCatalogue = () => {
 
                       }
                     />
-                  </div>}
 
+                  </div>}
                 </div>
               </div>
               <div className="card-body">
@@ -258,9 +259,11 @@ const BrandCatalogue = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {filteredBrandCatalogueList
+                              {filteredBrandCatalogueList.length > 0 ? (
+                                  Array.isArray(filteredBrandCatalogueList) &&
+                              filteredBrandCatalogueList
                                 .slice(startIndex, endIndex)
-                                ?.map((data, index) => (
+                                .map((data, index) => (
                                   <tr key={index}>
                                     <td>
                                       <img
@@ -284,7 +287,10 @@ const BrandCatalogue = () => {
                                       />
                                     </td>
                                   </tr>
-                                ))}
+                                ))
+                                ) : (
+                                  <NoRecord />
+                                )}
                             </tbody>
                           </table>
                           {filteredBrandCatalogueList.length > 5 && (
@@ -323,4 +329,3 @@ const BrandCatalogue = () => {
 };
 
 export default BrandCatalogue;
-/* eslint-enable react-hooks/exhaustive-deps */
