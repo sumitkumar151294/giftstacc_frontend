@@ -97,7 +97,6 @@ const LoginPage = () => {
     setErrors(newErrors);
 
     if (isValid) {
-      debugger
       try {
         setShowLoader(true);
 

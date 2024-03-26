@@ -10,6 +10,10 @@ export const clientProductMappingPostApi = async (payload) => {
   const { data = {} } = await axiosInstance.post(API.client_product_map, payload);
   return data;
 };
+export const AllclientProductMappingGetApi = async (payload) => {
+  const { data = {} } = await axiosInstance.get(API.client_product_map, payload);
+  return data;
+};  
 
 
 export const clientProductMappingUpdateApi = async (payload) => {

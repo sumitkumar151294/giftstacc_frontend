@@ -14,7 +14,7 @@ export const clientMasterSlice = createSlice({
       return {
         ...state,
         isLoading: true,
-        clientData: {},
+        clientData: [],
         message: "",
         error: {},
         isError: false,
@@ -47,7 +47,7 @@ export const clientMasterSlice = createSlice({
       return {
         ...state,
         isLoading: false,
-        clientData: {},
+        clientData: [],
         message: "",
         error: {},
         status_code: null,

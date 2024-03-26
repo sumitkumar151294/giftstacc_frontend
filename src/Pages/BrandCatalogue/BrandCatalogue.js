@@ -12,7 +12,7 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
-import { onClientProductMappingSubmit } from "../../Store/Slices/clientProductMappingSlice";
+import { onClientProductMappingSubmit, onGetAllClientProductMapping } from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
 
 const BrandCatalogue = () => {
@@ -112,28 +112,34 @@ const BrandCatalogue = () => {
       )
     : [];
 
-  const handleChange = (e) => {
-    const selectedSupplierName = e.target.value;
-    if (selectedSupplierName === "Select") {
-      setCopyBrandCatalogue(getProduct);
-    } else {
-      const selectedSupplier = supplierMasterData.find(
-        (supplier) => supplier.name === selectedSupplierName
-      );
-      if (selectedSupplier) {
-        const filteredProducts = getProduct.filter(
-          (product) =>
-            product.supplierCode.toLowerCase() ===
-            selectedSupplier.code.toLowerCase()
-        );
-        setCopyBrandCatalogue(filteredProducts);
+    const handleChange = (e, name) => {
+      const selectedSupplierName = e.target.value;
+      if(selectedSupplierName==="Select" && name==="client"){
+        dispatch(onGetAllClientProductMapping())
       }
-    }
-    setSupplierList((prevState) => ({
-      ...prevState,
-      supplier: selectedSupplierName,
-    }));
-  };
+      else if (selectedSupplierName === "Select" && name==="supplier") {
+        setCopyBrandCatalogue(getProduct);
+      } else if(name === "supplier") {
+        const selectedSupplier = supplierMasterData.find(
+          (supplier) => supplier.name === selectedSupplierName
+        );
+        if (selectedSupplier) {
+          const filteredProducts = getProduct.filter(
+            (product) =>
+              product.supplierCode.toLowerCase() ===
+              selectedSupplier.code.toLowerCase()
+          );
+          setCopyBrandCatalogue(filteredProducts);
+        }
+
+      }else if(name==="client"){
+        dispatch(onClientProductMappingSubmit(e.target.selectedOptions.item("").getAttribute("name")));
+      }
+      setSupplierList((prevState) => ({
+        ...prevState,
+        [name]: selectedSupplierName,
+      }));
+    };
 
   useEffect(() => {
     setShowLoader(false);
@@ -141,13 +147,12 @@ const BrandCatalogue = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
-    dispatch(
-      onClientProductMappingSubmit(sessionStorage.getItem("clientCode"))
-    );
+    dispatch(onGetAllClientProductMapping())
   }, []);
 
   const handleClick = (data) => {
-    navigate("/lc-user-admin/brand-detail", { state: data });
+    {LoginId.isAdminLogin ? navigate("/lc-admin/brand-detail", { state: data }) : navigate("/lc-user-admin/brand-detail", { state: data })}
+
   };
   return (
     <>
@@ -218,12 +223,12 @@ const BrandCatalogue = () => {
                       value={supplierList?.client || ""}
                       className="form-select"
                       options={
-                        Array.isArray(clientList)
-                          ? clientList?.map((item) => ({
+                        clientList?.map((item) => ({
                               label: item.name,
                               value: item.name,
+                              data: item.id
                             }))
-                          : []
+
                       }
                     />
                   </div>}
