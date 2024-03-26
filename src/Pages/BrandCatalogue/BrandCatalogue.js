@@ -14,6 +14,7 @@ import Button from "../../Components/Button/Button";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import { onClientProductMappingSubmit, onGetAllClientProductMapping } from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
+import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 
 const BrandCatalogue = () => {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ const BrandCatalogue = () => {
     setCopyBrandCatalogue(matchingProductsData);
   }, [clientProductMapping, SupplierBrandList]);
   const clientList = useSelector((state) => state?.clientMasterReducer?.clientData);
-  console.log(clientList?.name);
+
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
@@ -148,6 +149,7 @@ const BrandCatalogue = () => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
     dispatch(onGetAllClientProductMapping())
+    dispatch(onClientMasterSubmit())
   }, []);
 
   const handleClick = (data) => {
@@ -223,12 +225,13 @@ const BrandCatalogue = () => {
                       value={supplierList?.client || ""}
                       className="form-select"
                       options={
-                        clientList?.map((item) => ({
+                        Array.isArray(clientList)
+                          ? clientList?.map((item) => ({
                               label: item.name,
                               value: item.name,
                               data: item.id
                             }))
-
+                          : []
                       }
                     />
                   </div>}
