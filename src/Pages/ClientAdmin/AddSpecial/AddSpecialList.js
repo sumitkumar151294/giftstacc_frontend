@@ -12,18 +12,20 @@ import PageError from "../../../Components/PageError/PageError";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 
 const AddSpecialList = () => {
-  const section_name=GetTranslationData("UIClient", "section_name");
+  const section_name = GetTranslationData("UIClient", "section_name");
   const status = GetTranslationData("UIClient", "status");
   const displayOrder = GetTranslationData("UIClient", "display-order");
   const maxNoOfbrands = GetTranslationData("UIClient", "maxNoOfbrands");
   const action = GetTranslationData("UIClient", "actionLabel");
-  const addSpecialList=GetTranslationData("UIClient", "addSpecialList");
-  const allocateBrands=GetTranslationData("UIClient", "allocateBrands");
+  const addSpecialList = GetTranslationData("UIClient", "addSpecialList");
+  const allocateBrands = GetTranslationData("UIClient", "allocateBrands");
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [prefilledValues, setPrefilledValues] = useState();
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
-  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
   const [showError, setShowError] = useState(false);
   const [pageError, setPageError] = useState({
     StatusCode: "",
@@ -105,7 +107,9 @@ const AddSpecialList = () => {
                                   <th>is Special</th>
 
                                   <th>{status}</th>
-                                  {getRoleAccess[0]?.editAccess && (<th>{action}</th>)}
+                                  {getRoleAccess[0]?.editAccess && (
+                                    <th>{action}</th>
+                                  )}
                                   <th></th>
                                 </tr>
                               </thead>
@@ -120,8 +124,20 @@ const AddSpecialList = () => {
                                         </td>
                                         <td>{Special.displayOrder}</td>
                                         <td>{Special.maximumNumberOfBrands}</td>
-                                        <td>{Special.IsSpecial}</td>
-
+                                        <td>
+                                          {" "}
+                                          <span
+                                            className={
+                                              Special.isSpecial === false
+                                                ? "badge badge-danger"
+                                                : "badge badge-success"
+                                            }
+                                          >
+                                            {Special.isSpecial === false
+                                              ? "disabled"
+                                              : "enabled"}
+                                          </span>
+                                        </td>
                                         <td>
                                           <span
                                             className={
@@ -136,32 +152,32 @@ const AddSpecialList = () => {
                                           </span>
                                         </td>{" "}
                                         {getRoleAccess[0]?.editAccess && (
-                                        <td>
-                                          <div className="d-flex">
-                                            <Button
-                                              className="btn btn-primary shadow btn-xs sharp me-1"
-                                              icon={"fas fa-pencil-alt"}
-                                              onClick={() =>
-                                                handleEdit(Special)
-                                              }
-                                            />
-                                            <Button
-                                              className="btn btn-danger shadow btn-xs sharp"
-                                              icon={"fa fa-trash"}
-                                              onClick={() =>
-                                                handleDelete(Special)
-                                              }
-                                            />
-                                          </div>
-                                        </td>
+                                          <td>
+                                            <div className="d-flex">
+                                              <Button
+                                                className="btn btn-primary shadow btn-xs sharp me-1"
+                                                icon={"fas fa-pencil-alt"}
+                                                onClick={() =>
+                                                  handleEdit(Special)
+                                                }
+                                              />
+                                              <Button
+                                                className="btn btn-danger shadow btn-xs sharp"
+                                                icon={"fa fa-trash"}
+                                                onClick={() =>
+                                                  handleDelete(Special)
+                                                }
+                                              />
+                                            </div>
+                                          </td>
                                         )}
                                         <td>
                                           <Link
                                             to="/lc-user-admin/allocate-brand"
-                                            state={{data:Special}}
-                                            className="btn btn-primary btn-sm float-right"
+                                            state={{ data: Special }}
+                                            className="btn btn-primary btn-sm float-right font-size "
                                           >
-                                            <i className="fa fa-plus"></i>&nbsp;
+                                            <i className="fa fa-plus mr-2"></i>
                                             {allocateBrands}
                                           </Link>
                                         </td>
@@ -190,7 +206,7 @@ const AddSpecialList = () => {
                               </div>
                             )}
                           </div>
-                        ) :(
+                        ) : (
                           <NoRecord />
                         )}
                       </div>
