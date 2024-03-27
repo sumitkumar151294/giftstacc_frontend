@@ -19,7 +19,15 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const [isLoading, setIsLoading] = useState(false);
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
-  console.log(getAddSpecial?.getData);
+  const field_Required = GetTranslationData("UIAdmin", "field_Required");
+  const description = GetTranslationData("UIAdmin", "description");
+  const addSpecialMaster = GetTranslationData("UIClient", "addSpecialMaster");
+  const isSpecial_checked = GetTranslationData("UIClient", "isSpecial_checked");
+  const section_Name = GetTranslationData("UIClient", "section_Name ");
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+  const status = GetTranslationData("UIClient", "status");
+  const Max_Brands = GetTranslationData("UIClient", "Max_Brands  ");
+  const Is_Special = GetTranslationData("UIClient", "Is_Special ");
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     sectionName: "",
@@ -117,7 +125,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     // Validate form fields
     for (const key in formData) {
       if (formData[key] === "") {
-        newErrors[key] = "This field is required"; // Provide a meaningful error message
+        newErrors[key] = field_Required; // Provide a meaningful error message
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -126,7 +134,6 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
 
     setError(newErrors);
     if (isValid) {
-      debugger;
       const specialExists =
         Array.isArray(getAddSpecial?.getData) &&
         getAddSpecial?.getData.some((item) => item.isSpecial === true);
@@ -137,8 +144,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
         enabled: formData.enabled === "true",
       };
       if (specialExists && formData.IsSpecial === true) {
-        debugger;
-        toast.error("Only one 'Is Special' can be selected");
+        toast.error(isSpecial_checked);
         return;
       }
 
@@ -160,7 +166,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="card-header">
-                <h4 className="card-title">Add Special Master</h4>
+                <h4 className="card-title">{addSpecialMaster}</h4>
               </div>
               <div className="card-body card-body-user">
                 {isLoading ? (
@@ -173,7 +179,8 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                       <div className="row">
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="name-f">
-                            Section Name <span className="text-danger">*</span>
+                            {section_Name}
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
@@ -190,7 +197,8 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="displayOrder">
-                            Display Order <span className="text-danger">*</span>
+                            {displayOrder}{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="number"
@@ -208,7 +216,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
 
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="enabled">
-                            Status <span className="text-danger">*</span>
+                            {status} <span className="text-danger">*</span>
                           </label>
                           <Dropdown
                             aria-label="Default select example"
@@ -224,7 +232,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
-                            Max. No. of Brands
+                            {Max_Brands}
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
@@ -244,7 +252,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
-                            Description
+                            {description}
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
@@ -274,7 +282,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             className="form-check-label fnt-15"
                             htmlFor="flexCheckDefault1"
                           >
-                            Is Special{" "}
+                            {Is_Special}{" "}
                           </label>
                         </div>
                         <span
