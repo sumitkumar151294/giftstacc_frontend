@@ -50,9 +50,7 @@ const BrandCatalogue = () => {
   );
   const LoginId = useSelector((state) => state?.loginReducer);
   useEffect(() => {
-    const matchingProductsData =
-      Array.isArray(clientProductMapping) &&
-      clientProductMapping
+    const matchingProductsData = clientProductMapping
         .map((clientProduct) => {
           const matchingProduct =
             Array.isArray(SupplierBrandList) &&
