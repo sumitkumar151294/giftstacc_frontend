@@ -5,8 +5,8 @@ export const moduleSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    data: {},
-    error: {},
+    data:[],
+    error: [],
     message: "",
     filteredData: [],
   },
@@ -22,14 +22,14 @@ export const moduleSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        data: {},
-        error: {},
+        data: [],
+        error: [],
         message: "",
       };
     },
 
     onGetModuleSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
@@ -37,12 +37,12 @@ export const moduleSlice = createSlice({
         data,
         message,
         status_code,
-        error: {},
+        error: [],
       };
     },
 
     onGetModuleError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { data = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         data,
@@ -50,7 +50,7 @@ export const moduleSlice = createSlice({
         status_code,
         isLoading: false,
         isError: true,
-        error: {},
+        error: [],
       };
     }
   },

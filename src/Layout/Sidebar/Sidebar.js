@@ -38,7 +38,7 @@ const Sidebar = () => {
     if (!getModuleData.isLoading && userRoleModuleAccess.length > 0) {
       setIsSidebarLoading(false);
       let tempideModules = JSON.parse(JSON.stringify(getModuleData?.data));
-      const filterData = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
+      const filterData =userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
       const filterModules = []
       for(var i=0; i<tempideModules.length; i++){
         for(var j=0; j<filterData?.length; j++){
@@ -64,15 +64,15 @@ const Sidebar = () => {
     e.target.closest(".nav-icn").classList.add("mm-active");
     setSelectedModuleId(moduleId);
   };
-  const getModuleDataAccess = Array.isArray(userRoleModuleAccess) && userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
+  const getModuleDataAccess = userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
 
  useEffect(() => {
   if (getModuleDataAccess && selectedModuleId !== null) {
-    const roleAcessValues = Array.isArray(getModuleDataAccess) && getModuleDataAccess.filter(item => item.moduleId === selectedModuleId);
+    const roleAcessValues = getModuleDataAccess.filter(item => item.moduleId === selectedModuleId);
     dispatch(allowModules(roleAcessValues));
   }else if(getModuleDataAccess && selectedModuleId === null){
     const data = sideBarModules.find(item=>(item.routePath.toLowerCase() === currentUrl.pathname.toLowerCase()))
-    const roleAcessValues = Array.isArray(getModuleDataAccess) && getModuleDataAccess.filter(item => item.moduleId === data?.moduleId);
+    const roleAcessValues = getModuleDataAccess.filter(item => item.moduleId === data?.moduleId);
     dispatch(allowModules(roleAcessValues));
   }
 }, [userRoleModuleAccess, selectedModuleId, sideBarModules]);

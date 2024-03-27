@@ -63,7 +63,7 @@ const RoleMasterForm = ({ data, setData}) => {
 
   // Fetch module data and update form data on mount and when module data changes
   useEffect(() => {
-    if (Array.isArray(getModuleData)) {
+    if (getModuleData) {
       // Check if getModuleData is an array
       
       const modulesData = getModuleData.map((module) => ({

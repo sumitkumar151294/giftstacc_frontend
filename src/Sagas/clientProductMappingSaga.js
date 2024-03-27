@@ -25,7 +25,7 @@ function* clientProductMapping({payload}) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onClientProductMappingSubmitError({ data: {}, message, status_code: 400 }));
+    yield put(onClientProductMappingSubmitError({ data: [], message, status_code: 400 }));
   }
 }
 
@@ -53,7 +53,7 @@ function* updateClientProductMapping({payload}) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onUpdateClientProductMappingSubmitError({ data: {}, message, status_code: 400 }));
+    yield put(onUpdateClientProductMappingSubmitError({ data: [], message, status_code: 400 }));
   }
 }
 
@@ -81,7 +81,7 @@ function* postClientProductMapping({payload}) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onPostClientProductMappingSubmitError({ data: {}, message, status_code: 400 }));
+    yield put(onPostClientProductMappingSubmitError({ data: [], message, status_code: 400 }));
   }
 }
 function* getAllProdcuctMapping() {
@@ -107,7 +107,7 @@ function* getAllProdcuctMapping() {
     }
   } catch (error) { 
     const message = error.message || "Something went wrong";
-    yield put(onGetAllClientProductMappingError({ data: {}, message, status_code: error.response.status }));
+    yield put(onGetAllClientProductMappingError({ data: [], message, status_code: error.response.status }));
   }
 }
 export default function* clientMappingSaga() {

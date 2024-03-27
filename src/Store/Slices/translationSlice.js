@@ -5,8 +5,8 @@ export const translationSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    data: {},
-    error: {},
+    data: [],
+    error: [],
     message: "",
   },
   reducers: {
@@ -15,13 +15,13 @@ export const translationSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        data: {},
+        data: [],
         message: "",
       };
     },
 
     onTranslationSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
@@ -33,7 +33,7 @@ export const translationSlice = createSlice({
     },
 
     onTranslationSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { data = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         data,
