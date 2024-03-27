@@ -45,7 +45,7 @@ const EmailEventMaster = () => {
       }
     }
     setErrors(newErrors);
-
+    console.log(isValid);
   };
 
   const tableData = [

@@ -53,7 +53,6 @@ const FailedOrders = () => {
             referenceid: 'Ref-125',
             suborderstatus: 'Completed',
             suborderstatusclassname: 'btn btn-success btn-xxs',
-            quantity: '4',
             amounttotal: '₹6000',
 
         },
@@ -71,7 +70,6 @@ const FailedOrders = () => {
             referenceid: '',
             suborderstatus: 'Pending',
             suborderstatusclassname: 'btn btn-danger btn-xxs',
-            quantity: '6',
             amounttotal: '₹10000',
             reprocess: 'Re-Process',
             classname: 'btn btn-primary btn-sm float-right bttn'
@@ -93,7 +91,6 @@ const FailedOrders = () => {
             referenceid: 'Ref-125232',
             suborderstatus: 'Pending',
             suborderstatusclassname: 'btn btn-danger btn-xxs',
-            quantity: '4244',
             amounttotal: '₹2312000',
 
         },
@@ -111,7 +108,6 @@ const FailedOrders = () => {
             referenceid: '',
             suborderstatus: 'Pending',
             suborderstatusclassname: 'btn btn-danger btn-xxs',
-            quantity: '6',
             amounttotal: '₹10000',
 
         },

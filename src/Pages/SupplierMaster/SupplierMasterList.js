@@ -254,7 +254,6 @@ const SupplierMasterList = () => {
                                                 onClick={() =>
                                                   handleDelete(vendor)
                                                 }
-                                                icon={"fa fa-trash"}
                                               >
 
                                               </Button>
