@@ -148,9 +148,12 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     const newErrors = { ...errors };
     // Check if fields are empty and set corresponding error messages
     for (const key in userData) {
-      if (userData[key] === "") {
+     if (userData[key] === "") {
+      if(!key === "role" && !key ==="clientRoleId" ){
         newErrors[key] = " ";
         isValid = false;
+      }
+       
       } else
         if (key === "email" && newErrors[key] !== "") {
           isValid = false;
@@ -161,7 +164,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         }
     }
     setErrors(newErrors);
-    if (userData.clientRoleId?.length === 0) {
+    if ((typeof userData.clientRoleId === "number" && userData.clientRoleId > 0) && (typeof userData.role === "number" && userData.role > 0)) {
       newErrors.clientRoleId = select_role;
       isValid = false;
     } else {
