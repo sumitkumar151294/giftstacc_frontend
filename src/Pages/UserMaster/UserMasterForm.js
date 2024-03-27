@@ -149,7 +149,9 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     // Check if fields are empty and set corresponding error messages
     for (const key in userData) {
      if (userData[key] === "") {
-      if(!key === "role" && !key ==="clientRoleId" ){
+      if(key === "role" || key ==="clientRoleId" ){
+        
+      }else{
         newErrors[key] = " ";
         isValid = false;
       }
@@ -164,11 +166,12 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         }
     }
     setErrors(newErrors);
-    if ((typeof userData.clientRoleId === "number" && userData.clientRoleId > 0) && (typeof userData.role === "number" && userData.role > 0)) {
+    if ((typeof userData.clientRoleId === "number" && userData.clientRoleId > 0) || (typeof userData.role === "number" && userData.role > 0)) {
+      newErrors.clientRoleId = ""; // Clear the client error if a client is selected
+    } else {
       newErrors.clientRoleId = select_role;
       isValid = false;
-    } else {
-      newErrors.clientRoleId = ""; // Clear the client error if a client is selected
+     
     }
     setErrors(newErrors);
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -398,7 +401,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                               </div>)
 
                             ))}
-                            <p className="text-danger">{errors.clientRoleId}</p>
                           </div>
                           {/* admin */}
                           <div className="row ml-4">
@@ -428,8 +430,9 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                               </div>)
 
                             ))}
-                            <p className="text-danger">{errors.clientRoleId}</p>
+                           
                           </div>
+                          <p className="text-danger">{errors.clientRoleId}</p>
                           <span
                             className="form-check-label"
                             htmlFor="basic_checkbox_1"
