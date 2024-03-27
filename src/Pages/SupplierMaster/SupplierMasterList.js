@@ -244,22 +244,18 @@ const SupplierMasterList = () => {
                                                 className="btn btn-primary shadow btn-xs sharp me-1"
                                                 icon={"fas fa-pencil-alt"}
                                                 onClick={() => handleEdit(vendor)}
-                                                icon={"fas fa-pencil-alt"}
                                               >
-
-                                              </Button>
-                                              <Button
-
+                                                <i className="fas fa-pencil-alt"></i>
+                                              </a>
+                                              <a
                                                 className="btn btn-danger shadow btn-xs sharp"
                                                 icon={"fa fa-trash"}
                                                 onClick={() =>
                                                   handleDelete(vendor)
                                                 }
-                                                icon={"fa fa-trash"}
                                               >
-
-                                              </Button>
-
+                                                <i className="fa fa-trash"></i>
+                                              </a>
                                             </div>
                                           </td>
                                         )}

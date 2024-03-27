@@ -133,8 +133,10 @@ const handleInputChange = (e) => {
     setFormData({ ...formData, modules });
   } else if (type === "checkbox" && name === "add") {
     let modules = formData.modules.map((md) => {
-      if (md.id === parseInt(e.target.id)) {
-        return { ...md, addAccess: !md.addAccess };
+      if (md.id === parseInt(e.target.id) && checked) {
+        return { ...md, addAccess: checked, checked:checked };
+      } else if (md.id === parseInt(e.target.id) && !checked) {
+        return { ...md, addAccess: checked };
       } else {
         return md;
       }
@@ -142,8 +144,10 @@ const handleInputChange = (e) => {
     setFormData({ ...formData, modules });
   } else if (type === "checkbox" && name === "edit") {
     let modules = formData.modules.map((md) => {
-      if (md.id === parseInt(e.target.id)) {
-        return { ...md, editAccess: !md.editAccess };
+      if (md.id === parseInt(e.target.id) && checked) {
+        return { ...md, editAccess: checked,checked:checked,addAccess:checked };
+      }else if (md.id === parseInt(e.target.id) && !checked) {
+        return { ...md, editAccess: checked };
       } else {
         return md;
       }
