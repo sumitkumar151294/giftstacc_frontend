@@ -1,38 +1,9 @@
 .mbm-10 {
   margin-bottom: 10px;
-}
+}  
 
 .card-title {
   margin-bottom: 0.5rem !important;
-}
-
-h6,
-.h6 {
-  font-size: 0.938rem !important;
-}
-
-h4,
-.h4 {
-  font-size: 1.125rem !important;
-}
-
-h1,
-.h1,
-h2,
-.h2,
-h3,
-.h3,
-h4,
-.h4,
-h5,
-.h5,
-h6,
-.h6 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  line-height: 1.2;
-  color: #000;
 }
 
 .main {
@@ -53,23 +24,6 @@ h6,
     padding: 20px;
     border-radius: 4px;
 }
-
-
-@media (min-width: 992px){
-.col-lg-1 {
-    flex: 0 0 auto;
-    width: 8.3333333333% !important;
-}
-.col-lg-3 {
-    flex: 0 0 auto;
-    width: 25% !important;
-}
-.col-lg-2 {
-    flex: 0 0 auto;
-    width: 16.6666666667% !important;
-}
-}
-
 .weak {
     background: #ededed;
     padding: 12px;
