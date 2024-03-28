@@ -41,7 +41,7 @@ function* supplierMaster({ payload }) {
     }
   } catch (error) {
     const message = error.response.data?.ErrorMessage || "Something went wrong";
-    yield put(onVendorSubmitError({ data: {}, message, status_code: error.response.data.HttpStatusCode }));
+    yield put(onVendorSubmitError({ data: [], message, status_code: error.response.data.HttpStatusCode }));
   }
 }
 function* onGetSupplier() {
@@ -66,7 +66,7 @@ function* onGetSupplier() {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onGetSupplierListError({ data: {}, message, status_code: 400 }));
+    yield put(onGetSupplierListError({ data: [], message, status_code: 400 }));
   }
 }
 function* onUpdateSupplier(payload) {
@@ -95,7 +95,7 @@ function* onUpdateSupplier(payload) {
   } catch (error) {
     const message = error.response || "Something went wrong";
     yield put(
-      onUpdateSupplierListError({ data: {}, message, status_code: 400 })
+      onUpdateSupplierListError({ data: [], message, status_code: 400 })
     );
   }
 }

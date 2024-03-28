@@ -5,7 +5,7 @@ export const callSupplierBrandListUpdateApi = async (payload) => {
   const { data = {} } = await axiosInstance.put(API.supplier_brandList, payload);
   return data;
 };
-export const callSupplierBrandListGetApi = async () => {
-  const { data = {} } = await axiosInstance.get(API.supplier_brandList);
+export const callSupplierBrandListGetApi = async (payload) => {
+  const { data = [] } = await axiosInstance.get(`${API.supplier_brandList}?pageNumber=${payload?.pageNumber}&pageSize=${payload?.pageSize}`);
   return data;
 };

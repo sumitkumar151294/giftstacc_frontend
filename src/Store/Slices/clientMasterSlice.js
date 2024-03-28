@@ -5,8 +5,8 @@ export const clientMasterSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    clientData: {},
-    error: {},
+    clientData: [],
+    error: [],
     message: "",
   },
   reducers: {
@@ -16,24 +16,24 @@ export const clientMasterSlice = createSlice({
         isLoading: true,
         clientData: [],
         message: "",
-        error: {},
+        error: [],
         isError: false,
       };
     },
     onClientMasterSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
         clientData:data,
-        error: {},
+        error: [],
         message,
         status_code,
       };
     },
     onClientMasterSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
@@ -49,7 +49,7 @@ export const clientMasterSlice = createSlice({
         isLoading: false,
         clientData: [],
         message: "",
-        error: {},
+        error: [],
         status_code: null,
         isError: false,
       };
@@ -58,26 +58,26 @@ export const clientMasterSlice = createSlice({
             return {
         ...state,
         postClientLoading: true,
-        postClientData: {},
+        postClientData: [],
         postMessage: "",
-        error: {},
+        error: [],
         isError: false,
       };
     },
     onPostClientMasterSubmitSuccess: (state, { payload }) => {
-      const { postData = {}, message = "", status_code = 200 } = payload;
+      const { postData = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         postClientLoading: false,
         isError: false,
         postClientData:postData,
-        error: {},
+        error: [],
         postMessage:message,
         post_status_code:status_code,
       };
     },
     onPostClientMasterSubmitError: (state, { payload }) => {
-      const { postData = {}, message = "", status_code = 400 } = payload;
+      const { postData = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         postClientLoading: false,
@@ -90,11 +90,11 @@ export const clientMasterSlice = createSlice({
     onPostClientMasterReset: (state) => {
       return {
         ...state,
-        postClientData: {},
+        postClientData: [],
         postMessage: "",
         post_status_code: null,
         postClientLoading: false,
-        error: {},
+        error: [],
         isError: false,
       };
     },
@@ -102,27 +102,27 @@ export const clientMasterSlice = createSlice({
       return {
         ...state,
         updateLoading: true,
-        updateClientData: {},
+        updateClientData: [],
         updateMessage: "",
-        error: {},
+        error: [],
         isError: false,
         update_status_code:null
       };
     },
     onUpdateClientMasterSubmitSuccess: (state, { payload }) => {
-      const { updateData = {}, message = "", status_code = 200 } = payload;
+      const { updateData = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         updateLoading: false,
         isError: false,
         updateClientData:updateData,
-        error: {},
+        error: [],
         updateMessage:message,
         update_status_code:status_code,
       };
     },
     onUpdateClientMasterSubmitError: (state, { payload }) => {
-      const { updateData = {}, message = "", status_code = 400 } = payload;
+      const { updateData = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         updateLoading: false,
@@ -136,9 +136,9 @@ export const clientMasterSlice = createSlice({
       return {
         ...state,
         updateLoading: false,
-        updateClientData: {},
+        updateClientData: [],
         updateMessage: "",
-        error: {},
+        error: [],
         update_status_code: null,
         isError: false,
       };

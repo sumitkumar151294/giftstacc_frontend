@@ -5,8 +5,8 @@ export const supplierMasterSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    data: {},
-    error: {},
+    data: [],
+    error: [],
     message: "",
   },
   reducers: {
@@ -15,14 +15,14 @@ export const supplierMasterSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        postData: {},
+        postData: [],
         message: "",
         post_status_code: null
       };
     },
 
     onVendorSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
@@ -34,7 +34,7 @@ export const supplierMasterSlice = createSlice({
     },
 
     onVendorSubmitError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { data = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         postData: data,
@@ -55,22 +55,22 @@ export const supplierMasterSlice = createSlice({
     },
 
     onGetSupplierList: (state) => {
-      return { ...state, isLoading: true, data: {}, message: '', error: {}, isError: false, status_code: null };
+      return { ...state, isLoading: true, data: [], message: '', error: [], isError: false, status_code: null };
     },
     onGetSupplierListSuccess: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
+      const { data = [], message = '', status_code } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
         data,
-        error: {},
+        error: [],
         message,
         status_code
       };
     },
     onGetSupplierListError: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
+      const { data = [], message = '', status_code } = payload;
       return {
         ...state,
         isLoading: false,
@@ -81,22 +81,22 @@ export const supplierMasterSlice = createSlice({
       };
     },
     onUpdateSupplierList: (state) => {
-      return { ...state, isLoading: true, updateData: {}, message: '', error: {}, isError: false, update_status_code: null };
+      return { ...state, isLoading: true, updateData: [], message: '', error: [], isError: false, update_status_code: null };
     },
     onUpdateSupplierListSuccess: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
+      const { data = [], message = '', status_code } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
         updateData: data,
-        error: {},
+        error: [],
         message,
         update_status_code: status_code
       };
     },
     onUpdateSupplierListError: (state, { payload }) => {
-      const { data = {}, message = '', status_code } = payload;
+      const { data = [], message = '', status_code } = payload;
       return {
         ...state,
         isLoading: false,
@@ -111,7 +111,7 @@ export const supplierMasterSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        data: {},
+        data: [],
         message: "",
         update_status_code: null
       };
