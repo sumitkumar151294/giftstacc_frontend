@@ -1,8 +1,25 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 
-
-import { callOfferMasterGetApi, callOfferMasterPostApi, callOfferMasterUpdateApi } from "../../Context/ClientAdmin/offerMasterApi";
-import { onGetOfferMaster, onGetOfferMasterError, onGetOfferMasterSuccess, onPostOfferMasterError, onPostOfferMasterSubmit, onPostOfferMasterSuccess, onUpdateOfferMaster, onUpdateOfferMasterError, onUpdateOfferMasterSuccess } from "../../Store/Slices/ClientAdmin/offerMasterSlice";
+import {
+  onUploadImageApi,
+  callOfferMasterGetApi,
+  callOfferMasterPostApi,
+  callOfferMasterUpdateApi,
+} from "../../Context/ClientAdmin/offerMasterApi";
+import {
+  onGetOfferMaster,
+  onGetOfferMasterError,
+  onGetOfferMasterSuccess,
+  onPostOfferMasterError,
+  onPostOfferMasterSubmit,
+  onPostOfferMasterSuccess,
+  onUpdateOfferMaster,
+  onUpdateOfferMasterError,
+  onUpdateOfferMasterSuccess,
+  onUploadImageError,
+  onUploadImageSuccess,
+  onUploadImage,
+} from "../../Store/Slices/ClientAdmin/offerMasterSlice";
 
 function* PostOfferMaster({ payload }) {
   try {
@@ -55,10 +72,14 @@ function* GetOfferMaster() {
         })
       );
     }
-  } catch (error) { 
+  } catch (error) {
     const message = error.message || "Something went wrong";
     yield put(
-      onGetOfferMasterError({ getData: {}, message, status_code: error.response.status })
+      onGetOfferMasterError({
+        getData: {},
+        message,
+        status_code: error.response.status,
+      })
     );
   }
 }
@@ -96,10 +117,35 @@ function* PutOfferMaster({ payload }) {
     );
   }
 }
+function* OnImageUpload({ payload }) {
+  try {
+    const ImageUpload = yield call(onUploadImageApi, payload);
+    if (ImageUpload.httpStatusCode === "201") {
+          yield put(
+        onUploadImageSuccess({
+          data: ImageUpload.response,
+          message: ImageUpload.errorMessage,
+          status_code: ImageUpload.httpStatusCode,
+        })
+      );
+    } else {
+      yield put(
+        onUploadImageError({
+          data: ImageUpload.response,
+          message: ImageUpload.errorMessage,
+          status_code: ImageUpload.httpStatusCode,
+        })
+      );
+    }
+  } catch (error) {
+    const message = error.response || "Something went wrong";
+    yield put(onUploadImageError({ data: {}, message, status_code: 400 }));
+  }
+}
 
 export default function* offerMasterSaga() {
   yield takeLatest(onPostOfferMasterSubmit.type, PostOfferMaster);
   yield takeLatest(onGetOfferMaster.type, GetOfferMaster);
-
+  yield takeLatest(onUploadImage.type, OnImageUpload);
   yield takeLatest(onUpdateOfferMaster.type, PutOfferMaster);
 }
