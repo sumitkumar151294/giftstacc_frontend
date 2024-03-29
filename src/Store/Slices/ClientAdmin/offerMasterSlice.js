@@ -3,23 +3,21 @@ import { createSlice } from "@reduxjs/toolkit";
 export const offerMasterSlice = createSlice({
   name: "offerMaster",
   initialState: {
-    postData: {}
+    postData: {},
   },
   reducers: {
     onPostOfferMasterSubmit: (state) => {
       return {
         ...state,
-        isLoading: true,
         postdata: {},
         message: "",
-        status_code: null
+        status_code: null,
       };
     },
     onPostOfferMasterSuccess: (state, { payload }) => {
       const { postData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
         postdata: postData,
         message,
         status_code,
@@ -29,7 +27,6 @@ export const offerMasterSlice = createSlice({
       const { postData = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
-        isLoading: false,
         postdata: postData,
         message,
         status_code,
@@ -40,14 +37,13 @@ export const offerMasterSlice = createSlice({
         ...state,
         postData: {},
         message: "",
-        status_code: null
+        status_code: null,
       };
     },
 
     onGetOfferMaster: (state) => {
       return {
         ...state,
-        isLoading: false,
         getData: {},
         message: "",
       };
@@ -57,7 +53,6 @@ export const offerMasterSlice = createSlice({
       const { getData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
         getData: getData,
         message,
         status_code,
@@ -68,38 +63,42 @@ export const offerMasterSlice = createSlice({
       const { getData = {}, message, status_code } = payload;
       return {
         ...state,
-        isLoading: false,
         getData: getData,
         message: message,
-        status_code: status_code
+        status_code: status_code,
       };
     },
     onUpdateOfferMaster: (state) => {
       return {
         ...state,
-        isLoading: true,
         updateData: {},
         updateMessage: "",
       };
     },
     onUpdateOfferMasterSuccess: (state, { payload }) => {
-      const { updateData = {}, updateMessage = "", update_status_code = 200 } = payload;
+      const {
+        updateData = {},
+        updateMessage = "",
+        update_status_code = 200,
+      } = payload;
       return {
         ...state,
-        isLoading: false,
         updateData: updateData,
         updateMessage: updateMessage,
-        update_status_code: update_status_code
+        update_status_code: update_status_code,
       };
     },
     onUpdateOfferMasterError: (state, { payload }) => {
-      const { updateData = {}, updateMessage = "", update_status_code = 400 } = payload;
+      const {
+        updateData = {},
+        updateMessage = "",
+        update_status_code = 400,
+      } = payload;
       return {
         ...state,
-        isLoading: false,
         updateData: updateData,
         updateMessage: updateMessage,
-        update_status_code: update_status_code
+        update_status_code: update_status_code,
       };
     },
     onUpdateOfferMasterReset: (state) => {
@@ -107,13 +106,42 @@ export const offerMasterSlice = createSlice({
         ...state,
         updateData: {},
         updateMessage: "",
-        update_status_code: null
+        update_status_code: null,
       };
     },
-  }
+    onUploadImage: (state) => {
+      return {
+        ...state,
+        imageUpload: {},
+        message: "",
+        status_code: null,
+      };
+    },
+
+    onUploadImageSuccess: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        imageUpload: data,
+        message,
+        status_code,
+      };
+    },
+
+    onUploadImageError: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 400 } = payload;
+      return {
+        ...state,
+        imageUpload: data,
+        message,
+        status_code,
+      };
+    },
+  },
 });
 
-export const { onPostOfferMasterSubmit,
+export const {
+  onPostOfferMasterSubmit,
   onPostOfferMasterSuccess,
   onPostOfferMasterError,
   onPostOfferMasterReset,
@@ -124,6 +152,9 @@ export const { onPostOfferMasterSubmit,
   onUpdateOfferMasterSuccess,
   onUpdateOfferMasterError,
   onUpdateOfferMasterReset,
+  onUploadImageError,
+  onUploadImageSuccess,
+  onUploadImage,
 } = offerMasterSlice.actions;
 
 export default offerMasterSlice.reducer;

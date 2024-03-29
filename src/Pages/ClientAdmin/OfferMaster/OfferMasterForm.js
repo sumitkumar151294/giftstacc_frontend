@@ -11,6 +11,7 @@ import {
   onGetOfferMaster,
   onUpdateOfferMaster,
   onUpdateOfferMasterReset,
+  onUploadImage,
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
@@ -70,7 +71,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
-
+  const [getImagePath, setGetImagePath] = useState("");
   const placementoptions = [
     { value: "Top", label: top },
     { value: "Bottom", label: bottom },
@@ -85,7 +86,20 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   ];
 
   const handleInputChange = (e, fieldName) => {
-    if (fieldName === "enabled") {
+    if (fieldName === "image") {
+      const file = e?.target?.files[0]; // Assuming only one file is selected
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        setGetImagePath(formData);
+        setAddData({
+          ...addData,
+          [fieldName]: e.target.value,
+        });
+
+        // dispatch(onUploadImage(formData));
+      }
+    } else if (fieldName === "enabled") {
       setAddData({
         ...addData,
         [fieldName]: e.target.value === "true" ? true : false,
@@ -95,6 +109,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         [fieldName]: "",
       });
     }
+
     // else if(fieldName==="image"){
     //   let img = new Image()
     //   img.src = window.URL.createObjectURL(e.target.files[0])
@@ -138,31 +153,46 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       if (addData[key] === "" || addData[key] === undefined) {
         newErrors[key] = field_Required;
         isValid = false;
-      }
-      else if (addData[key].length > 250) {
+      } else if (addData[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
-      }
-      else {
+      } else {
         newErrors[key] = "";
       }
     }
     setErrors(newErrors);
     if (isValid) {
       setShowLoader(true);
-      if (!data) {
-        try {
-          dispatch(onPostOfferMasterSubmit(addData));
-        } catch (error) { }
-      } else if (data) {
-        try {
-          const tempData = { ...addData };
-          tempData.id = data?.id;
-          dispatch(onUpdateOfferMaster(tempData));
-        } catch (error) { }
-      }
+      dispatch(onUploadImage(getImagePath));
     }
   };
+  useEffect(() => {
+    if (offerMasterData?.status_code === "201") {
+      if (!data) {
+        try {
+          dispatch(
+            onPostOfferMasterSubmit({
+              ...addData,
+              image: offerMasterData?.imageUpload,
+            })
+          );
+        } catch (error) {
+          console.error("Error submitting offer:", error);
+        }
+      } else {
+        try {
+          const tempData = {
+            ...addData,
+            id: data?.id,
+            image: offerMasterData?.imageUpload,
+          };
+          dispatch(onUpdateOfferMaster(tempData));
+        } catch (error) {
+          console.error("Error updating offer:", error);
+        }
+      }
+    }
+  }, [offerMasterData, data]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -192,8 +222,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       setAddData(resetAddData);
       dispatch(onPostOfferMasterReset());
       dispatch(onGetOfferMaster());
-    } 
-    else if (offerMasterData.status_code===404){
+    } else if (offerMasterData.status_code === 404) {
       dispatch(onPostOfferMasterReset());
       toast.error(offerMasterData.message);
     }
@@ -204,7 +233,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       toast.success(offerMasterData?.updateMessage);
       setAddData(resetAddData);
       dispatch(onUpdateOfferMasterReset());
-      setPrefilledValues("")
+      setPrefilledValues("");
       dispatch(onGetOfferMaster());
     }
   }, [offerMasterData]);
@@ -215,8 +244,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       toast.error(offerMasterData.message);
       dispatch(onPostOfferMasterReset());
       setAddData(resetAddData);
-    }
-    else if (offerMasterData.update_status_code === "400") {
+    } else if (offerMasterData.update_status_code === "400") {
       setShowLoader(false);
       toast.error(offerMasterData.updateMessage);
       dispatch(onUpdateOfferMasterReset());
@@ -252,8 +280,11 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                           <Dropdown
                             value={addData.placement || ""}
                             onChange={(e) => handleInputChange(e, "placement")}
-                            className={` ${errors.placement ? "border-danger-select" : "form-select"
-                              }`}
+                            className={` ${
+                              errors.placement
+                                ? "border-danger-select"
+                                : "form-select"
+                            }`}
                             options={placementoptions}
                           />
                         </div>
@@ -266,8 +297,9 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             type="text"
                             value={addData.title}
                             onChange={(e) => handleInputChange(e, "title")}
-                            className={` ${errors.title ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.title ? "border-danger" : "form-control"
+                            }`}
                             name="title"
                             id="title"
                           />
@@ -282,8 +314,9 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             type="text"
                             value={addData.subtitle}
                             onChange={(e) => handleInputChange(e, "subtitle")}
-                            className={` ${errors.subtitle ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.subtitle ? "border-danger" : "form-control"
+                            }`}
                             name="subtitle"
                             id="subtitle"
                           />
@@ -298,12 +331,15 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             type="text"
                             value={addData.link}
                             onChange={(e) => handleInputChange(e, "link")}
-                            className={` ${errors.link ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.link ? "border-danger" : "form-control"
+                            }`}
                             name="link"
                             id="link"
                           />
-                          {errors.link && <small className="text-danger">{errors.link}</small>}
+                          {errors.link && (
+                            <small className="text-danger">{errors.link}</small>
+                          )}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="linkText">
@@ -314,8 +350,9 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             type="text"
                             value={addData.linkText}
                             onChange={(e) => handleInputChange(e, "linkText")}
-                            className={` ${errors.linkText ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.linkText ? "border-danger" : "form-control"
+                            }`}
                           />
                           {<p className="text-danger">{errors.linkText}</p>}
                         </div>
@@ -329,10 +366,11 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             onChange={(e) =>
                               handleInputChange(e, "imagePlacement")
                             }
-                            className={` ${errors.imagePlacement
-                              ? "border-danger-select"
-                              : "form-select"
-                              }`}
+                            className={` ${
+                              errors.imagePlacement
+                                ? "border-danger-select"
+                                : "form-select"
+                            }`}
                             options={imagePlacementOptions}
                           />
                         </div>
@@ -347,10 +385,11 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                                 type="file"
                                 accept="image/jpg,image/png"
                                 value={addData.image}
-                                className={` ${errors.image
-                                  ? "border-danger"
-                                  : "form-file-input form-control"
-                                  }`}
+                                className={` ${
+                                  errors.image
+                                    ? "border-danger"
+                                    : "form-file-input form-control"
+                                }`}
                                 onChange={(e) => handleInputChange(e, "image")}
                               />
                             </div>
@@ -365,8 +404,11 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                           <Dropdown
                             value={addData.enabled}
                             onChange={(e) => handleInputChange(e, "enabled")}
-                            className={` ${errors.enabled ? "border-danger-select" : "form-select"
-                              }`}
+                            className={` ${
+                              errors.enabled
+                                ? "border-danger-select"
+                                : "form-select"
+                            }`}
                             options={statusoptions}
                           />
                         </div>
