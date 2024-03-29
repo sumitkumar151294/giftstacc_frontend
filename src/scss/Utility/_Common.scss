@@ -47,9 +47,7 @@ h2,
 h3,
 h4,
 h5,
-.h5,
-h6,
-.h6 {
+h6 {
   margin-top: 0;
   margin-bottom: 0.5rem;
   font-weight: 500;
@@ -84,35 +82,24 @@ p {
   margin-bottom: 1rem;
   line-height: 1.8;
 }
-
-p {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  line-height: 1.8;
-}
-
 .align-items-center {
   align-items: center !important;
 }
-
 .d-flex {
   display: flex !important;
 }
 .justify-content-end {
   justify-content: flex-end !important;
 }
-
 label {
   margin-bottom: 0.5rem !important;
   font-size: 15px;
   color: var(--primary-black);
   display: inline-block;
 }
-
 .customer-search {
   width: 22.5rem;
 }
-
 .input-group {
   position: relative;
   display: flex;
@@ -138,16 +125,13 @@ label {
 
 .customer-search .search-area .input-group-text {
   background: var(--primary-white);
-  ;
   border: 0.0625rem solid var(--primary-skin);
-  ;
   border-top-right-radius: 3.125rem;
   border-bottom-right-radius: 3.125rem;
 }
 
 .customer-search .search-area .form-control {
   border: 0.0625rem solid var(--primary-skin);
-  ;
   border-top-left-radius: 3.125rem;
   border-bottom-left-radius: 3.125rem;
   border-right: 0;
@@ -163,25 +147,6 @@ label {
   flex: 1 1 auto;
   width: 1%;
   min-width: 0;
-}
-
-.form-select {
-  display: block;
-  width: var(--w100);
-  padding: 0.375rem 0.25rem 0.375rem 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--primary-black);
-  background-color: var(--primary-white);
-  ;
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 16px 12px;
-  border: 3px solid var(--primary-greyis);
-  border-radius: 0.75rem;
-  appearance: auto;
-  font-size: 17px;
 }
 
 .form-select:focus {
@@ -275,8 +240,8 @@ label {
 
 .font-size{
   font-size: 0.513rem;
-
 }
+
 .sharp.btn-xs {
   padding: 0.1875rem;
   width: 3.625rem;
@@ -493,28 +458,6 @@ ul {
 .justify-content-between {
   justify-content: space-between !important;
 }
-
-
-body {
-  overflow-x: hidden;
-  height: var(--h100);
-  position: relative;
-  max-width: var(--w100);
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--primary-grey);
-  background-color: var(--primary-white-2);
-  -webkit-text-size-adjust: var(--w100);
-  -webkit-tap-highlight-color: var(--rgba-primary-16);
-
-  @media only screen and (max-width: 991px) {
-    font-size: 0.875rem;
-  }
-}
-
 @media only screen and (max-width: 100rem) {
   :root {
     font-size: 0.875rem;

@@ -1,5 +1,4 @@
 import React from 'react'
-import './FailedOrders.scss'
 import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
 import ScrollToTop from '../../Components/ScrollToTop/ScrollToTop';
 

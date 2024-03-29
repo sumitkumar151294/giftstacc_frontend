@@ -25,28 +25,9 @@ $background-color_5: var(--primary-red-4);
 }
 
 .btn {
-  // padding: 0.938rem 1.5rem;
   border-radius: 1.125rem !important;
   font-weight: 400;
   font-size: 1rem;
-}
-
-.btn-success {
-  color: $color_1;
-  background-color: $background-color_1;
-  border-color: $border-color_1;
-}
-
-.btn-warning {
-  &:hover {
-    color: $color_2;
-    background-color: $background-color_2;
-    border-color: $border-color_2;
-  }
-
-  color: $color_2;
-  background-color: $background-color_2;
-  border-color: $border-color_2;
 }
 
 input {
