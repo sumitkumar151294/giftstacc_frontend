@@ -25,7 +25,7 @@ $w100: var(--w100);
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.btn-check:focus + .btn-primary,
+.btn-check:focus+.btn-primary,
 .btn-primary:focus {
   color: $primary-black;
   border-color: $primary-hover;
@@ -93,10 +93,8 @@ $w100: var(--w100);
     padding: 0.625rem 1rem;
   }
 }
-
-
 .btn-icon-end {
-  border-left: 0.0625rem solid var( --primary-white);;
+  border-left: 0.0625rem solid var(--primary-white);
   display: inline-block;
   margin: -0.8rem 0 -0.8rem 1rem;
   padding: 0.4375rem 0 0.4375rem 1rem;
@@ -111,8 +109,6 @@ $w100: var(--w100);
   display: block !important;
   width: 100% !important;
 }
-
-
 .btn {
   padding: 0.938rem 1.5rem;
   border-radius: 1.125rem;
@@ -123,3 +119,8 @@ $w100: var(--w100);
   font-size: 0.813rem;
   padding: 0.625rem 1rem;
 }
+@media screen and (min-width: 991px) {
+  .btn-m{
+      margin-top: 1rem !important;
+  }
+    }

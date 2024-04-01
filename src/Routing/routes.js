@@ -5,36 +5,34 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
 import BrandDetail from "../Pages/BrandDetail/BrandDetail";
 import Orders from "../Pages/Orders/Orders";
+import EmailEventMaster from "../Pages/EmailEventMaster/EmailEventMaster";
 import ClientBrandList from "../Pages/ClientMaster/ClientBrandList";
-import RoleMasterList from "../Pages/RoleMaster/RoleMasterList";
 import ClientMasterList from "../Pages/ClientMaster/ClientMasterList";
+import Customerlist from "../Pages/CustomerList/CustomerList";
+import RoleMasterList from "../Pages/RoleMaster/RoleMasterList";
 import CategoryList from "../Pages/CreateCategories/CategoryList";
+import FailedOrders from "../Pages/FailedOrders/FailedOrders";
 import UserMasterList from "../Pages/UserMaster/UserMasterList";
 import SupplierMasterList from "../Pages/SupplierMaster/SupplierMasterList";
+import AbandonedCartReport from "../Pages/AbandonedCart/AbandonedCart";
 import SupplierProductList from "../Pages/SupplierProductList/SupplierProductList";
 import PageError from "../Components/PageError/PageError";
 import AddSpecialList from "../Pages/ClientAdmin/AddSpecial/AddSpecialList";
 import AllocateBrand from "../Pages/ClientAdmin/AddSpecial/AllocateBrand";
-import { CustomerList } from "../Pages/ClientAdmin/CustomerList/CustomerList";
 import CMSList from "../Pages/ClientAdmin/CMS/CMSList";
 import BannerMasterList from "../Pages/ClientAdmin/BannerMaster/BannerList";
 import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 import OfferMasterList from "../Pages/ClientAdmin/OfferMaster/OfferMasterList";
 import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/ClientCommissionReport";
-import EmailEventMaster from "../Pages/ClientAdmin/EmailEventMaster/EmailEventMaster";
-import FailedOrders from "../Pages/ClientAdmin/FailedOrders/FailedOrders";
-import AbandonedCartReport from "../Pages/ClientAdmin/AbandonedCartReport/AbandonedCartReport";
 function RouteConfiq() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-
         <Route
           path="/lc-admin/dashboard"
           element={<Layout Component={Dashboard} />}
         />
-
         <Route
           path="/lc-admin/supplier-master"
           element={<Layout Component={SupplierMasterList} />}
@@ -74,9 +72,16 @@ function RouteConfiq() {
         <Route
           path="/lc-admin/orders"
           element={<Layout Component={Orders} />}
+        />{" "}
+        <Route
+          path="/lc-admin/brandcatalouge"
+          element={<Layout Component={BrandCatalogue} />}
         />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
-        <Route path="/lc-user-admin/dashboard" element={<Layout Component={Dashboard} />} />
+        <Route
+          path="/lc-user-admin/dashboard"
+          element={<Layout Component={Dashboard} />}
+        />
         <Route
           path="/lc-user-admin/orders"
           element={<Layout Component={Orders} />}
@@ -85,7 +90,7 @@ function RouteConfiq() {
           path="/lc-user-admin/cms"
           element={<Layout Component={CMSList} />}
         />
-          <Route
+        <Route
           path="/lc-user-admin/brand-catalouge"
           element={<Layout Component={BrandCatalogue} />}
         />
@@ -99,7 +104,7 @@ function RouteConfiq() {
         />
         <Route
           path="/lc-user-admin/customer-list"
-          element={<Layout Component={CustomerList} />}
+          element={<Layout Component={Customerlist} />}
         />
         <Route
           path="/lc-user-admin/add-special"
@@ -109,11 +114,11 @@ function RouteConfiq() {
           path="/lc-user-admin/allocate-brand"
           element={<Layout Component={AllocateBrand} />}
         />
-         <Route
+        <Route
           path="/lc-user-admin/faq"
           element={<Layout Component={FaqMaster} />}
         />
-          <Route
+        <Route
           path="/lc-user-admin/banner-master"
           element={<Layout Component={BannerMasterList} />}
         />
@@ -128,8 +133,8 @@ function RouteConfiq() {
         <Route
           path="/lc-user-admin/failed-orders"
           element={<Layout Component={FailedOrders} />}
-          />
-          <Route
+        />
+        <Route
           path="/lc-user-admin/abandoned-cart-report"
           element={<Layout Component={AbandonedCartReport} />}
         />

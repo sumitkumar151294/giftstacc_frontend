@@ -72,20 +72,8 @@ const BrandDetail = () => {
                             {paragraphs?.map((paragraph, index) => (
                               <p key={index}>{paragraph}</p>
                             ))}
-                            {console.log(data?.tncContent, "testdescription")}
                           </div>
                         )}
-                        {/* <div className=" tc mt-2">
-                          <h6>{data.title2}</h6>
-                          <h6>
-                            <strong>{data.heading1}</strong>
-                          </h6>
-                          <p>{data.RedemptionInformation}</p>
-                          <h6>
-                            <strong>{data.heading2}</strong>
-                          </h6>
-                          <p>{data.InStoreInformation}</p>
-                        </div>  */}
                       </div>
                       <div className="only-right mt-2">
                         <a className="mr-10 on-link" href={""}>

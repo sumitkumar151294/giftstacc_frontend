@@ -126,8 +126,14 @@ const LoginPage = () => {
       loginDetails?.status_code === "201" &&
       isSubmit
     ) {
-      setShowLoader(false);
-      navigate("/lc-admin/dashboard");
+      if(loginDetails?.data?.[0]?.adminRoleId){
+        setShowLoader(false);
+        navigate("/lc-admin/dashboard");
+      }else{
+        setShowLoader(false);
+        toast.error("Invalid Credentials");
+      }
+     
     } else if (isSubmit && loginDetails?.status_code) {
       setShowLoader(false);
       toast.error(loginDetails?.message);

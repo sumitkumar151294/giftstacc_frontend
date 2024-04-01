@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { bannerMasterGetApi,bannerMasterPostApi,bannerMasterUpdateApi } from "../../Context/ClientAdmin/bannerMasterApi";
+import { bannerMasterGetApi, bannerMasterPostApi, bannerMasterUpdateApi } from "../../Context/ClientAdmin/bannerMasterApi";
 import {
   onbannerMasterSubmitError,
   onbannerMasterSubmitSuccess,
@@ -10,8 +10,8 @@ import {
   onUpdateBannerMaster,
   onUpdateBannerMasterSuccess,
   onUpdateBannerMasterError,
-} 
-from "../../Store/Slices/ClientAdmin/bannerMasterSlice";
+}
+  from "../../Store/Slices/ClientAdmin/bannerMasterSlice";
 
 function* BannerMaster() {
   try {
@@ -32,8 +32,8 @@ function* BannerMaster() {
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
-    yield put(onGetbannerMasterError({ data: {}, message, status_code: 400 }));
+    const message = error.message || "Something went wrong";
+    yield put(onGetbannerMasterError({ data: {}, message, status_code: error.response.status }));
   }
 }
 function* postBannerMaster({ payload }) {

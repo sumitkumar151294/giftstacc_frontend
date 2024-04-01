@@ -29,7 +29,6 @@ const CategoryForm = ({ setIsLoading }) => {
   // const getModules = useSelector((state) => state.moduleReducer);
   // const getModulesRoleId = getModules?.data;
   // const getRolesAccess = getModules?.filteredData;
-  // console.log(getModules,"getRoleAccess",getModulesRoleId,getRolesAccess);
 
   // const findRoleAccess = getRolesAccess.filte(r)
   // const supplierBrandListData = useSelector((state)=> state?.supplierBrandListReducer?.data);
@@ -112,7 +111,7 @@ const CategoryForm = ({ setIsLoading }) => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => { 
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -130,8 +129,8 @@ const CategoryForm = ({ setIsLoading }) => {
     setErrors(newErrors);
     if (isValid) {
       try {
-        setIsLoading(true);
         dispatch(onPostCategory(createCategory));
+        setIsLoading(true);
       } catch (error) {}
     }
   };

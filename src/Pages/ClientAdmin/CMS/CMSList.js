@@ -37,21 +37,7 @@ const CMS = () => {
     url: "",
     buttonText: "",
   });
-  useEffect(() => {
-    setShowError(false);
-
-    if (getCmsData.message.status === 404) {
-      setShowError(true);
-      setPageError({
-        StatusCode: "404",
-        ErrorName: "not found",
-        ErrorDesription:
-          "Your application url is not registerd to our application",
-        url: "/",
-        buttonText: "Back to Home",
-      });
-    }
-  }, [getCmsData]);
+ 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -96,9 +82,9 @@ const CMS = () => {
   return (
     <>
       <ScrollToTop />
-      {showError ? (
+      {/* {showError ? (
         <PageError pageError={pageError} />
-      ) : (
+      ) : ( */}
         <>
           {getRoleAccess[0]?.addAccess && (<CMSForm
             setIsLoading={setIsLoading}
@@ -190,7 +176,7 @@ const CMS = () => {
             </div>
           </div>
         </>
-      )}
+      {/* )} */}
     </>
   );
 };

@@ -14,7 +14,7 @@ import Loader from "../../../Components/Loader/Loader";
 import PageError from "../../../Components/PageError/PageError";
 
 const OfferMasterList = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
 
@@ -32,7 +32,8 @@ const OfferMasterList = () => {
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
-  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
+  const getRoleAccess = useSelector((state) => state.moduleReducer.filteredData);
+
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -45,9 +46,12 @@ const OfferMasterList = () => {
     buttonText: "",
   });
 
+  const OfferMasterState = useSelector((state) => state.offerMasterReducer);
+  const getListData = OfferMasterState?.isLoading;
+  console.log(getListData)
   useEffect(() => {
     dispatch(onGetOfferMaster());
-    setIsLoading(true);
+    // setIsLoading(true);
   }, []);
 
   useEffect(() => {
@@ -57,24 +61,12 @@ const OfferMasterList = () => {
       if (page > totalPages && page > 1) {
         setPage(page - 1);
       }
-      setIsLoading(false);
+      // setIsLoading(false);
     } else {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   }, [offerMasterData]);
-  useEffect(() => {
-    if (offerMasterData?.message?.status === 404) {
-      setShowError(true);
-      setPageError({
-        StatusCode: "404",
-        ErrorName: "not found",
-        ErrorDesription:
-          "Your application url is not registerd to our application",
-        url: "/",
-        buttonText: "Back to Home",
-      });
-    }
-  }, []);
+
   const handleEdit = (data) => {
     const prefilled = { ...data };
     setPrefilledValues(prefilled);
@@ -93,11 +85,10 @@ const OfferMasterList = () => {
       image: data.image,
     };
     dispatch(onUpdateOfferMaster(deletedData));
-    dispatch(onGetOfferMaster());
   };
   useEffect(() => {
     if (offerMasterData) {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   }, [offerMasterData]);
 
@@ -107,12 +98,12 @@ const OfferMasterList = () => {
         <PageError pageError={pageError} />
       ) : (
         <>
-        {getRoleAccess[0]?.addAccess && (
-          <OfferMasterForm
-            data={prefilledValues}
-            setPrefilledValues={setPrefilledValues}
-          />
-        )}
+          {getRoleAccess[0]?.addAccess && (
+            <OfferMasterForm
+              data={prefilledValues}
+              setPrefilledValues={setPrefilledValues}
+            />
+          )}
           <div className="container-fluid  pt-0">
             <div className="row">
               <div className="col-lg-12">
@@ -123,97 +114,94 @@ const OfferMasterList = () => {
                         <h4 className="card-title">{offer_list}</h4>
                       </div>
                     </div>
+
                     <div className="card-body">
-                      {isLoading && (
+                      {getListData ? (
                         <div style={{ height: "400px" }}>
                           <Loader classType={"absoluteLoader"} />
                         </div>
-                      )}
-                      {offerMasterData?.getData?.length > 0 ? (
+                      ) : (
                         <div className="table-responsive">
-                          <table className="table header-border table-responsive-sm">
-                            <thead>
-                              <tr>
-                                <th>{image}</th>
-                                <th>{title}</th>
-                                <th>{subtitle}</th>
-                                <th>{link_level}</th>
-                                <th>{imagePlacement}</th>
-                                <th>{status}</th>
-                                {getRoleAccess[0]?.editAccess && (
-                                  <th>{action}</th>
-                                )}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {offerMasterData?.getData
-                                .slice(startIndex, endIndex)
-                                .map((data) => (
-                                  <tr key={data.id}>
-                                    <td>
-                                      {/* <img
-                                    src={offerImage}
-                                    style={{ width: "50px" }}
-                                  /> */}
-                                    </td>
-                                    <td>{data.title}</td>
-                                    <td>{data.subtitle}</td>
-                                    <td>{data.link}</td>
-                                    <td>{data.imagePlacement}</td>
-                                    <td>
-                                      <span
-                                        className={`badge ${
-                                          data.enabled
-                                            ? "badge-success"
-                                            : "badge-danger"
-                                        }`}
-                                      >
-                                        {data.enabled ? "Active" : "Non-Active"}
-                                      </span>
-                                    </td>
-                                    {getRoleAccess[0]?.editAccess && (
-                                    <td>
-                                      <div className="d-flex">
-                                        <Button
-                                          className="btn btn-primary shadow btn-xs sharp me-1"
-                                          onClick={() => handleEdit(data)}
-                                          icon={"fas fa-pencil-alt"}
-                                        />
-                                        <Button
-                                          className="btn btn-danger shadow btn-xs sharp"
-                                          onClick={() => handleDelete(data)}
-                                          icon={"fa fa-trash"}
-                                        />
-                                      </div>
-                                    </td>
-                                    )}
+                          {offerMasterData?.getData?.length > 0 ? (
+                            <>
+                              <table className="table header-border table-responsive-sm">
+                                <thead>
+                                  <tr>
+                                    <th>{image}</th>
+                                    <th>{title}</th>
+                                    <th>{subtitle}</th>
+                                    <th>{link_level}</th>
+                                    <th>{imagePlacement}</th>
+                                    <th>{status}</th>
+                                    {getRoleAccess[0]?.editAccess && <th>{action}</th>}
                                   </tr>
-                                ))}
-                            </tbody>
-                          </table>
-                          {offerMasterData?.getData?.length > 5 && (
-                            <div className="pagination-container">
-                              <ReactPaginate
-                                previousLabel={"<"}
-                                nextLabel={" >"}
-                                breakLabel={"..."}
-                                pageCount={Math.ceil(
-                                  offerMasterData?.getData?.length / rowsPerPage
-                                )}
-                                marginPagesDisplayed={2}
-                                onPageChange={handlePageChange}
-                                containerClassName={"pagination"}
-                                activeClassName={"active"}
-                                initialPage={page - 1}
-                                previousClassName={page === 1 ? "disabled" : ""}
-                              />
-                            </div>
+                                </thead>
+                                <tbody>
+                                  {offerMasterData?.getData
+                                    .slice(startIndex, endIndex)
+                                    .map((data) => (
+                                      <tr key={data.id}>
+                                        <td>
+                                          {/* <img
+                                          src={offerImage}
+                                          style={{ width: "50px" }}
+                                        /> */}
+                                        </td>
+                                        <td>{data.title}</td>
+                                        <td>{data.subtitle}</td>
+                                        <td>{data.link}</td>
+                                        <td>{data.imagePlacement}</td>
+                                        <td>
+                                          <span
+                                            className={`badge ${data.enabled ? "badge-success" : "badge-danger"
+                                              }`}
+                                          >
+                                            {data.enabled ? "Active" : "Non-Active"}
+                                          </span>
+                                        </td>
+                                        {getRoleAccess[0]?.editAccess && (
+                                          <td>
+                                            <div className="d-flex">
+                                              <Button
+                                                className="btn btn-primary shadow btn-xs sharp me-1"
+                                                onClick={() => handleEdit(data)}
+                                                icon={"fas fa-pencil-alt"}
+                                              />
+                                              <Button
+                                                className="btn btn-danger shadow btn-xs sharp"
+                                                onClick={() => handleDelete(data)}
+                                                icon={"fa fa-trash"}
+                                              />
+                                            </div>
+                                          </td>
+                                        )}
+                                      </tr>
+                                    ))}
+                                </tbody>
+                              </table>
+                              {offerMasterData?.getData?.length > 5 && (
+                                <div className="pagination-container">
+                                  <ReactPaginate
+                                    previousLabel={"<"}
+                                    nextLabel={" >"}
+                                    breakLabel={"..."}
+                                    pageCount={Math.ceil(
+                                      offerMasterData?.getData?.length / rowsPerPage
+                                    )}
+                                    marginPagesDisplayed={2}
+                                    onPageChange={handlePageChange}
+                                    containerClassName={"pagination"}
+                                    activeClassName={"active"}
+                                    initialPage={page - 1}
+                                    previousClassName={page === 1 ? "disabled" : ""}
+                                  />
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <NoRecord />
                           )}
                         </div>
-                      ) : offerMasterData?.getData?.length < 0 ? (
-                        <NoRecord />
-                      ) : (
-                        <Loader />
                       )}
                     </div>
                   </div>
@@ -222,7 +210,7 @@ const OfferMasterList = () => {
             </div>
           </div>
         </>
-      )}{" "}
+      )}
     </>
   );
 };

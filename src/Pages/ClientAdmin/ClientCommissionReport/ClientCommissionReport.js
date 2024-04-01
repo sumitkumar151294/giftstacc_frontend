@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
 import ReactPaginate from "react-paginate";
-import InputField from "../../../Components/InputField/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import { onGetCommissionReport } from "../../../Store/Slices/ClientAdmin/clientCommissionReportSlice";
 import { CSVLink } from "react-csv";
@@ -121,12 +120,6 @@ const ClientCommissionReport = () => {
                   />
                 </div>
                 <div className="example">
-                  {/* <InputField
-                    type="text"
-                    value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
-                    className="form-control input-daterange-timepicker"
-                    name="daterange"
-                  /> */}
                   <DatePicker
                     id="dateStartEnd"
                     placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"

@@ -19,7 +19,7 @@ const API = {
   //supplierResource
   supplier_resource: "/supplier-api-resource",
   //supplier-brand-list
-  supplier_brandList: "/product",
+  supplier_brandList: "/product/all",
   //client
   client_master: "/client-master",
   //Client-payment-details
@@ -45,7 +45,13 @@ const API = {
   client_product_mapping:"/client-product-mapping-by-client-Id",
   client_product_map:"/client-product-mapping",
   //allocate brand
-  allocate_Brand:"/allocate-brands"
+  allocate_Brand:"/allocate-brands",
+  allocate_Brand_Id:"/allocate-brands-by-addSpecial-id",
+
+  //upload
+  upload_Img :"/upload",
+
+  
 
 };
 export default API;

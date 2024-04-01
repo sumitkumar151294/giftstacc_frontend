@@ -17,33 +17,41 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
-  const addSpecialMaster=GetTranslationData("UIClient", "addSpecialMaster");
-  const section_name=GetTranslationData("UIClient", "section_name");
-  const status = GetTranslationData("UIClient", "status");
-  const displayOrder = GetTranslationData("UIClient", "display-order");
-  const maxNoOfbrands = GetTranslationData("UIClient", "maxNoOfbrands");
-  const submit = GetTranslationData("UIClient", "submitLabel");
-  const update = GetTranslationData("UIAdmin", "update_label");
   const [isLoading, setIsLoading] = useState(false);
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
+  const field_Required = GetTranslationData("UIAdmin", "field_Required");
+  const description = GetTranslationData("UIAdmin", "description");
+  const addSpecialMaster = GetTranslationData("UIClient", "addSpecialMaster");
+  const isSpecial_checked = GetTranslationData("UIClient", "isSpecial_checked");
+  const section_Name = GetTranslationData("UIClient", "section_Name ");
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+  const status = GetTranslationData("UIClient", "status");
+  const Max_Brands = GetTranslationData("UIClient", "Max_Brands  ");
+  const Is_Special = GetTranslationData("UIClient", "Is_Special ");
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     sectionName: "",
     displayOrder: "",
-    status: true,
     maximumNumberOfBrands: "",
+    description: "",
+    IsSpecial: "",
+    enabled: "",
   });
   const [error, setError] = useState({
     sectionName: "",
     displayOrder: "",
-    status: "",
     maximumNumberOfBrands: "",
+    description: "",
+    IsSpecial: "",
+    enabled: "",
   });
   const resetField = {
     sectionName: "",
     displayOrder: "",
-    status: "",
     maximumNumberOfBrands: "",
+    description: "",
+    IsSpecial: "",
+    enabled: "",
   };
   const statusoptions = [
     { value: true, label: active },
@@ -54,16 +62,19 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     setFormData({
       sectionName: prefilledValues?.sectionName || "",
       displayOrder: prefilledValues?.displayOrder || "",
-      status:
-        prefilledValues?.status !== undefined ? prefilledValues?.status : "",
-
+      enabled:
+        prefilledValues?.enabled !== undefined ? prefilledValues?.enabled : "",
       maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || "",
+      description: prefilledValues?.description || "",
+      IsSpecial: prefilledValues?.isSpecial || false, // Use boolean value directly
     });
     setError({
       sectionName: "",
       displayOrder: "",
-      status: "",
+      enabled: "",
       maximumNumberOfBrands: "",
+      description: "",
+      IsSpecial: "",
     });
   }, [prefilledValues]);
   useEffect(() => {
@@ -97,40 +108,52 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       }
     }
   }, [getAddSpecial.status_code]);
+  const handleInputChange = (e) => {
+    const { name, checked } = e.target;
+    if (name === "IsSpecial") {
+      setFormData({
+        ...formData,
+        IsSpecial: checked,
+      });
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...error };
+
+    // Validate form fields
     for (const key in formData) {
       if (formData[key] === "") {
-        newErrors[key] = " ";
-        isValid = false;
-      }else if (formData[key].length > 250) {
-        newErrors[key] = "Length must be 250 or fewer";
+        newErrors[key] = field_Required; // Provide a meaningful error message
         isValid = false;
       } else {
         newErrors[key] = "";
       }
     }
+
     setError(newErrors);
     if (isValid) {
+      const specialExists =
+        Array.isArray(getAddSpecial?.getData) &&
+        getAddSpecial?.getData.some((item) => item.isSpecial === true);
+      const submissionData = {
+        ...formData,
+        displayOrder: parseInt(formData.displayOrder),
+        maximumNumberOfBrands: parseInt(formData.maximumNumberOfBrands),
+        enabled: formData.enabled === "true",
+      };
+      if (specialExists && formData.IsSpecial === true) {
+        toast.error(isSpecial_checked);
+        return;
+      }
+
+      if (prefilledValues) {
+        const updatedData = { ...submissionData, id: prefilledValues.id };
+        dispatch(onAddSpecialUpdate(updatedData));
+      }
       if (!prefilledValues) {
-        const submissionData = {
-          ...formData,
-          displayOrder: parseInt(formData.displayOrder), // Convert displayOrder to integer
-          maximumNumberOfBrands: parseInt(formData.maximumNumberOfBrands), // Convert maxNumBrand to integer
-          status: formData.status === "true" ? true : false, // Convert status to boolean based on selection
-        };
         dispatch(onAddSpecialSubmit(submissionData));
-      } else {
-        const tempData = { ...formData };
-        tempData.id = prefilledValues?.id;
-        dispatch(
-          onAddSpecialUpdate({
-            ...tempData,
-            status: formData.status === "true" ? true : false,
-          })
-        );
       }
     }
   };
@@ -155,29 +178,36 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                     <form onSubmit={(e) => handleSubmit(e)}>
                       <div className="row">
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="name-f">{section_name} <span className="text-danger">*</span></label>
+                          <label htmlFor="name-f">
+                            {section_Name}
+                            <span className="text-danger">*</span>
+                          </label>
                           <InputField
                             type="text"
                             value={formData?.sectionName}
-                            className={`${error.sectionName
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={`${
+                              error.sectionName
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
                             onChange={(e) => handleInput(e, "sectionName")}
                           />
-                          {<p className="text-danger">{error.sectionName}</p>}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="displayOrder">{displayOrder} <span className="text-danger">*</span></label>
+                          <label htmlFor="displayOrder">
+                            {displayOrder}{" "}
+                            <span className="text-danger">*</span>
+                          </label>
                           <InputField
                             type="number"
                             value={formData?.displayOrder}
-                            className={`${error.displayOrder
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={`${
+                              error.displayOrder
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="displayOrder"
                             id="displayOrder"
                             onChange={(e) => handleInput(e, "displayOrder")}
@@ -185,36 +215,75 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
 
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="status">{status} <span className="text-danger">*</span></label>
+                          <label htmlFor="enabled">
+                            {status} <span className="text-danger">*</span>
+                          </label>
                           <Dropdown
                             aria-label="Default select example"
-                            onChange={(e) => handleInput(e, "status")}
-                            value={formData?.status}
-                            className={`${error.status
-                              ? "border-danger-select"
-                              : "form-select"
-                              }`}
+                            onChange={(e) => handleInput(e, "enabled")}
+                            value={formData?.enabled}
+                            className={`${
+                              error.enabled
+                                ? "border-danger-select"
+                                : "form-select"
+                            }`}
                             options={statusoptions}
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
-                            {maxNoOfbrands}
+                            {Max_Brands}
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="number"
                             value={formData?.maximumNumberOfBrands}
-                            className={`${error.maximumNumberOfBrands
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={`${
+                              error.maximumNumberOfBrands
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             name="maximumNumberOfBrands"
                             id="maximumNumberOfBrands"
                             onChange={(e) =>
                               handleInput(e, "maximumNumberOfBrands")
                             }
                           />
+                        </div>
+                        <div className="col-sm-3 form-group mb-2">
+                          <label htmlFor="maxNumBrand">
+                            {description}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <InputField
+                            type="text"
+                            value={formData?.description}
+                            className={`${
+                              error.description
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
+                            name="description"
+                            id="description"
+                            onChange={(e) => handleInput(e, "description")}
+                          />
+                        </div>
+                        <div className="col-sm-3 form-group mb-2  mt-4 padd">
+                          <InputField
+                            className="form-check-input"
+                            type="checkbox"
+                            name="IsSpecial"
+                            value={formData?.IsSpecial}
+                            checked={formData.IsSpecial} // Use checked attribute with boolean value
+                            id="flexCheckDefault1"
+                            onChange={handleInputChange}
+                          />
+                          <label
+                            className="form-check-label fnt-15"
+                            htmlFor="flexCheckDefault1"
+                          >
+                            {Is_Special}{" "}
+                          </label>
                         </div>
                         <span
                           className="form-check-label"
@@ -226,7 +295,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-sm-12 form-group mb-0 mt-2">
                           <Button
                             className="btn btn-primary float-right pad-aa"
-                            text={prefilledValues ? update : submit}
+                            text={prefilledValues ? "Update" : "Submit"}
                             icon={"fa fa-arrow-right"}
                           />
                         </div>

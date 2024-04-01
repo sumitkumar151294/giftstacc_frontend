@@ -329,7 +329,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
               </div>
               <div className="card-body">
                 {isformLoading || isLoading ? (
-                  <div style={{ height: "200px" }}>
+                  <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
@@ -375,7 +375,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
                           <InputField
                             type="number"
                             name="text"
-                            value={parseInt(vendorData?.balanceThresholdAmount)}
+                            value={vendorData?.balanceThresholdAmount}
                             className={` ${
                               errors.balanceThresholdAmount
                                 ? "border-danger"
@@ -397,7 +397,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete, isLoading, s
                           <InputField
                             type="number"
                             name="text"
-                            value={parseInt(vendorData.creditAmount)}
+                            value={vendorData.creditAmount}
                             className={` ${
                               errors.creditAmount
                                 ? "border-danger"

@@ -111,7 +111,10 @@ const handleInputChange = (e) => {
       isClientPlatformModule: checked,
     });
   } else if (name === "selectAll") {
-    const updatedModules = formData.modules.map((module) => ({
+    const fetchModulesAccordingToIsClient = formData?.modules?.filter((item)=>{
+      return item.isClientPlatformModule === formData.isClientPlatformModule
+    })
+    const updatedModules = fetchModulesAccordingToIsClient.map((module) => ({
       ...module,
       checked: checked,
     }));
@@ -153,6 +156,7 @@ const handleInputChange = (e) => {
     });
   }
 };
+
 
 
   const handleSubmit = async (e) => {
@@ -381,11 +385,12 @@ useEffect(()=>{
                               addAccess,
                               isClientPlatformModule,
                             }) => (
+                              formData.isClientPlatformModule === isClientPlatformModule &&
                               <div className="row mb-3 mt-3" key={id}>
                                 <h4
                                   className="col-lg-3"
                                   htmlFor={`flexCheckDefault-${id}`}
-                                >
+                                  >
                                   {name
                                     .replace(/([A-Z])/g, " $1")
                                     .split(" ")
@@ -396,12 +401,11 @@ useEffect(()=>{
                                     )
                                     .join(" ")}{" "}
                                   (
-                                  {isClientPlatformModule === true
+                                  {isClientPlatformModule 
                                     ? `${client}`
                                     : `${admin}`}
                                   )
                                 </h4>
-
                                 <div className="col-lg-9 d-flex justify-content-end">
                                   <div className="form-check form-check-inline">
                                     <label className="form-check-label">
@@ -445,8 +449,8 @@ useEffect(()=>{
                                       {edit}
                                     </label>
                                   </div>
-                                </div>
-                              </div>
+                                </div> 
+                              </div>  
                             )
                           )}
 

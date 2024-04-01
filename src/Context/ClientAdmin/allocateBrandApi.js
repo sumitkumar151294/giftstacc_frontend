@@ -1,7 +1,10 @@
-import API from '../../Common/EndPoint/serviceConstrants';
-import axiosInstanceClient from '../../Common/Axios/axiosInstanceClient';
+import API from "../../Common/EndPoint/serviceConstrants";
+import axiosInstanceClient from "../../Common/Axios/axiosInstanceClient";
 export const callAllocateBrandsPostApi = async (payload) => {
-  const { data = {} } = await axiosInstanceClient.post(API.allocate_Brand, payload);
+  const { data = {} } = await axiosInstanceClient.post(
+    API.allocate_Brand,
+    payload
+  );
   return data;
 };
 export const callAllocateBrandsGetApi = async () => {
@@ -9,6 +12,16 @@ export const callAllocateBrandsGetApi = async () => {
   return data;
 };
 export const callAllocateBrandsUpdateApi = async (payload) => {
-  const { data = {} } = await axiosInstanceClient.put(API.allocate_Brand, payload);
+  const { data = {} } = await axiosInstanceClient.put(
+    API.allocate_Brand,
+    payload
+  );
+  return data;
+};
+
+export const callAllocateBrandsbyIdApi = async (payload) => {
+  const { data = {} } = await axiosInstanceClient.get(
+    `${API.allocate_Brand_Id}?AddSpecialId=${payload}`
+  );
   return data;
 };

@@ -4,6 +4,7 @@ import {
   onFaqMasterSubmit,
   onFaqMasterSubmitReset,
   onGetFaqMaster,
+  onGetFaqMasterReset,
 } from "../../../Store/Slices/ClientAdmin/faqMasterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../../Components/InputField/InputField";
@@ -31,12 +32,6 @@ const FaqMaster = () => {
   const endIndex = startIndex + rowsPerPage;
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
-  const faq_categories = GetTranslationData("UIClient", "faq_categories");
-  const category = GetTranslationData("UIClient", "category");
-  const question = GetTranslationData("UIClient", "question");
-  const answer = GetTranslationData("UIClient", "answer");
-  const dateLabel=GetTranslationData("UIClient", "dateLabel");
-  const serNoLabel=GetTranslationData("UIClient", "serNoLabel");
   const [faqInfo, setFaqInfo] = useState({
     categoryId: "",
     question: "",
@@ -47,7 +42,7 @@ const FaqMaster = () => {
     categoryId: "",
     question: "",
     answer: "",
-    clientId: "",
+    clientId: "2",
   };
   const [errors, setErrors] = useState({
     categoryId: "",
@@ -67,10 +62,12 @@ const FaqMaster = () => {
       setFaqInfo(resetField);
       dispatch(onFaqMasterSubmitReset());
       dispatch(onFaqCategorySubmitReset());
-
       dispatch(onGetFaqMaster());
+    } else if (faqMasterGetData.status_code === 404) {
+      dispatch(onGetFaqMasterReset());
+      toast.error(faqMasterGetData.getmessage);
     }
-  }, [faqMasterGetData]);
+  }, [faqMasterGetData?.status_code]);
   useEffect(() => {
     dispatch(onGetFaqMaster());
     dispatch(onGetFaqCategory());
@@ -95,17 +92,15 @@ const FaqMaster = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
-    const newErrors = {};
+    const newErrors = { ...errors };
 
     // Check if fields are empty and set corresponding error messages
     for (const key in faqInfo) {
-      if (faqInfo[key].trim() === "") {
+      if (faqInfo[key] === "") {
         newErrors[key] = " ";
         isValid = false;
-      }
-      else if (faqInfo[key].length > 250) {
-        newErrors[key] = "Length must be 250 or fewer";
-        isValid = false;
+      } else {
+        newErrors[key] = "";
       }
     }
     setErrors(newErrors);
@@ -114,9 +109,11 @@ const FaqMaster = () => {
     }
   };
   const FaqMasterCategory = (Categorydata) => {
-    const category = Array.isArray(faqCategory) && faqCategory.find((data) => data.id === Categorydata);
+    const category =
+      Array.isArray(faqCategory) &&
+      faqCategory.find((data) => data.id === Categorydata);
     return category ? category.name : "";
-  }
+  };
   return (
     <>
       <ScrollToTop />
@@ -125,52 +122,61 @@ const FaqMaster = () => {
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="card-header d-flex justify-content-between">
-                <h4 className="card-title">{faq_categories}</h4>
+                <h4 className="card-title">FAQ's Categories</h4>
               </div>
               <div className="card-body pt-4 ml-4">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-sm-4 form-group mb-2">
-                      <label htmlFor="name-l">{category} <span className="text-danger">*</span></label>
+                      <label htmlFor="name-l">
+                        Category <span className="text-danger">*</span>
+                      </label>
                       <Dropdown
                         onChange={(e) => handleChange(e, "categoryId")}
                         error={errors.categoryId}
                         ariaLabel="Select"
                         value={faqInfo.categoryId}
-                        className={` ${errors.categoryId ? "border-danger" : "form-select"
-                          }`}
+                        className={` ${
+                          errors.categoryId ? "border-danger" : "form-select"
+                        }`}
                         options={
                           Array.isArray(faqCategory)
                             ? faqCategory?.map((category) => ({
-                              label: category.name,
-                              value: category.id,
-                              data: category.code,
-                            }))
+                                label: category.name,
+                                value: category.id,
+                                data: category.code,
+                              }))
                             : []
                         }
                       />
                     </div>
                     <div className="col-sm-12 form-group mb-2">
-                      <label htmlFor="name-f">{question} <span className="text-danger">*</span></label>
+                      <label htmlFor="name-f">
+                        Question <span className="text-danger">*</span>
+                      </label>
                       <InputField
                         type="text"
-                        className={`form-control ${errors.question ? "border-danger" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.question ? "border-danger" : ""
+                        }`}
                         id="name-f"
                         placeholder=""
                         value={faqInfo.question}
                         onChange={(e) => handleChange(e, "question")}
                       />
-                       {<p className="text-danger">{errors.question}</p>}
+                      {<p className="text-danger">{errors.question}</p>}
                     </div>
                     <div className="col-sm-12 form-group mb-2">
-                      <label htmlFor="textarea">{answer} <span className="text-danger">*</span></label>
+                      <label htmlFor="textarea">
+                        Answer <span className="text-danger">*</span>
+                      </label>
                       <textarea
                         id="textarea"
                         cols="60"
                         rows="10"
-                        className={`form-control bg-transparent ${errors.answer ? "border-danger" : ""
-                          }`}
+                        className={`form-control bg-transparent ${
+                          errors.answer ? "border-danger" : ""
+                        }`}
                         placeholder=""
                         value={faqInfo.answer}
                         onChange={(e) => handleChange(e, "answer")}
@@ -203,17 +209,17 @@ const FaqMaster = () => {
               ) : (
                 <>
                   {Array.isArray(faqMasterGetData?.getData) &&
-                    faqMasterGetData?.getData?.length > 0 ? (
+                  faqMasterGetData?.getData?.length > 0 ? (
                     <div className="card-body pt-4  ml-4">
                       <div className="table-responsive">
                         <table className="table header-border table-responsive-sm">
                           <thead>
                             <tr>
-                              <th>{serNoLabel}</th>
-                              <th>{dateLabel}</th>
-                              <th>{category}</th>
-                              <th>{question}</th>
-                              <th>{answer}</th>
+                              <th>S.NO</th>
+                              <th>Date</th>
+                              <th>Category</th>
+                              <th>Question</th>
+                              <th>Answer</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -223,8 +229,14 @@ const FaqMaster = () => {
                                 .map((data, index) => (
                                   <tr key={index}>
                                     <td>{data.id}</td>
-                                    <td>{new Date(data?.createdOn).toLocaleDateString("en-GB")}</td>
-                                    <td>{FaqMasterCategory(data.categoryId)}</td>
+                                    <td>
+                                      {new Date(
+                                        data?.createdOn
+                                      ).toLocaleDateString("en-GB")}
+                                    </td>
+                                    <td>
+                                      {FaqMasterCategory(data.categoryId)}
+                                    </td>
                                     <td>{data.question}</td>
                                     <td>{data.answer}</td>
                                   </tr>
@@ -251,10 +263,8 @@ const FaqMaster = () => {
                         )}
                       </div>
                     </div>
-                  ) : faqMasterGetData?.getData?.length < 0 ? (
-                    <NoRecord />
                   ) : (
-                    <Loader />
+                    <NoRecord />
                   )}
                 </>
               )}
@@ -267,4 +277,3 @@ const FaqMaster = () => {
 };
 
 export default FaqMaster;
-/* eslint-enable react-hooks/exhaustive-deps */

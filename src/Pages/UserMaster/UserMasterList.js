@@ -16,7 +16,7 @@ const UserMasterList = () => {
   const [prefilledValues, setPrefilledValues] = useState();
   useEffect(() => {
     dispatch(onGetUser());
-  },[dispatch]);
+  }, [dispatch]);
   const UserList = GetTranslationData("UIAdmin", "User_list_label");
   const roleName = GetTranslationData("UIAdmin", "role_name_label");
   const email = GetTranslationData("UIAdmin", "email_label");
@@ -62,19 +62,19 @@ const UserMasterList = () => {
   }
   const filteredUserList = Array.isArray(userList?.getData)
     ? userList?.getData.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) => value && typeof value === "string"
-        )
+      Object.values(vendor).some(
+        (value) => value && typeof value === "string"
       )
+    )
     : [];
   return (
     <>
-     {getRoleAccess[0]?.addAccess && (
-      <UserMasterForm
-        prefilledValues={prefilledValues}
-        setPrefilledValues={setPrefilledValues}
-      />
-     )}
+      {getRoleAccess[0]?.addAccess && (
+        <UserMasterForm
+          prefilledValues={prefilledValues}
+          setPrefilledValues={setPrefilledValues}
+        />
+      )}
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -99,7 +99,7 @@ const UserMasterList = () => {
                           <th>{username}</th>
                           <th>{clients}</th>
                           {getRoleAccess[0]?.editAccess && (
-                          <th>{action}</th>
+                            <th>{action}</th>
                           )}
                         </tr>
                       </thead>
@@ -109,20 +109,18 @@ const UserMasterList = () => {
                           .map((item, index) => (
                             <tr key={index}>
                               <td>
-                              <span
-                                        className="badge badge-success mr-10"
-                                        key={index}
-                                      >
-                                       {getNameById(item?.adminRoleId)}
-                                      </span>
-                              <span
-                                        className="badge badge-success mr-10"
-                                        key={index}
-                                      >
-                                      {getNameById(item?.clientRoleId)}
-                                      </span>
-                                
-                                
+                                {item?.adminRoleId && <span
+                                  className="badge badge-success mr-10"
+                                >
+                                  {getNameById(item?.adminRoleId)}
+                                </span>}
+                               
+                               { item?.clientRoleId && <span
+                                  className="badge badge-success mr-10"
+                                >
+                                  {getNameById(item?.clientRoleId)}
+                                </span>
+                               }
                               </td>
                               <td>{item.email}</td>
                               <td>{item.mobile}</td>
@@ -147,13 +145,13 @@ const UserMasterList = () => {
                                   )}
                               </td>
                               {getRoleAccess[0]?.editAccess && (
-                              <td>
-                                <Button
-                                  className="btn btn-primary shadow btn-xs sharp me-1"
-                                  onClick={() => handleEdit(item)}
-                                  icon={"fas fa-pencil-alt"}
-                                />
-                              </td>
+                                <td>
+                                  <Button
+                                    className="btn btn-primary shadow btn-xs sharp me-1"
+                                    onClick={() => handleEdit(item)}
+                                    icon={"fas fa-pencil-alt"}
+                                  />
+                                </td>
                               )}
                             </tr>
                           ))}

@@ -15,12 +15,18 @@ const BannerMasterList = () => {
   const display_order = GetTranslationData("UIClient", "display-order");
   const status = GetTranslationData("UIClient", "status");
   const actionLabel = GetTranslationData("UIClient", "actionLabel");
-  const bannerList = GetTranslationData("UIClient", "bannerList");
   const dispatch = useDispatch();
+  const getBannerMasterState = useSelector((state) => state.bannerMasterReducer);
+
   const getBannerMaster = useSelector(
     (state) => state.bannerMasterReducer?.getData
   );
-  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
+  const getListData= getBannerMasterState?.isLoading;
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
+
+
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
@@ -31,7 +37,8 @@ const BannerMasterList = () => {
     setPage(selected.selected + 1);
   };
   const handleEdit = (data) => {
-    setPrefilledData(data);
+    const prefilled = { ...data };
+    setPrefilledData(prefilled);
   };
   const handleDelete = (data) => {
     const deletedData = {
@@ -58,6 +65,7 @@ const BannerMasterList = () => {
     } else {
     }
   }, [getBannerMaster]);
+
   return (
     <>
       <BannerForm
@@ -70,25 +78,29 @@ const BannerMasterList = () => {
             <div className="card">
               <div className="container-fluid pt-0">
                 <div className="card-header">
-                  <h4 className="card-title">{bannerList}</h4>
+                  <h4 className="card-title">Banner List</h4>
                 </div>
-                {getBannerMaster?.length > 0 ? (
+                {getListData ? (
+                  <div style={{ height: "400px" }}>
+                    <Loader classType={"absoluteLoader"} />
+                  </div>
+                ) : (
                   <div className="card-body">
-                    <div className="table-responsive">
-                      <table className="table header-border table-responsive-sm">
-                        <thead>
-                          <tr>
-                            <th>{title_label}</th>
-                            <th>{sub_title}</th>
-                            <th>{link_label}</th>
-                            <th>{display_order}</th>
-                            <th>{status}</th>
-                            <th>{actionLabel}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {Array.isArray(getBannerMaster) &&
-                            getBannerMaster
+                    {getBannerMaster && getBannerMaster.length > 0 ? (
+                      <div className="table-responsive">
+                        <table className="table header-border table-responsive-sm">
+                          <thead>
+                            <tr>
+                              <th>{title_label}</th>
+                              <th>{sub_title}</th>
+                              <th>{link_label}</th>
+                              <th>{display_order}</th>
+                              <th>{status}</th>
+                              <th>{actionLabel}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {getBannerMaster
                               .slice(startIndex, endIndex)
                               .map((banner) => (
                                 <tr key={banner.id}>
@@ -99,60 +111,57 @@ const BannerMasterList = () => {
                                   <td>
                                     <span
                                       className={
-                                        banner.enabled === true
+                                        banner.enabled
                                           ? "badge badge-success"
                                           : "badge badge-danger"
                                       }
                                     >
-                                      {banner.enabled === true
-                                        ? "Active"
-                                        : "Non-Active"}
+                                      {banner.enabled ? "Active" : "Non-Active"}
                                     </span>
                                   </td>
                                   {getRoleAccess[0]?.editAccess && (
-                                  <td>
-                                    <div className="d-flex">
-                                      <Button
-                                        className="btn btn-primary shadow btn-xs sharp me-1"
-                                        icon={"fas fa-pencil-alt"}
-                                        onClick={() => handleEdit(banner)}
-                                      ></Button>
-                                      <Button
-                                        className="btn btn-danger shadow btn-xs sharp"
-                                        icon={"fa fa-trash"}
-                                        onClick={() => handleDelete(banner)}
-                                      />
-                                    </div>
-                                  </td>
+                                    <td>
+                                      <div className="d-flex">
+                                        <Button
+                                          className="btn btn-primary shadow btn-xs sharp me-1"
+                                          icon={"fas fa-pencil-alt"}
+                                          onClick={() => handleEdit(banner)}
+                                        ></Button>
+                                        <Button
+                                          className="btn btn-danger shadow btn-xs sharp"
+                                          icon={"fa fa-trash"}
+                                          onClick={() => handleDelete(banner)}
+                                        />
+                                      </div>
+                                    </td>
                                   )}
                                 </tr>
                               ))}
-                        </tbody>
-                      </table>
-                      {getBannerMaster?.length > 5 && (
-                        <div className="pagination-container">
-                          <ReactPaginate
-                            previousLabel={"<"}
-                            nextLabel={" >"}
-                            breakLabel={"..."}
-                            pageCount={Math.ceil(
-                              getBannerMaster?.length / rowsPerPage
-                            )}
-                            marginPagesDisplayed={2}
-                            onPageChange={handlePageChange}
-                            containerClassName={"pagination"}
-                            activeClassName={"active"}
-                            initialPage={page - 1} // Use initialPage instead of forcePage
-                            previousClassName={page === 1 ? "disabled" : ""}
-                          />
-                        </div>
-                      )}
-                    </div>
+                          </tbody>
+                        </table>
+                        {getBannerMaster.length > 5 && (
+                          <div className="pagination-container">
+                            <ReactPaginate
+                              previousLabel={"<"}
+                              nextLabel={" >"}
+                              breakLabel={"..."}
+                              pageCount={Math.ceil(
+                                getBannerMaster.length / rowsPerPage
+                              )}
+                              marginPagesDisplayed={2}
+                              onPageChange={handlePageChange}
+                              containerClassName={"pagination"}
+                              activeClassName={"active"}
+                              initialPage={page - 1} // Use initialPage instead of forcePage
+                              previousClassName={page === 1 ? "disabled" : ""}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <NoRecord />
+                    )}
                   </div>
-                ) : getBannerMaster?.length < 0 ? (
-                  <NoRecord />
-                ) : (
-                  <Loader />
                 )}
               </div>
             </div>

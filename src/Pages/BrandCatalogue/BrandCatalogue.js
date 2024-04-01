@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
@@ -12,8 +11,10 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
-import { onClientProductMappingSubmit } from "../../Store/Slices/clientProductMappingSlice";
+import { onClientProductMappingSubmit, onGetAllClientProductMapping } from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
+import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
+
 const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const BrandCatalogue = () => {
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
   const supplier = GetTranslationData("UIAdmin", "supplier");
+  const client = GetTranslationData("UIAdmin", "client_label");
   const [searchQuery, setSearchQuery] = useState("");
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -46,7 +48,7 @@ const BrandCatalogue = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-
+  const LoginId = useSelector((state) => state?.loginReducer);
   useEffect(() => {
     const matchingProductsData =
       Array.isArray(clientProductMapping) &&
@@ -68,7 +70,7 @@ const BrandCatalogue = () => {
     setGetProduct(matchingProductsData);
     setCopyBrandCatalogue(matchingProductsData);
   }, [clientProductMapping, SupplierBrandList]);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.data);
+  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData); 
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
@@ -98,6 +100,7 @@ const BrandCatalogue = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
+  
   const filteredBrandCatalogueList = Array.isArray(copyBrandCatalogue)
     ? copyBrandCatalogue.filter((vendor) =>
         Object.values(vendor).some(
@@ -108,29 +111,35 @@ const BrandCatalogue = () => {
         )
       )
     : [];
-
-  const handleChange = (e) => {
-    const selectedSupplierName = e.target.value;
-    if (selectedSupplierName === "Select") {
-      setCopyBrandCatalogue(getProduct);
-    } else {
-      const selectedSupplier = supplierMasterData.find(
-        (supplier) => supplier.name === selectedSupplierName
-      );
-      if (selectedSupplier) {
-        const filteredProducts = getProduct.filter(
-          (product) =>
-            product.supplierCode.toLowerCase() ===
-            selectedSupplier.code.toLowerCase()
-        );
-        setCopyBrandCatalogue(filteredProducts);
+    const handleChange = (e, name) => {
+      const selectedSupplierName = e.target.value;
+      if(selectedSupplierName==="Select" && name==="client"){
+        dispatch(onGetAllClientProductMapping())
       }
-    }
-    setSupplierList((prevState) => ({
-      ...prevState,
-      supplier: selectedSupplierName,
-    }));
-  };
+      else if (selectedSupplierName === "Select" && name==="supplier") {
+        setCopyBrandCatalogue(getProduct);
+      } else if(name === "supplier") {
+        const selectedSupplier = supplierMasterData.find(
+          (supplier) => supplier.name === selectedSupplierName
+        );
+        if (selectedSupplier) {
+          const filteredProducts = getProduct.filter(
+            (product) =>
+              product.supplierCode.toLowerCase() ===
+              selectedSupplier.code.toLowerCase()
+          );
+          setCopyBrandCatalogue(filteredProducts);
+        }
+
+      }else if(name==="client"){
+        dispatch(onClientProductMappingSubmit(e.target.selectedOptions.item("").getAttribute("name")));
+      }
+      setSupplierList((prevState) => ({
+        ...prevState,
+        [name]: selectedSupplierName,
+      }));
+    };
+
 
   useEffect(() => {
     setShowLoader(false);
@@ -138,13 +147,13 @@ const BrandCatalogue = () => {
   useEffect(() => {
     dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
-    dispatch(
-      onClientProductMappingSubmit(sessionStorage.getItem("clientCode"))
-    );
+    dispatch(onGetAllClientProductMapping())
+    dispatch(onClientMasterSubmit())
   }, []);
 
   const handleClick = (data) => {
-    navigate("/lc-user-admin/brand-detail", { state: data });
+    {LoginId.isAdminLogin ? navigate("/lc-admin/brand-detail", { state: data }) : navigate("/lc-user-admin/brand-detail", { state: data })}
+
   };
   return (
     <>
@@ -178,7 +187,7 @@ const BrandCatalogue = () => {
                       headers={headers}
                       filename={"BrandCatalogue.csv"}
                     >
-                      {filteredBrandCatalogueList.length > 0 && (
+                      {filteredBrandCatalogueList.length >=+ 0 && (
                         <Button
                           className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
                           icons={"fa fa-file-excel me-2"}
@@ -193,6 +202,7 @@ const BrandCatalogue = () => {
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="supplier">{supplier}</label>
+
                     <Dropdown
                       onChange={(e) => handleChange(e, "supplier")}
                       value={supplierList.supplier || ""}
@@ -207,7 +217,9 @@ const BrandCatalogue = () => {
                       }
                     />
                   </div>
-                  {/* <div className="col-sm-3 form-group mb-2">
+
+                  {LoginId.isAdminLogin && <div className="col-sm-3 form-group mb-2">
+
                     <label htmlFor="client">{client}</label>
                     <Dropdown
                       onChange={(e) => handleChange(e, "client")}
@@ -218,11 +230,13 @@ const BrandCatalogue = () => {
                           ? clientList?.map((item) => ({
                               label: item.name,
                               value: item.name,
+                              data: item.id
                             }))
                           : []
                       }
                     />
-                  </div> */}
+
+                  </div>}
                 </div>
               </div>
               <div className="card-body">
@@ -248,9 +262,11 @@ const BrandCatalogue = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {filteredBrandCatalogueList
+                              {filteredBrandCatalogueList.length > 0 ? (
+                                  Array.isArray(filteredBrandCatalogueList) &&
+                              filteredBrandCatalogueList
                                 .slice(startIndex, endIndex)
-                                ?.map((data, index) => (
+                                .map((data, index) => (
                                   <tr key={index}>
                                     <td>
                                       <img
@@ -274,7 +290,10 @@ const BrandCatalogue = () => {
                                       />
                                     </td>
                                   </tr>
-                                ))}
+                                ))
+                                ) : (
+                                  <NoRecord />
+                                )}
                             </tbody>
                           </table>
                           {filteredBrandCatalogueList.length > 5 && (
@@ -313,4 +332,3 @@ const BrandCatalogue = () => {
 };
 
 export default BrandCatalogue;
-/* eslint-enable react-hooks/exhaustive-deps */

@@ -35,8 +35,7 @@
 }
 
 .mr-10 {
-	margin-right: 10px;
-	margin-right: 10px;
+  margin-right: 10px;
 }
 
 .mt-4 {
@@ -45,6 +44,9 @@
 
 .ml-4 {
 	margin-left: 10px !important;
+}
+.mr-2 {
+	margin-right: 2px !important;
 }
 .ml-6 {
 	margin-left: 15px !important;
@@ -62,11 +64,4 @@
 	.mb-sm-0 {
 		margin-bottom: 0 !important;
 	}
-}
-@media (min-width: 1400px) {
-
-.rows{
-	margin-top: 10% !important;
-
-}
 }

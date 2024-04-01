@@ -30,12 +30,12 @@ function* FaqMaster() {
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
+    const message = error.message || "Something went wrong";
     yield put(
       onGetFaqMasterError({
         data: {},
         message,
-        status_code: error?.response?.data?.httpStatusCode,
+        status_code: error.response.status,
       })
     );
   }

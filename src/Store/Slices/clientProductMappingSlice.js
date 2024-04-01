@@ -10,6 +10,39 @@ export const clientProductMappingSlice = createSlice({
     message: "",
   },
   reducers: {
+    onGetAllClientProductMapping: (state) => {
+      return {
+        ...state,
+        isLoading: true,
+        clientData: [],
+        message: "",
+        error: {},
+        isError: false,
+      };
+    },
+    onGetAllClientProductMappingSuccess: (state, { payload }) => {
+      const { data = {}, message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        clientData:data,
+        error: {},
+        message,
+        status_code,
+      };
+    },
+    onGetAllClientProductMappingError: (state, { payload }) => {
+      const { data = [], message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        clientData: data,
+        message,
+        status_code,
+      };
+    },
     onClientProductMappingSubmit: (state) => {
       return {
         ...state,
@@ -144,10 +177,14 @@ export const clientProductMappingSlice = createSlice({
         isError: false,
       };
     },
+
   },
 });
 
 export const {
+  onGetAllClientProductMapping,
+  onGetAllClientProductMappingSuccess,
+  onGetAllClientProductMappingError,
   onUpdateClientProductMappingReset,
   onUpdateClientProductMappingSubmitError,
   onUpdateClientProductMappingSubmitSuccess,
