@@ -6,7 +6,7 @@ export const clientProductMappingSlice = createSlice({
     isLoading: false,
     isError: false,
     clientData: [],
-    error: {},
+    error: [],
     message: "",
   },
   reducers: {
@@ -16,18 +16,18 @@ export const clientProductMappingSlice = createSlice({
         isLoading: true,
         clientData: [],
         message: "",
-        error: {},
+        error: [],
         isError: false,
       };
     },
     onGetAllClientProductMappingSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
         clientData:data,
-        error: {},
+        error: [],
         message,
         status_code,
       };
@@ -49,18 +49,18 @@ export const clientProductMappingSlice = createSlice({
         isLoading: true,
         clientData: [],
         message: "",
-        error: {},
+        error: [],
         isError: false,
       };
     },
     onClientProductMappingSubmitSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
         clientData:data,
-        error: {},
+        error: [],
         message,
         status_code,
       };
@@ -82,7 +82,7 @@ export const clientProductMappingSlice = createSlice({
         isLoading: false,
         clientData: [],
         message: "",
-        error: {},
+        error: [],
         status_code: null,
         isError: false,
       };
@@ -91,27 +91,27 @@ export const clientProductMappingSlice = createSlice({
             return {
         ...state,
         postClientLoading: true,
-        postClientData: {},
+        postClientData: [],
         post_status_code:null,
         message: "",
-        error: {},
+        error: [],
         isError: false,
       };
     },
     onPostClientProductMappingSubmitSuccess: (state, { payload }) => {
-      const { postData = {}, message = "", status_code = 200 } = payload;
+      const { postData = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         postClientLoading: false,
         isError: false,
         postClientData:postData,
-        error: {},
+        error: [],
         message:message,
         post_status_code:status_code,
       };
     },
     onPostClientProductMappingSubmitError: (state, { payload }) => {
-      const { postData = {}, message = "", status_code = 400 } = payload;
+      const { postData = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         postClientLoading: false,
@@ -124,11 +124,11 @@ export const clientProductMappingSlice = createSlice({
     onPostClientProductMappingReset: (state) => {
       return {
         ...state,
-        postClientData: {},
+        postClientData: [],
         message: "",
         post_status_code: null,
         postClientLoading: false,
-        error: {},
+        error: [],
         isError: false,
       };
     },
@@ -136,27 +136,27 @@ export const clientProductMappingSlice = createSlice({
       return {
         ...state,
         updateLoading: true,
-        updateClientData: {},
+        updateClientData: [],
         updateMessage: "",
-        error: {},
+        error: [],
         isError: false,
         update_status_code:null
       };
     },
     onUpdateClientProductMappingSubmitSuccess: (state, { payload }) => {
-      const { updateData = {}, message = "", status_code = 200 } = payload;
+      const { updateData = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         updateLoading: false,
         isError: false,
         updateClientData:updateData,
-        error: {},
+        error: [],
         updateMessage:message,
         update_status_code:status_code,
       };
     },
     onUpdateClientProductMappingSubmitError: (state, { payload }) => {
-      const { updateData = {}, message = "", status_code = 400 } = payload;
+      const { updateData = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         updateLoading: false,
@@ -170,9 +170,9 @@ export const clientProductMappingSlice = createSlice({
       return {
         ...state,
         updateLoading: false,
-        updateClientData: {},
+        updateClientData: [],
         updateMessage: "",
-        error: {},
+        error: [],
         update_status_code: null,
         isError: false,
       };

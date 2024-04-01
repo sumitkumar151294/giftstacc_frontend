@@ -22,7 +22,7 @@ function* GetUserRoleModuleAccess(payload) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onGetUserRoleModuleAccessError({ data: {}, message, status_code: 400 }));
+    yield put(onGetUserRoleModuleAccessError({ data: [], message, status_code: 400 }));
   }
 }
 function* PostUserRoleModuleAccess({ payload }) {
@@ -45,7 +45,7 @@ function* PostUserRoleModuleAccess({ payload }) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onPostUserRoleModuleAccessError({ data: {}, message, status_code: 400 }));
+    yield put(onPostUserRoleModuleAccessError({ data: [], message, status_code: 400 }));
   }
 }
 function* UpdateUserRoleModuleAccess({ payload }) {
@@ -68,7 +68,7 @@ function* UpdateUserRoleModuleAccess({ payload }) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onUpdateUserRoleModuleAccessError({ data: {}, message, status_code: 400 }));
+    yield put(onUpdateUserRoleModuleAccessError({ data: [], message, status_code: 400 }));
   }
 }
 export default function* userRoleModuleAccessSaga() {

@@ -5,8 +5,8 @@ export const userRoleModuleAccessSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    data: {},
-    error: {},
+    data: [],
+    error: [],
     message: "",
   },
   reducers: {
@@ -15,13 +15,13 @@ export const userRoleModuleAccessSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        data: {},
+        data: [],
         message: "",
       };
     },
 
     onGetUserRoleModuleAccessSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
@@ -33,7 +33,7 @@ export const userRoleModuleAccessSlice = createSlice({
     },
 
     onGetUserRoleModuleAccessError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { data = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         data,
@@ -90,13 +90,13 @@ export const userRoleModuleAccessSlice = createSlice({
         ...state,
         isLoading: true,
         isError: false,
-        data: {},
+        data: [],
         message: "",
       };
     },
 
     onUpdateUserRoleModuleAccessSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
@@ -108,7 +108,7 @@ export const userRoleModuleAccessSlice = createSlice({
     },
 
     onUpdateUserRoleModuleAccessError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { data = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         data,

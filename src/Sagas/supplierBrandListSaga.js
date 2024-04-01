@@ -30,9 +30,9 @@ function* supplierBrandList({ payload }) {
     yield put(onUpdateSupplierBrandListError({ data: {}, message, status_code: 400 }));
   }
 }
-function* onGetSupplierList() {
+function* onGetSupplierList({payload}) {
   try {
-    const supplierBrandListResponse = yield call(callSupplierBrandListGetApi);
+    const supplierBrandListResponse = yield call(callSupplierBrandListGetApi(payload));
     if (supplierBrandListResponse.httpStatusCode==="200") {
       yield put(
         onGetSupplierBrandListSuccess({

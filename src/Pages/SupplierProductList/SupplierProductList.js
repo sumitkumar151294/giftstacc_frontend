@@ -45,7 +45,7 @@ const SupplierProductList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
   useEffect(() => {
-    dispatch(onGetSupplierBrandList());
+    dispatch(onGetSupplierBrandList({pageNumber:page, pageSize:rowsPerPage}));
     dispatch(onGetSupplierList());
   }, [dispatch]);
 
@@ -62,8 +62,9 @@ const SupplierProductList = () => {
     }
   }, [SupplierBrandListUpdate,dispatch])
 
-  const handlePageChange = (selected) => {
-    setPage(selected.selected + 1);
+  const handlePageChange = ({selected}) => {
+    setPage(selected + 1);
+    dispatch(onGetSupplierBrandList({pageNumber:selected + 1, pageSize:rowsPerPage}));
   };
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -98,7 +99,7 @@ const SupplierProductList = () => {
       setCopySupplierBrandList(SupplierBrandList);
     } else {
       let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
-        vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase()
+        vendor?.supplierCode?.toLowerCase() === selectedSupplierCode?.toLowerCase()
       );
       setCopySupplierBrandList(filteredSupplierList);
     }
@@ -177,8 +178,8 @@ const SupplierProductList = () => {
 
   useEffect(() => {
     let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
-      vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase()) &&
-      (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
+      vendor?.name?.toLowerCase().includes(searchQuery?.toLowerCase()) &&
+      (vendor?.supplierCode?.toLowerCase() === selectedSupplierCode?.toLowerCase() || selectedSupplierCode === "Select")
     );
     setCopySupplierBrandList(filteredSupplierList);
   }, [searchQuery, selectedSupplierCode, SupplierBrandList]);
@@ -190,6 +191,7 @@ const SupplierProductList = () => {
     supplier_Margin: data.supplierMargin,
     status: data.enabled ?"Active":"Non-active",
   }));
+  console.log(copySupplierBrandList);
 
   return (
     <>
@@ -277,8 +279,8 @@ const SupplierProductList = () => {
                           <div className="card-header">
                             <h4 className="card-title">{supplierBrandLists}</h4>
                           </div>
-                          {Array.isArray(copySupplierBrandList) &&
-                            copySupplierBrandList.length > 0 ? (
+                          {Array.isArray(SupplierBrandList) &&
+                            SupplierBrandList.length > 0 ? (
                             <div className="card-body">
                               <div className="table-responsive">
                                 <table className="table header-border table-responsive-sm">
@@ -292,12 +294,12 @@ const SupplierProductList = () => {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {copySupplierBrandList
-                                      .slice(startIndex, endIndex)
-                                      .map((data, index) => (
+                                    {SupplierBrandList[0]?.products
+                                      ?.slice(startIndex, endIndex)
+                                      ?.map((data, index) => (
                                         <tr key={index}>
-                                          <td>{data.id}</td>
-                                          <td>{data.name}</td>
+                                          <td>{data?.id}</td>
+                                          <td>{data?.name}</td>
                                           <td>
                                             <div className="input-group mb-2 w-11">
                                               <InputField
@@ -306,13 +308,13 @@ const SupplierProductList = () => {
                                                 placeholder={data.supplier_Margin}
                                                 pattern="/^-?\d+\.?\d*$/"
                                                 value={data?.supplierMargin}
-                                                onChange={(e) => handleInputChange(e, data.id)}
+                                                onChange={(e) => handleInputChange(e, data?.id)}
                                                 onKeyPress={(e) => handleKeyPress(e, index)}
                                               />
                                               <div className="input-group-append">
                                                 <Button
                                                   onClick={() =>
-                                                    handleUpdate(data, data.id)
+                                                    handleUpdate(data, data?.id)
                                                   }
                                                   className="btn btn-outline-primary btn-sm group-btn btn-pad"
                                                   type="button"
@@ -324,19 +326,19 @@ const SupplierProductList = () => {
                                           <td>
                                             <span
                                               className={
-                                                data.enabled === true
+                                                data?.enabled === true
                                                   ? "badge badge-success"
                                                   : "badge badge-danger"
                                               }
                                             >
-                                              {data.enabled === true
+                                              {data?.enabled === true
                                                 ? "Active"
                                                 : "Non-Active"}
                                             </span>
                                           </td>
                                           <td>
                                             <div className="can-toggle">
-                                              <input id={generateUniqueId(index)} type="checkbox" checked={data.enabled}></input>
+                                              <input id={generateUniqueId(index)} type="checkbox" checked={data?.enabled}></input>
                                               <label
                                                 htmlFor={generateUniqueId(index)}
                                               >
@@ -353,14 +355,14 @@ const SupplierProductList = () => {
                                       ))}
                                   </tbody>
                                 </table>
-                                {copySupplierBrandList?.length > 5 &&
+                                {SupplierBrandList[0].totalCount > 5 &&
                                   <div className="pagination-container">
                                     <ReactPaginate
                                       previousLabel={"<"}
                                       nextLabel={" >"}
                                       breakLabel={"..."}
                                       pageCount={Math.ceil(
-                                        SupplierBrandList.length / rowsPerPage
+                                        SupplierBrandList[0].totalCount / rowsPerPage
                                       )}
                                       marginPagesDisplayed={2}
                                       onPageChange={handlePageChange}
