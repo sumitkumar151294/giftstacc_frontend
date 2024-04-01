@@ -32,7 +32,9 @@ const OfferMasterList = () => {
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
-  const getRoleAccess = useSelector((state) => state.moduleReducer.filteredData);
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -48,7 +50,6 @@ const OfferMasterList = () => {
 
   const OfferMasterState = useSelector((state) => state.offerMasterReducer);
   const getListData = OfferMasterState?.isLoading;
-  console.log(getListData)
   useEffect(() => {
     dispatch(onGetOfferMaster());
     // setIsLoading(true);
@@ -133,7 +134,9 @@ const OfferMasterList = () => {
                                     <th>{link_level}</th>
                                     <th>{imagePlacement}</th>
                                     <th>{status}</th>
-                                    {getRoleAccess[0]?.editAccess && <th>{action}</th>}
+                                    {getRoleAccess[0]?.editAccess && (
+                                      <th>{action}</th>
+                                    )}
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -142,10 +145,10 @@ const OfferMasterList = () => {
                                     .map((data) => (
                                       <tr key={data.id}>
                                         <td>
-                                          {/* <img
-                                          src={offerImage}
-                                          style={{ width: "50px" }}
-                                        /> */}
+                                          <img
+                                            src={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
+                                            style={{ width: "50px" }}
+                                          />
                                         </td>
                                         <td>{data.title}</td>
                                         <td>{data.subtitle}</td>
@@ -153,10 +156,15 @@ const OfferMasterList = () => {
                                         <td>{data.imagePlacement}</td>
                                         <td>
                                           <span
-                                            className={`badge ${data.enabled ? "badge-success" : "badge-danger"
-                                              }`}
+                                            className={`badge ${
+                                              data.enabled
+                                                ? "badge-success"
+                                                : "badge-danger"
+                                            }`}
                                           >
-                                            {data.enabled ? "Active" : "Non-Active"}
+                                            {data.enabled
+                                              ? "Active"
+                                              : "Non-Active"}
                                           </span>
                                         </td>
                                         {getRoleAccess[0]?.editAccess && (
@@ -169,7 +177,9 @@ const OfferMasterList = () => {
                                               />
                                               <Button
                                                 className="btn btn-danger shadow btn-xs sharp"
-                                                onClick={() => handleDelete(data)}
+                                                onClick={() =>
+                                                  handleDelete(data)
+                                                }
                                                 icon={"fa fa-trash"}
                                               />
                                             </div>
@@ -186,14 +196,17 @@ const OfferMasterList = () => {
                                     nextLabel={" >"}
                                     breakLabel={"..."}
                                     pageCount={Math.ceil(
-                                      offerMasterData?.getData?.length / rowsPerPage
+                                      offerMasterData?.getData?.length /
+                                        rowsPerPage
                                     )}
                                     marginPagesDisplayed={2}
                                     onPageChange={handlePageChange}
                                     containerClassName={"pagination"}
                                     activeClassName={"active"}
                                     initialPage={page - 1}
-                                    previousClassName={page === 1 ? "disabled" : ""}
+                                    previousClassName={
+                                      page === 1 ? "disabled" : ""
+                                    }
                                   />
                                 </div>
                               )}

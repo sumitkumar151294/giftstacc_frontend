@@ -12,6 +12,7 @@ import {
   onUpdateOfferMaster,
   onUpdateOfferMasterReset,
   onUploadImage,
+  onUploadImageReset,
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
@@ -46,8 +47,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     link: "",
     imagePlacement: "",
     image: "",
-    linkText: "",
     enabled: "",
+    linkText: "",
   };
 
   // To get the label from translation API
@@ -69,6 +70,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const submit = GetTranslationData("UIClient", "submitLabel");
   const update = GetTranslationData("UIAdmin", "update_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const [getImage, setGetImage] = useState(false);
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
   const [getImagePath, setGetImagePath] = useState("");
@@ -92,6 +94,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         const formData = new FormData();
         formData.append("file", file);
         setGetImagePath(formData);
+        setGetImage(true);
+
         setAddData({
           ...addData,
           [fieldName]: e.target.value,
@@ -149,7 +153,28 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
-    for (const key in addData) {
+    const requiredFields = data
+      ? [
+          "placement",
+          "title",
+          "subtitle",
+          "link",
+          "imagePlacement",
+          "enabled",
+          "linkText",
+        ]
+      : [
+          "placement",
+          "title",
+          "subtitle",
+          "link",
+          "imagePlacement",
+          "image",
+          "enabled",
+          "linkText",
+        ];
+
+    for (const key of requiredFields) {
       if (addData[key] === "" || addData[key] === undefined) {
         newErrors[key] = field_Required;
         isValid = false;
@@ -162,14 +187,24 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     }
     setErrors(newErrors);
     if (isValid) {
-      setShowLoader(true);
-      dispatch(onUploadImage(getImagePath));
+      if (data?.image && !getImage) {
+            const tempData = {
+          ...addData,
+          id: data?.id,
+          image: data?.image,
+        };
+        dispatch(onUpdateOfferMaster(tempData));
+      } else if (getImage) {
+        setShowLoader(true);
+        dispatch(onUploadImage(getImagePath));
+      }
     }
   };
   useEffect(() => {
-    if (offerMasterData?.status_code === "201") {
-      if (!data) {
+    if (offerMasterData?.status_code_Image === "201") {
+        if (!data) {
         try {
+          dispatch(onUploadImageReset());
           dispatch(
             onPostOfferMasterSubmit({
               ...addData,
@@ -192,7 +227,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         }
       }
     }
-  }, [offerMasterData, data]);
+  }, [offerMasterData?.status_code_Image, data]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -204,11 +239,11 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       link: data?.link || "",
       imagePlacement: data?.imagePlacement || "",
       linkText: data?.linkText || "",
-      // image: data?.image || "",
       enabled: data?.enabled !== undefined ? data?.enabled : "",
     });
     setErrors({
       StatusCode: "",
+      image: "",
       ErrorName: "",
       ErrorDesription: "",
       url: "",
@@ -228,7 +263,14 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     }
   }, [offerMasterData]);
   useEffect(() => {
-    if (offerMasterData.update_status_code === "201") {
+    if (offerMasterData.postStatus_code === "201") {
+        setShowLoader(false);
+      toast.success(offerMasterData?.message);
+      setAddData(resetAddData);
+      dispatch(onPostOfferMasterReset());
+      setPrefilledValues("");
+      dispatch(onGetOfferMaster());
+    } else if (offerMasterData.update_status_code === "201") {
       setShowLoader(false);
       toast.success(offerMasterData?.updateMessage);
       setAddData(resetAddData);
@@ -239,13 +281,13 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   }, [offerMasterData]);
 
   useEffect(() => {
-    if (offerMasterData.status_code === "400") {
-      setShowLoader(false);
+    if (offerMasterData?.postStatus_code === "400") {
+        setShowLoader(false);
       toast.error(offerMasterData.message);
       dispatch(onPostOfferMasterReset());
       setAddData(resetAddData);
     } else if (offerMasterData.update_status_code === "400") {
-      setShowLoader(false);
+        setShowLoader(false);
       toast.error(offerMasterData.updateMessage);
       dispatch(onUpdateOfferMasterReset());
       setAddData(resetAddData);
@@ -385,11 +427,13 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                                 type="file"
                                 accept="image/jpg,image/png"
                                 value={addData.image}
-                                className={` ${
-                                  errors.image
-                                    ? "border-danger"
-                                    : "form-file-input form-control"
-                                }`}
+                                className={
+                                  !data
+                                    ? errors.image
+                                      ? "border-danger"
+                                      : "form-file-input form-control"
+                                    : ""
+                                }
                                 onChange={(e) => handleInputChange(e, "image")}
                               />
                             </div>

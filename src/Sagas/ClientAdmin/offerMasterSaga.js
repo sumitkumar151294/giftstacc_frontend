@@ -29,7 +29,7 @@ function* PostOfferMaster({ payload }) {
         onPostOfferMasterSuccess({
           postData: postOfferMasterResponse.response,
           message: postOfferMasterResponse.errorMessage,
-          status_code: postOfferMasterResponse.httpStatusCode,
+          postStatus_code: postOfferMasterResponse.httpStatusCode,
         })
       );
     } else {
@@ -37,7 +37,7 @@ function* PostOfferMaster({ payload }) {
         onPostOfferMasterError({
           postData: postOfferMasterResponse.response,
           message: postOfferMasterResponse.errorMessage,
-          status_code: postOfferMasterResponse.httpStatusCode,
+          postStatus_code: postOfferMasterResponse.httpStatusCode,
         })
       );
     }
@@ -46,7 +46,7 @@ function* PostOfferMaster({ payload }) {
       onPostOfferMasterError({
         postData: {},
         message: error?.response?.data?.ErrorMessage,
-        status_code: error?.response?.data?.HttpStatusCode,
+        postStatus_code: error?.response?.data?.HttpStatusCode,
       })
     );
   }
@@ -121,11 +121,11 @@ function* OnImageUpload({ payload }) {
   try {
     const ImageUpload = yield call(onUploadImageApi, payload);
     if (ImageUpload.httpStatusCode === "201") {
-          yield put(
+      yield put(
         onUploadImageSuccess({
           data: ImageUpload.response,
           message: ImageUpload.errorMessage,
-          status_code: ImageUpload.httpStatusCode,
+          status_code_Image: ImageUpload.httpStatusCode,
         })
       );
     } else {
@@ -133,7 +133,7 @@ function* OnImageUpload({ payload }) {
         onUploadImageError({
           data: ImageUpload.response,
           message: ImageUpload.errorMessage,
-          status_code: ImageUpload.httpStatusCode,
+          status_code_Image: ImageUpload.httpStatusCode,
         })
       );
     }

@@ -12,6 +12,8 @@ import { ToastContainer, toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { useLocation } from "react-router-dom";
+import { onGetAllClientProductMapping } from "../../../Store/Slices/clientProductMappingSlice";
+import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 
 const AllocateBrand = () => {
   const dispatch = useDispatch();
@@ -42,6 +44,7 @@ const AllocateBrand = () => {
   );
 
   useEffect(() => {
+    dispatch(onGetSupplierBrandList());
     dispatch(onAllocateBrandById(location?.state?.data?.id));
     dispatch(onGetAllocateBrand());
   }, []);

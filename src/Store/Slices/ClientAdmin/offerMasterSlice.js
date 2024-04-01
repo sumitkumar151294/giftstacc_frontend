@@ -11,25 +11,25 @@ export const offerMasterSlice = createSlice({
         ...state,
         postdata: {},
         message: "",
-        status_code: null,
+        postStatus_code: null,
       };
     },
     onPostOfferMasterSuccess: (state, { payload }) => {
-      const { postData = {}, message = "", status_code = 200 } = payload;
+      const { postData = {}, message = "", postStatus_code = 200 } = payload;
       return {
         ...state,
         postdata: postData,
         message,
-        status_code,
+        postStatus_code,
       };
     },
     onPostOfferMasterError: (state, { payload }) => {
-      const { postData = {}, message = "", status_code = 400 } = payload;
+      const { postData = {}, message = "", postStatus_code = 400 } = payload;
       return {
         ...state,
         postdata: postData,
         message,
-        status_code,
+        postStatus_code,
       };
     },
     onPostOfferMasterReset: (state) => {
@@ -37,7 +37,7 @@ export const offerMasterSlice = createSlice({
         ...state,
         postData: {},
         message: "",
-        status_code: null,
+        postStatus_code: null,
       };
     },
 
@@ -114,27 +114,35 @@ export const offerMasterSlice = createSlice({
         ...state,
         imageUpload: {},
         message: "",
-        status_code: null,
+        status_code_Image: null,
       };
     },
 
     onUploadImageSuccess: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 200 } = payload;
+      const { data = {}, message = "", status_code_Image = 200 } = payload;
       return {
         ...state,
         imageUpload: data,
         message,
-        status_code,
+        status_code_Image,
       };
     },
 
     onUploadImageError: (state, { payload }) => {
-      const { data = {}, message = "", status_code = 400 } = payload;
+      const { data = {}, message = "", status_code_Image = 400 } = payload;
       return {
         ...state,
         imageUpload: data,
         message,
-        status_code,
+        status_code_Image,
+      };
+    },
+    onUploadImageReset: (state) => {
+      return {
+        ...state,
+        imageUpload: {},
+        message: "",
+        status_code_Image: null,
       };
     },
   },
@@ -154,6 +162,7 @@ export const {
   onUpdateOfferMasterReset,
   onUploadImageError,
   onUploadImageSuccess,
+  onUploadImageReset,
   onUploadImage,
 } = offerMasterSlice.actions;
 
