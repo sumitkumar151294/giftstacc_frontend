@@ -312,6 +312,17 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         newErrors[field] = " "; // Set your required field message
         isValid = false;
       }
+      else if (clientData[field]==="platformDomainUrl"){
+        if(clientData[field].length > 250) {
+          newErrors[field] = "Length must be 250 or fewer";
+          isValid = false;
+        }
+      }else {
+        if (clientData[field].length > 100) {
+          newErrors[field] = "Length must be 100 or fewer";
+          isValid = false;
+        }  
+      }
     });
 
     // Email validation
@@ -331,8 +342,44 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 
     // Validate additionalFields
     additionalFields.forEach((field, index) => {
-      if (!field.resourceKey || !field.resourceValue || !field.mode) {
-        newErrors[`additionalField-${index}`] = "All fields are required";
+      if (field.resourceKey==="") {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].resourceKey = "All fields are required";
+          return newAdditionalFieldsError;
+        });
+        isValid = false;
+      }
+      else if (field.resourceKey.length>250) {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].resourceKey = "Length must be 250 or fewer";
+          return newAdditionalFieldsError;
+        });
+        isValid = false;
+      }
+      if (field.resourceValue==="") {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].resourceValue = "All fields are required";
+          return newAdditionalFieldsError;
+        });
+        isValid = false;
+      }
+      else if (field.resourceValue.length>250) {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].resourceValue = "Length must be 250 or fewer";
+          return newAdditionalFieldsError;
+        });
+        isValid = false;
+      }
+      if (field.mode==="") {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].mode = "All fields are required";
+          return newAdditionalFieldsError;
+        });
         isValid = false;
       }
     });
@@ -458,6 +505,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           value={clientData.name}
                           onChange={(e) => handleChange(e, "name")}
                         />
+                        <p className="text-danger">{errors.name}</p>
                       </div>
                       <div className="col-sm-6 form-group ">
                         <label htmlFor="contact-number">
@@ -476,7 +524,6 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           maxLength={10}
                           onChange={(e) => handleChange(e, "number")}
                         />
-                        {<p className="text-danger">{errors.number}</p>}
                       </div>
                       <div className="col-sm-6 form-group ">
                         <label htmlFor="contact-email">
@@ -514,11 +561,9 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           error={errors.platformDomainUrl}
                           onChange={(e) => handleChange(e, "platformDomainUrl")}
                         />
-                        {
                           <p className="text-danger">
                             {errors.platformDomainUrl}
                           </p>
-                        }
                       </div>
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="status">
@@ -565,6 +610,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           value={clientData.logoUrl}
                           onChange={(e) => handleChange(e, "logoUrl")}
                         />
+                        <p className="text-danger">{errors.logoUrl}</p>
                       </div>
                       <div className="col-sm-3 form-group mb-2">
                         <label htmlFor="status">
@@ -601,6 +647,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_ipAddress}
                             onChange={(e) => handleChange(e, "dbIpAddress")}
                           />
+                          <p className="text-danger">{errors.dbIpAddress}</p>
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">
@@ -621,6 +668,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_userId}
                             onChange={(e) => handleChange(e, "dbLoginId")}
                           />
+                          <p className="text-danger">{errors.dbIpAddress}</p>
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">
@@ -641,6 +689,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_userPassword}
                             onChange={(e) => handleChange(e, "dbLoginPwd")}
                           />
+                         <p className="text-danger">{errors.dbLoginPwd}</p>
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">
@@ -661,6 +710,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_name}
                             onChange={(e) => handleChange(e, "dbName")}
                           />
+                          <p className="text-danger">{errors.dbName}</p>
                         </div>
                       </div>
 
@@ -699,6 +749,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                         );
                                       }}
                                     />
+                                    <p className="text-danger">{additionalFieldsError[index].resourceKey}</p>
                                   </div>
                                 </div>
                               </div>
@@ -732,6 +783,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                         );
                                       }}
                                     />
+                                    <p className="text-danger">{additionalFieldsError[index].resourceValue}</p>
                                   </div>
                                 </div>
                               </div>

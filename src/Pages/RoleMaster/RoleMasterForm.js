@@ -163,12 +163,15 @@ const handleInputChange = (e) => {
     e.preventDefault();
     const newErrors = { ...errors };
     setErrors(newErrors);
-
     if (formData.name.trim() === "") {
       newErrors.name = mandatory_Req_Label;
       setErrors(newErrors);
       return;
-    } else {
+    } else if (formData.name.length > 250) {
+      newErrors.name = "Length must be 250 or fewer";
+      setErrors(newErrors);
+      return;
+    }else {
       newErrors.name = "";
     }
 
@@ -204,7 +207,7 @@ const handleInputChange = (e) => {
   };
 
   useEffect(()=>{
-if(getRoleDataId?.postRoleData?.length>0 && !getRoleDataId?.postLoading){
+  if(getRoleDataId?.postRoleData?.length>0 && !getRoleDataId?.postLoading){
   const accessPostData = formData?.modules?.map((md) => {
     return {
       roleId: getRoleDataId?.postRoleData?.[0]?.roleId,
@@ -323,6 +326,7 @@ useEffect(()=>{
                             error={errors.description}
                             onChange={handleInputChange}
                           />
+                          <p className="text-danger">{errors.description}</p>
                         </div>
                         <div className="col-sm-4">
                           <div className="form-check mt-4 padd">
