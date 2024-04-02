@@ -3,7 +3,7 @@ const API = {
   loginAuth: "/generate-auth-token",
   loginApi: "/login",
   // client login
-  clientLogin: '/login',
+  clientLogin: "/login",
   //translation
   translationApi: "/translation-content-get-by-clientid",
   //module-master
@@ -20,6 +20,10 @@ const API = {
   supplier_resource: "/supplier-api-resource",
   //supplier-brand-list
   supplier_brandList: "/product/all",
+
+  //product
+  product_By_Id: "/productsById",
+
   //client
   client_master: "/client-master",
   //Client-payment-details
@@ -32,9 +36,9 @@ const API = {
   //faq-Master
   faq_master: "/faq-master",
   //faq-category api
-  faq_category: '/faq-category',
+  faq_category: "/faq-category",
   // add-special api
-  add_special: 'add-special',
+  add_special: "add-special",
   //banner-master
   banner_master: "/banner-master",
   //CMS
@@ -42,16 +46,13 @@ const API = {
   //offer-master
   offer_master: "/offer-master",
   //client-product-mapping
-  client_product_mapping:"/client-product-mapping-by-client-Id",
-  client_product_map:"/client-product-mapping",
+  client_product_mapping: "/client-product-mapping-by-client-Id",
+  client_product_map: "/client-product-mapping",
   //allocate brand
-  allocate_Brand:"/allocate-brands",
-  allocate_Brand_Id:"/allocate-brands-by-addSpecial-id",
+  allocate_Brand: "/allocate-brands",
+  allocate_Brand_Id: "/allocate-brands-by-addSpecial-id",
 
   //upload
-  upload_Img :"/upload",
-
-  
-
+  upload_Img: "/upload",
 };
 export default API;

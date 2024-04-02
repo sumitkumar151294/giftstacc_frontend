@@ -188,7 +188,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     setErrors(newErrors);
     if (isValid) {
       if (data?.image && !getImage) {
-            const tempData = {
+        const tempData = {
           ...addData,
           id: data?.id,
           image: data?.image,
@@ -202,7 +202,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   };
   useEffect(() => {
     if (offerMasterData?.status_code_Image === "201") {
-        if (!data) {
+      if (!data) {
         try {
           dispatch(onUploadImageReset());
           dispatch(
@@ -264,7 +264,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   }, [offerMasterData]);
   useEffect(() => {
     if (offerMasterData.postStatus_code === "201") {
-        setShowLoader(false);
+      setShowLoader(false);
       toast.success(offerMasterData?.message);
       setAddData(resetAddData);
       dispatch(onPostOfferMasterReset());
@@ -282,12 +282,12 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
 
   useEffect(() => {
     if (offerMasterData?.postStatus_code === "400") {
-        setShowLoader(false);
+      setShowLoader(false);
       toast.error(offerMasterData.message);
       dispatch(onPostOfferMasterReset());
       setAddData(resetAddData);
     } else if (offerMasterData.update_status_code === "400") {
-        setShowLoader(false);
+      setShowLoader(false);
       toast.error(offerMasterData.updateMessage);
       dispatch(onUpdateOfferMasterReset());
       setAddData(resetAddData);
@@ -419,7 +419,10 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="image">
                             {upload_image}
-                            <span className="text-danger">*</span>
+                            <span className="text-danger">
+                              {" "}
+                              {!data ? "*" : ""}
+                            </span>
                           </label>
                           <div className="input-group">
                             <div className="form-file">

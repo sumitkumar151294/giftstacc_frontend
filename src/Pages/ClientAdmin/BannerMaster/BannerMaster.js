@@ -137,6 +137,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   }, []);
   // Add more states for other form fields as necessary
   const handleChange = (e, fieldName) => {
+    let value = e.target.value;
     if (fieldName === "image") {
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
@@ -144,17 +145,14 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
         formData.append("file", file);
         setGetImagePath(formData);
         setGetImage(true);
-        setBannerMaster({
-          ...bannerMaster,
-          [fieldName]: e.target.value,
-        });
       }
+    }else if(fieldName === "enabled"){
+      value = e.target.value === "true" ? true:false;
     }
-
     // Update the bannerMaster state with the new value
     setBannerMaster({
       ...bannerMaster,
-      [fieldName]: e.target.value,
+      [fieldName]: value,
     });
 
     // Remove the error message for the field being edited
@@ -192,11 +190,11 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
             clientId: "strisng",
             image: prefilledData?.image,
             displayOrder: parseInt(bannerMaster.displayOrder),
-            enabled: bannerMaster.enabled === "true" ? true : false,
+            enabled: bannerMaster.enabled ,
           })
         );
-      } else if (getImage) {
-        dispatch(onUploadImage(getImagePath));
+      } else if (getImage ) {
+            dispatch(onUploadImage(getImagePath));
       }
     }
   };
@@ -205,29 +203,29 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
       dispatch(onUploadImageReset());
 
       if (!prefilledData) {
-          dispatch(
+            dispatch(
           onbannerMasterSubmit({
             ...bannerMaster,
-            enabled: bannerMaster.enabled === "true" ? true : false,
+            enabled: bannerMaster.enabled ,
             image: offerMasterData?.imageUpload,
             displayOrder: parseInt(bannerMaster.displayOrder),
             // Convert status to boolean based on selection
           })
         );
       } else {
-          dispatch(
+        dispatch(
           onUpdateBannerMaster({
             ...bannerMaster,
             id: prefilledData?.id,
             clientId: "strisng",
             image: offerMasterData?.imageUpload || "",
             displayOrder: parseInt(bannerMaster.displayOrder),
-            enabled: bannerMaster.enabled === "true" ? true : false,
+            enabled: bannerMaster.enabled ,
           })
         );
       }
     }
-  }, [prefilledData, offerMasterData]);
+  }, [prefilledData,offerMasterData]);
 
   return (
     <>
@@ -326,7 +324,10 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                       <div className="col-sm-4 form-group mb-2">
                         <label htmlFor="image">
                           {upload_image}
-                          <span className="text-danger">*</span>
+                          <span className="text-danger">
+                            {" "}
+                            {!prefilledData ? "*" : ""}
+                          </span>
                         </label>
                         <div className="input-group">
                           <div className="form-file">

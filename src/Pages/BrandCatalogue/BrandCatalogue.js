@@ -11,9 +11,13 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
-import { onClientProductMappingSubmit, onGetAllClientProductMapping } from "../../Store/Slices/clientProductMappingSlice";
+import {
+  onClientProductMappingSubmit,
+  onGetAllClientProductMapping,
+} from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
+import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
 
 const BrandCatalogue = () => {
   const navigate = useNavigate();
@@ -42,8 +46,11 @@ const BrandCatalogue = () => {
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data
   );
+  const productByIdData = useSelector(
+    (state) => state.productReducer?.productById
+  );
   const clientProductMapping = useSelector(
-    (state) => state.clientProductMappingReducer?.clientData
+    (state) => state.clientProductMappingReducer
   );
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
@@ -51,8 +58,8 @@ const BrandCatalogue = () => {
   const LoginId = useSelector((state) => state?.loginReducer);
   useEffect(() => {
     const matchingProductsData =
-      Array.isArray(clientProductMapping) &&
-      clientProductMapping
+      Array.isArray(clientProductMapping?.clientData) &&
+      clientProductMapping?.clientData
         .map((clientProduct) => {
           const matchingProduct =
             Array.isArray(SupplierBrandList) &&
@@ -69,8 +76,10 @@ const BrandCatalogue = () => {
 
     setGetProduct(matchingProductsData);
     setCopyBrandCatalogue(matchingProductsData);
-  }, [clientProductMapping, SupplierBrandList]);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData); 
+  }, [clientProductMapping?.clientData, SupplierBrandList]);
+  const clientList = useSelector(
+    (state) => state?.clientMasterReducer?.clientData
+  );
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
@@ -100,9 +109,9 @@ const BrandCatalogue = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
-  
-  const filteredBrandCatalogueList = Array.isArray(copyBrandCatalogue)
-    ? copyBrandCatalogue.filter((vendor) =>
+
+  const filteredBrandCatalogueList = Array.isArray(productByIdData)
+    ? productByIdData.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
@@ -111,49 +120,58 @@ const BrandCatalogue = () => {
         )
       )
     : [];
-    const handleChange = (e, name) => {
-      const selectedSupplierName = e.target.value;
-      if(selectedSupplierName==="Select" && name==="client"){
-        dispatch(onGetAllClientProductMapping())
-      }
-      else if (selectedSupplierName === "Select" && name==="supplier") {
-        setCopyBrandCatalogue(getProduct);
-      } else if(name === "supplier") {
-        const selectedSupplier = supplierMasterData.find(
-          (supplier) => supplier.name === selectedSupplierName
+  const handleChange = (e, name) => {
+    const selectedSupplierName = e.target.value;
+    if (selectedSupplierName === "Select" && name === "client") {
+      dispatch(onGetAllClientProductMapping());
+    } else if (selectedSupplierName === "Select" && name === "supplier") {
+      setCopyBrandCatalogue(getProduct);
+    } else if (name === "supplier") {
+      const selectedSupplier = supplierMasterData.find(
+        (supplier) => supplier.name === selectedSupplierName
+      );
+      if (selectedSupplier) {
+        const filteredProducts = getProduct.filter(
+          (product) =>
+            product.supplierCode.toLowerCase() ===
+            selectedSupplier.code.toLowerCase()
         );
-        if (selectedSupplier) {
-          const filteredProducts = getProduct.filter(
-            (product) =>
-              product.supplierCode.toLowerCase() ===
-              selectedSupplier.code.toLowerCase()
-          );
-          setCopyBrandCatalogue(filteredProducts);
-        }
-
-      }else if(name==="client"){
-        dispatch(onClientProductMappingSubmit(e.target.selectedOptions.item("").getAttribute("name")));
+        setCopyBrandCatalogue(filteredProducts);
       }
-      setSupplierList((prevState) => ({
-        ...prevState,
-        [name]: selectedSupplierName,
-      }));
-    };
-
+    } else if (name === "client") {
+      // dispatch(onClientProductMappingSubmit(e.target.selectedOptions.item("").getAttribute("name")));
+    }
+    setSupplierList((prevState) => ({
+      ...prevState,
+      [name]: selectedSupplierName,
+    }));
+  };
 
   useEffect(() => {
     setShowLoader(false);
   }, [showLoader]);
   useEffect(() => {
-    dispatch(onGetSupplierBrandList());
-    dispatch(onGetSupplierList());
-    dispatch(onGetAllClientProductMapping())
-    dispatch(onClientMasterSubmit())
+    const clientCode = sessionStorage.getItem("clientCode");
+    dispatch(onClientProductMappingSubmit(clientCode));
+    dispatch(onClientMasterSubmit());
   }, []);
 
+  useEffect(() => {
+    if (clientProductMapping?.status_code === "200") {
+        const productId =
+        Array.isArray(clientProductMapping?.clientDataById) &&
+        clientProductMapping?.clientDataById.map((item) => {
+          return item?.productId;
+        });
+      dispatch(onProductByIdSubmit(productId));
+    }
+  }, [clientProductMapping]);
   const handleClick = (data) => {
-    {LoginId.isAdminLogin ? navigate("/lc-admin/brand-detail", { state: data }) : navigate("/lc-user-admin/brand-detail", { state: data })}
-
+    {
+      LoginId.isAdminLogin
+        ? navigate("/lc-admin/brand-detail", { state: data })
+        : navigate("/lc-user-admin/brand-detail", { state: data });
+    }
   };
   return (
     <>
@@ -187,7 +205,7 @@ const BrandCatalogue = () => {
                       headers={headers}
                       filename={"BrandCatalogue.csv"}
                     >
-                      {filteredBrandCatalogueList.length >=+ 0 && (
+                      {filteredBrandCatalogueList.length >= +0 && (
                         <Button
                           className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
                           icons={"fa fa-file-excel me-2"}
@@ -218,25 +236,25 @@ const BrandCatalogue = () => {
                     />
                   </div>
 
-                  {LoginId.isAdminLogin && <div className="col-sm-3 form-group mb-2">
-
-                    <label htmlFor="client">{client}</label>
-                    <Dropdown
-                      onChange={(e) => handleChange(e, "client")}
-                      value={supplierList?.client || ""}
-                      className="form-select"
-                      options={
-                        Array.isArray(clientList)
-                          ? clientList?.map((item) => ({
-                              label: item.name,
-                              value: item.name,
-                              data: item.id
-                            }))
-                          : []
-                      }
-                    />
-
-                  </div>}
+                  {LoginId.isAdminLogin && (
+                    <div className="col-sm-3 form-group mb-2">
+                      <label htmlFor="client">{client}</label>
+                      <Dropdown
+                        onChange={(e) => handleChange(e, "client")}
+                        value={supplierList?.client || ""}
+                        className="form-select"
+                        options={
+                          Array.isArray(clientList)
+                            ? clientList?.map((item) => ({
+                                label: item.name,
+                                value: item.name,
+                                data: item.id,
+                              }))
+                            : []
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="card-body">
@@ -263,37 +281,37 @@ const BrandCatalogue = () => {
                             </thead>
                             <tbody>
                               {filteredBrandCatalogueList.length > 0 ? (
-                                  Array.isArray(filteredBrandCatalogueList) &&
-                              filteredBrandCatalogueList
-                                .slice(startIndex, endIndex)
-                                .map((data, index) => (
-                                  <tr key={index}>
-                                    <td>
-                                      <img
-                                        src={data.small}
-                                        style={{ width: "50px" }}
-                                      />
-                                      <br />
-                                    </td>
-                                    <td>{data.sku}</td>
-                                    <td>{data.name}</td>
-                                    <td>{data.minPrice}</td>
-                                    <td>{data.maxPrice}</td>
-                                    <td>{data.price}</td>
-                                    <td>
-                                      {" "}
-                                      <Button
-                                        onClick={() => handleClick(data)}
-                                        className="btn btn-primary btn-sm bt-link float-right"
-                                        icons={"fa fa-info"}
-                                        text={BrandDetail}
-                                      />
-                                    </td>
-                                  </tr>
-                                ))
-                                ) : (
-                                  <NoRecord />
-                                )}
+                                Array.isArray(filteredBrandCatalogueList) &&
+                                filteredBrandCatalogueList
+                                  .slice(startIndex, endIndex)
+                                  .map((data, index) => (
+                                    <tr key={index}>
+                                      <td>
+                                        <img
+                                          src={data.small}
+                                          style={{ width: "50px" }}
+                                        />
+                                        <br />
+                                      </td>
+                                      <td>{data.sku}</td>
+                                      <td>{data.name}</td>
+                                      <td>{data.minPrice}</td>
+                                      <td>{data.maxPrice}</td>
+                                      <td>{data.price}</td>
+                                      <td>
+                                        {" "}
+                                        <Button
+                                          onClick={() => handleClick(data)}
+                                          className="btn btn-primary btn-sm bt-link float-right"
+                                          icons={"fa fa-info"}
+                                          text={BrandDetail}
+                                        />
+                                      </td>
+                                    </tr>
+                                  ))
+                              ) : (
+                                <NoRecord />
+                              )}
                             </tbody>
                           </table>
                           {filteredBrandCatalogueList.length > 5 && (

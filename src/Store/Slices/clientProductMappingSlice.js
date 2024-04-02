@@ -26,7 +26,7 @@ export const clientProductMappingSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        clientData:data,
+        clientData: data,
         error: {},
         message,
         status_code,
@@ -47,7 +47,7 @@ export const clientProductMappingSlice = createSlice({
       return {
         ...state,
         isLoading: true,
-        clientData: [],
+        clientDataById: [],
         message: "",
         error: {},
         isError: false,
@@ -59,7 +59,7 @@ export const clientProductMappingSlice = createSlice({
         ...state,
         isLoading: false,
         isError: false,
-        clientData:data,
+        clientDataById: data,
         error: {},
         message,
         status_code,
@@ -71,7 +71,7 @@ export const clientProductMappingSlice = createSlice({
         ...state,
         isLoading: false,
         isError: true,
-        clientData: data,
+        clientDataById: data,
         message,
         status_code,
       };
@@ -80,7 +80,7 @@ export const clientProductMappingSlice = createSlice({
       return {
         ...state,
         isLoading: false,
-        clientData: [],
+        clientDataById: [],
         message: "",
         error: {},
         status_code: null,
@@ -88,11 +88,11 @@ export const clientProductMappingSlice = createSlice({
       };
     },
     onPostClientProductMappingSubmit: (state) => {
-            return {
+      return {
         ...state,
         postClientLoading: true,
         postClientData: {},
-        post_status_code:null,
+        post_status_code: null,
         message: "",
         error: {},
         isError: false,
@@ -104,10 +104,10 @@ export const clientProductMappingSlice = createSlice({
         ...state,
         postClientLoading: false,
         isError: false,
-        postClientData:postData,
+        postClientData: postData,
         error: {},
-        message:message,
-        post_status_code:status_code,
+        message: message,
+        post_status_code: status_code,
       };
     },
     onPostClientProductMappingSubmitError: (state, { payload }) => {
@@ -117,8 +117,8 @@ export const clientProductMappingSlice = createSlice({
         postClientLoading: false,
         isError: true,
         postClientData: postData,
-        message:message,
-        post_status_code:status_code,
+        message: message,
+        post_status_code: status_code,
       };
     },
     onPostClientProductMappingReset: (state) => {
@@ -140,7 +140,7 @@ export const clientProductMappingSlice = createSlice({
         updateMessage: "",
         error: {},
         isError: false,
-        update_status_code:null
+        update_status_code: null,
       };
     },
     onUpdateClientProductMappingSubmitSuccess: (state, { payload }) => {
@@ -149,10 +149,10 @@ export const clientProductMappingSlice = createSlice({
         ...state,
         updateLoading: false,
         isError: false,
-        updateClientData:updateData,
+        updateClientData: updateData,
         error: {},
-        updateMessage:message,
-        update_status_code:status_code,
+        updateMessage: message,
+        update_status_code: status_code,
       };
     },
     onUpdateClientProductMappingSubmitError: (state, { payload }) => {
@@ -162,8 +162,8 @@ export const clientProductMappingSlice = createSlice({
         updateLoading: false,
         isError: true,
         updateClientData: updateData,
-        updateMessage:message,
-        update_status_code:status_code,
+        updateMessage: message,
+        update_status_code: status_code,
       };
     },
     onUpdateClientProductMappingReset: (state) => {
@@ -177,7 +177,6 @@ export const clientProductMappingSlice = createSlice({
         isError: false,
       };
     },
-
   },
 });
 

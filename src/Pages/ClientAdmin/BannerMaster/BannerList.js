@@ -48,6 +48,7 @@ const BannerMasterList = () => {
       bannerSubtitle: data.bannerSubtitle,
       bannerLink: data.bannerLink,
       displayOrder: data.displayOrder,
+      buttonText: data.buttonText,  
       image: data.image,
       id: data?.id,
       enabled: false,
