@@ -43,11 +43,12 @@ const SupplierProductList = () => {
   const action = GetTranslationData("UIAdmin", "action_label");
   const update = GetTranslationData("UIAdmin", "update_label");
   const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   useEffect(() => {
     dispatch(onGetSupplierBrandList({pageNumber:page, pageSize:rowsPerPage}));
     dispatch(onGetSupplierList());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     setCopySupplierBrandList(SupplierBrandList)
@@ -64,17 +65,19 @@ const SupplierProductList = () => {
 
   const handlePageChange = ({selected}) => {
     setPage(selected + 1);
-    dispatch(onGetSupplierBrandList({pageNumber:selected + 1, pageSize:rowsPerPage}));
   };
+
+  // for changing the page calling api to fetch the data
+  useEffect(()=>{
+    dispatch(onGetSupplierBrandList({pageNumber:page, pageSize:rowsPerPage}));
+  },[page])
+
+
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
 
-  const [page, setPage] = useState(1);
-  const startIndex = (page - 1) * rowsPerPage;
-
-  const endIndex = startIndex + rowsPerPage;
   const headers = [
     { label: "Id", key: "id" },
     { label: "Brands", key: "brands" },
@@ -191,7 +194,6 @@ const SupplierProductList = () => {
     supplier_Margin: data.supplierMargin,
     status: data.enabled ?"Active":"Non-active",
   }));
-  console.log(copySupplierBrandList);
 
   return (
     <>
@@ -295,7 +297,6 @@ const SupplierProductList = () => {
                                   </thead>
                                   <tbody>
                                     {SupplierBrandList[0]?.products
-                                      ?.slice(startIndex, endIndex)
                                       ?.map((data, index) => (
                                         <tr key={index}>
                                           <td>{data?.id}</td>
@@ -365,7 +366,7 @@ const SupplierProductList = () => {
                                         SupplierBrandList[0].totalCount / rowsPerPage
                                       )}
                                       marginPagesDisplayed={2}
-                                      onPageChange={handlePageChange}
+                                      onPageChange={(e)=>handlePageChange(e)}
                                       containerClassName={"pagination"}
                                       activeClassName={"active"}
                                       initialPage={page - 1} // Use initialPage instead of forcePage
