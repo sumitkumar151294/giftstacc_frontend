@@ -10,7 +10,6 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import {
   onClientProductMappingSubmit,
   onGetAllClientProductMapping,
@@ -22,7 +21,6 @@ import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
 const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [getProduct, setGetProduct] = useState();
   const [showLoader, setShowLoader] = useState(false);
   const [copyBrandCatalogue, setCopyBrandCatalogue] = useState([]);
   const [page, setPage] = useState(1);
@@ -52,31 +50,8 @@ const BrandCatalogue = () => {
   const clientProductMapping = useSelector(
     (state) => state.clientProductMappingReducer
   );
-  const SupplierBrandList = useSelector(
-    (state) => state.supplierBrandListReducer.data
-  );
   const LoginId = useSelector((state) => state?.loginReducer);
-  useEffect(() => {
-    const matchingProductsData =
-      Array.isArray(clientProductMapping?.clientData) &&
-      clientProductMapping?.clientData
-        .map((clientProduct) => {
-          const matchingProduct =
-            Array.isArray(SupplierBrandList) &&
-            SupplierBrandList.find((supplierProduct) => {
-              return (
-                supplierProduct.id === clientProduct.productId &&
-                supplierProduct.enabled === clientProduct.enabled
-              );
-            });
 
-          return matchingProduct || null;
-        })
-        .filter((product) => product !== null);
-
-    setGetProduct(matchingProductsData);
-    setCopyBrandCatalogue(matchingProductsData);
-  }, [clientProductMapping?.clientData, SupplierBrandList]);
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
   );
@@ -84,8 +59,8 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
-  const excelData = Array.isArray(getProduct)
-    ? getProduct.map((data) => ({
+  const excelData = Array.isArray(productByIdData)
+    ? productByIdData.map((data) => ({
         sku: data.sku,
         name: data.name,
         minPrice: data.minPrice,
@@ -110,8 +85,8 @@ const BrandCatalogue = () => {
     setPage(1);
   };
 
-  const filteredBrandCatalogueList = Array.isArray(productByIdData)
-    ? productByIdData.filter((vendor) =>
+  const filteredBrandCatalogueList = Array.isArray(copyBrandCatalogue)
+    ? copyBrandCatalogue.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
@@ -125,13 +100,13 @@ const BrandCatalogue = () => {
     if (selectedSupplierName === "Select" && name === "client") {
       dispatch(onGetAllClientProductMapping());
     } else if (selectedSupplierName === "Select" && name === "supplier") {
-      setCopyBrandCatalogue(getProduct);
+      setCopyBrandCatalogue(productByIdData);
     } else if (name === "supplier") {
       const selectedSupplier = supplierMasterData.find(
         (supplier) => supplier.name === selectedSupplierName
       );
       if (selectedSupplier) {
-        const filteredProducts = getProduct.filter(
+        const filteredProducts = productByIdData.filter(
           (product) =>
             product.supplierCode.toLowerCase() ===
             selectedSupplier.code.toLowerCase()
@@ -151,6 +126,7 @@ const BrandCatalogue = () => {
     setShowLoader(false);
   }, [showLoader]);
   useEffect(() => {
+    dispatch(onGetSupplierList());
     const clientCode = sessionStorage.getItem("clientCode");
     dispatch(onClientProductMappingSubmit(clientCode));
     dispatch(onClientMasterSubmit());
@@ -158,7 +134,7 @@ const BrandCatalogue = () => {
 
   useEffect(() => {
     if (clientProductMapping?.status_code === "200") {
-        const productId =
+      const productId =
         Array.isArray(clientProductMapping?.clientDataById) &&
         clientProductMapping?.clientDataById.map((item) => {
           return item?.productId;
@@ -173,6 +149,30 @@ const BrandCatalogue = () => {
         : navigate("/lc-user-admin/brand-detail", { state: data });
     }
   };
+  useEffect(() => {
+    let filteredProducts = [];
+
+    if (supplierList.supplier && supplierList.supplier !== "Select") {
+      // If a specific supplier is selected, filter products based on the supplier
+      const selectedSupplier = supplierMasterData.find(
+        (supplier) => supplier.name === supplierList.supplier
+      );
+
+      if (selectedSupplier) {
+        filteredProducts = productByIdData.filter(
+          (product) =>
+            product.supplierCode.toLowerCase() ===
+            selectedSupplier.code.toLowerCase()
+        );
+      }
+    } else {
+      // If no specific supplier is selected, or the "Select" option is chosen,
+      // show all products
+      filteredProducts = productByIdData;
+    }
+
+    setCopyBrandCatalogue(filteredProducts);
+  }, [supplierList.supplier, supplierMasterData, productByIdData]);
   return (
     <>
       <ScrollToTop />
