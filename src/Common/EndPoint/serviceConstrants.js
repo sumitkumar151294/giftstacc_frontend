@@ -19,7 +19,7 @@ const API = {
   //supplierResource
   supplier_resource: "/supplier-api-resource",
   //supplier-brand-list
-  supplier_brandList: "/product/all",
+  supplier_brandList: "/product",
   //client
   client_master: "/client-master",
   //Client-payment-details
