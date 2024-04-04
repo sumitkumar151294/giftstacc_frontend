@@ -45,13 +45,12 @@ const ClientBrandList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
   useEffect(() => {
-    dispatch(onGetSupplierBrandList());
-    dispatch(onGetSupplierList());
+    dispatch(onGetSupplierBrandList({pageNumber:1, pageSize:5}));
     dispatch(onClientProductMappingSubmit(location?.state?.id));
   }, []);
 
   useEffect(() => {
-    const filterData = SupplierBrandList?.filter((item) => {
+    const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
       return item.enabled === true
     })
     setCopySupplierBrandList(filterData)
@@ -106,7 +105,7 @@ const ClientBrandList = () => {
   }, [suppliers]);
 
   const handleChange = (e) => {
-    const filterData = SupplierBrandList?.filter((item) => {
+    const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
       return item.enabled === true
     })
     const selectedSupplierCode = e.target.value;
@@ -205,10 +204,10 @@ const ClientBrandList = () => {
   }
 
   useEffect(() => {
-    const filterData = SupplierBrandList?.filter((item) => {
+    const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
       return item.enabled === true
     })
-    let filteredSupplierList = Array.isArray(filterData) && SupplierBrandList?.filter((vendor) =>
+    let filteredSupplierList = Array.isArray(filterData) && SupplierBrandList?.[0]?.products?.filter((vendor) =>
       vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase()) &&
       (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
     );

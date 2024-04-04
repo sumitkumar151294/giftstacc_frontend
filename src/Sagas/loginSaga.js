@@ -29,7 +29,7 @@ function* Login({ payload }) {
       );
     }
   } catch (error) {
-    const message = error.response.data.ErrorMessage || "Something went wrong";
+    const message = error?.response?.data?.ErrorMessage || "Something went wrong";
     yield put(onLoginSubmitError({ data: {}, message, status_code: 400 }));
   }
 }

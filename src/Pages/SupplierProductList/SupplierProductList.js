@@ -22,8 +22,8 @@ const SupplierProductList = () => {
     (state) => state.supplierBrandListReducer.data
   );
   const getProductListData = useSelector((state)=> state.supplierBrandListReducer?.isLoading);
-  const activeUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => item?.enabled)?.length;
-  const inactiveUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter(item => !item?.enabled)?.length;
+  const activeUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.[0]?.products?.filter(item => item?.enabled)?.length;
+  const inactiveUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.[0]?.products?.filter(item => !item?.enabled)?.length;
   const SupplierBrandListUpdate = useSelector(
     (state) => state.supplierBrandListReducer
   );
@@ -51,14 +51,9 @@ const SupplierProductList = () => {
   }, []);
 
   useEffect(() => {
-    setCopySupplierBrandList(SupplierBrandList)
-  }, [SupplierBrandList])
-
-
-  useEffect(() => {
     if (SupplierBrandListUpdate?.updateStatusCode === "201") {
       toast.success(SupplierBrandListUpdate?.message)
-      dispatch(onGetSupplierBrandList());
+      dispatch(onGetSupplierBrandList({pageNumber:page, pageSize:rowsPerPage}));
       dispatch(onUpdateSupplierBrandListReset())
     }
   }, [SupplierBrandListUpdate,dispatch])
@@ -101,7 +96,7 @@ const SupplierProductList = () => {
     if (selectedSupplierCode === "Select") {
       setCopySupplierBrandList(SupplierBrandList);
     } else {
-      let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
+      let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.[0]?.products?.filter((vendor) =>
         vendor?.supplierCode?.toLowerCase() === selectedSupplierCode?.toLowerCase()
       );
       setCopySupplierBrandList(filteredSupplierList);
@@ -131,7 +126,7 @@ const SupplierProductList = () => {
     },
     {
       status: "Total",
-      count: SupplierBrandList?.length,
+      count: SupplierBrandList?.[0]?.totalCount,
       className: "btn btn-secondary btn-sm btn-margin",
     },
   ];
@@ -143,8 +138,8 @@ const SupplierProductList = () => {
   };
 
   const handleInputChange = (e, ids) => {
-    const newValue = e.target.value < 0 ? 0 : e.target.value;
-    const updatedSupplier = copySupplierBrandList.map(item => {
+    const newValue = e.target.value < 0 ? 0 : e.target.value;    
+    const updatedSupplier = copySupplierBrandList?.map(item => {
       if (item.id === ids) {
         return { ...item, supplierMargin: newValue };
       } else {
@@ -180,10 +175,11 @@ const SupplierProductList = () => {
   }
 
   useEffect(() => {
-    let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.filter((vendor) =>
+    let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.[0]?.products?.filter((vendor) =>
       vendor?.name?.toLowerCase().includes(searchQuery?.toLowerCase()) &&
       (vendor?.supplierCode?.toLowerCase() === selectedSupplierCode?.toLowerCase() || selectedSupplierCode === "Select")
     );
+    
     setCopySupplierBrandList(filteredSupplierList);
   }, [searchQuery, selectedSupplierCode, SupplierBrandList]);
 
@@ -224,7 +220,7 @@ const SupplierProductList = () => {
                     </div>
                     <div className="d-flex align-items-center flex-wrap">
                       {copySupplierBrandList &&
-                        copySupplierBrandList.length > 0 && (
+                        copySupplierBrandList?.[0]?.products?.length > 0 && (
                           <CSVLink
                             data={excelData}
                             headers={headers}
@@ -281,8 +277,9 @@ const SupplierProductList = () => {
                           <div className="card-header">
                             <h4 className="card-title">{supplierBrandLists}</h4>
                           </div>
-                          {Array.isArray(SupplierBrandList) &&
-                            SupplierBrandList.length > 0 ? (
+                          {console.log("copySupplierBrandList",copySupplierBrandList)}
+                          {Array.isArray(copySupplierBrandList) &&
+                            copySupplierBrandList?.length > 0 ? (
                             <div className="card-body">
                               <div className="table-responsive">
                                 <table className="table header-border table-responsive-sm">
@@ -296,8 +293,7 @@ const SupplierProductList = () => {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {SupplierBrandList[0]?.products
-                                      ?.map((data, index) => (
+                                    {copySupplierBrandList?.map((data, index) => (
                                         <tr key={index}>
                                           <td>{data?.id}</td>
                                           <td>{data?.name}</td>
