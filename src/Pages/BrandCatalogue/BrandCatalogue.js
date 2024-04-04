@@ -10,18 +10,17 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import {
   onClientProductMappingSubmit,
   onGetAllClientProductMapping,
 } from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
+import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
 
 const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [getProduct, setGetProduct] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
   const [copyBrandCatalogue, setCopyBrandCatalogue] = useState([]);
   const [page, setPage] = useState(1);
@@ -45,30 +44,13 @@ const BrandCatalogue = () => {
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data
   );
-  const clientProductMapping = useSelector(
-    (state) => state.clientProductMappingReducer?.clientData
+  const productByIdData = useSelector(
+    (state) => state.productReducer?.productById
   );
-  const SupplierBrandList = useSelector(
-    (state) => state.supplierBrandListReducer.data
+  const clientProductMapping = useSelector(
+    (state) => state.clientProductMappingReducer
   );
   const LoginId = useSelector((state) => state?.loginReducer);
-  useEffect(() => {
-    const matchingProductsData = clientProductMapping
-      .map((clientProduct) => {
-        const matchingProduct = SupplierBrandList.find((supplierProduct) => {
-          return (
-            supplierProduct.id === clientProduct.productId &&
-            supplierProduct.enabled === clientProduct.enabled
-          );
-        });
-
-        return matchingProduct || null;
-      })
-      .filter((product) => product !== null);
-
-    setGetProduct(matchingProductsData);
-    setCopyBrandCatalogue(matchingProductsData);
-  }, [clientProductMapping, SupplierBrandList]);
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
   );
@@ -76,14 +58,15 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
-  const excelData = getProduct.map((data) => ({
-    sku: data.sku,
-    name: data.name,
-    minPrice: data.minPrice,
-    maxPrice: data.maxPrice, // Assuming you want to correct the casing here
-    price: data.price,
-  }));
-
+  const excelData = Array.isArray(productByIdData)
+    ? productByIdData.map((data) => ({
+        sku: data.sku,
+        name: data.name,
+        minPrice: data.minPrice,
+        maxPrice: data.maxPrice, // Assuming you want to correct the casing here
+        price: data.price,
+      }))
+    : [];
   const headers = [
     { label: "Sku", key: "sku" },
     { label: "Name", key: "name" },
@@ -101,26 +84,28 @@ const BrandCatalogue = () => {
     setPage(1);
   };
 
-  const filteredBrandCatalogueList = copyBrandCatalogue.filter((vendor) =>
-    Object.values(vendor).some(
-      (value) =>
-        value &&
-        typeof value === "string" &&
-        value.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  );
+  const filteredBrandCatalogueList = Array.isArray(copyBrandCatalogue)
+    ? copyBrandCatalogue.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      )
+    : [];
   const handleChange = (e, name) => {
     const selectedSupplierName = e.target.value;
     if (selectedSupplierName === "Select" && name === "client") {
       dispatch(onGetAllClientProductMapping());
     } else if (selectedSupplierName === "Select" && name === "supplier") {
-      setCopyBrandCatalogue(getProduct);
+      setCopyBrandCatalogue(productByIdData);
     } else if (name === "supplier") {
       const selectedSupplier = supplierMasterData.find(
         (supplier) => supplier.name === selectedSupplierName
       );
       if (selectedSupplier) {
-        const filteredProducts = getProduct.filter(
+        const filteredProducts = productByIdData.filter(
           (product) =>
             product.supplierCode.toLowerCase() ===
             selectedSupplier.code.toLowerCase()
@@ -128,11 +113,7 @@ const BrandCatalogue = () => {
         setCopyBrandCatalogue(filteredProducts);
       }
     } else if (name === "client") {
-      dispatch(
-        onClientProductMappingSubmit(
-          e.target.selectedOptions.item("").getAttribute("name")
-        )
-      );
+      // dispatch(onClientProductMappingSubmit(e.target.selectedOptions.item("").getAttribute("name")));
     }
     setSupplierList((prevState) => ({
       ...prevState,
@@ -144,12 +125,22 @@ const BrandCatalogue = () => {
     setShowLoader(false);
   }, [showLoader]);
   useEffect(() => {
-    dispatch(onGetSupplierBrandList());
     dispatch(onGetSupplierList());
-    dispatch(onGetAllClientProductMapping());
+    const clientCode = sessionStorage.getItem("clientCode");
+    dispatch(onClientProductMappingSubmit(clientCode));
     dispatch(onClientMasterSubmit());
   }, []);
 
+  useEffect(() => {
+    if (clientProductMapping?.status_code === "200") {
+      const productId =
+        Array.isArray(clientProductMapping?.clientDataById) &&
+        clientProductMapping?.clientDataById.map((item) => {
+          return item?.productId;
+        });
+      dispatch(onProductByIdSubmit(productId));
+    }
+  }, [clientProductMapping]);
   const handleClick = (data) => {
     {
       LoginId.isAdminLogin
@@ -157,6 +148,30 @@ const BrandCatalogue = () => {
         : navigate("/lc-user-admin/brand-detail", { state: data });
     }
   };
+  useEffect(() => {
+    let filteredProducts = [];
+
+    if (supplierList.supplier && supplierList.supplier !== "Select") {
+      // If a specific supplier is selected, filter products based on the supplier
+      const selectedSupplier = supplierMasterData.find(
+        (supplier) => supplier.name === supplierList.supplier
+      );
+
+      if (selectedSupplier) {
+        filteredProducts = productByIdData.filter(
+          (product) =>
+            product.supplierCode.toLowerCase() ===
+            selectedSupplier.code.toLowerCase()
+        );
+      }
+    } else {
+      // If no specific supplier is selected, or the "Select" option is chosen,
+      // show all products
+      filteredProducts = productByIdData;
+    }
+
+    setCopyBrandCatalogue(filteredProducts);
+  }, [supplierList.supplier, supplierMasterData, productByIdData]);
   return (
     <>
       <ScrollToTop />
@@ -223,11 +238,15 @@ const BrandCatalogue = () => {
                         onChange={(e) => handleChange(e, "client")}
                         value={supplierList?.client || ""}
                         className="form-select"
-                        options={clientList?.map((item) => ({
-                          label: item.name,
-                          value: item.name,
-                          data: item.id,
-                        }))}
+                        options={
+                          Array.isArray(clientList)
+                            ? clientList?.map((item) => ({
+                                label: item.name,
+                                value: item.name,
+                                data: item.id,
+                              }))
+                            : []
+                        }
                       />
                     </div>
                   )}
@@ -257,10 +276,8 @@ const BrandCatalogue = () => {
                             </thead>
                             <tbody>
                               {filteredBrandCatalogueList.length > 0 ? (
-
-
-
-                               filteredBrandCatalogueList
+                                Array.isArray(filteredBrandCatalogueList) &&
+                                filteredBrandCatalogueList
                                   .slice(startIndex, endIndex)
                                   .map((data, index) => (
                                     <tr key={index}>

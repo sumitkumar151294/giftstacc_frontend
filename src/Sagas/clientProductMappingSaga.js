@@ -1,16 +1,36 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { AllclientProductMappingGetApi, clientProductMappingGetApi, clientProductMappingPostApi, clientProductMappingUpdateApi, } from "../Context/clientProductMappingApi";
-import { onClientProductMappingSubmit,onClientProductMappingSubmitSuccess,onClientProductMappingSubmitError,onPostClientProductMappingSubmit,onPostClientProductMappingSubmitSuccess,onPostClientProductMappingSubmitError,onUpdateClientProductMappingSubmit,onUpdateClientProductMappingSubmitSuccess,onUpdateClientProductMappingSubmitError, onGetAllClientProductMappingSuccess, onGetAllClientProductMappingError, onGetAllClientProductMapping } from "../Store/Slices/clientProductMappingSlice";
-function* clientProductMapping({payload}) {
+import {
+  AllclientProductMappingGetApi,
+  clientProductMappingGetApi,
+  clientProductMappingPostApi,
+  clientProductMappingUpdateApi,
+} from "../Context/clientProductMappingApi";
+import {
+  onClientProductMappingSubmit,
+  onClientProductMappingSubmitSuccess,
+  onClientProductMappingSubmitError,
+  onPostClientProductMappingSubmit,
+  onPostClientProductMappingSubmitSuccess,
+  onPostClientProductMappingSubmitError,
+  onUpdateClientProductMappingSubmit,
+  onUpdateClientProductMappingSubmitSuccess,
+  onUpdateClientProductMappingSubmitError,
+  onGetAllClientProductMappingSuccess,
+  onGetAllClientProductMappingError,
+  onGetAllClientProductMapping,
+} from "../Store/Slices/clientProductMappingSlice";
+function* clientProductMapping({ payload }) {
   try {
-    const clientProductMappingResponse = yield call(clientProductMappingGetApi, payload);
-    if (clientProductMappingResponse.httpStatusCode === "200") {
+    const clientProductMappingResponse = yield call(
+      clientProductMappingGetApi,
+      payload
+    );
+    if (clientProductMappingResponse?.httpStatusCode === "200") {
       yield put(
         onClientProductMappingSubmitSuccess({
           data: clientProductMappingResponse.response,
           message: clientProductMappingResponse.errorMessage,
           status_code: clientProductMappingResponse.httpStatusCode,
-
         })
       );
     } else {
@@ -19,26 +39,29 @@ function* clientProductMapping({payload}) {
           data: clientProductMappingResponse.response,
           message: clientProductMappingResponse.errorMessage,
           status_code: clientProductMappingResponse.httpStatusCode,
-
         })
       );
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onClientProductMappingSubmitError({ data: [], message, status_code: 400 }));
+    yield put(
+      onClientProductMappingSubmitError({ data: {}, message, status_code: 400 })
+    );
   }
 }
 
-function* updateClientProductMapping({payload}) {
+function* updateClientProductMapping({ payload }) {
   try {
-    const clientProductMappingResponse = yield call(clientProductMappingUpdateApi, payload);
+    const clientProductMappingResponse = yield call(
+      clientProductMappingUpdateApi,
+      payload
+    );
     if (clientProductMappingResponse.httpStatusCode === "201") {
       yield put(
         onUpdateClientProductMappingSubmitSuccess({
           data: clientProductMappingResponse.response,
           message: clientProductMappingResponse.errorMessage,
           status_code: clientProductMappingResponse.httpStatusCode,
-
         })
       );
     } else {
@@ -47,26 +70,33 @@ function* updateClientProductMapping({payload}) {
           data: clientProductMappingResponse.response,
           message: clientProductMappingResponse.errorMessage,
           status_code: clientProductMappingResponse.httpStatusCode,
-
         })
       );
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onUpdateClientProductMappingSubmitError({ data: [], message, status_code: 400 }));
+    yield put(
+      onUpdateClientProductMappingSubmitError({
+        data: {},
+        message,
+        status_code: 400,
+      })
+    );
   }
 }
 
-function* postClientProductMapping({payload}) {
+function* postClientProductMapping({ payload }) {
   try {
-    const clientProductMappingResponse = yield call(clientProductMappingPostApi, payload);
+    const clientProductMappingResponse = yield call(
+      clientProductMappingPostApi,
+      payload
+    );
     if (clientProductMappingResponse.httpStatusCode === "201") {
       yield put(
         onPostClientProductMappingSubmitSuccess({
           data: clientProductMappingResponse.response,
           message: clientProductMappingResponse.errorMessage,
           status_code: clientProductMappingResponse.httpStatusCode,
-
         })
       );
     } else {
@@ -75,13 +105,18 @@ function* postClientProductMapping({payload}) {
           data: clientProductMappingResponse.response,
           message: clientProductMappingResponse.errorMessage,
           status_code: clientProductMappingResponse.httpStatusCode,
-
         })
       );
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onPostClientProductMappingSubmitError({ data: [], message, status_code: 400 }));
+    yield put(
+      onPostClientProductMappingSubmitError({
+        data: {},
+        message,
+        status_code: 400,
+      })
+    );
   }
 }
 function* getAllProdcuctMapping() {
@@ -105,14 +140,26 @@ function* getAllProdcuctMapping() {
         })
       );
     }
-  } catch (error) { 
+  } catch (error) {
     const message = error.message || "Something went wrong";
-    yield put(onGetAllClientProductMappingError({ data: [], message, status_code: error.response.status }));
+    yield put(
+      onGetAllClientProductMappingError({
+        data: {},
+        message,
+        status_code: error.response.status,
+      })
+    );
   }
 }
 export default function* clientMappingSaga() {
-  yield takeLatest(onClientProductMappingSubmit.type,  clientProductMapping);
-  yield takeLatest(onPostClientProductMappingSubmit.type,  postClientProductMapping);
-  yield takeLatest(onUpdateClientProductMappingSubmit.type,  updateClientProductMapping);  yield takeLatest(onGetAllClientProductMapping.type,  getAllProdcuctMapping);
-
+  yield takeLatest(onClientProductMappingSubmit.type, clientProductMapping);
+  yield takeLatest(
+    onPostClientProductMappingSubmit.type,
+    postClientProductMapping
+  );
+  yield takeLatest(
+    onUpdateClientProductMappingSubmit.type,
+    updateClientProductMapping
+  );
+  yield takeLatest(onGetAllClientProductMapping.type, getAllProdcuctMapping);
 }

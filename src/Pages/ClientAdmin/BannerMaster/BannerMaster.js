@@ -17,7 +17,10 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
 import { onbannerMasterSubmitReset } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
-import { onUploadImage } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
+import {
+  onUploadImage,
+  onUploadImageReset,
+} from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
@@ -36,6 +39,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
   const [getImagePath, setGetImagePath] = useState("");
+  const [getImage, setGetImage] = useState(false);
 
   const [bannerMaster, setBannerMaster] = useState({
     bannerTitle: "",
@@ -44,6 +48,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
     displayOrder: "",
     enabled: "",
     image: "",
+    buttonText: "",
   });
   const resetField = {
     bannerTitle: "",
@@ -52,6 +57,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
     displayOrder: "",
     enabled: "",
     image: "",
+    buttonText: "",
   };
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -63,7 +69,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
         bannerSubtitle: prefilledData.bannerSubtitle || "",
         bannerLink: prefilledData.bannerLink || "",
         displayOrder: prefilledData.displayOrder || "",
-        image: "",
+        buttonText: prefilledData?.buttonText,
         enabled:
           prefilledData?.enabled !== undefined ? prefilledData?.enabled : "", // image: prefilledData.image || "",
       });
@@ -75,11 +81,18 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
         displayOrder: "",
         // status: "",
         image: "",
+        buttonText: "",
       });
     }
   }, [prefilledData]);
   useEffect(() => {
-    if (getBannerMaster.update_status_code === "201") {
+    if (getBannerMaster.post_Status_code === "201") {
+      toast.success(getBannerMaster.message);
+      setBannerMaster(resetField);
+      dispatch(onbannerMasterSubmitReset());
+      setPrefilledData("");
+      dispatch(onGetbannerMaster());
+    } else if (getBannerMaster.update_status_code === "201") {
       toast.success(getBannerMaster.message);
       setBannerMaster(resetField);
       dispatch(onUpdateBannerMasterReset());
@@ -109,6 +122,7 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
     displayOrder: "",
     enabled: "",
     image: "",
+    buttonText: "",
   });
 
   const statusoptions = [
@@ -123,26 +137,22 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   }, []);
   // Add more states for other form fields as necessary
   const handleChange = (e, fieldName) => {
+    let value = e.target.value;
     if (fieldName === "image") {
-      debugger;
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
         const formData = new FormData();
         formData.append("file", file);
         setGetImagePath(formData);
-        setBannerMaster({
-          ...bannerMaster,
-          [fieldName]: e.target.value,
-        });
-
-        // dispatch(onUploadImage(formData));
+        setGetImage(true);
       }
+    }else if(fieldName === "enabled"){
+      value = e.target.value === "true" ? true:false;
     }
-
     // Update the bannerMaster state with the new value
     setBannerMaster({
       ...bannerMaster,
-      [fieldName]: e.target.value,
+      [fieldName]: value,
     });
 
     // Remove the error message for the field being edited
@@ -172,16 +182,34 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
     setErrors(newErrors);
 
     if (isValid) {
-      dispatch(onUploadImage(getImagePath));
+      if (prefilledData?.image && !getImage) {
+        dispatch(
+          onUpdateBannerMaster({
+            ...bannerMaster,
+            id: prefilledData?.id,
+            clientId: "strisng",
+            image: prefilledData?.image,
+            displayOrder: parseInt(bannerMaster.displayOrder),
+            enabled: bannerMaster.enabled ,
+          })
+        );
+      } else if (getImage ) {
+            dispatch(onUploadImage(getImagePath));
+      }
     }
   };
   useEffect(() => {
-    if (offerMasterData?.status_code === "201") {
+    if (offerMasterData?.status_code_Image === "201") {
+      dispatch(onUploadImageReset());
+
       if (!prefilledData) {
-        dispatch(
+            dispatch(
           onbannerMasterSubmit({
             ...bannerMaster,
-            enabled: bannerMaster.enabled === "true" ? true : false, // Convert status to boolean based on selection
+            enabled: bannerMaster.enabled ,
+            image: offerMasterData?.imageUpload,
+            displayOrder: parseInt(bannerMaster.displayOrder),
+            // Convert status to boolean based on selection
           })
         );
       } else {
@@ -190,12 +218,14 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
             ...bannerMaster,
             id: prefilledData?.id,
             clientId: "strisng",
-            enabled: bannerMaster.enabled === "true" ? true : false,
+            image: offerMasterData?.imageUpload || "",
+            displayOrder: parseInt(bannerMaster.displayOrder),
+            enabled: bannerMaster.enabled ,
           })
         );
       }
     }
-  }, [prefilledData, offerMasterData]);
+  }, [prefilledData,offerMasterData]);
 
   return (
     <>
@@ -260,7 +290,21 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                         />
                         {<p className="text-danger">{errors.bannerLink}</p>}
                       </div>
-
+                      <div className="col-sm-4 form-group mb-2">
+                        <label htmlFor="buttonText">
+                          Button text <span className="text-danger">*</span>
+                        </label>
+                        <InputField
+                          type="text"
+                          className={`form-control ${
+                            errors.buttonText ? "border-danger" : ""
+                          }`}
+                          id="buttonText"
+                          value={bannerMaster.buttonText}
+                          onChange={(e) => handleChange(e, "buttonText")}
+                        />
+                        {<p className="text-danger">{errors.buttonText}</p>}
+                      </div>
                       <div className="col-sm-4 form-group mb-2">
                         <label htmlFor="displayOrder">
                           {displayOrder} <span className="text-danger">*</span>
@@ -280,7 +324,10 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                       <div className="col-sm-4 form-group mb-2">
                         <label htmlFor="image">
                           {upload_image}
-                          <span className="text-danger">*</span>
+                          <span className="text-danger">
+                            {" "}
+                            {!prefilledData ? "*" : ""}
+                          </span>
                         </label>
                         <div className="input-group">
                           <div className="form-file">
@@ -288,14 +335,17 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
                               type="file"
                               accept="image/jpg,image/png"
                               value={bannerMaster.image}
-                              className={` ${
-                                errors.image
-                                  ? "border-danger"
-                                  : "form-file-input form-control"
-                              }`}
+                              className={
+                                !prefilledData
+                                  ? errors.image
+                                    ? "border-danger"
+                                    : "form-file-input form-control"
+                                  : ""
+                              }
                               onChange={(e) => handleChange(e, "image")}
                             />
                           </div>
+
                           <span className="input-group-text">{upload}</span>
                         </div>
                         {<p className="text-danger">{errors.image}</p>}

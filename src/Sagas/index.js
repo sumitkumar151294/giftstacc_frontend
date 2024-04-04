@@ -21,6 +21,7 @@ import offerMasterSaga from "./ClientAdmin/offerMasterSaga";
 import FaqMasterSaga from "./ClientAdmin/faqMasterSaga";
 import FaqCategorySaga from "./ClientAdmin/faqCategorySaga";
 import clientMappingSaga from "./clientProductMappingSaga";
+import productApiSaga from "./productSaga";
 export default function* rootSaga() {
   yield all([
     loginSaga(),
@@ -45,5 +46,6 @@ export default function* rootSaga() {
     FaqCategorySaga(),
     cmsSaga(),
     offerMasterSaga(),
+    productApiSaga()
   ]);
 }
