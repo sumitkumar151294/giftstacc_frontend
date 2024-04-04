@@ -124,7 +124,6 @@ const BannerForm = ({ prefilledData, setPrefilledData }) => {
   // Add more states for other form fields as necessary
   const handleChange = (e, fieldName) => {
     if (fieldName === "image") {
-      debugger;
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
         const formData = new FormData();

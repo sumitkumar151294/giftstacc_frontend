@@ -14,7 +14,13 @@ import Button from "../../Components/Button/Button";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import PageError from "../../Components/PageError/PageError";
-import { onClientProductMappingSubmit, onPostClientProductMappingReset, onPostClientProductMappingSubmit, onUpdateClientProductMappingReset, onUpdateClientProductMappingSubmit } from "../../Store/Slices/clientProductMappingSlice";
+import {
+  onClientProductMappingSubmit,
+  onPostClientProductMappingReset,
+  onPostClientProductMappingSubmit,
+  onUpdateClientProductMappingReset,
+  onUpdateClientProductMappingSubmit,
+} from "../../Store/Slices/clientProductMappingSlice";
 
 const ClientBrandList = () => {
   const location = useLocation();
@@ -35,43 +41,76 @@ const ClientBrandList = () => {
   const selectSuppliers = GetTranslationData("UIAdmin", "selectSuppliers");
   const supplier_products = GetTranslationData("UIAdmin", "clientbrandlist");
   const supplierName = GetTranslationData("UIAdmin", "supplierName");
-  const supplierBrandName = GetTranslationData("UIAdmin", "clientbrandlistbrandname");
+  const supplierBrandName = GetTranslationData(
+    "UIAdmin",
+    "clientbrandlistbrandname"
+  );
   const supplierMargin = GetTranslationData("UIAdmin", "supplierMargin");
-  const clientbrandlistdiscount = GetTranslationData("UIAdmin", "clientbrandlistdiscount");
-  const clientbrandlistcommission = GetTranslationData("UIAdmin", "clientbrandlistcommission");
+  const clientbrandlistdiscount = GetTranslationData(
+    "UIAdmin",
+    "clientbrandlistdiscount"
+  );
+  const clientbrandlistcommission = GetTranslationData(
+    "UIAdmin",
+    "clientbrandlistcommission"
+  );
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
   const update = GetTranslationData("UIAdmin", "update_label");
   const [searchQuery, setSearchQuery] = useState("");
-  const [rowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(() => {
-    dispatch(onGetSupplierBrandList({pageNumber:1, pageSize:5}));
+    dispatch(onGetSupplierBrandList({ pageNumber: 1, pageSize: 5 }));
     dispatch(onClientProductMappingSubmit(location?.state?.id));
   }, []);
+  const paginationValue = [
+    {
+      value: 5,
+      label: 5,
+    },
+    {
+      value: 10,
+      label: 10,
+    },
+    {
+      value: 20,
+      label: 20,
+    },
+    {
+      value: 50,
+      label: 50,
+    },
+    {
+      value: 100,
+      label: 100,
+    },
+  ];
 
   useEffect(() => {
     const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
-      return item.enabled === true
-    })
-    setCopySupplierBrandList(filterData)
-  }, [SupplierBrandList])
+      return item.enabled === true;
+    });
+    setCopySupplierBrandList(filterData);
+  }, [SupplierBrandList]);
 
   useEffect(() => {
-   const copyData = Array.isArray(ClientProducts.clientData) && [...ClientProducts.clientData]
+    const copyData = Array.isArray(ClientProducts.clientData) && [
+      ...ClientProducts.clientData,
+    ];
     setCopyClientMapping(copyData);
-  }, [ClientProducts.clientData])
+  }, [ClientProducts.clientData]);
 
   useEffect(() => {
     if (ClientProducts?.post_status_code === "201") {
-      toast.success(ClientProducts?.message)
+      toast.success(ClientProducts?.message);
       dispatch(onClientProductMappingSubmit(location?.state?.id));
       dispatch(onPostClientProductMappingReset());
-    }else if (ClientProducts?.update_status_code === "201") {
-      toast.success(ClientProducts?.updateMessage)
+    } else if (ClientProducts?.update_status_code === "201") {
+      toast.success(ClientProducts?.updateMessage);
       dispatch(onClientProductMappingSubmit(location?.state?.id));
       dispatch(onUpdateClientProductMappingReset());
     }
-  }, [ClientProducts])
+  }, [ClientProducts]);
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -106,19 +145,24 @@ const ClientBrandList = () => {
 
   const handleChange = (e) => {
     const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
-      return item.enabled === true
-    })
+      return item.enabled === true;
+    });
     const selectedSupplierCode = e.target.value;
     if (selectedSupplierCode === "Select") {
       setCopySupplierBrandList(filterData);
     } else {
-      let filteredSupplierList = Array.isArray(filterData) && filterData?.filter((vendor) =>
-        vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase()
-      );
+      let filteredSupplierList =
+        Array.isArray(filterData) &&
+        filterData?.filter(
+          (vendor) =>
+            vendor?.supplierCode.toLowerCase() ===
+            selectedSupplierCode.toLowerCase()
+        );
       setCopySupplierBrandList(filteredSupplierList);
     }
   };
 
+  console.log(copyClientMapping, "copyClientMapping");
   const handleKeyPress = (e) => {
     if (e.key === "e" || e.key === "+" || e.key === "-") {
       e.preventDefault();
@@ -128,19 +172,19 @@ const ClientBrandList = () => {
   const handleInputChange = (e, ids, name) => {
     const newValue = e.target.value < 0 ? 0 : e.target.value;
     const mapping = [...copyClientMapping];
-    const isUpdate = Array.isArray(copyClientMapping) && copyClientMapping?.find((item)=>(
-      item.productId === ids
-    ))
-    if(!isUpdate){
+    const isUpdate =
+      Array.isArray(copyClientMapping) &&
+      copyClientMapping?.find((item) => item.productId === ids);
+    if (!isUpdate) {
       mapping.push({
-          productId: ids,
-          clientId: location?.state?.id,
-          customerDiscount: 1,
-          clientCommission: 1,
-          enabled:false
-      })
+        productId: ids,
+        clientId: location?.state?.id,
+        customerDiscount: 1,
+        clientCommission: 1,
+        enabled: false,
+      });
     }
-    const updatedClinetMapping = mapping.map(item => {
+    const updatedClinetMapping = mapping.map((item) => {
       if (item.productId === ids) {
         return { ...item, [name]: newValue };
       } else {
@@ -150,88 +194,94 @@ const ClientBrandList = () => {
     setCopyClientMapping(updatedClinetMapping);
   };
 
-
   const handleUpdate = (data) => {
-    const isUpdate =  Array.isArray(copyClientMapping) && copyClientMapping?.find((item)=>(
-      item.productId === data?.id
-    ))
-    if(isUpdate && isUpdate?.id){
+    const isUpdate =
+      Array.isArray(copyClientMapping) &&
+      copyClientMapping?.find((item) => item.productId === data?.id);
+    if (isUpdate && isUpdate?.id) {
       const updatedValues = {
         clientCommission: isUpdate?.clientCommission,
         customerDiscount: isUpdate?.customerDiscount,
         clientId: location?.state?.id,
         enabled: isUpdate?.enabled,
         productId: data?.id,
-        id: isUpdate?.id
+        id: isUpdate?.id,
       };
-      dispatch(onUpdateClientProductMappingSubmit(updatedValues))
-    }else{
+      dispatch(onUpdateClientProductMappingSubmit(updatedValues));
+    } else {
       const updatedValues = {
         clientCommission: isUpdate?.clientCommission,
         customerDiscount: isUpdate?.customerDiscount,
         clientId: location?.state?.id,
         enabled: false,
-        productId: data?.id
+        productId: data?.id,
       };
-      dispatch(onPostClientProductMappingSubmit(updatedValues))
+      dispatch(onPostClientProductMappingSubmit(updatedValues));
     }
   };
 
   const updateStatus = (data) => {
-    const isUpdate =  Array.isArray(copyClientMapping) && copyClientMapping?.find((item)=>(
-      item.productId === data?.id
-    ))
-    if(isUpdate){
+    const isUpdate =
+      Array.isArray(copyClientMapping) &&
+      copyClientMapping?.find((item) => item.productId === data?.id);
+    if (isUpdate) {
       const updatedValues = {
         clientCommission: isUpdate?.clientCommission,
         customerDiscount: isUpdate?.customerDiscount,
         clientId: location?.state?.id,
         enabled: !isUpdate?.enabled,
         productId: data?.id,
-        id: isUpdate?.id
+        id: isUpdate?.id,
       };
-      dispatch(onUpdateClientProductMappingSubmit(updatedValues))
-    }else{
+      dispatch(onUpdateClientProductMappingSubmit(updatedValues));
+    } else {
       const updatedValues = {
         clientCommission: 0,
         customerDiscount: 0,
         clientId: location?.state?.id,
         enabled: true,
-        productId: data?.id
+        productId: data?.id,
       };
-      dispatch(onPostClientProductMappingSubmit(updatedValues))
+      dispatch(onPostClientProductMappingSubmit(updatedValues));
     }
-  }
+  };
 
   useEffect(() => {
     const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
-      return item.enabled === true
-    })
-    let filteredSupplierList = Array.isArray(filterData) && SupplierBrandList?.[0]?.products?.filter((vendor) =>
-      vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase()) &&
-      (vendor?.supplierCode.toLowerCase() === selectedSupplierCode.toLowerCase() || selectedSupplierCode === "Select")
-    );
+      return item.enabled === true;
+    });
+    let filteredSupplierList =
+      Array.isArray(filterData) &&
+      SupplierBrandList?.[0]?.products?.filter(
+        (vendor) =>
+          vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase()) &&
+          (vendor?.supplierCode.toLowerCase() ===
+            selectedSupplierCode.toLowerCase() ||
+            selectedSupplierCode === "Select")
+      );
     setCopySupplierBrandList(filteredSupplierList);
   }, [searchQuery, selectedSupplierCode]);
 
   const getSupplierName = (code) => {
-    const filterData = Array.isArray(suppliers?.data) && suppliers?.data?.filter((item) => {
-      return item.code === code
-    })
-    return filterData[0]?.name.length ? filterData[0]?.name : ""
+    const filterData =
+      Array.isArray(suppliers?.data) &&
+      suppliers?.data?.filter((item) => {
+        return item.code === code;
+      });
+    return filterData[0]?.name.length ? filterData[0]?.name : "";
   };
 
-  const getValues = (id, name) =>{  
-    const data =  Array.isArray(copyClientMapping) && copyClientMapping?.find((item)=>(
-      item.productId === id
-    ))
+  const getValues = (id, name) => {
+    const data =
+      Array.isArray(copyClientMapping) &&
+      copyClientMapping?.find((item) => item.productId === id);
     return data?.[name] ? data?.[name] : "";
-  }
+  };
 
   return (
     <>
       <ScrollToTop />
-      {location.state ?
+      {location.state ? (
         <div>
           <div className="container-fluid">
             <div className="row">
@@ -295,7 +345,7 @@ const ClientBrandList = () => {
                       <div className="col-lg-12">
                         <div>
                           {Array.isArray(copySupplierBrandList) &&
-                            copySupplierBrandList.length > 0 ? (
+                          copySupplierBrandList.length > 0 ? (
                             <div className="card-body">
                               <div className="table-responsive">
                                 <table className="table header-border table-responsive-sm">
@@ -315,18 +365,33 @@ const ClientBrandList = () => {
                                       .slice(startIndex, endIndex)
                                       .map((data, index) => (
                                         <tr key={index}>
-                                          <td>{getSupplierName(data.supplierCode)}</td>
+                                          <td>
+                                            {getSupplierName(data.supplierCode)}
+                                          </td>
                                           <td>{data.name}</td>
                                           <td>
                                             <div className="input-group mb-2 w-11">
                                               <InputField
                                                 type="number"
                                                 className="form-control htt"
-                                                placeholder={data.customerDiscount}
+                                                placeholder={
+                                                  data.customerDiscount
+                                                }
                                                 pattern="/^-?\d+\.?\d*$/"
-                                                value={getValues(data.id, "customerDiscount")}
-                                                onChange={(e) => handleInputChange(e, data.id, "customerDiscount")}
-                                                onKeyPress={(e) => handleKeyPress(e, index)}
+                                                value={getValues(
+                                                  data.id,
+                                                  "customerDiscount"
+                                                )}
+                                                onChange={(e) =>
+                                                  handleInputChange(
+                                                    e,
+                                                    data.id,
+                                                    "customerDiscount"
+                                                  )
+                                                }
+                                                onKeyPress={(e) =>
+                                                  handleKeyPress(e, index)
+                                                }
                                               />
                                               <div className="input-group-append">
                                                 <Button
@@ -345,11 +410,24 @@ const ClientBrandList = () => {
                                               <InputField
                                                 type="number"
                                                 className="form-control htt"
-                                                placeholder={data.clientCommission}
+                                                placeholder={
+                                                  data.clientCommission
+                                                }
                                                 pattern="/^-?\d+\.?\d*$/"
-                                                value={getValues(data.id, "clientCommission")}
-                                                onChange={(e) => handleInputChange(e, data.id, "clientCommission")}
-                                                onKeyPress={(e) => handleKeyPress(e, index)}
+                                                value={getValues(
+                                                  data.id,
+                                                  "clientCommission"
+                                                )}
+                                                onChange={(e) =>
+                                                  handleInputChange(
+                                                    e,
+                                                    data.id,
+                                                    "clientCommission"
+                                                  )
+                                                }
+                                                onKeyPress={(e) =>
+                                                  handleKeyPress(e, index)
+                                                }
                                               />
                                               <div className="input-group-append">
                                                 <Button
@@ -367,27 +445,42 @@ const ClientBrandList = () => {
                                           <td>
                                             <span
                                               className={
-                                                getValues(data.id, "enabled") === true
+                                                getValues(
+                                                  data.id,
+                                                  "enabled"
+                                                ) === true
                                                   ? "badge badge-success"
                                                   : "badge badge-danger"
                                               }
                                             >
-                                              { getValues(data.id, "enabled") === true
+                                              {getValues(data.id, "enabled") ===
+                                              true
                                                 ? "Active"
                                                 : "Non-Active"}
                                             </span>
                                           </td>
                                           <td>
                                             <div className="can-toggle">
-                                              <input id={generateUniqueId(index)} type="checkbox" checked={ getValues(data.id, "enabled")}></input>
+                                              <input
+                                                id={generateUniqueId(index)}
+                                                type="checkbox"
+                                                checked={getValues(
+                                                  data.id,
+                                                  "enabled"
+                                                )}
+                                              ></input>
                                               <label
-                                                htmlFor={generateUniqueId(index)}
+                                                htmlFor={generateUniqueId(
+                                                  index
+                                                )}
                                               >
                                                 <div
                                                   className="can-toggle__switch"
                                                   data-unchecked={"OFF"}
                                                   data-checked={"ON"}
-                                                  onClick={() => updateStatus(data, index)}
+                                                  onClick={() =>
+                                                    updateStatus(data, index)
+                                                  }
                                                 ></div>
                                               </label>
                                             </div>
@@ -396,14 +489,15 @@ const ClientBrandList = () => {
                                       ))}
                                   </tbody>
                                 </table>
-                                {copySupplierBrandList?.length > 5 &&
+                                {SupplierBrandList[0]?.totalCount > 5 && (
                                   <div className="pagination-container">
                                     <ReactPaginate
                                       previousLabel={"<"}
                                       nextLabel={" >"}
                                       breakLabel={"..."}
                                       pageCount={Math.ceil(
-                                        SupplierBrandList.length / rowsPerPage
+                                        SupplierBrandList[0]?.totalCount /
+                                          rowsPerPage
                                       )}
                                       marginPagesDisplayed={2}
                                       onPageChange={handlePageChange}
@@ -414,8 +508,26 @@ const ClientBrandList = () => {
                                         page === 0 ? "disabled" : ""
                                       }
                                     />
+                                    <Dropdown
+                                      defaultSelected="Page Size"
+                                      className="paginationDropdown"
+                                      value={rowsPerPage}
+                                      aria-label=""
+                                      onChange={(e) => {
+                                        setRowsPerPage(
+                                          parseInt(e.target.value)
+                                        );
+                                        dispatch(
+                                          onGetSupplierBrandList({
+                                            pageNumber: page,
+                                            pageSize: parseInt(e.target.value),
+                                          })
+                                        );
+                                      }}
+                                      options={paginationValue}
+                                    />
                                   </div>
-                                }
+                                )}
                               </div>
                             </div>
                           ) : (
@@ -431,7 +543,7 @@ const ClientBrandList = () => {
             </div>
           </div>
         </div>
-        :
+      ) : (
         <PageError
           pageError={{
             StatusCode: "401",
@@ -440,7 +552,8 @@ const ClientBrandList = () => {
             url: "/",
             buttonText: "Back to home",
           }}
-        />}
+        />
+      )}
     </>
   );
 };
