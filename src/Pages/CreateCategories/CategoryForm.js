@@ -54,7 +54,7 @@ const CategoryForm = ({ setIsLoading }) => {
 
   useEffect(() => {
     dispatch(onGetSupplierList());
-    dispatch(onGetSupplierBrandList());
+    dispatch(onGetSupplierBrandList({isCategory:true}));
   }, []);
 
   // To get the dropdown values of Supplier Name
