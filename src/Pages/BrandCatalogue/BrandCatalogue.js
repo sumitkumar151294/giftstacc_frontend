@@ -113,7 +113,11 @@ const BrandCatalogue = () => {
         setCopyBrandCatalogue(filteredProducts);
       }
     } else if (name === "client") {
-      // dispatch(onClientProductMappingSubmit(e.target.selectedOptions.item("").getAttribute("name")));
+      dispatch(
+        onClientProductMappingSubmit(
+          e.target.selectedOptions.item("").getAttribute("name")
+        )
+      );
     }
     setSupplierList((prevState) => ({
       ...prevState,
@@ -127,7 +131,11 @@ const BrandCatalogue = () => {
   useEffect(() => {
     dispatch(onGetSupplierList());
     const clientCode = sessionStorage.getItem("clientCode");
-    dispatch(onClientProductMappingSubmit(clientCode));
+    const adminCode = sessionStorage.getItem("clientCode");
+    dispatch(
+      onClientProductMappingSubmit(clientCode === 1 ? clientCode : adminCode)
+    );
+
     dispatch(onClientMasterSubmit());
   }, []);
 

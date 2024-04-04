@@ -129,7 +129,9 @@ const CategoryForm = ({ setIsLoading }) => {
     setErrors(newErrors);
     if (isValid) {
       try {
-        dispatch(onPostCategory(createCategory));
+        dispatch(onPostCategory({...createCategory,
+        supplierId: parseInt(createCategory?.supplierId),
+        supplierBrandId: parseInt(createCategory?.supplierBrandId),}));
         setIsLoading(true);
       } catch (error) {}
     }
