@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
-import { onGetSupplierBrandList, onUpdateSupplierBrandList, onUpdateSupplierBrandListReset } from "../../Store/Slices/supplierBrandListSlice";
+import {
+  onGetSupplierBrandList,
+  onUpdateSupplierBrandList,
+  onUpdateSupplierBrandListReset,
+} from "../../Store/Slices/supplierBrandListSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
@@ -21,9 +25,15 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  const getProductListData = useSelector((state)=> state.supplierBrandListReducer?.isLoading);
-  const activeUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.[0]?.products?.filter(item => item?.enabled)?.length;
-  const inactiveUsersCount = Array.isArray(SupplierBrandList) && SupplierBrandList?.[0]?.products?.filter(item => !item?.enabled)?.length;
+  const getProductListData = useSelector(
+    (state) => state.supplierBrandListReducer?.isLoading
+  );
+  const activeUsersCount =
+    Array.isArray(SupplierBrandList) &&
+    SupplierBrandList?.[0]?.products?.filter((item) => item?.enabled)?.length;
+  const inactiveUsersCount =
+    Array.isArray(SupplierBrandList) &&
+    SupplierBrandList?.[0]?.products?.filter((item) => !item?.enabled)?.length;
   const SupplierBrandListUpdate = useSelector(
     (state) => state.supplierBrandListReducer
   );
@@ -44,29 +54,34 @@ const SupplierProductList = () => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
-  const [rowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(() => {
-    dispatch(onGetSupplierBrandList({pageNumber:page, pageSize:rowsPerPage}));
+    dispatch(
+      onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
+    );
     dispatch(onGetSupplierList());
   }, []);
 
   useEffect(() => {
     if (SupplierBrandListUpdate?.updateStatusCode === "201") {
-      toast.success(SupplierBrandListUpdate?.message)
-      dispatch(onGetSupplierBrandList({pageNumber:page, pageSize:rowsPerPage}));
-      dispatch(onUpdateSupplierBrandListReset())
+      toast.success(SupplierBrandListUpdate?.message);
+      dispatch(
+        onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
+      );
+      dispatch(onUpdateSupplierBrandListReset());
     }
-  }, [SupplierBrandListUpdate,dispatch])
+  }, [SupplierBrandListUpdate, dispatch]);
 
-  const handlePageChange = ({selected}) => {
+  const handlePageChange = ({ selected }) => {
     setPage(selected + 1);
   };
 
   // for changing the page calling api to fetch the data
-  useEffect(()=>{
-    dispatch(onGetSupplierBrandList({pageNumber:page, pageSize:rowsPerPage}));
-  },[page])
-
+  useEffect(() => {
+    dispatch(
+      onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
+    );
+  }, [page]);
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -89,16 +104,20 @@ const SupplierProductList = () => {
       });
       setSupplierList(tempSupplier);
     }
-  }, [suppliers,supplierList.length]);
+  }, [suppliers, supplierList.length]);
 
   const handleChange = (e) => {
     const selectedSupplierCode = e.target.value;
     if (selectedSupplierCode === "Select") {
       setCopySupplierBrandList(SupplierBrandList);
     } else {
-      let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.[0]?.products?.filter((vendor) =>
-        vendor?.supplierCode?.toLowerCase() === selectedSupplierCode?.toLowerCase()
-      );
+      let filteredSupplierList =
+        Array.isArray(SupplierBrandList) &&
+        SupplierBrandList?.[0]?.products?.filter(
+          (vendor) =>
+            vendor?.supplierCode?.toLowerCase() ===
+            selectedSupplierCode?.toLowerCase()
+        );
       setCopySupplierBrandList(filteredSupplierList);
     }
   };
@@ -138,8 +157,8 @@ const SupplierProductList = () => {
   };
 
   const handleInputChange = (e, ids) => {
-    const newValue = e.target.value < 0 ? 0 : e.target.value;    
-    const updatedSupplier = copySupplierBrandList?.map(item => {
+    const newValue = e.target.value < 0 ? 0 : e.target.value;
+    const updatedSupplier = copySupplierBrandList?.map((item) => {
       if (item.id === ids) {
         return { ...item, supplierMargin: newValue };
       } else {
@@ -156,7 +175,7 @@ const SupplierProductList = () => {
       customerDiscount: data?.customerDiscount,
       clientId: data?.clientId,
       enabled: data?.enabled,
-      clientEnabled: data?.clientEnabled
+      clientEnabled: data?.clientEnabled,
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
   };
@@ -169,27 +188,56 @@ const SupplierProductList = () => {
       customerDiscount: data?.customerDiscount,
       clientId: data?.clientId,
       enabled: !data?.enabled,
-      clientEnabled: data?.clientEnabled
+      clientEnabled: data?.clientEnabled,
     };
     dispatch(onUpdateSupplierBrandList(updatedValues));
-  }
+  };
 
   useEffect(() => {
-    let filteredSupplierList = Array.isArray(SupplierBrandList) && SupplierBrandList?.[0]?.products?.filter((vendor) =>
-      vendor?.name?.toLowerCase().includes(searchQuery?.toLowerCase()) &&
-      (vendor?.supplierCode?.toLowerCase() === selectedSupplierCode?.toLowerCase() || selectedSupplierCode === "Select")
-    );
-    
+    let filteredSupplierList =
+      Array.isArray(SupplierBrandList) &&
+      SupplierBrandList?.[0]?.products?.filter(
+        (vendor) =>
+          vendor?.name?.toLowerCase().includes(searchQuery?.toLowerCase()) &&
+          (vendor?.supplierCode?.toLowerCase() ===
+            selectedSupplierCode?.toLowerCase() ||
+            selectedSupplierCode === "Select")
+      );
+
     setCopySupplierBrandList(filteredSupplierList);
   }, [searchQuery, selectedSupplierCode, SupplierBrandList]);
 
   // excel data to print
-  const excelData = Array.isArray(SupplierBrandList)&&SupplierBrandList.map(data => ({
-    id: data.id,
-    brands: data.name,
-    supplier_Margin: data.supplierMargin,
-    status: data.enabled ?"Active":"Non-active",
-  }));
+  const excelData =
+    Array.isArray(SupplierBrandList) &&
+    SupplierBrandList.map((data) => ({
+      id: data.id,
+      brands: data.name,
+      supplier_Margin: data.supplierMargin,
+      status: data.enabled ? "Active" : "Non-active",
+    }));
+  const paginationValue = [
+    {
+      value: 5,
+      label: 5,
+    },
+    {
+      value: 10,
+      label: 10,
+    },
+    {
+      value: 20,
+      label: 20,
+    },
+    {
+      value: 50,
+      label: 50,
+    },
+    {
+      value: 100,
+      label: 100,
+    },
+  ];
 
   return (
     <>
@@ -277,9 +325,12 @@ const SupplierProductList = () => {
                           <div className="card-header">
                             <h4 className="card-title">{supplierBrandLists}</h4>
                           </div>
-                          {console.log("copySupplierBrandList",copySupplierBrandList)}
+                          {console.log(
+                            "copySupplierBrandList",
+                            copySupplierBrandList
+                          )}
                           {Array.isArray(copySupplierBrandList) &&
-                            copySupplierBrandList?.length > 0 ? (
+                          copySupplierBrandList?.length > 0 ? (
                             <div className="card-body">
                               <div className="table-responsive">
                                 <table className="table header-border table-responsive-sm">
@@ -293,7 +344,8 @@ const SupplierProductList = () => {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {copySupplierBrandList?.map((data, index) => (
+                                    {copySupplierBrandList?.map(
+                                      (data, index) => (
                                         <tr key={index}>
                                           <td>{data?.id}</td>
                                           <td>{data?.name}</td>
@@ -302,11 +354,17 @@ const SupplierProductList = () => {
                                               <InputField
                                                 type="number"
                                                 className="form-control htt  border-Radius"
-                                                placeholder={data.supplier_Margin}
+                                                placeholder={
+                                                  data.supplier_Margin
+                                                }
                                                 pattern="/^-?\d+\.?\d*$/"
                                                 value={data?.supplierMargin}
-                                                onChange={(e) => handleInputChange(e, data?.id)}
-                                                onKeyPress={(e) => handleKeyPress(e, index)}
+                                                onChange={(e) =>
+                                                  handleInputChange(e, data?.id)
+                                                }
+                                                onKeyPress={(e) =>
+                                                  handleKeyPress(e, index)
+                                                }
                                               />
                                               <div className="input-group-append">
                                                 <Button
@@ -335,34 +393,44 @@ const SupplierProductList = () => {
                                           </td>
                                           <td>
                                             <div className="can-toggle">
-                                              <input id={generateUniqueId(index)} type="checkbox" checked={data?.enabled}></input>
+                                              <input
+                                                id={generateUniqueId(index)}
+                                                type="checkbox"
+                                                checked={data?.enabled}
+                                              ></input>
                                               <label
-                                                htmlFor={generateUniqueId(index)}
+                                                htmlFor={generateUniqueId(
+                                                  index
+                                                )}
                                               >
                                                 <div
                                                   className="can-toggle__switch"
                                                   data-unchecked={"OFF"}
                                                   data-checked={"ON"}
-                                                  onClick={() => updateStatus(data, index)}
+                                                  onClick={() =>
+                                                    updateStatus(data, index)
+                                                  }
                                                 ></div>
                                               </label>
                                             </div>
                                           </td>
                                         </tr>
-                                      ))}
+                                      )
+                                    )}
                                   </tbody>
                                 </table>
-                                {SupplierBrandList[0].totalCount > 5 &&
+                                {SupplierBrandList[0].totalCount > 5 && (
                                   <div className="pagination-container">
                                     <ReactPaginate
                                       previousLabel={"<"}
                                       nextLabel={" >"}
                                       breakLabel={"..."}
                                       pageCount={Math.ceil(
-                                        SupplierBrandList[0].totalCount / rowsPerPage
+                                        SupplierBrandList[0].totalCount /
+                                          rowsPerPage
                                       )}
                                       marginPagesDisplayed={2}
-                                      onPageChange={(e)=>handlePageChange(e)}
+                                      onPageChange={(e) => handlePageChange(e)}
                                       containerClassName={"pagination"}
                                       activeClassName={"active"}
                                       initialPage={page - 1} // Use initialPage instead of forcePage
@@ -370,8 +438,26 @@ const SupplierProductList = () => {
                                         page === 0 ? "disabled" : ""
                                       }
                                     />
+                                    <Dropdown
+                                      defaultSelected="Page Size"
+                                      className="paginationDropdown"
+                                      value={rowsPerPage}
+                                      aria-label=""
+                                      onChange={(e) => {
+                                        setRowsPerPage(
+                                          parseInt(e.target.value)
+                                        );
+                                        dispatch(
+                                          onGetSupplierBrandList({
+                                            pageNumber: page,
+                                            pageSize: parseInt(e.target.value),
+                                          })
+                                        );
+                                      }}
+                                      options={paginationValue}
+                                    />
                                   </div>
-                                }
+                                )}
                               </div>
                             </div>
                           ) : (
