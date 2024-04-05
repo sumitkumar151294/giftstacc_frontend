@@ -128,27 +128,50 @@ const BrandCatalogue = () => {
   useEffect(() => {
     setShowLoader(false);
   }, [showLoader]);
+
   useEffect(() => {
     dispatch(onGetSupplierList());
-    const clientCode = sessionStorage.getItem("clientCode");
-    const adminCode = sessionStorage.getItem("clientCode");
-    dispatch(
-      onClientProductMappingSubmit(clientCode === 1 ? clientCode : adminCode)
-    );
-
+    dispatch(onGetAllClientProductMapping());
     dispatch(onClientMasterSubmit());
   }, []);
 
   useEffect(() => {
-    if (clientProductMapping?.status_code === "200") {
-      const productId =
-        Array.isArray(clientProductMapping?.clientDataById) &&
-        clientProductMapping?.clientDataById.map((item) => {
+    let productId = "";
+    if (
+      (supplierList.client === "" || supplierList.client === "Select") &&
+      clientProductMapping?.status_code === "200"
+    ) {
+      productId =
+        Array.isArray(clientProductMapping?.clientData) &&
+        clientProductMapping?.clientData?.map((item) => {
           return item?.productId;
         });
-      dispatch(onProductByIdSubmit(productId));
+    } else if (
+      supplierList.client !== "" &&
+      supplierList.client !== "Select" &&
+      clientProductMapping?.status_code === "200"
+    ) {
+      productId =
+        Array.isArray(clientProductMapping?.clientDataById) &&
+        clientProductMapping?.clientDataById[0]?.clientProductMapping?.map(
+          (item) => {
+            return item?.productId;
+          }
+        );
     }
+    productId?.length && dispatch(onProductByIdSubmit(productId));
   }, [clientProductMapping]);
+
+  // useEffect(() => {
+  //   if (clientProductMapping?.status_code === "200") {
+  //     const productId =
+  //       Array.isArray(clientProductMapping?.clientDataById) &&
+  //       clientProductMapping?.clientDataById.map((item) => {
+  //         return item?.productId;
+  //       });
+  //     dispatch(onProductByIdSubmit(productId));
+  //   }
+  // }, [clientProductMapping]);
   const handleClick = (data) => {
     {
       LoginId.isAdminLogin
