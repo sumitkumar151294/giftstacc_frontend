@@ -54,7 +54,7 @@ const CategoryForm = ({ setIsLoading }) => {
 
   useEffect(() => {
     dispatch(onGetSupplierList());
-    dispatch(onGetSupplierBrandList({isCategory:true}));
+    dispatch(onGetSupplierBrandList({ isCategory: true }));
   }, []);
 
   // To get the dropdown values of Supplier Name
@@ -87,7 +87,8 @@ const CategoryForm = ({ setIsLoading }) => {
           ?.filter((item) => {
             return (
               item.supplierCode ===
-              e.target.selectedOptions.item("").getAttribute("name")
+                e.target.selectedOptions.item("").getAttribute("name") &&
+              item.enabled !== false
             );
           })
           .map((item) => {
@@ -111,7 +112,7 @@ const CategoryForm = ({ setIsLoading }) => {
     });
   };
 
-  const handleSubmit = async (e) => { 
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -122,16 +123,20 @@ const CategoryForm = ({ setIsLoading }) => {
       } else if (createCategory[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
-      }else {
+      } else {
         newErrors[key] = "";
       }
     }
     setErrors(newErrors);
     if (isValid) {
       try {
-        dispatch(onPostCategory({...createCategory,
-        supplierId: parseInt(createCategory?.supplierId),
-        supplierBrandId: parseInt(createCategory?.supplierBrandId),}));
+        dispatch(
+          onPostCategory({
+            ...createCategory,
+            supplierId: parseInt(createCategory?.supplierId),
+            supplierBrandId: parseInt(createCategory?.supplierBrandId),
+          })
+        );
         setIsLoading(true);
       } catch (error) {}
     }

@@ -325,10 +325,7 @@ const SupplierProductList = () => {
                           <div className="card-header">
                             <h4 className="card-title">{supplierBrandLists}</h4>
                           </div>
-                          {console.log(
-                            "copySupplierBrandList",
-                            copySupplierBrandList
-                          )}
+      
                           {Array.isArray(copySupplierBrandList) &&
                           copySupplierBrandList?.length > 0 ? (
                             <div className="card-body">

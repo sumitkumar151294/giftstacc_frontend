@@ -162,7 +162,6 @@ const ClientBrandList = () => {
     }
   };
 
-  console.log(copyClientMapping, "copyClientMapping");
   const handleKeyPress = (e) => {
     if (e.key === "e" || e.key === "+" || e.key === "-") {
       e.preventDefault();
