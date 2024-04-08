@@ -65,6 +65,7 @@ const AddSpecialList = () => {
       id: data.id,
       enabled: false,
       deleted: true,
+      buttonText:data?.buttonText
     };
     dispatch(onAddSpecialUpdate(deletedData));
   };

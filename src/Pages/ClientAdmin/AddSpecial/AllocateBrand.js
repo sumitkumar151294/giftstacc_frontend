@@ -299,7 +299,7 @@ const AllocateBrand = () => {
                   text="Submit"
                   icon={"fa fa-arrow-right"}
                   className="btn btn-primary float-right pad-aa"
-                  onClick={handleSubmit()}
+                  onClick={handleSubmit} // Pass a reference to the function instead of calling it
                 />
               </div>
               <ToastContainer />

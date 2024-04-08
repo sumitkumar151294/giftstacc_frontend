@@ -36,6 +36,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     description: "",
     IsSpecial: "",
     enabled: "",
+    buttonText: "",
   });
   const [error, setError] = useState({
     sectionName: "",
@@ -44,6 +45,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     description: "",
     IsSpecial: "",
     enabled: "",
+    buttonText: "",
   });
   const resetField = {
     sectionName: "",
@@ -52,6 +54,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     description: "",
     IsSpecial: "",
     enabled: "",
+    buttonText: "",
   };
   const statusoptions = [
     { value: true, label: active },
@@ -67,6 +70,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || "",
       description: prefilledValues?.description || "",
       IsSpecial: prefilledValues?.isSpecial || false, // Use boolean value directly
+      buttonText: prefilledValues?.buttonText,
     });
     setError({
       sectionName: "",
@@ -75,6 +79,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       maximumNumberOfBrands: "",
       description: "",
       IsSpecial: "",
+      buttonText: "",
     });
   }, [prefilledValues]);
   useEffect(() => {
@@ -249,6 +254,21 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                               handleInput(e, "maximumNumberOfBrands")
                             }
                           />
+                        </div>
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="buttonText">
+                            Button text <span className="text-danger">*</span>
+                          </label>
+                          <InputField
+                            type="text"
+                            className={`form-control ${
+                              error.buttonText ? "border-danger" : ""
+                            }`}
+                            id="buttonText"
+                            value={formData.buttonText}
+                            onChange={(e) => handleInput(e, "buttonText")}
+                          />
+                          {<p className="text-danger">{error.buttonText}</p>}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
