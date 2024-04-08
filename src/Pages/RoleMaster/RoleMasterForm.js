@@ -161,22 +161,22 @@ const handleInputChange = (e) => {
   }
 };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = { ...errors };
     setErrors(newErrors);
-    if (formData.name.trim() === "") {
+    if (formData.name.trim() === ""){
       newErrors.name = mandatory_Req_Label;
       setErrors(newErrors);
-      return;
     } else if (formData.name.length > 250) {
       newErrors.name = "Length must be 250 or fewer";
       setErrors(newErrors);
-      return;
     }else {
       newErrors.name = "";
+    } 
+    if (formData.description.length > 250) {
+      newErrors.description = "Length must be 250 or fewer";
+      setErrors(newErrors);
     }
 
     //At least one Module should be selected
@@ -261,8 +261,8 @@ useEffect(()=>{
       }));
       setFormData({
         name: "",
-      description: "",
-      isClientPlatformModule: false,
+        description: "",
+        isClientPlatformModule: false,
         modules: modulesData,
       });
     }

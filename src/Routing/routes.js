@@ -5,7 +5,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import BrandCatalogue from "../Pages/BrandCatalogue/BrandCatalogue";
 import BrandDetail from "../Pages/BrandDetail/BrandDetail";
 import Orders from "../Pages/Orders/Orders";
-import EmailEventMaster from "../Pages/EmailEventMaster/EmailEventMaster";
+import EmailEventMaster from "../Pages/ClientAdmin/EmailEventMaster/EmailEventMaster";
 import ClientBrandList from "../Pages/ClientMaster/ClientBrandList";
 import ClientMasterList from "../Pages/ClientMaster/ClientMasterList";
 import Customerlist from "../Pages/CustomerList/CustomerList";

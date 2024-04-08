@@ -99,6 +99,9 @@ const FaqMaster = () => {
       if (faqInfo[key] === "") {
         newErrors[key] = " ";
         isValid = false;
+      }else if (faqInfo[key].length > 250) {
+        newErrors[key] = "Length must be 250 or fewer";
+        isValid = false;
       } else {
         newErrors[key] = "";
       }
