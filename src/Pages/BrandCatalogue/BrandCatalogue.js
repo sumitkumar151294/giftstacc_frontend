@@ -21,7 +21,6 @@ import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
 const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [showLoader, setShowLoader] = useState(false);
   const [copyBrandCatalogue, setCopyBrandCatalogue] = useState([]);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -43,8 +42,13 @@ const BrandCatalogue = () => {
   const endIndex = startIndex + rowsPerPage;
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data
+  );  const supplierMaster = useSelector(
+    (state) => state.supplierMasterReducer
   );
+
   const productByIdData = useSelector(
+    (state) => state.productReducer?.productById
+  );  const productById = useSelector(
     (state) => state.productReducer?.productById
   );
   const clientProductMapping = useSelector(
@@ -53,6 +57,8 @@ const BrandCatalogue = () => {
   const LoginId = useSelector((state) => state?.loginReducer);
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
+  );  const clientData = useSelector(
+    (state) => state?.clientMasterReducer
   );
   const [supplierList, setSupplierList] = useState({
     supplier: "",
@@ -125,9 +131,7 @@ const BrandCatalogue = () => {
     }));
   };
 
-  useEffect(() => {
-    setShowLoader(false);
-  }, [showLoader]);
+
 
   useEffect(() => {
     dispatch(onGetSupplierList());
@@ -284,7 +288,7 @@ const BrandCatalogue = () => {
                 </div>
               </div>
               <div className="card-body">
-                {showLoader && filteredBrandCatalogueList.length < 0 ? (
+                {productById?.isLoading || supplierMaster?.isLoading || clientProductMapping?.isLoading || clientData?.isLoading || LoginId?.isLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>

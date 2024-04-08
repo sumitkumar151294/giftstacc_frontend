@@ -63,10 +63,11 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     });
   };
   const PageNames = [
-    "About us",
+    "Our Story",
     "Privacy Policy",
     "Terms and Conditions",
-    "LC Loyality Program",
+    "Cancellation & Returns Policy",
+    "Vendor Panel"
   ];
   const handleSubmit = (e) => {
     e.preventDefault();

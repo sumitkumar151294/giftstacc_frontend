@@ -18,10 +18,13 @@ import { onClientPaymentSubmit } from "../../Store/Slices/clientPaymentDetailSli
 const ClientMasterList = () => {
   const dispatch = useDispatch();
   const [data, setdata] = useState();
-  const [showLoader, setShowLoader] = useState(false);
   const clientList = useSelector((state) => state.clientMasterReducer);
-  const getRoleAccess = useSelector((state)=> state.moduleReducer?.filteredData);
-  const clientPayData = useSelector((state) => state.clientPaymentReducer.clientPaymentData);
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer?.filteredData
+  );
+  const clientPayData = useSelector(
+    (state) => state.clientPaymentReducer.clientPaymentData
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -41,13 +44,13 @@ const ClientMasterList = () => {
   };
 
   useEffect(() => {
-    setShowLoader(true)
+    debugger
     dispatch(onClientMasterSubmit());
     dispatch(onClientPaymentSubmit());
-  }, []);
 
-  const handleEdit = (data,clientPayData) => {
-    const prefilled = {...clientPayData, ...data};
+  }, []);
+  const handleEdit = (data, clientPayData) => {
+    const prefilled = { ...clientPayData, ...data };
     setdata(prefilled);
   };
   const handleDelete = (data) => {
@@ -70,50 +73,56 @@ const ClientMasterList = () => {
     };
     dispatch(onUpdateClientMasterSubmit(deletedData));
   };
-  
+
+
+
   const headers = [
     { label: "Client Id", key: "clientID" },
     { label: "Contact Name", key: "contactName" },
     { label: "Contact Number", key: "contactNumber" },
     { label: "Contact Email", key: "contactEmail" },
-    { label: "Status", key: "status" }
+    { label: "Status", key: "status" },
   ];
 
-   // excel data to print
-   const excelData = Array.isArray(clientList?.clientData) && clientList?.clientData?.map(data => ({
-    contactName: data.name,
-    contactNumber: data.number,
-    contactEmail: data.email  ,
-    clientID: data.id,
-    status: data.enabled ?"Active":"Non-active",
-  }));
+  // excel data to print
+  const excelData =
+    Array.isArray(clientList?.clientData) &&
+    clientList?.clientData?.map((data) => ({
+      contactName: data.name,
+      contactNumber: data.number,
+      contactEmail: data.email,
+      clientID: data.id,
+      status: data.enabled ? "Active" : "Non-active",
+    }));
 
   const filteredClientList = Array.isArray(clientList?.clientData)
     ? clientList?.clientData.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
 
-  useEffect(() => {
-    setShowLoader(false);
-  }, []);
 
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   return (
     <>
-     {getRoleAccess[0]?.addAccess && (
-      <ClientMasterForm clientList={clientList} data={data} clientPayData={clientPayData} setdata={setdata}/>
-     )}
+      {getRoleAccess[0]?.addAccess && (
+        <ClientMasterForm
+          clientList={clientList}
+          data={data}
+          clientPayData={clientPayData}
+          setdata={setdata}
+        />
+      )}
       <ScrollToTop />
       <div className="container-fluid pt-0">
         <div className="row">
@@ -141,33 +150,34 @@ const ClientMasterList = () => {
                     </div>
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
-                    {clientList?.clientData && clientList?.clientData?.length > 0 && (
-                      <CSVLink
-                        data={excelData}
-                        headers={headers}
-                        filename={"ClientMaster.csv"}
-                      >
-                        {filteredClientList.length > 0 && (
-                          <Button
-                            className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                            text={exportLabel}
-                            icons={"fa fa-file-excel me-2"}
-                          />
-                        )}
-                      </CSVLink>
-                    )}
+                    {clientList?.clientData &&
+                      clientList?.clientData?.length > 0 && (
+                        <CSVLink
+                          data={excelData}
+                          headers={headers}
+                          filename={"ClientMaster.csv"}
+                        >
+                          {filteredClientList.length > 0 && (
+                            <Button
+                              className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                              text={exportLabel}
+                              icons={"fa fa-file-excel me-2"}
+                            />
+                          )}
+                        </CSVLink>
+                      )}
                   </div>
                 </div>
               </div>
               <div className="card-body">
-                {showLoader ? (
+                {clientList?.isLoading ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
                 ) : (
                   <>
                     {Array.isArray(filteredClientList) &&
-                      filteredClientList.length > 0 ? (
+                    filteredClientList.length > 0 ? (
                       <div className="table-responsive">
                         <>
                           <table className="table header-border table-responsive-sm">
@@ -179,7 +189,7 @@ const ClientMasterList = () => {
                                 <th>{clientID}</th>
                                 <th>{status}</th>
                                 {getRoleAccess[0]?.editAccess && (
-                                <th>{action}</th>
+                                  <th>{action}</th>
                                 )}
                                 <th>{login}</th>
                               </tr>
@@ -200,25 +210,36 @@ const ClientMasterList = () => {
                                       </span>
                                     </td>
                                     <td>{data.id}</td>
-                                   <td>
-                                        <span className={`badge ${data.enabled ? 'badge-success': 'badge-danger'}`}>
-                                          {data.enabled ? 'Active' : 'Non-Active'}
-                                        </span>
-                                      </td>
-                                      {getRoleAccess[0]?.editAccess && (
-                                    <>
-                                      <td>
+                                    <td>
+                                      <span
+                                        className={`badge ${
+                                          data.enabled
+                                            ? "badge-success"
+                                            : "badge-danger"
+                                        }`}
+                                      >
+                                        {data.enabled ? "Active" : "Non-Active"}
+                                      </span>
+                                    </td>
+                                    {getRoleAccess[0]?.editAccess && (
+                                      <>
+                                        <td>
                                           <div className="d-flex">
                                             <Button
                                               className="btn btn-primary shadow btn-xs sharp me-1"
                                               icon={"fas fa-pencil-alt"}
-                                              onClick={() => handleEdit(data, clientPayData)} />
+                                              onClick={() =>
+                                                handleEdit(data, clientPayData)
+                                              }
+                                            />
                                             <Button
                                               className="btn btn-danger shadow btn-xs sharp"
                                               icon={"fa fa-trash"}
-                                              onClick={() => handleDelete(data)} />
+                                              onClick={() => handleDelete(data)}
+                                            />
                                           </div>
-                                        </td></>
+                                        </td>
+                                      </>
                                     )}
                                     <td>
                                       <Link to="/lc-user-admin/login">
@@ -232,7 +253,7 @@ const ClientMasterList = () => {
                                     <td>
                                       <Link
                                         to="/lc-admin/client-brand-list"
-                                        state={{id:data.id}}
+                                        state={{ id: data.id }}
                                         className="btn btn-primary btn-sm float-right"
                                       >
                                         <i className="fa fa-eye"></i>&nbsp;
@@ -243,7 +264,7 @@ const ClientMasterList = () => {
                                 ))}
                             </tbody>
                           </table>
-                          {(filteredClientList.length > 5) && (
+                          {filteredClientList.length > 5 && (
                             <div className="pagination-container">
                               <ReactPaginate
                                 previousLabel={"<"}
