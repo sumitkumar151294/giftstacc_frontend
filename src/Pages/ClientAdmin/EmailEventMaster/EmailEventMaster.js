@@ -58,7 +58,7 @@ const EmailEventMaster = () => {
       if (name[key] === "") {
         newErrors[key] = "This field is required";
         isValid = false;
-      }else if (name[key].length > 250) {
+      }else if(name[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
       }  else {

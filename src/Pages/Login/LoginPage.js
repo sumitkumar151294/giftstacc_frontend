@@ -29,6 +29,17 @@ const LoginPage = () => {
     password: "",
   });
   const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
+  const sign = GetTranslationData("UIAdmin", "sign");
+  const email_label = GetTranslationData("UIAdmin", "email_label");
+  const email_placeholder = GetTranslationData("UIAdmin", "email_placeholder");
+  const password_label = GetTranslationData("UIAdmin", "password_label");
+  const password_placeholder = GetTranslationData(
+    "UIAdmin",
+    "password_placeholder"
+  );
+  const req_field = GetTranslationData("UIAdmin", "req_field");
+  const remember = GetTranslationData("UIAdmin", "remember");
+  const sign_me_label = GetTranslationData("UIAdmin", "sign_Me_Label");
 
   const handleChange = (e, fieldName) => {
     // Destructure the value from the event object
@@ -126,14 +137,13 @@ const LoginPage = () => {
       loginDetails?.status_code === "201" &&
       isSubmit
     ) {
-      if(loginDetails?.data?.[0]?.adminRoleId){
+      if (loginDetails?.data?.[0]?.adminRoleId) {
         setShowLoader(false);
         navigate("/lc-admin/dashboard");
-      }else{
+      } else {
         setShowLoader(false);
         toast.error("Invalid Credentials");
       }
-     
     } else if (isSubmit && loginDetails?.status_code) {
       setShowLoader(false);
       toast.error(loginDetails?.message);
@@ -162,15 +172,11 @@ const LoginPage = () => {
                         <div className="text-center mb-3">
                           <img className="w-100" src={image} alt="" />
                         </div>
-                        <h4 className="text-center mb-4">
-                          {GetTranslationData("UIAdmin", "sign")}
-                        </h4>
+                        <h4 className="text-center mb-4">{sign}</h4>
                         <form onSubmit={(e) => handleSubmit(e)}>
                           <div className="mb-3">
                             <label className="mb-1">
-                              <strong>
-                                {GetTranslationData("UIAdmin", "email_label")}
-                              </strong>
+                              <strong>{email_label}</strong>
                               <span className="text-danger">*</span>
                             </label>
                             <InputField
@@ -178,10 +184,7 @@ const LoginPage = () => {
                               className={` ${
                                 errors.email ? "border-danger" : "form-control"
                               }`}
-                              placeholder={GetTranslationData(
-                                "UIAdmin",
-                                "email_placeholder"
-                              )}
+                              placeholder={email_placeholder}
                               onChange={(e) => handleChange(e, "email")}
                               error={errors.email}
                             />
@@ -189,12 +192,7 @@ const LoginPage = () => {
                           </div>
                           <div className="mb-3">
                             <label className="mb-1">
-                              <strong>
-                                {GetTranslationData(
-                                  "UIAdmin",
-                                  "password_label"
-                                )}
-                              </strong>
+                              <strong>{password_label}</strong>
                               <span className="text-danger">*</span>
                             </label>
                             <InputField
@@ -205,10 +203,7 @@ const LoginPage = () => {
                                   : "form-control"
                               }`}
                               onChange={(e) => handleChange(e, "password")}
-                              placeholder={GetTranslationData(
-                                "UIAdmin",
-                                "password_placeholder"
-                              )}
+                              placeholder={password_placeholder}
                             />
                           </div>
                           {showLoder && <Loader />}
@@ -218,7 +213,7 @@ const LoginPage = () => {
                                 className="form-check-label"
                                 htmlFor="basic_checkbox_1"
                               >
-                                {GetTranslationData("UIAdmin", "req_field")}
+                                {req_field}
                               </span>
                               <div className="form-check custom-checkbox ms-1">
                                 <InputField
@@ -231,17 +226,14 @@ const LoginPage = () => {
                                   className="form-check-label"
                                   htmlFor="basic_checkbox_1"
                                 >
-                                  {GetTranslationData("UIAdmin", "remember")}
+                                  {remember}
                                 </label>
                               </div>
                             </div>
                           </div>
                           <div className="text-center">
                             <Button
-                              text={GetTranslationData(
-                                "UIAdmin",
-                                "sign_Me_Label"
-                              )}
+                              text={sign_me_label}
                               className="btn btn-primary btn-block btn-sm float-right p-btn mt-2"
                             />
                             <ToastContainer />
