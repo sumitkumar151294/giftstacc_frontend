@@ -19,6 +19,12 @@ const AddSpecialList = () => {
   const action = GetTranslationData("UIClient", "actionLabel");
   const addSpecialList = GetTranslationData("UIClient", "addSpecialList");
   const allocateBrands = GetTranslationData("UIClient", "allocateBrands");
+  const Is_Special = GetTranslationData("UIClient", "Is_Special");
+  const enabled_Text = GetTranslationData("UIAdmin", "enabled_Text");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const non_active_option = GetTranslationData("UIClient", "non_active_option");
+  const active = GetTranslationData("UIAdmin", "active");
+
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [prefilledValues, setPrefilledValues] = useState();
@@ -65,7 +71,7 @@ const AddSpecialList = () => {
       id: data.id,
       enabled: false,
       deleted: true,
-      buttonText:data?.buttonText
+      buttonText: data?.buttonText,
     };
     dispatch(onAddSpecialUpdate(deletedData));
   };
@@ -105,7 +111,7 @@ const AddSpecialList = () => {
                                   <th>{section_name}</th>
                                   <th>{displayOrder}</th>
                                   <th>{maxNoOfbrands}</th>
-                                  <th>is Special</th>
+                                  <th>{Is_Special}</th>
 
                                   <th>{status}</th>
                                   {getRoleAccess[0]?.editAccess && (
@@ -135,8 +141,8 @@ const AddSpecialList = () => {
                                             }
                                           >
                                             {Special.isSpecial === false
-                                              ? "disabled"
-                                              : "enabled"}
+                                              ? disabled_Text
+                                              : enabled_Text}
                                           </span>
                                         </td>
                                         <td>
@@ -148,8 +154,8 @@ const AddSpecialList = () => {
                                             }
                                           >
                                             {Special.enabled === true
-                                              ? "Active"
-                                              : "Non-Active"}
+                                              ? active
+                                              : non_active_option}
                                           </span>
                                         </td>{" "}
                                         {getRoleAccess[0]?.editAccess && (
@@ -201,7 +207,7 @@ const AddSpecialList = () => {
                                   activeClassName={"active"}
                                   initialPage={page - 1} // Use initialPage instead of forcePage
                                   previousClassName={
-                                    page === 1 ? "disabled" : ""
+                                    page === 1 ? disabled_Text : ""
                                   }
                                 />
                               </div>

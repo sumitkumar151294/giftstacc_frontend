@@ -28,7 +28,9 @@ const Orders = () => {
     (state) => state?.supplierMasterReducer?.data
   );
   const ClientLogin = useSelector((state) => state.loginReducer.isAdminLogin);
-  const clientList = useSelector((state) => state?.clientMasterReducer?.clientData);
+  const clientList = useSelector(
+    (state) => state?.clientMasterReducer?.clientData
+  );
   const orders = GetTranslationData("UIAdmin", "orders");
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client");
@@ -41,6 +43,7 @@ const Orders = () => {
   const ordermarginvalue = GetTranslationData("UIAdmin", "ordermarginvalue");
   const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -449,25 +452,27 @@ const Orders = () => {
                         options={supplierListData}
                       />
                     </div>
-                    {ClientLogin && <div className="col-sm-3 form-group mb-2">
-                      <label htmlFor="client">{client}</label>
-                      <Dropdown
-                        onChange={(e) => handleChange(e, "client")}
-                        defaultValue={supplierList?.client || ""}
-                        className="form-select"
-                        options={clientListData}
-                      />
-                    </div>}
+                    {ClientLogin && (
+                      <div className="col-sm-3 form-group mb-2">
+                        <label htmlFor="client">{client}</label>
+                        <Dropdown
+                          onChange={(e) => handleChange(e, "client")}
+                          defaultValue={supplierList?.client || ""}
+                          className="form-select"
+                          options={clientListData}
+                        />
+                      </div>
+                    )}
                     <div className="col-xl-3">
                       <div className="example">
                         <p className="mb-1">{date}</p>
                         <DatePickerInput
-                         placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
-                         selectsRange={true}
-                         dateFormat="dd MMM yyyy h:mm aa"
-                         timeFormat="HH:mm"
-                         className={'form-control form-control-sm'}
-                         showDisabledMonthNavigation
+                          placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
+                          selectsRange={true}
+                          dateFormat="dd MMM yyyy h:mm aa"
+                          timeFormat="HH:mm"
+                          className={"form-control form-control-sm"}
+                          showDisabledMonthNavigation
                         />
                       </div>
                     </div>
@@ -525,7 +530,9 @@ const Orders = () => {
                                 containerClassName={"pagination"}
                                 activeClassName={"active"}
                                 initialPage={page - 1} // Use initialPage instead of forcePage
-                                previousClassName={page === 0 ? "disabled" : ""}
+                                previousClassName={
+                                  page === 0 ? disabled_Text : ""
+                                }
                               />
                             </div>
                           </>

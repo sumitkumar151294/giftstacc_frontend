@@ -14,12 +14,20 @@ const RoleMasterList = () => {
   const [data, setData] = useState();
   const dispatch = useDispatch();
   // To get the label from DB
-  const roleModuleAccessList = GetTranslationData("UIAdmin", "role-module-access-list");
+  const roleModuleAccessList = GetTranslationData(
+    "UIAdmin",
+    "role-module-access-list"
+  );
   const roleName = GetTranslationData("UIAdmin", "role-name");
   const modules = GetTranslationData("UIAdmin", "modules");
   const action = GetTranslationData("UIAdmin", "action");
-  const roleAccessListData = useSelector((state) => state.userRoleReducer.userRoleData);
-  const userRoleAccessListData = useSelector((state) => state.userRoleModuleAccessReducer.data);
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const roleAccessListData = useSelector(
+    (state) => state.userRoleReducer.userRoleData
+  );
+  const userRoleAccessListData = useSelector(
+    (state) => state.userRoleModuleAccessReducer.data
+  );
   const moduleList = useSelector((state) => state.moduleReducer?.data);
   useEffect(() => {
     // user-role get api call
@@ -28,13 +36,13 @@ const RoleMasterList = () => {
   }, []);
 
   const getModuleName = (id) => {
-    if(Array.isArray(moduleList)){
+    if (Array.isArray(moduleList)) {
       let moduleName = moduleList?.filter((item) => item.id === id);
       if (moduleName?.length > 0) {
         return moduleName[0].name;
       } else {
         return "";
-      }  
+      }
     }
   };
   const [rowsPerPage] = useState(5);
@@ -57,10 +65,7 @@ const RoleMasterList = () => {
   return (
     <>
       <ScrollToTop />
-      <RoleMasterForm
-        data={data}
-        setData={setData}
-      />
+      <RoleMasterForm data={data} setData={setData} />
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -91,22 +96,28 @@ const RoleMasterList = () => {
                             .map((data, index) => (
                               <tr key={index}>
                                 <td>{data.name}</td>
-                                <td>  
-                                <div className="d-flex">
-                                {
-                                 Array.isArray(userRoleAccessListData) && userRoleAccessListData?.filter(item=> (item.roleId===data?.id && (item.viewAccess || item.addAccess || item.editAccess))).map(moduleData=>(
-                                      <span
-                                        className="badge badge-success mr-10"
-                                        key={moduleData.id}
-                                      >
-                                       {getModuleName(moduleData?.moduleId)}
-                                      </span>
-                                 
-                                  ))
-                                }             
-
-                                 </div>                
-                                 
+                                <td>
+                                  <div className="d-flex">
+                                    {Array.isArray(userRoleAccessListData) &&
+                                      userRoleAccessListData
+                                        ?.filter(
+                                          (item) =>
+                                            item.roleId === data?.id &&
+                                            (item.viewAccess ||
+                                              item.addAccess ||
+                                              item.editAccess)
+                                        )
+                                        .map((moduleData) => (
+                                          <span
+                                            className="badge badge-success mr-10"
+                                            key={moduleData.id}
+                                          >
+                                            {getModuleName(
+                                              moduleData?.moduleId
+                                            )}
+                                          </span>
+                                        ))}
+                                  </div>
                                 </td>
                                 <td>
                                   <a
@@ -121,21 +132,22 @@ const RoleMasterList = () => {
                       </tbody>
                     </table>
                     <div className="pagination-container">
-                      {roleAccessListData.length > 5 &&
-                      <ReactPaginate
-                        previousLabel={"<"}
-                        nextLabel={" >"}
-                        breakLabel={"..."}
-                        pageCount={Math.ceil(
-                          roleAccessListData.length / rowsPerPage
-                        )}
-                        marginPagesDisplayed={2}
-                        onPageChange={handlePageChange}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                        initialPage={page - 1} // Use initialPage instead of forcePage
-                        previousClassName={page === 0 ? "disabled" : ""}
-                      />}
+                      {roleAccessListData.length > 5 && (
+                        <ReactPaginate
+                          previousLabel={"<"}
+                          nextLabel={" >"}
+                          breakLabel={"..."}
+                          pageCount={Math.ceil(
+                            roleAccessListData.length / rowsPerPage
+                          )}
+                          marginPagesDisplayed={2}
+                          onPageChange={handlePageChange}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                          initialPage={page - 1} // Use initialPage instead of forcePage
+                          previousClassName={page === 0 ? disabled_Text : ""}
+                        />
+                      )}
                     </div>
                   </div>
                 ) : (

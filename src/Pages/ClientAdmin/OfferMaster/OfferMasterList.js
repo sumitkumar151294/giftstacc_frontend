@@ -28,6 +28,9 @@ const OfferMasterList = () => {
   const imagePlacement = GetTranslationData("UIClient", "image_placement");
   const status = GetTranslationData("UIClient", "status");
   const action = GetTranslationData("UIClient", "actionLabel");
+  const active = GetTranslationData("UIAdmin", "active");
+  const nonActive = GetTranslationData("UIAdmin", "nonActive");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const dispatch = useDispatch();
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -162,9 +165,7 @@ const OfferMasterList = () => {
                                                 : "badge-danger"
                                             }`}
                                           >
-                                            {data.enabled
-                                              ? "Active"
-                                              : "Non-Active"}
+                                            {data.enabled ? active : nonActive}
                                           </span>
                                         </td>
                                         {getRoleAccess[0]?.editAccess && (
@@ -205,7 +206,7 @@ const OfferMasterList = () => {
                                     activeClassName={"active"}
                                     initialPage={page - 1}
                                     previousClassName={
-                                      page === 1 ? "disabled" : ""
+                                      page === 1 ? disabled_Text : ""
                                     }
                                   />
                                 </div>

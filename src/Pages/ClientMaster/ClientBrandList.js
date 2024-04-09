@@ -21,6 +21,7 @@ import {
   onUpdateClientProductMappingReset,
   onUpdateClientProductMappingSubmit,
 } from "../../Store/Slices/clientProductMappingSlice";
+import { act } from "react-dom/test-utils";
 
 const ClientBrandList = () => {
   const location = useLocation();
@@ -57,6 +58,10 @@ const ClientBrandList = () => {
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
   const update = GetTranslationData("UIAdmin", "update_label");
+  const enabled_Text = GetTranslationData("UIAdmin", "enabled_Text");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const active = GetTranslationData("UIClient", "active_option");
+  const non_active = GetTranslationData("UIClient", "non_active_option");
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(() => {
@@ -446,16 +451,18 @@ const ClientBrandList = () => {
                                               className={
                                                 getValues(
                                                   data.id,
-                                                  "enabled"
+                                                  enabled_Text
                                                 ) === true
                                                   ? "badge badge-success"
                                                   : "badge badge-danger"
                                               }
                                             >
-                                              {getValues(data.id, "enabled") ===
-                                              true
-                                                ? "Active"
-                                                : "Non-Active"}
+                                              {getValues(
+                                                data.id,
+                                                enabled_Text
+                                              ) === true
+                                                ? active
+                                                : non_active}
                                             </span>
                                           </td>
                                           <td>
@@ -465,7 +472,7 @@ const ClientBrandList = () => {
                                                 type="checkbox"
                                                 checked={getValues(
                                                   data.id,
-                                                  "enabled"
+                                                  enabled_Text
                                                 )}
                                               ></input>
                                               <label
@@ -504,7 +511,7 @@ const ClientBrandList = () => {
                                       activeClassName={"active"}
                                       initialPage={page - 1} // Use initialPage instead of forcePage
                                       previousClassName={
-                                        page === 0 ? "disabled" : ""
+                                        page === 0 ? disabled_Text : ""
                                       }
                                     />
                                     <Dropdown

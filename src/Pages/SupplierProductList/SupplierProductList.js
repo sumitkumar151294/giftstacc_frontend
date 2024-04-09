@@ -52,6 +52,10 @@ const SupplierProductList = () => {
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
   const update = GetTranslationData("UIAdmin", "update_label");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const active = GetTranslationData("UIAdmin", "active");
+  const nonActive = GetTranslationData("UIAdmin", "nonActive");
+
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -214,7 +218,7 @@ const SupplierProductList = () => {
       id: data.id,
       brands: data.name,
       supplier_Margin: data.supplierMargin,
-      status: data.enabled ? "Active" : "Non-active",
+      status: data.enabled ? active : nonActive,
     }));
   const paginationValue = [
     {
@@ -325,7 +329,7 @@ const SupplierProductList = () => {
                           <div className="card-header">
                             <h4 className="card-title">{supplierBrandLists}</h4>
                           </div>
-      
+
                           {Array.isArray(copySupplierBrandList) &&
                           copySupplierBrandList?.length > 0 ? (
                             <div className="card-body">
@@ -384,8 +388,8 @@ const SupplierProductList = () => {
                                               }
                                             >
                                               {data?.enabled === true
-                                                ? "Active"
-                                                : "Non-Active"}
+                                                ? active
+                                                : nonActive}
                                             </span>
                                           </td>
                                           <td>
@@ -432,7 +436,7 @@ const SupplierProductList = () => {
                                       activeClassName={"active"}
                                       initialPage={page - 1} // Use initialPage instead of forcePage
                                       previousClassName={
-                                        page === 0 ? "disabled" : ""
+                                        page === 0 ? disabled_Text : ""
                                       }
                                     />
                                     <Dropdown

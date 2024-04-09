@@ -15,17 +15,21 @@ const BannerMasterList = () => {
   const display_order = GetTranslationData("UIClient", "display-order");
   const status = GetTranslationData("UIClient", "status");
   const actionLabel = GetTranslationData("UIClient", "actionLabel");
+  const non_active_option = GetTranslationData("UIClient", "non_active_option");
+  const active = GetTranslationData("UIAdmin", "active");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const dispatch = useDispatch();
-  const getBannerMasterState = useSelector((state) => state.bannerMasterReducer);
+  const getBannerMasterState = useSelector(
+    (state) => state.bannerMasterReducer
+  );
 
   const getBannerMaster = useSelector(
     (state) => state.bannerMasterReducer?.getData
   );
-  const getListData= getBannerMasterState?.isLoading;
+  const getListData = getBannerMasterState?.isLoading;
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer.filteredData
   );
-
 
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -48,7 +52,7 @@ const BannerMasterList = () => {
       bannerSubtitle: data.bannerSubtitle,
       bannerLink: data.bannerLink,
       displayOrder: data.displayOrder,
-      buttonText: data.buttonText,  
+      buttonText: data.buttonText,
       image: data.image,
       id: data?.id,
       enabled: false,
@@ -117,7 +121,9 @@ const BannerMasterList = () => {
                                           : "badge badge-danger"
                                       }
                                     >
-                                      {banner.enabled ? "Active" : "Non-Active"}
+                                      {banner.enabled
+                                        ? active
+                                        : non_active_option}
                                     </span>
                                   </td>
                                   {getRoleAccess[0]?.editAccess && (
@@ -154,7 +160,9 @@ const BannerMasterList = () => {
                               containerClassName={"pagination"}
                               activeClassName={"active"}
                               initialPage={page - 1} // Use initialPage instead of forcePage
-                              previousClassName={page === 1 ? "disabled" : ""}
+                              previousClassName={
+                                page === 1 ? disabled_Text : ""
+                              }
                             />
                           </div>
                         )}

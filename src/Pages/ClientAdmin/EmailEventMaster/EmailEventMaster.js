@@ -10,6 +10,8 @@ import NoRecord from "../../../Components/NoRecord/NoRecord";
 import Button from "../../../Components/Button/Button";
 
 const EmailEventMaster = () => {
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
 
@@ -58,10 +60,10 @@ const EmailEventMaster = () => {
       if (name[key] === "") {
         newErrors[key] = "This field is required";
         isValid = false;
-      }else if(name[key].length > 250) {
+      } else if (name[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
-      }  else {
+      } else {
         newErrors[key] = "";
       }
     }
@@ -132,6 +134,8 @@ const EmailEventMaster = () => {
   ];
   const submit = GetTranslationData("UIClient", "submitLabel");
   const emaileventmaster = GetTranslationData("UIAdmin", "emaileventmaster");
+  const noDataFound = GetTranslationData("UIClient", "No_data_found_Text");
+
   const emaileventmastername = GetTranslationData(
     "UIAdmin",
     "emaileventmastername"
@@ -302,7 +306,7 @@ const EmailEventMaster = () => {
                             ) : (
                               <tr>
                                 <td colSpan="6" className="text-center">
-                                  No data found
+                                  {noDataFound}
                                 </td>
                               </tr>
                             )}
@@ -373,7 +377,7 @@ const EmailEventMaster = () => {
                           containerClassName={"pagination"}
                           activeClassName={"active"}
                           initialPage={page - 1}
-                          previousClassName={page === 1 ? "disabled" : ""}
+                          previousClassName={page === 1 ? disabled_Text : ""}
                         />
                       </div>
                     )}
