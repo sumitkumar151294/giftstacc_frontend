@@ -176,8 +176,8 @@ const ClientCommissionReport = () => {
                     <tbody>
                       {clientCommissionReport
                         .slice(startIndex, endIndex)
-                        .map((data) => (
-                          <tr key={data.id}>
+                        .map((data, index) => (
+                          <tr key={index}>
                             <td>{data.supplier}</td>
                             <td>{data.brand}</td>
                             <td>{data.noOfVouchers}</td>

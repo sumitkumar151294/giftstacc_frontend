@@ -335,8 +335,8 @@ const EmailEventMaster = () => {
                       <tbody>
                         {emailEventMaster
                           .slice(startIndex, endIndex)
-                          .map((item) => (
-                            <tr>
+                          .map((item, index) => (
+                            <tr key={index}>
                               <td>{item.id}</td>
                               <td>{item.status}</td>
                               <td>{item.date}</td>

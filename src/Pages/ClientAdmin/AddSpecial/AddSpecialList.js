@@ -124,8 +124,8 @@ const AddSpecialList = () => {
                                 {Array.isArray(getAddSpecial?.getData) &&
                                   getAddSpecial?.getData
                                     .slice(startIndex, endIndex)
-                                    .map((Special) => (
-                                      <tr>
+                                    .map((Special, index) => (
+                                      <tr key={index}>
                                         <td>
                                           <strong>{Special.sectionName}</strong>
                                         </td>

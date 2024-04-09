@@ -97,10 +97,10 @@ const CMS = () => {
             setCmsprefilled={setCmsprefilled}
           />
         )}
-        <div class="container-fluid mt-2 mb-2 pt-1">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="card">
+        <div className="container-fluid mt-2 mb-2 pt-1">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card">
                 <div className="container-fluid mt-2 mb-2 pt-1">
                   <div className="card-body">
                     {isLoading ? (
@@ -122,32 +122,34 @@ const CMS = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {getData.slice(startIndex, endIndex).map((data) => (
-                              <tr>
-                                <td>{data.id}</td>
-                                <td>{data.title}</td>
-                                <td>{data.shortDescription}</td>
-                                <td>{data.longDescription}</td>
-                                {getRoleAccess[0]?.editAccess && (
-                                  <td>
-                                    <div className="d-flex">
-                                      <a
-                                        className="btn btn-primary shadow btn-xs sharp me-1"
-                                        onClick={() => handleEdit(data)}
-                                      >
-                                        <i className="fas fa-pencil-alt"></i>
-                                      </a>
-                                      <a
-                                        className="btn btn-danger shadow btn-xs sharp"
-                                        onClick={() => handleDelete(data)}
-                                      >
-                                        <i className="fa fa-trash"></i>
-                                      </a>
-                                    </div>
-                                  </td>
-                                )}
-                              </tr>
-                            ))}
+                            {getData
+                              .slice(startIndex, endIndex)
+                              .map((data, index) => (
+                                <tr key={index}>
+                                  <td>{data.id}</td>
+                                  <td>{data.title}</td>
+                                  <td>{data.shortDescription}</td>
+                                  <td>{data.longDescription}</td>
+                                  {getRoleAccess[0]?.editAccess && (
+                                    <td>
+                                      <div className="d-flex">
+                                        <a
+                                          className="btn btn-primary shadow btn-xs sharp me-1"
+                                          onClick={() => handleEdit(data)}
+                                        >
+                                          <i className="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a
+                                          className="btn btn-danger shadow btn-xs sharp"
+                                          onClick={() => handleDelete(data)}
+                                        >
+                                          <i className="fa fa-trash"></i>
+                                        </a>
+                                      </div>
+                                    </td>
+                                  )}
+                                </tr>
+                              ))}
                           </tbody>
                         </table>
                         {getData.length > 5 && (
