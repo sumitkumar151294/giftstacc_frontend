@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Dropdown from "../../Components/Dropdown/Dropdown";
-import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
@@ -21,7 +20,6 @@ import {
   onUpdateClientProductMappingReset,
   onUpdateClientProductMappingSubmit,
 } from "../../Store/Slices/clientProductMappingSlice";
-import { act } from "react-dom/test-utils";
 
 const ClientBrandList = () => {
   const location = useLocation();
@@ -142,7 +140,7 @@ const ClientBrandList = () => {
     if (suppliers?.data.length && !supplierList.length) {
       let tempSupplier = [];
       suppliers?.data?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.code });
+      return  tempSupplier.push({ label: item.name, value: item.code });
       });
       setSupplierList(tempSupplier);
     }

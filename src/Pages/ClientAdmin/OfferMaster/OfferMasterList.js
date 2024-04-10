@@ -42,7 +42,7 @@ const OfferMasterList = () => {
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
-  const [showError, setShowError] = useState(false);
+  const showError=false;
   const [pageError, setPageError] = useState({
     StatusCode: "",
     ErrorName: "",
@@ -99,7 +99,7 @@ const OfferMasterList = () => {
   return (
     <>
       {showError ? (
-        <PageError pageError={pageError} />
+        <PageError pageError={pageError} setPageError={setPageError}/>
       ) : (
         <>
           {getRoleAccess[0]?.addAccess && (
@@ -151,6 +151,7 @@ const OfferMasterList = () => {
                                           <img
                                             src={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
                                             style={{ width: "50px" }}
+                                            alt={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
                                           />
                                         </td>
                                         <td>{data.title}</td>

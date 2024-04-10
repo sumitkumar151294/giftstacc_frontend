@@ -98,14 +98,14 @@ const AbandonedCartReport = () => {
                 <div className="customer-search mb-sm-0 mb-3">
                   <div className="input-group search-area">
                     <input type="text" className="form-control only-high" placeholder={placeholder_Mobile_Email_Name} />
-                    <span className="input-group-text"><a><i className="flaticon-381-search-2"></i></a></span>
+                    <span className="input-group-text"><button><i className="flaticon-381-search-2"></i></button></span>
                   </div>
                 </div>
                 <div className="example">
                   <input type="text" className="form-control input-daterange-timepicker" name="daterange" defaultValue="01/01/2015 1:30 PM - 01/01/2015 2:00 PM" />
                 </div>
                 <div className="d-flex align-items-center flex-wrap">
-                  <a className="btn btn-primary btn-sm btn-rounded me-3 mb-2"><i className="fa fa-file-excel me-2"></i>{export_label}</a>
+                  <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2"><i className="fa fa-file-excel me-2"></i>{export_label}</button>
                 </div>
               </div>
               {customerDetail.map((data, index) => (

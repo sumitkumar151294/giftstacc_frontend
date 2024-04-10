@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
@@ -173,11 +175,9 @@ const BrandCatalogue = () => {
   //   }
   // }, [clientProductMapping]);
   const handleClick = (data) => {
-    {
-      LoginId.isAdminLogin
-        ? navigate("/lc-admin/brand-detail", { state: data })
-        : navigate("/lc-user-admin/brand-detail", { state: data });
-    }
+    LoginId.isAdminLogin
+      ? navigate("/lc-admin/brand-detail", { state: data })
+      : navigate("/lc-user-admin/brand-detail", { state: data });
   };
   useEffect(() => {
     let filteredProducts = [];
@@ -320,6 +320,7 @@ const BrandCatalogue = () => {
                                         <img
                                           src={data.small}
                                           style={{ width: "50px" }}
+                                          alt={data.small}
                                         />
                                         <br />
                                       </td>
@@ -382,3 +383,4 @@ const BrandCatalogue = () => {
 };
 
 export default BrandCatalogue;
+/* eslint-enable react-hooks/exhaustive-deps */

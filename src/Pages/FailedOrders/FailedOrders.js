@@ -198,9 +198,9 @@ const FailedOrders = () => {
                         placeholder="Mobile/Email/Name"
                       />
                       <span className="input-group-text">
-                        <a>
+                        <button>
                           <i className="flaticon-381-search-2"></i>
-                        </a>
+                        </button>
                       </span>
                     </div>
                   </div>
@@ -214,9 +214,9 @@ const FailedOrders = () => {
                     />
                   </div>
                   <div className="d-flex align-items-center flex-wrap">
-                    <a className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
+                    <button className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
                       <i className="fa fa-file-excel me-2"></i>Export
-                    </a>
+                    </button>
                   </div>
                 </div>
                 <div className="card-body p-0 main">
@@ -406,9 +406,9 @@ const FailedOrders = () => {
                             </p>
                           </div>
                           <div className="col-lg-2">
-                            <a href="#" className={data.classname}>
+                            <button href="#" className={data.classname}>
                               {data.reprocess}
-                            </a>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -447,12 +447,12 @@ const FailedOrders = () => {
                         </span>
                       </div>
                       <div className="1st">
-                        <a
+                        <button
                           href="#"
                           className="btn btn-primary btn-sm float-right bttn "
                         >
                           Re - Process
-                        </a>
+                        </button>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between weak1">

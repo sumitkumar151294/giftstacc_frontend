@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { CSVLink } from "react-csv";
@@ -104,7 +105,7 @@ const SupplierProductList = () => {
     if (suppliers?.data.length && !supplierList.length) {
       let tempSupplier = [];
       suppliers?.data?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.code });
+        return tempSupplier.push({ label: item.name, value: item.code });
       });
       setSupplierList(tempSupplier);
     }
@@ -480,3 +481,4 @@ const SupplierProductList = () => {
 };
 
 export default SupplierProductList;
+/* eslint-enable react-hooks/exhaustive-deps */

@@ -84,18 +84,18 @@ const Customerlist = () => {
                                                 placeholder="Search Here......"
                                             />
                                             <span className="input-group-text">
-                                                <a>
+                                                <button>
                                                     <i className="flaticon-381-search-2"></i>
-                                                </a>
+                                                </button>
                                             </span>
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center flex-wrap">
-                                        <a
+                                        <button
                                             className="btn btn-primary btn-rounded me-3 mb-2"
                                         >
                                             <i className="fa fa-file-excel me-2"></i>{exportLabel}
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="card-body">
@@ -119,13 +119,13 @@ const Customerlist = () => {
                                                                 </div>
                                                             </td>
                                                             <td className="py-2">
-                                                                <a href="mailto:ricky@example.com">
+                                                                <button href="mailto:ricky@example.com">
                                                                     {item.email}{" "}
-                                                                </a>
+                                                                </button>
                                                             </td>
                                                             <td className="py-2">
                                                                 {" "}
-                                                                <a href="tel:2012001851">{item.phone}</a>
+                                                                <button href="tel:2012001851">{item.phone}</button>
                                                             </td>
                                                             <td className="py-2">{item.joined}</td>
                                                         </tr>

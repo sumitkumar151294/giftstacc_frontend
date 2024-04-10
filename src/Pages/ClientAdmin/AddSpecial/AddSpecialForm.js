@@ -17,7 +17,6 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
-  const [isLoading, setIsLoading] = useState(false);
   const getAddSpecial = useSelector((state) => state.addSpecialReducer);
   const field_Required = GetTranslationData("UIAdmin", "field_Required");
   const description = GetTranslationData("UIAdmin", "description");
@@ -177,7 +176,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                 <h4 className="card-title">{addSpecialMaster}</h4>
               </div>
               <div className="card-body card-body-user">
-                {isLoading ? (
+                {getAddSpecial?.isLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classNameType={"absoluteLoader"} />
                   </div>

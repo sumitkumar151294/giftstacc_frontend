@@ -19,7 +19,6 @@ import {
   onSupplierResourceSubmit,
   onUpdateSupplierResource,
 } from "../../Store/Slices/supplierResourceSlice";
-import { act } from "react-dom/test-utils";
 
 const SupplierMasterForm = ({
   data,

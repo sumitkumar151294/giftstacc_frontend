@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
@@ -199,7 +201,7 @@ const ClientMasterList = () => {
                                   <tr key={data.id}>
                                     <td>
                                       {data.name}
-                                      <a href="#"></a>
+                                      <button href="#"></button>
                                     </td>
                                     <td>{data.number}</td>
                                     <td>
@@ -299,3 +301,4 @@ const ClientMasterList = () => {
 };
 
 export default ClientMasterList;
+/* eslint-enable react-hooks/exhaustive-deps */

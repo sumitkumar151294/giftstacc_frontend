@@ -53,16 +53,13 @@ const EmailEventMaster = () => {
   };
   const handleSubmit = (e) => {
     e?.preventDefault();
-    let isValid = true;
     const newErrors = { ...errors };
 
     for (const key in name) {
       if (name[key] === "") {
         newErrors[key] = "This field is required";
-        isValid = false;
       } else if (name[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
-        isValid = false;
       } else {
         newErrors[key] = "";
       }
@@ -278,9 +275,9 @@ const EmailEventMaster = () => {
                               placeholder="Search by Email....."
                             />
                             <span className="input-group-text">
-                              <a href="">
+                             <Button href="">
                                 <i className="flaticon-381-search-2"></i>
-                              </a>
+                             </Button>
                             </span>
                           </div>
                         </div>
@@ -344,18 +341,18 @@ const EmailEventMaster = () => {
                               {getRoleAccess[0]?.editAccess && (
                                 <td>
                                   <div className="d-flex">
-                                    <a
+                                   <Button
                                       href="#"
                                       className="btn btn-primary shadow btn-xs sharp me-1"
                                     >
                                       <i className="fas fa-pencil-alt"></i>
-                                    </a>
-                                    <a
+                                   </Button>
+                                   <Button
                                       href="#"
                                       className="btn btn-danger shadow btn-xs sharp"
                                     >
                                       <i className="fa fa-trash"></i>
-                                    </a>
+                                   </Button>
                                   </div>
                                 </td>
                               )}

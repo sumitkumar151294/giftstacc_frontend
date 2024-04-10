@@ -28,11 +28,10 @@ const CMS = () => {
   const action = GetTranslationData("UIAdmin", "action");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const getData = useSelector((state) => state.cmsReducer.getCMSData);
-  const getCmsData = useSelector((state) => state.cmsReducer);
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer.filteredData
   );
-  const [showError, setShowError] = useState(false);
+  const showError=false
   const [pageError, setPageError] = useState({
     StatusCode: "",
     ErrorName: "",
@@ -85,9 +84,9 @@ const CMS = () => {
   return (
     <>
       <ScrollToTop />
-      {/* {showError ? (
-        <PageError pageError={pageError} />
-      ) : ( */}
+      {showError ? (
+        <PageError pageError={pageError} setPageError={setPageError}/>
+      ) : (
       <>
         {getRoleAccess[0]?.addAccess && (
           <CMSForm
@@ -131,18 +130,18 @@ const CMS = () => {
                                 {getRoleAccess[0]?.editAccess && (
                                   <td>
                                     <div className="d-flex">
-                                      <a
+                                     <button
                                         className="btn btn-primary shadow btn-xs sharp me-1"
                                         onClick={() => handleEdit(data)}
                                       >
                                         <i className="fas fa-pencil-alt"></i>
-                                      </a>
-                                      <a
+                                     </button>
+                                     <button
                                         className="btn btn-danger shadow btn-xs sharp"
                                         onClick={() => handleDelete(data)}
                                       >
                                         <i className="fa fa-trash"></i>
-                                      </a>
+                                     </button>
                                     </div>
                                   </td>
                                 )}
@@ -182,7 +181,7 @@ const CMS = () => {
           </div>
         </div>
       </>
-      {/* )} */}
+       )}
     </>
   );
 };

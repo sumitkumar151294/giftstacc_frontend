@@ -362,7 +362,7 @@ const Orders = () => {
     let tempSupplier = [];
     Array.isArray(supplierMasterData) &&
       supplierMasterData?.map((item) => {
-        tempSupplier.push({ label: item.name, value: item.name });
+        return tempSupplier.push({ label: item.name, value: item.name });
       });
     setSupplierListData(tempSupplier);
   }, [supplierMasterData]);
@@ -370,7 +370,7 @@ const Orders = () => {
     let tempClient = [];
     Array.isArray(clientList) &&
       clientList?.map((item) => {
-        tempClient.push({ label: item.name, value: item.name });
+        return tempClient.push({ label: item.name, value: item.name });
       });
     setClientListData(tempClient);
   }, [clientList]);
@@ -507,7 +507,7 @@ const Orders = () => {
                                       <td>{data.supplier}</td>
                                       <td>
                                         {data.brand}
-                                        <a href="#"></a>
+                                        <button href="#"></button>
                                       </td>
                                       <td>{data.vouchers}</td>
                                       <td>{data.amount}</td>
