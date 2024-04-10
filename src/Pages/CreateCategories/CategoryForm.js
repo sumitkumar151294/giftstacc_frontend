@@ -92,7 +92,7 @@ const CategoryForm = ({ setIsLoading }) => {
             );
           })
           .map((item) => {
-            supplierList.push({ label: item.name, value: item.id });
+            return supplierList.push({ label: item.name, value: item.id });
           });
       setSupplierBrandListData(supplierList);
       setCreateCategory({

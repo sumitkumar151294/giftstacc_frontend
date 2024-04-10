@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import Loader from "../../Components/Loader/Loader";
@@ -54,10 +56,7 @@ const CategoryList = () => {
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
-  const categoryDeleteMessage = GetTranslationData(
-    "UIAdmin",
-    "category_deleted"
-  );
+
 
   // To get the Supplier Name in the Category List
   const getSupplierName = (supplierId) => {
@@ -251,3 +250,4 @@ const CategoryList = () => {
 };
 
 export default CategoryList;
+/* eslint-enable react-hooks/exhaustive-deps */

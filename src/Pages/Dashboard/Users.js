@@ -176,28 +176,28 @@ const Users = () => {
                   <div className="card-action coin-tabs  mt-sm-0">
                     <ul className="nav nav-tabs" role="tablist">
                       <li className="nav-item">
-                        <a
+                        <button
                           className={`nav-link ${activeTab === 'months' ? 'active' : ''}`}
                           onClick={() => handleTabClick('months')}
                         >
                           {months}
-                        </a>
+                        </button>
                       </li>
                       <li className="nav-item">
-                        <a
+                        <button
                           className={`nav-link ${activeTab === 'daily' ? 'active' : ''}`}
                           onClick={() => handleTabClick('daily')}
                         >
                           {daily}
-                        </a>
+                        </button>
                       </li>
                       <li className="nav-item">
-                        <a
+                        <button
                           className={`nav-link ${activeTab === 'today' ? 'active' : ''}`}
                           onClick={() => handleTabClick('today')}
                         >
                           {today}
-                        </a>
+                        </button>
                       </li>
                     </ul>
                   </div>

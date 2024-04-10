@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -127,3 +128,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+/* eslint-enable react-hooks/exhaustive-deps */

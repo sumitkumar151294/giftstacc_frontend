@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from "react";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
@@ -220,3 +222,4 @@ const ClientCommissionReport = () => {
 };
 
 export default ClientCommissionReport;
+/* eslint-enable react-hooks/exhaustive-deps */

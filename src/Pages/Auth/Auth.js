@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import {
   onLoginAuthReset,
@@ -132,3 +133,4 @@ const Auth = () => {
 };
 
 export default Auth;
+/* eslint-enable react-hooks/exhaustive-deps */

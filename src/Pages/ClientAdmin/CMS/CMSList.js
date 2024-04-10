@@ -28,11 +28,10 @@ const CMS = () => {
   const action = GetTranslationData("UIAdmin", "action");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const getData = useSelector((state) => state.cmsReducer.getCMSData);
-  const getCmsData = useSelector((state) => state.cmsReducer);
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer.filteredData
   );
-  const [showError, setShowError] = useState(false);
+  const showError=false
   const [pageError, setPageError] = useState({
     StatusCode: "",
     ErrorName: "",
@@ -85,9 +84,9 @@ const CMS = () => {
   return (
     <>
       <ScrollToTop />
-      {/* {showError ? (
-        <PageError pageError={pageError} />
-      ) : ( */}
+      {showError ? (
+        <PageError pageError={pageError} setPageError={setPageError}/>
+      ) : (
       <>
         {getRoleAccess[0]?.addAccess && (
           <CMSForm
@@ -122,34 +121,32 @@ const CMS = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {getData
-                              .slice(startIndex, endIndex)
-                              .map((data, index) => (
-                                <tr key={index}>
-                                  <td>{data.id}</td>
-                                  <td>{data.title}</td>
-                                  <td>{data.shortDescription}</td>
-                                  <td>{data.longDescription}</td>
-                                  {getRoleAccess[0]?.editAccess && (
-                                    <td>
-                                      <div className="d-flex">
-                                        <a
-                                          className="btn btn-primary shadow btn-xs sharp me-1"
-                                          onClick={() => handleEdit(data)}
-                                        >
-                                          <i className="fas fa-pencil-alt"></i>
-                                        </a>
-                                        <a
-                                          className="btn btn-danger shadow btn-xs sharp"
-                                          onClick={() => handleDelete(data)}
-                                        >
-                                          <i className="fa fa-trash"></i>
-                                        </a>
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              ))}
+                            {getData.slice(startIndex, endIndex).map((data) => (
+                              <tr>
+                                <td>{data.id}</td>
+                                <td>{data.title}</td>
+                                <td>{data.shortDescription}</td>
+                                <td>{data.longDescription}</td>
+                                {getRoleAccess[0]?.editAccess && (
+                                  <td>
+                                    <div className="d-flex">
+                                     <button
+                                        className="btn btn-primary shadow btn-xs sharp me-1"
+                                        onClick={() => handleEdit(data)}
+                                      >
+                                        <i className="fas fa-pencil-alt"></i>
+                                     </button>
+                                     <button
+                                        className="btn btn-danger shadow btn-xs sharp"
+                                        onClick={() => handleDelete(data)}
+                                      >
+                                        <i className="fa fa-trash"></i>
+                                     </button>
+                                    </div>
+                                  </td>
+                                )}
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                         {getData.length > 5 && (
@@ -184,7 +181,7 @@ const CMS = () => {
           </div>
         </div>
       </>
-      {/* )} */}
+       )}
     </>
   );
 };

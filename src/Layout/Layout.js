@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Sidebar from "../Layout/Sidebar/Sidebar";
 import Header from "../Layout/Header/Header";
@@ -22,7 +23,7 @@ const Layout = (props) => {
  }
   }, []);
 
-  return (  
+  return (
     <>
       <div
         id="main-wrapper"
@@ -41,3 +42,4 @@ const Layout = (props) => {
 };
 
 export default Layout;
+/* eslint-enable react-hooks/exhaustive-deps */

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import InputField from "../../../Components/InputField/InputField";
 import Button from "../../../Components/Button/Button";
@@ -12,7 +14,6 @@ import { ToastContainer, toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { useLocation } from "react-router-dom";
-import { onGetAllClientProductMapping } from "../../../Store/Slices/clientProductMappingSlice";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 
 const AllocateBrand = () => {
@@ -206,9 +207,9 @@ const AllocateBrand = () => {
                         onChange={handleSearch}
                       />{" "}
                       <span className="input-group-text">
-                        <a href="">
+                        <button href="">
                           <i className="flaticon-381-search-2"></i>
-                        </a>
+                       </button>
                       </span>
                     </div>
                   </div>
@@ -312,3 +313,5 @@ const AllocateBrand = () => {
 };
 
 export default AllocateBrand;
+/* eslint-enable react-hooks/exhaustive-deps */
+

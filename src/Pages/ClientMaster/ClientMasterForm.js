@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import InputField from "../../Components/InputField/InputField";
 import Dropdown from "../../Components/Dropdown/Dropdown";
@@ -874,3 +876,4 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 };
 
 export default ClientMaster;
+/* eslint-enable react-hooks/exhaustive-deps */

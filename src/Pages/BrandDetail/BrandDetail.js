@@ -31,7 +31,7 @@ const BrandDetail = () => {
               <div className="card">
                 <div className="card-body">
                   <div className="menu-product d-flex">
-                    <img src={data?.mobile} />
+                    <img src={data?.mobile} alt={data?.mobile}/>
                     <div className="content-detail-wrap">
                       <div>
                         <div>
@@ -76,10 +76,10 @@ const BrandDetail = () => {
                         )}
                       </div>
                       <div className="only-right mt-2">
-                        <a className="mr-10 on-link" href={""}>
+                        <button className="mr-10 on-link" href={""}>
                           {termsandconditions}
-                        </a>
-                        <a className="mr-10 on-link">{storelocator}</a>
+                        </button>
+                        <button className="mr-10 on-link">{storelocator}</button>
                       </div>
                     </div>
                   </div>

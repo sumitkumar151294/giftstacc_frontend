@@ -32,12 +32,13 @@ const Header = ({ setSideBar, sidebar }) => {
   return (
     <>
       <div className="nav-header">
-        <a className="brand-logo">
+        <button className="brand-logo">
           <img
             className="w-100"
             src={image}
+            alt={image}
           />
-        </a>
+        </button>
         <div className="nav-control d-flex">
           <div className={`hamburger ${hamburgerClass ? 'is-active' : ''}`} onClick={handleShowSideBar}>
             <span className="line"></span>
@@ -54,13 +55,13 @@ const Header = ({ setSideBar, sidebar }) => {
               <div className="header-left"></div>
               <ul className="navbar-nav header-right ">
                 <li className="nav-item dropdown  header-profile">
-                  <a
+                  <button
                     className="nav-link"
-                    role="button"
+
                     data-bs-toggle="dropdown"
                   >
                     <img src={user} width="56" alt="" />
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>

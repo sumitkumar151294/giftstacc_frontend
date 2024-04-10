@@ -26,13 +26,15 @@ const AddSpecialList = () => {
   const active = GetTranslationData("UIAdmin", "active");
 
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const [prefilledValues, setPrefilledValues] = useState();
-  const getAddSpecial = useSelector((state) => state.addSpecialReducer);
+  const getAddSpecial = useSelector((state) => state?.addSpecialReducer);
   const getRoleAccess = useSelector(
-    (state) => state.moduleReducer.filteredData
+    (state) => state?.moduleReducer?.filteredData
   );
-  const [showError, setShowError] = useState(false);
+  const getRoleAccessData = useSelector(
+    (state) => state?.moduleReducer
+  );
+  const showError=false;
   const [pageError, setPageError] = useState({
     StatusCode: "",
     ErrorName: "",
@@ -78,9 +80,8 @@ const AddSpecialList = () => {
 
   return (
     <>
-      {" "}
       {showError ? (
-        <PageError pageError={pageError} />
+        <PageError pageError={pageError} setPageError={setPageError}/>
       ) : (
         <>
           <AddSpecialForm
@@ -97,7 +98,7 @@ const AddSpecialList = () => {
                         <h4 className="card-title">{addSpecialList}</h4>
                       </div>
                     </div>
-                    {isLoading ? (
+                    { getAddSpecial?.isLoading || getRoleAccessData?.isLoading ? (
                       <div style={{ height: "400px" }}>
                         <Loader classNameType={"absoluteLoader"} />
                       </div>

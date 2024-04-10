@@ -253,7 +253,7 @@ const SupplierMasterList = () => {
                                         {getRoleAccess[0]?.editAccess && (
                                           <td>
                                             <div className="d-flex">
-                                              <a
+                                              <button
                                                 className="btn btn-primary shadow btn-xs sharp me-1"
                                                 icon={"fas fa-pencil-alt"}
                                                 onClick={() =>
@@ -261,8 +261,8 @@ const SupplierMasterList = () => {
                                                 }
                                               >
                                                 <i className="fas fa-pencil-alt"></i>
-                                              </a>
-                                              <a
+                                              </button>
+                                              <button
                                                 className="btn btn-danger shadow btn-xs sharp"
                                                 icon={"fa fa-trash"}
                                                 onClick={() =>
@@ -270,7 +270,7 @@ const SupplierMasterList = () => {
                                                 }
                                               >
                                                 <i className="fa fa-trash"></i>
-                                              </a>
+                                              </button>
                                             </div>
                                           </td>
                                         )}

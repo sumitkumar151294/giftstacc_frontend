@@ -120,12 +120,12 @@ const RoleMasterList = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <a
+                                  <button
                                     onClick={() => handleEdit(data)}
                                     className="btn btn-primary shadow btn-xs sharp me-1"
                                   >
                                     <i className="fas fa-pencil-alt"></i>
-                                  </a>
+                                  </button>
                                 </td>
                               </tr>
                             ))}
