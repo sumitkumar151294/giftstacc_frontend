@@ -7,17 +7,22 @@ import {
   onPostUserRole,
   onPostUserRoleReset,
   onUpdateUserRole,
-  onUpdateUserRoleReset
+  onUpdateUserRoleReset,
 } from "../../Store/Slices/userRoleSlice";
 import InputField from "../../Components/InputField/InputField";
-import { ToastContainer, toast} from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import Button from "../../Components/Button/Button";
-import { onGetUserRoleModuleAccess, onPostUserRoleModuleAccess, onPostUserRoleModuleAccessReset, onUpdateUserRoleModuleAccess } from "../../Store/Slices/userRoleModuleAccessSlice";
+import {
+  onGetUserRoleModuleAccess,
+  onPostUserRoleModuleAccess,
+  onPostUserRoleModuleAccessReset,
+  onUpdateUserRoleModuleAccess,
+} from "../../Store/Slices/userRoleModuleAccessSlice";
 
 // Component for RoleMasterForm
-const RoleMasterForm = ({ data, setData}) => {
+const RoleMasterForm = ({ data, setData }) => {
   // Translation labels
   const roleMasterLabel = GetTranslationData("UIAdmin", "role-master");
   const roleName = GetTranslationData("UIAdmin", "role-name");
@@ -38,10 +43,10 @@ const RoleMasterForm = ({ data, setData}) => {
   const [isformLoading, setIsFormLoading] = useState(false);
   const [checkBoxError, setCheckBoxError] = useState(false);
   const getModuleData = useSelector((state) => state.moduleReducer.data);
-  const getModuleAccessData = useSelector((state) => state.userRoleModuleAccessReducer);
-  const getRoleDataId = useSelector(
-    (state) => state.userRoleReducer
+  const getModuleAccessData = useSelector(
+    (state) => state.userRoleModuleAccessReducer
   );
+  const getRoleDataId = useSelector((state) => state.userRoleReducer);
 
   //To get the data from redux store
 
@@ -65,30 +70,34 @@ const RoleMasterForm = ({ data, setData}) => {
   useEffect(() => {
     if (getModuleData) {
       // Check if getModuleData is an array
-      
-      const modulesData = getModuleData.map((module) => ({
-        id: module.id,
-        isClientPlatformModule: module.isClientPlatformModule,
-        name: module.name,
-        checked: false,
-        addAccess: false,
-        editAccess: false,
-      }));
+
+      const modulesData =
+        Array.isArray(getModuleData) &&
+        getModuleData?.map((module) => ({
+          id: module.id,
+          isClientPlatformModule: module.isClientPlatformModule,
+          name: module.name,
+          checked: false,
+          addAccess: false,
+          editAccess: false,
+        }));
       setFormData({
         ...formData,
         modules: modulesData,
       });
       if (data) {
-        const moduleAccessList = getModuleAccessData?.data?.filter(item=> (item.roleId===data?.id));
-        for(var i=0; i<moduleAccessList.length; i++ ){
-        for(var j=0; j<modulesData.length; j++){
-         if(modulesData[j].id===moduleAccessList[i].moduleId){
-          modulesData[j].addAccess=moduleAccessList[i].addAccess
-          modulesData[j].checked=moduleAccessList[i].viewAccess
-          modulesData[j].editAccess=moduleAccessList[i].editAccess
-         }
+        const moduleAccessList = getModuleAccessData?.data?.filter(
+          (item) => item.roleId === data?.id
+        );
+        for (var i = 0; i < moduleAccessList.length; i++) {
+          for (var j = 0; j < modulesData.length; j++) {
+            if (modulesData[j].id === moduleAccessList[i].moduleId) {
+              modulesData[j].addAccess = moduleAccessList[i].addAccess;
+              modulesData[j].checked = moduleAccessList[i].viewAccess;
+              modulesData[j].editAccess = moduleAccessList[i].editAccess;
+            }
+          }
         }
-       }
         setFormData({
           ...formData,
           id: data.id,
@@ -103,77 +112,86 @@ const RoleMasterForm = ({ data, setData}) => {
   }, [getModuleData, data]);
 
   // Handle input changes in the form
-const handleInputChange = (e) => {
-  const { name, type, checked } = e.target;
-  if (name === "IsClientRole") {
-    setFormData({
-      ...formData,
-      isClientPlatformModule: checked,
-    });
-  } else if (name === "selectAll") {
-    const fetchModulesAccordingToIsClient = formData?.modules?.filter((item)=>{
-      return item.isClientPlatformModule === formData.isClientPlatformModule
-    })
-    const updatedModules = fetchModulesAccordingToIsClient.map((module) => ({
-      ...module,
-      checked: checked,
-    }));
-    setFormData({
-      ...formData,
-      modules: updatedModules,
-    });
-  } else if (type === "checkbox" && name === "view") {
-    let modules = formData.modules.map((md) => {
-      if (md.id === parseInt(e.target.id)) {
-        return { ...md, checked: !md.checked };
-      } else {
-        return md;
-      }
-    });
-    setFormData({ ...formData, modules });
-  } else if (type === "checkbox" && name === "add") {
-    let modules = formData.modules.map((md) => {
-      if (md.id === parseInt(e.target.id) && checked) {
-        return { ...md, addAccess: checked, checked:checked };
-      } else if (md.id === parseInt(e.target.id) && !checked) {
-        return { ...md, addAccess: checked };
-      } else {
-        return md;
-      }
-    });
-    setFormData({ ...formData, modules });
-  } else if (type === "checkbox" && name === "edit") {
-    let modules = formData.modules.map((md) => {
-      if (md.id === parseInt(e.target.id) && checked) {
-        return { ...md, editAccess: checked,checked:checked,addAccess:checked };
-      }else if (md.id === parseInt(e.target.id) && !checked) {
-        return { ...md, editAccess: checked };
-      } else {
-        return md;
-      }
-    });
-    setFormData({ ...formData, modules });
-  } else {
-    setFormData({
-      ...formData,
-      [name]: e.target.value,
-    });
-  }
-};
+  const handleInputChange = (e) => {
+    const { name, type, checked } = e.target;
+    if (name === "IsClientRole") {
+      setFormData({
+        ...formData,
+        isClientPlatformModule: checked,
+      });
+    } else if (name === "selectAll") {
+      const fetchModulesAccordingToIsClient = formData?.modules?.filter(
+        (item) => {
+          return (
+            item.isClientPlatformModule === formData.isClientPlatformModule
+          );
+        }
+      );
+      const updatedModules = fetchModulesAccordingToIsClient.map((module) => ({
+        ...module,
+        checked: checked,
+      }));
+      setFormData({
+        ...formData,
+        modules: updatedModules,
+      });
+    } else if (type === "checkbox" && name === "view") {
+      let modules = formData.modules.map((md) => {
+        if (md.id === parseInt(e.target.id)) {
+          return { ...md, checked: !md.checked };
+        } else {
+          return md;
+        }
+      });
+      setFormData({ ...formData, modules });
+    } else if (type === "checkbox" && name === "add") {
+      let modules = formData.modules.map((md) => {
+        if (md.id === parseInt(e.target.id) && checked) {
+          return { ...md, addAccess: checked, checked: checked };
+        } else if (md.id === parseInt(e.target.id) && !checked) {
+          return { ...md, addAccess: checked };
+        } else {
+          return md;
+        }
+      });
+      setFormData({ ...formData, modules });
+    } else if (type === "checkbox" && name === "edit") {
+      let modules = formData.modules.map((md) => {
+        if (md.id === parseInt(e.target.id) && checked) {
+          return {
+            ...md,
+            editAccess: checked,
+            checked: checked,
+            addAccess: checked,
+          };
+        } else if (md.id === parseInt(e.target.id) && !checked) {
+          return { ...md, editAccess: checked };
+        } else {
+          return md;
+        }
+      });
+      setFormData({ ...formData, modules });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: e.target.value,
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = { ...errors };
     setErrors(newErrors);
-    if (formData.name.trim() === ""){
+    if (formData.name.trim() === "") {
       newErrors.name = mandatory_Req_Label;
       setErrors(newErrors);
     } else if (formData.name.length > 250) {
       newErrors.name = "Length must be 250 or fewer";
       setErrors(newErrors);
-    }else {
+    } else {
       newErrors.name = "";
-    } 
+    }
     if (formData.description.length > 250) {
       newErrors.description = "Length must be 250 or fewer";
       setErrors(newErrors);
@@ -199,79 +217,91 @@ const handleInputChange = (e) => {
     try {
       //To Submit the data
       if (!data) {
-          setIsFormLoading(true);
-          dispatch(onPostUserRole(JSON.stringify(postData)));
+        setIsFormLoading(true);
+        dispatch(onPostUserRole(JSON.stringify(postData)));
       } else if (data) {
-        postData.id=data.id
+        postData.id = data.id;
         setIsFormLoading(true);
         dispatch(onUpdateUserRole(JSON.stringify(postData)));
-    }
-    } catch (error) {
-    }
+      }
+    } catch (error) {}
   };
 
-  useEffect(()=>{
-  if(getRoleDataId?.postRoleData?.length>0 && !getRoleDataId?.postLoading){
-  const accessPostData = formData?.modules?.map((md) => {
-    return {
-      roleId: getRoleDataId?.postRoleData?.[0]?.roleId,
-      moduleId: md.id,
-      viewAccess: md.checked,
-      addAccess: md.addAccess,
-      editAccess: md.editAccess,
-    };
-  });
-  dispatch(onPostUserRoleModuleAccess(accessPostData))
-  dispatch(onPostUserRoleReset());
-}else if(getRoleDataId?.status_code==="201" && !getRoleDataId?.updateLoading){
-  let moduleAccess = JSON.parse(JSON.stringify(getModuleAccessData?.data));
-  let moduleAccessList = moduleAccess?.filter(item=> (item.roleId===data?.id));
-  let accessPostData = formData?.modules
-  for(var i=0; i<moduleAccessList.length; i++ ){
-  for(var j=0; j<accessPostData.length; j++){
-   if(accessPostData[j].id===moduleAccessList[i].moduleId){
-    moduleAccessList[i].addAccess=accessPostData[j].addAccess
-    moduleAccessList[i].viewAccess=accessPostData[j].checked
-    moduleAccessList[i].editAccess=accessPostData[j].editAccess
-   }
-  }
- }
-  dispatch(onUpdateUserRoleModuleAccess(moduleAccessList))
-  dispatch(onUpdateUserRoleReset());
-}
-},[getRoleDataId])
-
-useEffect(()=>{
-  if(getModuleAccessData?.status_code==='201' && !getModuleAccessData?.isLoading){
-    setIsFormLoading(false)
-    dispatch(onGetUserRole());
-    dispatch(onGetUserRoleModuleAccess());
-    toast.success(getModuleAccessData?.message);
-    dispatch(onPostUserRoleModuleAccessReset());
-    setData()
-    if (Array.isArray(getModuleData)) {
-      // Check if getModuleData is an array
-      const modulesData = getModuleData.map((module) => ({
-        id: module.id,
-        isClientPlatformModule: module.isClientPlatformModule,
-        name: module.name,
-        checked: false,
-        addAccess: false,
-        editAccess: false,
-      }));
-      setFormData({
-        name: "",
-        description: "",
-        isClientPlatformModule: false,
-        modules: modulesData,
+  useEffect(() => {
+    if (
+      getRoleDataId?.postRoleData?.length > 0 &&
+      !getRoleDataId?.postLoading
+    ) {
+      const accessPostData = formData?.modules?.map((md) => {
+        return {
+          roleId: getRoleDataId?.postRoleData?.[0]?.roleId,
+          moduleId: md.id,
+          viewAccess: md.checked,
+          addAccess: md.addAccess,
+          editAccess: md.editAccess,
+        };
       });
+      dispatch(onPostUserRoleModuleAccess(accessPostData));
+      dispatch(onPostUserRoleReset());
+    } else if (
+      getRoleDataId?.status_code === "201" &&
+      !getRoleDataId?.updateLoading
+    ) {
+      let moduleAccess = JSON.parse(JSON.stringify(getModuleAccessData?.data));
+      let moduleAccessList = moduleAccess?.filter(
+        (item) => item.roleId === data?.id
+      );
+      let accessPostData = formData?.modules;
+      for (var i = 0; i < moduleAccessList.length; i++) {
+        for (var j = 0; j < accessPostData.length; j++) {
+          if (accessPostData[j].id === moduleAccessList[i].moduleId) {
+            moduleAccessList[i].addAccess = accessPostData[j].addAccess;
+            moduleAccessList[i].viewAccess = accessPostData[j].checked;
+            moduleAccessList[i].editAccess = accessPostData[j].editAccess;
+          }
+        }
+      }
+      dispatch(onUpdateUserRoleModuleAccess(moduleAccessList));
+      dispatch(onUpdateUserRoleReset());
     }
-  }
-},[getModuleAccessData])
+  }, [getRoleDataId]);
 
-  useEffect(()=>{
-    dispatch(onPostUserRoleReset())
-  },[])
+  useEffect(() => {
+    if (
+      getModuleAccessData?.status_code === "201" &&
+      !getModuleAccessData?.isLoading
+    ) {
+      setIsFormLoading(false);
+      toast.success(getModuleAccessData?.message);
+      dispatch(onGetUserRole());
+      dispatch(onGetUserRoleModuleAccess());
+      dispatch(onPostUserRoleModuleAccessReset());
+      setData();
+      if (Array.isArray(getModuleData)) {
+        // Check if getModuleData is an array
+        const modulesData =
+          Array.isArray(getModuleData) &&
+          getModuleData?.map((module) => ({
+            id: module.id,
+            isClientPlatformModule: module.isClientPlatformModule,
+            name: module.name,
+            checked: false,
+            addAccess: false,
+            editAccess: false,
+          }));
+        setFormData({
+          name: "",
+          description: "",
+          isClientPlatformModule: false,
+          modules: modulesData,
+        });
+      }
+    }
+  }, [getModuleAccessData]);
+
+  useEffect(() => {
+    dispatch(onPostUserRoleReset());
+  }, []);
 
   // Render the RoleMasterForm component
   return (
@@ -388,74 +418,75 @@ useEffect(()=>{
                               editAccess,
                               addAccess,
                               isClientPlatformModule,
-                            }) => (
-                              formData.isClientPlatformModule === isClientPlatformModule &&
-                              <div className="row mb-3 mt-3" key={id}>
-                                <h4
-                                  className="col-lg-3"
-                                  htmlFor={`flexCheckDefault-${id}`}
+                            }) =>
+                              formData.isClientPlatformModule ===
+                                isClientPlatformModule && (
+                                <div className="row mb-3 mt-3" key={id}>
+                                  <h4
+                                    className="col-lg-3"
+                                    htmlFor={`flexCheckDefault-${id}`}
                                   >
-                                  {name
-                                    .replace(/([A-Z])/g, " $1")
-                                    .split(" ")
-                                    .map(
-                                      (word) =>
-                                        word.charAt(0).toUpperCase() +
-                                        word.slice(1).toLowerCase()
+                                    {name
+                                      .replace(/([A-Z])/g, " $1")
+                                      .split(" ")
+                                      .map(
+                                        (word) =>
+                                          word.charAt(0).toUpperCase() +
+                                          word.slice(1).toLowerCase()
+                                      )
+                                      .join(" ")}{" "}
+                                    (
+                                    {isClientPlatformModule
+                                      ? `${client}`
+                                      : `${admin}`}
                                     )
-                                    .join(" ")}{" "}
-                                  (
-                                  {isClientPlatformModule 
-                                    ? `${client}`
-                                    : `${admin}`}
-                                  )
-                                </h4>
-                                <div className="col-lg-9 d-flex justify-content-end">
-                                  <div className="form-check form-check-inline">
-                                    <label className="form-check-label">
-                                      <InputField
-                                        type="checkbox"
-                                        id={id}
-                                        className="form-check-input"
-                                        name="view"
-                                        value={checked}
-                                        checked={checked}
-                                        onChange={handleInputChange}
-                                      />
-                                      {view}
-                                    </label>
+                                  </h4>
+                                  <div className="col-lg-9 d-flex justify-content-end">
+                                    <div className="form-check form-check-inline">
+                                      <label className="form-check-label">
+                                        <InputField
+                                          type="checkbox"
+                                          id={id}
+                                          className="form-check-input"
+                                          name="view"
+                                          value={checked}
+                                          checked={checked}
+                                          onChange={handleInputChange}
+                                        />
+                                        {view}
+                                      </label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                      <label className="form-check-label">
+                                        <InputField
+                                          type="checkbox"
+                                          id={id}
+                                          className="form-check-input"
+                                          name="add"
+                                          value={addAccess}
+                                          checked={addAccess}
+                                          onChange={handleInputChange}
+                                        />
+                                        {add}
+                                      </label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                      <label className="form-check-label">
+                                        <InputField
+                                          type="checkbox"
+                                          id={id}
+                                          className="form-check-input"
+                                          name="edit"
+                                          value={editAccess}
+                                          checked={editAccess}
+                                          onChange={handleInputChange}
+                                        />
+                                        {edit}
+                                      </label>
+                                    </div>
                                   </div>
-                                  <div className="form-check form-check-inline">
-                                    <label className="form-check-label">
-                                      <InputField
-                                        type="checkbox"
-                                        id={id}
-                                        className="form-check-input"
-                                        name="add"
-                                        value={addAccess}
-                                        checked={addAccess}
-                                        onChange={handleInputChange}
-                                      />
-                                      {add}
-                                    </label>
-                                  </div>
-                                  <div className="form-check form-check-inline">
-                                    <label className="form-check-label">
-                                      <InputField
-                                        type="checkbox"
-                                        id={id}
-                                        className="form-check-input"
-                                        name="edit"
-                                        value={editAccess}
-                                        checked={editAccess}
-                                        onChange={handleInputChange}
-                                      />
-                                      {edit}
-                                    </label>
-                                  </div>
-                                </div> 
-                              </div>  
-                            )
+                                </div>
+                              )
                           )}
 
                           {/* Checkbox Error Message */}
