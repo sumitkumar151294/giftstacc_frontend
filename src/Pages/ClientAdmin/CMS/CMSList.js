@@ -96,10 +96,10 @@ const CMS = () => {
             setCmsprefilled={setCmsprefilled}
           />
         )}
-        <div class="container-fluid mt-2 mb-2 pt-1">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="card">
+        <div className="container-fluid mt-2 mb-2 pt-1">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card">
                 <div className="container-fluid mt-2 mb-2 pt-1">
                   <div className="card-body">
                     {isLoading ? (
