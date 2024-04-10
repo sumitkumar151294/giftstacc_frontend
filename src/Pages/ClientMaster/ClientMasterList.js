@@ -38,16 +38,17 @@ const ClientMasterList = () => {
   const action = GetTranslationData("UIAdmin", "action_label");
   const status = GetTranslationData("UIAdmin", "Status_label");
   const exportLabel = GetTranslationData("UIAdmin", "export_label");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const active = GetTranslationData("UIAdmin", "active");
+  const nonActive = GetTranslationData("UIAdmin", "nonActive");
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
 
   useEffect(() => {
-    debugger
     dispatch(onClientMasterSubmit());
     dispatch(onClientPaymentSubmit());
-
   }, []);
   const handleEdit = (data, clientPayData) => {
     const prefilled = { ...clientPayData, ...data };
@@ -74,8 +75,6 @@ const ClientMasterList = () => {
     dispatch(onUpdateClientMasterSubmit(deletedData));
   };
 
-
-
   const headers = [
     { label: "Client Id", key: "clientID" },
     { label: "Contact Name", key: "contactName" },
@@ -92,7 +91,7 @@ const ClientMasterList = () => {
       contactNumber: data.number,
       contactEmail: data.email,
       clientID: data.id,
-      status: data.enabled ? "Active" : "Non-active",
+      status: data.enabled ? active : nonActive,
     }));
 
   const filteredClientList = Array.isArray(clientList?.clientData)
@@ -109,7 +108,6 @@ const ClientMasterList = () => {
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
-
 
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -218,7 +216,7 @@ const ClientMasterList = () => {
                                             : "badge-danger"
                                         }`}
                                       >
-                                        {data.enabled ? "Active" : "Non-Active"}
+                                        {data.enabled ? active : nonActive}
                                       </span>
                                     </td>
                                     {getRoleAccess[0]?.editAccess && (
@@ -278,7 +276,9 @@ const ClientMasterList = () => {
                                 containerClassName={"pagination"}
                                 activeClassName={page === 1 && "active"}
                                 initialPage={page - 1}
-                                previousClassName={page === 1 ? "disabled" : ""}
+                                previousClassName={
+                                  page === 1 ? disabled_Text : ""
+                                }
                               />
                             </div>
                           )}

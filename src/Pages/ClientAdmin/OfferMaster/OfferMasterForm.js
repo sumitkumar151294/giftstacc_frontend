@@ -70,6 +70,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const submit = GetTranslationData("UIClient", "submitLabel");
   const update = GetTranslationData("UIAdmin", "update_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const enabled_Text = GetTranslationData("UIAdmin", "enabled_Text");
   const [getImage, setGetImage] = useState(false);
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
@@ -103,7 +104,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
 
         // dispatch(onUploadImage(formData));
       }
-    } else if (fieldName === "enabled") {
+    } else if (fieldName === enabled_Text) {
       setAddData({
         ...addData,
         [fieldName]: e.target.value === "true" ? true : false,

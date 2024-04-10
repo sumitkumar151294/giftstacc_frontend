@@ -39,7 +39,12 @@ const SupplierMasterList = () => {
   const balance_Available = GetTranslationData("UIAdmin", "balance_Available");
   const status = GetTranslationData("UIAdmin", "Status_label");
   const action = GetTranslationData("UIAdmin", "action_label");
-  const getRoleAccess = useSelector((state) => state.moduleReducer.filteredData);
+  const active = GetTranslationData("UIAdmin", "active");
+  const nonActive = GetTranslationData("UIAdmin", "nonActive");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer
   );
@@ -106,25 +111,33 @@ const SupplierMasterList = () => {
     dispatch(onGetSupplierResource());
   }, []);
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
-  ? supplierMasterData?.data.filter((vendor) =>
-      Object.values(vendor).some((value) =>
-        value && typeof value === "string" && value.toLowerCase().includes(searchQuery)
-      ) ||
-      vendor.id.toString().toLowerCase().includes(searchQuery) ||
-      vendor.creditAmount.toString().toLowerCase().includes(searchQuery) ||
-      vendor.balanceThresholdAmount.toString().toLowerCase().includes(searchQuery)
-    )
-  : [];
+    ? supplierMasterData?.data.filter(
+        (vendor) =>
+          Object.values(vendor).some(
+            (value) =>
+              value &&
+              typeof value === "string" &&
+              value.toLowerCase().includes(searchQuery)
+          ) ||
+          vendor.id.toString().toLowerCase().includes(searchQuery) ||
+          vendor.creditAmount.toString().toLowerCase().includes(searchQuery) ||
+          vendor.balanceThresholdAmount
+            .toString()
+            .toLowerCase()
+            .includes(searchQuery)
+      )
+    : [];
 
-
-  // excel data 
-  const excelData = Array.isArray(supplierMasterData?.data) && supplierMasterData?.data?.map(data => ({
-    id:data.id,
-    name:data.name,
-    creditAmount:data.creditAmount,
-    balanceThresholdAmount:data.balanceThresholdAmount,
-    status: data.enabled ? 'Active' : 'Non-active'
-  }));
+  // excel data
+  const excelData =
+    Array.isArray(supplierMasterData?.data) &&
+    supplierMasterData?.data?.map((data) => ({
+      id: data.id,
+      name: data.name,
+      creditAmount: data.creditAmount,
+      balanceThresholdAmount: data.balanceThresholdAmount,
+      status: data.enabled ? active : nonActive,
+    }));
 
   return (
     <>
@@ -230,11 +243,11 @@ const SupplierMasterList = () => {
                                               vendor.enabled
                                                 ? "badge-success"
                                                 : "badge-danger"
-                                              }`}
+                                            }`}
                                           >
                                             {vendor.enabled
-                                              ? "Active"
-                                              : "Non-Active"}
+                                              ? active
+                                              : nonActive}
                                           </span>
                                         </td>
                                         {getRoleAccess[0]?.editAccess && (
@@ -243,7 +256,9 @@ const SupplierMasterList = () => {
                                               <a
                                                 className="btn btn-primary shadow btn-xs sharp me-1"
                                                 icon={"fas fa-pencil-alt"}
-                                                onClick={() => handleEdit(vendor)}
+                                                onClick={() =>
+                                                  handleEdit(vendor)
+                                                }
                                               >
                                                 <i className="fas fa-pencil-alt"></i>
                                               </a>
@@ -281,7 +296,7 @@ const SupplierMasterList = () => {
                                   activeClassName={"active"}
                                   initialPage={page - 1} // Use initialPage instead of forcePage
                                   previousClassName={
-                                    page === 0 ? "disabled" : ""
+                                    page === 0 ? disabled_Text : ""
                                   }
                                 />
                               </div>

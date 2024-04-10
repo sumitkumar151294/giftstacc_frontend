@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import NoRecord from "../../Components/NoRecord/NoRecord";
-import {ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import CategoryForm from "./CategoryForm";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
@@ -21,8 +21,12 @@ const CategoryList = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage] = useState(5);
-  const supplierMaster = useSelector((state) => state?.supplierMasterReducer?.data);
-  const getRoleAccess = useSelector((state)=> state.moduleReducer.filteredData);
+  const supplierMaster = useSelector(
+    (state) => state?.supplierMasterReducer?.data
+  );
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
   const supplierBrandData = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
@@ -40,7 +44,7 @@ const CategoryList = () => {
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
   const getCategoryData = getCreateCategory?.categoryData;
-  const getListData= getCreateCategory?.isLoading;
+  const getListData = getCreateCategory?.isLoading;
   //To get the label form DB
   const categoryList = GetTranslationData("UIAdmin", "categoryList");
   const categoryName = GetTranslationData("UIAdmin", "categoryName");
@@ -49,22 +53,26 @@ const CategoryList = () => {
   const action = GetTranslationData("UIAdmin", "action_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const categoryDeleteMessage = GetTranslationData(
     "UIAdmin",
     "category_deleted"
   );
 
-   // To get the Supplier Name in the Category List
-   const getSupplierName = (supplierId) => {
-    const supplier = Array.isArray(supplierMaster) && supplierMaster.find((s) => s.id === supplierId);
-    return supplier ? supplier.name : '';
-  };  
-   // To get the Supplier Brand Name in the Category List 
-  const getSupplierBrand = (supplierBrandId) => {
-    const supplier = Array.isArray(supplierBrandData) && supplierBrandData.find((s) => s.id === supplierBrandId);
-    return supplier ? supplier.name : '';
+  // To get the Supplier Name in the Category List
+  const getSupplierName = (supplierId) => {
+    const supplier =
+      Array.isArray(supplierMaster) &&
+      supplierMaster.find((s) => s.id === supplierId);
+    return supplier ? supplier.name : "";
   };
- 
+  // To get the Supplier Brand Name in the Category List
+  const getSupplierBrand = (supplierBrandId) => {
+    const supplier =
+      Array.isArray(supplierBrandData) &&
+      supplierBrandData.find((s) => s.id === supplierBrandId);
+    return supplier ? supplier.name : "";
+  };
 
   // To search the data
   const handleSearch = (e) => {
@@ -73,24 +81,28 @@ const CategoryList = () => {
   };
 
   const filteredCategoryList = Array.isArray(getCategoryData)
-  ? getCategoryData.filter((item) =>
-      Object.values(item).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery)
-      ) ||
-      getSupplierName(item.supplierId).toLowerCase().includes(searchQuery) ||
-      getSupplierBrand(item.supplierBrandId).toLowerCase().includes(searchQuery)
-    )
-  : [];
+    ? getCategoryData.filter(
+        (item) =>
+          Object.values(item).some(
+            (value) =>
+              value &&
+              typeof value === "string" &&
+              value.toLowerCase().includes(searchQuery)
+          ) ||
+          getSupplierName(item.supplierId)
+            .toLowerCase()
+            .includes(searchQuery) ||
+          getSupplierBrand(item.supplierBrandId)
+            .toLowerCase()
+            .includes(searchQuery)
+      )
+    : [];
 
-  const namesArray = filteredCategoryList.map(data => ({
+  const namesArray = filteredCategoryList.map((data) => ({
     name: data.name,
     supplierId: getSupplierName(data.supplierId),
     supplierBrandId: getSupplierBrand(data.supplierBrandId),
   }));
-
 
   // For Pagination
   const startIndex = (page - 1) * rowsPerPage;
@@ -112,14 +124,11 @@ const CategoryList = () => {
     };
     dispatch(onUpdateCategory(deletedData));
   };
- 
-  
+
   return (
     <>
       <ScrollToTop />
-      {getRoleAccess[0]?.addAccess && (
-      <CategoryForm  />
-      )}
+      {getRoleAccess[0]?.addAccess && <CategoryForm />}
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -143,7 +152,7 @@ const CategoryList = () => {
                           onChange={handleSearch}
                         />
                         <span className="input-group-text">
-                        <i className="fa fa-search"></i>
+                          <i className="fa fa-search"></i>
                         </span>
                       </div>
                     )}
@@ -182,9 +191,7 @@ const CategoryList = () => {
                           <th>{categoryName}</th>
                           <th>{supplierName}</th>
                           <th>{supplierBrand}</th>
-                          {getRoleAccess[0]?.editAccess && (
-                          <th>{action}</th>
-                          )}
+                          {getRoleAccess[0]?.editAccess && <th>{action}</th>}
                         </tr>
                       </thead>
                       <tbody>
@@ -196,17 +203,17 @@ const CategoryList = () => {
                               <td>{getSupplierName(data.supplierId)}</td>
                               <td>{getSupplierBrand(data.supplierBrandId)}</td>
                               {getRoleAccess[0]?.editAccess && (
-                              <td>
-                                <div className="d-flex">
-                                  <Link
-                                    onClick={() => handleDelete(data)}
-                                    className="btn btn-danger shadow btn-xs sharp"
-                                  >
-                                    <i className="fa fa-trash"></i>
-                                  </Link>
-                                  <ToastContainer />
-                                </div>
-                              </td>
+                                <td>
+                                  <div className="d-flex">
+                                    <Link
+                                      onClick={() => handleDelete(data)}
+                                      className="btn btn-danger shadow btn-xs sharp"
+                                    >
+                                      <i className="fa fa-trash"></i>
+                                    </Link>
+                                    <ToastContainer />
+                                  </div>
+                                </td>
                               )}
                             </tr>
                           ))}
@@ -226,11 +233,10 @@ const CategoryList = () => {
                           containerClassName={"pagination"}
                           activeClassName={"active"}
                           initialPage={page - 1} // Use initialPage instead of forcePage
-                          previousClassName={page === 1 ? "disabled" : ""}
+                          previousClassName={page === 1 ? disabled_Text : ""}
                         />
                       </div>
-                   )}
-
+                    )}
                   </div>
                 ) : (
                   <NoRecord />

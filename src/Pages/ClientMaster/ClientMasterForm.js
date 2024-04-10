@@ -61,6 +61,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
   const validNumber = GetTranslationData("UIAdmin", "number_Digit_Label");
+  const active = GetTranslationData("UIAdmin", "active");
+  const nonActive = GetTranslationData("UIAdmin", "nonActive");
   const platformDomainUrl = GetTranslationData(
     "UIAdmin",
     "platform_Domain_Url"
@@ -72,8 +74,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   const dc_value = GetTranslationData("UIAdmin", "value");
 
   const statusoptions = [
-    { value: true, label: "Active" },
-    { value: false, label: "Non-active" },
+    { value: true, label: active },
+    { value: false, label: nonActive },
   ];
   const options = [
     { value: "Theme 1", label: "Theme 1" },
@@ -311,17 +313,16 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       if (!clientData[field]) {
         newErrors[field] = " "; // Set your required field message
         isValid = false;
-      }
-      else if (clientData[field]==="platformDomainUrl"){
-        if(clientData[field].length > 250) {
+      } else if (clientData[field] === "platformDomainUrl") {
+        if (clientData[field].length > 250) {
           newErrors[field] = "Length must be 250 or fewer";
           isValid = false;
         }
-      }else {
+      } else {
         if (clientData[field].length > 100) {
           newErrors[field] = "Length must be 100 or fewer";
           isValid = false;
-        }  
+        }
       }
     });
 
@@ -342,39 +343,41 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 
     // Validate additionalFields
     additionalFields.forEach((field, index) => {
-      if (field.resourceKey==="") {
+      if (field.resourceKey === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
-          newAdditionalFieldsError[index].resourceKey = "All fields are required";
+          newAdditionalFieldsError[index].resourceKey =
+            "All fields are required";
+          return newAdditionalFieldsError;
+        });
+        isValid = false;
+      } else if (field.resourceKey.length > 250) {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].resourceKey =
+            "Length must be 250 or fewer";
           return newAdditionalFieldsError;
         });
         isValid = false;
       }
-      else if (field.resourceKey.length>250) {
+      if (field.resourceValue === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
-          newAdditionalFieldsError[index].resourceKey = "Length must be 250 or fewer";
+          newAdditionalFieldsError[index].resourceValue =
+            "All fields are required";
+          return newAdditionalFieldsError;
+        });
+        isValid = false;
+      } else if (field.resourceValue.length > 250) {
+        setAdditionalFieldsError((prevErrors) => {
+          const newAdditionalFieldsError = [...prevErrors];
+          newAdditionalFieldsError[index].resourceValue =
+            "Length must be 250 or fewer";
           return newAdditionalFieldsError;
         });
         isValid = false;
       }
-      if (field.resourceValue==="") {
-        setAdditionalFieldsError((prevErrors) => {
-          const newAdditionalFieldsError = [...prevErrors];
-          newAdditionalFieldsError[index].resourceValue = "All fields are required";
-          return newAdditionalFieldsError;
-        });
-        isValid = false;
-      }
-      else if (field.resourceValue.length>250) {
-        setAdditionalFieldsError((prevErrors) => {
-          const newAdditionalFieldsError = [...prevErrors];
-          newAdditionalFieldsError[index].resourceValue = "Length must be 250 or fewer";
-          return newAdditionalFieldsError;
-        });
-        isValid = false;
-      }
-      if (field.mode==="") {
+      if (field.mode === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].mode = "All fields are required";
@@ -561,9 +564,9 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           error={errors.platformDomainUrl}
                           onChange={(e) => handleChange(e, "platformDomainUrl")}
                         />
-                          <p className="text-danger">
-                            {errors.platformDomainUrl}
-                          </p>
+                        <p className="text-danger">
+                          {errors.platformDomainUrl}
+                        </p>
                       </div>
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="status">
@@ -689,7 +692,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_userPassword}
                             onChange={(e) => handleChange(e, "dbLoginPwd")}
                           />
-                         <p className="text-danger">{errors.dbLoginPwd}</p>
+                          <p className="text-danger">{errors.dbLoginPwd}</p>
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">
@@ -749,7 +752,9 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                         );
                                       }}
                                     />
-                                    <p className="text-danger">{additionalFieldsError[index].resourceKey}</p>
+                                    <p className="text-danger">
+                                      {additionalFieldsError[index].resourceKey}
+                                    </p>
                                   </div>
                                 </div>
                               </div>
@@ -783,7 +788,12 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                         );
                                       }}
                                     />
-                                    <p className="text-danger">{additionalFieldsError[index].resourceValue}</p>
+                                    <p className="text-danger">
+                                      {
+                                        additionalFieldsError[index]
+                                          .resourceValue
+                                      }
+                                    </p>
                                   </div>
                                 </div>
                               </div>

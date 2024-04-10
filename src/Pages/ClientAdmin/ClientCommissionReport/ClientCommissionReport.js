@@ -7,8 +7,8 @@ import { onGetCommissionReport } from "../../../Store/Slices/ClientAdmin/clientC
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../../Components/Button/Button";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ClientCommissionReport = () => {
   const [page, setPage] = useState(1);
@@ -37,7 +37,10 @@ const ClientCommissionReport = () => {
     { value: "Flipcart", label: "Flipcart" },
     { value: "Nykaa", label: "Nykaa" },
   ];
-  const client_Commission_Report = GetTranslationData("UIClient", "clientCommissionReport");
+  const client_Commission_Report = GetTranslationData(
+    "UIClient",
+    "clientCommissionReport"
+  );
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const totalFaceValue = GetTranslationData("UIClient", "totalFaceValue");
   const totalPaidAmount = GetTranslationData("UIClient", "totalPaidAmount");
@@ -46,6 +49,7 @@ const ClientCommissionReport = () => {
   const orderbrand = GetTranslationData("UIAdmin", "orderbrand");
   const ordervouchers = GetTranslationData("UIAdmin", "ordervouchers");
   const commissionAmount = GetTranslationData("UIClient", "commissionAmount");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const dispatch = useDispatch();
   const clientCommissionReport = useSelector(
     (state) => state.commissionReportReducer?.reportData
@@ -81,11 +85,11 @@ const ClientCommissionReport = () => {
     commissionAmount: data.commissionAmount,
   }));
 
-  // for date picker 
+  // for date picker
   const onChangeHandler = (value) => {
     setDateStart(value[0]);
     setDateEnd(value[1]);
-  }
+  };
   return (
     <div className="container-fluid">
       <div className="row">
@@ -104,9 +108,9 @@ const ClientCommissionReport = () => {
                     options={
                       Array.isArray(supplierMasterData)
                         ? supplierMasterData?.map((item) => ({
-                          label: item.name,
-                          value: item.name,
-                        }))
+                            label: item.name,
+                            value: item.name,
+                          }))
                         : []
                     }
                   />
@@ -130,7 +134,7 @@ const ClientCommissionReport = () => {
                     dateFormat="dd MMM yyyy h:mm aa" // Date format including time
                     // showTimeSelect // Enable time selection
                     timeFormat="HH:mm" // Time format
-                    className={'form-control form-control-sm'}
+                    className={"form-control form-control-sm"}
                     showDisabledMonthNavigation
                   />
                 </div>
@@ -172,8 +176,8 @@ const ClientCommissionReport = () => {
                     <tbody>
                       {clientCommissionReport
                         .slice(startIndex, endIndex)
-                        .map((data) => (
-                          <tr>
+                        .map((data, index) => (
+                          <tr key={index}>
                             <td>{data.supplier}</td>
                             <td>{data.brand}</td>
                             <td>{data.noOfVouchers}</td>
@@ -199,7 +203,7 @@ const ClientCommissionReport = () => {
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                         initialPage={page - 1}
-                        previousClassName={page === 1 ? "disabled" : ""}
+                        previousClassName={page === 1 ? disabled_Text : ""}
                       />
                     </div>
                   )}

@@ -32,6 +32,7 @@ const FaqMaster = () => {
   const endIndex = startIndex + rowsPerPage;
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const [faqInfo, setFaqInfo] = useState({
     categoryId: "",
     question: "",
@@ -99,7 +100,7 @@ const FaqMaster = () => {
       if (faqInfo[key] === "") {
         newErrors[key] = " ";
         isValid = false;
-      }else if (faqInfo[key].length > 250) {
+      } else if (faqInfo[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
       } else {
@@ -260,7 +261,9 @@ const FaqMaster = () => {
                               containerClassName={"pagination"}
                               activeClassName={"active"}
                               initialPage={page - 1} // Use initialPage instead of forcePage
-                              previousClassName={page === 0 ? "disabled" : ""}
+                              previousClassName={
+                                page === 0 ? disabled_Text : ""
+                              }
                             />
                           </div>
                         )}

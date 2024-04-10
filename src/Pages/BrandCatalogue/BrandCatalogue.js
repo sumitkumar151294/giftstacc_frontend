@@ -37,29 +37,27 @@ const BrandCatalogue = () => {
   const BrandDetail = GetTranslationData("UIAdmin", "brand_Detail");
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client_label");
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const [searchQuery, setSearchQuery] = useState("");
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data
-  );  const supplierMaster = useSelector(
-    (state) => state.supplierMasterReducer
   );
+  const supplierMaster = useSelector((state) => state.supplierMasterReducer);
 
   const productByIdData = useSelector(
     (state) => state.productReducer?.productById
-  );  const productById = useSelector(
-    (state) => state.productReducer?.productById
   );
+  const productById = useSelector((state) => state.productReducer?.productById);
   const clientProductMapping = useSelector(
     (state) => state.clientProductMappingReducer
   );
   const LoginId = useSelector((state) => state?.loginReducer);
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
-  );  const clientData = useSelector(
-    (state) => state?.clientMasterReducer
   );
+  const clientData = useSelector((state) => state?.clientMasterReducer);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
@@ -130,8 +128,6 @@ const BrandCatalogue = () => {
       [name]: selectedSupplierName,
     }));
   };
-
-
 
   useEffect(() => {
     dispatch(onGetSupplierList());
@@ -288,7 +284,11 @@ const BrandCatalogue = () => {
                 </div>
               </div>
               <div className="card-body">
-                {productById?.isLoading || supplierMaster?.isLoading || clientProductMapping?.isLoading || clientData?.isLoading || LoginId?.isLoading ? (
+                {productById?.isLoading ||
+                supplierMaster?.isLoading ||
+                clientProductMapping?.isLoading ||
+                clientData?.isLoading ||
+                LoginId?.isLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -359,7 +359,9 @@ const BrandCatalogue = () => {
                                 containerClassName={"pagination"}
                                 activeClassName={"active"}
                                 initialPage={page - 1} // Use initialPage instead of forcePage
-                                previousClassName={page === 0 ? "disabled" : ""}
+                                previousClassName={
+                                  page === 0 ? disabled_Text : ""
+                                }
                               />
                             </div>
                           )}
