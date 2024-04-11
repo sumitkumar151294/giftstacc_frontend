@@ -13,14 +13,25 @@ const Layout = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-  if (loginDetails?.isAdminLogin === null || loginDetails?.isAdminLogin  || !loginDetails?.isAdminLogin ) {
-    if((loginDetails?.isAdminLogin===true && loginDetails.partner_Key==="UIClient") || (loginDetails?.isAdminLogin===false && loginDetails.partner_Key==="UIAdmin")){
-      dispatch(onLogout());
-      localStorage.clear();
-      sessionStorage.clear();
-      loginDetails.partner_Key === "UIAdmin" ? navigate("/") :navigate("/lc-user-admin/login");    
+    if (
+      loginDetails?.isAdminLogin === null ||
+      loginDetails?.isAdminLogin ||
+      !loginDetails?.isAdminLogin
+    ) {
+      if (
+        (loginDetails?.isAdminLogin === true &&
+          loginDetails.partner_Key === "UIClient") ||
+        (loginDetails?.isAdminLogin === false &&
+          loginDetails.partner_Key === "UIAdmin")
+      ) {
+        dispatch(onLogout());
+        localStorage.clear();
+        sessionStorage.clear();
+        loginDetails.partner_Key === "UIAdmin"
+          ? navigate("/")
+          : navigate("/lc-user-admin/login");
+      }
     }
- }
   }, []);
 
   return (
@@ -34,7 +45,6 @@ const Layout = (props) => {
         <div className="content-body">
           <Component />
         </div>
-
         <Footer />
       </div>
     </>

@@ -22,7 +22,7 @@ const API = {
   supplier_brandList: "/product",
 
   //product
-  product_By_Id: "/productsById",
+  product_By_Id: "/products-by-client-id",
 
   //client
   client_master: "/client-master",

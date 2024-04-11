@@ -3,6 +3,7 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import Button from "../../Components/Button/Button";
 import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom/dist";
 
 const BrandDetail = () => {
   const location = useLocation();
@@ -76,10 +77,10 @@ const BrandDetail = () => {
                         )}
                       </div>
                       <div className="only-right mt-2">
-                        <button className="mr-10 on-link" href={""}>
+                        <Link className="mr-10 on-link" href={""}>
                           {termsandconditions}
-                        </button>
-                        <button className="mr-10 on-link">{storelocator}</button>
+                        </Link>
+                        <Link className="mr-10 on-link">{storelocator}</Link>
                       </div>
                     </div>
                   </div>

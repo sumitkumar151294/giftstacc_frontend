@@ -25,8 +25,7 @@ const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [copyBrandCatalogue, setCopyBrandCatalogue] = useState([]);
-  const [page, setPage] = useState(1);
-  const [rowsPerPage] = useState(5);
+
   const heading = GetTranslationData("UIAdmin", "heading");
   const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const image = GetTranslationData("UIAdmin", "image");
@@ -41,35 +40,37 @@ const BrandCatalogue = () => {
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client_label");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
-  const startIndex = (page - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
+  const [page, setPage] = useState(1);
+
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data
   );
   const supplierMaster = useSelector((state) => state.supplierMasterReducer);
 
-  const productByIdData = useSelector(
-    (state) => state.productReducer?.productById
-  );
-  const productById = useSelector((state) => state.productReducer?.productById);
+  const productByIdReducer = useSelector((state) => state.productReducer);
+
   const clientProductMapping = useSelector(
-    (state) => state.clientProductMappingReducer
+    (state) => state?.clientProductMappingReducer?.clientDataById[0]?.products
   );
+
+
+
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer?.filteredData
   );
+
   const LoginId = useSelector((state) => state?.loginReducer);
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
   );
-  const clientData = useSelector((state) => state?.clientMasterReducer);
   const [supplierList, setSupplierList] = useState({
     supplier: "",
     client: "",
   });
-  const excelData = Array.isArray(productByIdData)
-    ? productByIdData.map((data) => ({
+  const excelData = Array.isArray(productByIdReducer.productById[0]?.products)
+    ? productByIdReducer.productById[0]?.products.map((data) => ({
         sku: data.sku,
         name: data.name,
         minPrice: data.minPrice,
@@ -84,9 +85,30 @@ const BrandCatalogue = () => {
     { label: "Max Price", key: "maxPrice" },
     { label: "Price", key: "price" },
   ];
-
-  const handlePageChange = (selected) => {
-    setPage(selected.selected + 1);
+  const paginationValue = [
+    {
+      value: 5,
+      label: 5,
+    },
+    {
+      value: 10,
+      label: 10,
+    },
+    {
+      value: 20,
+      label: 20,
+    },
+    {
+      value: 50,
+      label: 50,
+    },
+    {
+      value: 100,
+      label: 100,
+    },
+  ];
+  const handlePageChange = ({ selected }) => {
+    setPage(selected + 1);
   };
 
   const handleSearch = (e) => {
@@ -94,79 +116,93 @@ const BrandCatalogue = () => {
     setPage(1);
   };
 
-  const filteredBrandCatalogueList = Array.isArray(copyBrandCatalogue)
-    ? copyBrandCatalogue.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      )
-    : [];
+  // const clientProductMapping = Array.isArray(copyBrandCatalogue)
+  //   ? copyBrandCatalogue.filter((vendor) =>
+  //       Object.values(vendor).some(
+  //         (value) =>
+  //           value &&
+  //           typeof value === "string" &&
+  //           value.toLowerCase().includes(searchQuery.toLowerCase())
+  //       )
+  //     )
+  //   : [];
   const handleChange = (e, name) => {
     const selectedSupplierName = e.target.value;
-    if (selectedSupplierName === "Select" && name === "client") {
-      dispatch(onGetAllClientProductMapping());
-    } else if (selectedSupplierName === "Select" && name === "supplier") {
-      setCopyBrandCatalogue(productByIdData);
-    } else if (name === "supplier") {
-      const selectedSupplier = supplierMasterData.find(
-        (supplier) => supplier.name === selectedSupplierName
-      );
-      if (selectedSupplier) {
-        const filteredProducts = productByIdData.filter(
-          (product) =>
-            product.supplierCode.toLowerCase() ===
-            selectedSupplier.code.toLowerCase()
-        );
-        setCopyBrandCatalogue(filteredProducts);
-      }
-    } else if (name === "client") {
-      dispatch(
-        onClientProductMappingSubmit(
-          e.target.selectedOptions.item("").getAttribute("name")
-        )
-      );
-    }
-    setSupplierList((prevState) => ({
-      ...prevState,
-      [name]: selectedSupplierName,
-    }));
+    // if (selectedSupplierName === "Select" && name === "client") {
+    //   dispatch(onGetAllClientProductMapping());
+    // } else if (selectedSupplierName === "Select" && name === "supplier") {
+    //   setCopyBrandCatalogue(productByIdData);
+    // } else if (name === "supplier") {
+    //   const selectedSupplier = supplierMasterData.find(
+    //     (supplier) => supplier.name === selectedSupplierName
+    //   );
+    //   if (selectedSupplier) {
+    //     const filteredProducts = productByIdData.filter(
+    //       (product) =>
+    //         product.supplierCode.toLowerCase() ===
+    //         selectedSupplier.code.toLowerCase()
+    //     );
+    //     setCopyBrandCatalogue(filteredProducts);
+    //   }
+    // } else if (name === "client") {
+    //   dispatch(
+    //     onClientProductMappingSubmit(
+    //       e.target.selectedOptions.item("").getAttribute("name")
+    //     )
+    //   );
+    // }
+    // setSupplierList((prevState) => ({
+    //   ...prevState,
+    //   [name]: selectedSupplierName,
+    // }));
   };
 
+  const clientCode = sessionStorage.getItem("clientCode");
   useEffect(() => {
-    dispatch(onGetSupplierList());
-    dispatch(onGetAllClientProductMapping());
-    dispatch(onClientMasterSubmit());
+    dispatch(
+      onProductByIdSubmit({
+        clientCode,
+        pageNumber: page,
+        pageSize: rowsPerPage,
+      })
+    );
   }, []);
-
   useEffect(() => {
-    let productId = "";
-    if (
-      (supplierList.client === "" || supplierList.client === "Select") &&
-      clientProductMapping?.status_code === "200"
-    ) {
-      productId =
-        Array.isArray(clientProductMapping?.clientData) &&
-        clientProductMapping?.clientData?.map((item) => {
-          return item?.productId;
-        });
-    } else if (
-      supplierList.client !== "" &&
-      supplierList.client !== "Select" &&
-      clientProductMapping?.status_code === "200"
-    ) {
-      productId =
-        Array.isArray(clientProductMapping?.clientDataById) &&
-        clientProductMapping?.clientDataById[0]?.clientProductMapping?.map(
-          (item) => {
-            return item?.productId;
-          }
-        );
-    }
-    productId?.length && dispatch(onProductByIdSubmit(productId));
-  }, [clientProductMapping]);
+    dispatch(
+      onProductByIdSubmit({
+        clientCode,
+        pageNumber: page,
+        pageSize: rowsPerPage,
+      })
+    );
+  }, [page]);
+  console.log(productByIdReducer?.isLoading)
+  // useEffect(() => {
+  //   let productId = "";
+  //   if (
+  //     (supplierList.client === "" || supplierList.client === "Select") &&
+  //     clientProductMapping?.status_code === "200"
+  //   ) {
+  //     productId =
+  //       Array.isArray(clientProductMapping?.clientData) &&
+  //       clientProductMapping?.clientData?.map((item) => {
+  //         return item?.productId;
+  //       });
+  //   } else if (
+  //     supplierList.client !== "" &&
+  //     supplierList.client !== "Select" &&
+  //     clientProductMapping?.status_code === "200"
+  //   ) {
+  //     productId =
+  //       Array.isArray(clientProductMapping?.clientDataById) &&
+  //       clientProductMapping?.clientDataById[0]?.clientProductMapping?.map(
+  //         (item) => {
+  //           return item?.productId;
+  //         }
+  //       );
+  //   }
+  //   productId?.length && dispatch(onProductByIdSubmit(productId));
+  // }, [clientProductMapping]);
 
   // useEffect(() => {
   //   if (clientProductMapping?.status_code === "200") {
@@ -183,30 +219,30 @@ const BrandCatalogue = () => {
       ? navigate("/lc-admin/brand-detail", { state: data })
       : navigate("/lc-user-admin/brand-detail", { state: data });
   };
-  useEffect(() => {
-    let filteredProducts = [];
+  // useEffect(() => {
+  //   let filteredProducts = [];
 
-    if (supplierList.supplier && supplierList.supplier !== "Select") {
-      // If a specific supplier is selected, filter products based on the supplier
-      const selectedSupplier = supplierMasterData.find(
-        (supplier) => supplier.name === supplierList.supplier
-      );
+  //   if (supplierList.supplier && supplierList.supplier !== "Select") {
+  //     // If a specific supplier is selected, filter products based on the supplier
+  //     const selectedSupplier = supplierMasterData.find(
+  //       (supplier) => supplier.name === supplierList.supplier
+  //     );
 
-      if (selectedSupplier) {
-        filteredProducts = productByIdData.filter(
-          (product) =>
-            product.supplierCode.toLowerCase() ===
-            selectedSupplier.code.toLowerCase()
-        );
-      }
-    } else {
-      // If no specific supplier is selected, or the "Select" option is chosen,
-      // show all products
-      filteredProducts = productByIdData;
-    }
+  //     if (selectedSupplier) {
+  //       filteredProducts = productByIdData.filter(
+  //         (product) =>
+  //           product.supplierCode.toLowerCase() ===
+  //           selectedSupplier.code.toLowerCase()
+  //       );
+  //     }
+  //   } else {
+  //     // If no specific supplier is selected, or the "Select" option is chosen,
+  //     // show all products
+  //     filteredProducts = productByIdData;
+  //   }
 
-    setCopyBrandCatalogue(filteredProducts);
-  }, [supplierList.supplier, supplierMasterData, productByIdData]);
+  //   setCopyBrandCatalogue(filteredProducts);
+  // }, [supplierList.supplier, supplierMasterData, productByIdData]);
   return (
     <div>
       {getRoleAccess[0] !== undefined ? (
@@ -252,10 +288,30 @@ const BrandCatalogue = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="container-fluid pt-1">
-                    <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                      <div className="col-sm-3 form-group mb-2">
-                        <label htmlFor="supplier">{supplier}</label>
+
+                  <div className="d-flex align-items-center flex-wrap">
+                    <CSVLink
+                      data={excelData}
+                      headers={headers}
+                      filename={"BrandCatalogue.csv"}
+                    >
+                      {productByIdReducer.productById[0]?.products?.length >=
+                        +0 && (
+                        <Button
+                          className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
+                          icons={"fa fa-file-excel me-2"}
+                          text={`${exportLabel}`}
+                        />
+                      )}
+                    </CSVLink>
+                  </div>
+                </div>
+              </div>
+              <div className="container-fluid pt-1">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="col-sm-3 form-group mb-2">
+                    <label htmlFor="supplier">{supplier}</label>
+
 
                         <Dropdown
                           onChange={(e) => handleChange(e, "supplier")}
@@ -288,93 +344,105 @@ const BrandCatalogue = () => {
                         </div>
                       )}
                     </div>
+
+                  )}
+                </div>
+              </div>
+              <div className="card-body">
+                {productByIdReducer?.isLoading ? (
+                  <div style={{ height: "400px" }}>
+                    <Loader classType={"absoluteLoader"} />
                   </div>
-                  <div className="card-body">
-                    {productById?.isLoading ||
-                    supplierMaster?.isLoading ||
-                    clientProductMapping?.isLoading ||
-                    clientData?.isLoading ||
-                    LoginId?.isLoading ? (
-                      <div style={{ height: "400px" }}>
-                        <Loader classType={"absoluteLoader"} />
-                      </div>
-                    ) : (
-                      <>
-                        <div className="table-responsive">
-                          {filteredBrandCatalogueList.length > 0 ? (
-                            <>
-                              <table className="table header-border table-responsive-sm">
-                                <thead>
-                                  <tr>
-                                    <th>{image}</th>
-                                    <th>{sku}</th>
-                                    <th>{name}</th>
-                                    <th>{minprice}</th>
-                                    <th>{maxprice}</th>
-                                    <th>{price}</th>
-                                    <th>{action}</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {filteredBrandCatalogueList.length > 0 ? (
-                                    Array.isArray(filteredBrandCatalogueList) &&
-                                    filteredBrandCatalogueList
-                                      .slice(startIndex, endIndex)
-                                      .map((data, index) => (
-                                        <tr key={index}>
-                                          <td>
-                                            <img
-                                              src={data.small}
-                                              style={{ width: "50px" }}
-                                              alt={data.small}
-                                            />
-                                            <br />
-                                          </td>
-                                          <td>{data.sku}</td>
-                                          <td>{data.name}</td>
-                                          <td>{data.minPrice}</td>
-                                          <td>{data.maxPrice}</td>
-                                          <td>{data.price}</td>
-                                          <td>
-                                            {" "}
-                                            <Button
-                                              onClick={() => handleClick(data)}
-                                              className="btn btn-primary btn-sm bt-link float-right"
-                                              icons={"fa fa-info"}
-                                              text={BrandDetail}
-                                            />
-                                          </td>
-                                        </tr>
-                                      ))
-                                  ) : (
-                                    <NoRecord />
-                                  )}
-                                </tbody>
-                              </table>
-                              {filteredBrandCatalogueList.length > 5 && (
-                                <div className="pagination-container">
-                                  <ReactPaginate
-                                    previousLabel={"<"}
-                                    nextLabel={" >"}
-                                    breakLabel={"..."}
-                                    pageCount={Math.ceil(
-                                      filteredBrandCatalogueList.length /
-                                        rowsPerPage
-                                    )}
-                                    marginPagesDisplayed={2}
-                                    onPageChange={handlePageChange}
-                                    containerClassName={"pagination"}
-                                    activeClassName={"active"}
-                                    initialPage={page - 1} // Use initialPage instead of forcePage
-                                    previousClassName={
-                                      page === 0 ? disabled_Text : ""
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </>
-                          ) : (
-                            <NoRecord />
+                ) : (
+                  <>
+                    <div className="table-responsive">
+                      {productByIdReducer.productById[0]?.products?.length ? (
+                        <>
+                          <table className="table header-border table-responsive-sm">
+                            <thead>
+                              <tr>
+                                <th>{image}</th>
+                                <th>{sku}</th>
+                                <th>{name}</th>
+                                <th>{minprice}</th>
+                                <th>{maxprice}</th>
+                                <th>{price}</th>
+                                <th>{action}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {Array.isArray(
+                                productByIdReducer.productById[0]?.products
+                              ) &&
+                                productByIdReducer.productById[0]?.products
+
+                                  .filter((item) => item.enabled)
+                                  .map((data, index) => (
+                                    <tr key={index}>
+                                      <td>
+                                        <img
+                                          src={data.small}
+                                          style={{ width: "50px" }}
+                                          alt={data.small}
+                                        />
+                                        <br />
+                                      </td>
+                                      <td>{data.sku}</td>
+                                      <td>{data.name}</td>
+                                      <td>{data.minPrice}</td>
+                                      <td>{data.maxPrice}</td>
+                                      <td>{data.price}</td>
+                                      <td>
+                                        {" "}
+                                        <Button
+                                          onClick={() => handleClick(data)}
+                                          className="btn btn-primary btn-sm bt-link float-right"
+                                          icons={"fa fa-info"}
+                                          text={BrandDetail}
+                                        />
+                                      </td>
+                                    </tr>
+                                  ))}
+                            </tbody>
+                          </table>
+                          {productByIdReducer.productById[0]?.totalCount >
+                            5 && (
+                            <div className="pagination-container">
+                              <ReactPaginate
+                                previousLabel={"<"}
+                                nextLabel={" >"}
+                                breakLabel={"..."}
+                                pageCount={Math.ceil(
+                                  productByIdReducer.productById[0]
+                                    ?.totalCount / rowsPerPage
+                                )}
+                                marginPagesDisplayed={2}
+                                onPageChange={(e) => handlePageChange(e)}
+                                containerClassName={"pagination"}
+                                activeClassName={"active"}
+                                initialPage={page - 1} // Use initialPage instead of forcePage
+                                previousClassName={
+                                  page === 0 ? disabled_Text : ""
+                                }
+                              />
+                              <Dropdown
+                                defaultSelected="Page Size"
+                                className="paginationDropdown"
+                                value={rowsPerPage}
+                                aria-label=""
+                                onChange={(e) => {
+                                  setRowsPerPage(parseInt(e.target.value));
+                                  dispatch(
+                                    onProductByIdSubmit({
+                                      clientCode,
+                                      pageNumber: page,
+                                      pageSize: parseInt(e.target.value),
+                                    })
+                                  );
+                                }}
+                                options={paginationValue}
+                              />
+                            </div>
                           )}
                         </div>
                       </>

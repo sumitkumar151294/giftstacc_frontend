@@ -2,6 +2,7 @@ import React from "react";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import './CustomerList.scss'
+import { Link } from "react-router-dom/dist";
 
 const Customerlist = () => {
     const customerData = [
@@ -84,18 +85,18 @@ const Customerlist = () => {
                                                 placeholder="Search Here......"
                                             />
                                             <span className="input-group-text">
-                                                <button>
+                                                <Link>
                                                     <i className="flaticon-381-search-2"></i>
-                                                </button>
+                                                </Link>
                                             </span>
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center flex-wrap">
-                                        <button
+                                        <Link
                                             className="btn btn-primary btn-rounded me-3 mb-2"
                                         >
                                             <i className="fa fa-file-excel me-2"></i>{exportLabel}
-                                        </button>
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className="card-body">
@@ -112,20 +113,20 @@ const Customerlist = () => {
                                             {customerData.length > 0 ? (
                                                 <tbody id="customers">
                                                     {customerData.map((item,index) => (
-                                                        <tr key={index} className="btn-reveal-trigger">
+                                                        <tr key={index} className="btn-reveal-trigger" >
                                                             <td className="py-3">
                                                                 <div className="media-body">
                                                                     <h5 className="mb-0 fs--1 txt txxt ">{item.name}</h5>
                                                                 </div>
                                                             </td>
                                                             <td className="py-2">
-                                                                <button href="mailto:ricky@example.com">
+                                                                <Link href="mailto:ricky@example.com">
                                                                     {item.email}{" "}
-                                                                </button>
+                                                                </Link>
                                                             </td>
                                                             <td className="py-2">
-                                                                {" "}
-                                                                <button href="tel:2012001851">{item.phone}</button>
+
+                                                                <Link href="tel:2012001851">{item.phone}</Link>
                                                             </td>
                                                             <td className="py-2">{item.joined}</td>
                                                         </tr>

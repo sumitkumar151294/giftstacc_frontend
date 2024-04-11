@@ -13,7 +13,6 @@ import Footer from "../../Layout/Footer/Footer";
 import image from "../../Assets/img/logo.png";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { useNavigate } from "react-router";
-import bcrypt from "bcryptjs";
 import { onClientLoginSubmit } from "../../Store/Slices/loginSlice";
 
 const LoginPage = () => {
@@ -74,10 +73,10 @@ const LoginPage = () => {
     const { checked } = e.target;
     if (checked) {
       // To encrypt the passoword
-      const hashedPassword = await bcrypt.hash(loginData.password, 10);
+
 
       localStorage.setItem("userEmail", loginData.email);
-      localStorage.setItem("userPassword", hashedPassword);
+      localStorage.setItem("userPassword", loginData.password);
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userPassword");

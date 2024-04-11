@@ -13,7 +13,11 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import DatePickerInput from "../../Components/DatePicker/DatePicker";
+
+import { Link } from "react-router-dom/dist";
+
 import PageError from "../../Components/PageError/PageError";
+
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -496,12 +500,17 @@ const Orders = () => {
                                 <table className="table header-border table-responsive-sm">
                                   <thead>
                                     <tr>
-                                      <th>{ordersupplier}</th>
-                                      <th>{orderbrand}</th>
-                                      <th>{ordervouchers}</th>
-                                      <th>{orderamount}</th>
-                                      <th>{ordermargin}</th>
-                                      <th>{ordermarginvalue}</th>
+
+                                      <td>{data.supplier}</td>
+                                      <td>
+                                        {data.brand}
+                                        <Link href="#"></Link>
+                                      </td>
+                                      <td>{data.vouchers}</td>
+                                      <td>{data.amount}</td>
+                                      <td>{data.margin}</td>
+                                      <td>{data.marginvalue}</td>
+
                                     </tr>
                                   </thead>
                                   {filteredOrderList
