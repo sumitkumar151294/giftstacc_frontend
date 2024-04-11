@@ -51,15 +51,11 @@ const BrandCatalogue = () => {
 
   const productByIdReducer = useSelector((state) => state.productReducer);
 
-  const clientProductMapping = useSelector(
-    (state) => state?.clientProductMappingReducer?.clientDataById[0]?.products
-  );
-
-
 
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer?.filteredData
   );
+
 
   const LoginId = useSelector((state) => state?.loginReducer);
   const clientList = useSelector(
@@ -69,8 +65,8 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
-  const excelData = Array.isArray(productByIdReducer.productById[0]?.products)
-    ? productByIdReducer.productById[0]?.products.map((data) => ({
+  const excelData = Array.isArray(productByIdReducer?.productById[0]?.products)
+    ? productByIdReducer?.productById?.[0]?.products.map((data) => ({
         sku: data.sku,
         name: data.name,
         minPrice: data.minPrice,
@@ -176,7 +172,7 @@ const BrandCatalogue = () => {
       })
     );
   }, [page]);
-  console.log(productByIdReducer?.isLoading)
+  console.log(productByIdReducer?.isLoading);
   // useEffect(() => {
   //   let productId = "";
   //   if (
@@ -245,57 +241,39 @@ const BrandCatalogue = () => {
   // }, [supplierList.supplier, supplierMasterData, productByIdData]);
   return (
     <div>
-      {getRoleAccess[0] !== undefined ? (
-        <>
-          <ScrollToTop />
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-xl-12 col-xxl-12">
-                <div className="card">
-                  <div className="container-fluid pt-1">
-                    <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                      <div className="card-header">
-                        <h4 className="card-title">{heading}</h4>
-                      </div>
-                      <div className="customer-search mb-sm-0 mb-3">
-                        <div className="input-group search-area">
-                          <InputField
-                            type="text"
-                            className="form-control only-high"
-                            placeholder={searchLabel}
-                            value={searchQuery}
-                            onChange={handleSearch}
-                          />
-                          <span className="input-group-text">
-                            <i className="fa fa-search"></i>
-                          </span>
-                        </div>
-                      </div>
-                      <div className="d-flex align-items-center flex-wrap">
-                        <CSVLink
-                          data={excelData}
-                          headers={headers}
-                          filename={"BrandCatalogue.csv"}
-                        >
-                          {filteredBrandCatalogueList.length >= +0 && (
-                            <Button
-                              className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
-                              icons={"fa fa-file-excel me-2"}
-                              text={`${exportLabel}`}
-                            />
-                          )}
-                        </CSVLink>
-                      </div>
+    {getRoleAccess[0] !== undefined ? (
+    <>
+      <ScrollToTop />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12 col-xxl-12">
+            <div className="card">
+              <div className="container-fluid pt-1">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                  <div className="card-header">
+                    <h4 className="card-title">{heading}</h4>
+                  </div>
+                  <div className="customer-search mb-sm-0 mb-3">
+                    <div className="input-group search-area">
+                      <InputField
+                        type="text"
+                        className="form-control only-high"
+                        placeholder={searchLabel}
+                        value={searchQuery}
+                        onChange={handleSearch}
+                      />
+                      <span className="input-group-text">
+                        <i className="fa fa-search"></i>
+                      </span>
                     </div>
                   </div>
-
                   <div className="d-flex align-items-center flex-wrap">
                     <CSVLink
                       data={excelData}
                       headers={headers}
                       filename={"BrandCatalogue.csv"}
                     >
-                      {productByIdReducer.productById[0]?.products?.length >=
+                      {productByIdReducer.productById?.[0]?.products?.length >=
                         +0 && (
                         <Button
                           className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
@@ -312,42 +290,39 @@ const BrandCatalogue = () => {
                   <div className="col-sm-3 form-group mb-2">
                     <label htmlFor="supplier">{supplier}</label>
 
+                    <Dropdown
+                      onChange={(e) => handleChange(e, "supplier")}
+                      value={supplierList.supplier || ""}
+                      className="form-select"
+                      options={supplierMasterData?.map((item) => ({
+                        label: item.name,
+                        value: item.name,
+                      }))}
+                    />
+                  </div>
 
-                        <Dropdown
-                          onChange={(e) => handleChange(e, "supplier")}
-                          value={supplierList.supplier || ""}
-                          className="form-select"
-                          options={supplierMasterData?.map((item) => ({
-                            label: item.name,
-                            value: item.name,
-                          }))}
-                        />
-                      </div>
-
-                      {LoginId.isAdminLogin && (
-                        <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="client">{client}</label>
-                          <Dropdown
-                            onChange={(e) => handleChange(e, "client")}
-                            value={supplierList?.client || ""}
-                            className="form-select"
-                            options={
-                              Array.isArray(clientList)
-                                ? clientList?.map((item) => ({
-                                    label: item.name,
-                                    value: item.name,
-                                    data: item.id,
-                                  }))
-                                : []
-                            }
-                          />
-                        </div>
-                      )}
+                  {LoginId.isAdminLogin && (
+                    <div className="col-sm-3 form-group mb-2">
+                      <label htmlFor="client">{client}</label>
+                      <Dropdown
+                        onChange={(e) => handleChange(e, "client")}
+                        value={supplierList?.client || ""}
+                        className="form-select"
+                        options={
+                          Array.isArray(clientList)
+                            ? clientList?.map((item) => ({
+                                label: item.name,
+                                value: item.name,
+                                data: item.id,
+                              }))
+                            : []
+                        }
+                      />
                     </div>
-
                   )}
                 </div>
               </div>
+
               <div className="card-body">
                 {productByIdReducer?.isLoading ? (
                   <div style={{ height: "400px" }}>
@@ -356,7 +331,7 @@ const BrandCatalogue = () => {
                 ) : (
                   <>
                     <div className="table-responsive">
-                      {productByIdReducer.productById[0]?.products?.length ? (
+                      {productByIdReducer?.productById?.[0]?.products?.length ? (
                         <>
                           <table className="table header-border table-responsive-sm">
                             <thead>
@@ -372,10 +347,9 @@ const BrandCatalogue = () => {
                             </thead>
                             <tbody>
                               {Array.isArray(
-                                productByIdReducer.productById[0]?.products
+                                productByIdReducer.productById?.[0]?.products
                               ) &&
                                 productByIdReducer.productById[0]?.products
-
                                   .filter((item) => item.enabled)
                                   .map((data, index) => (
                                     <tr key={index}>
@@ -444,30 +418,34 @@ const BrandCatalogue = () => {
                               />
                             </div>
                           )}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
+                        </>
+                      ) : (
+                        <NoRecord />
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
-        </>
-      ) : (
-        <PageError
-          pageError={{
-            StatusCode: "401",
-            ErrorName: "Permission Denied",
-            ErrorDesription:
-              "Your application url is not registerd to our application",
-            url: "/",
-            buttonText: "Back to Home",
-          }}
-        />
-      )}
-    </div>
+        </div>
+      </div>
+    </>
+    ) : (
+      <PageError
+        pageError={{
+          StatusCode: "401",
+          ErrorName: "Permission Denied",
+          ErrorDesription:
+            "Your application url is not registerd to our application",
+          url: "/",
+          buttonText: "Back to Home",
+        }}
+      />
+    )}
+  </div>
   );
 };
-
 export default BrandCatalogue;
+
 /* eslint-enable react-hooks/exhaustive-deps */
