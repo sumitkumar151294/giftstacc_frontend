@@ -13,7 +13,11 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import DatePickerInput from "../../Components/DatePicker/DatePicker";
+
 import { Link } from "react-router-dom/dist";
+
+import PageError from "../../Components/PageError/PageError";
+
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -24,7 +28,9 @@ const Orders = () => {
     supplier: "",
     client: "",
   });
-
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer?.filteredData
+  );
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
@@ -397,114 +403,104 @@ const Orders = () => {
   };
 
   return (
-    <>
-      <ScrollToTop />
-      <div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-xl-12 col-xxl-12">
-              <div className="card">
-                <div className="container-fluid pt-1">
-                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                    <div className="card-header">
-                      <h4 className="card-title">{orders}</h4>
-                    </div>
-                    <div className="customer-search mb-sm-0 mb-3">
-                      <div className="input-group search-area">
-                        <InputField
-                          type="text"
-                          className="form-control only-high"
-                          placeholder={searchLabel}
-                          defaultValue={searchQuery}
-                          onChange={handleSearch}
-                        />
-                        <span className="input-group-text">
-                          <i className="fa fa-search"></i>
-                        </span>
-                      </div>
-                    </div>
-                    <div className="d-flex align-items-center flex-wrap">
-                      {data && data.length > 0 && (
-                        <CSVLink
-                          data={data}
-                          headers={headers}
-                          filename={"orders.csv"}
-                        >
-                          {filteredOrderList.length > 0 && (
-                            <Button
-                              className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                              text={exportLabel}
-                              icons={"fa fa-file-excel"}
+    <div>
+      {getRoleAccess[0] !== undefined ? (
+        <>
+          <ScrollToTop />
+          <div>
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-xl-12 col-xxl-12">
+                  <div className="card">
+                    <div className="container-fluid pt-1">
+                      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                        <div className="card-header">
+                          <h4 className="card-title">{orders}</h4>
+                        </div>
+                        <div className="customer-search mb-sm-0 mb-3">
+                          <div className="input-group search-area">
+                            <InputField
+                              type="text"
+                              className="form-control only-high"
+                              placeholder={searchLabel}
+                              defaultValue={searchQuery}
+                              onChange={handleSearch}
                             />
+                            <span className="input-group-text">
+                              <i className="fa fa-search"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-center flex-wrap">
+                          {data && data.length > 0 && (
+                            <CSVLink
+                              data={data}
+                              headers={headers}
+                              filename={"orders.csv"}
+                            >
+                              {filteredOrderList.length > 0 && (
+                                <Button
+                                  className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                                  text={exportLabel}
+                                  icons={"fa fa-file-excel"}
+                                />
+                              )}
+                            </CSVLink>
                           )}
-                        </CSVLink>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="container-fluid  pt-1">
-                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                    <div className="col-sm-3 form-group mb-2">
-                      <label htmlFor="supplier">{supplier}</label>
-                      <Dropdown
-                        onChange={(e) => handleChange(e, "supplier")}
-                        defaultValue={supplierList.supplier || ""}
-                        className="form-select"
-                        options={supplierListData}
-                      />
-                    </div>
-                    {ClientLogin && (
-                      <div className="col-sm-3 form-group mb-2">
-                        <label htmlFor="client">{client}</label>
-                        <Dropdown
-                          onChange={(e) => handleChange(e, "client")}
-                          defaultValue={supplierList?.client || ""}
-                          className="form-select"
-                          options={clientListData}
-                        />
-                      </div>
-                    )}
-                    <div className="col-xl-3">
-                      <div className="example">
-                        <p className="mb-1">{date}</p>
-                        <DatePickerInput
-                          placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
-                          selectsRange={true}
-                          dateFormat="dd MMM yyyy h:mm aa"
-                          timeFormat="HH:mm"
-                          className={"form-control form-control-sm"}
-                          showDisabledMonthNavigation
-                        />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="card-body">
-                  {showLoader && filteredOrderList.length < 0 ? (
-                    <div style={{ height: "400px" }}>
-                      <Loader classType={"absoluteLoader"} />
+                    <div className="container-fluid  pt-1">
+                      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                        <div className="col-sm-3 form-group mb-2">
+                          <label htmlFor="supplier">{supplier}</label>
+                          <Dropdown
+                            onChange={(e) => handleChange(e, "supplier")}
+                            defaultValue={supplierList.supplier || ""}
+                            className="form-select"
+                            options={supplierListData}
+                          />
+                        </div>
+                        {ClientLogin && (
+                          <div className="col-sm-3 form-group mb-2">
+                            <label htmlFor="client">{client}</label>
+                            <Dropdown
+                              onChange={(e) => handleChange(e, "client")}
+                              defaultValue={supplierList?.client || ""}
+                              className="form-select"
+                              options={clientListData}
+                            />
+                          </div>
+                        )}
+                        <div className="col-xl-3">
+                          <div className="example">
+                            <p className="mb-1">{date}</p>
+                            <DatePickerInput
+                              placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
+                              selectsRange={true}
+                              dateFormat="dd MMM yyyy h:mm aa"
+                              timeFormat="HH:mm"
+                              className={"form-control form-control-sm"}
+                              showDisabledMonthNavigation
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  ) : (
-                    <>
-                      <div className="table-responsive">
-                        {filteredOrderList.length > 0 ? (
-                          <>
-                            <table className="table header-border table-responsive-sm">
-                              <thead>
-                                <tr>
-                                  <th>{ordersupplier}</th>
-                                  <th>{orderbrand}</th>
-                                  <th>{ordervouchers}</th>
-                                  <th>{orderamount}</th>
-                                  <th>{ordermargin}</th>
-                                  <th>{ordermarginvalue}</th>
-                                </tr>
-                              </thead>
-                              {filteredOrderList
-                                .slice(startIndex, endIndex)
-                                .map((data, index) => (
-                                  <tbody key={index}>
+                    <div className="card-body">
+                      {showLoader && filteredOrderList.length < 0 ? (
+                        <div style={{ height: "400px" }}>
+                          <Loader classType={"absoluteLoader"} />
+                        </div>
+                      ) : (
+                        <>
+                          <div className="table-responsive">
+                            {filteredOrderList.length > 0 ? (
+                              <>
+                                <table className="table header-border table-responsive-sm">
+                                  <thead>
                                     <tr>
+
                                       <td>{data.supplier}</td>
                                       <td>
                                         {data.brand}
@@ -514,42 +510,72 @@ const Orders = () => {
                                       <td>{data.amount}</td>
                                       <td>{data.margin}</td>
                                       <td>{data.marginvalue}</td>
+
                                     </tr>
-                                  </tbody>
-                                ))}
-                            </table>
-                            <div className="pagination-container">
-                              <ReactPaginate
-                                previousLabel={"<"}
-                                nextLabel={" >"}
-                                breakLabel={"..."}
-                                pageCount={Math.ceil(
-                                  filteredOrderList.length / rowsPerPage
-                                )}
-                                marginPagesDisplayed={2}
-                                onPageChange={handlePageChange}
-                                containerClassName={"pagination"}
-                                activeClassName={"active"}
-                                initialPage={page - 1} // Use initialPage instead of forcePage
-                                previousClassName={
-                                  page === 0 ? disabled_Text : ""
-                                }
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <NoRecord />
-                        )}
-                      </div>
-                    </>
-                  )}
+                                  </thead>
+                                  {filteredOrderList
+                                    .slice(startIndex, endIndex)
+                                    .map((data, index) => (
+                                      <tbody key={index}>
+                                        <tr>
+                                          <td>{data.supplier}</td>
+                                          <td>
+                                            {data.brand}
+                                            <button href="#"></button>
+                                          </td>
+                                          <td>{data.vouchers}</td>
+                                          <td>{data.amount}</td>
+                                          <td>{data.margin}</td>
+                                          <td>{data.marginvalue}</td>
+                                        </tr>
+                                      </tbody>
+                                    ))}
+                                </table>
+                                <div className="pagination-container">
+                                  <ReactPaginate
+                                    previousLabel={"<"}
+                                    nextLabel={" >"}
+                                    breakLabel={"..."}
+                                    pageCount={Math.ceil(
+                                      filteredOrderList.length / rowsPerPage
+                                    )}
+                                    marginPagesDisplayed={2}
+                                    onPageChange={handlePageChange}
+                                    containerClassName={"pagination"}
+                                    activeClassName={"active"}
+                                    initialPage={page - 1} // Use initialPage instead of forcePage
+                                    previousClassName={
+                                      page === 0 ? disabled_Text : ""
+                                    }
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <NoRecord />
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </>
+        </>
+      ) : (
+        <PageError
+          pageError={{
+            StatusCode: "401",
+            ErrorName: "Permission Denied",
+            ErrorDesription:
+              "Your application url is not registerd to our application",
+            url: "/",
+            buttonText: "Back to Home",
+          }}
+        />
+      )}
+    </div>
   );
 };
 
