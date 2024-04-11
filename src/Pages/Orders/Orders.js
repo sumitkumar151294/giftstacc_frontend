@@ -13,6 +13,7 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import DatePickerInput from "../../Components/DatePicker/DatePicker";
+import { Link } from "react-router-dom/dist";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -507,7 +508,7 @@ const Orders = () => {
                                       <td>{data.supplier}</td>
                                       <td>
                                         {data.brand}
-                                        <button href="#"></button>
+                                        <Link href="#"></Link>
                                       </td>
                                       <td>{data.vouchers}</td>
                                       <td>{data.amount}</td>

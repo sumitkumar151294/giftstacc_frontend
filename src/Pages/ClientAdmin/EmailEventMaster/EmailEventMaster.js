@@ -8,6 +8,7 @@ import { onGetEmailEventMaster } from "../../../Store/Slices/ClientAdmin/emailEv
 import ReactPaginate from "react-paginate";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
 import Button from "../../../Components/Button/Button";
+import { Link } from "react-router-dom/dist";
 
 const EmailEventMaster = () => {
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
@@ -275,9 +276,9 @@ const EmailEventMaster = () => {
                               placeholder="Search by Email....."
                             />
                             <span className="input-group-text">
-                             <Button href="">
+                             <Link href="">
                                 <i className="flaticon-381-search-2"></i>
-                             </Button>
+                             </Link>
                             </span>
                           </div>
                         </div>
@@ -341,18 +342,18 @@ const EmailEventMaster = () => {
                               {getRoleAccess[0]?.editAccess && (
                                 <td>
                                   <div className="d-flex">
-                                   <Button
+                                   <Link
                                       href="#"
                                       className="btn btn-primary shadow btn-xs sharp me-1"
                                     >
                                       <i className="fas fa-pencil-alt"></i>
-                                   </Button>
-                                   <Button
+                                   </Link>
+                                   <Link
                                       href="#"
                                       className="btn btn-danger shadow btn-xs sharp"
                                     >
                                       <i className="fa fa-trash"></i>
-                                   </Button>
+                                   </Link>
                                   </div>
                                 </td>
                               )}

@@ -200,7 +200,7 @@ const FailedOrders = () => {
                       <span className="input-group-text">
                         <button>
                           <i className="flaticon-381-search-2"></i>
-                        </button>
+                     </button>
                       </span>
                     </div>
                   </div>

@@ -15,6 +15,7 @@ import ReactPaginate from "react-paginate";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import { useLocation } from "react-router-dom";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
+import { Link } from "react-router-dom/dist";
 
 const AllocateBrand = () => {
   const dispatch = useDispatch();
@@ -207,9 +208,9 @@ const AllocateBrand = () => {
                         onChange={handleSearch}
                       />{" "}
                       <span className="input-group-text">
-                        <button href="">
+                        <Link>
                           <i className="flaticon-381-search-2"></i>
-                       </button>
+                       </Link>
                       </span>
                     </div>
                   </div>
