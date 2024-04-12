@@ -2,6 +2,8 @@ import React from "react";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import InputField from "../../../Components/InputField/InputField";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
+import PageError from "../../../Components/PageError/PageError";
+import { useSelector } from "react-redux";
 
 const FailedOrders = () => {
   const data = [
@@ -107,7 +109,12 @@ const FailedOrders = () => {
     "failedordersamount"
   );
   const export_label = GetTranslationData("UIAdmin", "export_label");
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  )
   return (
+    <div>
+    {getRoleAccess[0] !== undefined ? (
     <>
       <ScrollToTop />
       <div className="container-fluid">
@@ -324,6 +331,20 @@ const FailedOrders = () => {
         </div>
       </div>
     </>
+     ):(
+      <PageError
+
+          pageError={{
+            StatusCode: "401",
+            ErrorName: "Permission Denied",
+            ErrorDesription:
+              "Your application url is not registerd to our application",
+            url: "/",
+            buttonText: "Back to Home",
+          }}
+        />
+    )}
+    </div>
   );
 };
 

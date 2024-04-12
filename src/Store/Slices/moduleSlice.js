@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const moduleSlice = createSlice({
   name: "module",
   initialState: {
+    apiCalled:false,
     isLoading: false,
     isError: false,
     data:[],
@@ -15,6 +16,7 @@ export const moduleSlice = createSlice({
       return{
         ...state,
         filteredData: payload,
+        apiCalled:true,
       }
     }, 
     onGetModule: (state) => {

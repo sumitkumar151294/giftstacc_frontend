@@ -42,7 +42,7 @@ const OfferMasterList = () => {
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
-  const showError=false;
+  const showError = false;
   const [pageError, setPageError] = useState({
     StatusCode: "",
     ErrorName: "",
@@ -97,136 +97,155 @@ const OfferMasterList = () => {
   }, [offerMasterData]);
 
   return (
-    <>
-      {showError ? (
-        <PageError pageError={pageError} setPageError={setPageError}/>
-      ) : (
+    <div>
+      {getRoleAccess[0] !== undefined ? (
         <>
-          {getRoleAccess[0]?.addAccess && (
-            <OfferMasterForm
-              data={prefilledValues}
-              setPrefilledValues={setPrefilledValues}
-            />
-          )}
-          <div className="container-fluid  pt-0">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="card">
-                  <div className="container-fluid pt-1">
-                    <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                      <div className="card-header">
-                        <h4 className="card-title">{offer_list}</h4>
-                      </div>
-                    </div>
-
-                    <div className="card-body">
-                      {getListData ? (
-                        <div style={{ height: "400px" }}>
-                          <Loader classType={"absoluteLoader"} />
+          {showError ? (
+            <PageError pageError={pageError} setPageError={setPageError} />
+          ) : (
+            <>
+              {getRoleAccess[0]?.addAccess && (
+                <OfferMasterForm
+                  data={prefilledValues}
+                  setPrefilledValues={setPrefilledValues}
+                />
+              )}
+              <div className="container-fluid  pt-0">
+                <div className="row">
+                  <div className="col-lg-12">
+                    <div className="card">
+                      <div className="container-fluid pt-1">
+                        <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                          <div className="card-header">
+                            <h4 className="card-title">{offer_list}</h4>
+                          </div>
                         </div>
-                      ) : (
-                        <div className="table-responsive">
-                          {offerMasterData?.getData?.length > 0 ? (
-                            <>
-                              <table className="table header-border table-responsive-sm">
-                                <thead>
-                                  <tr>
-                                    <th>{image}</th>
-                                    <th>{title}</th>
-                                    <th>{subtitle}</th>
-                                    <th>{link_level}</th>
-                                    <th>{imagePlacement}</th>
-                                    <th>{status}</th>
-                                    {getRoleAccess[0]?.editAccess && (
-                                      <th>{action}</th>
-                                    )}
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {offerMasterData?.getData
-                                    .slice(startIndex, endIndex)
-                                    .map((data) => (
-                                      <tr key={data.id}>
-                                        <td>
-                                          <img
-                                            src={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
-                                            style={{ width: "50px" }}
-                                            alt={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
-                                          />
-                                        </td>
-                                        <td>{data.title}</td>
-                                        <td>{data.subtitle}</td>
-                                        <td>{data.link}</td>
-                                        <td>{data.imagePlacement}</td>
-                                        <td>
-                                          <span
-                                            className={`badge ${
-                                              data.enabled
-                                                ? "badge-success"
-                                                : "badge-danger"
-                                            }`}
-                                          >
-                                            {data.enabled ? active : nonActive}
-                                          </span>
-                                        </td>
+
+                        <div className="card-body">
+                          {getListData ? (
+                            <div style={{ height: "400px" }}>
+                              <Loader classType={"absoluteLoader"} />
+                            </div>
+                          ) : (
+                            <div className="table-responsive">
+                              {offerMasterData?.getData?.length > 0 ? (
+                                <>
+                                  <table className="table header-border table-responsive-sm">
+                                    <thead>
+                                      <tr>
+                                        <th>{image}</th>
+                                        <th>{title}</th>
+                                        <th>{subtitle}</th>
+                                        <th>{link_level}</th>
+                                        <th>{imagePlacement}</th>
+                                        <th>{status}</th>
                                         {getRoleAccess[0]?.editAccess && (
-                                          <td>
-                                            <div className="d-flex">
-                                              <Button
-                                                className="btn btn-primary shadow btn-xs sharp me-1"
-                                                onClick={() => handleEdit(data)}
-                                                icon={"fas fa-pencil-alt"}
-                                              />
-                                              <Button
-                                                className="btn btn-danger shadow btn-xs sharp"
-                                                onClick={() =>
-                                                  handleDelete(data)
-                                                }
-                                                icon={"fa fa-trash"}
-                                              />
-                                            </div>
-                                          </td>
+                                          <th>{action}</th>
                                         )}
                                       </tr>
-                                    ))}
-                                </tbody>
-                              </table>
-                              {offerMasterData?.getData?.length > 5 && (
-                                <div className="pagination-container">
-                                  <ReactPaginate
-                                    previousLabel={"<"}
-                                    nextLabel={" >"}
-                                    breakLabel={"..."}
-                                    pageCount={Math.ceil(
-                                      offerMasterData?.getData?.length /
-                                        rowsPerPage
-                                    )}
-                                    marginPagesDisplayed={2}
-                                    onPageChange={handlePageChange}
-                                    containerClassName={"pagination"}
-                                    activeClassName={"active"}
-                                    initialPage={page - 1}
-                                    previousClassName={
-                                      page === 1 ? disabled_Text : ""
-                                    }
-                                  />
-                                </div>
+                                    </thead>
+                                    <tbody>
+                                      {offerMasterData?.getData
+                                        .slice(startIndex, endIndex)
+                                        .map((data) => (
+                                          <tr key={data.id}>
+                                            <td>
+                                              <img
+                                                src={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
+                                                style={{ width: "50px" }}
+                                                alt={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
+                                              />
+                                            </td>
+                                            <td>{data.title}</td>
+                                            <td>{data.subtitle}</td>
+                                            <td>{data.link}</td>
+                                            <td>{data.imagePlacement}</td>
+                                            <td>
+                                              <span
+                                                className={`badge ${
+                                                  data.enabled
+                                                    ? "badge-success"
+                                                    : "badge-danger"
+                                                }`}
+                                              >
+                                                {data.enabled
+                                                  ? active
+                                                  : nonActive}
+                                              </span>
+                                            </td>
+                                            {getRoleAccess[0]?.editAccess && (
+                                              <td>
+                                                <div className="d-flex">
+                                                  <Button
+                                                    className="btn btn-primary shadow btn-xs sharp me-1"
+                                                    onClick={() =>
+                                                      handleEdit(data)
+                                                    }
+                                                    icon={"fas fa-pencil-alt"}
+                                                  />
+                                                  <Button
+                                                    className="btn btn-danger shadow btn-xs sharp"
+                                                    onClick={() =>
+                                                      handleDelete(data)
+                                                    }
+                                                    icon={"fa fa-trash"}
+                                                  />
+                                                </div>
+                                              </td>
+                                            )}
+                                          </tr>
+                                        ))}
+                                    </tbody>
+                                  </table>
+                                  {offerMasterData?.getData?.length > 5 && (
+                                    <div className="pagination-container">
+                                      <ReactPaginate
+                                        previousLabel={"<"}
+                                        nextLabel={" >"}
+                                        breakLabel={"..."}
+                                        pageCount={Math.ceil(
+                                          offerMasterData?.getData?.length /
+                                            rowsPerPage
+                                        )}
+                                        marginPagesDisplayed={2}
+                                        onPageChange={handlePageChange}
+                                        containerClassName={"pagination"}
+                                        activeClassName={"active"}
+                                        initialPage={page - 1}
+                                        previousClassName={
+                                          page === 1 ? disabled_Text : ""
+                                        }
+                                      />
+                                    </div>
+                                  )}
+                                </>
+                              ) : (
+                                <NoRecord />
                               )}
-                            </>
-                          ) : (
-                            <NoRecord />
+                            </div>
                           )}
                         </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </>
+      ) : (
+        <PageError
+          pageError={{
+            StatusCode: "401",
+            ErrorName: "Permission Denied",
+            ErrorDesription:
+              "Your application url is not registerd to our application",
+            url: "/",
+            buttonText: "Back to Home",
+          }}
+        />
       )}
-    </>
+    </div>
   );
 };
 

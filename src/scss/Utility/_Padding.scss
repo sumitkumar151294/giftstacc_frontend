@@ -1,7 +1,10 @@
 $color_1: var(--primary-black);
 
+
 .pt-0 {
-	padding-top: 0 !important;
+	@media only screen and (max-width: 1400px) {
+		padding-top: 0 !important;
+	}
 }
 .pb-0{
 	padding-bottom: 0 !important;

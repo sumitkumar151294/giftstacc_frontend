@@ -9,6 +9,7 @@ import ReactPaginate from "react-paginate";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
 import Button from "../../../Components/Button/Button";
 import { Link } from "react-router-dom/dist";
+import PageError from "../../../Components/PageError/PageError";
 
 const EmailEventMaster = () => {
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
@@ -174,6 +175,8 @@ const EmailEventMaster = () => {
     dispatch(onGetEmailEventMaster());
   }, []);
   return (
+    <div>
+    {getRoleAccess[0] !== undefined ? (
     <>
       <ScrollToTop />
       <div className="container-fluid">
@@ -389,6 +392,20 @@ const EmailEventMaster = () => {
         </div>
       </div>
     </>
+    ):(
+      <PageError
+
+          pageError={{
+            StatusCode: "401",
+            ErrorName: "Permission Denied",
+            ErrorDesription:
+              "Your application url is not registerd to our application",
+            url: "/",
+            buttonText: "Back to Home",
+          }}
+        />
+    )}
+    </div>
   );
 };
 

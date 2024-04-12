@@ -3,6 +3,8 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import './CustomerList.scss'
 import { Link } from "react-router-dom/dist";
+import PageError from "../../Components/PageError/PageError";
+import { useSelector } from "react-redux";
 
 const Customerlist = () => {
     const customerData = [
@@ -62,10 +64,14 @@ const Customerlist = () => {
   const customerlistphone = GetTranslationData("UIAdmin", "customerlistphone");
   const customerlistjoined = GetTranslationData("UIAdmin", "customerlistjoined");
   const exportLabel = GetTranslationData("UIAdmin", "export_label");
-
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
 
 
     return (
+        <div>
+    {getRoleAccess[0] !== undefined ? (
         <>
             <ScrollToTop />
             <div className="container-fluid">
@@ -148,6 +154,20 @@ const Customerlist = () => {
                 </div>
             </div>
         </>
+        ):(
+            <PageError
+      
+                pageError={{
+                  StatusCode: "401",
+                  ErrorName: "Permission Denied",
+                  ErrorDesription:
+                    "Your application url is not registerd to our application",
+                  url: "/",
+                  buttonText: "Back to Home",
+                }}
+              />
+          )}
+          </div>
     );
 };
 
