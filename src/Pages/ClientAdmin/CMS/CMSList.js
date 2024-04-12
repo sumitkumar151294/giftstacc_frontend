@@ -82,6 +82,8 @@ const CMS = () => {
     });
   };
   return (
+    <div>
+    {getRoleAccess[0] !== undefined ? (
     <>
       <ScrollToTop />
       {showError ? (
@@ -183,6 +185,20 @@ const CMS = () => {
       </>
        )}
     </>
+     ):(
+      <PageError
+
+          pageError={{
+            StatusCode: "401",
+            ErrorName: "Permission Denied",
+            ErrorDesription:
+              "Your application url is not registerd to our application",
+            url: "/",
+            buttonText: "Back to Home",
+          }}
+        />
+    )}
+    </div>
   );
 };
 

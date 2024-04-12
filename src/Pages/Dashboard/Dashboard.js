@@ -8,18 +8,19 @@ import PageError from "../../Components/PageError/PageError";
 
 const Dashboard = () => {
   const getRoleAccess = useSelector(
-    (state) => state.moduleReducer.filteredData
+    (state) => state.moduleReducer
   );
   return (
     <div className="container-fluid">
-      {getRoleAccess[0] !== undefined ? (
+      {console.log(getRoleAccess?.filteredData[0] === undefined && getRoleAccess.apiCalled, getRoleAccess?.filteredData[0], getRoleAccess)}
+      {getRoleAccess?.filteredData[0] !== undefined && getRoleAccess.apiCalled ? (
         <div className="row">
           <ScrollToTop />
           <Chart />
           <Revenue />
           <Users />
         </div>
-      ) : (
+      ) : getRoleAccess?.filteredData[0] === undefined && getRoleAccess.apiCalled ?
         <PageError
           pageError={{
             StatusCode: "401",
@@ -29,8 +30,8 @@ const Dashboard = () => {
             url: "/",
             buttonText: "Back to Home",
           }}
-        />
-      )}
+        />: <></>
+        }
     </div>
   );
 };

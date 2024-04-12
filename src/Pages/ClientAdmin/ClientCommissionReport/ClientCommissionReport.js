@@ -11,6 +11,7 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import Button from "../../../Components/Button/Button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import PageError from "../../../Components/PageError/PageError";
 
 const ClientCommissionReport = () => {
   const [page, setPage] = useState(1);
@@ -92,7 +93,13 @@ const ClientCommissionReport = () => {
     setDateStart(value[0]);
     setDateEnd(value[1]);
   };
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  )
   return (
+    <div>
+    {getRoleAccess[0] !== undefined ? (
+      <>
     <div className="container-fluid">
       <div className="row">
         <div className="col-xl-12 col-xxl-12">
@@ -218,6 +225,21 @@ const ClientCommissionReport = () => {
         </div>
       </div>
     </div>
+  </>
+    ):(
+        <PageError
+  
+            pageError={{
+              StatusCode: "401",
+              ErrorName: "Permission Denied",
+              ErrorDesription:
+                "Your application url is not registerd to our application",
+              url: "/",
+              buttonText: "Back to Home",
+            }}
+          />
+      )}
+      </div>
   );
 };
 

@@ -1,5 +1,7 @@
+import { useSelector } from "react-redux";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import InputField from "../../../Components/InputField/InputField";
+import PageError from "../../../Components/PageError/PageError";
 
 const AbandonedCartReport = () => {
    const abandonedCartReport = GetTranslationData("UIClient", "abandonedCartReport");
@@ -11,7 +13,13 @@ const AbandonedCartReport = () => {
     const status = GetTranslationData("UIClient", "status");
     const action = GetTranslationData("UIClient", "actionLabel");
     console.log(abandonedCartReport,name_label,email_label,mobile_label)
+    const getRoleAccess = useSelector(
+      (state) => state.moduleReducer.filteredData
+    )
   return (
+       <div>
+    {getRoleAccess[0] !== undefined ? (
+      <>
     <div className="container-fluid">
       <div className="row">
         <div className="col-xl-12 col-xxl-12">
@@ -225,6 +233,21 @@ const AbandonedCartReport = () => {
         </div>
       </div>
     </div>
+    </>
+      ):(
+        <PageError
+  
+            pageError={{
+              StatusCode: "401",
+              ErrorName: "Permission Denied",
+              ErrorDesription:
+                "Your application url is not registerd to our application",
+              url: "/",
+              buttonText: "Back to Home",
+            }}
+          />
+      )}
+      </div>
   );
 };
 

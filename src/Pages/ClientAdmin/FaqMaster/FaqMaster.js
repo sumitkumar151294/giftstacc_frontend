@@ -20,6 +20,7 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import { ToastContainer, toast } from "react-toastify";
 import ScrollToTop from "../../../Components/ScrollToTop/ScrollToTop";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
+import PageError from "../../../Components/PageError/PageError";
 
 const FaqMaster = () => {
   const dispatch = useDispatch();
@@ -118,7 +119,12 @@ const FaqMaster = () => {
       faqCategory.find((data) => data.id === Categorydata);
     return category ? category.name : "";
   };
+  const getRoleAccess = useSelector(
+    (state) => state.moduleReducer.filteredData
+  );
   return (
+    <div>
+    {getRoleAccess[0] !== undefined ? (
     <>
       <ScrollToTop />
       <div className="container-fluid">
@@ -128,6 +134,8 @@ const FaqMaster = () => {
               <div className="card-header d-flex justify-content-between">
                 <h4 className="card-title">FAQ's Categories</h4>
               </div>
+              {getRoleAccess[0]?.addAccess && (
+
               <div className="card-body pt-4 ml-4">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
@@ -206,6 +214,7 @@ const FaqMaster = () => {
                   </div>
                 </form>
               </div>
+              )}
               {showLoader ? (
                 <div style={{ height: "400px" }}>
                   <Loader classType={"absoluteLoader"} />
@@ -279,6 +288,19 @@ const FaqMaster = () => {
         </div>
       </div>
     </>
+      ):(
+        <PageError
+            pageError={{
+              StatusCode: "401",
+              ErrorName: "Permission Denied",
+              ErrorDesription:
+                "Your application url is not registerd to our application",
+              url: "/",
+              buttonText: "Back to Home",
+            }}
+          />
+      )}
+    </div>
   );
 };
 

@@ -8,6 +8,7 @@ import NoRecord from "../../../Components/NoRecord/NoRecord";
 import Loader from "../../../Components/Loader/Loader";
 import { onUpdateBannerMaster } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import PageError from "../../../Components/PageError/PageError";
 const BannerMasterList = () => {
   const title_label = GetTranslationData("UIClient", "title");
   const sub_title = GetTranslationData("UIClient", "sub-title");
@@ -72,11 +73,17 @@ const BannerMasterList = () => {
   }, [getBannerMaster]);
 
   return (
+    <div>
+    {getRoleAccess[0] !== undefined ? (
     <>
+
+                  {getRoleAccess[0]?.addAccess && (
+
       <BannerForm
         prefilledData={prefilledData}
         setPrefilledData={setPrefilledData}
       />
+                  )}
       <div className="container-fluid pt-0">
         <div className="row">
           <div className="col-lg-12">
@@ -178,6 +185,21 @@ const BannerMasterList = () => {
         </div>
       </div>
     </>
+    ):(
+      <PageError
+
+          pageError={{
+            StatusCode: "401",
+            ErrorName: "Permission Denied",
+            ErrorDesription:
+              "Your application url is not registerd to our application",
+            url: "/",
+            buttonText: "Back to Home",
+          }}
+        />
+    )}
+    </div>
+  
   );
 };
 export default BannerMasterList;

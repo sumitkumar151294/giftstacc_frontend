@@ -332,7 +332,6 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
           </div>
         </div>
       </div>
-      ;
     </>
   );
 };
