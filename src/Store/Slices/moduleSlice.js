@@ -19,6 +19,12 @@ export const moduleSlice = createSlice({
         apiCalled:true,
       }
     }, 
+    resetAllowModules:(state ) => {
+      return{
+        ...state,
+        filteredData: []
+      }
+    }, 
     onGetModule: (state) => {
       return {
         ...state,
@@ -57,7 +63,7 @@ export const moduleSlice = createSlice({
     }
   },
 });
-export const {onGetModule, onGetModuleSuccess, onGetModuleError , allowModules } =
+export const {onGetModule, onGetModuleSuccess, onGetModuleError , allowModules, resetAllowModules } =
 moduleSlice.actions;
 
 export default moduleSlice.reducer;

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { allowModules, onGetModule } from "../../Store/Slices/moduleSlice";
+import { allowModules, onGetModule, resetAllowModules } from "../../Store/Slices/moduleSlice";
 import Loader from "../../Components/Loader/Loader";
 import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
@@ -33,6 +33,7 @@ const Sidebar = () => {
     setIsSidebarLoading(true);
     dispatch(onGetModule());
     dispatch(onGetUserRoleModuleAccess());
+    dispatch(resetAllowModules());
   }, []);
 
   useEffect(() => {
@@ -64,14 +65,15 @@ const Sidebar = () => {
     });
     e.target.closest(".nav-icn").classList.add("mm-active");
     setSelectedModuleId(moduleId);
+    dispatch(resetAllowModules());
   };
   const getModuleDataAccess = userRoleModuleAccess.filter((item) => { return (item.roleId === userRoleID && (item.addAccess || item.editAccess || item.viewAccess)) });
 
  useEffect(() => {
-  if (getModuleDataAccess && selectedModuleId !== null) {
+  if (getModuleDataAccess && selectedModuleId !== null && !getModuleData?.filteredData?.length) {
     const roleAcessValues = getModuleDataAccess.filter(item => item.moduleId === selectedModuleId);
     dispatch(allowModules(roleAcessValues));
-  }else if(getModuleDataAccess && selectedModuleId === null){
+  }else if(getModuleDataAccess && selectedModuleId === null && !getModuleData?.filteredData?.length){
     const data = sideBarModules.find(item=>(item.routePath.toLowerCase() === currentUrl.pathname.toLowerCase()))
     const roleAcessValues = getModuleDataAccess.filter(item => item.moduleId === data?.moduleId);
     dispatch(allowModules(roleAcessValues));

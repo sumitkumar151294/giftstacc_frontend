@@ -151,16 +151,9 @@ const LoginPage = () => {
     }
   }, [loginDetails]);
 
-  // useEffect(() => {
-  //   if (loginDetails.partner_Key === "UIAdmin") {
-  //     navigate("/lc-admin/dashboard");
-  //   } else if (loginDetails.partner_Key === "UIClient") {
-  //     navigate("/lc-user-admin/dashboard");
-  //   }
-  // }, []);
-
   return (
     <>
+    {console.log('data')}
       <div className="vh-100">
         <div className="authincation h-100">
           <div className="container h-100">

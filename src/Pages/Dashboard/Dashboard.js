@@ -11,16 +11,15 @@ const Dashboard = () => {
     (state) => state.moduleReducer
   );
   return (
-    <div className="container-fluid">
-      {console.log(getRoleAccess?.filteredData[0] === undefined && getRoleAccess.apiCalled, getRoleAccess?.filteredData[0], getRoleAccess)}
-      {getRoleAccess?.filteredData[0] !== undefined && getRoleAccess.apiCalled ? (
+    <div className="container-fluid">    
+      {getRoleAccess?.filteredData[0] !== undefined? (
         <div className="row">
           <ScrollToTop />
           <Chart />
           <Revenue />
           <Users />
         </div>
-      ) : getRoleAccess?.filteredData[0] === undefined && getRoleAccess.apiCalled ?
+      ) :
         <PageError
           pageError={{
             StatusCode: "401",
@@ -30,7 +29,7 @@ const Dashboard = () => {
             url: "/",
             buttonText: "Back to Home",
           }}
-        />: <></>
+        />
         }
     </div>
   );
