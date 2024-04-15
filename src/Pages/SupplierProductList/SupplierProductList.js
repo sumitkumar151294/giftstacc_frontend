@@ -60,6 +60,7 @@ const SupplierProductList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   useEffect(() => {
     dispatch(
       onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
@@ -223,8 +224,8 @@ const SupplierProductList = () => {
     }));
   const paginationValue = [
     {
-      value: 5,
-      label: 5,
+      value: 5 ,
+      label: 5 ,
     },
     {
       value: 10,
@@ -443,18 +444,21 @@ const SupplierProductList = () => {
                                     <Dropdown
                                       defaultSelected="Page Size"
                                       className="paginationDropdown"
-                                      value={rowsPerPage}
-                                      aria-label=""
+                                      value={rowsPerPageValue || ""}
                                       onChange={(e) => {
-                                        setRowsPerPage(
-                                          parseInt(e.target.value)
+                                        setRowsPerPageValue(e.target.value);
+                                        const newSize = parseInt(
+                                          e.target.value
                                         );
-                                        dispatch(
-                                          onGetSupplierBrandList({
-                                            pageNumber: page,
-                                            pageSize: parseInt(e.target.value),
-                                          })
-                                        );
+                                        if (!isNaN(newSize)) {
+                                          setRowsPerPage(e.target.value);
+                                          dispatch(
+                                            onGetSupplierBrandList({
+                                              pageNumber: page,
+                                              pageSize: newSize,
+                                            })
+                                          );
+                                        }
                                       }}
                                       options={paginationValue}
                                     />

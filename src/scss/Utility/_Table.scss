@@ -73,6 +73,17 @@ th {
         -webkit-overflow-scrolling: touch;
     }
 }
+
+   @media (max-width: 1292px) {
+    .allocateBrandTable{
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .allocateBtn{
+        width: 100px;
+    }
+   }
+
 // .table > :not(caption) > * > * {
 //   padding: 0.5rem 0.5rem;
 //   background-color: var(--bs-table-bg);

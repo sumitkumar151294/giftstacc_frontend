@@ -110,7 +110,7 @@ const AddSpecialList = () => {
                             <div className="card-body card-body-user">
                               {getAddSpecial?.getData?.length > 0 ? (
                                 <div className="table-responsive">
-                                  <table className="table header-border table-responsive-sm">
+                                  <table className="table header-border table-responsive-sm  allocateBrandTable">
                                     <thead>
                                       <tr>
                                         <th>{section_name}</th>
@@ -131,7 +131,7 @@ const AddSpecialList = () => {
                                           .slice(startIndex, endIndex)
                                           .map((Special, index) => (
                                             <tr key={index}>
-                                              <td>
+                                              <td className="list-Width">
                                                 <strong>
                                                   {Special.sectionName}
                                                 </strong>
@@ -191,7 +191,7 @@ const AddSpecialList = () => {
                                                 <Link
                                                   to="/lc-user-admin/allocate-brand"
                                                   state={{ data: Special }}
-                                                  className="btn btn-primary btn-sm float-right font-size "
+                                                  className="allocateBtn btn btn-primary btn-sm float-right font-size "
                                                 >
                                                   <i className="fa fa-plus mr-2"></i>
                                                   {allocateBrands}
@@ -250,7 +250,7 @@ const AddSpecialList = () => {
         />
       )}
     </div>
-  )
+  );
 };
 
 export default AddSpecialList;
