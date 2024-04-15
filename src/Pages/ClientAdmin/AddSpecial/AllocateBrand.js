@@ -16,6 +16,7 @@ import { GetTranslationData } from "../../../Components/GetTranslationData/GetTr
 import { useLocation } from "react-router-dom";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 import { Link } from "react-router-dom/dist";
+import { onProductByIdSubmit } from "../../../Store/Slices/productSlice";
 
 const AllocateBrand = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const AllocateBrand = () => {
     setPage(selected.selected + 1);
   };
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
+  const productByIdReducer = useSelector((state) => state.productReducer);
 
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
@@ -86,8 +88,10 @@ const AllocateBrand = () => {
     setGetProduct(matchingProductsData);
   }, [getAllocateBrands, SupplierBrandList]);
 
-  const filteredBrandCatalogueList = Array.isArray(getProduct)
-    ? getProduct.filter((vendor) =>
+  const filteredBrandCatalogueList = Array.isArray(
+    productByIdReducer.productById?.[0]?.products
+  )
+    ? productByIdReducer.productById?.[0]?.products.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
@@ -176,6 +180,16 @@ const AllocateBrand = () => {
     setCopyClientMapping([...copyClientMapping]);
   };
 
+  const clientCode = sessionStorage.getItem("clientCode");
+  useEffect(() => {
+    dispatch(
+      onProductByIdSubmit({
+        clientCode,
+        pageNumber: page,
+        pageSize: rowsPerPage,
+      })
+    );
+  }, []);
   const handleSubmit = () => {
     const updates = copyClientMapping.map((product) => ({
       productId: product.productId,
@@ -210,7 +224,7 @@ const AllocateBrand = () => {
                       <span className="input-group-text">
                         <Link>
                           <i className="flaticon-381-search-2"></i>
-                       </Link>
+                        </Link>
                       </span>
                     </div>
                   </div>
@@ -315,4 +329,3 @@ const AllocateBrand = () => {
 
 export default AllocateBrand;
 /* eslint-enable react-hooks/exhaustive-deps */
-

@@ -42,6 +42,7 @@ const BrandCatalogue = () => {
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
+  const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
 
   const supplierMasterData = useSelector(
@@ -51,11 +52,9 @@ const BrandCatalogue = () => {
 
   const productByIdReducer = useSelector((state) => state.productReducer);
 
-
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer?.filteredData
   );
-
 
   const LoginId = useSelector((state) => state?.loginReducer);
   const clientList = useSelector(
@@ -241,209 +240,214 @@ const BrandCatalogue = () => {
   // }, [supplierList.supplier, supplierMasterData, productByIdData]);
   return (
     <div>
-    {getRoleAccess[0] !== undefined ? (
-    <>
-      <ScrollToTop />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-xl-12 col-xxl-12">
-            <div className="card">
-              <div className="container-fluid pt-1">
-                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div className="card-header">
-                    <h4 className="card-title">{heading}</h4>
-                  </div>
-                  <div className="customer-search mb-sm-0 mb-3">
-                    <div className="input-group search-area">
-                      <InputField
-                        type="text"
-                        className="form-control only-high"
-                        placeholder={searchLabel}
-                        value={searchQuery}
-                        onChange={handleSearch}
-                      />
-                      <span className="input-group-text">
-                        <i className="fa fa-search"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center flex-wrap">
-                    <CSVLink
-                      data={excelData}
-                      headers={headers}
-                      filename={"BrandCatalogue.csv"}
-                    >
-                      {productByIdReducer.productById?.[0]?.products?.length >=
-                        +0 && (
-                        <Button
-                          className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
-                          icons={"fa fa-file-excel me-2"}
-                          text={`${exportLabel}`}
-                        />
-                      )}
-                    </CSVLink>
-                  </div>
-                </div>
-              </div>
-              <div className="container-fluid pt-1">
-                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                  <div className="col-sm-3 form-group mb-2">
-                    <label htmlFor="supplier">{supplier}</label>
-
-                    <Dropdown
-                      onChange={(e) => handleChange(e, "supplier")}
-                      value={supplierList.supplier || ""}
-                      className="form-select"
-                      options={supplierMasterData?.map((item) => ({
-                        label: item.name,
-                        value: item.name,
-                      }))}
-                    />
-                  </div>
-
-                  {LoginId.isAdminLogin && (
-                    <div className="col-sm-3 form-group mb-2">
-                      <label htmlFor="client">{client}</label>
-                      <Dropdown
-                        onChange={(e) => handleChange(e, "client")}
-                        value={supplierList?.client || ""}
-                        className="form-select"
-                        options={
-                          Array.isArray(clientList)
-                            ? clientList?.map((item) => ({
-                                label: item.name,
-                                value: item.name,
-                                data: item.id,
-                              }))
-                            : []
-                        }
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="card-body">
-                {productByIdReducer?.isLoading ? (
-                  <div style={{ height: "400px" }}>
-                    <Loader classType={"absoluteLoader"} />
-                  </div>
-                ) : (
-                  <>
-                    <div className="table-responsive">
-                      {productByIdReducer?.productById?.[0]?.products?.length ? (
-                        <>
-                          <table className="table header-border table-responsive-sm">
-                            <thead>
-                              <tr>
-                                <th>{image}</th>
-                                <th>{sku}</th>
-                                <th>{name}</th>
-                                <th>{minprice}</th>
-                                <th>{maxprice}</th>
-                                <th>{price}</th>
-                                <th>{action}</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {Array.isArray(
-                                productByIdReducer.productById?.[0]?.products
-                              ) &&
-                                productByIdReducer.productById[0]?.products
-                                  .filter((item) => item.enabled)
-                                  .map((data, index) => (
-                                    <tr key={index}>
-                                      <td>
-                                        <img
-                                          src={data.small}
-                                          style={{ width: "50px" }}
-                                          alt={data.small}
-                                        />
-                                        <br />
-                                      </td>
-                                      <td>{data.sku}</td>
-                                      <td>{data.name}</td>
-                                      <td>{data.minPrice}</td>
-                                      <td>{data.maxPrice}</td>
-                                      <td>{data.price}</td>
-                                      <td>
-                                        {" "}
-                                        <Button
-                                          onClick={() => handleClick(data)}
-                                          className="btn btn-primary btn-sm bt-link float-right"
-                                          icons={"fa fa-info"}
-                                          text={BrandDetail}
-                                        />
-                                      </td>
-                                    </tr>
-                                  ))}
-                            </tbody>
-                          </table>
-                          {productByIdReducer.productById[0]?.totalCount >
-                            5 && (
-                            <div className="pagination-container">
-                              <ReactPaginate
-                                previousLabel={"<"}
-                                nextLabel={" >"}
-                                breakLabel={"..."}
-                                pageCount={Math.ceil(
-                                  productByIdReducer.productById[0]
-                                    ?.totalCount / rowsPerPage
-                                )}
-                                marginPagesDisplayed={2}
-                                onPageChange={(e) => handlePageChange(e)}
-                                containerClassName={"pagination"}
-                                activeClassName={"active"}
-                                initialPage={page - 1} // Use initialPage instead of forcePage
-                                previousClassName={
-                                  page === 0 ? disabled_Text : ""
-                                }
-                              />
-                              <Dropdown
-                                defaultSelected="Page Size"
-                                className="paginationDropdown"
-                                value={rowsPerPage}
-                                aria-label=""
-                                onChange={(e) => {
-                                  setRowsPerPage(parseInt(e.target.value));
-                                  dispatch(
-                                    onProductByIdSubmit({
-                                      clientCode,
-                                      pageNumber: page,
-                                      pageSize: parseInt(e.target.value),
-                                    })
-                                  );
-                                }}
-                                options={paginationValue}
-                              />
-                            </div>
+      {getRoleAccess[0] !== undefined ? (
+        <>
+          <ScrollToTop />
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12 col-xxl-12">
+                <div className="card">
+                  <div className="container-fluid pt-1">
+                    <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                      <div className="card-header">
+                        <h4 className="card-title">{heading}</h4>
+                      </div>
+                      <div className="customer-search mb-sm-0 mb-3">
+                        <div className="input-group search-area">
+                          <InputField
+                            type="text"
+                            className="form-control only-high"
+                            placeholder={searchLabel}
+                            value={searchQuery}
+                            onChange={handleSearch}
+                          />
+                          <span className="input-group-text">
+                            <i className="fa fa-search"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="d-flex align-items-center flex-wrap">
+                        <CSVLink
+                          data={excelData}
+                          headers={headers}
+                          filename={"BrandCatalogue.csv"}
+                        >
+                          {productByIdReducer.productById?.[0]?.products
+                            ?.length >= +0 && (
+                            <Button
+                              className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
+                              icons={"fa fa-file-excel me-2"}
+                              text={`${exportLabel}`}
+                            />
                           )}
-                        </>
-                      ) : (
-                        <NoRecord />
+                        </CSVLink>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="container-fluid pt-1">
+                    <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                      <div className="col-sm-3 form-group mb-2">
+                        <label htmlFor="supplier">{supplier}</label>
+
+                        <Dropdown
+                          onChange={(e) => handleChange(e, "supplier")}
+                          value={supplierList.supplier || ""}
+                          className="form-select"
+                          options={supplierMasterData?.map((item) => ({
+                            label: item.name,
+                            value: item.name,
+                          }))}
+                        />
+                      </div>
+
+                      {LoginId.isAdminLogin && (
+                        <div className="col-sm-3 form-group mb-2">
+                          <label htmlFor="client">{client}</label>
+                          <Dropdown
+                            onChange={(e) => handleChange(e, "client")}
+                            value={supplierList?.client || ""}
+                            className="form-select"
+                            options={
+                              Array.isArray(clientList)
+                                ? clientList?.map((item) => ({
+                                    label: item.name,
+                                    value: item.name,
+                                    data: item.id,
+                                  }))
+                                : []
+                            }
+                          />
+                        </div>
                       )}
                     </div>
-                  </>
-                )}
+                  </div>
+
+                  <div className="card-body">
+                    {productByIdReducer?.isLoading ? (
+                      <div style={{ height: "400px" }}>
+                        <Loader classType={"absoluteLoader"} />
+                      </div>
+                    ) : (
+                      <>
+                        <div className="table-responsive">
+                          {productByIdReducer?.productById?.[0]?.products
+                            ?.length ? (
+                            <>
+                              <table className="table header-border table-responsive-sm">
+                                <thead>
+                                  <tr>
+                                    <th>{image}</th>
+                                    <th>{sku}</th>
+                                    <th>{name}</th>
+                                    <th>{minprice}</th>
+                                    <th>{maxprice}</th>
+                                    <th>{price}</th>
+                                    <th>{action}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {Array.isArray(
+                                    productByIdReducer.productById?.[0]
+                                      ?.products
+                                  ) &&
+                                    productByIdReducer.productById[0]?.products
+                                      .filter((item) => item.enabled)
+                                      .map((data, index) => (
+                                        <tr key={index}>
+                                          <td>
+                                            <img
+                                              src={data.small}
+                                              style={{ width: "50px" }}
+                                              alt={data.small}
+                                            />
+                                            <br />
+                                          </td>
+                                          <td>{data.sku}</td>
+                                          <td>{data.name}</td>
+                                          <td>{data.minPrice}</td>
+                                          <td>{data.maxPrice}</td>
+                                          <td>{data.price}</td>
+                                          <td>
+                                            {" "}
+                                            <Button
+                                              onClick={() => handleClick(data)}
+                                              className="btn btn-primary btn-sm bt-link float-right"
+                                              icons={"fa fa-info"}
+                                              text={BrandDetail}
+                                            />
+                                          </td>
+                                        </tr>
+                                      ))}
+                                </tbody>
+                              </table>
+                              {productByIdReducer.productById[0]?.totalCount >
+                                5 && (
+                                <div className="pagination-container">
+                                  <ReactPaginate
+                                    previousLabel={"<"}
+                                    nextLabel={" >"}
+                                    breakLabel={"..."}
+                                    pageCount={Math.ceil(
+                                      productByIdReducer.productById[0]
+                                        ?.totalCount / rowsPerPage
+                                    )}
+                                    marginPagesDisplayed={2}
+                                    onPageChange={(e) => handlePageChange(e)}
+                                    containerClassName={"pagination"}
+                                    activeClassName={"active"}
+                                    initialPage={page - 1} // Use initialPage instead of forcePage
+                                    previousClassName={
+                                      page === 0 ? disabled_Text : ""
+                                    }
+                                  />
+                                  <Dropdown
+                                    defaultSelected="Page Size"
+                                    className="paginationDropdown"
+                                    value={rowsPerPageValue || ""}
+                                    onChange={(e) => {
+                                      setRowsPerPageValue(e.target.value);
+                                      const newSize = parseInt(e.target.value);
+                                      if (!isNaN(newSize)) {
+                                        setRowsPerPage(newSize);
+                                        dispatch(
+                                          onProductByIdSubmit({
+                                            clientCode,
+                                            pageNumber: page,
+                                            pageSize: parseInt(e.target.value),
+                                          })
+                                        );
+                                      }
+                                    }}
+                                    options={paginationValue}
+                                  />
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <NoRecord />
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </>
-    ) : (
-      <PageError
-        pageError={{
-          StatusCode: "401",
-          ErrorName: "Permission Denied",
-          ErrorDesription:
-            "Your application url is not registerd to our application",
-          url: "/",
-          buttonText: "Back to Home",
-        }}
-      />
-    )}
-  </div>
+        </>
+      ) : (
+        <PageError
+          pageError={{
+            StatusCode: "401",
+            ErrorName: "Permission Denied",
+            ErrorDesription:
+              "Your application url is not registerd to our application",
+            url: "/",
+            buttonText: "Back to Home",
+          }}
+        />
+      )}
+    </div>
   );
 };
 export default BrandCatalogue;

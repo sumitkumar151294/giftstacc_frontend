@@ -11,11 +11,10 @@ $h100: var(--h100);
   padding-left: var(--bs-gutter-x, 15px) ;
   margin-right: auto;
   margin-left: auto;
-  @media only screen and (min-width: 1400px)  {
-    padding-top: 9.3rem !important;
-  }
+
 }
 @media only screen and (min-width: 1400px)  {
+  
   .mt-client-list{
     padding-top: 1.3rem !important;
   }
