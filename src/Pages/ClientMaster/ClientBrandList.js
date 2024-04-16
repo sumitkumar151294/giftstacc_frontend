@@ -62,6 +62,8 @@ const ClientBrandList = () => {
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
+
   useEffect(() => {
     dispatch(onGetSupplierBrandList({ pageNumber: 1, pageSize: 5 }));
     dispatch(onClientProductMappingSubmit(location?.state?.id));
@@ -140,7 +142,7 @@ const ClientBrandList = () => {
     if (suppliers?.data.length && !supplierList.length) {
       let tempSupplier = [];
       suppliers?.data?.map((item) => {
-      return  tempSupplier.push({ label: item.name, value: item.code });
+        return tempSupplier.push({ label: item.name, value: item.code });
       });
       setSupplierList(tempSupplier);
     }
@@ -301,7 +303,7 @@ const ClientBrandList = () => {
                             value={searchQuery}
                             onChange={handleSearch}
                             className="form-control only-high"
-                            placeholder={search_here_label}
+                            // placeholder={search_here_label}
                           />
                           <span className="input-group-text">
                             <i className="fa fa-search"></i>
@@ -507,7 +509,11 @@ const ClientBrandList = () => {
                                       onPageChange={handlePageChange}
                                       containerClassName={"pagination"}
                                       activeClassName={"active"}
-                                      initialPage={page - 1} // Use initialPage instead of forcePage
+                                      initialPage={
+                                        rowsPerPage !== 5
+                                          ? page === 0
+                                          : page - 1
+                                      } // Use initialPage instead of forcePage
                                       previousClassName={
                                         page === 0 ? disabled_Text : ""
                                       }
@@ -515,18 +521,22 @@ const ClientBrandList = () => {
                                     <Dropdown
                                       defaultSelected="Page Size"
                                       className="paginationDropdown"
-                                      value={rowsPerPage}
+                                      value={rowsPerPageValue || ""}
                                       aria-label=""
                                       onChange={(e) => {
-                                        setRowsPerPage(
-                                          parseInt(e.target.value)
+                                        setRowsPerPageValue(e.target.value);
+                                        const newSize = parseInt(
+                                          e.target.value
                                         );
-                                        dispatch(
-                                          onGetSupplierBrandList({
-                                            pageNumber: page,
-                                            pageSize: parseInt(e.target.value),
-                                          })
-                                        );
+                                        if (!isNaN(newSize)) {
+                                          setRowsPerPage(e.target.value);
+                                          dispatch(
+                                            onGetSupplierBrandList({
+                                              pageNumber: page,
+                                              pageSize: newSize,
+                                            })
+                                          );
+                                        }
                                       }}
                                       options={paginationValue}
                                     />

@@ -44,6 +44,8 @@ const ClientMasterList = () => {
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const active = GetTranslationData("UIAdmin", "active");
   const nonActive = GetTranslationData("UIAdmin", "nonActive");
+  const clientListLabel = GetTranslationData("UIAdmin", "client List_label");
+
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -134,9 +136,7 @@ const ClientMasterList = () => {
                   <div className="container-fluid mt-2 mb-2 pt-1">
                     <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                       <div className="card-header">
-                        <h4 className="card-title">
-                          {GetTranslationData("UIAdmin", "client List_label")}
-                        </h4>
+                        <h4 className="card-title">{clientListLabel}</h4>
                       </div>
                       <div className="customer-search mb-sm-0 mb-3">
                         <div className="input-group search-area">

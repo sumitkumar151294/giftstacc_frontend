@@ -395,8 +395,11 @@ const BrandCatalogue = () => {
                                     onPageChange={(e) => handlePageChange(e)}
                                     containerClassName={"pagination"}
                                     activeClassName={"active"}
-                                    initialPage={page - 1} // Use initialPage instead of forcePage
-                                    previousClassName={
+                                    initialPage={
+                                      rowsPerPage !== 5
+                                        ? page === 0
+                                        : page - 1
+                                    }                                     previousClassName={
                                       page === 0 ? disabled_Text : ""
                                     }
                                   />

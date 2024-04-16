@@ -224,8 +224,8 @@ const SupplierProductList = () => {
     }));
   const paginationValue = [
     {
-      value: 5 ,
-      label: 5 ,
+      value: 5,
+      label: 5,
     },
     {
       value: 10,
@@ -436,7 +436,11 @@ const SupplierProductList = () => {
                                       onPageChange={(e) => handlePageChange(e)}
                                       containerClassName={"pagination"}
                                       activeClassName={"active"}
-                                      initialPage={page - 1} // Use initialPage instead of forcePage
+                                      initialPage={
+                                        rowsPerPage !== 5
+                                          ? page === 0
+                                          : page - 1
+                                      }
                                       previousClassName={
                                         page === 0 ? disabled_Text : ""
                                       }

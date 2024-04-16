@@ -174,6 +174,7 @@ const SupplierMasterForm = ({
     // Scroll to the top of the page for visibility
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     if (data.name !== "") {
+      debugger
       setVendorData({
         name: data.name || "",
         balanceThresholdAmount: parseInt(data.balanceThresholdAmount) || "",
@@ -254,14 +255,14 @@ const SupplierMasterForm = ({
       }
     }
     additionalFields?.forEach((field, index) => {
-      if (field.fieldName === "") {
+      if (field?.fieldName === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].fieldName = fieldNameNotEmpty;
           return newAdditionalFieldsError;
         });
         isValid = false;
-      } else if (field.fieldName.length > 250) {
+      } else if (field?.fieldName.length > 250) {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].fieldName =
@@ -271,7 +272,7 @@ const SupplierMasterForm = ({
         isValid = false;
       }
 
-      if (field.fieldValue === "") {
+      if (field?.fieldValue === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].fieldValue = fieldValueNotEmpty;
@@ -481,13 +482,13 @@ const SupplierMasterForm = ({
                                       }`}
                                       name="fname"
                                       placeholder="Key"
-                                      value={additionalFields[index].fieldName}
+                                      value={additionalFields[index]?.fieldName}
                                       onChange={(e) =>
                                         handleAddMoreData("fieldName", index, e)
                                       }
                                     />
                                     <p className="text-danger">
-                                      {additionalFieldsError[index].fieldName}
+                                      {additionalFieldsError[index]?.fieldName}
                                     </p>
                                   </div>
                                 </div>
@@ -504,7 +505,7 @@ const SupplierMasterForm = ({
                                       }`}
                                       name="fname"
                                       placeholder="Value"
-                                      value={additionalFields[index].fieldValue}
+                                      value={additionalFields[index]?.fieldValue}
                                       onChange={(e) =>
                                         handleAddMoreData(
                                           "fieldValue",
@@ -514,7 +515,7 @@ const SupplierMasterForm = ({
                                       }
                                     />
                                     <p className="text-danger">
-                                      {additionalFieldsError[index].fieldValue}
+                                      {additionalFieldsError[index]?.fieldValue}
                                     </p>
                                   </div>
                                 </div>
