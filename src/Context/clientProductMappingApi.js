@@ -3,7 +3,7 @@ import axiosInstance from "../Common/Axios/axiosInstance";
 
 export const clientProductMappingGetApi = async (payload) => {
   const { data = [] } = await axiosInstance.get(
-    `${API.client_product_mapping}?clientId=${payload}&pageNumber=1&pageSize=100`
+    `${API.client_product_mapping}?clientId=${payload?.id}&pageNumber=${payload?.pageNumber}&pageSize=${payload?.pageSize}`
   );
   return data;
 };

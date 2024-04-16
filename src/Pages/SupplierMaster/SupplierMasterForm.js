@@ -174,7 +174,6 @@ const SupplierMasterForm = ({
     // Scroll to the top of the page for visibility
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     if (data.name !== "") {
-      debugger
       setVendorData({
         name: data.name || "",
         balanceThresholdAmount: parseInt(data.balanceThresholdAmount) || "",
