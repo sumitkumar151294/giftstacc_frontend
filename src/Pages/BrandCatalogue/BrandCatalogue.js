@@ -64,7 +64,7 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
-  const excelData = Array.isArray(productByIdReducer?.productById[0]?.products)
+  const excelData = Array.isArray(productByIdReducer?.productById?.[0]?.products)
     ? productByIdReducer?.productById?.[0]?.products.map((data) => ({
         sku: data.sku,
         name: data.name,
