@@ -103,10 +103,10 @@ const SupplierProductList = () => {
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
   useEffect(() => {
-    if (suppliers?.data.length && !supplierList.length) {
+    if (suppliers?.data.length && !supplierList.length ) {
       let tempSupplier = [];
       suppliers?.data?.map((item) => {
-        return tempSupplier.push({ label: item.name, value: item.code });
+        return item.enabled &&  tempSupplier.push({ label: item.name, value: item.code });
       });
       setSupplierList(tempSupplier);
     }

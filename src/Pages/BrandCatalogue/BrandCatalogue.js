@@ -24,8 +24,6 @@ import PageError from "../../Components/PageError/PageError";
 const BrandCatalogue = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [copyBrandCatalogue, setCopyBrandCatalogue] = useState([]);
-
   const heading = GetTranslationData("UIAdmin", "heading");
   const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const image = GetTranslationData("UIAdmin", "image");
@@ -60,11 +58,11 @@ const BrandCatalogue = () => {
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
   );
-  const [supplierList, setSupplierList] = useState({
-    supplier: "",
-    client: "",
-  });
-  const excelData = Array.isArray(productByIdReducer?.productById?.[0]?.products)
+  const [supplierList, setSupplierList] = useState([]);
+  const [clientData, setclientData] = useState([]);
+  const excelData = Array.isArray(
+    productByIdReducer?.productById?.[0]?.products
+  )
     ? productByIdReducer?.productById?.[0]?.products.map((data) => ({
         sku: data.sku,
         name: data.name,
@@ -111,18 +109,16 @@ const BrandCatalogue = () => {
     setPage(1);
   };
 
-  const clientProductMapping = Array.isArray(
-    productByIdReducer.productById?.[0]?.products
-  )
-    ? productByIdReducer.productById?.[0]?.products.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      )
-    : [];
+  // const clientProductMapping = Array.isArray(copyBrandCatalogue)
+  //   ? copyBrandCatalogue.filter((vendor) =>
+  //       Object.values(vendor).some(
+  //         (value) =>
+  //           value &&
+  //           typeof value === "string" &&
+  //           value.toLowerCase().includes(searchQuery.toLowerCase())
+  //       )
+  //     )
+  //   : [];
   const handleChange = (e, name) => {
     const selectedSupplierName = e.target.value;
     // if (selectedSupplierName === "Select" && name === "client") {
@@ -173,7 +169,6 @@ const BrandCatalogue = () => {
       })
     );
   }, [page]);
-  console.log(productByIdReducer?.isLoading);
   // useEffect(() => {
   //   let productId = "";
   //   if (
@@ -240,6 +235,19 @@ const BrandCatalogue = () => {
 
   //   setCopyBrandCatalogue(filteredProducts);
   // }, [supplierList.supplier, supplierMasterData, productByIdData]);
+  useEffect(() => {
+    debugger;
+    if (supplierMaster?.data?.length && !supplierList.length) {
+      let tempSupplier = [];
+      supplierMaster?.data?.map((item) => {
+        return (
+          item.enabled &&
+          tempSupplier.push({ label: item.name, value: item.code })
+        );
+      });
+      setSupplierList(tempSupplier);
+    }
+  }, [supplierMaster]);
   return (
     <div>
       {getRoleAccess[0] !== undefined ? (
@@ -274,7 +282,8 @@ const BrandCatalogue = () => {
                           headers={headers}
                           filename={"BrandCatalogue.csv"}
                         >
-                          {clientProductMapping?.length >= +0 && (
+                          {productByIdReducer.productById?.[0]?.products
+                            ?.length >= +0 && (
                             <Button
                               className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
                               icons={"fa fa-file-excel me-2"}
@@ -292,12 +301,9 @@ const BrandCatalogue = () => {
 
                         <Dropdown
                           onChange={(e) => handleChange(e, "supplier")}
-                          value={supplierList.supplier || ""}
+                          value={supplierList || ""}
                           className="form-select"
-                          options={supplierMasterData?.map((item) => ({
-                            label: item.name,
-                            value: item.name,
-                          }))}
+                          options={supplierList}
                         />
                       </div>
 
@@ -306,7 +312,7 @@ const BrandCatalogue = () => {
                           <label htmlFor="client">{client}</label>
                           <Dropdown
                             onChange={(e) => handleChange(e, "client")}
-                            value={supplierList?.client || ""}
+                            value={clientData || ""}
                             className="form-select"
                             options={
                               Array.isArray(clientList)
@@ -331,7 +337,8 @@ const BrandCatalogue = () => {
                     ) : (
                       <>
                         <div className="table-responsive">
-                          {clientProductMapping?.length ? (
+                          {productByIdReducer?.productById?.[0]?.products
+                            ?.length ? (
                             <>
                               <table className="table header-border table-responsive-sm">
                                 <thead>
@@ -346,8 +353,11 @@ const BrandCatalogue = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {Array.isArray(clientProductMapping) &&
-                                    clientProductMapping
+                                  {Array.isArray(
+                                    productByIdReducer.productById?.[0]
+                                      ?.products
+                                  ) &&
+                                    productByIdReducer.productById[0]?.products
                                       .filter((item) => item.enabled)
                                       .map((data, index) => (
                                         <tr key={index}>
