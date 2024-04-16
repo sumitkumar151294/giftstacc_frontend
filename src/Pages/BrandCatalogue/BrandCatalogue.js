@@ -111,16 +111,18 @@ const BrandCatalogue = () => {
     setPage(1);
   };
 
-  // const clientProductMapping = Array.isArray(copyBrandCatalogue)
-  //   ? copyBrandCatalogue.filter((vendor) =>
-  //       Object.values(vendor).some(
-  //         (value) =>
-  //           value &&
-  //           typeof value === "string" &&
-  //           value.toLowerCase().includes(searchQuery.toLowerCase())
-  //       )
-  //     )
-  //   : [];
+  const clientProductMapping = Array.isArray(
+    productByIdReducer.productById?.[0]?.products
+  )
+    ? productByIdReducer.productById?.[0]?.products.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      )
+    : [];
   const handleChange = (e, name) => {
     const selectedSupplierName = e.target.value;
     // if (selectedSupplierName === "Select" && name === "client") {
@@ -272,8 +274,7 @@ const BrandCatalogue = () => {
                           headers={headers}
                           filename={"BrandCatalogue.csv"}
                         >
-                          {productByIdReducer.productById?.[0]?.products
-                            ?.length >= +0 && (
+                          {clientProductMapping?.length >= +0 && (
                             <Button
                               className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
                               icons={"fa fa-file-excel me-2"}
@@ -330,8 +331,7 @@ const BrandCatalogue = () => {
                     ) : (
                       <>
                         <div className="table-responsive">
-                          {productByIdReducer?.productById?.[0]?.products
-                            ?.length ? (
+                          {clientProductMapping?.length ? (
                             <>
                               <table className="table header-border table-responsive-sm">
                                 <thead>
@@ -346,11 +346,8 @@ const BrandCatalogue = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {Array.isArray(
-                                    productByIdReducer.productById?.[0]
-                                      ?.products
-                                  ) &&
-                                    productByIdReducer.productById[0]?.products
+                                  {Array.isArray(clientProductMapping) &&
+                                    clientProductMapping
                                       .filter((item) => item.enabled)
                                       .map((data, index) => (
                                         <tr key={index}>
@@ -396,10 +393,9 @@ const BrandCatalogue = () => {
                                     containerClassName={"pagination"}
                                     activeClassName={"active"}
                                     initialPage={
-                                      rowsPerPage !== 5
-                                        ? page === 0
-                                        : page - 1
-                                    }                                     previousClassName={
+                                      rowsPerPage !== 5 ? page === 0 : page - 1
+                                    }
+                                    previousClassName={
                                       page === 0 ? disabled_Text : ""
                                     }
                                   />
