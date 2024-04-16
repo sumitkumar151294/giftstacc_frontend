@@ -65,7 +65,7 @@ const ClientBrandList = () => {
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
 
   useEffect(() => {
-    dispatch(onGetSupplierBrandList({ pageNumber: 1, pageSize: 5 }));
+    dispatch(onGetSupplierBrandList({ pageNumber: 1, pageSize: 100 }));
     dispatch(onClientProductMappingSubmit(location?.state?.id));
   }, []);
   const paginationValue = [
@@ -532,8 +532,8 @@ const ClientBrandList = () => {
                                           setRowsPerPage(e.target.value);
                                           dispatch(
                                             onGetSupplierBrandList({
-                                              pageNumber: page,
-                                              pageSize: newSize,
+                                              pageNumber: 1,
+                                              pageSize: 100,
                                             })
                                           );
                                         }
