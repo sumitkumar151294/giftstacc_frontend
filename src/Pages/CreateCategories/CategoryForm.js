@@ -219,14 +219,17 @@ const CategoryForm = ({ setIsLoading }) => {
                                 : "form-select"
                             }`}
                             options={
-                              Array.isArray(supplierMasterData)
-                                ? supplierMasterData?.map((supplier) => ({
-                                    label: supplier.name,
-                                    value: supplier.id,
-                                    data: supplier.code,
-                                  }))
+                              Array.isArray(supplierMasterData) 
+                                ? supplierMasterData
+                                    .filter(supplier => supplier.enabled)  // Filter to keep only enabled suppliers
+                                    .map(supplier => ({
+                                      label: supplier.name,
+                                      value: supplier.id,
+                                      data: supplier.code,
+                                    }))
                                 : []
                             }
+                            
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
