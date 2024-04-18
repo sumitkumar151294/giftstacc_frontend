@@ -131,7 +131,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       if (formData[key] === "") {
         newErrors[key] = field_Required; // Provide a meaningful error message
         isValid = false;
-      } else if (formData[key].length > 250) {
+      } else if (formData[key]?.length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
       }else {
@@ -292,9 +292,9 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                           />
                           {<p className="text-danger">{error.description}</p>}
                         </div>
-                        <div className="col-sm-3 form-group mb-2  mt-4 padd">
+                        <div className="col-sm-3 form-group   mt-4 isSpecial">
                           <InputField
-                            className="form-check-input"
+                            className="form-check-input mt-2"
                             type="checkbox"
                             name="IsSpecial"
                             value={formData?.IsSpecial}
@@ -303,7 +303,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             onChange={handleInputChange}
                           />
                           <label
-                            className="form-check-label fnt-15"
+                            className="form-check-label mt-2 fnt-15"
                             htmlFor="flexCheckDefault1"
                           >
                             {Is_Special}{" "}
