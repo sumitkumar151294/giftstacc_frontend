@@ -42,12 +42,6 @@ const Orders = () => {
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client");
   const date = GetTranslationData("UIAdmin", "date");
-  const ordersupplier = GetTranslationData("UIAdmin", "ordersupplier");
-  const orderbrand = GetTranslationData("UIAdmin", "orderbrand");
-  const ordervouchers = GetTranslationData("UIAdmin", "ordervouchers");
-  const orderamount = GetTranslationData("UIAdmin", "orderamount");
-  const ordermargin = GetTranslationData("UIAdmin", "ordermargin");
-  const ordermarginvalue = GetTranslationData("UIAdmin", "ordermarginvalue");
   const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
