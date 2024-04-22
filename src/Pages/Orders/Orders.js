@@ -369,10 +369,7 @@ const Orders = () => {
     let tempSupplier = [];
     Array.isArray(supplierMasterData) &&
       supplierMasterData?.map((item) => {
-        return (
-          item.enabled &&
-          tempSupplier.push({ label: item.name, value: item.name })
-        );
+        return item.enabled && tempSupplier.push({ label: item.name, value: item.name });
       });
     setSupplierListData(tempSupplier);
   }, [supplierMasterData]);
@@ -380,10 +377,7 @@ const Orders = () => {
     let tempClient = [];
     Array.isArray(clientList) &&
       clientList?.map((item) => {
-        return (
-          item.enabled &&
-          tempClient.push({ label: item.name, value: item.name })
-        );
+        return item.enabled && tempClient.push({ label: item.name, value: item.name });
       });
     setClientListData(tempClient);
   }, [clientList]);
