@@ -1,14 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 export const addSpecialSlice = createSlice({
     name: "addSpecial",
     initialState: {
+        isLoading:false,
         data: {},
     },
     reducers: {
         onAddSpecialSubmit: (state) => {
             return {
                 ...state,
+                isLoading:true,
                 postdata: {},
             };
         },
@@ -17,6 +20,7 @@ export const addSpecialSlice = createSlice({
             const { postData = {}, message = "", status_code = 200 } = payload;
             return {
                 ...state,
+                isLoading:false,
                 postdata: postData,
                 message,
                 status_code,
@@ -34,6 +38,7 @@ export const addSpecialSlice = createSlice({
             const { postData = {}, message = "", status_code = 400 } = payload;
             return {
                 ...state,
+                isLoading:false,
                 postdata: postData,
                 message,
                 status_code,
@@ -43,6 +48,7 @@ export const addSpecialSlice = createSlice({
         onGetAddSpecial: (state) => {
             return {
                 ...state,
+                isLoading:false,
                 getData: {},
                 getmessage: ''
             };
@@ -69,6 +75,7 @@ export const addSpecialSlice = createSlice({
             return {
                 ...state,
                 updatedUserData: {},
+                isLoading:true,
                 message: "",
                 status_code: null
             };
@@ -78,6 +85,7 @@ export const addSpecialSlice = createSlice({
             const { updateData = {}, message = "", status_code = 200 } = payload;
             return {
                 ...state,
+                isLoading:false,
                 updatedUserData: updateData,
                 message,
                 status_code,
@@ -88,6 +96,7 @@ export const addSpecialSlice = createSlice({
             const { updateData = {}, message = "", status_code = 400 } = payload;
             return {
                 ...state,
+                isLoading:false,
                 updatedUserData: updateData,
                 message,
                 status_code,

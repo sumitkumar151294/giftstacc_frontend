@@ -17,7 +17,7 @@ import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import Button from "../../Components/Button/Button";
 
-const CategoryForm = ({ setIsLoading }) => {
+const CategoryForm = () => {
   const dispatch = useDispatch();
   const [supplierBrandListData, setSupplierBrandListData] = useState([]);
   const supplierBrandData = useSelector(
@@ -32,7 +32,6 @@ const CategoryForm = ({ setIsLoading }) => {
 
   // const findRoleAccess = getRolesAccess.filte(r)
   // const supplierBrandListData = useSelector((state)=> state?.supplierBrandListReducer?.data);
-  const [isFormLoading, setIsFormLoading] = useState(false);
   const [errors, setErrors] = useState({
     name: "",
     supplierId: "",
@@ -137,26 +136,22 @@ const CategoryForm = ({ setIsLoading }) => {
             supplierBrandId: parseInt(createCategory?.supplierBrandId),
           })
         );
-        setIsLoading(true);
       } catch (error) {}
     }
   };
 
   useEffect(() => {
     if (getCategoriesData?.post_status_code === "500") {
-      setIsFormLoading(false);
       toast.error(getCategoriesData?.postMessage);
       dispatch(onPostCategoryReset());
       dispatch(onGetCategory());
       setCreateCategory(resetCategoryFields);
     } else if (getCategoriesData.update_status_code === "201") {
-      setIsFormLoading(false);
       toast.success(getCategoriesData?.updateMessage);
       dispatch(onUpdateCategoryReset());
       dispatch(onGetCategory());
       setCreateCategory(resetCategoryFields);
     } else if (getCategoriesData?.post_status_code === "201") {
-      setIsFormLoading(false);
       toast.success(getCategoriesData?.postMessage);
       dispatch(onPostCategoryReset());
       dispatch(onGetCategory());
@@ -177,7 +172,7 @@ const CategoryForm = ({ setIsLoading }) => {
               </div>
 
               <div className="card-body">
-                {isFormLoading ? (
+                {getCategoriesData?.isLoading ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>

@@ -236,7 +236,6 @@ const BrandCatalogue = () => {
   //   setCopyBrandCatalogue(filteredProducts);
   // }, [supplierList.supplier, supplierMasterData, productByIdData]);
   useEffect(() => {
-    debugger;
     if (supplierMaster?.data?.length && !supplierList.length) {
       let tempSupplier = [];
       supplierMaster?.data?.map((item) => {

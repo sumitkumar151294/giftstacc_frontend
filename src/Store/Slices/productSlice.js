@@ -14,7 +14,7 @@ export const productSlice = createSlice({
         productById: {},
         message: "",
         status_code: null,
-        isLoading: false,
+        isLoading: true,
       };
     },
 
