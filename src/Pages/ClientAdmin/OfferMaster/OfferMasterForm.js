@@ -152,7 +152,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { 
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -190,13 +190,14 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     }
 
     setErrors(newErrors);
-    if (isValid) {
+    if (isValid) { 
       if (data?.image && !getImage) {
         const tempData = {
           ...addData,
           id: data?.id,
           image: data?.image,
         };
+        setShowLoader(true);
         dispatch(onUpdateOfferMaster(tempData));
       } else if (getImage) {
         setShowLoader(true);
@@ -204,7 +205,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       }
     }
   };
-  useEffect(() => {
+  useEffect(() => { 
     if (offerMasterData?.status_code_Image === "201") {
       if (!data) {
         try {
@@ -218,7 +219,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         } catch (error) {
           console.error("Error submitting offer:", error);
         }
-      } else {
+      } else { 
         try {
           const tempData = {
             ...addData,
@@ -254,32 +255,30 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       buttonText: "",
     });
   }, [data]);
-  useEffect(() => {
-    if (offerMasterData?.status_code === "201") {
-      setShowLoader(false);
-      toast.success(offerMasterData?.message);
-      setAddData(resetAddData);
-      dispatch(onPostOfferMasterReset());
-      dispatch(onGetOfferMaster());
-    } else if (offerMasterData.status_code === 404) {
-      dispatch(onPostOfferMasterReset());
-      toast.error(offerMasterData.message);
-    }
-  }, [offerMasterData]);
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (offerMasterData?.status_code === "201") {
+  //     setShowLoader(false);
+  //     toast.success(offerMasterData?.message);
+  //     setAddData(resetAddData);
+  //     dispatch(onPostOfferMasterReset());
+  //     dispatch(onGetOfferMaster());
+  //   } else if (offerMasterData.status_code === 404) {
+  //     dispatch(onPostOfferMasterReset());
+  //     toast.error(offerMasterData.message);
+  //   }
+  // }, [offerMasterData]);
+  useEffect(() => { 
     if (offerMasterData.postStatus_code === "201") {
       setShowLoader(false);
       toast.success(offerMasterData?.message);
-      setAddData(resetAddData);
+     setAddData(resetAddData);
       dispatch(onPostOfferMasterReset());
-      setPrefilledValues("");
       dispatch(onGetOfferMaster());
     } else if (offerMasterData.update_status_code === "201") {
       setShowLoader(false);
       toast.success(offerMasterData?.updateMessage);
-      setAddData(resetAddData);
+     setAddData(resetAddData);
       dispatch(onUpdateOfferMasterReset());
-      setPrefilledValues("");
       dispatch(onGetOfferMaster());
     }
   }, [offerMasterData]);
@@ -289,12 +288,12 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       setShowLoader(false);
       toast.error(offerMasterData.message);
       dispatch(onPostOfferMasterReset());
-      setAddData(resetAddData);
+     // setAddData(resetAddData);
     } else if (offerMasterData.update_status_code === "400") {
       setShowLoader(false);
       toast.error(offerMasterData.updateMessage);
       dispatch(onUpdateOfferMasterReset());
-      setAddData(resetAddData);
+     // setAddData(resetAddData);
     }
   }, [offerMasterData]);
 
