@@ -31,7 +31,6 @@ const ClientBrandList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  console.log(SupplierBrandList);
   const ClientProducts = useSelector(
     (state) => state.clientProductMappingReducer
   );
@@ -207,7 +206,7 @@ const ClientBrandList = () => {
     const isUpdate =
       Array.isArray(copyClientMapping) &&
       copyClientMapping?.find((item) => item.productId === data?.id);
-    if (isUpdate && isUpdate?.id) {
+    if (isUpdate && isUpdate?.id) { 
       const updatedValues = {
         clientCommission: isUpdate?.clientCommission,
         customerDiscount: isUpdate?.customerDiscount,

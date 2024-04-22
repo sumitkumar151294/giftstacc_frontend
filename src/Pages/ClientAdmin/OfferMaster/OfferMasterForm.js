@@ -71,6 +71,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const update = GetTranslationData("UIAdmin", "update_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const enabled_Text = GetTranslationData("UIAdmin", "enabled_Text");
+  const link_text = GetTranslationData("UIClient", "link_text");
+
   const [getImage, setGetImage] = useState(false);
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
@@ -186,6 +188,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         newErrors[key] = "";
       }
     }
+
     setErrors(newErrors);
     if (isValid) {
       if (data?.image && !getImage) {
@@ -386,8 +389,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="linkText">
-                            {"Link Text"}
-                            <span className="text-danger">*</span>
+                            {link_text} <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
