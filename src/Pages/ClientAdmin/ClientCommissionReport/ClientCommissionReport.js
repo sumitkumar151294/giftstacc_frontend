@@ -12,6 +12,7 @@ import Button from "../../../Components/Button/Button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PageError from "../../../Components/PageError/PageError";
+import { onProductByIdSubmit } from "../../../Store/Slices/productSlice";
 
 const ClientCommissionReport = () => {
   const [page, setPage] = useState(1);
@@ -57,6 +58,7 @@ const ClientCommissionReport = () => {
   const clientCommissionReport = useSelector(
     (state) => state.commissionReportReducer?.reportData
   );
+  const [supplierListData, setSupplierListData] = useState([]);
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer?.data
   );
@@ -65,7 +67,37 @@ const ClientCommissionReport = () => {
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
+  useEffect(() => {
+    let tempSupplier = [];
+    Array.isArray(supplierMasterData) &&
+      supplierMasterData?.map((item) => {
+        return (
+          item.enabled &&
+          tempSupplier.push({ label: item.name, value: item.name })
+        );
+      });
+    setSupplierListData(tempSupplier);
+  }, [supplierMasterData]);
+  const clientCode = sessionStorage.getItem("clientCode");
   const handleInputChange = (e, fieldName) => {
+    const selectedSupplierName = e.target.value;
+    if (selectedSupplierName === "Select" && fieldName === "supplier") {
+      dispatch(
+        onProductByIdSubmit({
+          clientCode,
+          pageNumber: 1,
+          pageSize: 100,
+        })
+      );
+    } else if (fieldName === "supplier") {
+      dispatch(
+        onProductByIdSubmit({
+          clientCode,
+          pageNumber: page,
+          pageSize: rowsPerPage,
+        })
+      );
+    }
     setAddData({
       ...addData,
       [fieldName]: e.target.value,
@@ -114,14 +146,8 @@ const ClientCommissionReport = () => {
                     value={addData.supplier || ""}
                     onChange={(e) => handleInputChange(e, "supplier")}
                     className="form-select"
-                    options={
-                      Array.isArray(supplierMasterData)
-                        ? supplierMasterData?.map((item) => ({
-                            label: item.name,
-                            value: item.name,
-                          }))
-                        : []
-                    }
+                    options={supplierListData}
+
                   />
                 </div>
                 <div className="ddop">

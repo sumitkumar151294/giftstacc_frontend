@@ -204,7 +204,7 @@ const SupplierProductList = () => {
       Array.isArray(SupplierBrandList) &&
       SupplierBrandList?.[0]?.products?.filter(
         (vendor) =>
-          vendor?.name?.toLowerCase().includes(searchQuery?.toLowerCase()) &&
+          vendor?.name?.toLowerCase().includes(searchQuery?.toLowerCase()) && vendor.enabled ===true &&
           (vendor?.supplierCode?.toLowerCase() ===
             selectedSupplierCode?.toLowerCase() ||
             selectedSupplierCode === "Select")
