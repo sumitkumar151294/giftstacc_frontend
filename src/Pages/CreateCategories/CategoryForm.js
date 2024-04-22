@@ -118,7 +118,7 @@ const CategoryForm = ({ setIsLoading }) => {
     const newErrors = { ...errors };
     for (const key in createCategory) {
       if (createCategory[key] === "") {
-        newErrors[key] = { field_Required };
+        newErrors[key] =  field_Required ;
         isValid = false;
       } else if (createCategory[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
