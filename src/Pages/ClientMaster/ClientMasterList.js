@@ -181,7 +181,7 @@ const ClientMasterList = () => {
                       <>
                         {Array.isArray(filteredClientList) &&
                         filteredClientList.length > 0 ? (
-                          <div className="table-responsive">
+                          <div className="table-responsive scroll-Table-x">
                             <>
                               <table className="table header-border table-responsive-sm">
                                 <thead>
@@ -252,7 +252,7 @@ const ClientMasterList = () => {
                                         <td>
                                           <Link to="/lc-user-admin/login">
                                             <Button
-                                              className="btn btn-secondary btn-sm float-right"
+                                              className="btn btn-secondary btn-sm float-right client_Btn"
                                               icons={"fa fa-user"}
                                               text={login}
                                             />
@@ -262,7 +262,7 @@ const ClientMasterList = () => {
                                           <Link
                                             to="/lc-admin/client-brand-list"
                                             state={{ id: data.id }}
-                                            className="btn btn-primary btn-sm float-right"
+                                            className="btn btn-primary btn-sm float-right client_Btn"
                                           >
                                             <i className="fa fa-eye"></i>&nbsp;
                                             {brands}

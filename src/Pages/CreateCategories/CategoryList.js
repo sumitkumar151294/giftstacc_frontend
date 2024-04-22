@@ -43,6 +43,7 @@ const CategoryList = () => {
   useEffect(() => {
     dispatch(onGetCategory());
   }, []);
+ 
 
   // To get the data from redux store
   const getCreateCategory = useSelector((state) => state.createCategoryReducer);
@@ -123,6 +124,16 @@ const CategoryList = () => {
     };
     dispatch(onUpdateCategory(deletedData));
   };
+   useEffect(() => {
+    if (getCategoryData) {
+      const totalItems = getCategoryData?.length;
+      const totalPages = Math.ceil(totalItems / rowsPerPage);
+      if (page > totalPages && page > 1) {
+        setPage(page - 1);
+      }
+    } else {
+    }
+  }, [getCategoryData]);
 
   return (
     <>

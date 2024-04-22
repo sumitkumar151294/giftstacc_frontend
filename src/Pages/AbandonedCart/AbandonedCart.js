@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import { Link } from "react-router-dom/dist";
+import { CSVLink } from "react-csv";
+import Button from "../../Components/Button/Button";
 const AbandonedCartReport = () => {
   const export_label = GetTranslationData("UIAdmin", "export_label");
   const abandoned_Cart_Report = GetTranslationData(
@@ -95,6 +97,37 @@ const AbandonedCartReport = () => {
       quantity: "7",
     },
   ];
+
+  const headers = [
+    { label: "sno", key: "sno" },
+    { label: "brandName", key: "brandName" },
+    { label: "faceValue", key: "faceValue" },
+    { label: "qty", key: "qty" },
+    { label: "sku", key: "sku" },
+    { label: "disAmt", key: "disAmt" },
+    { label: "subtotal", key: "subtotal" },
+    { label: "amount", key: "amount" },
+    { label: "quantity", key: "quantity" },
+  ];
+  const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setPage(1);
+  };
+  const [rowsPerPage] = useState(5);
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const filteredOrderList = Array.isArray(productDetail)
+    ? productDetail.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      )
+    : [];
   return (
     <div className="container-fluid">
       <div className="row">
@@ -113,6 +146,8 @@ const AbandonedCartReport = () => {
                       type="text"
                       className="form-control only-high"
                       placeholder={placeholder_Mobile_Email_Name}
+                      defaultValue={searchQuery}
+                      onChange={handleSearch}
                     />
                     <span className="input-group-text">
                       <Link>
@@ -130,10 +165,17 @@ const AbandonedCartReport = () => {
                   />
                 </div>
                 <div className="d-flex align-items-center flex-wrap">
-                  <Link className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                    <i className="fa fa-file-excel me-2"></i>
-                    {export_label}
-                  </Link>
+                  <CSVLink
+                    data={productDetail}
+                    headers={headers}
+                    filename={"ClientCommissionReport.csv"}
+                  >
+                    <Button
+                      className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                      text={export_label}
+                      icons={"fa fa-file-excel"}
+                    />
+                  </CSVLink>
                 </div>
               </div>
               {customerDetail.map((data, index) => (
@@ -173,75 +215,86 @@ const AbandonedCartReport = () => {
                   </div>
                 </div>
               ))}
-              {productDetail.map((data, index) => (
-                <div key={index} className="card-body theorder">
-                  <div className="row">
-                    <div className="col-lg-1">
-                      <h5 className="txt txxt">{s_NO_label}</h5>
-                      <p className="head-value head-color">{data.sno}</p>
+
+              {filteredOrderList
+                .slice(startIndex, endIndex)
+                .map((data, index) => (
+                  <div key={index} className="card-body theorder">
+                    <div className="row">
+                      <div className="col-lg-1">
+                        <h5 className="txt txxt">{s_NO_label}</h5>
+                        <p className="head-value head-color">{data.sno}</p>
+                      </div>
+                      <div className="col-lg-3">
+                        <h5 className="txt txxt">{brand_Name}</h5>
+                        <p className="head-value head-color">
+                          {data.brandName}
+                        </p>
+                      </div>
+                      <div className="col-lg-3">
+                        <h5 className="txt txxt">{face_Value}</h5>
+                        <p className="head-value head-color">
+                          {data.faceValue}
+                        </p>
+                      </div>
+                      <div className="col-lg-1">
+                        <h5 className="txt txxt">{qty}</h5>
+                        <p className="head-value head-color">{data.qty}</p>
+                      </div>
+                      <div className="col-lg-2">
+                        <h5 className="txt txxt">{sku}</h5>
+                        <p className="head-value head-color">{data.sku}</p>
+                      </div>
+                      <div className="col-lg-2">
+                        <h5 className="txt txxt">{discounted_Amt}</h5>
+                        <p className="head-value head-color">{data.disAmt}</p>
+                      </div>
                     </div>
-                    <div className="col-lg-3">
-                      <h5 className="txt txxt">{brand_Name}</h5>
-                      <p className="head-value head-color">{data.brandName}</p>
+                    <div className="row">
+                      <div className="col-lg-1">
+                        <h5 className="txt txxt">{s_NO_label}</h5>
+                        <p className="head-value head-color">{data.sno}</p>
+                      </div>
+                      <div className="col-lg-3">
+                        <h5 className="txt txxt">{brand_Name}</h5>
+                        <p className="head-value head-color">
+                          {data.brandName}
+                        </p>
+                      </div>
+                      <div className="col-lg-3">
+                        <h5 className="txt txxt">{face_Value}</h5>
+                        <p className="head-value head-color">
+                          {data.faceValue}
+                        </p>
+                      </div>
+                      <div className="col-lg-1">
+                        <h5 className="txt txxt">{qty}</h5>
+                        <p className="head-value head-color">{data.qty}</p>
+                      </div>
+                      <div className="col-lg-2">
+                        <h5 className="txt txxt">{sku}</h5>
+                        <p className="head-value head-color">{data.sku}</p>
+                      </div>
+                      <div className="col-lg-2">
+                        <h5 className="txt txxt">{discounted_Amt}</h5>
+                        <p className="head-value head-color">{data.disAmt}</p>
+                      </div>
                     </div>
-                    <div className="col-lg-3">
-                      <h5 className="txt txxt">{face_Value}</h5>
-                      <p className="head-value head-color">{data.faceValue}</p>
-                    </div>
-                    <div className="col-lg-1">
-                      <h5 className="txt txxt">{qty}</h5>
-                      <p className="head-value head-color">{data.qty}</p>
-                    </div>
-                    <div className="col-lg-2">
-                      <h5 className="txt txxt">{sku}</h5>
-                      <p className="head-value head-color">{data.sku}</p>
-                    </div>
-                    <div className="col-lg-2">
-                      <h5 className="txt txxt">{discounted_Amt}</h5>
-                      <p className="head-value head-color">{data.disAmt}</p>
+                    <div className="row weak justify-content-end pb-0">
+                      <div className="col-lg-2">
+                        <h4 className="order-details">{subtotal}</h4>
+                      </div>
+                      <div className="col-lg-2">
+                        <h4 className="order-details">{qty}</h4>
+                        <p className="head-value head-color">{data.quantity}</p>
+                      </div>
+                      <div className="col-lg-2">
+                        <h4 className="order-details">{amount}</h4>
+                        <p className="head-value head-color">{data.amount}</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-lg-1">
-                      <h5 className="txt txxt">{s_NO_label}</h5>
-                      <p className="head-value head-color">{data.sno}</p>
-                    </div>
-                    <div className="col-lg-3">
-                      <h5 className="txt txxt">{brand_Name}</h5>
-                      <p className="head-value head-color">{data.brandName}</p>
-                    </div>
-                    <div className="col-lg-3">
-                      <h5 className="txt txxt">{face_Value}</h5>
-                      <p className="head-value head-color">{data.faceValue}</p>
-                    </div>
-                    <div className="col-lg-1">
-                      <h5 className="txt txxt">{qty}</h5>
-                      <p className="head-value head-color">{data.qty}</p>
-                    </div>
-                    <div className="col-lg-2">
-                      <h5 className="txt txxt">{sku}</h5>
-                      <p className="head-value head-color">{data.sku}</p>
-                    </div>
-                    <div className="col-lg-2">
-                      <h5 className="txt txxt">{discounted_Amt}</h5>
-                      <p className="head-value head-color">{data.disAmt}</p>
-                    </div>
-                  </div>
-                  <div className="row weak justify-content-end pb-0">
-                    <div className="col-lg-2">
-                      <h4 className="order-details">{subtotal}</h4>
-                    </div>
-                    <div className="col-lg-2">
-                      <h4 className="order-details">{qty}</h4>
-                      <p className="head-value head-color">{data.quantity}</p>
-                    </div>
-                    <div className="col-lg-2">
-                      <h4 className="order-details">{amount}</h4>
-                      <p className="head-value head-color">{data.amount}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
