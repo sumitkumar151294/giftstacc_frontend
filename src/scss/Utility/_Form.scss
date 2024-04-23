@@ -90,6 +90,6 @@ $rgba-primary-17: var(--rgba-primary-17);
 }
 .form-control:hover, .form-control:focus, .form-control.active {
   box-shadow: none;
-  background: #fff !important;
-  color: #6e6e6e;
+  background: var(--headerbg) !important;
+  color: var(--bs-table-dark-bg-2);
 }

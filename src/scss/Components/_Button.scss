@@ -74,25 +74,29 @@ $w100: var(--w100);
 .btn.active {
   outline: 0 !important;
 }
+
 .btn.btn-secondary,
 .btn.btn-primary,
-.btn.btn-danger{
+.btn.btn-danger {
   color: var(--primary-white) !important;
-} 
+}
 
 .btn:hover {
   color: $primary-grey;
 }
+
 .btn-xs {
   font-size: 0.75rem;
   padding: 0.438rem 1rem;
   font-weight: 600;
 }
+
 @media only screen and (max-width: 1400px) {
   .btn {
     padding: 0.625rem 1rem;
   }
 }
+
 .btn-icon-end {
   border-left: 0.0625rem solid var(--primary-white);
   display: inline-block;
@@ -101,26 +105,32 @@ $w100: var(--w100);
   margin: -1rem -0.25rem -1rem 1rem;
   padding: 1rem 0 1rem 1.25rem;
 }
+
 .auth-form .btn {
-    height: 3.125rem;
-    font-weight: 700 ;
+  height: 3.125rem;
+  font-weight: 700;
 }
+
 .btn-block {
   display: block !important;
   width: 100% !important;
 }
+
 .btn {
   padding: 0.938rem 1.5rem;
   border-radius: 1.125rem;
   font-weight: 400;
-  font-size: 1rem ;
+  font-size: 1rem;
 }
-.btn-sm, .btn-group-sm >  {
+
+.btn-sm,
+.btn-group-sm> {
   font-size: 0.813rem;
   padding: 0.625rem 1rem;
 }
+
 @media screen and (min-width: 991px) {
-  .btn-m{
-      margin-top: 1rem !important;
+  .btn-m {
+    margin-top: 1rem !important;
   }
-    }
+}
