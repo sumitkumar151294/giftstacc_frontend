@@ -12,21 +12,28 @@ import Button from "../../../Components/Button/Button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PageError from "../../../Components/PageError/PageError";
-import { onProductByIdSubmit } from "../../../Store/Slices/productSlice";
 
 const ClientCommissionReport = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const [dateStart, setDateStart] = useState();
   const [dateEnd, setDateEnd] = useState();
-  const [addData, setAddData] = useState({
-    supplier: "",
-    brand: "",
+  const [supplierBrandListData, setSupplierBrandListData] = useState([]);
+  const supplierBrandData = useSelector(
+    (state) => state.supplierBrandListReducer.data
+  );
+  const supplierMasterData = useSelector(
+    (state) => state?.supplierMasterReducer?.data
+  );
+
+
+  const [createCategory, setCreateCategory] = useState({
+    supplierId: "",
+    supplierBrandId: "",
+    name: "",
   });
-  const [errors, setErrors] = useState({
-    supplier: "",
-    brand: "",
-  });
+
+
   const headers = [
     { label: "Supplier", key: "supplier" },
     { label: "Brand", key: "brand" },
@@ -35,11 +42,6 @@ const ClientCommissionReport = () => {
     { label: "Total Paid Amount", key: "totalPaidAmount" },
     { label: "Commission%", key: "commission" },
     { label: "Commission Amount", key: "commissionAmount" },
-  ];
-  const selectBrandOptions = [
-    { value: "Amazon", label: "Amazon" },
-    { value: "Flipcart", label: "Flipcart" },
-    { value: "Nykaa", label: "Nykaa" },
   ];
   const client_Commission_Report = GetTranslationData(
     "UIClient",
@@ -58,54 +60,39 @@ const ClientCommissionReport = () => {
   const clientCommissionReport = useSelector(
     (state) => state.commissionReportReducer?.reportData
   );
-  const [supplierListData, setSupplierListData] = useState([]);
-  const supplierMasterData = useSelector(
-    (state) => state.supplierMasterReducer?.data
-  );
+
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
-  useEffect(() => {
-    let tempSupplier = [];
-    Array.isArray(supplierMasterData) &&
-      supplierMasterData?.map((item) => {
-        return (
-          item.enabled &&
-          tempSupplier.push({ label: item.name, value: item.name })
-        );
+  const handleChange = (e, fieldName) => {
+    if (fieldName === "supplierId") {
+      let supplierList = [];
+      Array.isArray(supplierBrandData) &&
+        supplierBrandData
+          ?.filter((item) => {
+            return (
+              item.supplierCode ===
+              e.target.selectedOptions.item("").getAttribute("name") &&
+              item.enabled !== false
+            );
+          })
+          .map((item) => {
+            return supplierList.push({ label: item.name, value: item.id });
+          });
+      setSupplierBrandListData(supplierList);
+      setCreateCategory({
+        ...createCategory,
+        supplierBrandId: "",
+        [fieldName]: e.target.value,
       });
-    setSupplierListData(tempSupplier);
-  }, [supplierMasterData]);
-  const clientCode = sessionStorage.getItem("clientCode");
-  const handleInputChange = (e, fieldName) => {
-    const selectedSupplierName = e.target.value;
-    if (selectedSupplierName === "Select" && fieldName === "supplier") {
-      dispatch(
-        onProductByIdSubmit({
-          clientCode,
-          pageNumber: 1,
-          pageSize: 100,
-        })
-      );
-    } else if (fieldName === "supplier") {
-      dispatch(
-        onProductByIdSubmit({
-          clientCode,
-          pageNumber: page,
-          pageSize: rowsPerPage,
-        })
-      );
+    } else {
+      setCreateCategory({
+        ...createCategory,
+        [fieldName]: e.target.value,
+      });
     }
-    setAddData({
-      ...addData,
-      [fieldName]: e.target.value,
-    });
-    setErrors({
-      ...errors,
-      [fieldName]: "",
-    });
   };
   useEffect(() => {
     dispatch(onGetCommissionReport());
@@ -128,144 +115,157 @@ const ClientCommissionReport = () => {
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer.filteredData
   )
+
   return (
     <div>
-    {getRoleAccess[0] !== undefined ? (
-      <>
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-xl-12 col-xxl-12">
-          <div className="card">
-            <div className="container-fluid pt-0">
-              <div className="d-flex justify-content-between align-items-center  flex-wrap">
-                <div className="card-header">
-                  <h4 className="card-title">{client_Commission_Report}</h4>
-                </div>
-                <div className="ddop">
-                  <Dropdown
-                    value={addData.supplier || ""}
-                    onChange={(e) => handleInputChange(e, "supplier")}
-                    className="form-select"
-                    options={supplierListData}
+      {getRoleAccess[0] !== undefined ? (
+        <>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12 col-xxl-12">
+                <div className="card">
+                  <div className="container-fluid pt-0">
+                    <div className="d-flex justify-content-between align-items-center  flex-wrap">
+                      <div className="card-header">
+                        <h4 className="card-title">{client_Commission_Report}</h4>
+                      </div>
+                      <div className="ddop">
+                        <Dropdown
+                          onChange={(e) => handleChange(e, "supplierId")}
+                          ariaLabel="Select"
+                          value={createCategory.supplierId}
+                          className="form-select"
+                          options={
+                            Array.isArray(supplierMasterData)
+                              ? supplierMasterData
+                                .filter(supplier => supplier.enabled)  // Filter to keep only enabled suppliers
+                                .map(supplier => ({
+                                  label: supplier.name,
+                                  value: supplier.id,
+                                  data: supplier.code,
+                                }))
+                              : []
+                          }
 
-                  />
-                </div>
-                <div className="ddop">
-                  <Dropdown
-                    value={addData.brand || ""}
-                    onChange={(e) => handleInputChange(e, "brand")}
-                    className="form-select"
-                    options={selectBrandOptions}
-                  />
-                </div>
-                <div className="example">
-                  <DatePicker
-                    id="dateStartEnd"
-                    placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
-                    selectsRange={true}
-                    startDate={dateStart}
-                    endDate={dateEnd}
-                    onChange={onChangeHandler}
-                    dateFormat="dd MMM yyyy h:mm aa" // Date format including time
-                    // showTimeSelect // Enable time selection
-                    timeFormat="HH:mm" // Time format
-                    className={"form-control form-control-sm"}
-                    showDisabledMonthNavigation
-                  />
-                </div>
-                <div className="d-flex align-items-center flex-wrap">
-                  {clientCommissionReport &&
-                    clientCommissionReport.length > 0 && (
-                      <CSVLink
-                        data={namesArray}
-                        headers={headers}
-                        filename={"ClientCommissionReport.csv"}
-                      >
-                        {clientCommissionReport.length > 0 && (
-                          <Button
-                            className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                            text={export_label}
-                            icons={"fa fa-file-excel"}
-                          />
+                        />
+                      </div>
+                      <div className="ddop">
+                        <Dropdown
+                          onChange={(e) => handleChange(e, "supplierBrandId")}
+                          value={createCategory.supplierBrandId}
+                          ariaLabel="Select"
+                          className="form-select"
+                          options={supplierBrandListData}
+                        />
+                      </div>
+                      <div className="example">
+                        <DatePicker
+                          id="dateStartEnd"
+                          placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
+                          selectsRange={true}
+                          startDate={dateStart}
+                          endDate={dateEnd}
+                          onChange={onChangeHandler}
+                          dateFormat="dd MMM yyyy h:mm aa" // Date format including time
+                          // showTimeSelect // Enable time selection
+                          timeFormat="HH:mm" // Time format
+                          className={"form-control form-control-sm"}
+                          showDisabledMonthNavigation
+                        />
+                      </div>
+                      <div className="d-flex align-items-center flex-wrap">
+                        {clientCommissionReport &&
+                          clientCommissionReport.length > 0 && (
+                            <CSVLink
+                              data={namesArray}
+                              headers={headers}
+                              filename={"ClientCommissionReport.csv"}
+                            >
+                              {clientCommissionReport.length > 0 && (
+                                <Button
+                                  className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                                  text={export_label}
+                                  icons={"fa fa-file-excel"}
+                                />
+                              )}
+                            </CSVLink>
+                          )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    {clientCommissionReport?.length > 0 ? (
+                      <div className="table-responsive">
+                        <table className="table header-border table-responsive-sm">
+                          <thead>
+                            <tr>
+                              <th>{ordersupplier}</th>
+                              <th>{orderbrand}</th>
+                              <th>{ordervouchers}</th>
+                              <th>{totalFaceValue}</th>
+                              <th>{totalPaidAmount}</th>
+                              <th>{commission}</th>
+                              <th>{commissionAmount}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {clientCommissionReport
+                              .slice(startIndex, endIndex)
+                              .map((data, index) => (
+                                <tr key={index}>
+                                  <td>{data.supplier}</td>
+                                  <td>{data.brand}</td>
+                                  <td>{data.noOfVouchers}</td>
+                                  <td>{data.totalFaceValue}</td>
+                                  <td>{data.totalPaidAmount}</td>
+                                  <td>{data.commission}</td>
+                                  <td>{data.commissionAmount}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                        {clientCommissionReport.length > 5 && (
+                          <div className="pagination-container">
+                            <ReactPaginate
+                              previousLabel={"<"}
+                              nextLabel={" >"}
+                              breakLabel={"..."}
+                              pageCount={Math.ceil(
+                                clientCommissionReport.length / rowsPerPage
+                              )}
+                              marginPagesDisplayed={2}
+                              onPageChange={handlePageChange}
+                              containerClassName={"pagination"}
+                              activeClassName={"active"}
+                              initialPage={page - 1}
+                              previousClassName={page === 1 ? disabled_Text : ""}
+                            />
+                          </div>
                         )}
-                      </CSVLink>
+                      </div>
+                    ) : (
+                      <NoRecord />
                     )}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="card-body">
-              {clientCommissionReport?.length > 0 ? (
-                <div className="table-responsive">
-                  <table className="table header-border table-responsive-sm">
-                    <thead>
-                      <tr>
-                        <th>{ordersupplier}</th>
-                        <th>{orderbrand}</th>
-                        <th>{ordervouchers}</th>
-                        <th>{totalFaceValue}</th>
-                        <th>{totalPaidAmount}</th>
-                        <th>{commission}</th>
-                        <th>{commissionAmount}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {clientCommissionReport
-                        .slice(startIndex, endIndex)
-                        .map((data, index) => (
-                          <tr key={index}>
-                            <td>{data.supplier}</td>
-                            <td>{data.brand}</td>
-                            <td>{data.noOfVouchers}</td>
-                            <td>{data.totalFaceValue}</td>
-                            <td>{data.totalPaidAmount}</td>
-                            <td>{data.commission}</td>
-                            <td>{data.commissionAmount}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                  {clientCommissionReport.length > 5 && (
-                    <div className="pagination-container">
-                      <ReactPaginate
-                        previousLabel={"<"}
-                        nextLabel={" >"}
-                        breakLabel={"..."}
-                        pageCount={Math.ceil(
-                          clientCommissionReport.length / rowsPerPage
-                        )}
-                        marginPagesDisplayed={2}
-                        onPageChange={handlePageChange}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                        initialPage={page - 1}
-                        previousClassName={page === 1 ? disabled_Text : ""}
-                      />
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <NoRecord />
-              )}
-            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </>
-    ):(
+        </>
+      ) : (
         <PageError
-  
-            pageError={{
-              StatusCode: "401",
-              ErrorName: "Permission Denied",
-              ErrorDesription:
-                "Your application url is not registerd to our application",
-              url: "/",
-              buttonText: "Back to Home",
-            }}
-          />
+
+          pageError={{
+            StatusCode: "401",
+            ErrorName: "Permission Denied",
+            ErrorDesription:
+              "Your application url is not registerd to our application",
+            url: "/",
+            buttonText: "Back to Home",
+          }}
+        />
       )}
-      </div>
+    </div>
   );
 };
 

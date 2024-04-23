@@ -220,7 +220,7 @@ label {
 						.can-toggle__switch {
 							background-color: $background-color_4;
 							&:after {
-								box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+								box-shadow: 0 3px 3px var(--rgba-primary-24);
 								color: $color_9;
 							}
 						}
@@ -233,7 +233,7 @@ label {
 						.can-toggle__switch {
 							background-color: $background-color_4;
 							&:after {
-								box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+								box-shadow: 0 3px 3px var(--rgba-primary-24);
 								color: $color_9;
 							}
 						}
@@ -248,7 +248,7 @@ label {
 					.can-toggle__switch {
 						background-color: $background-color_5;
 						&:after {
-							box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+							box-shadow: 0 3px 3px var(--rgba-primary-24);
 							color: $color_11;
 						}
 					}
@@ -261,7 +261,7 @@ label {
 					.can-toggle__switch {
 						background-color: $background-color_5;
 						&:after {
-							box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+							box-shadow: 0 3px 3px var(--rgba-primary-24);
 							color: $color_11;
 						}
 					}
@@ -289,7 +289,7 @@ label {
 			flex: 0 0 134px;
 			border-radius: 4px;
 			transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
-			background: #ff0438;
+			background: var(--bs-redyish);
 			position: relative;
 			&:before {
 				left: 67px;
@@ -306,7 +306,7 @@ label {
 			}
 			&:hover {
 				&:after {
-					box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+					box-shadow: 0 3px 3px var(--rgba-primary-24);
 				}
 			}
 			&:after {
@@ -324,7 +324,7 @@ label {
 				z-index: 0;
 				text-transform: uppercase;
 				text-align: center;
-				background: white;
+				background: var(--bs-white);
 				transform: translate3d(0, 0, 0);
 			}
 		}

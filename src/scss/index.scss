@@ -24,6 +24,7 @@
 @import './Pages/ClientAdmin/EmailEventMaster';
 @import './Pages/ClientAdmin/FailedOrders';
 @import './Pages/ClientAdmin/AbandonedCartReport';
+@import './Pages/ClientAdmin/ClientCommissionReport';
 @import './Utility/Card';
 @import './Utility/Rows';
 @import './Utility/Column';
@@ -67,6 +68,7 @@
   --primary-input-bg: #e9ecef;
   --primary-alice: aliceblue;
   --primary-alice-2: #f8f8f8;
+  --primary-lightgrey: lightgrey;
   --rgba-primary-1: rgba(253, 104, 62, 0.1);
   --rgba-primary-2: rgba(253, 104, 62, 0.2);
   --rgba-primary-3: rgba(253, 104, 62, 0.3);
@@ -90,6 +92,7 @@
   --rgba-primary-21: rgba(0, 0, 0, 0.125);
   --rgba-primary-22: rgba(0, 0, 0, 0.03);
   --rgba-primary-23: rgba(255, 255, 255, 0.3);
+  --rgba-primary-24: rgba(0, 0, 0, 0.4);
   --font-family: 'Inter', sans-serif;
   --title: #000;
   --header-bg: #E9E9E9;
