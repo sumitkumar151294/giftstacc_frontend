@@ -24,9 +24,6 @@ const SupplierMasterForm = ({
   data,
   setData,
   isDelete,
-  setIsDelete,
-  isLoading,
-  setIsLoading,
 }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
@@ -53,7 +50,6 @@ const SupplierMasterForm = ({
     "UIAdmin",
     "fieldValueNotEmpty"
   );
-  const [isformLoading, setIsFormLoading] = useState(false);
   const [vendorData, setVendorData] = useState({
     name: "",
     balanceThresholdAmount: "",
@@ -122,7 +118,6 @@ const SupplierMasterForm = ({
   };
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    setIsLoading(false);
     if (
       supplyPostData.post_status_code === "201" &&
       !supplyPostData?.isLoading
@@ -138,9 +133,7 @@ const SupplierMasterForm = ({
       !supplyPostData?.isLoading
     ) {
       dispatch(onUpdateSupplierListReset());
-      // setIsLoading(true)
       if (isDelete) {
-        setIsLoading(false);
         toast.success(supplyPostData?.message);
         dispatch(onGetSupplierList());
         dispatch(onGetSupplierResource());
@@ -155,7 +148,6 @@ const SupplierMasterForm = ({
       supplyPostData.post_status_code !== "201" &&
       !supplyPostData?.isLoading
     ) {
-      setIsFormLoading(false);
       dispatch(onVendorReset());
       toast.error(supplyPostData?.message);
     }
@@ -165,7 +157,6 @@ const SupplierMasterForm = ({
       toast.success(supplyResource?.message);
       dispatch(onGetSupplierList());
       dispatch(onGetSupplierResource());
-      setIsFormLoading(false);
       resetData();
     }
   }, [supplyResource]);
@@ -291,7 +282,6 @@ const SupplierMasterForm = ({
     setErrors(newErrors);
     setAdditionalFieldsError(newAdditionalFieldsError);
     if (isValid) {
-      setIsFormLoading(true);
       if (!data.name) {
         try {
           vendorData.deleted = false;
@@ -350,7 +340,7 @@ const SupplierMasterForm = ({
                 <h4 className="card-title">{supplierMaster}</h4>
               </div>
               <div className="card-body">
-                {isformLoading || isLoading ? (
+                {supplyPostData?.isLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>

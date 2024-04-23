@@ -17,7 +17,6 @@ import ReactPaginate from "react-paginate";
 import PageError from "../../Components/PageError/PageError";
 const SupplierMasterList = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -77,7 +76,6 @@ const SupplierMasterList = () => {
       if (page > totalPages && page > 1) {
         setPage(page - 1);
       }
-      setIsLoading(false);
     }
   }, [supplierMasterData, page, rowsPerPage]);
 
@@ -102,12 +100,10 @@ const SupplierMasterList = () => {
       enabled: false,
     };
     setIsDelete(true);
-    setIsLoading(true);
     dispatch(onUpdateSupplierList(deletedData));
   };
 
   useEffect(() => {
-    setIsLoading(true);
     dispatch(onGetSupplierList());
     dispatch(onGetSupplierResource());
   }, []);
@@ -150,15 +146,14 @@ const SupplierMasterList = () => {
               setData={setVendorData}
               isDelete={isDelete}
               setIsDelete={setIsDelete}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
+
             />
           )}
           <div className="container-fluid pt-0">
             <div className="row">
               <div className="col-lg-12">
                 <div className="card">
-                  {isLoading ? (
+                  {supplierMasterData?.isLoading ? (
                     <div style={{ height: "400px" }}>
                       <Loader classType={"absoluteLoader"} />
                     </div>

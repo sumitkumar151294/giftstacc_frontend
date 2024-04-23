@@ -24,7 +24,6 @@ import PageError from "../../../Components/PageError/PageError";
 
 const FaqMaster = () => {
   const dispatch = useDispatch();
-  const [showLoader, setShowLoader] = useState(false);
   const faqMasterGetData = useSelector((state) => state.faqMasterReducer);
   const faqCategory = useSelector((state) => state.faqCategoryReducer.getData);
   const [rowsPerPage] = useState(5);
@@ -55,9 +54,9 @@ const FaqMaster = () => {
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
-  // useEffect(() => {
-  //   setShowLoader(false);
-  // }, [showLoader]);
+
+
+
   useEffect(() => {
     if (faqMasterGetData.status_code === "201") {
       toast.success(faqMasterGetData.message);
@@ -217,7 +216,7 @@ const FaqMaster = () => {
                 </form>
               </div>
               )}
-              {showLoader ? (
+              {faqMasterGetData?.isLoading ? (
                 <div style={{ height: "400px" }}>
                   <Loader classType={"absoluteLoader"} />
                 </div>
