@@ -50,6 +50,10 @@ const Orders = () => {
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
+  const productByIdReducer = useSelector(
+    (state) => state.productReducer?.productById?.[0]?.products
+  );
+
   const data = [
     {
       supplier: "abc",
@@ -412,9 +416,9 @@ const Orders = () => {
       [fieldName]: e.target.value,
     });
   };
-
-  const filteredOrderList = Array.isArray(data)
-    ? data.filter((vendor) =>
+  console.log(productByIdReducer, "productByIdReducer");
+  const filteredOrderList = Array.isArray(productByIdReducer)
+    ? productByIdReducer.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
@@ -525,7 +529,7 @@ const Orders = () => {
                                 <table className="table header-border table-responsive-sm">
                                   <thead>
                                     <tr>
-                                      <td>{data.supplier}</td>
+                                      <td>{data.sku}</td>
                                       <td>
                                         {data.brand}
                                         <Link href="#"></Link>
@@ -541,15 +545,14 @@ const Orders = () => {
                                     .map((data, index) => (
                                       <tbody key={index}>
                                         <tr>
-                                          <td>{data.supplier}</td>
+                                          <td>{data.sku}</td>
                                           <td>
-                                            {data.brand}
+                                            {data.name}
                                             <button href="#"></button>
                                           </td>
-                                          <td>{data.vouchers}</td>
-                                          <td>{data.amount}</td>
-                                          <td>{data.margin}</td>
-                                          <td>{data.marginvalue}</td>
+                                          <td>{data.maxPrice}</td>
+                                          <td>{data.price}</td>
+                                          <td>{data.type}</td>
                                         </tr>
                                       </tbody>
                                     ))}
@@ -569,7 +572,7 @@ const Orders = () => {
                                     initialPage={page - 1} // Use initialPage instead of forcePage
                                     previousClassName={
                                       page === 0 ? disabled_Text : ""
-                                      }
+                                    }
                                   />
                                 </div>
                               </>
