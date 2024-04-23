@@ -55,9 +55,12 @@ const FaqMaster = () => {
     setPage(selected.selected + 1);
   };
 
+
+
   useEffect(() => {
     if (faqMasterGetData.status_code === "201") {
       toast.success(faqMasterGetData.message);
+      setShowLoader(false)
       setFaqInfo(resetField);
       dispatch(onFaqMasterSubmitReset());
       dispatch(onFaqCategorySubmitReset());
@@ -106,7 +109,8 @@ const FaqMaster = () => {
       }
     }
     setErrors(newErrors);
-    if (isValid) {
+    if (isValid) { 
+      setShowLoader(true)
       dispatch(onFaqMasterSubmit(faqInfo));
     }
   };

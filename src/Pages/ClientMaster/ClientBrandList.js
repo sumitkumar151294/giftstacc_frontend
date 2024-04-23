@@ -129,24 +129,28 @@ const ClientBrandList = () => {
   const startIndex = (page - 1) * rowsPerPage;
 
   const endIndex = startIndex + rowsPerPage;
+  // Example transformation if necessary
+
   const headers = [
     { label: "id", key: "id" },
-    { label: "brands", key: "brands" },
-    { label: "supplier_Margin", key: "supplier_Margin" },
-    { label: "status", key: "status" },
-    { label: "action", key: "action" },
+    { label: "name", key: "name" },
+    { label: "supplierMargin", key: "supplierMargin" },
+    { label: "enabled", key: "enabled" },
   ];
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
   useEffect(() => {
     if (suppliers?.data.length && !supplierList.length) {
-      let tempSupplier = [];
-      suppliers?.data?.map((item) => {
-        return tempSupplier.push({ label: item.name, value: item.code });
-      });
+      let tempSupplier = suppliers.data
+        .filter((item) => item.enabled)
+        .map((item) => ({
+          label: item.name,
+          value: item.code,
+        }));
+
       setSupplierList(tempSupplier);
     }
-  }, [suppliers]);
+  }, [suppliers, supplierList]);
 
   const handleChange = (e) => {
     const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
@@ -154,7 +158,7 @@ const ClientBrandList = () => {
     });
     const selectedSupplierCode = e.target.value;
     if (selectedSupplierCode === "Select") {
-      setCopySupplierBrandList(filterData);
+      dispatch(onGetSupplierBrandList({ pageNumber: 1, pageSize: 100 }));
     } else {
       let filteredSupplierList =
         Array.isArray(filterData) &&
@@ -202,7 +206,7 @@ const ClientBrandList = () => {
     const isUpdate =
       Array.isArray(copyClientMapping) &&
       copyClientMapping?.find((item) => item.productId === data?.id);
-    if (isUpdate && isUpdate?.id) {
+    if (isUpdate && isUpdate?.id) { 
       const updatedValues = {
         clientCommission: isUpdate?.clientCommission,
         customerDiscount: isUpdate?.customerDiscount,
@@ -259,6 +263,7 @@ const ClientBrandList = () => {
       SupplierBrandList?.[0]?.products?.filter(
         (vendor) =>
           vendor?.name.toLowerCase().includes(searchQuery?.toLowerCase()) &&
+          vendor?.enabled === true &&
           (vendor?.supplierCode.toLowerCase() ===
             selectedSupplierCode.toLowerCase() ||
             selectedSupplierCode === "Select")
@@ -303,7 +308,7 @@ const ClientBrandList = () => {
                             value={searchQuery}
                             onChange={handleSearch}
                             className="form-control only-high"
-                            // placeholder={search_here_label}
+                            placeholder={search_here_label}
                           />
                           <span className="input-group-text">
                             <i className="fa fa-search"></i>
@@ -314,7 +319,7 @@ const ClientBrandList = () => {
                         {copySupplierBrandList &&
                           copySupplierBrandList.length > 0 && (
                             <CSVLink
-                              data={SupplierBrandList}
+                              data={SupplierBrandList[0]?.products}
                               headers={headers}
                               filename={"SupplierBrandList.csv"}
                             >

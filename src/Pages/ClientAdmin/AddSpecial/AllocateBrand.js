@@ -17,6 +17,7 @@ import { useLocation } from "react-router-dom";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 import { Link } from "react-router-dom/dist";
 import { onProductByIdSubmit } from "../../../Store/Slices/productSlice";
+import Loader from "../../../Components/Loader/Loader";
 
 const AllocateBrand = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const AllocateBrand = () => {
   const action = GetTranslationData("UIClient", "actionLabel");
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -55,6 +57,7 @@ const AllocateBrand = () => {
   useEffect(() => {
     if (getAllocateBrands?.update_status_code === "201") {
       toast.success(getAllocateBrands?.updateMessage);
+      setShowLoader(false)
       dispatch(onUpdateAllocateBrandByIdReset());
       dispatch(onAllocateBrandById(location?.state?.data?.id));
     } else if (getAllocateBrands?.update_status_code === "400") {
@@ -92,13 +95,13 @@ const AllocateBrand = () => {
     productByIdReducer.productById?.[0]?.products
   )
     ? productByIdReducer.productById?.[0]?.products.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   useEffect(() => {
@@ -197,7 +200,7 @@ const AllocateBrand = () => {
       addSpecialId: product?.addSpecialId,
       id: product?.id,
     }));
-
+setShowLoader(true)
     dispatch(onUpdateAllocateBrandById(updates));
   };
 
@@ -230,94 +233,95 @@ const AllocateBrand = () => {
                   </div>
                 </div>
               </div>
-              <div className="card-body pt-0 card-body-user">
-                <div className="table-responsive">
-                  <table className="table header-border table-responsive-sm">
-                    <thead>
-                      <tr>
-                        <th>{brand_name}</th>
-                        <th>{displayOrder}</th>
-                        <th>{action}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredBrandCatalogueList
-                        .slice(startIndex, endIndex)
-                        .map((data, index) => (
-                          <>
-                            {" "}
-                            <tr key={index}>
-                              <td>{data?.name}</td>
-                              <td>
-                                <div className="input-group mb-2 w-11">
-                                  <InputField
-                                    type="number"
-                                    className="form-control htt"
-                                    placeholder={data.displayOrder}
-                                    pattern="/^-?\d+\.?\d*$/"
-                                    value={getValues(data.id, "displayOrder")}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        e,
-                                        data.id,
-                                        "displayOrder"
-                                      )
-                                    }
-                                    onKeyPress={(e) => handleKeyPress(e, index)}
-                                  />
-                                </div>
-                              </td>
+              {showLoader ? <Loader /> :
+                <div className="card-body pt-0 card-body-user">
+                  <div className="table-responsive">
+                    <table className="table header-border table-responsive-sm">
+                      <thead>
+                        <tr>
+                          <th>{brand_name}</th>
+                          <th>{displayOrder}</th>
+                          <th>{action}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredBrandCatalogueList
+                          .slice(startIndex, endIndex)
+                          .map((data, index) => (
+                            <>
+                              {" "}
+                              <tr key={index}>
+                                <td>{data?.name}</td>
+                                <td>
+                                  <div className="input-group mb-2 w-11">
+                                    <InputField
+                                      type="number"
+                                      className="form-control htt"
+                                      placeholder={data.displayOrder}
+                                      pattern="/^-?\d+\.?\d*$/"
+                                      value={getValues(data.id, "displayOrder")}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          e,
+                                          data.id,
+                                          "displayOrder"
+                                        )
+                                      }
+                                      onKeyPress={(e) => handleKeyPress(e, index)}
+                                    />
+                                  </div>
+                                </td>
 
-                              <td>
-                                <div className="can-toggle">
-                                  <input
-                                    id={generateUniqueId(index)}
-                                    type="checkbox"
-                                    checked={getValues(data?.id, "enabled")}
-                                  ></input>
-                                  <label htmlFor={generateUniqueId(index)}>
-                                    <div
-                                      className="can-toggle__switch"
-                                      data-unchecked={"OFF"}
-                                      data-checked={"ON"}
-                                      onClick={() => updateStatus(data, index)}
-                                    ></div>
-                                  </label>
-                                </div>
-                              </td>
-                            </tr>
-                          </>
-                        ))}
-                    </tbody>
-                  </table>
-                  {filteredBrandCatalogueList?.length > 5 && (
-                    <div className="pagination-container">
-                      <ReactPaginate
-                        previousLabel={"<"}
-                        nextLabel={" >"}
-                        breakLabel={"..."}
-                        pageCount={Math.ceil(
-                          getAllocateBrands?.getAllocateBrandData?.length /
+                                <td>
+                                  <div className="can-toggle">
+                                    <input
+                                      id={generateUniqueId(index)}
+                                      type="checkbox"
+                                      checked={getValues(data?.id, "enabled")}
+                                    ></input>
+                                    <label htmlFor={generateUniqueId(index)}>
+                                      <div
+                                        className="can-toggle__switch"
+                                        data-unchecked={"OFF"}
+                                        data-checked={"ON"}
+                                        onClick={() => updateStatus(data, index)}
+                                      ></div>
+                                    </label>
+                                  </div>
+                                </td>
+                              </tr>
+                            </>
+                          ))}
+                      </tbody>
+                    </table>
+                    {filteredBrandCatalogueList?.length > 5 && (
+                      <div className="pagination-container">
+                        <ReactPaginate
+                          previousLabel={"<"}
+                          nextLabel={" >"}
+                          breakLabel={"..."}
+                          pageCount={Math.ceil(
+                            getAllocateBrands?.getAllocateBrandData?.length /
                             rowsPerPage
-                        )}
-                        marginPagesDisplayed={2}
-                        onPageChange={handlePageChange}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                        initialPage={page - 1} // Use initialPage instead of forcePage
-                        previousClassName={page === 1 ? "disabled" : ""}
-                      />
-                      <ToastContainer />
-                    </div>
-                  )}
-                </div>
-                <Button
-                  text="Submit"
-                  icon={"fa fa-arrow-right"}
-                  className="btn btn-primary float-right pad-aa"
-                  onClick={handleSubmit} // Pass a reference to the function instead of calling it
-                />
-              </div>
+                          )}
+                          marginPagesDisplayed={2}
+                          onPageChange={handlePageChange}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                          initialPage={page - 1} // Use initialPage instead of forcePage
+                          previousClassName={page === 1 ? "disabled" : ""}
+                        />
+                        <ToastContainer />
+                      </div>
+                    )}
+                  </div>
+                  <Button
+                    text="Submit"
+                    icon={"fa fa-arrow-right"}
+                    className="btn btn-primary float-right pad-aa"
+                    onClick={handleSubmit} // Pass a reference to the function instead of calling it
+                  />
+                </div>}
               <ToastContainer />
             </div>
           </div>

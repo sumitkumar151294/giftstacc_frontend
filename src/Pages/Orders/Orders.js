@@ -17,7 +17,7 @@ import DatePickerInput from "../../Components/DatePicker/DatePicker";
 import { Link } from "react-router-dom/dist";
 
 import PageError from "../../Components/PageError/PageError";
-
+import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -42,12 +42,6 @@ const Orders = () => {
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client");
   const date = GetTranslationData("UIAdmin", "date");
-  const ordersupplier = GetTranslationData("UIAdmin", "ordersupplier");
-  const orderbrand = GetTranslationData("UIAdmin", "orderbrand");
-  const ordervouchers = GetTranslationData("UIAdmin", "ordervouchers");
-  const orderamount = GetTranslationData("UIAdmin", "orderamount");
-  const ordermargin = GetTranslationData("UIAdmin", "ordermargin");
-  const ordermarginvalue = GetTranslationData("UIAdmin", "ordermarginvalue");
   const exportLabel = GetTranslationData("UIAdmin", "export_btn_Text");
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
@@ -381,7 +375,38 @@ const Orders = () => {
       });
     setClientListData(tempClient);
   }, [clientList]);
+
+  useEffect(() => {
+    dispatch(
+      onProductByIdSubmit({
+        clientCode,
+        pageNumber: 1,
+        pageSize: 100,
+      })
+    );
+  }, [page]);
+  const clientCode = sessionStorage.getItem("clientCode");
+
   const handleChange = (e, fieldName) => {
+    const selectedSupplierName = e.target.value;
+
+    if (selectedSupplierName === "Select" && fieldName === "client") {
+      dispatch(
+        onProductByIdSubmit({
+          clientCode,
+          pageNumber: 1,
+          pageSize: 100,
+        })
+      );
+    } else if (fieldName === "client") {
+      dispatch(
+        onProductByIdSubmit({
+          clientCode,
+          pageNumber: page,
+          pageSize: rowsPerPage,
+        })
+      );
+    }
     setSupplierList({
       ...supplierList,
       [fieldName]: e.target.value,
@@ -500,7 +525,6 @@ const Orders = () => {
                                 <table className="table header-border table-responsive-sm">
                                   <thead>
                                     <tr>
-
                                       <td>{data.supplier}</td>
                                       <td>
                                         {data.brand}
@@ -510,7 +534,6 @@ const Orders = () => {
                                       <td>{data.amount}</td>
                                       <td>{data.margin}</td>
                                       <td>{data.marginvalue}</td>
-
                                     </tr>
                                   </thead>
                                   {filteredOrderList
@@ -546,7 +569,7 @@ const Orders = () => {
                                     initialPage={page - 1} // Use initialPage instead of forcePage
                                     previousClassName={
                                       page === 0 ? disabled_Text : ""
-                                    }
+                                      }
                                   />
                                 </div>
                               </>

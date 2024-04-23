@@ -111,7 +111,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     name: "",
     number: "",
     email: "",
-    enabled: true,
+    enabled: "",
     color: "",
     logoUrl: "",
     themes: "",

@@ -153,7 +153,6 @@ const LoginPage = () => {
 
   return (
     <>
-    {console.log('data')}
       <div className="vh-100">
         <div className="authincation h-100">
           <div className="container h-100">

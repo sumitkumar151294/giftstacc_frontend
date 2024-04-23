@@ -27,6 +27,8 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const status = GetTranslationData("UIClient", "status");
   const Max_Brands = GetTranslationData("UIClient", "Max_Brands  ");
   const Is_Special = GetTranslationData("UIClient", "Is_Special ");
+  const Button_Text = GetTranslationData("UIClient", "Button_Text ");
+
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     sectionName: "",
@@ -131,14 +133,18 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       if (formData[key] === "") {
         newErrors[key] = field_Required; // Provide a meaningful error message
         isValid = false;
-      } else if (formData[key].length > 250) {
+      } else if (formData[key]?.length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
-      }else {
+      } else {
         newErrors[key] = "";
       }
     }
 
+    if (!formData.buttonText?.trim()) {
+      newErrors.buttonText = field_Required;
+      isValid = false;
+    }
     setError(newErrors);
     if (isValid) {
       const specialExists =
@@ -260,7 +266,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="buttonText">
-                            Button text <span className="text-danger">*</span>
+                            {Button_Text} <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
@@ -292,9 +298,9 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                           />
                           {<p className="text-danger">{error.description}</p>}
                         </div>
-                        <div className="col-sm-3 form-group mb-2  mt-4 padd">
+                        <div className="col-sm-3 form-group   mt-2 isSpecial">
                           <InputField
-                            className="form-check-input"
+                            className="form-check-input mt-3"
                             type="checkbox"
                             name="IsSpecial"
                             value={formData?.IsSpecial}
@@ -303,7 +309,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             onChange={handleInputChange}
                           />
                           <label
-                            className="form-check-label fnt-15"
+                            className="form-check-label mt-3 fnt-15"
                             htmlFor="flexCheckDefault1"
                           >
                             {Is_Special}{" "}

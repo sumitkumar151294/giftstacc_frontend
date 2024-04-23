@@ -94,3 +94,11 @@ th {
 //   border-color: var( --bs-skin);
 //   padding: 0.9375rem 0.625rem !important;
 // }
+
+    @media (max-width: 1243px) {
+        .client_Btn{
+            width: 80px;
+        }
+       .scroll-Table-x{ overflow-x: auto;
+        -webkit-overflow-scrolling: touch;}
+    }
