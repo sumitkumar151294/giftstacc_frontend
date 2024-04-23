@@ -13,7 +13,7 @@ export const cmsSlice = createSlice({
     onGetCms: (state) => {
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
         isError: false,
         getCMSData: {},
         error: {},
@@ -24,6 +24,8 @@ export const cmsSlice = createSlice({
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
+        isLoading: false,
+
         getCMSData: data,
         message,
         status_code,
@@ -33,6 +35,8 @@ export const cmsSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
+        isLoading: false,
+
         getCMSData: data,
         message,
         status_code,
@@ -41,6 +45,8 @@ export const cmsSlice = createSlice({
     onGetCmsReset: (state) => {
       return {
         ...state,
+        isLoading: false,
+
         getCMSData: {},
         message: "",
         status_code: null,
@@ -49,6 +55,7 @@ export const cmsSlice = createSlice({
     onPostCms: (state) => {
       return {
         ...state,
+
         isLoading: true,
         postCMSData: {},
         message: "",
@@ -77,6 +84,8 @@ export const cmsSlice = createSlice({
     onPostCmsReset: (state) => {
       return {
         ...state,
+        isLoading: false,
+
         postCMSData: null,
         post_status_code: "",
         postMessage: null,
@@ -84,6 +93,7 @@ export const cmsSlice = createSlice({
     },
     onUpdateCms: (state) => {
       return {
+        isLoading:true,
         ...state,
         updatedCmsData: {},
         updateMessage: "",
@@ -93,6 +103,8 @@ export const cmsSlice = createSlice({
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
+        isLoading: false,
+
         updatedCmsData: data,
         updateMessage: message,
         update_status_code: status_code,
@@ -102,6 +114,8 @@ export const cmsSlice = createSlice({
       const { data = {}, message = "", status_code = 400 } = payload;
       return {
         ...state,
+        isLoading: false,
+
         updatedCmsData: data,
         updateMessage: message,
         update_status_code: status_code,
@@ -110,6 +124,8 @@ export const cmsSlice = createSlice({
     onUpdateCmsReset: (state) => {
       return {
         ...state,
+        isLoading: false,
+
         updatedCmsData: {},
         updateMessage: "",
         update_status_code: null,

@@ -19,7 +19,6 @@ const CMS = () => {
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const [Cmsprefilled, setCmsprefilled] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const id = GetTranslationData("UIAdmin", "id");
   const Page_Name = GetTranslationData("UIClient", "Page_Name");
@@ -31,6 +30,7 @@ const CMS = () => {
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer.filteredData
   );
+  const cmsData=useSelector((state) => state.cmsReducer)
   const showError=false
   const [pageError, setPageError] = useState({
     StatusCode: "",
@@ -46,7 +46,6 @@ const CMS = () => {
 
   useEffect(() => {
     dispatch(onGetCms());
-    setIsLoading(true);
   }, []);
   useEffect(() => {
     if (getData) {
@@ -55,9 +54,6 @@ const CMS = () => {
       if (page > totalPages && page > 1) {
         setPage(page - 1);
       }
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
     }
   }, [getData]);
   const handleDelete = (data) => {
@@ -70,7 +66,6 @@ const CMS = () => {
       longDescription: data?.longDescription,
       id: data?.id,
     };
-    setIsLoading(true);
     dispatch(onUpdateCms(deletedData));
   };
   const handleEdit = (data) => {
@@ -92,8 +87,7 @@ const CMS = () => {
       <>
         {getRoleAccess[0]?.addAccess && (
           <CMSForm
-            setIsLoading={setIsLoading}
-            isLoading={isLoading}
+
             Cmsprefilled={Cmsprefilled}
             setCmsprefilled={setCmsprefilled}
           />
@@ -104,7 +98,7 @@ const CMS = () => {
               <div className="card">
                 <div className="container-fluid mt-2 mb-2 pt-1">
                   <div className="card-body">
-                    {isLoading ? (
+                    {cmsData?.isLoading ? (
                       <div style={{ height: "400px" }}>
                         <Loader classType={"absoluteLoader"} />
                       </div>
