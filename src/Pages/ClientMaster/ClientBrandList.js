@@ -63,11 +63,18 @@ const ClientBrandList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    dispatch(onGetSupplierBrandList({ pageNumber: 1, pageSize: 100 }));
+    dispatch(onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage}));
     dispatch(onClientProductMappingSubmit(location?.state?.id));
   }, []);
+  useEffect(() => {
+    dispatch(
+      onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
+    );
+  }, [page]);
+ 
   const paginationValue = [
     {
       value: 5,
@@ -117,7 +124,7 @@ const ClientBrandList = () => {
     }
   }, [ClientProducts]);
 
-  const handlePageChange = (selected) => {
+  const handlePageChange = (selected) => {  
     setPage(selected.selected + 1);
   };
   const handleSearch = (e) => {
@@ -125,7 +132,6 @@ const ClientBrandList = () => {
     setPage(1);
   };
 
-  const [page, setPage] = useState(1);
   const startIndex = (page - 1) * rowsPerPage;
 
   const endIndex = startIndex + rowsPerPage;
@@ -158,7 +164,7 @@ const ClientBrandList = () => {
     });
     const selectedSupplierCode = e.target.value;
     if (selectedSupplierCode === "Select") {
-      dispatch(onGetSupplierBrandList({ pageNumber: 1, pageSize: 100 }));
+      dispatch(onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage }));
     } else {
       let filteredSupplierList =
         Array.isArray(filterData) &&
@@ -316,7 +322,7 @@ const ClientBrandList = () => {
                         </div>
                       </div>
                       <div className="d-flex align-items-center flex-wrap">
-                        {copySupplierBrandList &&
+                        {/* {copySupplierBrandList &&
                           copySupplierBrandList.length > 0 && (
                             <CSVLink
                               data={SupplierBrandList[0]?.products}
@@ -329,7 +335,7 @@ const ClientBrandList = () => {
                                 text={export_label}
                               />
                             </CSVLink>
-                          )}
+                          )} */}
                       </div>
                     </div>
                   </div>
@@ -511,7 +517,7 @@ const ClientBrandList = () => {
                                           rowsPerPage
                                       )}
                                       marginPagesDisplayed={2}
-                                      onPageChange={handlePageChange}
+                                      onPageChange={(e) => handlePageChange(e)}
                                       containerClassName={"pagination"}
                                       activeClassName={"active"}
                                       initialPage={
@@ -527,8 +533,7 @@ const ClientBrandList = () => {
                                       defaultSelected="Page Size"
                                       className="paginationDropdown"
                                       value={rowsPerPageValue || ""}
-                                      aria-label=""
-                                      onChange={(e) => {
+                                      onChange={(e) => {  
                                         setRowsPerPageValue(e.target.value);
                                         const newSize = parseInt(
                                           e.target.value
@@ -536,10 +541,7 @@ const ClientBrandList = () => {
                                         if (!isNaN(newSize)) {
                                           setRowsPerPage(e.target.value);
                                           dispatch(
-                                            onGetSupplierBrandList({
-                                              pageNumber: 1,
-                                              pageSize: 100,
-                                            })
+                                            onGetSupplierBrandList({ pageNumber: page, pageSize: newSize })
                                           );
                                         }
                                       }}
