@@ -125,7 +125,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     name: "",
     number: "",
     email: "",
-    status: "",
+    enabled: "",
     color: "",
     logoUrl: "",
     dbLoginPwd: "",
@@ -148,7 +148,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       color: data?.color,
       logoUrl: data?.logoUrl || "",
       themes: data?.themes || "",
-      status: data?.enabled || "",
+      enabled: data?.enabled || "",
       dbLoginPwd: data?.dbLoginPwd || "",
       dbLoginId: data?.dbLoginId || "",
       dbName: data?.dbName || "",
@@ -167,7 +167,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       name: "",
       number: "",
       email: "",
-      status: "",
+      enabled: "",
       color: "",
       logoUrl: "",
       dbIpAddress: "",
@@ -181,7 +181,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     name: "",
     number: "",
     email: "",
-    enabled: true,
+    enabled: "",
     color: "",
     logoUrl: "",
     themes: "",
@@ -214,6 +214,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   };
 
   const handleChange = (e, fieldName) => {
+    debugger
     setClientData({
       ...clientData,
       [fieldName]: e.target.value,
@@ -301,7 +302,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       "name",
       "number",
       "email",
-      "status",
+      "enabled",
       "color",
       "logoUrl",
       "dbIpAddress",
@@ -577,8 +578,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         </label>
                         <Dropdown
                           onChange={(e) => handleChange(e, "status")}
-                          error={errors.status}
-                          value={clientData.status || ""}
+                          error={errors.enabled}
+                          value={clientData.enabled || ""}
                           className="form-select"
                           options={statusoptions}
                         />
