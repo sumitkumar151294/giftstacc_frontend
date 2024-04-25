@@ -34,6 +34,8 @@ const ClientBrandList = () => {
   const ClientProducts = useSelector(
     (state) => state.clientProductMappingReducer
   );
+  console.log("ClientProducts", ClientProducts);
+  console.log("copySupplierBrandList",copySupplierBrandList);
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
@@ -65,16 +67,74 @@ const ClientBrandList = () => {
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    dispatch(onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage}));
+  useEffect(() => { 
+    dispatch(onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage, enabled:1}));
     dispatch(onClientProductMappingSubmit(location?.state?.id));
   }, []);
+
+  useEffect(() => { 
+    if (ClientProducts?.post_status_code === "201") {
+      toast.success(ClientProducts?.message);
+      dispatch(onClientProductMappingSubmit(location?.state?.id));
+      dispatch(onPostClientProductMappingReset());
+    } else if (ClientProducts?.update_status_code === "201") {
+      toast.success(ClientProducts?.updateMessage);
+      dispatch(onClientProductMappingSubmit(location?.state?.id));
+      dispatch(onUpdateClientProductMappingReset());
+    }
+  }, [ClientProducts, dispatch]);
+
+  const handlePageChange = (selected) => {  
+    setPage(selected.selected + 1);
+  };
+ 
   useEffect(() => {
     dispatch(
       onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
     );
   }, [page]);
+
+  
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setPage(1);
+  };
+
+  const generateUniqueId = (index) => `toggleSwitch-${index}`;
+
  
+  useEffect(() => {
+    if (suppliers?.data.length && !supplierList.length) {
+      let tempSupplier = suppliers.data
+        .filter((item) => item.enabled)
+        .map((item) => ({
+          label: item.name,
+          value: item.code,
+        }));
+
+      setSupplierList(tempSupplier);
+    }
+  }, [suppliers, supplierList.length]);
+
+  const handleChange = (e) => {
+    const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
+      return item.enabled === true;
+    });
+    const selectedSupplierCode = e.target.value;
+    if (selectedSupplierCode === "Select") {
+      dispatch(onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage }));
+    } else {
+      let filteredSupplierList =
+        Array.isArray(filterData) &&
+        filterData?.filter(
+          (vendor) =>
+            vendor?.supplierCode.toLowerCase() ===
+            selectedSupplierCode.toLowerCase()
+        );
+      setCopySupplierBrandList(filteredSupplierList);
+    }
+  };
+
   const paginationValue = [
     {
       value: 5,
@@ -106,76 +166,13 @@ const ClientBrandList = () => {
   }, [SupplierBrandList]);
 
   useEffect(() => {
-    const copyData = Array.isArray(ClientProducts.clientData) && [
-      ...ClientProducts.clientData,
+    const copyData = Array.isArray(ClientProducts.clientDataById[0]?.clientProductMapping) && [
+      ...ClientProducts.clientDataById[0]?.clientProductMapping,
     ];
+    console.log("copyData",copyData);
     setCopyClientMapping(copyData);
-  }, [ClientProducts.clientData]);
+  }, [ClientProducts.clientDataById]);
 
-  useEffect(() => {
-    if (ClientProducts?.post_status_code === "201") {
-      toast.success(ClientProducts?.message);
-      dispatch(onClientProductMappingSubmit(location?.state?.id));
-      dispatch(onPostClientProductMappingReset());
-    } else if (ClientProducts?.update_status_code === "201") {
-      toast.success(ClientProducts?.updateMessage);
-      dispatch(onClientProductMappingSubmit(location?.state?.id));
-      dispatch(onUpdateClientProductMappingReset());
-    }
-  }, [ClientProducts]);
-
-  const handlePageChange = (selected) => {  
-    setPage(selected.selected + 1);
-  };
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-    setPage(1);
-  };
-
-  const startIndex = (page - 1) * rowsPerPage;
-
-  const endIndex = startIndex + rowsPerPage;
-  // Example transformation if necessary
-
-  const headers = [
-    { label: "id", key: "id" },
-    { label: "name", key: "name" },
-    { label: "supplierMargin", key: "supplierMargin" },
-    { label: "enabled", key: "enabled" },
-  ];
-  const generateUniqueId = (index) => `toggleSwitch-${index}`;
-
-  useEffect(() => {
-    if (suppliers?.data.length && !supplierList.length) {
-      let tempSupplier = suppliers.data
-        .filter((item) => item.enabled)
-        .map((item) => ({
-          label: item.name,
-          value: item.code,
-        }));
-
-      setSupplierList(tempSupplier);
-    }
-  }, [suppliers, supplierList]);
-
-  const handleChange = (e) => {
-    const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
-      return item.enabled === true;
-    });
-    const selectedSupplierCode = e.target.value;
-    if (selectedSupplierCode === "Select") {
-      dispatch(onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage }));
-    } else {
-      let filteredSupplierList =
-        Array.isArray(filterData) &&
-        filterData?.filter(
-          (vendor) =>
-            vendor?.supplierCode.toLowerCase() ===
-            selectedSupplierCode.toLowerCase()
-        );
-      setCopySupplierBrandList(filteredSupplierList);
-    }
-  };
 
   const handleKeyPress = (e) => {
     if (e.key === "e" || e.key === "+" || e.key === "-") {
@@ -193,8 +190,8 @@ const ClientBrandList = () => {
       mapping.push({
         productId: ids,
         clientId: location?.state?.id,
-        customerDiscount: 1,
-        clientCommission: 1,
+        customerDiscount: 0,
+        clientCommission: 0,
         enabled: false,
       });
     }
@@ -292,6 +289,25 @@ const ClientBrandList = () => {
       copyClientMapping?.find((item) => item.productId === id);
     return data?.[name] ? data?.[name] : "";
   };
+ 
+const headers = [
+  { label: "id", key: "id" },
+  { label: "Supplier Name", key: "supplierName" },
+  { label: "Supplier Brand Name", key: "supplierBrandName" },
+  { label: "enabled", key: "enabled" },
+];
+let excelData = SupplierBrandList[0]?.products ? SupplierBrandList[0]?.products.map((data) => ({
+  id:data.id,
+  supplierName: getSupplierName(data.supplierCode),
+  supplierBrandName: data.name,
+  supplierMargin:data.supplierMargin,
+  enabled:getValues(
+    data.id,
+    enabled_Text
+  ) === true
+    ? active
+    : non_active
+})): []
 
   return (
     <>
@@ -322,10 +338,10 @@ const ClientBrandList = () => {
                         </div>
                       </div>
                       <div className="d-flex align-items-center flex-wrap">
-                        {/* {copySupplierBrandList &&
+                        {copySupplierBrandList &&
                           copySupplierBrandList.length > 0 && (
                             <CSVLink
-                              data={SupplierBrandList[0]?.products}
+                              data={excelData}
                               headers={headers}
                               filename={"SupplierBrandList.csv"}
                             >
@@ -335,7 +351,7 @@ const ClientBrandList = () => {
                                 text={export_label}
                               />
                             </CSVLink>
-                          )} */}
+                          )}
                       </div>
                     </div>
                   </div>
@@ -377,7 +393,6 @@ const ClientBrandList = () => {
                                   </thead>
                                   <tbody>
                                     {copySupplierBrandList
-                                      .slice(startIndex, endIndex)
                                       .map((data, index) => (
                                         <tr key={index}>
                                           <td>
