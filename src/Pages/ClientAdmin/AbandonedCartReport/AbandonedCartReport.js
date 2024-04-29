@@ -12,7 +12,6 @@ const AbandonedCartReport = () => {
     const export_label = GetTranslationData("UIAdmin", "export_label");
     const status = GetTranslationData("UIClient", "status");
     const action = GetTranslationData("UIClient", "actionLabel");
-    console.log(abandonedCartReport,name_label,email_label,mobile_label)
     const getRoleAccess = useSelector(
       (state) => state.moduleReducer.filteredData
     )

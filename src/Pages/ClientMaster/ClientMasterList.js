@@ -109,6 +109,17 @@ const ClientMasterList = () => {
         )
       )
     : [];
+    
+  useEffect(() => {
+    if (clientList?.clientData?.status_code === "200") {
+      const totalItems = clientList?.clientData?.data.length;
+      const totalPages = Math.ceil(totalItems / rowsPerPage);
+      if (page > totalPages && page > 1) {
+        setPage(page - 1);
+      }
+    }
+  }, [clientList?.clientData, page, rowsPerPage]);
+
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
