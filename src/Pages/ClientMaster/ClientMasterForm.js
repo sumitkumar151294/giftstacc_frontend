@@ -148,7 +148,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       color: data?.color,
       logoUrl: data?.logoUrl || "",
       themes: data?.themes || "",
-      enabled: data?.enabled || "",
+      enabled: data?.enabled !== undefined ? data.enabled : "",
       dbLoginPwd: data?.dbLoginPwd || "",
       dbLoginId: data?.dbLoginId || "",
       dbName: data?.dbName || "",
@@ -181,7 +181,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     name: "",
     number: "",
     email: "",
-    enabled: "",
+    enabled: true,
     color: "",
     logoUrl: "",
     themes: "",
@@ -214,9 +214,14 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   };
 
   const handleChange = (e, fieldName) => {
+    debugger;
+    let values = e.target.value;
+    if (fieldName === "enabled") {
+      values = values ? values === "true" : values = " ";
+    }
     setClientData({
       ...clientData,
-      [fieldName]: e.target.value,
+      [fieldName]: values,
     });
     if (fieldName === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -242,7 +247,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       });
     }
   };
-
+  console.log(clientData);
   const handleAddMore = (e) => {
     setAdditionalFields((prevFields) => [
       ...prevFields,
@@ -575,10 +580,15 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           {status}
                           <span className="text-danger">*</span>
                         </label>
+                        {console.log(clientData.enabled)}
                         <Dropdown
-                          onChange={(e) => handleChange(e, "status")}
+                          onChange={(e) => handleChange(e, "enabled")}
                           error={errors.enabled}
-                          value={clientData.enabled || ""}
+                          value={
+                            clientData.enabled !== undefined
+                              ? clientData.enabled
+                              : ""
+                          }
                           className="form-select"
                           options={statusoptions}
                         />
