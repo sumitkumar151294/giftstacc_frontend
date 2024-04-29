@@ -42,13 +42,14 @@ const BrandCatalogue = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
-
-  const supplierMasterData = useSelector(
-    (state) => state.supplierMasterReducer?.data
-  );
+  const [copyBrandCatalogue, setCopyBrandCatalogue] = useState();
+  // const supplierMasterData = useSelector(
+  //   (state) => state.supplierMasterReducer?.data
+  // );
   const supplierMaster = useSelector((state) => state.supplierMasterReducer);
 
   const productByIdReducer = useSelector((state) => state.productReducer);
+  console.log(productByIdReducer);
 
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer?.filteredData
@@ -58,8 +59,14 @@ const BrandCatalogue = () => {
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
   );
+  const [supplierLists, setSupplierLists] = useState({
+    supplier: "",
+    client: "",
+  });
+  const clientMappingReducer = useSelector(
+    (state) => state?.clientProductMappingReducer?.clientData
+  );
   const [supplierList, setSupplierList] = useState([]);
-  const [clientData, setclientData] = useState([]);
   const excelData = Array.isArray(
     productByIdReducer?.productById?.[0]?.products
   )
@@ -109,134 +116,52 @@ const BrandCatalogue = () => {
     setPage(1);
   };
 
-  // const clientProductMapping = Array.isArray(copyBrandCatalogue)
-  //   ? copyBrandCatalogue.filter((vendor) =>
-  //       Object.values(vendor).some(
-  //         (value) =>
-  //           value &&
-  //           typeof value === "string" &&
-  //           value.toLowerCase().includes(searchQuery.toLowerCase())
-  //       )
-  //     )
-  //   : [];
-  const handleChange = (e, name) => {
+  const clientProductMapping = Array.isArray(copyBrandCatalogue)
+    ? copyBrandCatalogue.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      )
+    : [];
+  console.log(clientProductMapping, "clientProductMapping");
+  const handleChange = (e, fieldName) => {
     const selectedSupplierName = e.target.value;
-    // if (selectedSupplierName === "Select" && name === "client") {
-    //   dispatch(onGetAllClientProductMapping());
-    // } else if (selectedSupplierName === "Select" && name === "supplier") {
-    //   setCopyBrandCatalogue(productByIdData);
-    // } else if (name === "supplier") {
-    //   const selectedSupplier = supplierMasterData.find(
-    //     (supplier) => supplier.name === selectedSupplierName
-    //   );
-    //   if (selectedSupplier) {
-    //     const filteredProducts = productByIdData.filter(
-    //       (product) =>
-    //         product.supplierCode.toLowerCase() ===
-    //         selectedSupplier.code.toLowerCase()
-    //     );
-    //     setCopyBrandCatalogue(filteredProducts);
-    //   }
-    // } else if (name === "client") {
-    //   dispatch(
-    //     onClientProductMappingSubmit(
-    //       e.target.selectedOptions.item("").getAttribute("name")
-    //     )
-    //   );
-    // }
-    // setSupplierList((prevState) => ({
-    //   ...prevState,
-    //   [name]: selectedSupplierName,
-    // }));
+    if (selectedSupplierName === "Select" && fieldName === "client") {
+      dispatch(onGetAllClientProductMapping());
+      setCopyBrandCatalogue(clientMappingReducer);
+    } else if (fieldName === "client") {
+      dispatch(
+        onProductByIdSubmit({
+          clientCode,
+          pageNumber: page,
+          pageSize: rowsPerPage,
+        })
+      );
+      setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
+    }
+    setSupplierLists({
+      ...supplierLists,
+      [fieldName]: e.target.value,
+    });
   };
 
   const clientCode = sessionStorage.getItem("clientCode");
   useEffect(() => {
-    dispatch(
-      onProductByIdSubmit({
-        clientCode,
-        pageNumber: page,
-        pageSize: rowsPerPage,
-      })
-    );
+    dispatch(onGetAllClientProductMapping());
+    dispatch(onGetSupplierList());
+    dispatch(onClientMasterSubmit());
   }, []);
-  useEffect(() => {
-    dispatch(
-      onProductByIdSubmit({
-        clientCode,
-        pageNumber: page,
-        pageSize: rowsPerPage,
-      })
-    );
-  }, [page]);
-  // useEffect(() => {
-  //   let productId = "";
-  //   if (
-  //     (supplierList.client === "" || supplierList.client === "Select") &&
-  //     clientProductMapping?.status_code === "200"
-  //   ) {
-  //     productId =
-  //       Array.isArray(clientProductMapping?.clientData) &&
-  //       clientProductMapping?.clientData?.map((item) => {
-  //         return item?.productId;
-  //       });
-  //   } else if (
-  //     supplierList.client !== "" &&
-  //     supplierList.client !== "Select" &&
-  //     clientProductMapping?.status_code === "200"
-  //   ) {
-  //     productId =
-  //       Array.isArray(clientProductMapping?.clientDataById) &&
-  //       clientProductMapping?.clientDataById[0]?.clientProductMapping?.map(
-  //         (item) => {
-  //           return item?.productId;
-  //         }
-  //       );
-  //   }
-  //   productId?.length && dispatch(onProductByIdSubmit(productId));
-  // }, [clientProductMapping]);
 
-  // useEffect(() => {
-  //   if (clientProductMapping?.status_code === "200") {
-  //     const productId =
-  //       Array.isArray(clientProductMapping?.clientDataById) &&
-  //       clientProductMapping?.clientDataById.map((item) => {
-  //         return item?.productId;
-  //       });
-  //     dispatch(onProductByIdSubmit(productId));
-  //   }
-  // }, [clientProductMapping]);
   const handleClick = (data) => {
     LoginId.isAdminLogin
       ? navigate("/lc-admin/brand-detail", { state: data })
       : navigate("/lc-user-admin/brand-detail", { state: data });
   };
-  // useEffect(() => {
-  //   let filteredProducts = [];
 
-  //   if (supplierList.supplier && supplierList.supplier !== "Select") {
-  //     // If a specific supplier is selected, filter products based on the supplier
-  //     const selectedSupplier = supplierMasterData.find(
-  //       (supplier) => supplier.name === supplierList.supplier
-  //     );
-
-  //     if (selectedSupplier) {
-  //       filteredProducts = productByIdData.filter(
-  //         (product) =>
-  //           product.supplierCode.toLowerCase() ===
-  //           selectedSupplier.code.toLowerCase()
-  //       );
-  //     }
-  //   } else {
-  //     // If no specific supplier is selected, or the "Select" option is chosen,
-  //     // show all products
-  //     filteredProducts = productByIdData;
-  //   }
-
-  //   setCopyBrandCatalogue(filteredProducts);
-  // }, [supplierList.supplier, supplierMasterData, productByIdData]);
   useEffect(() => {
-    debugger;
     if (supplierMaster?.data?.length && !supplierList.length) {
       let tempSupplier = [];
       supplierMaster?.data?.map((item) => {
@@ -282,7 +207,7 @@ const BrandCatalogue = () => {
                           headers={headers}
                           filename={"BrandCatalogue.csv"}
                         >
-                          {productByIdReducer.productById?.[0]?.products
+                          {productByIdReducer?.productById?.[0]?.products
                             ?.length >= +0 && (
                             <Button
                               className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
@@ -301,7 +226,7 @@ const BrandCatalogue = () => {
 
                         <Dropdown
                           onChange={(e) => handleChange(e, "supplier")}
-                          value={supplierList || ""}
+                          defaultValue={supplierLists.supplier || ""}
                           className="form-select"
                           options={supplierList}
                         />
@@ -312,7 +237,7 @@ const BrandCatalogue = () => {
                           <label htmlFor="client">{client}</label>
                           <Dropdown
                             onChange={(e) => handleChange(e, "client")}
-                            value={clientData || ""}
+                            defaultValue={supplierLists.client || ""}
                             className="form-select"
                             options={
                               Array.isArray(clientList)
@@ -337,8 +262,7 @@ const BrandCatalogue = () => {
                     ) : (
                       <>
                         <div className="table-responsive">
-                          {productByIdReducer?.productById?.[0]?.products
-                            ?.length ? (
+                          {clientProductMapping?.length ? (
                             <>
                               <table className="table header-border table-responsive-sm">
                                 <thead>
@@ -353,11 +277,8 @@ const BrandCatalogue = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {Array.isArray(
-                                    productByIdReducer.productById?.[0]
-                                      ?.products
-                                  ) &&
-                                    productByIdReducer.productById[0]?.products
+                                  {Array.isArray(clientProductMapping) &&
+                                    clientProductMapping
                                       .filter((item) => item.enabled)
                                       .map((data, index) => (
                                         <tr key={index}>
