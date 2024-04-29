@@ -214,7 +214,6 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   };
 
   const handleChange = (e, fieldName) => {
-    debugger
     setClientData({
       ...clientData,
       [fieldName]: e.target.value,
