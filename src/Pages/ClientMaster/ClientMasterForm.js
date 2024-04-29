@@ -214,7 +214,6 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   };
 
   const handleChange = (e, fieldName) => {
-    debugger;
     let values = e.target.value;
     if (fieldName === "enabled") {
       values = values ? values === "true" : "";
@@ -248,7 +247,6 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       });
     }
   };
-  console.log(clientData);
   const handleAddMore = (e) => {
     setAdditionalFields((prevFields) => [
       ...prevFields,
@@ -583,7 +581,6 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           {status}
                           <span className="text-danger">*</span>
                         </label>
-                        {console.log(clientData.enabled)}
                         <Dropdown
                           onChange={(e) => handleChange(e, "enabled")}
                           error={errors.enabled}
