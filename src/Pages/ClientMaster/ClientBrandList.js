@@ -20,6 +20,7 @@ import {
   onUpdateClientProductMappingReset,
   onUpdateClientProductMappingSubmit,
 } from "../../Store/Slices/clientProductMappingSlice";
+import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 
 const ClientBrandList = () => {
   const location = useLocation();
@@ -34,8 +35,6 @@ const ClientBrandList = () => {
   const ClientProducts = useSelector(
     (state) => state.clientProductMappingReducer
   );
-  console.log("ClientProducts", ClientProducts);
-  console.log("copySupplierBrandList",copySupplierBrandList);
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
@@ -68,9 +67,11 @@ const ClientBrandList = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => { 
+    dispatch(onGetSupplierList())
     dispatch(onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage, enabled:1}));
     dispatch(onClientProductMappingSubmit(location?.state?.id));
   }, []);
+
 
   useEffect(() => { 
     if (ClientProducts?.post_status_code === "201") {
@@ -104,7 +105,7 @@ const ClientBrandList = () => {
 
  
   useEffect(() => {
-    if (suppliers?.data.length && !supplierList.length) {
+    if (suppliers?.data?.length && !supplierList.length) {
       let tempSupplier = suppliers.data
         .filter((item) => item.enabled)
         .map((item) => ({
@@ -166,13 +167,11 @@ const ClientBrandList = () => {
   }, [SupplierBrandList]);
 
   useEffect(() => {
-    const copyData = Array.isArray(ClientProducts.clientDataById[0]?.clientProductMapping) && [
-      ...ClientProducts.clientDataById[0]?.clientProductMapping,
+    const copyData = Array.isArray(ClientProducts?.clientDataById[0]?.clientProductMapping) && [
+      ...ClientProducts?.clientDataById[0]?.clientProductMapping,
     ];
-    console.log("copyData",copyData);
     setCopyClientMapping(copyData);
-  }, [ClientProducts.clientDataById]);
-
+  }, [ClientProducts?.clientDataById]);
 
   const handleKeyPress = (e) => {
     if (e.key === "e" || e.key === "+" || e.key === "-") {
@@ -291,23 +290,23 @@ const ClientBrandList = () => {
   };
  
 const headers = [
-  { label: "id", key: "id" },
   { label: "Supplier Name", key: "supplierName" },
   { label: "Supplier Brand Name", key: "supplierBrandName" },
-  { label: "enabled", key: "enabled" },
+  { label: "Customer Discount%", key: "customerDiscount" },
+  { label: "Client Commission%", key: "clientCommission" },
+  { label: "Supplier Margin%", key: "supplierMargin" },
+  { label: "Status", key: "enabled" },
 ];
 let excelData = SupplierBrandList[0]?.products ? SupplierBrandList[0]?.products.map((data) => ({
-  id:data.id,
   supplierName: getSupplierName(data.supplierCode),
   supplierBrandName: data.name,
   supplierMargin:data.supplierMargin,
-  enabled:getValues(
-    data.id,
-    enabled_Text
-  ) === true
-    ? active
-    : non_active
+  customerDiscount:getValues(data.id, "customerDiscount"),
+  clientCommission:getValues(data.id, "clientCommission"),
+  supplierMargin:data.supplierMargin,
+  enabled:getValues(data.id,enabled_Text) ? active: non_active
 })): []
+
 
   return (
     <>

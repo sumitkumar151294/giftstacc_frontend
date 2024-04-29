@@ -416,7 +416,6 @@ const Orders = () => {
       [fieldName]: e.target.value,
     });
   };
-  console.log(productByIdReducer, "productByIdReducer");
   const filteredOrderList = Array.isArray(productByIdReducer)
     ? productByIdReducer.filter((vendor) =>
         Object.values(vendor).some(
