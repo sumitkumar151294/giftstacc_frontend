@@ -217,8 +217,9 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     debugger;
     let values = e.target.value;
     if (fieldName === "enabled") {
-      values = values ? values === "true" : values = " ";
+      values = values ? values === "true" : "";
     }
+
     setClientData({
       ...clientData,
       [fieldName]: values,
@@ -317,8 +318,13 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       "platformDomainUrl",
     ];
     requiredFields.forEach((field) => {
-      if (!clientData[field]) {
-        newErrors[field] = " "; // Set your required field message
+      if (field === "enabled") {
+        if (clientData[field] === "") {
+          newErrors[field] = " ";
+          isValid = false;
+        }
+      } else if (!clientData[field]) {
+        newErrors[field] = " ";
         isValid = false;
       } else if (clientData[field] === "platformDomainUrl") {
         if (clientData[field].length > 250) {
@@ -332,6 +338,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         }
       }
     });
+
 
     // Email validation
     if (
@@ -401,7 +408,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         try {
           setShowLoader(true);
           dispatch(onPostClientMasterSubmit(clientData));
-        } catch (error) {}
+        } catch (error) { }
       } else if (data) {
         try {
           setShowLoader(true);
@@ -419,7 +426,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
             return additionalData;
           };
           dispatch(onUpdateClientPaymentSubmit(updateAdditionalFIels()));
-        } catch (error) {}
+        } catch (error) { }
       }
     }
   };
@@ -506,9 +513,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${
-                            errors.name ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.name ? "border-danger" : "form-control"
+                            }`}
                           name="contactName"
                           id="contact-name"
                           error={errors.name}
@@ -524,9 +530,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         </label>
                         <InputField
                           type="number"
-                          className={` ${
-                            errors.number ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.number ? "border-danger" : "form-control"
+                            }`}
                           name="contactNumber"
                           id="contact-number"
                           value={clientData.number}
@@ -542,9 +547,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         </label>
                         <InputField
                           type="email"
-                          className={` ${
-                            errors.email ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.email ? "border-danger" : "form-control"
+                            }`}
                           name="contactEmail"
                           id="contact-email"
                           value={clientData.email}
@@ -560,11 +564,10 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         </label>
                         <InputField
                           type="platformDomainUrl"
-                          className={` ${
-                            errors.platformDomainUrl
+                          className={` ${errors.platformDomainUrl
                               ? "border-danger"
                               : "form-control"
-                          }`}
+                            }`}
                           name="contactplatformDomainUrl"
                           id="contact-platformDomainUrl"
                           value={clientData.platformDomainUrl}
@@ -616,9 +619,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         </label>
                         <InputField
                           type="text"
-                          className={` ${
-                            errors.logoUrl ? "border-danger" : "form-control"
-                          }`}
+                          className={` ${errors.logoUrl ? "border-danger" : "form-control"
+                            }`}
                           name="logo"
                           id="logo"
                           error={errors.logoUrl}
@@ -650,11 +652,10 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.dbIpAddress
+                            className={` ${errors.dbIpAddress
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="ipAddress"
                             id="ipAddress"
                             value={clientData.dbIpAddress}
@@ -671,11 +672,10 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.dbLoginId
+                            className={` ${errors.dbLoginId
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="username"
                             id="user-name"
                             value={clientData.dbLoginId}
@@ -692,11 +692,10 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           </h4>
                           <InputField
                             type="password"
-                            className={` ${
-                              errors.dbLoginPwd
+                            className={` ${errors.dbLoginPwd
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="password"
                             id="password"
                             value={clientData.dbLoginPwd}
@@ -713,11 +712,10 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           </h4>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.dbLoginPwd
+                            className={` ${errors.dbLoginPwd
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             name="dbName"
                             id="dbName"
                             value={clientData.dbName}
@@ -744,12 +742,11 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${
-                                        additionalFieldsError[index]
+                                      className={` ${additionalFieldsError[index]
                                           ?.resourceKey
                                           ? "border-danger"
                                           : "form-control"
-                                      }`}
+                                        }`}
                                       name="resourceKey"
                                       id="resourceKey"
                                       placeholder={dc_name}
@@ -780,12 +777,11 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${
-                                        additionalFieldsError[index]
+                                      className={` ${additionalFieldsError[index]
                                           ?.resourceValue
                                           ? "border-danger"
                                           : "form-control"
-                                      }`}
+                                        }`}
                                       name="resourceValue"
                                       id="production-key"
                                       placeholder={dc_value}
@@ -818,11 +814,10 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                   <div className="col-sm-12 form-group mb-2">
                                     <Dropdown
                                       type="text"
-                                      className={` ${
-                                        additionalFieldsError[index]?.mode
+                                      className={` ${additionalFieldsError[index]?.mode
                                           ? "border-danger"
                                           : "form-select"
-                                      }`}
+                                        }`}
                                       name="mode"
                                       id="mode"
                                       placeholder={key}
@@ -839,7 +834,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                               {index < additionalFields.length - 1 && (
                                 <div
                                   className="col-lg-3 mt-4"
-                                  key={`delete-${index}`}
+                                  key={delete-`${index}`  }
                                 >
                                   <div className="col-sm-12 form-group mb-7">
                                     <Button
