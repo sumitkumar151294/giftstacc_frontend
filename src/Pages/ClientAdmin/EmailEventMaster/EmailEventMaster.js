@@ -176,225 +176,265 @@ const EmailEventMaster = () => {
   }, []);
   return (
     <div>
-    {getRoleAccess[0] !== undefined ? (
-    <>
-      <ScrollToTop />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-xl-12 col-xxl-12">
-            <div className="card">
-              <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                <div className="card-header">
-                  <h4 className="card-title">{emaileventmaster}</h4>
-                </div>
-              </div>
-              {getRoleAccess[0]?.addAccess && (
-                <div className="row">
-                  <div className="col-xl-7 col-xxl-7">
-                    <div className="card">
-                      <div className="card-body pt-0">
-                        <div className="col-sm-12 form-group mb-2">
-                          <label htmlFor="name-f">{emaileventmastername}</label>
-                          <InputField
-                            type="text"
-                            value={name.eventName}
-                            onChange={(e) => handleChange(e, "eventName")}
-                            className="form-control"
-                            name="fname"
-                            id="name-f"
-                          />
-                          {<p className="text-danger">{errors.eventName}</p>}
-                        </div>
-                        <div className=" form-group mb-2">
-                          <label htmlFor="name-f">{emaileventmastersms}</label>
-                          <div className=" bootstrap-tagsinput border_type">
-                            <InputField
-                              type="text"
-                              value={name.smsBody}
-                              onChange={(e) => handleChange(e, "smsBody")}
-                              className="input-tags "
-                              data-role="tagsinput"
-                            />
-                            {<p className="text-danger">{errors.smsBody}</p>}
-                          </div>
-                        </div>
-                        <div className="form-group mb-2">
-                          <label htmlFor="name-f">
-                            {emaileventmastersubject}
-                          </label>
-                          <div className=" bootstrap-tagsinput border_type">
-                            <InputField
-                              type="text"
-                              value={name.subject}
-                              onChange={(e) => handleChange(e, "subject")}
-                              className="input-tags "
-                              data-role="tagsinput"
-                            />
-                            {<p className="text-danger">{errors.subject}</p>}
-                          </div>
-                        </div>
-                        <div className="form-group mb-2">
-                          <label htmlFor="name-f">{emaileventmastermail}</label>
-                          <div className=" bootstrap-tagsinput border_type">
-                            <InputField
-                              type="text"
-                              value={name.mailBody}
-                              onChange={(e) => handleChange(e, "mailBody")}
-                              className="input-tags "
-                              data-role="tagsinput"
-                            />
-                            {<p className="text-danger">{errors.mailBody}</p>}
-                          </div>
-                        </div>
-                        <span
-                          className="form-check-label"
-                          htmlFor="basic_checkbox_1"
-                          style={{ marginLeft: "5px", marginTop: "10px" }}
-                        >
-                          {requiredLevel}
-                        </span>
-                        <div className="form-group mb-0 mt-2">
-                          <Button
-                            type="submit"
-                            text={submit}
-                            icon="fa fa-arrow-right"
-                            className="btn btn-primary btn-sm float-right p-btn mt-2"
-                            onClick={() => handleSubmit()}
-                          />
-                        </div>
-                      </div>
+      {getRoleAccess[0] !== undefined ? (
+        <>
+          <ScrollToTop />
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12 col-xxl-12">
+                <div className="card">
+                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                    <div className="card-header">
+                      <h4 className="card-title">{emaileventmaster}</h4>
                     </div>
                   </div>
-                  <div className="col-xl-5 col-xxl-5">
-                    <div className="card">
-                      <div className="card-header d-flex justify-content-between">
-                        <h4 className="card-title">
-                          {emaileventmasterkeywords}
-                        </h4>
-                        <div className="customer-search mb-sm-0 mb-3">
-                          <div className="input-group search-area">
-                            <input
-                              type="text"
-                              className="form-control only-high"
-                              placeholder="Search by Email....."
-                            />
-                            <span className="input-group-text">
-                             <Link href="">
-                                <i className="flaticon-381-search-2"></i>
-                             </Link>
+                  {getRoleAccess[0]?.addAccess && (
+                    <div className="row">
+                      <div className="col-xl-7 col-xxl-7">
+                        <div className="card">
+                          <div className="card-body pt-0">
+                            <div className="col-sm-12 form-group mb-2">
+                              <label htmlFor="name-f">
+                                {emaileventmastername}
+                              </label>
+                              <InputField
+                                type="text"
+                                value={name.eventName}
+                                onChange={(e) => handleChange(e, "eventName")}
+                                className={` ${
+                                  errors.eventName
+                                    ? "border-danger"
+                                    : "form-control"
+                                }`}
+                                name="fname"
+                                id="name-f"
+                              />
+                              {
+                                <p className="text-danger">
+                                  {errors.eventName}
+                                </p>
+                              }
+                            </div>
+                            <div className=" form-group mb-2">
+                              <label htmlFor="name-f">
+                                {emaileventmastersms}
+                              </label>
+                              <div className=" ">
+                                <InputField
+                                  type="text"
+                                  value={name.smsBody}
+                                  onChange={(e) => handleChange(e, "smsBody")}
+                                  // className="input-tags "
+                                  className={` ${
+                                    errors.smsBody
+                                      ? "border-input-tags"
+                                      : "bootstrap-tagsinput"
+                                  }`}
+                                  data-role="tagsinput"
+                                />
+                                {
+                                  <p className="text-danger">
+                                    {errors.smsBody}
+                                  </p>
+                                }
+                              </div>
+                            </div>
+                            <div className="form-group mb-2">
+                              <label htmlFor="name-f">
+                                {emaileventmastersubject}
+                              </label>
+                              <div className="">
+                                <InputField
+                                  type="text"
+                                  value={name.subject}
+                                  onChange={(e) => handleChange(e, "subject")}
+                                  className={` ${
+                                    errors.subject
+                                      ? "border-input-tags"
+                                      : "bootstrap-tagsinput"
+                                  }`}
+                                  data-role="tagsinput"
+                                />
+                                {
+                                  <p className="text-danger">
+                                    {errors.subject}
+                                  </p>
+                                }
+                              </div>
+                            </div>
+                            <div className="form-group mb-2">
+                              <label htmlFor="name-f">
+                                {emaileventmastermail}
+                              </label>
+                              <div className="">
+                                <InputField
+                                  type="text"
+                                  value={name.mailBody}
+                                  onChange={(e) => handleChange(e, "mailBody")}
+                                  className={` ${
+                                    errors.mailBody
+                                      ? "border-input-tags"
+                                      : "bootstrap-tagsinput"
+                                  }`}
+                                  data-role="tagsinput"
+                                />
+                                {
+                                  <p className="text-danger">
+                                    {errors.mailBody}
+                                  </p>
+                                }
+                              </div>
+                            </div>
+                            <span
+                              className="form-check-label"
+                              htmlFor="basic_checkbox_1"
+                              style={{ marginLeft: "5px", marginTop: "10px" }}
+                            >
+                              {requiredLevel}
                             </span>
+                            <div className="form-group mb-0 mt-2">
+                              <Button
+                                type="submit"
+                                text={submit}
+                                icon="fa fa-arrow-right"
+                                className="btn btn-primary btn-sm float-right p-btn mt-2"
+                                onClick={() => handleSubmit()}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div className="card-body">
-                        <div className="klaa">
-                          <table className="table table-bordered table-striped">
-                            <thead>
-                              <tr>
-                                <th>{variable}</th>
-                                <th>{meaning}</th>
-                              </tr>
-                            </thead>
-                            {tableData.length > 0 ? (
-                              <tbody>
-                                {tableData.map((item, index) => (
-                                  <tr key={index}>
-                                    <td>{item.variable}</td>
-                                    <td>{item.meaning}</td>
+                      <div className="col-xl-5 col-xxl-5">
+                        <div className="card">
+                          <div className="card-header d-flex justify-content-between">
+                            <h4 className="card-title">
+                              {emaileventmasterkeywords}
+                            </h4>
+                            <div className="customer-search mb-sm-0 mb-3">
+                              <div className="input-group search-area">
+                                <input
+                                  type="text"
+                                  className="form-control only-high"
+                                  placeholder="Search by Email....."
+                                />
+                                <span className="input-group-text">
+                                  <Link href="">
+                                    <i className="flaticon-381-search-2"></i>
+                                  </Link>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card-body">
+                            <div className="klaa">
+                              <table className="table table-bordered table-striped">
+                                <thead>
+                                  <tr>
+                                    <th>{variable}</th>
+                                    <th>{meaning}</th>
                                   </tr>
-                                ))}
-                              </tbody>
-                            ) : (
-                              <tr>
-                                <td colSpan="6" className="text-center">
-                                  {noDataFound}
-                                </td>
-                              </tr>
-                            )}
-                          </table>
+                                </thead>
+                                {tableData.length > 0 ? (
+                                  <tbody>
+                                    {tableData.map((item, index) => (
+                                      <tr key={index}>
+                                        <td>{item.variable}</td>
+                                        <td>{item.meaning}</td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                ) : (
+                                  <tr>
+                                    <td colSpan="6" className="text-center">
+                                      {noDataFound}
+                                    </td>
+                                  </tr>
+                                )}
+                              </table>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              )}
-              <div className="card-body">
-                {emailEventMaster.length > 0 ? (
-                  <div className="table-responsive">
-                    <table className="table header-border table-responsive-sm">
-                      <thead>
-                        <tr>
-                          <th>{emaileventmastersno}</th>
-                          <th>{emaileventmastername}</th>
-                          <th>{emaileventmasterdate}</th>
-                          <th>{emaileventmastersubject}</th>
-                          {getRoleAccess[0]?.editAccess && (
-                            <th>{emaileventmasteraction}</th>
-                          )}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {emailEventMaster
-                          .slice(startIndex, endIndex)
-                          .map((item, index) => (
-                            <tr key={index}>
-                              <td>{item.id}</td>
-                              <td>{item.status}</td>
-                              <td>{item.date}</td>
-                              <td>{item.placeholders}%</td>
+                  )}
+                  <div className="card-body">
+                    {emailEventMaster.length > 0 ? (
+                      <div className="table-responsive">
+                        <table className="table header-border table-responsive-sm">
+                          <thead>
+                            <tr>
+                              <th>{emaileventmastersno}</th>
+                              <th>{emaileventmastername}</th>
+                              <th>{emaileventmasterdate}</th>
+                              <th>{emaileventmastersubject}</th>
                               {getRoleAccess[0]?.editAccess && (
-                                <td>
-                                  <div className="d-flex">
-                                   <Link
-                                      href="#"
-                                      className="btn btn-primary shadow btn-xs sharp me-1"
-                                    >
-                                      <i className="fas fa-pencil-alt"></i>
-                                   </Link>
-                                   <Link
-                                      href="#"
-                                      className="btn btn-danger shadow btn-xs sharp"
-                                    >
-                                      <i className="fa fa-trash"></i>
-                                   </Link>
-                                  </div>
-                                </td>
+                                <th>{emaileventmasteraction}</th>
                               )}
                             </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                    {emailEventMaster.length > 5 && (
-                      <div className="pagination-container">
-                        <ReactPaginate
-                          previousLabel={"<"}
-                          nextLabel={" >"}
-                          breakLabel={"..."}
-                          pageCount={Math.ceil(
-                            emailEventMaster.length / rowsPerPage
-                          )}
-                          marginPagesDisplayed={2}
-                          onPageChange={handlePageChange}
-                          containerClassName={"pagination"}
-                          activeClassName={"active"}
-                          initialPage={page - 1}
-                          previousClassName={page === 1 ? disabled_Text : ""}
-                        />
+                          </thead>
+                          <tbody>
+                            {emailEventMaster
+                              .slice(startIndex, endIndex)
+                              .map((item, index) => (
+                                <tr key={index}>
+                                  <td>{item.id}</td>
+                                  <td>{item.status}</td>
+                                  <td>{item.date}</td>
+                                  <td>{item.placeholders}%</td>
+                                  {getRoleAccess[0]?.editAccess && (
+                                    <td>
+                                      <div className="d-flex">
+                                        <Link
+                                          href="#"
+                                          className="btn btn-primary shadow btn-xs sharp me-1"
+                                        >
+                                          <i className="fas fa-pencil-alt"></i>
+                                        </Link>
+                                        <Link
+                                          href="#"
+                                          className="btn btn-danger shadow btn-xs sharp"
+                                        >
+                                          <i className="fa fa-trash"></i>
+                                        </Link>
+                                      </div>
+                                    </td>
+                                  )}
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                        {emailEventMaster.length > 5 && (
+                          <div className="pagination-container">
+                            <ReactPaginate
+                              previousLabel={"<"}
+                              nextLabel={" >"}
+                              breakLabel={"..."}
+                              pageCount={Math.ceil(
+                                emailEventMaster.length / rowsPerPage
+                              )}
+                              marginPagesDisplayed={2}
+                              onPageChange={handlePageChange}
+                              containerClassName={"pagination"}
+                              activeClassName={"active"}
+                              initialPage={page - 1}
+                              previousClassName={
+                                page === 1 ? disabled_Text : ""
+                              }
+                            />
+                          </div>
+                        )}
                       </div>
+                    ) : (
+                      <NoRecord />
                     )}
                   </div>
-                ) : (
-                  <NoRecord />
-                )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </>
-    ):(
-      <PageError
-
+        </>
+      ) : (
+        <PageError
           pageError={{
             StatusCode: "401",
             ErrorName: "Permission Denied",
@@ -404,7 +444,7 @@ const EmailEventMaster = () => {
             buttonText: "Back to Home",
           }}
         />
-    )}
+      )}
     </div>
   );
 };

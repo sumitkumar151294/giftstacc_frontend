@@ -173,6 +173,7 @@ const ClientBrandList = () => {
     setCopyClientMapping(copyData);
   }, [ClientProducts?.clientDataById]);
 
+
   const handleKeyPress = (e) => {
     if (e.key === "e" || e.key === "+" || e.key === "-") {
       e.preventDefault();

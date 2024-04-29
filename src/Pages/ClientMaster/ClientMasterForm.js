@@ -831,7 +831,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                               {index < additionalFields.length - 1 && (
                                 <div
                                   className="col-lg-3 mt-4"
-                                  key={`delete-${index}`}
+                                  key={delete-`${index}`  }
                                 >
                                   <div className="col-sm-12 form-group mb-7">
                                     <Button

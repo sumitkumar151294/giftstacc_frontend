@@ -95,9 +95,11 @@ th {
 //   padding: 0.9375rem 0.625rem !important;
 // }
 
-    @media (max-width: 1243px) {
+    @media (max-width: 1325px) {
         .client_Btn{
-            width: 80px;
+            width: 80px !important;
+            display: flex;
+            align-items: center;
         }
        .scroll-Table-x{ overflow-x: auto;
         -webkit-overflow-scrolling: touch;}
