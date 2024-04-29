@@ -49,7 +49,6 @@ const BrandCatalogue = () => {
   const supplierMaster = useSelector((state) => state.supplierMasterReducer);
 
   const productByIdReducer = useSelector((state) => state.productReducer);
-  console.log(productByIdReducer);
 
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer?.filteredData
@@ -126,7 +125,6 @@ const BrandCatalogue = () => {
         )
       )
     : [];
-  console.log(clientProductMapping, "clientProductMapping");
   const handleChange = (e, fieldName) => {
     const selectedSupplierName = e.target.value;
     if (selectedSupplierName === "Select" && fieldName === "client") {
