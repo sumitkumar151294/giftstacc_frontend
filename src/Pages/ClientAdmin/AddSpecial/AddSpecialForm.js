@@ -27,7 +27,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const status = GetTranslationData("UIClient", "status");
   const Max_Brands = GetTranslationData("UIClient", "Max_Brands  ");
   const Is_Special = GetTranslationData("UIClient", "Is_Special ");
-  const Button_Text = GetTranslationData("UIClient", "Button_Text ");
+  const Button_Text = GetTranslationData("UIAdmin", "button_Text ");
 
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -264,7 +264,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             }
                           />
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
+                      <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="buttonText">
                             {Button_Text} <span className="text-danger">*</span>
                           </label>

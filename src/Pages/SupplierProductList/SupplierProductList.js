@@ -216,7 +216,6 @@ const SupplierProductList = () => {
     setCopySupplierBrandList(filteredSupplierList);
   }, [searchQuery, selectedSupplierCode, SupplierBrandList]);
 
-  console.log(copySupplierBrandList);
   // excel data to print
   const excelData =
     Array.isArray(SupplierBrandList) &&
