@@ -105,6 +105,7 @@ const SupplierMasterForm = ({
     ]);
   };
 
+
   const getAdditionalFIeldData = (del = false, supplierId) => {
     let tempAdditionField = [...additionalFields];
     const additionalData = tempAdditionField.map((item) => ({
@@ -172,6 +173,19 @@ const SupplierMasterForm = ({
         servicePath: data.servicePath || "",
         enabled: data.enabled,
       });
+      setErrors({
+        name: "",
+        balanceThresholdAmount: "",
+        creditAmount: "",
+        servicePath: "",
+        enabled: "",
+       
+      });
+      setAdditionalFieldsError({
+      fieldName: "",
+      fieldValue: "",
+      fieldDescription: "",
+      })
       const filterSupplierApiCred = supplyResource?.data?.filter(
         (item) => item?.supplierId === data?.id
       );
