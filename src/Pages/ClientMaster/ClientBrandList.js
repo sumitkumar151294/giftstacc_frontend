@@ -66,14 +66,19 @@ const ClientBrandList = () => {
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
 
-  useEffect(() => { 
-    dispatch(onGetSupplierList())
-    dispatch(onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage, enabled:1}));
+  useEffect(() => {
+    dispatch(onGetSupplierList());
+    dispatch(
+      onGetSupplierBrandList({
+        pageNumber: page,
+        pageSize: rowsPerPage,
+        enabled: 1,
+      })
+    );
     dispatch(onClientProductMappingSubmit(location?.state?.id));
   }, []);
 
-
-  useEffect(() => { 
+  useEffect(() => {
     if (ClientProducts?.post_status_code === "201") {
       toast.success(ClientProducts?.message);
       dispatch(onClientProductMappingSubmit(location?.state?.id));
@@ -85,17 +90,10 @@ const ClientBrandList = () => {
     }
   }, [ClientProducts, dispatch]);
 
-  const handlePageChange = (selected) => {  
+  const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
- 
-  useEffect(() => {
-    dispatch(
-      onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
-    );
-  }, [page]);
 
-  
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -103,7 +101,6 @@ const ClientBrandList = () => {
 
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
 
- 
   useEffect(() => {
     if (suppliers?.data?.length && !supplierList.length) {
       let tempSupplier = suppliers.data
@@ -123,7 +120,9 @@ const ClientBrandList = () => {
     });
     const selectedSupplierCode = e.target.value;
     if (selectedSupplierCode === "Select") {
-      dispatch(onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage }));
+      dispatch(
+        onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
+      );
     } else {
       let filteredSupplierList =
         Array.isArray(filterData) &&
@@ -167,12 +166,11 @@ const ClientBrandList = () => {
   }, [SupplierBrandList]);
 
   useEffect(() => {
-    const copyData = Array.isArray(ClientProducts?.clientDataById[0]?.clientProductMapping) && [
-      ...ClientProducts?.clientDataById[0]?.clientProductMapping,
-    ];
+    const copyData = Array.isArray(
+      ClientProducts?.clientDataById[0]?.clientProductMapping
+    ) && [...ClientProducts?.clientDataById[0]?.clientProductMapping];
     setCopyClientMapping(copyData);
   }, [ClientProducts?.clientDataById]);
-
 
   const handleKeyPress = (e) => {
     if (e.key === "e" || e.key === "+" || e.key === "-") {
@@ -209,7 +207,7 @@ const ClientBrandList = () => {
     const isUpdate =
       Array.isArray(copyClientMapping) &&
       copyClientMapping?.find((item) => item.productId === data?.id);
-    if (isUpdate && isUpdate?.id) { 
+    if (isUpdate && isUpdate?.id) {
       const updatedValues = {
         clientCommission: isUpdate?.clientCommission,
         customerDiscount: isUpdate?.customerDiscount,
@@ -289,25 +287,26 @@ const ClientBrandList = () => {
       copyClientMapping?.find((item) => item.productId === id);
     return data?.[name] ? data?.[name] : "";
   };
- 
-const headers = [
-  { label: "Supplier Name", key: "supplierName" },
-  { label: "Supplier Brand Name", key: "supplierBrandName" },
-  { label: "Customer Discount%", key: "customerDiscount" },
-  { label: "Client Commission%", key: "clientCommission" },
-  { label: "Supplier Margin%", key: "supplierMargin" },
-  { label: "Status", key: "enabled" },
-];
-let excelData = SupplierBrandList[0]?.products ? SupplierBrandList[0]?.products.map((data) => ({
-  supplierName: getSupplierName(data.supplierCode),
-  supplierBrandName: data.name,
-  supplierMargin:data.supplierMargin,
-  customerDiscount:getValues(data.id, "customerDiscount"),
-  clientCommission:getValues(data.id, "clientCommission"),
-  supplierMargin:data.supplierMargin,
-  enabled:getValues(data.id,enabled_Text) ? active: non_active
-})): []
 
+  const headers = [
+    { label: "Supplier Name", key: "supplierName" },
+    { label: "Supplier Brand Name", key: "supplierBrandName" },
+    { label: "Customer Discount%", key: "customerDiscount" },
+    { label: "Client Commission%", key: "clientCommission" },
+    { label: "Supplier Margin%", key: "supplierMargin" },
+    { label: "Status", key: "enabled" },
+  ];
+  let excelData = SupplierBrandList[0]?.products
+    ? SupplierBrandList[0]?.products.map((data) => ({
+        supplierName: getSupplierName(data.supplierCode),
+        supplierBrandName: data.name,
+        supplierMargin: data.supplierMargin,
+        customerDiscount: getValues(data.id, "customerDiscount"),
+        clientCommission: getValues(data.id, "clientCommission"),
+        supplierMargin: data.supplierMargin,
+        enabled: getValues(data.id, enabled_Text) ? active : non_active,
+      }))
+    : [];
 
   return (
     <>
@@ -392,8 +391,8 @@ let excelData = SupplierBrandList[0]?.products ? SupplierBrandList[0]?.products.
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {copySupplierBrandList
-                                      .map((data, index) => (
+                                    {copySupplierBrandList.map(
+                                      (data, index) => (
                                         <tr key={index}>
                                           <td>
                                             {getSupplierName(data.supplierCode)}
@@ -518,7 +517,8 @@ let excelData = SupplierBrandList[0]?.products ? SupplierBrandList[0]?.products.
                                             </div>
                                           </td>
                                         </tr>
-                                      ))}
+                                      )
+                                    )}
                                   </tbody>
                                 </table>
                                 {SupplierBrandList[0]?.totalCount > 5 && (
@@ -548,7 +548,7 @@ let excelData = SupplierBrandList[0]?.products ? SupplierBrandList[0]?.products.
                                       defaultSelected="Page Size"
                                       className="paginationDropdown"
                                       value={rowsPerPageValue || ""}
-                                      onChange={(e) => {  
+                                      onChange={(e) => {
                                         setRowsPerPageValue(e.target.value);
                                         const newSize = parseInt(
                                           e.target.value
@@ -556,7 +556,10 @@ let excelData = SupplierBrandList[0]?.products ? SupplierBrandList[0]?.products.
                                         if (!isNaN(newSize)) {
                                           setRowsPerPage(e.target.value);
                                           dispatch(
-                                            onGetSupplierBrandList({ pageNumber: page, pageSize: newSize })
+                                            onGetSupplierBrandList({
+                                              pageNumber: page,
+                                              pageSize: newSize,
+                                            })
                                           );
                                         }
                                       }}

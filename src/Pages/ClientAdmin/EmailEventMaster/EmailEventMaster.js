@@ -174,6 +174,21 @@ const EmailEventMaster = () => {
   useEffect(() => {
     dispatch(onGetEmailEventMaster());
   }, []);
+  const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+  const filteredCustomerList = Array.isArray(tableData)
+    ? tableData.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      )
+    : [];
   return (
     <div>
       {getRoleAccess[0] !== undefined ? (
@@ -315,7 +330,9 @@ const EmailEventMaster = () => {
                                 <input
                                   type="text"
                                   className="form-control only-high"
-                                  placeholder="Search by Email....."
+                                  placeholder={search_here_label}
+                                  value={searchQuery}
+                                  onChange={handleSearch}
                                 />
                                 <span className="input-group-text">
                                   <Link href="">
@@ -334,14 +351,17 @@ const EmailEventMaster = () => {
                                     <th>{meaning}</th>
                                   </tr>
                                 </thead>
-                                {tableData.length > 0 ? (
+                                {filteredCustomerList.length > 0 ? (
                                   <tbody>
-                                    {tableData.map((item, index) => (
-                                      <tr key={index}>
-                                        <td>{item.variable}</td>
-                                        <td>{item.meaning}</td>
-                                      </tr>
-                                    ))}
+                                    {Array.isArray(filteredCustomerList) &&
+                                      filteredCustomerList
+                                        .slice()
+                                        .map((customer, index) => (
+                                          <tr key={index}>
+                                            <td>{customer.variable}</td>
+                                            <td>{customer.meaning}</td>
+                                          </tr>
+                                        ))}
                                   </tbody>
                                 ) : (
                                   <tr>
