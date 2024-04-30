@@ -105,7 +105,7 @@ const ClientBrandList = () => {
 
  
   useEffect(() => {
-    if (suppliers?.data.length && !supplierList.length) {
+    if (suppliers?.data?.length && !supplierList.length) {
       let tempSupplier = suppliers.data
         .filter((item) => item.enabled)
         .map((item) => ({
@@ -167,11 +167,12 @@ const ClientBrandList = () => {
   }, [SupplierBrandList]);
 
   useEffect(() => {
-    const copyData = Array.isArray(ClientProducts.clientDataById[0]?.clientProductMapping) && [
-      ...ClientProducts.clientDataById[0]?.clientProductMapping,
+    const copyData = Array.isArray(ClientProducts?.clientDataById[0]?.clientProductMapping) && [
+      ...ClientProducts?.clientDataById[0]?.clientProductMapping,
     ];
     setCopyClientMapping(copyData);
-  }, [ClientProducts.clientDataById]);
+  }, [ClientProducts?.clientDataById]);
+
 
   const handleKeyPress = (e) => {
     if (e.key === "e" || e.key === "+" || e.key === "-") {
@@ -290,7 +291,6 @@ const ClientBrandList = () => {
   };
  
 const headers = [
-  { label: "id", key: "id" },
   { label: "Supplier Name", key: "supplierName" },
   { label: "Supplier Brand Name", key: "supplierBrandName" },
   { label: "Customer Discount%", key: "customerDiscount" },
@@ -299,7 +299,6 @@ const headers = [
   { label: "Status", key: "enabled" },
 ];
 let excelData = SupplierBrandList[0]?.products ? SupplierBrandList[0]?.products.map((data) => ({
-  id:data.id,
   supplierName: getSupplierName(data.supplierCode),
   supplierBrandName: data.name,
   supplierMargin:data.supplierMargin,
