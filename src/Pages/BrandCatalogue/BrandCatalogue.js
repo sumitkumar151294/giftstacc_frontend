@@ -42,7 +42,8 @@ const BrandCatalogue = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
-  const [copyBrandCatalogue, setCopyBrandCatalogue] = useState();
+  const [copyBrandCatalogue, setCopyBrandCatalogue] = useState();;
+
   // const supplierMasterData = useSelector(
   //   (state) => state.supplierMasterReducer?.data
   // );
@@ -62,6 +63,9 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
+  const SupplierBrandList = useSelector(
+    (state) => state.supplierBrandListReducer.data
+  );
   const clientMappingReducer = useSelector(
     (state) => state?.clientProductMappingReducer?.clientData
   );
@@ -70,12 +74,12 @@ const BrandCatalogue = () => {
     productByIdReducer?.productById?.[0]?.products
   )
     ? productByIdReducer?.productById?.[0]?.products.map((data) => ({
-        sku: data.sku,
-        name: data.name,
-        minPrice: data.minPrice,
-        maxPrice: data.maxPrice, // Assuming you want to correct the casing here
-        price: data.price,
-      }))
+      sku: data.sku,
+      name: data.name,
+      minPrice: data.minPrice,
+      maxPrice: data.maxPrice, // Assuming you want to correct the casing here
+      price: data.price,
+    }))
     : [];
   const headers = [
     { label: "Sku", key: "sku" },
@@ -117,23 +121,40 @@ const BrandCatalogue = () => {
 
   const clientProductMapping = Array.isArray(copyBrandCatalogue)
     ? copyBrandCatalogue.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
   const handleChange = (e, fieldName) => {
     const selectedSupplierName = e.target.value;
+    if (selectedSupplierName === "Select") {
+      setCopyBrandCatalogue(SupplierBrandList);
+    } else {
+      let filteredSupplierList =
+        Array.isArray(SupplierBrandList) &&
+        SupplierBrandList?.[0]?.products?.filter(
+          (vendor) => vendor?.enabled === true &&
+            vendor?.supplierCode?.toLowerCase() ===
+            selectedSupplierName?.toLowerCase()
+        );
+      setCopyBrandCatalogue(filteredSupplierList);
+    }
     if (selectedSupplierName === "Select" && fieldName === "client") {
       dispatch(onGetAllClientProductMapping());
       setCopyBrandCatalogue(clientMappingReducer);
     } else if (fieldName === "client") {
+      const id = clientList.filter((item) => {
+        if (item.name === selectedSupplierName) {
+          return item?.id
+        }
+      })
       dispatch(
         onProductByIdSubmit({
-          clientCode,
+          id,
           pageNumber: page,
           pageSize: rowsPerPage,
         })
@@ -144,6 +165,7 @@ const BrandCatalogue = () => {
       ...supplierLists,
       [fieldName]: e.target.value,
     });
+
   };
 
   const clientCode = sessionStorage.getItem("clientCode");
@@ -207,12 +229,12 @@ const BrandCatalogue = () => {
                         >
                           {productByIdReducer?.productById?.[0]?.products
                             ?.length >= +0 && (
-                            <Button
-                              className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
-                              icons={"fa fa-file-excel me-2"}
-                              text={`${exportLabel}`}
-                            />
-                          )}
+                              <Button
+                                className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
+                                icons={"fa fa-file-excel me-2"}
+                                text={`${exportLabel}`}
+                              />
+                            )}
                         </CSVLink>
                       </div>
                     </div>
@@ -235,15 +257,20 @@ const BrandCatalogue = () => {
                           <label htmlFor="client">{client}</label>
                           <Dropdown
                             onChange={(e) => handleChange(e, "client")}
+
                             defaultValue={supplierLists.client || ""}
                             className="form-select"
                             options={
                               Array.isArray(clientList)
-                                ? clientList?.map((item) => ({
+                                ? clientList
+                                  .filter(item => item.enabled === true)
+                                  .map(item => ({
                                     label: item.name,
                                     value: item.name,
                                     data: item.id,
-                                  }))
+                                  }
+                                  ))
+
                                 : []
                             }
                           />
@@ -308,48 +335,48 @@ const BrandCatalogue = () => {
                               </table>
                               {productByIdReducer.productById[0]?.totalCount >
                                 5 && (
-                                <div className="pagination-container">
-                                  <ReactPaginate
-                                    previousLabel={"<"}
-                                    nextLabel={" >"}
-                                    breakLabel={"..."}
-                                    pageCount={Math.ceil(
-                                      productByIdReducer.productById[0]
-                                        ?.totalCount / rowsPerPage
-                                    )}
-                                    marginPagesDisplayed={2}
-                                    onPageChange={(e) => handlePageChange(e)}
-                                    containerClassName={"pagination"}
-                                    activeClassName={"active"}
-                                    initialPage={
-                                      rowsPerPage !== 5 ? page === 0 : page - 1
-                                    }
-                                    previousClassName={
-                                      page === 0 ? disabled_Text : ""
-                                    }
-                                  />
-                                  <Dropdown
-                                    defaultSelected="Page Size"
-                                    className="paginationDropdown"
-                                    value={rowsPerPageValue || ""}
-                                    onChange={(e) => {
-                                      setRowsPerPageValue(e.target.value);
-                                      const newSize = parseInt(e.target.value);
-                                      if (!isNaN(newSize)) {
-                                        setRowsPerPage(newSize);
-                                        dispatch(
-                                          onProductByIdSubmit({
-                                            clientCode,
-                                            pageNumber: page,
-                                            pageSize: parseInt(e.target.value),
-                                          })
-                                        );
+                                  <div className="pagination-container">
+                                    <ReactPaginate
+                                      previousLabel={"<"}
+                                      nextLabel={" >"}
+                                      breakLabel={"..."}
+                                      pageCount={Math.ceil(
+                                        productByIdReducer.productById[0]
+                                          ?.totalCount / rowsPerPage
+                                      )}
+                                      marginPagesDisplayed={2}
+                                      onPageChange={(e) => handlePageChange(e)}
+                                      containerClassName={"pagination"}
+                                      activeClassName={"active"}
+                                      initialPage={
+                                        rowsPerPage !== 5 ? page === 0 : page - 1
                                       }
-                                    }}
-                                    options={paginationValue}
-                                  />
-                                </div>
-                              )}
+                                      previousClassName={
+                                        page === 0 ? disabled_Text : ""
+                                      }
+                                    />
+                                    <Dropdown
+                                      defaultSelected="Page Size"
+                                      className="paginationDropdown"
+                                      value={rowsPerPageValue || ""}
+                                      onChange={(e) => {
+                                        setRowsPerPageValue(e.target.value);
+                                        const newSize = parseInt(e.target.value);
+                                        if (!isNaN(newSize)) {
+                                          setRowsPerPage(newSize);
+                                          dispatch(
+                                            onProductByIdSubmit({
+                                              clientCode,
+                                              pageNumber: page,
+                                              pageSize: parseInt(e.target.value),
+                                            })
+                                          );
+                                        }
+                                      }}
+                                      options={paginationValue}
+                                    />
+                                  </div>
+                                )}
                             </>
                           ) : (
                             <NoRecord />
