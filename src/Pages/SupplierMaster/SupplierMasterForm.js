@@ -179,13 +179,12 @@ const SupplierMasterForm = ({
         creditAmount: "",
         servicePath: "",
         enabled: "",
-       
       });
-      setAdditionalFieldsError({
+      setAdditionalFieldsError([{
       fieldName: "",
       fieldValue: "",
       fieldDescription: "",
-      })
+    }])
       const filterSupplierApiCred = supplyResource?.data?.filter(
         (item) => item?.supplierId === data?.id
       );

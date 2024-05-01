@@ -145,7 +145,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       id: data?.id,
       email: data?.email || "",
       dbIpAddress: data?.dbIpAddress || "",
-      color: data?.color,
+      color: data?.color||"#000",
       logoUrl: data?.logoUrl || "",
       themes: data?.themes || "",
       enabled: data?.enabled !== undefined ? data.enabled : "",
@@ -272,7 +272,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     updatedFields.splice(index, 1);
     setAdditionalFields(updatedFields);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { 
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -401,7 +401,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 
     setErrors(newErrors);
 
-    if (isValid) {
+    if (isValid) { 
       if (!data) {
         try {
           setShowLoader(true);
