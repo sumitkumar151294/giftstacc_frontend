@@ -50,6 +50,7 @@ export const loginSlice = createSlice({
     },
     onLogout: (state) => {
       return {
+        ...state,
         data: {},
         isError: false,
         isLoading: false,
