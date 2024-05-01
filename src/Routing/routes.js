@@ -24,6 +24,7 @@ import BannerMasterList from "../Pages/ClientAdmin/BannerMaster/BannerList";
 import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 import OfferMasterList from "../Pages/ClientAdmin/OfferMaster/OfferMasterList";
 import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/ClientCommissionReport";
+import CustomerList from "../Pages/ClientAdmin/CustomerList/CustomerList";
 function RouteConfiq() {
   return (
     <Router>
@@ -104,7 +105,7 @@ function RouteConfiq() {
         />
         <Route
           path="/lc-user-admin/customer-list"
-          element={<Layout Component={Customerlist} />}
+          element={<Layout Component={CustomerList} />}
         />
         <Route
           path="/lc-user-admin/add-special"
