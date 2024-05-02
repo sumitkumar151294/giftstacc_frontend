@@ -32,53 +32,57 @@ const Auth = () => {
   const currentUrl = window.location.href;
 
   useEffect(() => {
-    setShowLoader(true);
-    // Find the configuration that matches the current URL
-    let matchingConfig = config.filter((item) =>
-      currentUrl.includes(item.API_URL)
-    );
-
-    if (matchingConfig.length > 1) {
-      if (
-        currentUrl.includes("/Lc-user-admin") ||
-        currentUrl.includes("/lc-user-admin")
-      ) {
-        matchingConfig = matchingConfig.find(
-          (item) => item.PARTNER_KEY === "UIClient"
-        );
-      } else {
-        matchingConfig = matchingConfig.find(
-          (item) => item.PARTNER_KEY === "UIAdmin"
-        );
-      }
-    } else if (matchingConfig.length === 1) {
-      matchingConfig = matchingConfig[0];
-    }
-    // get data from present url
-    if (matchingConfig) {
-      const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } = matchingConfig;
-      dispatch(onPartnerKeyLoginSubmit(PARTNER_KEY));
-      dispatch(onTranslationReset());
-      dispatch(
-        onLoginAuthSubmit({
-          partnerCode: PARTNER_KEY,
-          accessKey: ACCESS_KEY,
-          secretKey: SECRET_KEY,
-        })
+    const isAuthInitialized = sessionStorage.getItem("isAuthInitialized");
+    if (isAuthInitialized !== "true") {
+      setShowLoader(true);
+      // Find the configuration that matches the current URL
+      let matchingConfig = config.filter((item) =>
+        currentUrl.includes(item.API_URL)
       );
-      axiosInstance.defaults.headers["partner-code"] = PARTNER_KEY;
-      axiosInstanceClient.defaults.headers["partner-code"] = PARTNER_KEY;
-    } else {
-      setShowLoader(false);
-      setShowError(true);
-      setPageError({
-        StatusCode: "401",
-        ErrorName: "Permission Denied",
-        ErrorDesription:
-          "Your application url is not registerd to our application",
-        url: "/",
-        buttonText: "Back to Home",
-      });
+
+      if (matchingConfig.length > 1) {
+        if (
+          currentUrl.includes("/Lc-user-admin") ||
+          currentUrl.includes("/lc-user-admin")
+        ) {
+          matchingConfig = matchingConfig.find(
+            (item) => item.PARTNER_KEY === "UIClient"
+          );
+        } else {
+          matchingConfig = matchingConfig.find(
+            (item) => item.PARTNER_KEY === "UIAdmin"
+          );
+        }
+      } else if (matchingConfig.length === 1) {
+        matchingConfig = matchingConfig[0];
+      }
+      // get data from present url
+      if (matchingConfig) {
+        const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } = matchingConfig;
+        dispatch(onPartnerKeyLoginSubmit(PARTNER_KEY));
+        dispatch(onTranslationReset());
+        dispatch(
+          onLoginAuthSubmit({
+            partnerCode: PARTNER_KEY,
+            accessKey: ACCESS_KEY,
+            secretKey: SECRET_KEY,
+          })
+        );
+        axiosInstance.defaults.headers["partner-code"] = PARTNER_KEY;
+        axiosInstanceClient.defaults.headers["partner-code"] = PARTNER_KEY;
+        sessionStorage.setItem("isAuthInitialized", "true");
+      } else {
+        setShowLoader(false);
+        setShowError(true);
+        setPageError({
+          StatusCode: "401",
+          ErrorName: "Permission Denied",
+          ErrorDesription:
+            "Your application url is not registerd to our application",
+          url: "/",
+          buttonText: "Back to Home",
+        });
+      }
     }
   }, [currentUrl]);
 
@@ -86,9 +90,11 @@ const Auth = () => {
     if (loginAuthData?.status_code === 200) {
       sessionStorage.setItem("clientCode", loginAuthData?.data?.[0]?.clientId);
       axiosInstance.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
-      axiosInstance.defaults.headers["client-code"] = loginAuthData?.data?.[0]?.clientId;
+      axiosInstance.defaults.headers["client-code"] =
+        loginAuthData?.data?.[0]?.clientId;
       axiosInstanceClient.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
-      axiosInstanceClient.defaults.headers["client-code"] = loginAuthData?.data?.[0]?.clientId;
+      axiosInstanceClient.defaults.headers["client-code"] =
+        loginAuthData?.data?.[0]?.clientId;
       dispatch(onTranslationSubmit());
       dispatch(onLoginAuthReset());
     } else if (loginAuthData?.status_code) {
@@ -127,7 +133,13 @@ const Auth = () => {
 
   return (
     <>
-     {showLoader ? <Loader /> : <>{showError ? <PageError500 pageError={pageError}  /> : <RouteConfiq />}</>}
+      {showLoader ? (
+        <Loader />
+      ) : (
+        <>
+          {showError ? <PageError500 pageError={pageError} /> : <RouteConfiq />}
+        </>
+      )}
     </>
   );
 };
