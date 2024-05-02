@@ -43,18 +43,11 @@ const BrandCatalogue = () => {
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
   const [copyBrandCatalogue, setCopyBrandCatalogue] = useState();;
-
-  // const supplierMasterData = useSelector(
-  //   (state) => state.supplierMasterReducer?.data
-  // );
   const supplierMaster = useSelector((state) => state.supplierMasterReducer);
-
   const productByIdReducer = useSelector((state) => state.productReducer);
-
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer?.filteredData
   );
-
   const LoginId = useSelector((state) => state?.loginReducer);
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
@@ -65,9 +58,6 @@ const BrandCatalogue = () => {
   });
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
-  );
-  const clientMappingReducer = useSelector(
-    (state) => state?.clientProductMappingReducer?.clientData
   );
   const [supplierList, setSupplierList] = useState([]);
   const excelData = Array.isArray(
@@ -113,12 +103,10 @@ const BrandCatalogue = () => {
   const handlePageChange = ({ selected }) => {
     setPage(selected + 1);
   };
-
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
-
   const clientProductMapping = Array.isArray(copyBrandCatalogue)
     ? copyBrandCatalogue.filter((vendor) =>
       Object.values(vendor).some(
@@ -143,10 +131,15 @@ const BrandCatalogue = () => {
         );
       setCopyBrandCatalogue(filteredSupplierList);
     }
-    if (selectedSupplierName === "Select" && fieldName === "client") {
-      dispatch(onGetAllClientProductMapping());
-      setCopyBrandCatalogue(clientMappingReducer);
-    } else if (fieldName === "client") {
+    if (selectedSupplierName === "Select" && fieldName === "client") { 
+      dispatch(
+        onProductByIdSubmit({
+          pageNumber: page,
+          pageSize: rowsPerPage,
+        })
+      );
+      setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
+    } else if (fieldName === "client") { 
       const id = clientList.filter((item) => {
         if (item.name === selectedSupplierName) {
           return item?.id
@@ -154,7 +147,7 @@ const BrandCatalogue = () => {
       })
       dispatch(
         onProductByIdSubmit({
-          id,
+          id:id[0]?.id,
           pageNumber: page,
           pageSize: rowsPerPage,
         })
@@ -165,22 +158,18 @@ const BrandCatalogue = () => {
       ...supplierLists,
       [fieldName]: e.target.value,
     });
-
   };
-
   const clientCode = sessionStorage.getItem("clientCode");
   useEffect(() => {
     dispatch(onGetAllClientProductMapping());
     dispatch(onGetSupplierList());
     dispatch(onClientMasterSubmit());
   }, []);
-
   const handleClick = (data) => {
     LoginId.isAdminLogin
       ? navigate("/lc-admin/brand-detail", { state: data })
       : navigate("/lc-user-admin/brand-detail", { state: data });
   };
-
   useEffect(() => {
     if (supplierMaster?.data?.length && !supplierList.length) {
       let tempSupplier = [];
@@ -193,6 +182,15 @@ const BrandCatalogue = () => {
       setSupplierList(tempSupplier);
     }
   }, [supplierMaster]);
+  useEffect(()=>{
+    dispatch(
+      onProductByIdSubmit({
+        pageNumber: page,
+        pageSize: rowsPerPage,
+      })
+    );
+    setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
+  },[])
   return (
     <div>
       {getRoleAccess[0] !== undefined ? (
@@ -270,7 +268,6 @@ const BrandCatalogue = () => {
                                     data: item.id,
                                   }
                                   ))
-
                                 : []
                             }
                           />
@@ -302,8 +299,8 @@ const BrandCatalogue = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {Array.isArray(clientProductMapping) &&
-                                    clientProductMapping
+                                  {Array.isArray(productByIdReducer?.productById?.[0]?.products) &&
+                                    productByIdReducer?.productById?.[0]?.products
                                       .filter((item) => item.enabled)
                                       .map((data, index) => (
                                         <tr key={index}>
