@@ -58,6 +58,7 @@ const Auth = () => {
     if (matchingConfig) {
       const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } = matchingConfig;
       dispatch(onPartnerKeyLoginSubmit(PARTNER_KEY));
+      if(!loginAuthData?.data.length ){   
       dispatch(onTranslationReset());
       dispatch(
         onLoginAuthSubmit({
@@ -66,6 +67,11 @@ const Auth = () => {
           secretKey: SECRET_KEY,
         })
       );
+      }
+      else{
+        setShowError(false)
+        setShowLoader(false)
+      }
       axiosInstance.defaults.headers["partner-code"] = PARTNER_KEY;
       axiosInstanceClient.defaults.headers["partner-code"] = PARTNER_KEY;
     } else {

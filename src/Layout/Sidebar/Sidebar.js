@@ -37,6 +37,7 @@ const Sidebar = () => {
   };
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);
+  console.log(getModuleData)
   const userRoleModuleAccess = useSelector(
     (state) => state.userRoleModuleAccessReducer?.data
   );
@@ -54,8 +55,10 @@ const Sidebar = () => {
       loginAuthData?.data?.[0]?.clientId;
 
     setIsSidebarLoading(true);
+    if(!getModuleData?.data?.length){
     dispatch(onGetModule());
     dispatch(onGetUserRoleModuleAccess());
+    }
     dispatch(resetAllowModules());
   }, []);
 
