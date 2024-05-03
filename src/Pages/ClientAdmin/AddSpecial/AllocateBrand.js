@@ -50,6 +50,13 @@ const AllocateBrand = () => {
   );
 
   useEffect(() => {
+    // dispatch(
+    //   onProductByIdSubmit({
+    //     id:1,
+    //     pageNumber: page,
+    //     pageSize: rowsPerPage,
+    //   })
+    // );
     dispatch(onGetSupplierBrandList());
     dispatch(onAllocateBrandById(location?.state?.data?.id));
     dispatch(onGetAllocateBrand());

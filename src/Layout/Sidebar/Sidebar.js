@@ -37,7 +37,6 @@ const Sidebar = () => {
   };
   // get module data
   const getModuleData = useSelector((state) => state.moduleReducer);
-  console.log(getModuleData)
   const userRoleModuleAccess = useSelector(
     (state) => state.userRoleModuleAccessReducer?.data
   );

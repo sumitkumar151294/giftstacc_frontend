@@ -27,7 +27,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const status = GetTranslationData("UIClient", "status");
   const Max_Brands = GetTranslationData("UIClient", "Max_Brands  ");
   const Is_Special = GetTranslationData("UIClient", "Is_Special ");
-  const Button_Text = GetTranslationData("UIAdmin", "button_Text ");
+  const Button_Text = GetTranslationData("UIAdmin", "button_Text");
 
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -70,7 +70,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
         prefilledValues?.enabled !== undefined ? prefilledValues?.enabled : "",
       maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || "",
       description: prefilledValues?.description || "",
-      IsSpecial: prefilledValues?.isSpecial || false, // Use boolean value directly
+      IsSpecial: prefilledValues?.isSpecial, // Use boolean value directly
       buttonText: prefilledValues?.buttonText,
     });
     setError({
@@ -131,7 +131,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     // Validate form fields
     for (const key in formData) {
       if (formData[key] === "") {
-        newErrors[key] = field_Required; // Provide a meaningful error message
+        newErrors[key] = field_Required;
         isValid = false;
       } else if (formData[key]?.length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
@@ -146,10 +146,24 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       isValid = false;
     }
     setError(newErrors);
+
     if (isValid) {
       const specialExists =
         Array.isArray(getAddSpecial?.getData) &&
         getAddSpecial?.getData.some((item) => item.isSpecial === true);
+      if (specialExists && formData.IsSpecial === true) {
+        const editedItem = getAddSpecial.getData.find(
+          (item) => item?.id === prefilledValues?.id
+        );
+        const otherSpecialItemsCount = getAddSpecial.getData.filter(
+          (item) => item.isSpecial === true && item?.id !== prefilledValues?.id
+        ).length;
+
+        if (editedItem && otherSpecialItemsCount > 0) {
+          toast.error(isSpecial_checked);
+          return;
+        }
+      }
       const submissionData = {
         ...formData,
         displayOrder: parseInt(formData.displayOrder),
@@ -162,10 +176,9 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       }
 
       if (prefilledValues) {
-        const updatedData = { ...submissionData, id: prefilledValues.id };
+        const updatedData = { ...submissionData, id: prefilledValues?.id };
         dispatch(onAddSpecialUpdate(updatedData));
-      }
-      if (!prefilledValues) {
+      } else {
         dispatch(onAddSpecialSubmit(submissionData));
       }
     }
@@ -207,7 +220,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             id="name-f"
                             onChange={(e) => handleInput(e, "sectionName")}
                           />
-                          {<p className="text-danger">{error.sectionName}</p>}
+                          {/* {<p className="text-danger">{error.sectionName}</p>} */}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="displayOrder">
@@ -264,7 +277,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             }
                           />
                         </div>
-                      <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="buttonText">
                             {Button_Text} <span className="text-danger">*</span>
                           </label>
@@ -277,7 +290,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             value={formData.buttonText}
                             onChange={(e) => handleInput(e, "buttonText")}
                           />
-                          {<p className="text-danger">{error.buttonText}</p>}
+                          {/* {<p className="text-danger">{error.buttonText}</p>} */}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
@@ -296,7 +309,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             id="description"
                             onChange={(e) => handleInput(e, "description")}
                           />
-                          {<p className="text-danger">{error.description}</p>}
+                          {/* {<p className="text-danger">{error.description}</p>} */}
                         </div>
                         <div className="col-sm-3 form-group   mt-2 isSpecial">
                           <InputField
