@@ -43,6 +43,15 @@ export const userRoleModuleAccessSlice = createSlice({
         isError: true,
       };
     },
+    onGetUserRoleModuleAccessReset: (state) => {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        data: [],
+        message: "",
+      };
+    },
 
     onPostUserRoleModuleAccess: (state) => {
       return {
@@ -131,7 +140,8 @@ export const {
   onPostUserRoleModuleAccessError, 
   onUpdateUserRoleModuleAccess, 
   onUpdateUserRoleModuleAccessSuccess, 
-  onUpdateUserRoleModuleAccessError
+  onUpdateUserRoleModuleAccessError,
+  onGetUserRoleModuleAccessReset
  } = userRoleModuleAccessSlice.actions;
 
 export default userRoleModuleAccessSlice.reducer;
