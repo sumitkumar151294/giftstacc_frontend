@@ -20,8 +20,9 @@ const ClientCommissionReport = () => {
   const [dateEnd, setDateEnd] = useState();
   const [supplierBrandListData, setSupplierBrandListData] = useState([]);
   const supplierBrandData = useSelector(
-    (state) => state.supplierBrandListReducer.data
-  );
+    (state) => state.supplierBrandListReducer.data[0].products
+    
+  );  
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
@@ -66,7 +67,7 @@ const ClientCommissionReport = () => {
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
-  const handleChange = (e, fieldName) => {
+  const handleChange = (e, fieldName) => { 
     if (fieldName === "supplierId") {
       let supplierList = [];
       Array.isArray(supplierBrandData) &&

@@ -52,6 +52,7 @@ const BrandCatalogue = () => {
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
   );
+  const client_ID = useSelector((state)=>state.loginAuthReducer.data[0]?.clientId);
   const [supplierLists, setSupplierLists] = useState({
     supplier: "",
     client: "",
@@ -120,7 +121,7 @@ const BrandCatalogue = () => {
   const handleChange = (e, fieldName) => {
     const selectedSupplierName = e.target.value;
     if (selectedSupplierName === "Select") {
-      setCopyBrandCatalogue(SupplierBrandList);
+      setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
     } else {
       let filteredSupplierList =
         Array.isArray(SupplierBrandList) &&
@@ -182,13 +183,24 @@ const BrandCatalogue = () => {
       setSupplierList(tempSupplier);
     }
   }, [supplierMaster]);
+
   useEffect(()=>{
-    dispatch(
-      onProductByIdSubmit({
-        pageNumber: page,
-        pageSize: rowsPerPage,
-      })
-    );
+    if(!LoginId.isAdminLogin){
+      dispatch(
+        onProductByIdSubmit({
+          id:client_ID,
+          pageNumber: page,
+          pageSize: rowsPerPage,
+        })
+      );
+    } else{
+      dispatch(
+        onProductByIdSubmit({
+          pageNumber: page,
+          pageSize: rowsPerPage,
+        })
+      );
+    }
     setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
   },[])
   return (
