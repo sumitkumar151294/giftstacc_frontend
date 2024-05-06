@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   allowModules,
   onGetModule,
+  onGetModuleReset,
   resetAllowModules,
 } from "../../Store/Slices/moduleSlice";
 import Loader from "../../Components/Loader/Loader";
 import Logout from "../../Assets/img/Logout.png";
 import { onLogout } from "../../Store/Slices/loginSlice";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import { onGetUserRoleModuleAccess } from "../../Store/Slices/userRoleModuleAccessSlice";
+import { onGetUserRoleModuleAccess, onGetUserRoleModuleAccessReset } from "../../Store/Slices/userRoleModuleAccessSlice";
 import axiosInstance from "../../Common/Axios/axiosInstance";
 import axiosInstanceClient from "../../Common/Axios/axiosInstanceClient";
 
@@ -31,6 +32,8 @@ const Sidebar = () => {
     dispatch(onLogout());
     localStorage.clear();
     sessionStorage.clear();
+    dispatch(onGetModuleReset())
+    dispatch(onGetUserRoleModuleAccessReset())
     loginDetails.partner_Key === "UIAdmin"
       ? navigate("/")
       : navigate("/lc-user-admin/login");

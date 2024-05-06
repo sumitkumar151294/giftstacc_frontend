@@ -31,7 +31,6 @@ export const moduleSlice = createSlice({
         isLoading: true,
         isError: false,
         data: [],
-        error: [],
         message: "",
       };
     },
@@ -60,10 +59,21 @@ export const moduleSlice = createSlice({
         isError: true,
         error: [],
       };
+    },
+    onGetModuleReset: (state) => {
+      return {
+        ...state,
+        data:null,
+        message:null,
+        status_code:null,
+        isLoading: false,
+        isError: true,
+        error: [],
+      };
     }
   },
 });
-export const {onGetModule, onGetModuleSuccess, onGetModuleError , allowModules, resetAllowModules } =
+export const {onGetModule, onGetModuleSuccess, onGetModuleError , allowModules,onGetModuleReset, resetAllowModules } =
 moduleSlice.actions;
 
 export default moduleSlice.reducer;
