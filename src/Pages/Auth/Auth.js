@@ -29,6 +29,7 @@ const Auth = () => {
   });
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
   const translationData = useSelector((state) => state.translationReducer);
+  const loginDetails = useSelector((state) => state.loginReducer);
   const currentUrl = window.location.href;
 
   useEffect(() => {
@@ -57,23 +58,32 @@ const Auth = () => {
     // get data from present url
     if (matchingConfig) {
       const { ACCESS_KEY, SECRET_KEY, PARTNER_KEY } = matchingConfig;
+      var APICalled = false;
+      if (PARTNER_KEY !== loginDetails.partner_Key) {
+        APICalled = true;
+      }
       dispatch(onPartnerKeyLoginSubmit(PARTNER_KEY));
-      if(!loginAuthData?.data.length ){   
-      dispatch(onTranslationReset());
-      dispatch(
-        onLoginAuthSubmit({
-          partnerCode: PARTNER_KEY,
-          accessKey: ACCESS_KEY,
-          secretKey: SECRET_KEY,
-        })
-      );
-      }
-      else{
-        setShowError(false)
-        setShowLoader(false)
-      }
       axiosInstance.defaults.headers["partner-code"] = PARTNER_KEY;
       axiosInstanceClient.defaults.headers["partner-code"] = PARTNER_KEY;
+      axiosInstance.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
+      axiosInstanceClient.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
+      axiosInstance.defaults.headers["client-code"] =
+        loginAuthData?.data?.[0]?.clientId;
+      axiosInstanceClient.defaults.headers["client-code"] =
+        loginAuthData?.data?.[0]?.clientId;
+      if (!loginAuthData?.data.length || APICalled) {
+        dispatch(onTranslationReset());
+        dispatch(
+          onLoginAuthSubmit({
+            partnerCode: PARTNER_KEY,
+            accessKey: ACCESS_KEY,
+            secretKey: SECRET_KEY,
+          })
+        );
+      } else {
+        setShowError(false);
+        setShowLoader(false);
+      }
     } else {
       setShowLoader(false);
       setShowError(true);
@@ -92,9 +102,11 @@ const Auth = () => {
     if (loginAuthData?.status_code === 200) {
       sessionStorage.setItem("clientCode", loginAuthData?.data?.[0]?.clientId);
       axiosInstance.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
-      axiosInstance.defaults.headers["client-code"] = loginAuthData?.data?.[0]?.clientId;
+      axiosInstance.defaults.headers["client-code"] =
+        loginAuthData?.data?.[0]?.clientId;
       axiosInstanceClient.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
-      axiosInstanceClient.defaults.headers["client-code"] = loginAuthData?.data?.[0]?.clientId;
+      axiosInstanceClient.defaults.headers["client-code"] =
+        loginAuthData?.data?.[0]?.clientId;
       dispatch(onTranslationSubmit());
       dispatch(onLoginAuthReset());
     } else if (loginAuthData?.status_code) {
@@ -133,7 +145,13 @@ const Auth = () => {
 
   return (
     <>
-     {showLoader ? <Loader /> : <>{showError ? <PageError500 pageError={pageError}  /> : <RouteConfiq />}</>}
+      {showLoader ? (
+        <Loader />
+      ) : (
+        <>
+          {showError ? <PageError500 pageError={pageError} /> : <RouteConfiq />}
+        </>
+      )}
     </>
   );
 };
