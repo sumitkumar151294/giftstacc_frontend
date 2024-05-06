@@ -48,15 +48,15 @@ const AllocateBrand = () => {
   const clientProductMapping = useSelector(
     (state) => state.clientProductMappingReducer?.clientData
   );
-
+  const loginAuthData = useSelector((state) => state.loginAuthReducer);
   useEffect(() => {
-    // dispatch(
-    //   onProductByIdSubmit({
-    //     id:1,
-    //     pageNumber: page,
-    //     pageSize: rowsPerPage,
-    //   })
-    // );
+    dispatch(
+      onProductByIdSubmit({
+        id: loginAuthData?.data[0]?.clientId,
+        pageNumber: page,
+        pageSize: rowsPerPage,
+      })
+    );
     dispatch(onGetSupplierBrandList());
     dispatch(onAllocateBrandById(location?.state?.data?.id));
     dispatch(onGetAllocateBrand());
@@ -64,7 +64,7 @@ const AllocateBrand = () => {
   useEffect(() => {
     if (getAllocateBrands?.update_status_code === "201") {
       toast.success(getAllocateBrands?.updateMessage);
-      setShowLoader(false)
+      setShowLoader(false);
       dispatch(onUpdateAllocateBrandByIdReset());
       dispatch(onAllocateBrandById(location?.state?.data?.id));
     } else if (getAllocateBrands?.update_status_code === "400") {
@@ -98,17 +98,21 @@ const AllocateBrand = () => {
     setGetProduct(matchingProductsData);
   }, [getAllocateBrands, SupplierBrandList]);
 
-  const filteredBrandCatalogueList = Array.isArray(
-    productByIdReducer.productById?.[0]?.products
-  )
-    ? productByIdReducer.productById?.[0]?.products.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProducts = productByIdReducer.productById?.[0]?.products.filter(
+    (item) => {
+      return item.enabled === true;
+    }
+  );
+
+  const filteredBrandCatalogueList = Array.isArray(filteredProducts)
+    ? filteredProducts.filter((vendor) =>
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   useEffect(() => {
@@ -121,24 +125,24 @@ const AllocateBrand = () => {
     }
   }, [getAllocateBrands?.getAllocateBrandData]);
 
-  const updateStatus = (data) => {
-    const isUpdate =
-      Array.isArray(copyClientMapping) &&
-      copyClientMapping?.find((item) => item.productId === data?.id);
+  // const updateStatus = (data) => {
+  //   const isUpdate =
+  //     Array.isArray(copyClientMapping) &&
+  //     copyClientMapping?.find((item) => item.productId === data?.id);
 
-    const deletedData = [
-      {
-        enabled: isUpdate?.enabled === true ? false : true,
-        deleted: false,
-        productId: isUpdate?.productId,
-        addSpecialId: isUpdate?.addSpecialId,
-        displayOrder: isUpdate?.displayOrder,
-        id: isUpdate?.id,
-      },
-    ];
+  //   const deletedData = [
+  //     {
+  //       enabled: isUpdate?.enabled === true ? false : true,
+  //       deleted: false,
+  //       productId: isUpdate?.productId,
+  //       addSpecialId: isUpdate?.addSpecialId,
+  //       displayOrder: isUpdate?.displayOrder,
+  //       id: isUpdate?.id,
+  //     },
+  //   ];
 
-    dispatch(onUpdateAllocateBrandById(deletedData));
-  };
+  //   dispatch(onUpdateAllocateBrandById(deletedData));
+  // };
   useEffect(() => {
     // Make sure this runs whenever getAllocateBrands.getAllocateBrandsById changes
     if (Array.isArray(getAllocateBrands?.getAllocateBrandsById)) {
@@ -163,7 +167,27 @@ const AllocateBrand = () => {
       e.preventDefault();
     }
   };
+  useEffect(() => {
+    if (Array.isArray(getAllocateBrands?.getAllocateBrandsById)) {
+      const copyData = getAllocateBrands.getAllocateBrandsById.map((item) => ({
+        ...item,
+        enabled: item.enabled, // Ensure the "enabled" field is populated
+      }));
+      setCopyClientMapping(copyData);
+    } else {
+      setCopyClientMapping([]);
+    }
+  }, [getAllocateBrands]);
 
+  const handleToggle = (id) => {
+    const updatedMappings = copyClientMapping.map((item) => {
+      if (item.productId === id) {
+        return { ...item, enabled: !item.enabled }; // Toggle the enabled status
+      }
+      return item;
+    });
+    setCopyClientMapping(updatedMappings);
+  };
   const handleInputChange = (e, ids, name) => {
     const newValue = Math.max(0, e.target.value); // Ensures non-negative values
     const existingIndex = copyClientMapping.findIndex(
@@ -183,31 +207,22 @@ const AllocateBrand = () => {
         productId: ids,
         [name]: parseInt(newValue),
         addSpecialId: addSpecialIdForNewItem, // Use the determined value for new items
-        enabled: true, // Assuming new items should be enabled by default
+        enabled: false, // Assuming new items should be enabled by default
       });
     }
 
     setCopyClientMapping([...copyClientMapping]);
   };
 
-  const clientCode = sessionStorage.getItem("clientCode");
-  useEffect(() => {
-    dispatch(
-      onProductByIdSubmit({
-        clientCode,
-        pageNumber: page,
-        pageSize: rowsPerPage,
-      })
-    );
-  }, []);
   const handleSubmit = () => {
     const updates = copyClientMapping.map((product) => ({
       productId: product.productId,
       displayOrder: product.displayOrder,
       addSpecialId: product?.addSpecialId,
+      enabled: product?.enabled,
       id: product?.id,
     }));
-setShowLoader(true)
+    setShowLoader(true);
     dispatch(onUpdateAllocateBrandById(updates));
   };
 
@@ -240,7 +255,9 @@ setShowLoader(true)
                   </div>
                 </div>
               </div>
-              {showLoader ? <Loader /> :
+              {showLoader ? (
+                <Loader />
+              ) : (
                 <div className="card-body pt-0 card-body-user">
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -274,7 +291,9 @@ setShowLoader(true)
                                           "displayOrder"
                                         )
                                       }
-                                      onKeyPress={(e) => handleKeyPress(e, index)}
+                                      onKeyPress={(e) =>
+                                        handleKeyPress(e, index)
+                                      }
                                     />
                                   </div>
                                 </td>
@@ -285,13 +304,15 @@ setShowLoader(true)
                                       id={generateUniqueId(index)}
                                       type="checkbox"
                                       checked={getValues(data?.id, "enabled")}
-                                    ></input>
+                                      onChange={() => handleToggle(data.id)} // Use handleToggle here
+                                    />
+
                                     <label htmlFor={generateUniqueId(index)}>
                                       <div
                                         className="can-toggle__switch"
                                         data-unchecked={"OFF"}
                                         data-checked={"ON"}
-                                        onClick={() => updateStatus(data, index)}
+                                        // onClick={() => handleSubmit(data, index)}
                                       ></div>
                                     </label>
                                   </div>
@@ -308,8 +329,7 @@ setShowLoader(true)
                           nextLabel={" >"}
                           breakLabel={"..."}
                           pageCount={Math.ceil(
-                            getAllocateBrands?.getAllocateBrandData?.length /
-                            rowsPerPage
+                            filteredProducts.length / rowsPerPage
                           )}
                           marginPagesDisplayed={2}
                           onPageChange={handlePageChange}
@@ -328,7 +348,8 @@ setShowLoader(true)
                     className="btn btn-primary float-right pad-aa"
                     onClick={handleSubmit} // Pass a reference to the function instead of calling it
                   />
-                </div>}
+                </div>
+              )}
               <ToastContainer />
             </div>
           </div>
