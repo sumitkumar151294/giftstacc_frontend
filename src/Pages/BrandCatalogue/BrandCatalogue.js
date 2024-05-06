@@ -52,7 +52,7 @@ const BrandCatalogue = () => {
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
   );
-  const client_ID = useSelector((state)=>state.loginAuthReducer.data[0]?.clientId);
+  const client_ID = useSelector((state) => state.loginAuthReducer.data[0]?.clientId);
   const [supplierLists, setSupplierLists] = useState({
     supplier: "",
     client: "",
@@ -124,15 +124,16 @@ const BrandCatalogue = () => {
       setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
     } else {
       let filteredSupplierList =
-        Array.isArray(SupplierBrandList) &&
-        SupplierBrandList?.[0]?.products?.filter(
+        Array.isArray(productByIdReducer?.productById?.[0]?.products) &&
+        productByIdReducer?.productById?.[0]?.products?.filter(
           (vendor) => vendor?.enabled === true &&
             vendor?.supplierCode?.toLowerCase() ===
             selectedSupplierName?.toLowerCase()
         );
+      // setCopyBrandCatalogue(productByIdReducer?.productById[0]?.products);
       setCopyBrandCatalogue(filteredSupplierList);
     }
-    if (selectedSupplierName === "Select" && fieldName === "client") { 
+    if (selectedSupplierName === "Select" && fieldName === "client") {
       dispatch(
         onProductByIdSubmit({
           pageNumber: page,
@@ -140,7 +141,7 @@ const BrandCatalogue = () => {
         })
       );
       setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
-    } else if (fieldName === "client") { 
+    } else if (fieldName === "client") {
       const id = clientList.filter((item) => {
         if (item.name === selectedSupplierName) {
           return item?.id
@@ -148,7 +149,7 @@ const BrandCatalogue = () => {
       })
       dispatch(
         onProductByIdSubmit({
-          id:id[0]?.id,
+          id: id[0]?.id,
           pageNumber: page,
           pageSize: rowsPerPage,
         })
@@ -184,16 +185,16 @@ const BrandCatalogue = () => {
     }
   }, [supplierMaster]);
 
-  useEffect(()=>{
-    if(!LoginId.isAdminLogin){
+  useEffect(() => {
+    if (!LoginId.isAdminLogin) {
       dispatch(
         onProductByIdSubmit({
-          id:client_ID,
+          id: client_ID,
           pageNumber: page,
           pageSize: rowsPerPage,
         })
       );
-    } else{
+    } else {
       dispatch(
         onProductByIdSubmit({
           pageNumber: page,
@@ -201,8 +202,8 @@ const BrandCatalogue = () => {
         })
       );
     }
-    setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
-  },[])
+    setCopyBrandCatalogue(productByIdReducer?.productById[0]?.products);
+  }, [page])
   return (
     <div>
       {getRoleAccess[0] !== undefined ? (
@@ -304,6 +305,7 @@ const BrandCatalogue = () => {
                                     <th>{image}</th>
                                     <th>{sku}</th>
                                     <th>{name}</th>
+                                    <th>Client</th>
                                     <th>{minprice}</th>
                                     <th>{maxprice}</th>
                                     <th>{price}</th>
@@ -326,6 +328,7 @@ const BrandCatalogue = () => {
                                           </td>
                                           <td>{data.sku}</td>
                                           <td>{data.name}</td>
+                                          <td>Client</td>
                                           <td>{data.minPrice}</td>
                                           <td>{data.maxPrice}</td>
                                           <td>{data.price}</td>
@@ -333,7 +336,7 @@ const BrandCatalogue = () => {
                                             {" "}
                                             <Button
                                               onClick={() => handleClick(data)}
-                                              className="btn btn-primary btn-sm bt-link float-right"
+                                              className="btn btn-primary btn-sm bt-link float-right brand-detail-btn"
                                               icons={"fa fa-info"}
                                               text={BrandDetail}
                                             />
@@ -342,50 +345,48 @@ const BrandCatalogue = () => {
                                       ))}
                                 </tbody>
                               </table>
-                              {productByIdReducer.productById[0]?.totalCount >
-                                5 && (
-                                  <div className="pagination-container">
-                                    <ReactPaginate
-                                      previousLabel={"<"}
-                                      nextLabel={" >"}
-                                      breakLabel={"..."}
-                                      pageCount={Math.ceil(
-                                        productByIdReducer.productById[0]
-                                          ?.totalCount / rowsPerPage
-                                      )}
-                                      marginPagesDisplayed={2}
-                                      onPageChange={(e) => handlePageChange(e)}
-                                      containerClassName={"pagination"}
-                                      activeClassName={"active"}
-                                      initialPage={
-                                        rowsPerPage !== 5 ? page === 0 : page - 1
+                              {productByIdReducer.productById[0]?.totalCount > 5 && (
+                                <div className="pagination-container">
+                                  <ReactPaginate
+                                    previousLabel={"<"}
+                                    nextLabel={" >"}
+                                    breakLabel={"..."}
+                                    pageCount={Math.ceil(
+                                      productByIdReducer.productById[0]?.totalCount / rowsPerPage
+                                    )}
+                                    marginPagesDisplayed={2}
+                                    onPageChange={(e) => handlePageChange(e)}
+                                    containerClassName={"pagination"}
+                                    activeClassName={"active"}
+                                    initialPage={
+                                      rowsPerPage !== 5 ? page === 0 : page - 1
+                                    }
+                                    previousClassName={
+                                      page === 0 ? disabled_Text : ""
+                                    }
+                                  />
+                                  <Dropdown
+                                    defaultSelected="Page Size"
+                                    className="paginationDropdown"
+                                    value={rowsPerPageValue || ""}
+                                    onChange={(e) => {
+                                      setRowsPerPageValue(e.target.value);
+                                      const newSize = parseInt(e.target.value);
+                                      if (!isNaN(newSize)) {
+                                        setRowsPerPage(newSize);
+                                        dispatch(
+                                          onProductByIdSubmit({
+                                            clientCode,
+                                            pageNumber: page,
+                                            pageSize: parseInt(e.target.value),
+                                          })
+                                        );
                                       }
-                                      previousClassName={
-                                        page === 0 ? disabled_Text : ""
-                                      }
-                                    />
-                                    <Dropdown
-                                      defaultSelected="Page Size"
-                                      className="paginationDropdown"
-                                      value={rowsPerPageValue || ""}
-                                      onChange={(e) => {
-                                        setRowsPerPageValue(e.target.value);
-                                        const newSize = parseInt(e.target.value);
-                                        if (!isNaN(newSize)) {
-                                          setRowsPerPage(newSize);
-                                          dispatch(
-                                            onProductByIdSubmit({
-                                              clientCode,
-                                              pageNumber: page,
-                                              pageSize: parseInt(e.target.value),
-                                            })
-                                          );
-                                        }
-                                      }}
-                                      options={paginationValue}
-                                    />
-                                  </div>
-                                )}
+                                    }}
+                                    options={paginationValue}
+                                  />
+                                </div>
+                              )}
                             </>
                           ) : (
                             <NoRecord />
