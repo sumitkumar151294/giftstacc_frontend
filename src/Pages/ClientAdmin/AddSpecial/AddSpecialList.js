@@ -19,7 +19,7 @@ const AddSpecialList = () => {
   const action = GetTranslationData("UIClient", "actionLabel");
   const addSpecialList = GetTranslationData("UIClient", "addSpecialList");
   const allocateBrands = GetTranslationData("UIClient", "allocateBrands");
-  const Is_Special = GetTranslationData("UIClient", "Is_Special");
+  const Is_Special = GetTranslationData("UIClient", "Is_Special ");
   const enabled_Text = GetTranslationData("UIAdmin", "enabled_Text");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const non_active_option = GetTranslationData("UIClient", "non_active_option");
@@ -117,7 +117,6 @@ const AddSpecialList = () => {
                                         <th>{displayOrder}</th>
                                         <th>{maxNoOfbrands}</th>
                                         <th>{Is_Special}</th>
-
                                         <th>{status}</th>
                                         {getRoleAccess[0]?.editAccess && (
                                           <th>{action}</th>
@@ -149,9 +148,9 @@ const AddSpecialList = () => {
                                                       : "badge badge-success"
                                                   }
                                                 >
-                                                  {Special.isSpecial === false
-                                                    ? disabled_Text
-                                                    : enabled_Text}
+                                                  {Special.isSpecial === true
+                                                    ? active
+                                                    : non_active_option}
                                                 </span>
                                               </td>
                                               <td>
