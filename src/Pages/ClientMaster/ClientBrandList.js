@@ -32,11 +32,9 @@ const ClientBrandList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  console.log(SupplierBrandList[0]?.products)
   const ClientProducts = useSelector(
     (state) => state.clientProductMappingReducer
   );
-  console.log(ClientProducts?.clientDataById[0]?.totalCount)
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
