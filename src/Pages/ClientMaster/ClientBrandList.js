@@ -29,12 +29,10 @@ const ClientBrandList = () => {
   const [supplierList, setSupplierList] = useState([]);
   const [copySupplierBrandList, setCopySupplierBrandList] = useState([]);
   const [copyClientMapping, setCopyClientMapping] = useState([]);
-  const SupplierBrandList = useSelector(
-    (state) => state.supplierBrandListReducer.data
-  );
-  const ClientProducts = useSelector(
-    (state) => state.clientProductMappingReducer
-  );
+  const SupplierBrandList = useSelector(state => state.supplierBrandListReducer.data || []);
+
+  const ClientProducts = useSelector(state => state.clientProductMappingReducer || {});
+
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
   const export_label = GetTranslationData("UIAdmin", "export_label");
@@ -115,9 +113,8 @@ const ClientBrandList = () => {
   }, [suppliers, supplierList.length]);
 
   const handleChange = (e) => {
-    const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
-      return item.enabled === true;
-    });
+    const filterData = SupplierBrandList.length > 0 ? SupplierBrandList[0].products.filter(item => item.enabled) : [];
+
     const selectedSupplierCode = e.target.value;
     if (selectedSupplierCode === "Select") {
       dispatch(
@@ -166,9 +163,9 @@ const ClientBrandList = () => {
   }, [SupplierBrandList]);
 
   useEffect(() => {
-    const copyData = Array.isArray(
-      ClientProducts?.clientDataById[0]?.clientProductMapping
-    ) && [...ClientProducts?.clientDataById[0]?.clientProductMapping];
+    const copyData = Array.isArray(ClientProducts.clientDataById) && ClientProducts.clientDataById.length > 0 
+    ? [...ClientProducts.clientDataById[0].clientProductMapping] 
+    : [];
     setCopyClientMapping(copyData);
   }, [ClientProducts?.clientDataById]);
 
@@ -521,14 +518,14 @@ const ClientBrandList = () => {
                                     )}
                                   </tbody>
                                 </table>
-                                {SupplierBrandList[0]?.totalCount > 5 && (
+                                {ClientProducts?.clientDataById[0]?.totalCount < 5 && (
                                   <div className="pagination-container">
                                     <ReactPaginate
                                       previousLabel={"<"}
                                       nextLabel={" >"}
                                       breakLabel={"..."}
                                       pageCount={Math.ceil(
-                                        SupplierBrandList[0]?.totalCount /
+                                        ClientProducts?.clientDataById[0]?.totalCount /
                                           rowsPerPage
                                       )}
                                       marginPagesDisplayed={2}

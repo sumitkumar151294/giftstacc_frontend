@@ -12,6 +12,7 @@ import Button from "../../../Components/Button/Button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PageError from "../../../Components/PageError/PageError";
+import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
 
 const ClientCommissionReport = () => {
   const [page, setPage] = useState(1);
@@ -20,14 +21,11 @@ const ClientCommissionReport = () => {
   const [dateEnd, setDateEnd] = useState();
   const [supplierBrandListData, setSupplierBrandListData] = useState([]);
   const supplierBrandData = useSelector(
-    (state) => state.supplierBrandListReducer.data[0].products
-    
+    (state) => state.supplierBrandListReducer.data
   );  
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
-
-
   const [createCategory, setCreateCategory] = useState({
     supplierId: "",
     supplierBrandId: "",
@@ -97,6 +95,7 @@ const ClientCommissionReport = () => {
   };
   useEffect(() => {
     dispatch(onGetCommissionReport());
+    dispatch(onGetSupplierBrandList({ isCategory: true }));
   }, []);
   const namesArray = clientCommissionReport.map((data) => ({
     supplier: data.supplier,
