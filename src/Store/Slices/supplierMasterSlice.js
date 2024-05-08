@@ -55,13 +55,13 @@ export const supplierMasterSlice = createSlice({
     },
 
     onGetSupplierList: (state) => {
-      return { ...state, isLoading: true, data: [], message: '', error: [], isError: false, status_code: null };
+      return { ...state, getSupplierLoading: true, data: [], message: '', error: [], isError: false, status_code: null };
     },
     onGetSupplierListSuccess: (state, { payload }) => {
       const { data = [], message = '', status_code } = payload;
       return {
         ...state,
-        isLoading: false,
+        getSupplierLoading: false,
         isError: false,
         data,
         error: [],
@@ -73,7 +73,7 @@ export const supplierMasterSlice = createSlice({
       const { data = [], message = '', status_code } = payload;
       return {
         ...state,
-        isLoading: false,
+        getSupplierLoading: false,
         isError: true,
         data: data,
         message,

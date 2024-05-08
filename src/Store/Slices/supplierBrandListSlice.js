@@ -46,13 +46,13 @@ export const supplierBrandListSlice = createSlice({
     },
 
     onGetSupplierBrandList: (state) => {
-      return { ...state, isLoading: true, data: [], message: '', error: {}, isError: false };
+      return { ...state, supplierBrandListLoading: true, data: [], message: '', error: {}, isError: false };
     },
     onGetSupplierBrandListSuccess: (state, { payload }) => {
       const { data = [], message = '', status_code } = payload;
       return {
         ...state,
-        isLoading: false,
+        supplierBrandListLoading: false,
         isError: false,
         data,
         error: {},
@@ -64,7 +64,7 @@ export const supplierBrandListSlice = createSlice({
       const { data = {}, message = '', status_code } = payload;
       return {
         ...state,
-        isLoading: false,
+        supplierBrandListLoading: false,
         isError: true,
         data:data,
         message,
