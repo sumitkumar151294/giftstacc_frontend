@@ -74,7 +74,7 @@ const ClientBrandList = () => {
       })
     );
     dispatch(onClientProductMappingSubmit(location?.state?.id));
-  }, []);
+  }, [page, rowsPerPage]);
 
   useEffect(() => {
     if (ClientProducts?.post_status_code === "201") {
@@ -307,271 +307,270 @@ const ClientBrandList = () => {
 
   return (
     <>
-      <ScrollToTop />
-      {location.state ? (
-        <div>
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-xl-12 col-xxl-12">
-                <div className="card d-flex justify-content-between ">
-                  <div className="container-fluid mt-2 mb-2 ">
-                    <div className="d-flex justify-content-between align-items-center mb-4 mt-7-supplier flex-wrap">
-                      <div className="card-header">
-                        <h4 className="card-title">{supplier_products}</h4>
-                      </div>
-                      <div className="customer-search mb-sm-0 mb-3">
-                        <div className="input-group search-area">
-                          <InputField
-                            type="text"
-                            value={searchQuery}
-                            onChange={handleSearch}
-                            className="form-control only-high"
-                            placeholder={search_here_label}
-                          />
-                          <span className="input-group-text">
-                            <i className="fa fa-search"></i>
-                          </span>
-                        </div>
-                      </div>
-                      <div className="d-flex align-items-center flex-wrap">
-                        {copySupplierBrandList &&
-                          copySupplierBrandList.length > 0 && (
-                            <CSVLink
-                              data={excelData}
-                              headers={headers}
-                              filename={"SupplierBrandList.csv"}
-                            >
-                              <Button
-                                className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
-                                icons={"fa fa-file-excel"}
-                                text={export_label}
-                              />
-                            </CSVLink>
-                          )}
+    <ScrollToTop />
+    {location.state ? (
+      <div>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-xl-12 col-xxl-12">
+              <div className="card d-flex justify-content-between ">
+                <div className="container-fluid mt-2 mb-2 ">
+                  <div className="d-flex justify-content-between align-items-center mb-4 mt-7-supplier flex-wrap">
+                    <div className="card-header">
+                      <h4 className="card-title">{supplier_products}</h4>
+                    </div>
+                    <div className="customer-search mb-sm-0 mb-3">
+                      <div className="input-group search-area">
+                        <InputField
+                          type="text"
+                          value={searchQuery}
+                          onChange={handleSearch}
+                          className="form-control only-high"
+                          placeholder={search_here_label}
+                        />
+                        <span className="input-group-text">
+                          <i className="fa fa-search"></i>
+                        </span>
                       </div>
                     </div>
+                    <div className="d-flex align-items-center flex-wrap">
+                      {copySupplierBrandList &&
+                        copySupplierBrandList.length > 0 && (
+                          <CSVLink
+                            data={excelData}
+                            headers={headers}
+                            filename={"SupplierBrandList.csv"}
+                          >
+                            <Button
+                              className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                              icons={"fa fa-file-excel"}
+                              text={export_label}
+                            />
+                          </CSVLink>
+                        )}
+                    </div>
                   </div>
-                  <div className="card-body">
-                    <form>
-                      <div className="row flex-column px-1">
-                        <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="name-f">{selectSuppliers}</label>
-                          <Dropdown
-                            className="form-select"
-                            aria-label="Default select example"
-                            onChange={(e) => {
-                              setSelectedSupplierCode(e.target.value);
-                              handleChange(e);
-                            }}
-                            options={supplierList}
-                          />
-                        </div>
+                </div>
+                <div className="card-body">
+                  <form>
+                    <div className="row flex-column px-1">
+                      <div className="col-sm-3 form-group mb-2">
+                        <label htmlFor="name-f">{selectSuppliers}</label>
+                        <Dropdown
+                          className="form-select"
+                          aria-label="Default select example"
+                          onChange={(e) => {
+                            setSelectedSupplierCode(e.target.value);
+                            handleChange(e);
+                          }}
+                          options={supplierList}
+                        />
                       </div>
-                    </form>
-                    <div className="row px-1">
-                      <div className="col-lg-12">
-                        <div>
-                          {Array.isArray(copySupplierBrandList) &&
-                          copySupplierBrandList.length > 0 ? (
-                            <div className="card-body">
-                              <div className="table-responsive">
-                                <table className="table header-border table-responsive-sm">
-                                  <thead>
-                                    <tr>
-                                      <th>{supplierName}</th>
-                                      <th>{supplierBrandName}</th>
-                                      <th>{clientbrandlistdiscount}</th>
-                                      <th>{clientbrandlistcommission}</th>
-                                      <th>{supplierMargin}</th>
-                                      <th>{status}</th>
-                                      <th>{action}</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {copySupplierBrandList.map(
-                                      (data, index) => (
-                                        <tr key={index}>
-                                          <td>
-                                            {getSupplierName(data.supplierCode)}
-                                          </td>
-                                          <td>{data.name}</td>
-                                          <td>
-                                            <div className="input-group mb-2 w-11">
-                                              <InputField
-                                                type="number"
-                                                className="form-control htt"
-                                                placeholder={
-                                                  data.customerDiscount
-                                                }
-                                                pattern="/^-?\d+\.?\d*$/"
-                                                value={getValues(
+                    </div>
+                  </form>
+                  <div className="row px-1">
+                    <div className="col-lg-12">
+                      <div>
+                        {Array.isArray(copySupplierBrandList) &&
+                        copySupplierBrandList.length > 0 ? (
+                          <div className="card-body">
+                            <div className="table-responsive">
+                              <table className="table header-border table-responsive-sm">
+                                <thead>
+                                  <tr>
+                                    <th>{supplierName}</th>
+                                    <th>{supplierBrandName}</th>
+                                    <th>{clientbrandlistdiscount}</th>
+                                    <th>{clientbrandlistcommission}</th>
+                                    <th>{supplierMargin}</th>
+                                    <th>{status}</th>
+                                    <th>{action}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {copySupplierBrandList.map(
+                                    (data, index) => (
+                                      <tr key={index}>
+                                        <td>
+                                          {getSupplierName(data.supplierCode)}
+                                        </td>
+                                        <td>{data.name}</td>
+                                        <td>
+                                          <div className="input-group mb-2 w-11">
+                                            <InputField
+                                              type="number"
+                                              className="form-control htt"
+                                              placeholder={
+                                                data.customerDiscount
+                                              }
+                                              pattern="/^-?\d+\.?\d*$/"
+                                              value={getValues(
+                                                data.id,
+                                                "customerDiscount"
+                                              )}
+                                              onChange={(e) =>
+                                                handleInputChange(
+                                                  e,
                                                   data.id,
                                                   "customerDiscount"
-                                                )}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    e,
-                                                    data.id,
-                                                    "customerDiscount"
-                                                  )
+                                                )
+                                              }
+                                              onKeyPress={(e) =>
+                                                handleKeyPress(e, index)
+                                              }
+                                            />
+                                            <div className="input-group-append">
+                                              <Button
+                                                onClick={() =>
+                                                  handleUpdate(data, data.id)
                                                 }
-                                                onKeyPress={(e) =>
-                                                  handleKeyPress(e, index)
-                                                }
+                                                className="btn btn-outline-primary btn-sm group-btn btn-pad"
+                                                type="button"
+                                                text={update}
                                               />
-                                              <div className="input-group-append">
-                                                <Button
-                                                  onClick={() =>
-                                                    handleUpdate(data, data.id)
-                                                  }
-                                                  className="btn btn-outline-primary btn-sm group-btn btn-pad"
-                                                  type="button"
-                                                  text={update}
-                                                />
-                                              </div>
                                             </div>
-                                          </td>
-                                          <td>
-                                            <div className="input-group mb-2 w-11">
-                                              <InputField
-                                                type="number"
-                                                className="form-control htt"
-                                                placeholder={
-                                                  data.clientCommission
-                                                }
-                                                pattern="/^-?\d+\.?\d*$/"
-                                                value={getValues(
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div className="input-group mb-2 w-11">
+                                            <InputField
+                                              type="number"
+                                              className="form-control htt"
+                                              placeholder={
+                                                data.clientCommission
+                                              }
+                                              pattern="/^-?\d+\.?\d*$/"
+                                              value={getValues(
+                                                data.id,
+                                                "clientCommission"
+                                              )}
+                                              onChange={(e) =>
+                                                handleInputChange(
+                                                  e,
                                                   data.id,
                                                   "clientCommission"
-                                                )}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    e,
-                                                    data.id,
-                                                    "clientCommission"
-                                                  )
-                                                }
-                                                onKeyPress={(e) =>
-                                                  handleKeyPress(e, index)
-                                                }
-                                              />
-                                              <div className="input-group-append">
-                                                <Button
-                                                  onClick={() =>
-                                                    handleUpdate(data, data.id)
-                                                  }
-                                                  className="btn btn-outline-primary btn-sm group-btn btn-pad"
-                                                  type="button"
-                                                  text={update}
-                                                />
-                                              </div>
-                                            </div>
-                                          </td>
-                                          <td>{data.supplierMargin}</td>
-                                          <td>
-                                            <span
-                                              className={
-                                                getValues(
-                                                  data.id,
-                                                  enabled_Text
-                                                ) === true
-                                                  ? "badge badge-success"
-                                                  : "badge badge-danger"
+                                                )
                                               }
-                                            >
-                                              {getValues(
+                                              onKeyPress={(e) =>
+                                                handleKeyPress(e, index)
+                                              }
+                                            />
+                                            <div className="input-group-append">
+                                              <Button
+                                                onClick={() =>
+                                                  handleUpdate(data, data.id)
+                                                }
+                                                className="btn btn-outline-primary btn-sm group-btn btn-pad"
+                                                type="button"
+                                                text={update}
+                                              />
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td>{data.supplierMargin}</td>
+                                        <td>
+                                          <span
+                                            className={
+                                              getValues(
                                                 data.id,
                                                 enabled_Text
                                               ) === true
-                                                ? active
-                                                : non_active}
-                                            </span>
-                                          </td>
-                                          <td>
-                                            <div className="can-toggle">
-                                              <input
-                                                id={generateUniqueId(index)}
-                                                type="checkbox"
-                                                checked={getValues(
-                                                  data.id,
-                                                  enabled_Text
-                                                )}
-                                              ></input>
-                                              <label
-                                                htmlFor={generateUniqueId(
-                                                  index
-                                                )}
-                                              >
-                                                <div
-                                                  className="can-toggle__switch"
-                                                  data-unchecked={"OFF"}
-                                                  data-checked={"ON"}
-                                                  onClick={() =>
-                                                    updateStatus(data, index)
-                                                  }
-                                                ></div>
-                                              </label>
-                                            </div>
-                                          </td>
-                                        </tr>
-                                      )
+                                                ? "badge badge-success"
+                                                : "badge badge-danger"
+                                            }
+                                          >
+                                            {getValues(
+                                              data.id,
+                                              enabled_Text
+                                            ) === true
+                                              ? active
+                                              : non_active}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <div className="can-toggle">
+                                            <input
+                                              id={generateUniqueId(index)}
+                                              type="checkbox"
+                                              checked={getValues(
+                                                data.id,
+                                                enabled_Text
+                                              )}
+                                            ></input>
+                                            <label
+                                              htmlFor={generateUniqueId(
+                                                index
+                                              )}
+                                            >
+                                              <div
+                                                className="can-toggle__switch"
+                                                data-unchecked={"OFF"}
+                                                data-checked={"ON"}
+                                                onClick={() =>
+                                                  updateStatus(data, index)
+                                                }
+                                              ></div>
+                                            </label>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    )
+                                  )}
+                                </tbody>
+                              </table>
+                              {SupplierBrandList[0]?.totalCount > 5 && (
+                                <div className="pagination-container">
+                                  <ReactPaginate
+                                    previousLabel={"<"}
+                                    nextLabel={" >"}
+                                    breakLabel={"..."}
+                                    pageCount={Math.ceil(
+                                      SupplierBrandList[0]?.totalCount /
+                                        rowsPerPage
                                     )}
-                                  </tbody>
-                                </table>
-                                {ClientProducts?.clientDataById[0]?.totalCount < 5 && (
-                                  <div className="pagination-container">
-                                    <ReactPaginate
-                                      previousLabel={"<"}
-                                      nextLabel={" >"}
-                                      breakLabel={"..."}
-                                      pageCount={Math.ceil(
-                                        ClientProducts?.clientDataById[0]?.totalCount /
-                                          rowsPerPage
-                                      )}
-                                      marginPagesDisplayed={2}
-                                      onPageChange={(e) => handlePageChange(e)}
-                                      containerClassName={"pagination"}
-                                      activeClassName={"active"}
-                                      initialPage={
-                                        rowsPerPage !== 5
-                                          ? page === 0
-                                          : page - 1
-                                      } // Use initialPage instead of forcePage
-                                      previousClassName={
-                                        page === 0 ? disabled_Text : ""
-                                      }
-                                    />
-                                    <Dropdown
-                                      defaultSelected="Page Size"
-                                      className="paginationDropdown"
-                                      value={rowsPerPageValue || ""}
-                                      onChange={(e) => {
-                                        setRowsPerPageValue(e.target.value);
-                                        const newSize = parseInt(
-                                          e.target.value
+                                    marginPagesDisplayed={2}
+                                    onPageChange={(e) => handlePageChange(e)}
+                                    containerClassName={"pagination"}
+                                    activeClassName={"active"}
+                                    initialPage={
+                                      rowsPerPage !== 5
+                                        ? page === 0
+                                        : page - 1
+                                    } // Use initialPage instead of forcePage
+                                    previousClassName={
+                                      page === 0 ? disabled_Text : ""
+                                    }
+                                  />
+                                  <Dropdown
+                                    defaultSelected="Page Size"
+                                    className="paginationDropdown"
+                                    value={rowsPerPageValue || ""}
+                                    onChange={(e) => {
+                                      setRowsPerPageValue(e.target.value);
+                                      const newSize = parseInt(
+                                        e.target.value
+                                      );
+                                      if (!isNaN(newSize)) {
+                                        setRowsPerPage(e.target.value);
+                                        dispatch(
+                                          onGetSupplierBrandList({
+                                            pageNumber: page,
+                                            pageSize: newSize,
+                                          })
                                         );
-                                        if (!isNaN(newSize)) {
-                                          setRowsPerPage(e.target.value);
-                                          dispatch(
-                                            onGetSupplierBrandList({
-                                              pageNumber: page,
-                                              pageSize: newSize,
-                                            })
-                                          );
-                                        }
-                                      }}
-                                      options={paginationValue}
-                                    />
-                                  </div>
-                                )}
-                              </div>
+                                      }
+                                    }}
+                                    options={paginationValue}
+                                  />
+                                </div>
+                              )}
                             </div>
-                          ) : (
-                            <NoRecord />
-                          )}
-                        </div>
-                        <ToastContainer />
+                          </div>
+                        ) : (
+                          <NoRecord />
+                        )}
                       </div>
+                      <ToastContainer />
                     </div>
                   </div>
                 </div>
@@ -579,18 +578,19 @@ const ClientBrandList = () => {
             </div>
           </div>
         </div>
-      ) : (
-        <PageError
-          pageError={{
-            StatusCode: "401",
-            ErrorName: "Not Authorised",
-            ErrorDesription: "You are not authorised to view this page",
-            url: "/",
-            buttonText: "Back to home",
-          }}
-        />
-      )}
-    </>
+      </div>
+    ) : (
+      <PageError
+        pageError={{
+          StatusCode: "401",
+          ErrorName: "Not Authorised",
+          ErrorDesription: "You are not authorised to view this page",
+          url: "/",
+          buttonText: "Back to home",
+        }}
+      />
+    )}
+  </>
   );
 };
 
