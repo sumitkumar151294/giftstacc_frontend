@@ -24,6 +24,7 @@ const SupplierMasterForm = ({
   data,
   setData,
   isDelete,
+  setIsDelete
 }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
@@ -104,19 +105,18 @@ const SupplierMasterForm = ({
       },
     ]);
   };
-
-
   const getAdditionalFIeldData = (del = false, supplierId) => {
     let tempAdditionField = [...additionalFields];
     const additionalData = tempAdditionField.map((item) => ({
       ...item,
       enabled: true,
       deleted: del,
-      fieldDescription: "test", // Need to remove once APi is developed
+      fieldDescription: "test",
       supplierId: supplierId,
     }));
     return additionalData;
   };
+
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (
@@ -131,13 +131,15 @@ const SupplierMasterForm = ({
       );
     } else if (
       supplyPostData?.update_status_code === "201" &&
-      !supplyPostData?.isLoading
+      !supplyPostData?.putSupplierLoading
     ) {
       dispatch(onUpdateSupplierListReset());
+
       if (isDelete) {
         toast.success(supplyPostData?.message);
         dispatch(onGetSupplierList());
         dispatch(onGetSupplierResource());
+        setIsDelete(false)
       } else {
         dispatch(
           onUpdateSupplierResource(getAdditionalFIeldData(false, data?.id))
@@ -152,6 +154,7 @@ const SupplierMasterForm = ({
       dispatch(onVendorReset());
       toast.error(supplyPostData?.message);
     }
+
   }, [supplyPostData]);
   useEffect(() => {
     if (supplyResource?.status_code === "201" && !supplyResource?.isLoading) {
@@ -352,7 +355,7 @@ const SupplierMasterForm = ({
                 <h4 className="card-title">{supplierMaster}</h4>
               </div>
               <div className="card-body">
-                {supplyPostData?.isLoading ? (
+                {supplyPostData?.isLoading || (!isDelete && supplyPostData?.putSupplierLoading) ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -394,8 +397,8 @@ const SupplierMasterForm = ({
                                   : nonActive
                             }
                             className={`${errors.enabled
-                                ? "border-danger-select"
-                                : "form-select"
+                              ? "border-danger-select"
+                              : "form-select"
                               }`}
                             options={statusoptions}
                           />
@@ -410,8 +413,8 @@ const SupplierMasterForm = ({
                             name="text"
                             value={vendorData?.balanceThresholdAmount}
                             className={` ${errors.balanceThresholdAmount
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             id="amominThresholdAmountunt"
                             placeholder="₹500000"
@@ -431,8 +434,8 @@ const SupplierMasterForm = ({
                             name="text"
                             value={vendorData.creditAmount}
                             className={` ${errors.creditAmount
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             id="creditAmount"
                             placeholder="₹500000"
@@ -449,8 +452,8 @@ const SupplierMasterForm = ({
                             name="servicePath"
                             value={vendorData?.servicePath}
                             className={` ${errors.servicePath
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             id="servicePath"
                             placeholder=""
@@ -472,8 +475,8 @@ const SupplierMasterForm = ({
                                     <InputField
                                       type="text"
                                       className={` ${additionalFieldsError[index]?.fieldName
-                                          ? "border-danger"
-                                          : "form-control"
+                                        ? "border-danger"
+                                        : "form-control"
                                         }`}
                                       name="fname"
                                       placeholder="Key"
@@ -494,8 +497,8 @@ const SupplierMasterForm = ({
                                     <InputField
                                       type="text"
                                       className={` ${additionalFieldsError[index]?.fieldValue
-                                          ? "border-danger"
-                                          : "form-control"
+                                        ? "border-danger"
+                                        : "form-control"
                                         }`}
                                       name="fname"
                                       placeholder="Value"

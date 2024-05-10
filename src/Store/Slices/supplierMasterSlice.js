@@ -81,13 +81,13 @@ export const supplierMasterSlice = createSlice({
       };
     },
     onUpdateSupplierList: (state) => {
-      return { ...state, isLoading: true, updateData: [], message: '', error: [], isError: false, update_status_code: null };
+      return { ...state, putSupplierLoading: true, updateData: [], message: '', error: [], isError: false, update_status_code: null };
     },
     onUpdateSupplierListSuccess: (state, { payload }) => {
       const { data = [], message = '', status_code } = payload;
       return {
         ...state,
-        isLoading: false,
+        putSupplierLoading: false,
         isError: false,
         updateData: data,
         error: [],
@@ -99,7 +99,7 @@ export const supplierMasterSlice = createSlice({
       const { data = [], message = '', status_code } = payload;
       return {
         ...state,
-        isLoading: false,
+        putSupplierLoading: false,
         isError: true,
         updateData: data,
         message,
@@ -109,7 +109,7 @@ export const supplierMasterSlice = createSlice({
     onUpdateSupplierListReset: (state, { payload }) => {
       return {
         ...state,
-        isLoading: false,
+        putSupplierLoading: false,
         isError: false,
         data: [],
         message: "",
