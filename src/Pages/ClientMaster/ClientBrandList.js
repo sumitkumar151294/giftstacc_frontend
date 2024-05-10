@@ -34,9 +34,7 @@ const ClientBrandList = () => {
     (state) => state.supplierBrandListReducer.data || []
   );
 
-  const ClientProducts = useSelector(
-    (state) => state.clientProductMappingReducer || {}
-  );
+  const ClientProducts = useSelector(state => state.clientProductMappingReducer || []);
 
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -69,7 +67,7 @@ const ClientBrandList = () => {
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
+  useEffect(() => { 
     dispatch(onGetSupplierList());
     dispatch(
       onGetSupplierBrandList({
@@ -168,8 +166,8 @@ const ClientBrandList = () => {
   ];
 
   useEffect(() => {
-    const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
-      return item.enabled === true;
+    const filterData = SupplierBrandList?.[0]?.products?.map((item) => {
+      return item;
     });
     setCopySupplierBrandList(filterData);
   }, [SupplierBrandList]);
@@ -203,7 +201,7 @@ const ClientBrandList = () => {
         enabled: false,
       });
     }
-    const updatedClinetMapping = mapping.map((item) => {
+    const updatedClinetMapping = mapping?.map((item) => {
       if (item.productId === ids) {
         return { ...item, [name]: newValue };
       } else {
@@ -213,7 +211,7 @@ const ClientBrandList = () => {
     setCopyClientMapping(updatedClinetMapping);
   };
 
-  const handleUpdate = (data) => {
+  const handleUpdate = (data) => { 
     const isUpdate =
       Array.isArray(copyClientMapping) &&
       copyClientMapping?.find((item) => item.productId === data?.id);
@@ -227,7 +225,7 @@ const ClientBrandList = () => {
         id: isUpdate?.id,
       };
       dispatch(onUpdateClientProductMappingSubmit(updatedValues));
-    } else {
+    } else { 
       const updatedValues = {
         clientCommission: isUpdate?.clientCommission,
         customerDiscount: isUpdate?.customerDiscount,

@@ -12,7 +12,9 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import { onGetAllClientProductMapping } from "../../Store/Slices/clientProductMappingSlice";
+import {
+  onGetAllClientProductMapping,
+} from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
@@ -56,9 +58,6 @@ const BrandCatalogue = () => {
     supplier: "",
     client: "",
   });
-  const SupplierBrandList = useSelector(
-    (state) => state.supplierBrandListReducer.data
-  );
   const [supplierList, setSupplierList] = useState([]);
   const excelData = Array.isArray(
     productByIdReducer?.productById?.[0]?.products

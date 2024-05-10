@@ -43,6 +43,8 @@ const CategoryForm = () => {
     name: "",
   });
   const getCategoriesData = useSelector((state) => state.createCategoryReducer);
+  const getSuppliermasterData = useSelector((state) => state.supplierMasterReducer);
+  const getSupplierBrandListLoadingData = useSelector((state) => state.supplierBrandListReducer);
   const resetCategoryFields = {
     name: "",
     supplierId: "",
@@ -86,7 +88,7 @@ const CategoryForm = () => {
           ?.filter((item) => {
             return (
               item.supplierCode ===
-                e.target.selectedOptions.item("").getAttribute("name") &&
+              e.target.selectedOptions.item("").getAttribute("name") &&
               item.enabled !== false
             );
           })
@@ -117,7 +119,7 @@ const CategoryForm = () => {
     const newErrors = { ...errors };
     for (const key in createCategory) {
       if (createCategory[key] === "") {
-        newErrors[key] =  field_Required ;
+        newErrors[key] = field_Required;
         isValid = false;
       } else if (createCategory[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
@@ -136,7 +138,7 @@ const CategoryForm = () => {
             supplierBrandId: parseInt(createCategory?.supplierBrandId),
           })
         );
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
@@ -172,7 +174,7 @@ const CategoryForm = () => {
               </div>
 
               <div className="card-body">
-                {getCategoriesData?.isLoading ? (
+                {(getCategoriesData?.postLoading || (getSuppliermasterData?.getSupplierLoading && getSupplierBrandListLoadingData?.supplierBrandListLoading)) ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -187,16 +189,15 @@ const CategoryForm = () => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${
-                              errors.name ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.name ? "border-danger" : "form-control"
+                              }`}
                             name="categoryNam"
                             id="name-f"
                             placeholder=""
                             value={createCategory.name}
                             onChange={(e) => handleChange(e, "name")}
                           />
-                          {<p className="text-danger">{errors.name}</p>}
+                          {createCategory.name.length > 250 && <p className="text-danger">{errors.name}</p>}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="vendor-category">
@@ -208,23 +209,22 @@ const CategoryForm = () => {
                             error={errors.supplierId}
                             ariaLabel="Select"
                             value={createCategory.supplierId}
-                            className={` ${
-                              errors.supplierId
-                                ? "border-danger"
-                                : "form-select"
-                            }`}
+                            className={` ${errors.supplierId
+                              ? "border-danger"
+                              : "form-select"
+                              }`}
                             options={
-                              Array.isArray(supplierMasterData) 
+                              Array.isArray(supplierMasterData)
                                 ? supplierMasterData
-                                    .filter(supplier => supplier.enabled)  // Filter to keep only enabled suppliers
-                                    .map(supplier => ({
-                                      label: supplier.name,
-                                      value: supplier.id,
-                                      data: supplier.code,
-                                    }))
+                                  .filter(supplier => supplier.enabled)  // Filter to keep only enabled suppliers
+                                  .map(supplier => ({
+                                    label: supplier.name,
+                                    value: supplier.id,
+                                    data: supplier.code,
+                                  }))
                                 : []
                             }
-                            
+
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
@@ -237,11 +237,10 @@ const CategoryForm = () => {
                             error={errors.supplierBrandId}
                             value={createCategory.supplierBrandId}
                             ariaLabel="Select"
-                            className={` ${
-                              errors.supplierBrandId
-                                ? "border-danger"
-                                : "form-select"
-                            }`}
+                            className={` ${errors.supplierBrandId
+                              ? "border-danger"
+                              : "form-select"
+                              }`}
                             options={supplierBrandListData}
                           />
                         </div>
