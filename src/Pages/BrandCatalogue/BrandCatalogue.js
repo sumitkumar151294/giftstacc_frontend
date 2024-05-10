@@ -12,9 +12,7 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import {
-  onGetAllClientProductMapping,
-} from "../../Store/Slices/clientProductMappingSlice";
+import { onGetAllClientProductMapping } from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
@@ -334,7 +332,7 @@ const BrandCatalogue = () => {
                                             <img
                                               src={data.small}
                                               style={{ width: "50px" }}
-                                              alt={data.small}
+                                              x
                                             />
                                             <br />
                                           </td>
