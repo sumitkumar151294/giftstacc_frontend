@@ -181,10 +181,10 @@ const SupplierMasterForm = ({
         enabled: "",
       });
       setAdditionalFieldsError([{
-      fieldName: "",
-      fieldValue: "",
-      fieldDescription: "",
-    }])
+        fieldName: "",
+        fieldValue: "",
+        fieldDescription: "",
+      }])
       const filterSupplierApiCred = supplyResource?.data?.filter(
         (item) => item?.supplierId === data?.id
       );
@@ -342,7 +342,6 @@ const SupplierMasterForm = ({
     newErrors.splice(index, 1);
     setAdditionalFieldsError(newErrors);
   };
-
   return (
     <>
       <div className="container-fluid form">
@@ -369,9 +368,8 @@ const SupplierMasterForm = ({
                           <InputField
                             type="text"
                             value={vendorData?.name}
-                            className={` ${
-                              errors.name ? "border-danger" : "form-control"
-                            }`}
+                            className={` ${errors.name ? "border-danger" : "form-control"
+                              }`}
                             name="fname"
                             id="name-f"
                             placeholder=""
@@ -392,14 +390,13 @@ const SupplierMasterForm = ({
                                 ? active
                                 : vendorData?.enabled === undefined ||
                                   vendorData?.enabled === ""
-                                ? ""
-                                : nonActive
+                                  ? ""
+                                  : nonActive
                             }
-                            className={`${
-                              errors.enabled
+                            className={`${errors.enabled
                                 ? "border-danger-select"
                                 : "form-select"
-                            }`}
+                              }`}
                             options={statusoptions}
                           />
                         </div>
@@ -412,11 +409,10 @@ const SupplierMasterForm = ({
                             type="number"
                             name="text"
                             value={vendorData?.balanceThresholdAmount}
-                            className={` ${
-                              errors.balanceThresholdAmount
+                            className={` ${errors.balanceThresholdAmount
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             id="amominThresholdAmountunt"
                             placeholder="₹500000"
                             onChange={(e) =>
@@ -434,11 +430,10 @@ const SupplierMasterForm = ({
                             type="number"
                             name="text"
                             value={vendorData.creditAmount}
-                            className={` ${
-                              errors.creditAmount
+                            className={` ${errors.creditAmount
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             id="creditAmount"
                             placeholder="₹500000"
                             onChange={(e) => handleChange(e, "creditAmount")}
@@ -453,11 +448,10 @@ const SupplierMasterForm = ({
                             type="text"
                             name="servicePath"
                             value={vendorData?.servicePath}
-                            className={` ${
-                              errors.servicePath
+                            className={` ${errors.servicePath
                                 ? "border-danger"
                                 : "form-control"
-                            }`}
+                              }`}
                             id="servicePath"
                             placeholder=""
                             onChange={(e) => handleChange(e, "servicePath")}
@@ -477,11 +471,10 @@ const SupplierMasterForm = ({
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${
-                                        additionalFieldsError[index]?.fieldName
+                                      className={` ${additionalFieldsError[index]?.fieldName
                                           ? "border-danger"
                                           : "form-control"
-                                      }`}
+                                        }`}
                                       name="fname"
                                       placeholder="Key"
                                       value={additionalFields[index]?.fieldName}
@@ -500,11 +493,10 @@ const SupplierMasterForm = ({
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${
-                                        additionalFieldsError[index]?.fieldValue
+                                      className={` ${additionalFieldsError[index]?.fieldValue
                                           ? "border-danger"
                                           : "form-control"
-                                      }`}
+                                        }`}
                                       name="fname"
                                       placeholder="Value"
                                       value={additionalFields[index]?.fieldValue}
@@ -563,12 +555,12 @@ const SupplierMasterForm = ({
                             icon={"fa fa-arrow-right"}
                             className="btn btn-primary float-right pad-aa mt-2"
                           />
-                          <ToastContainer />
                         </div>
                       </div>
                     </form>
                   </div>
                 )}
+                <ToastContainer />
               </div>
             </div>
           </div>
