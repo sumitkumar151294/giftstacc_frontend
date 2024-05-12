@@ -174,27 +174,33 @@ const RoleMasterForm = ({ data, setData }) => {
     } else {
       setFormData({
         ...formData,
-        [name]: e.target.value,
-      });
+        [name]:e.target.value,
+      })
     }
+    setErrors({
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let isvalid = true;
     const newErrors = { ...errors };
     setErrors(newErrors);
     if (formData.name.trim() === "") {
       newErrors.name = mandatory_Req_Label;
       setErrors(newErrors);
+      isvalid=false
     } else if (formData.name.length > 250) {
       newErrors.name = "Length must be 250 or fewer";
       setErrors(newErrors);
+      isvalid=false;
     } else {
       newErrors.name = "";
     }
     if (formData.description.length > 250) {
       newErrors.description = "Length must be 250 or fewer";
       setErrors(newErrors);
+      isvalid=false
     }
 
     //At least one Module should be selected
@@ -204,7 +210,6 @@ const RoleMasterForm = ({ data, setData }) => {
       setCheckBoxError(true);
       return;
     }
-
     const postData = {
       createdBy: 0,
       deleted: false,
@@ -214,6 +219,7 @@ const RoleMasterForm = ({ data, setData }) => {
       name: formData.name,
       updatedBy: 0,
     };
+    if(isvalid){
     try {
       //To Submit the data
       if (!data) {
@@ -225,6 +231,7 @@ const RoleMasterForm = ({ data, setData }) => {
         dispatch(onUpdateUserRole(JSON.stringify(postData)));
       }
     } catch (error) {}
+  }
   };
 
   useEffect(() => {
