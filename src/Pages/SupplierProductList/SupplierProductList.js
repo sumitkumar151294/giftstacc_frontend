@@ -29,6 +29,7 @@ const SupplierProductList = () => {
   const getProductListData = useSelector(
     (state) => state.supplierBrandListReducer?.isLoading
   );
+  console.log(getProductListData, getProductListData?.supplierBrandListLoading);
   const activeUsersCount =
     Array.isArray(SupplierBrandList) &&
     SupplierBrandList?.[0]?.products?.filter((item) => item?.enabled)?.length;
@@ -176,6 +177,8 @@ const SupplierProductList = () => {
     });
     setCopySupplierBrandList(updatedSupplier);
   };
+  const [isDelete, setIsDelete] = useState(false);
+
   const handleUpdate = (data) => {
     const updatedValues = {
       id: data.id,
@@ -186,6 +189,7 @@ const SupplierProductList = () => {
       enabled: data?.enabled,
       clientEnabled: data?.clientEnabled,
     };
+    setIsDelete(true);
     dispatch(onUpdateSupplierBrandList(updatedValues));
   };
 
@@ -251,6 +255,7 @@ const SupplierProductList = () => {
   return (
     <>
       <ScrollToTop />
+      <ToastContainer />
       <div>
         <div className="container-fluid">
           <div className="row">
@@ -336,7 +341,8 @@ const SupplierProductList = () => {
                           </div>
 
                           {Array.isArray(copySupplierBrandList) &&
-                          copySupplierBrandList?.length > 0 ? (
+                          copySupplierBrandList?.length > 0 &&
+                          !getProductListData ? (
                             <div className="card-body">
                               <div className="table-responsive">
                                 <table className="table header-border table-responsive-sm">
@@ -425,14 +431,14 @@ const SupplierProductList = () => {
                                     )}
                                   </tbody>
                                 </table>
-                                {SupplierBrandList[0].totalCount > 5 && (
+                                {SupplierBrandList[0]?.totalCount > 5 && (
                                   <div className="pagination-container">
                                     <ReactPaginate
                                       previousLabel={"<"}
                                       nextLabel={" >"}
                                       breakLabel={"..."}
                                       pageCount={Math.ceil(
-                                        SupplierBrandList[0].totalCount /
+                                        SupplierBrandList[0]?.totalCount /
                                           rowsPerPage
                                       )}
                                       marginPagesDisplayed={2}
@@ -478,7 +484,6 @@ const SupplierProductList = () => {
                           )}
                         </div>
                       )}
-                      <ToastContainer />
                     </div>
                   </div>
                 </div>

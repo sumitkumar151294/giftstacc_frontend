@@ -12,9 +12,7 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import {
-  onGetAllClientProductMapping,
-} from "../../Store/Slices/clientProductMappingSlice";
+import { onGetAllClientProductMapping } from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
@@ -118,8 +116,13 @@ const BrandCatalogue = () => {
     : [];
   const handleChange = (e, fieldName) => {
     const selectedSupplierName = e.target.value;
+    let data =
+      Array.isArray(productByIdReducer?.productById?.[0]?.products) &&
+      productByIdReducer?.productById?.[0]?.products?.filter(
+        (vendor) => vendor?.enabled === true
+      );
     if (selectedSupplierName === "Select") {
-      setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
+      setCopyBrandCatalogue(data);
     } else {
       let filteredSupplierList =
         Array.isArray(productByIdReducer?.productById?.[0]?.products) &&
@@ -162,7 +165,6 @@ const BrandCatalogue = () => {
   };
   const clientCode = sessionStorage.getItem("clientCode");
   useEffect(() => {
-    dispatch(onGetAllClientProductMapping());
     dispatch(onGetSupplierList());
     dispatch(onClientMasterSubmit());
   }, []);

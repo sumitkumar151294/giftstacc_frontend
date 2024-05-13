@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 export const supplierBrandListSlice = createSlice({
   name: "supplierBrandList",
   initialState: {
-    isLoading: false,
     isError: false,
     data: {},
     error: {},
@@ -46,7 +45,8 @@ export const supplierBrandListSlice = createSlice({
     },
 
     onGetSupplierBrandList: (state) => {
-      return { ...state, supplierBrandListLoading: true, data: [], message: '', error: {}, isError: false };
+      return { ...state, supplierBrandListLoading: true, data: [],        isLoading: true,
+        message: '', error: {}, isError: false };
     },
     onGetSupplierBrandListSuccess: (state, { payload }) => {
       const { data = [], message = '', status_code } = payload;
@@ -54,6 +54,8 @@ export const supplierBrandListSlice = createSlice({
         ...state,
         supplierBrandListLoading: false,
         isError: false,
+        isLoading: false,
+
         data,
         error: {},
         message,
@@ -67,6 +69,7 @@ export const supplierBrandListSlice = createSlice({
         supplierBrandListLoading: false,
         isError: true,
         data:data,
+        isLoading: false,
         message,
         status_code
       };
