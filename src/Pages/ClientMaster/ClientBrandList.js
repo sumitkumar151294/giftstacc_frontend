@@ -21,6 +21,7 @@ import {
   onUpdateClientProductMappingSubmit,
 } from "../../Store/Slices/clientProductMappingSlice";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
+import Loader from "../../Components/Loader/Loader";
 
 const ClientBrandList = () => {
   const location = useLocation();
@@ -29,7 +30,9 @@ const ClientBrandList = () => {
   const [supplierList, setSupplierList] = useState([]);
   const [copySupplierBrandList, setCopySupplierBrandList] = useState([]);
   const [copyClientMapping, setCopyClientMapping] = useState([]);
-  const SupplierBrandList = useSelector(state => state.supplierBrandListReducer.data || []);
+  const SupplierBrandList = useSelector(
+    (state) => state.supplierBrandListReducer.data || []
+  );
 
   const ClientProducts = useSelector(state => state.clientProductMappingReducer || []);
 
@@ -113,13 +116,19 @@ const ClientBrandList = () => {
   }, [suppliers, supplierList.length]);
 
   const handleChange = (e) => {
-    const filterData = SupplierBrandList?.[0]?.products?.filter((item) => {
-      return item.enabled === true;
-    })
+    const filterData =
+      SupplierBrandList.length > 0
+        ? SupplierBrandList[0].products.filter((item) => item.enabled)
+        : [];
+
     const selectedSupplierCode = e.target.value;
     if (selectedSupplierCode === "Select") {
       dispatch(
-        onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
+        onGetSupplierBrandList({
+          pageNumber: page,
+          pageSize: rowsPerPage,
+          enabled: 1,
+        })
       );
     } else {
       let filteredSupplierList =
@@ -164,12 +173,13 @@ const ClientBrandList = () => {
   }, [SupplierBrandList]);
 
   useEffect(() => {
-    const copyData = Array.isArray(ClientProducts.clientDataById) && ClientProducts.clientDataById.length > 0 
-    ? [...ClientProducts.clientDataById[0].clientProductMapping] 
-    : [];
+    const copyData =
+      Array.isArray(ClientProducts.clientDataById) &&
+      ClientProducts.clientDataById.length > 0
+        ? [...ClientProducts.clientDataById[0].clientProductMapping]
+        : [];
     setCopyClientMapping(copyData);
   }, [ClientProducts?.clientDataById]);
-
   const handleKeyPress = (e) => {
     if (e.key === "e" || e.key === "+" || e.key === "-") {
       e.preventDefault();
@@ -370,209 +380,233 @@ const ClientBrandList = () => {
                       </div>
                     </form>
                     <div className="row px-1">
-                      <div className="col-lg-12">
-                        <div>
-                          {Array.isArray(copySupplierBrandList) &&
-                          copySupplierBrandList.length > 0 ? (
-                            <div className="card-body">
-                              <div className="table-responsive">
-                                <table className="table header-border table-responsive-sm">
-                                  <thead>
-                                    <tr>
-                                      <th>{supplierName}</th>
-                                      <th>{supplierBrandName}</th>
-                                      <th>{clientbrandlistdiscount}</th>
-                                      <th>{clientbrandlistcommission}</th>
-                                      <th>{supplierMargin}</th>
-                                      <th>{status}</th>
-                                      <th>{action}</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {copySupplierBrandList.map(
-                                      (data, index) => (
-                                        <tr key={index}>
-                                          <td>
-                                            {getSupplierName(data.supplierCode)}
-                                          </td>
-                                          <td>{data.name}</td>
-                                          <td>
-                                            <div className="input-group mb-2 w-11">
-                                              <InputField
-                                                type="number"
-                                                className="form-control htt"
-                                                placeholder={
-                                                  data.customerDiscount
-                                                }
-                                                pattern="/^-?\d+\.?\d*$/"
-                                                value={getValues(
-                                                  data.id,
-                                                  "customerDiscount"
-                                                )}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    e,
+                      {ClientProducts?.isLoading ? (
+                        <div style={{ height: "200px" }}>
+                          <Loader classType={"absoluteLoader"} />
+                        </div>
+                      ) : (
+                        <div className="col-lg-12">
+                          <div>
+                            {Array.isArray(copySupplierBrandList) &&
+                            copySupplierBrandList.length > 0 ? (
+                              <div className="card-body">
+                                <div className="table-responsive">
+                                  <table className="table header-border table-responsive-sm">
+                                    <thead>
+                                      <tr>
+                                        <th>{supplierName}</th>
+                                        <th>{supplierBrandName}</th>
+                                        <th>{clientbrandlistdiscount}</th>
+                                        <th>{clientbrandlistcommission}</th>
+                                        <th>{supplierMargin}</th>
+                                        <th>{status}</th>
+                                        <th>{action}</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {copySupplierBrandList.map(
+                                        (data, index) => (
+                                          <tr key={index}>
+                                            <td>
+                                              {getSupplierName(
+                                                data.supplierCode
+                                              )}
+                                            </td>
+                                            <td>{data.name}</td>
+                                            <td>
+                                              <div className="input-group mb-2 w-11">
+                                                <InputField
+                                                  type="number"
+                                                  className="form-control htt"
+                                                  placeholder={
+                                                    data.customerDiscount
+                                                  }
+                                                  pattern="/^-?\d+\.?\d*$/"
+                                                  value={getValues(
                                                     data.id,
                                                     "customerDiscount"
-                                                  )
-                                                }
-                                                onKeyPress={(e) =>
-                                                  handleKeyPress(e, index)
-                                                }
-                                              />
-                                              <div className="input-group-append">
-                                                <Button
-                                                  onClick={() =>
-                                                    handleUpdate(data, data.id)
+                                                  )}
+                                                  onChange={(e) =>
+                                                    handleInputChange(
+                                                      e,
+                                                      data.id,
+                                                      "customerDiscount"
+                                                    )
                                                   }
-                                                  className="btn btn-outline-primary btn-sm group-btn btn-pad"
-                                                  type="button"
-                                                  text={update}
+                                                  onKeyPress={(e) =>
+                                                    handleKeyPress(e, index)
+                                                  }
                                                 />
+                                                <div className="input-group-append">
+                                                  <Button
+                                                    onClick={() =>
+                                                      handleUpdate(
+                                                        data,
+                                                        data.id
+                                                      )
+                                                    }
+                                                    className="btn btn-outline-primary btn-sm group-btn btn-pad"
+                                                    type="button"
+                                                    text={update}
+                                                  />
+                                                </div>
                                               </div>
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div className="input-group mb-2 w-11">
-                                              <InputField
-                                                type="number"
-                                                className="form-control htt"
-                                                placeholder={
-                                                  data.clientCommission
-                                                }
-                                                pattern="/^-?\d+\.?\d*$/"
-                                                value={getValues(
-                                                  data.id,
-                                                  "clientCommission"
-                                                )}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    e,
+                                            </td>
+                                            <td>
+                                              <div className="input-group mb-2 w-11">
+                                                <InputField
+                                                  type="number"
+                                                  className="form-control htt"
+                                                  placeholder={
+                                                    data.clientCommission
+                                                  }
+                                                  pattern="/^-?\d+\.?\d*$/"
+                                                  value={getValues(
                                                     data.id,
                                                     "clientCommission"
-                                                  )
-                                                }
-                                                onKeyPress={(e) =>
-                                                  handleKeyPress(e, index)
-                                                }
-                                              />
-                                              <div className="input-group-append">
-                                                <Button
-                                                  onClick={() =>
-                                                    handleUpdate(data, data.id)
+                                                  )}
+                                                  onChange={(e) =>
+                                                    handleInputChange(
+                                                      e,
+                                                      data.id,
+                                                      "clientCommission"
+                                                    )
                                                   }
-                                                  className="btn btn-outline-primary btn-sm group-btn btn-pad"
-                                                  type="button"
-                                                  text={update}
+                                                  onKeyPress={(e) =>
+                                                    handleKeyPress(e, index)
+                                                  }
                                                 />
+                                                <div className="input-group-append">
+                                                  <Button
+                                                    onClick={() =>
+                                                      handleUpdate(
+                                                        data,
+                                                        data.id
+                                                      )
+                                                    }
+                                                    className="btn btn-outline-primary btn-sm group-btn btn-pad"
+                                                    type="button"
+                                                    text={update}
+                                                  />
+                                                </div>
                                               </div>
-                                            </div>
-                                          </td>
-                                          <td>{data.supplierMargin}</td>
-                                          <td>
-                                            <span
-                                              className={
-                                                getValues(
+                                            </td>
+                                            <td>{data.supplierMargin}</td>
+                                            <td>
+                                              <span
+                                                className={
+                                                  getValues(
+                                                    data.id,
+                                                    enabled_Text
+                                                  ) === true
+                                                    ? "badge badge-success"
+                                                    : "badge badge-danger"
+                                                }
+                                              >
+                                                {getValues(
                                                   data.id,
                                                   enabled_Text
                                                 ) === true
-                                                  ? "badge badge-success"
-                                                  : "badge badge-danger"
-                                              }
-                                            >
-                                              {getValues(
-                                                data.id,
-                                                enabled_Text
-                                              ) === true
-                                                ? active
-                                                : non_active}
-                                            </span>
-                                          </td>
-                                          <td>
-                                            <div className="can-toggle">
-                                              <input
-                                                id={generateUniqueId(index)}
-                                                type="checkbox"
-                                                checked={getValues(
-                                                  data.id,
-                                                  enabled_Text
-                                                )}
-                                              ></input>
-                                              <label
-                                                htmlFor={generateUniqueId(
-                                                  index
-                                                )}
-                                              >
-                                                <div
-                                                  className="can-toggle__switch"
-                                                  data-unchecked={"OFF"}
-                                                  data-checked={"ON"}
-                                                  onClick={() =>
-                                                    updateStatus(data, index)
-                                                  }
-                                                ></div>
-                                              </label>
-                                            </div>
-                                          </td>
-                                        </tr>
-                                      )
-                                    )}
-                                  </tbody>
-                                </table>
-                                {SupplierBrandList[0]?.totalCount > 5 && (
-                                  <div className="pagination-container">
-                                    <ReactPaginate
-                                      previousLabel={"<"}
-                                      nextLabel={" >"}
-                                      breakLabel={"..."}
-                                      pageCount={Math.ceil(
-                                        SupplierBrandList[0]?.totalCount /
-                                          rowsPerPage
+                                                  ? active
+                                                  : non_active}
+                                              </span>
+                                            </td>
+                                            <td>
+                                              <div className="can-toggle">
+                                                <input
+                                                  id={generateUniqueId(index)}
+                                                  type="checkbox"
+                                                  checked={getValues(
+                                                    data.id,
+                                                    enabled_Text
+                                                  )}
+                                                ></input>
+                                                <label
+                                                  htmlFor={generateUniqueId(
+                                                    index
+                                                  )}
+                                                >
+                                                  <div
+                                                    className="can-toggle__switch"
+                                                    data-unchecked={"OFF"}
+                                                    data-checked={"ON"}
+                                                    onClick={() =>
+                                                      updateStatus(data, index)
+                                                    }
+                                                  ></div>
+                                                </label>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        )
                                       )}
-                                      marginPagesDisplayed={2}
-                                      onPageChange={(e) => handlePageChange(e)}
-                                      containerClassName={"pagination"}
-                                      activeClassName={"active"}
-                                      initialPage={
-                                        rowsPerPage !== 5
-                                          ? page === 0
-                                          : page - 1
-                                      } // Use initialPage instead of forcePage
-                                      previousClassName={
-                                        page === 0 ? disabled_Text : ""
-                                      }
-                                    />
-                                    <Dropdown
-                                      defaultSelected="Page Size"
-                                      className="paginationDropdown"
-                                      value={rowsPerPageValue || ""}
-                                      onChange={(e) => {
-                                        setRowsPerPageValue(e.target.value);
-                                        const newSize = parseInt(
-                                          e.target.value
-                                        );
-                                        if (!isNaN(newSize)) {
-                                          setRowsPerPage(e.target.value);
-                                          dispatch(
-                                            onGetSupplierBrandList({
-                                              pageNumber: page,
-                                              pageSize: newSize,
-                                            })
-                                          );
+                                    </tbody>
+                                  </table>
+                                  {SupplierBrandList[0]?.totalCount > 5 && (
+                                    <div className="pagination-container">
+                                      <ReactPaginate
+                                        previousLabel={"<"}
+                                        nextLabel={" >"}
+                                        breakLabel={"..."}
+                                        pageCount={Math.ceil(
+                                          SupplierBrandList[0]?.totalCount /
+                                            rowsPerPage
+                                        )}
+                                        marginPagesDisplayed={2}
+                                        onPageChange={(e) =>
+                                          handlePageChange(e)
                                         }
-                                      }}
-                                      options={paginationValue}
-                                    />
-                                  </div>
-                                )}
+                                        containerClassName={"pagination"}
+                                        activeClassName={"active"}
+                                        initialPage={
+                                          rowsPerPage !== 5
+                                            ? page === 0
+                                            : page - 1
+                                        } // Use initialPage instead of forcePage
+                                        previousClassName={
+                                          page === 0 ? disabled_Text : ""
+                                        }
+                                      />
+                                      <Dropdown
+                                        defaultSelected="Page Size"
+                                        className="paginationDropdown"
+                                        value={rowsPerPageValue || ""}
+                                        onChange={(e) => {
+                                          setRowsPerPageValue(e.target.value);
+                                          const newSize = parseInt(
+                                            e.target.value
+                                          );
+                                          if (!isNaN(newSize)) {
+                                            setRowsPerPage(e.target.value);
+                                            dispatch(
+                                              onGetSupplierBrandList({
+                                                pageNumber: page,
+                                                pageSize: newSize,
+                                              })
+                                            );
+                                          }
+                                        }}
+                                        options={paginationValue}
+                                      />
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          ) : (
-                            <NoRecord />
-                          )}
+                            ) : (
+                              !ClientProducts?.isLoading &&
+                              (ClientProducts.clientDataById[0]
+                                .clientProductMapping.length <= 0 ||
+                                copySupplierBrandList?.length <= 0 ||
+                                copySupplierBrandList?.length < 0 ||
+                                ClientProducts.clientDataById[0]
+                                  .clientProductMapping.length < 0) && (
+                                <NoRecord />
+                              )
+                            )}
+                          </div>
+                          <ToastContainer />
                         </div>
-                        <ToastContainer />
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
