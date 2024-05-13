@@ -19,7 +19,6 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
-  const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   const [sideBarModules, setIsSideBarModules] = useState([]);
   const [selectedModuleId, setSelectedModuleId] = useState(null);
   const logout = GetTranslationData("UIAdmin", "logout");
@@ -43,6 +42,9 @@ const Sidebar = () => {
   const userRoleID = useSelector(
     (state) => state.loginReducer?.data?.[0]?.adminRoleId
   );
+  const roleAccessListLoading = useSelector(
+    (state) => state.userRoleReducer.getUserRoleLoading
+  );
   useEffect(() => {
     axiosInstance.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
     axiosInstanceClient.defaults.headers.Authorization = `Bearer ${loginAuthData?.data?.[0]?.token}`;
@@ -53,8 +55,6 @@ const Sidebar = () => {
       loginAuthData?.data?.[0]?.clientId;
     axiosInstance.defaults.headers["client-code"] =
       loginAuthData?.data?.[0]?.clientId;
-
-    setIsSidebarLoading(true);
     if(!getModuleData?.data?.length){
     dispatch(onGetModule());
     dispatch(onGetUserRoleModuleAccess());
@@ -65,7 +65,6 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (!getModuleData.isLoading && userRoleModuleAccess.length > 0) {
-      setIsSidebarLoading(false);
       let tempideModules = JSON.parse(JSON.stringify(getModuleData?.data));
       const filterData = userRoleModuleAccess.filter((item) => {
         return (
@@ -84,7 +83,6 @@ const Sidebar = () => {
       }
       setIsSideBarModules(filterModules);
     } else {
-      setIsSidebarLoading(true);
     }
   }, [getModuleData, userRoleModuleAccess]);
 
@@ -133,7 +131,7 @@ const Sidebar = () => {
   return (
     <div className="deznav">
       <div className="deznav-scroll mm-active ps ps--active-y">
-        {isSidebarLoading ? (
+        {roleAccessListLoading  ? (
           <div style={{ height: "400px" }}>
             <Loader classType={"absoluteLoader"} />
           </div>
@@ -172,7 +170,7 @@ const Sidebar = () => {
               </Link>
             </li>
           </ul>
-        )}
+         )} 
       </div>
     </div>
   );
