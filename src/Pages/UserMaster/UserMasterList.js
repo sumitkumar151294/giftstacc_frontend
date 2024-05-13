@@ -89,8 +89,8 @@ const UserMasterList = () => {
                   </div>
                   {loading ? (
                     <div style={{ height: "400px" }}>
-                      <Loader classNameType={"absoluteLoader"} />
-                    </div>
+                    <Loader classType={"absoluteLoader"} />
+                  </div>
                   ) : Array.isArray(filteredUserList) &&
                     filteredUserList?.length > 0 ? (
                     <div className="card-body">
