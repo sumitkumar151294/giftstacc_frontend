@@ -26,8 +26,9 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
+  
   const getProductListData = useSelector(
-    (state) => state.supplierBrandListReducer?.isLoading
+    (state) => state.supplierBrandListReducer
   );
   const activeUsersCount =
     Array.isArray(SupplierBrandList) &&
@@ -61,6 +62,8 @@ const SupplierProductList = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     dispatch(
       onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
@@ -87,6 +90,7 @@ const SupplierProductList = () => {
     dispatch(
       onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
     );
+    setLoading(true);
   }, [page]);
 
   const handleSearch = (e) => {
@@ -247,10 +251,15 @@ const SupplierProductList = () => {
       label: 100,
     },
   ];
-
+  useEffect(() => {
+    if (SupplierBrandList.length > 0) {
+      setLoading(false);
+    }
+  }, [SupplierBrandList]);
   return (
     <>
       <ScrollToTop />
+      <ToastContainer />
       <div>
         <div className="container-fluid">
           <div className="row">
@@ -325,7 +334,7 @@ const SupplierProductList = () => {
                   </form>
                   <div className="row px-1">
                     <div className="col-lg-12">
-                      {getProductListData ? (
+                      {getProductListData?.supplierBrandListLoading ||getProductListData?.updateLoading || loading ? (
                         <div style={{ height: "400px" }}>
                           <Loader classType={"absoluteLoader"} />
                         </div>
@@ -334,9 +343,8 @@ const SupplierProductList = () => {
                           <div className="card-header">
                             <h4 className="card-title">{supplierBrandLists}</h4>
                           </div>
-
                           {Array.isArray(copySupplierBrandList) &&
-                          copySupplierBrandList?.length > 0 ? (
+                          copySupplierBrandList?.length > 0  ? (
                             <div className="card-body">
                               <div className="table-responsive">
                                 <table className="table header-border table-responsive-sm">
@@ -425,14 +433,14 @@ const SupplierProductList = () => {
                                     )}
                                   </tbody>
                                 </table>
-                                {SupplierBrandList[0].totalCount > 5 && (
+                                {SupplierBrandList[0]?.totalCount > 5 && (
                                   <div className="pagination-container">
                                     <ReactPaginate
                                       previousLabel={"<"}
                                       nextLabel={" >"}
                                       breakLabel={"..."}
                                       pageCount={Math.ceil(
-                                        SupplierBrandList[0].totalCount /
+                                        SupplierBrandList[0]?.totalCount /
                                           rowsPerPage
                                       )}
                                       marginPagesDisplayed={2}
@@ -478,7 +486,6 @@ const SupplierProductList = () => {
                           )}
                         </div>
                       )}
-                      <ToastContainer />
                     </div>
                   </div>
                 </div>
