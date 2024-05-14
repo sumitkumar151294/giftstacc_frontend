@@ -18,7 +18,6 @@ import { onClientLoginSubmit } from "../../Store/Slices/loginSlice";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showLoder, setShowLoader] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const loginDetails = useSelector((state) => state.loginReducer);
   const [loginData, setLoginData] = useState({
@@ -74,7 +73,6 @@ const LoginPage = () => {
     if (checked) {
       // To encrypt the passoword
 
-
       localStorage.setItem("userEmail", loginData.email);
       localStorage.setItem("userPassword", loginData.password);
     } else {
@@ -110,8 +108,6 @@ const LoginPage = () => {
 
     if (isValid) {
       try {
-        setShowLoader(true);
-
         // Wait for the dispatch to complete
         if (loginDetails?.partner_Key === "UIClient") {
           dispatch(onClientLoginSubmit(loginData));
@@ -131,7 +127,7 @@ const LoginPage = () => {
       loginDetails?.status_code === "201" &&
       isSubmit
     ) {
-      setShowLoader(false);
+      toast.success(loginDetails?.message);
       navigate("/lc-user-admin/dashboard");
     } else if (
       loginDetails.partner_Key === "UIAdmin" &&
@@ -139,14 +135,13 @@ const LoginPage = () => {
       isSubmit
     ) {
       if (loginDetails?.data?.[0]?.adminRoleId) {
-        setShowLoader(false);
+        toast.success(loginDetails?.message);
+
         navigate("/lc-admin/dashboard");
       } else {
-        setShowLoader(false);
-        toast.error("Invalid Credentials");
+        toast.error(loginDetails?.message);
       }
     } else if (isSubmit && loginDetails?.status_code) {
-      setShowLoader(false);
       toast.error(loginDetails?.message);
     }
   }, [loginDetails]);
@@ -199,7 +194,7 @@ const LoginPage = () => {
                               placeholder={password_placeholder}
                             />
                           </div>
-                          {showLoder && <Loader />}
+                          {loginDetails?.isLoading && <Loader />}
                           <div className="row d-flex justify-content-between mt-4 mb-2 d-nonemo">
                             <div className="mb-3">
                               <span

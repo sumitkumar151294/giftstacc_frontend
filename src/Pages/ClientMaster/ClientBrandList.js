@@ -34,7 +34,9 @@ const ClientBrandList = () => {
     (state) => state.supplierBrandListReducer.data || []
   );
 
-  const ClientProducts = useSelector(state => state.clientProductMappingReducer || []);
+  const ClientProducts = useSelector(
+    (state) => state.clientProductMappingReducer || []
+  );
 
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -67,7 +69,7 @@ const ClientBrandList = () => {
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
 
-  useEffect(() => { 
+  useEffect(() => {
     dispatch(onGetSupplierList());
     dispatch(
       onGetSupplierBrandList({
@@ -81,15 +83,28 @@ const ClientBrandList = () => {
 
   useEffect(() => {
     if (ClientProducts?.post_status_code === "201") {
-      toast.success(ClientProducts?.message);
-      dispatch(onClientProductMappingSubmit(location?.state?.id));
-      dispatch(onPostClientProductMappingReset());
+      toast.success(ClientProducts?.message, {
+        onClose: () => {
+          dispatch(onPostClientProductMappingReset());
+          dispatch(onClientProductMappingSubmit(location?.state?.id));
+        },
+      });
     } else if (ClientProducts?.update_status_code === "201") {
-      toast.success(ClientProducts?.updateMessage);
-      dispatch(onClientProductMappingSubmit(location?.state?.id));
-      dispatch(onUpdateClientProductMappingReset());
+      toast.success(ClientProducts?.updateMessage, {
+        onClose: () => {
+          dispatch(onUpdateClientProductMappingReset());
+          dispatch(onClientProductMappingSubmit(location?.state?.id));
+        },
+      });
     }
-  }, [ClientProducts, dispatch]);
+  }, [
+    ClientProducts?.post_status_code,
+    ClientProducts?.update_status_code,
+    ClientProducts?.message,
+    ClientProducts?.updateMessage,
+    location?.state?.id,
+    dispatch,
+  ]);
 
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
@@ -118,7 +133,7 @@ const ClientBrandList = () => {
   const handleChange = (e) => {
     const filterData =
       SupplierBrandList.length > 0
-        ? SupplierBrandList[0].products.filter((item) => item.enabled)
+        ? SupplierBrandList[0]?.products.filter((item) => item.enabled)
         : [];
 
     const selectedSupplierCode = e.target.value;
@@ -176,7 +191,7 @@ const ClientBrandList = () => {
     const copyData =
       Array.isArray(ClientProducts.clientDataById) &&
       ClientProducts.clientDataById.length > 0
-        ? [...ClientProducts.clientDataById[0].clientProductMapping]
+        ? [...ClientProducts.clientDataById[0]?.clientProductMapping]
         : [];
     setCopyClientMapping(copyData);
   }, [ClientProducts?.clientDataById]);
@@ -211,7 +226,7 @@ const ClientBrandList = () => {
     setCopyClientMapping(updatedClinetMapping);
   };
 
-  const handleUpdate = (data) => { 
+  const handleUpdate = (data) => {
     const isUpdate =
       Array.isArray(copyClientMapping) &&
       copyClientMapping?.find((item) => item.productId === data?.id);
@@ -225,7 +240,7 @@ const ClientBrandList = () => {
         id: isUpdate?.id,
       };
       dispatch(onUpdateClientProductMappingSubmit(updatedValues));
-    } else { 
+    } else {
       const updatedValues = {
         clientCommission: isUpdate?.clientCommission,
         customerDiscount: isUpdate?.customerDiscount,
@@ -380,7 +395,9 @@ const ClientBrandList = () => {
                       </div>
                     </form>
                     <div className="row px-1">
-                      {ClientProducts?.isLoading ? (
+                      {ClientProducts?.isLoading ||
+                      ClientProducts?.postClientLoading ||
+                      ClientProducts?.updateLoading ? (
                         <div style={{ height: "200px" }}>
                           <Loader classType={"absoluteLoader"} />
                         </div>
