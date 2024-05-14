@@ -33,7 +33,6 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
 
   //To get the data from redux store
   const onSubmitData = useSelector((state) => state.userMasterReducer);
-  const loading = useSelector((state) => state.userMasterReducer.isLoading);
   const roleList = useSelector((state) => state.userRoleReducer);
   const clientList = useSelector((state) => state.clientMasterReducer.clientData);
   //To get the labels from API
@@ -136,6 +135,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
         [fieldName]: isValidEmail ? "" : invalidEmail,
       });
     } else if (fieldName === "mobile") {
+      debugger
       const mobileRegex = /^[0-9]{10}$/;
       const isValidMobile = mobileRegex.test(value);
       setErrors({
@@ -200,6 +200,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     try {
       if (isValid) { 
         if (!prefilledValues) {
+          debugger
           const UsersData = {
             ...userData,
             firstName:userData.firstName.trim(),
@@ -274,10 +275,10 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                 <h4 className="card-title">{userMaster}</h4>
               </div>
               <div className="card-body">
-                {loading ? (
+                {roleList?.isLoading ? (
                   <div style={{ height: "400px" }}>
-                    <Loader classNameType={"absoluteLoader"} />
-                  </div>
+                  <Loader classType={"absoluteLoader"} />
+                </div>
                 ) : (
                   <div className="container-fluid">
                     <form onSubmit={(e) => handleSubmit(e)}>

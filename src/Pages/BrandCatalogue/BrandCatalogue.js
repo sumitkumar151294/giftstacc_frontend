@@ -12,9 +12,7 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import {
-  onGetAllClientProductMapping,
-} from "../../Store/Slices/clientProductMappingSlice";
+import { onGetAllClientProductMapping } from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
@@ -41,7 +39,7 @@ const BrandCatalogue = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
-  const [copyBrandCatalogue, setCopyBrandCatalogue] = useState();;
+  const [copyBrandCatalogue, setCopyBrandCatalogue] = useState();
   const supplierMaster = useSelector((state) => state.supplierMasterReducer);
   const productByIdReducer = useSelector((state) => state.productReducer);
   const getRoleAccess = useSelector(
@@ -51,7 +49,9 @@ const BrandCatalogue = () => {
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
   );
-  const client_ID = useSelector((state) => state.loginAuthReducer.data[0]?.clientId);
+  const client_ID = useSelector(
+    (state) => state.loginAuthReducer.data[0]?.clientId
+  );
   const [supplierLists, setSupplierLists] = useState({
     supplier: "",
     client: "",
@@ -61,12 +61,12 @@ const BrandCatalogue = () => {
     productByIdReducer?.productById?.[0]?.products
   )
     ? productByIdReducer?.productById?.[0]?.products.map((data) => ({
-      sku: data.sku,
-      name: data.name,
-      minPrice: data.minPrice,
-      maxPrice: data.maxPrice, // Assuming you want to correct the casing here
-      price: data.price,
-    }))
+        sku: data.sku,
+        name: data.name,
+        minPrice: data.minPrice,
+        maxPrice: data.maxPrice, // Assuming you want to correct the casing here
+        price: data.price,
+      }))
     : [];
   const headers = [
     { label: "Sku", key: "sku" },
@@ -106,25 +106,31 @@ const BrandCatalogue = () => {
   };
   const clientProductMapping = Array.isArray(copyBrandCatalogue)
     ? copyBrandCatalogue.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
   const handleChange = (e, fieldName) => {
     const selectedSupplierName = e.target.value;
+    let data =
+      Array.isArray(productByIdReducer?.productById?.[0]?.products) &&
+      productByIdReducer?.productById?.[0]?.products?.filter(
+        (vendor) => vendor?.enabled === true
+      );
     if (selectedSupplierName === "Select") {
-      setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
+      setCopyBrandCatalogue(data);
     } else {
       let filteredSupplierList =
         Array.isArray(productByIdReducer?.productById?.[0]?.products) &&
         productByIdReducer?.productById?.[0]?.products?.filter(
-          (vendor) => vendor?.enabled === true &&
+          (vendor) =>
+            vendor?.enabled === true &&
             vendor?.supplierCode?.toLowerCase() ===
-            selectedSupplierName?.toLowerCase()
+              selectedSupplierName?.toLowerCase()
         );
       // setCopyBrandCatalogue(productByIdReducer?.productById[0]?.products);
       setCopyBrandCatalogue(filteredSupplierList);
@@ -140,9 +146,9 @@ const BrandCatalogue = () => {
     } else if (fieldName === "client") {
       const id = clientList.filter((item) => {
         if (item.name === selectedSupplierName) {
-          return item?.id
+          return item?.id;
         }
-      })
+      });
       dispatch(
         onProductByIdSubmit({
           id: id[0]?.id,
@@ -159,7 +165,6 @@ const BrandCatalogue = () => {
   };
   const clientCode = sessionStorage.getItem("clientCode");
   useEffect(() => {
-    dispatch(onGetAllClientProductMapping());
     dispatch(onGetSupplierList());
     dispatch(onClientMasterSubmit());
   }, []);
@@ -180,9 +185,8 @@ const BrandCatalogue = () => {
       setSupplierList(tempSupplier);
     }
   }, [supplierMaster]);
-
   useEffect(() => {
-    if (!LoginId.isAdminLogin) {
+    if (!LoginId.isAdminLogin && client_ID) {
       dispatch(
         onProductByIdSubmit({
           id: client_ID,
@@ -198,8 +202,18 @@ const BrandCatalogue = () => {
         })
       );
     }
-    setCopyBrandCatalogue(productByIdReducer?.productById[0]?.products);
-  }, [page])
+  }, [page, rowsPerPage, LoginId.isAdminLogin, client_ID]);
+  // Make sure to include all variables your effect depends on
+  useEffect(() => {
+    if (
+      productByIdReducer.productById &&
+      productByIdReducer.productById.length > 0
+    ) {
+      setCopyBrandCatalogue(productByIdReducer.productById[0].products);
+    } else {
+      setCopyBrandCatalogue([]);
+    }
+  }, [productByIdReducer.productById]);
   return (
     <div>
       {getRoleAccess[0] !== undefined ? (
@@ -236,12 +250,12 @@ const BrandCatalogue = () => {
                         >
                           {productByIdReducer?.productById?.[0]?.products
                             ?.length >= +0 && (
-                              <Button
-                                className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
-                                icons={"fa fa-file-excel me-2"}
-                                text={`${exportLabel}`}
-                              />
-                            )}
+                            <Button
+                              className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
+                              icons={"fa fa-file-excel me-2"}
+                              text={`${exportLabel}`}
+                            />
+                          )}
                         </CSVLink>
                       </div>
                     </div>
@@ -264,19 +278,17 @@ const BrandCatalogue = () => {
                           <label htmlFor="client">{client}</label>
                           <Dropdown
                             onChange={(e) => handleChange(e, "client")}
-
                             defaultValue={supplierLists.client || ""}
                             className="form-select"
                             options={
                               Array.isArray(clientList)
                                 ? clientList
-                                  .filter(item => item.enabled === true)
-                                  .map(item => ({
-                                    label: item.name,
-                                    value: item.name,
-                                    data: item.id,
-                                  }
-                                  ))
+                                    .filter((item) => item.enabled === true)
+                                    .map((item) => ({
+                                      label: item.name,
+                                      value: item.name,
+                                      data: item.id,
+                                    }))
                                 : []
                             }
                           />
@@ -309,7 +321,10 @@ const BrandCatalogue = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {Array.isArray(productByIdReducer?.productById?.[0]?.products) &&
+                                  {Array.isArray(
+                                    productByIdReducer?.productById?.[0]
+                                      ?.products
+                                  ) &&
                                     productByIdReducer?.productById?.[0]?.products
                                       .filter((item) => item.enabled)
                                       .map((data, index) => (
@@ -318,7 +333,7 @@ const BrandCatalogue = () => {
                                             <img
                                               src={data.small}
                                               style={{ width: "50px" }}
-                                              alt={data.small}
+                                              x
                                             />
                                             <br />
                                           </td>
@@ -341,14 +356,16 @@ const BrandCatalogue = () => {
                                       ))}
                                 </tbody>
                               </table>
-                              {productByIdReducer.productById[0]?.totalCount > 5 && (
+                              {productByIdReducer.productById[0]?.totalCount >
+                                5 && (
                                 <div className="pagination-container">
                                   <ReactPaginate
                                     previousLabel={"<"}
                                     nextLabel={" >"}
                                     breakLabel={"..."}
                                     pageCount={Math.ceil(
-                                      productByIdReducer.productById[0]?.totalCount / rowsPerPage
+                                      productByIdReducer.productById[0]
+                                        ?.totalCount / rowsPerPage
                                     )}
                                     marginPagesDisplayed={2}
                                     onPageChange={(e) => handlePageChange(e)}

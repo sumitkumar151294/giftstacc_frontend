@@ -87,7 +87,7 @@ const SupplierMasterForm = ({
     { value: "Active", label: active },
     { value: "Non-Active", label: nonActive },
   ];
-
+  
   const resetData = () => {
     setData({
       name: "",
@@ -95,7 +95,13 @@ const SupplierMasterForm = ({
       creditAmount: "",
       servicePath: "",
     });
-    setVendorData({});
+    setVendorData({
+      name: "",
+      balanceThresholdAmount: "",
+      creditAmount: "",
+      servicePath: "",
+      enabled: "",
+    });
     setAdditionalFields([
       {
         fieldName: "",
@@ -105,6 +111,7 @@ const SupplierMasterForm = ({
       },
     ]);
   };
+
   const getAdditionalFIeldData = (del = false, supplierId) => {
     let tempAdditionField = [...additionalFields];
     const additionalData = tempAdditionField.map((item) => ({
