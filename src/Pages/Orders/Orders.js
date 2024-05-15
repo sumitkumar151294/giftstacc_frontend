@@ -438,7 +438,13 @@ const Orders = () => {
 
   return (
     <div>
-      {getRoleAccess[0] !== undefined ? (
+      {getRoleAccess[0] === undefined && (
+          <div style={{ height: "100px" }}>
+          <Loader classType={"absoluteLoader"} />
+        </div>
+      )}
+      <>  
+          {getRoleAccess[0] !== undefined ? (
         <>
           <ScrollToTop />
           <div>
@@ -606,6 +612,8 @@ const Orders = () => {
           }}
         />
       )}
+      </>
+
     </div>
   );
 };
