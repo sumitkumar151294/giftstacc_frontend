@@ -24,6 +24,7 @@ export const supplierBrandListSlice = createSlice({
         ...state,
         message,
         updateStatusCode:status_code,
+        updateLoading: false,
       };
     },
 
@@ -33,6 +34,7 @@ export const supplierBrandListSlice = createSlice({
         ...state,
         message,
         updateStatusCode:status_code,
+        updateLoading: false,
       };
     },
 
@@ -41,6 +43,7 @@ export const supplierBrandListSlice = createSlice({
         ...state,
         message:"",
         updateStatusCode:null,
+        updateLoading: false,
       };
     },
 
@@ -74,8 +77,6 @@ export const supplierBrandListSlice = createSlice({
         status_code
       };
     },
-
-
   },
 });
 export const {

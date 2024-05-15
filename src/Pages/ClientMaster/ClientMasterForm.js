@@ -215,8 +215,15 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 
   const handleChange = (e, fieldName) => {
     let values = e.target.value;
+    // if (fieldName === "enabled") {
+    //   values = values ? values === "true" : "";
+    // }
     if (fieldName === "enabled") {
-      values = values ? values === "true" : "";
+      if (values === "true" || values === "false") {
+        values = values === "true";
+      } else {
+        values = "";
+      }
     }
 
     setClientData({

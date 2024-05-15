@@ -26,8 +26,9 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
+  
   const getProductListData = useSelector(
-    (state) => state.supplierBrandListReducer?.isLoading
+    (state) => state.supplierBrandListReducer
   );
   console.log(getProductListData, getProductListData?.supplierBrandListLoading);
   const activeUsersCount =
@@ -62,6 +63,7 @@ const SupplierProductList = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
+
   useEffect(() => {
     dispatch(
       onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
@@ -177,8 +179,6 @@ const SupplierProductList = () => {
     });
     setCopySupplierBrandList(updatedSupplier);
   };
-  const [isDelete, setIsDelete] = useState(false);
-
   const handleUpdate = (data) => {
     const updatedValues = {
       id: data.id,
@@ -189,7 +189,6 @@ const SupplierProductList = () => {
       enabled: data?.enabled,
       clientEnabled: data?.clientEnabled,
     };
-    setIsDelete(true);
     dispatch(onUpdateSupplierBrandList(updatedValues));
   };
 
@@ -251,7 +250,6 @@ const SupplierProductList = () => {
       label: 100,
     },
   ];
-
   return (
     <>
       <ScrollToTop />
@@ -330,7 +328,7 @@ const SupplierProductList = () => {
                   </form>
                   <div className="row px-1">
                     <div className="col-lg-12">
-                      {getProductListData ? (
+                      {getProductListData?.supplierBrandListLoading ||getProductListData?.updateLoading ? (
                         <div style={{ height: "400px" }}>
                           <Loader classType={"absoluteLoader"} />
                         </div>
@@ -339,10 +337,8 @@ const SupplierProductList = () => {
                           <div className="card-header">
                             <h4 className="card-title">{supplierBrandLists}</h4>
                           </div>
-
                           {Array.isArray(copySupplierBrandList) &&
-                          copySupplierBrandList?.length > 0 &&
-                          !getProductListData ? (
+                          copySupplierBrandList?.length > 0  ? (
                             <div className="card-body">
                               <div className="table-responsive">
                                 <table className="table header-border table-responsive-sm">

@@ -529,7 +529,7 @@ const SupplierMasterForm = ({
                                     <br />
                                     <div className="col-sm-12 form-group mb-7">
                                       <Button
-                                        className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                                        className="btn btn-primary btn-sm float-right pad-aa mt-03"
                                         text={delete_Button}
                                         icon={"fa fa-trash"}
                                         onClick={() => handleDelete(index)}
@@ -543,7 +543,7 @@ const SupplierMasterForm = ({
                           <div className="col-lg-3">
                             <div className="col-sm-12 form-group mb-7 btn-m">
                               <Button
-                                className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                                className="btn btn-primary btn-sm float-right pad-aa mt-03"
                                 text={add_More}
                                 icon={"fa fa-plus"}
                                 onClick={(e) => handleAddMore(e)}
