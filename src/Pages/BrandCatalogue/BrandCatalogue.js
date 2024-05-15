@@ -154,6 +154,7 @@ const BrandCatalogue = () => {
           id: id[0]?.id,
           pageNumber: page,
           pageSize: rowsPerPage,
+          enable:1
         })
       );
       setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);

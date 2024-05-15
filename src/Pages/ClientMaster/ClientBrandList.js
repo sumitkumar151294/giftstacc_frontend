@@ -610,13 +610,14 @@ const ClientBrandList = () => {
                                 </div>
                               </div>
                             ) : (
-                              !ClientProducts?.isLoading &&
-                              (ClientProducts.clientDataById[0]
-                                .clientProductMapping.length <= 0 ||
-                                copySupplierBrandList?.length <= 0 ||
-                                copySupplierBrandList?.length < 0 ||
-                                ClientProducts.clientDataById[0]
-                                  .clientProductMapping.length < 0) && (
+                              !ClientProducts?.isLoading 
+                              // (ClientProducts.clientDataById[0]
+                                // .clientProductMapping.length <= 0 ||
+                                // copySupplierBrandList?.length <= 0 ||
+                                // copySupplierBrandList?.length < 0 ||
+                                // ClientProducts.clientDataById[0]
+                                //   .clientProductMapping.length < 0) 
+                                && (
                                 <NoRecord />
                               )
                             )}
