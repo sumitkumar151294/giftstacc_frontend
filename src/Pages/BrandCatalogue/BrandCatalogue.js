@@ -216,6 +216,12 @@ const BrandCatalogue = () => {
   }, [productByIdReducer.productById]);
   return (
     <div>
+      {getRoleAccess[0] === undefined && (
+        <div style={{ height: "100px" }}>
+          <Loader classType={"absoluteLoader"} />
+        </div>
+      )}
+
       {getRoleAccess[0] !== undefined ? (
         <>
           <ScrollToTop />
@@ -298,14 +304,15 @@ const BrandCatalogue = () => {
                   </div>
 
                   <div className="card-body">
-                    {productByIdReducer?.isLoading ? (
+                    {productByIdReducer?.isLoading &&
+                    copyBrandCatalogue?.length === 0 ? (
                       <div style={{ height: "400px" }}>
                         <Loader classType={"absoluteLoader"} />
                       </div>
                     ) : (
                       <>
                         <div className="table-responsive">
-                          {clientProductMapping?.length ? (
+                          {clientProductMapping?.length > 0 && (
                             <>
                               <table className="table header-border table-responsive-sm">
                                 <thead>
@@ -321,11 +328,8 @@ const BrandCatalogue = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {Array.isArray(
-                                    productByIdReducer?.productById?.[0]
-                                      ?.products
-                                  ) &&
-                                    productByIdReducer?.productById?.[0]?.products
+                                  {Array.isArray(copyBrandCatalogue) &&
+                                    copyBrandCatalogue
                                       .filter((item) => item.enabled)
                                       .map((data, index) => (
                                         <tr key={index}>
@@ -401,9 +405,9 @@ const BrandCatalogue = () => {
                                 </div>
                               )}
                             </>
-                          ) : (
-                            <NoRecord />
                           )}
+                          {clientProductMapping?.length === 0 &&
+                            searchQuery && <NoRecord />}
                         </div>
                       </>
                     )}

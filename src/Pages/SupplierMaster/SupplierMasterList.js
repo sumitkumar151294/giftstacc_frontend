@@ -138,7 +138,12 @@ const SupplierMasterList = () => {
 
   return (
     <div>
-      {getRoleAccess[0] !== undefined ? (
+      {getRoleAccess[0] === undefined && (
+        <div style={{ height: "100px" }}>
+        <Loader classType={"absoluteLoader"} />
+      </div>
+      )}
+        {getRoleAccess[0] !== undefined ?(
         <>
           {getRoleAccess[0]?.addAccess && (
             <SupplierMasterForm

@@ -174,11 +174,10 @@ const RoleMasterForm = ({ data, setData }) => {
     } else {
       setFormData({
         ...formData,
-        [name]:e.target.value,
-      })
+        [name]: e.target.value,
+      });
     }
-    setErrors({
-    });
+    setErrors({});
   };
 
   const handleSubmit = async (e) => {
@@ -189,18 +188,18 @@ const RoleMasterForm = ({ data, setData }) => {
     if (formData.name.trim() === "") {
       newErrors.name = mandatory_Req_Label;
       setErrors(newErrors);
-      isvalid=false
+      isvalid = false;
     } else if (formData.name.length > 250) {
       newErrors.name = "Length must be 250 or fewer";
       setErrors(newErrors);
-      isvalid=false;
+      isvalid = false;
     } else {
       newErrors.name = "";
     }
     if (formData.description.length > 250) {
       newErrors.description = "Length must be 250 or fewer";
       setErrors(newErrors);
-      isvalid=false
+      isvalid = false;
     }
 
     //At least one Module should be selected
@@ -219,19 +218,19 @@ const RoleMasterForm = ({ data, setData }) => {
       name: formData.name,
       updatedBy: 0,
     };
-    if(isvalid){
-    try {
-      //To Submit the data
-      if (!data) {
-        setIsFormLoading(true);
-        dispatch(onPostUserRole(JSON.stringify(postData)));
-      } else if (data) {
-        postData.id = data.id;
-        setIsFormLoading(true);
-        dispatch(onUpdateUserRole(JSON.stringify(postData)));
-      }
-    } catch (error) {}
-  }
+    if (isvalid) {
+      try {
+        //To Submit the data
+        if (!data) {
+          setIsFormLoading(true);
+          dispatch(onPostUserRole(JSON.stringify(postData)));
+        } else if (data) {
+          postData.id = data.id;
+          setIsFormLoading(true);
+          dispatch(onUpdateUserRole(JSON.stringify(postData)));
+        }
+      } catch (error) {}
+    }
   };
 
   useEffect(() => {

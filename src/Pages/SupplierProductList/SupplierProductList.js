@@ -26,7 +26,7 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-  
+
   const getProductListData = useSelector(
     (state) => state.supplierBrandListReducer
   );
@@ -328,7 +328,8 @@ const SupplierProductList = () => {
                   </form>
                   <div className="row px-1">
                     <div className="col-lg-12">
-                      {getProductListData?.supplierBrandListLoading ||getProductListData?.updateLoading ? (
+                      {getProductListData?.supplierBrandListLoading ||
+                      getProductListData?.updateLoading ? (
                         <div style={{ height: "400px" }}>
                           <Loader classType={"absoluteLoader"} />
                         </div>
@@ -338,7 +339,7 @@ const SupplierProductList = () => {
                             <h4 className="card-title">{supplierBrandLists}</h4>
                           </div>
                           {Array.isArray(copySupplierBrandList) &&
-                          copySupplierBrandList?.length > 0  ? (
+                          copySupplierBrandList?.length > 0 ? (
                             <div className="card-body">
                               <div className="table-responsive">
                                 <table className="table header-border table-responsive-sm">
@@ -476,7 +477,8 @@ const SupplierProductList = () => {
                               </div>
                             </div>
                           ) : (
-                            <NoRecord />
+                            copySupplierBrandList?.length === 0 &&
+                            searchQuery && <NoRecord />
                           )}
                         </div>
                       )}
