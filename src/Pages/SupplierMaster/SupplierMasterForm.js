@@ -215,7 +215,7 @@ const SupplierMasterForm = ({
     } else if (fieldName === "status") {
       setVendorData({
         ...vendorData,
-        enabled: e.target.value === active ? true : false,
+        enabled: e.target.value === active ? true : (e.target.value === nonActive ? false : ""),
       });
       setErrors({
         ...errors,
