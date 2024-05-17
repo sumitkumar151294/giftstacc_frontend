@@ -16,6 +16,7 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import Button from "../../Components/Button/Button";
+import { onUploadImage, onUploadImageReset } from "../../Store/Slices/ClientAdmin/offerMasterSlice";
 
 const CategoryForm = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,9 @@ const CategoryForm = () => {
   const supplierMasterData = useSelector(
     (state) => state?.supplierMasterReducer?.data
   );
+  const upload = GetTranslationData("UIClient", "upload");
+  const upload_image = GetTranslationData("UIClient", "uploadImage");
+  const [getImagePath, setGetImagePath] = useState("");
   // const getModules = useSelector((state) => state.moduleReducer);
   // const getModulesRoleId = getModules?.data;
   // const getRolesAccess = getModules?.filteredData;
@@ -36,12 +40,19 @@ const CategoryForm = () => {
     name: "",
     supplierId: "",
     supplierBrandId: "",
+    image: "",
+
   });
   const [createCategory, setCreateCategory] = useState({
     supplierId: "",
     supplierBrandId: "",
     name: "",
+    image: "",
+    displayIsOrder:false
+
   });
+  const offerMasterData = useSelector((state) => state.offerMasterReducer);
+
   const getCategoriesData = useSelector((state) => state.createCategoryReducer);
   const getSuppliermasterData = useSelector((state) => state.supplierMasterReducer);
   const getSupplierBrandListLoadingData = useSelector((state) => state.supplierBrandListReducer);
@@ -49,6 +60,9 @@ const CategoryForm = () => {
     name: "",
     supplierId: "",
     supplierBrandId: "",
+    image: "",
+    displayIsOrder:false
+
   };
 
   // To get the Supplier Brand from redux store
@@ -81,7 +95,30 @@ const CategoryForm = () => {
   const field_Required = GetTranslationData("UIAdmin", "field_Required");
 
   const handleChange = (e, fieldName) => {
-    if (fieldName === "supplierId") {
+    const { type, checked,value } = e.target;
+    if (type === "checkbox") {
+      debugger
+      setCreateCategory({
+        ...createCategory,
+        displayIsOrder: checked,
+      });
+    } 
+   else if (fieldName === "image") {
+    debugger
+      const file = e?.target?.files?.[0]; 
+      if (file) {
+        const formData = new FormData();
+        formData?.append("file", file);
+        setGetImagePath(formData);
+        setCreateCategory({
+          ...createCategory, image:formData
+        })
+
+      } else {
+        e.target.value = ""; 
+      }
+    }
+    else if (fieldName === "supplierId") {
       let supplierList = [];
       Array.isArray(supplierBrandData) &&
         supplierBrandData
@@ -99,12 +136,12 @@ const CategoryForm = () => {
       setCreateCategory({
         ...createCategory,
         supplierBrandId: "",
-        [fieldName]: e.target.value,
+        [fieldName]: value,
       });
     } else {
       setCreateCategory({
         ...createCategory,
-        [fieldName]: e.target.value,
+        [fieldName]: value,
       });
     }
     setErrors({
@@ -119,6 +156,7 @@ const CategoryForm = () => {
     const newErrors = { ...errors };
     for (const key in createCategory) {
       if (createCategory[key] === "") {
+        debugger
         newErrors[key] = field_Required;
         isValid = false;
       } else if (createCategory[key].length > 250) {
@@ -130,17 +168,28 @@ const CategoryForm = () => {
     }
     setErrors(newErrors);
     if (isValid) {
-      try {
-        dispatch(
-          onPostCategory({
-            ...createCategory,
-            supplierId: parseInt(createCategory?.supplierId),
-            supplierBrandId: parseInt(createCategory?.supplierBrandId),
-          })
-        );
-      } catch (error) { }
+      dispatch(onUploadImage(getImagePath));
+
+     
     }
   };
+  useEffect(()=>{
+    if (offerMasterData?.status_code_Image === "201") {
+      debugger
+      dispatch(onUploadImageReset()); 
+         try {
+      dispatch(
+        onPostCategory({
+          ...createCategory,
+          supplierId: parseInt(createCategory?.supplierId),
+          supplierBrandId: parseInt(createCategory?.supplierBrandId),
+          image: offerMasterData?.imageUpload,
+
+        })
+      );
+    } catch (error) { }
+  }
+  },[offerMasterData])
 
   useEffect(() => {
     if (getCategoriesData?.post_status_code === "500") {
@@ -182,7 +231,7 @@ const CategoryForm = () => {
                   <div className="container-fluid">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
-                        <div className="col-sm-3 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {categoryNameTranslation}
                             <span className="text-danger">*</span>
@@ -199,7 +248,7 @@ const CategoryForm = () => {
                           />
                           {createCategory.name.length > 250 && <p className="text-danger">{errors.name}</p>}
                         </div>
-                        <div className="col-sm-3 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="vendor-category">
                             {supplierNameLabelTranslation}
                             <span className="text-danger">*</span>
@@ -227,7 +276,7 @@ const CategoryForm = () => {
 
                           />
                         </div>
-                        <div className="col-sm-3 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="vendor-category">
                             {supplierBrandTranslation}
                             <span className="text-danger">*</span>
@@ -243,6 +292,47 @@ const CategoryForm = () => {
                               }`}
                             options={supplierBrandListData}
                           />
+                        </div>
+                        <div className="col-sm-6 form-group mb-2">
+                          <label htmlFor="image">
+                            {upload_image}
+                            <span className="text-danger">
+                            </span>
+                          </label>
+                          <div className="input-group">
+                            <div className="form-file">
+                              <InputField
+                                type="file"
+                                accept="image/jpg,image/png"
+                                  // value={createCategory.displayIsOrder}
+                                onChange={(e) => handleChange(e, "image")}
+
+                              />
+                            </div>
+
+                            <span className="input-group-text">{upload}</span>
+                          </div>
+                          {<p className="text-danger">{errors.image}</p>}
+                        </div>
+                        <div className="col-sm-4">
+                          <div className="form-check mt-4 padd">
+                            {console.log(createCategory?.displayIsOrder)}
+                            <InputField
+                              className="form-check-input"
+                              type="checkbox"
+                              name="displayIsOrder"                            
+                              checked={createCategory?.displayIsOrder}
+                              id="flexCheckDefault1"
+                              onChange={(e) => handleChange(e, "displayIsOrder")}
+
+                            />
+                            <label
+                              className="form-check-label fnt-15"
+                              htmlFor="flexCheckDefault1"
+                            >
+                              Display In Header
+                            </label>
+                          </div>
                         </div>
                       </div>
                       <span
