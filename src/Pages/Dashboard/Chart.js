@@ -4,6 +4,7 @@ import product from '../../Assets/img/product1.png'
 import customer from '../../Assets/img/customer1.png'
 import ReactApexChart from 'react-apexcharts';
 import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
+import { useSelector } from 'react-redux';
 export const Chart = () => {
   const donutChartData = [5, 3];
   const productDonutChartData =[5, 1];
@@ -33,7 +34,11 @@ export const Chart = () => {
   const brands_label = GetTranslationData("UIAdmin", "brands_label");
   const clients_name_label = GetTranslationData("UIAdmin", "clients_name_label");
   const orders = GetTranslationData("UIAdmin", "orders");
-
+  const getCreateCategory = useSelector((state) => state.createCategoryReducer?.categoryData);
+  const clientList = useSelector((state) => state.clientMasterReducer?.clientData);
+  const supplierBrandData = useSelector(
+    (state) => state.supplierBrandListReducer.data
+  );
   return (
     <>
      <div className="col-xl-6">
@@ -43,7 +48,7 @@ export const Chart = () => {
                     <div className="card-body d-flex align-items-center justify-content-between cardnav">
                       <div className="menu">
                         <span className="font-w500 fs-16 d-block mb-2">{categories}</span>
-                        <h2>45</h2>
+                        <h2>{getCreateCategory?.length}</h2>
                       </div>
                       <div className="d-inline-block position-relative donut-chart-sale">
                         <ReactApexChart
@@ -67,7 +72,7 @@ export const Chart = () => {
                     <div className="card-body d-flex align-items-center justify-content-between cardnav ">
                       <div className="menu">
                         <span className="font-w500 fs-16 d-block mb-2">{brands_label}</span>
-                        <h2>85</h2>
+                        <h2>{supplierBrandData.length}</h2>
                       </div>
                       <div className="d-inline-block position-relative donut-chart-sale">
                         <ReactApexChart
@@ -94,7 +99,7 @@ export const Chart = () => {
                         <span className="font-w500 fs-16 d-block mb-2">
                         {clients_name_label}
                         </span>
-                        <h2>247</h2>
+                        <h2>{clientList.length}</h2>
                       </div>
                       <div className="d-inline-block position-relative donut-chart-sale ">
                       <ReactApexChart

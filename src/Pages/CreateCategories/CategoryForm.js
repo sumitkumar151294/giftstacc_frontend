@@ -81,7 +81,7 @@ const CategoryForm = () => {
   const field_Required = GetTranslationData("UIAdmin", "field_Required");
 
   const handleChange = (e, fieldName) => {
-    if (fieldName === "supplierId") {
+    if (fieldName === "supplierId" ) {
       let supplierList = [];
       Array.isArray(supplierBrandData) &&
         supplierBrandData
@@ -101,24 +101,26 @@ const CategoryForm = () => {
         supplierBrandId: "",
         [fieldName]: e.target.value,
       });
-    } else {
+    }
+     else {
       setCreateCategory({
         ...createCategory,
         [fieldName]: e.target.value,
       });
     }
+   
     setErrors({
       ...errors,
       [fieldName]: "",
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
+  
     for (const key in createCategory) {
-      if (createCategory[key] === "") {
+      if (createCategory[key] === "" || createCategory[key] === "Select") {
         newErrors[key] = field_Required;
         isValid = false;
       } else if (createCategory[key].length > 250) {
@@ -128,6 +130,7 @@ const CategoryForm = () => {
         newErrors[key] = "";
       }
     }
+  
     setErrors(newErrors);
     if (isValid) {
       try {
@@ -138,9 +141,12 @@ const CategoryForm = () => {
             supplierBrandId: parseInt(createCategory?.supplierBrandId),
           })
         );
-      } catch (error) { }
+      } catch (error) {
+        console.error("Failed to submit the form:", error);
+      }
     }
   };
+  
 
   useEffect(() => {
     if (getCategoriesData?.post_status_code === "500") {

@@ -133,7 +133,7 @@ const SupplierProductList = () => {
       setCopySupplierBrandList(filteredSupplierList);
     }
   };
-
+console.log(copySupplierBrandList)
   const userData = [
     {
       status: "Active",
@@ -328,8 +328,8 @@ const SupplierProductList = () => {
                   </form>
                   <div className="row px-1">
                     <div className="col-lg-12">
-                      {getProductListData?.supplierBrandListLoading ||
-                      getProductListData?.updateLoading ? (
+                      {(getProductListData?.supplierBrandListLoading ||
+                      getProductListData?.updateLoading )  && (copySupplierBrandList?.length === 0 )? (
                         <div style={{ height: "400px" }}>
                           <Loader classType={"absoluteLoader"} />
                         </div>
@@ -477,13 +477,17 @@ const SupplierProductList = () => {
                               </div>
                             </div>
                           ) : (
-                            copySupplierBrandList?.length === 0 &&
-                            searchQuery && <NoRecord />
+                            (copySupplierBrandList?.length === 0  &&
+
+                            
+                            searchQuery )&& (copySupplierBrandList?.length === 0 && !searchQuery  ) && 
+                                  <NoRecord /> 
                           )}
                         </div>
                       )}
                     </div>
                   </div>
+                  
                 </div>
               </div>
             </div>

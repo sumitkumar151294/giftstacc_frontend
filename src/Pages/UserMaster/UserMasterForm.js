@@ -256,9 +256,9 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     if (onSubmitData?.status_code === "201") {
       toast.success(onSubmitData?.message);
       dispatch(onUserSubmitReset());
-      setTimeout(() => {
-        dispatch(onGetUser());
-      }, 1000);
+      // setTimeout(() => {
+      // }, 1000);
+              dispatch(onGetUser());
       resetData();
     }
   }, [onSubmitData, dispatch]);
