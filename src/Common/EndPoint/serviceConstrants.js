@@ -41,6 +41,8 @@ const API = {
   add_special: "add-special",
   //banner-master
   banner_master: "/banner-master",
+  // promotional 
+  promotional_api: "promotionalStrip",
   //CMS
   cms_api: "/cms",
   //offer-master

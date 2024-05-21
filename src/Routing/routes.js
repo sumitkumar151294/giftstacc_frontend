@@ -8,7 +8,6 @@ import Orders from "../Pages/Orders/Orders";
 import EmailEventMaster from "../Pages/ClientAdmin/EmailEventMaster/EmailEventMaster";
 import ClientBrandList from "../Pages/ClientMaster/ClientBrandList";
 import ClientMasterList from "../Pages/ClientMaster/ClientMasterList";
-import Customerlist from "../Pages/CustomerList/CustomerList";
 import RoleMasterList from "../Pages/RoleMaster/RoleMasterList";
 import CategoryList from "../Pages/CreateCategories/CategoryList";
 import FailedOrders from "../Pages/FailedOrders/FailedOrders";
@@ -25,6 +24,7 @@ import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 import OfferMasterList from "../Pages/ClientAdmin/OfferMaster/OfferMasterList";
 import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/ClientCommissionReport";
 import CustomerList from "../Pages/ClientAdmin/CustomerList/CustomerList";
+import PromotionalList from "../Pages/Promotional/PromotionalList";
 function RouteConfiq() {
   return (
     <Router>
@@ -73,10 +73,14 @@ function RouteConfiq() {
         <Route
           path="/lc-admin/orders"
           element={<Layout Component={Orders} />}
-        />{" "}
+        />
         <Route
           path="/lc-admin/brandcatalouge"
           element={<Layout Component={BrandCatalogue} />}
+        />
+         <Route
+          path="/lc-admin/promotional"
+          element={<Layout Component={PromotionalList} />}
         />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route
