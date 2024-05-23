@@ -5,7 +5,6 @@ import { GetTranslationData } from '../../Components/GetTranslationData/GetTrans
 import { onGetPromtional, onPromtionalSubmit, onPromtionalSubmitReset, onUpdatePromotional, onUpdatePromotionalReset } from '../../Store/Slices/promotionalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { DatePicker, InputGroup } from 'rsuite';
-import "rsuite/dist/rsuite.css";
 import Button from '../../Components/Button/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from '../../Components/Loader/Loader';
@@ -143,7 +142,17 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
       [fieldName]: '',
     });
   };
+  const checkDateOverlap = (newStartDate, newEndDate) => {
+    const existingPromotionalData = promotionalData.getData || [];
+    return existingPromotionalData.some((promo) => {
+      const start = new Date(promo.startDate);
+      const end = new Date(promo.endDate);
+      const newStart = new Date(newStartDate);
+      const newEnd = new Date(newEndDate);
 
+      return promo.enabled && ((newStart >= start && newStart <= end) || (newEnd >= start && newEnd <= end));
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
@@ -155,6 +164,10 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
       } else {
         newErrors[key] = "";
       }
+    }
+    if (formData.enabled && checkDateOverlap(formData.startDate, formData.endDate)) {
+      toast.error("The chosen date range overlaps with an existing active promotional period.");
+      isValid = false;
     }
     setErrors(newErrors);
     if (isValid) {
@@ -266,10 +279,9 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                             <label className="mb-1">{start_and_enddate}</label>
 
                             <InputGroup
-                              className={`${(errors.startDate || errors.endDate) ? "border-danger" : "dfg"}`}
+                              className={`${(errors.startDate || errors.endDate) ? "border-danger" : "dateInput"}`}
                             >
                               <DatePicker
-                                className='inn'
                                 format="yyyy-MM-dd HH:mm:ss"
                                 placeholder="Start Date"
                                 value={formData.startDate ? new Date(formData.startDate) : null}
@@ -278,7 +290,6 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                                 appearance="subtle"
                               />
                               <DatePicker
-                                className='inn'
                                 format="yyyy-MM-dd HH:mm:ss"
                                 placeholder="End Date"
                                 value={formData.endDate ? new Date(formData.endDate) : null}

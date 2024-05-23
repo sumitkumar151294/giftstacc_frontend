@@ -81,7 +81,7 @@ export const promotional = createSlice({
       return {
         ...state,
         post_status_code: null,
-        data: {},
+        data: [],
         postLoading: false,
       };
     },

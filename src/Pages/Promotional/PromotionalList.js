@@ -8,6 +8,8 @@ import NoRecord from '../../Components/NoRecord/NoRecord';
 import Loader from '../../Components/Loader/Loader';
 import ReactPaginate from 'react-paginate';
 import InputField from '../../Components/InputField/InputField';
+import Button from '../../Components/Button/Button';
+import { CSVLink } from 'react-csv';
 
 const PromotionalList = () => {
     const allocateBrands = GetTranslationData("UIClient", "allocateBrands");
@@ -24,6 +26,7 @@ const PromotionalList = () => {
     const startDate = GetTranslationData("UIAdmin", "startDate");
     const endDate = GetTranslationData("UIAdmin", "endDate");
     const export_btn_Text = GetTranslationData("UIAdmin", "export_btn_Text");
+    const promotional_List = GetTranslationData("UIAdmin", "promotional_List");
     const promotionalList = useSelector((state) => state.promotionalReducer);
     const clientList = useSelector((state) => state.clientMasterReducer.clientData);
     const dispatch = useDispatch();
@@ -34,7 +37,6 @@ const PromotionalList = () => {
     const [isDelete, setIsDelete] = useState(false);
 
     const handleEdit = (data) => {
-        debugger
         const prefilled = data;
         setPrefilledValues(prefilled);
     };
@@ -46,8 +48,16 @@ const PromotionalList = () => {
         setIsDelete(true);
         dispatch(onUpdatePromotional(deletedData));
     };
+
+
     const handlePageChange = (selected) => {
-        setPage(selected.selected + 1);
+        setPage(selected.selected);
+    };
+    // here get client name by match with id
+    const getNameById = (id) => {
+        const result =
+            Array.isArray(clientList) && clientList?.find((item) => item?.id === id);
+        return result ? result?.name : "";
     };
     const filteredCategoryList = Array.isArray(promotionalList.getData) && promotionalList.getData
         ? promotionalList.getData.filter(
@@ -57,7 +67,8 @@ const PromotionalList = () => {
                         value &&
                         typeof value === "string" &&
                         value.toLowerCase().includes(searchQuery.toLowerCase())
-                )
+                ) ||
+                getNameById(item.clientId).toString().toLowerCase().includes(searchQuery)
         )
         : [];
     const displayedItems = filteredCategoryList.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
@@ -66,21 +77,33 @@ const PromotionalList = () => {
         setPage(0);
     };
     useEffect(() => {
-        if (promotionalList.getData) {
-            const totalItems = promotionalList.getData?.length;
-            const totalPages = Math.ceil(totalItems / rowsPerPage);
-            if (page >= totalPages && page > 1) {
+        if (filteredCategoryList.length > 0) {
+            const totalPages = Math.ceil(filteredCategoryList.length / rowsPerPage);
+            if (page >= totalPages && page > 0) {
                 setPage(page - 1);
             }
-        } else {
         }
-    }, [promotionalList.getData, filteredCategoryList, rowsPerPage, page]);
-    // here get role name by match with id
-    const getNameById = (id) => {
-        const result =
-            Array.isArray(clientList) && clientList?.find((item) => item?.id === id);
-        return result ? result?.name : "";
-    };
+    }, [filteredCategoryList, rowsPerPage, page]);
+    const headers = [
+        { label: "Client", key: "client" },
+        { label: "Title Text", key: "titleText" },
+        { label: "Status", key: "status" },
+        { label: "Link Text", key: "linkText" },
+        { label: "Link", key: "link" },
+        { label: "Start Date", key: "startDate" },
+        { label: "End Date", key: "endDate" },
+    ];
+    // excel data to print
+    const excelData =
+        filteredCategoryList?.map((data) => ({
+            client: getNameById(data.clientId),
+            titleText: data.titleText,
+            status: data.enabled ? active : nonActive,
+            linkText: data.linkText,
+            link: data.link,
+            startDate: data.startDate,
+            endDate: data.endDate,
+        }));
     return (
         <>
             <PromotionalForm
@@ -96,7 +119,7 @@ const PromotionalList = () => {
                             <div className="container-fluid">
                                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                     <div className="card-header">
-                                        <h4 className="card-title">Promotional List</h4>
+                                        <h4 className="card-title">{promotional_List}</h4>
                                     </div>
                                     <div className="customer-search mb-sm-0 mb-3">
                                         {promotionalList.getData && promotionalList.getData.length > 0 && (
@@ -115,9 +138,22 @@ const PromotionalList = () => {
                                         )}
                                     </div>
                                     <div className="d-flex align-items-center flex-wrap">
-                                        <a href="javascript:void(0);" className="btn btn-primary btn-sm btn-rounded me-3 mb-2">
-                                            <i className="fa fa-file-excel me-2"></i>{export_btn_Text}
-                                        </a>
+                                        {displayedItems &&
+                                            displayedItems?.length > 0 && (
+                                                <CSVLink
+                                                    data={excelData}
+                                                    headers={headers}
+                                                    filename={"Promotional.csv"}
+                                                >
+                                                    {filteredCategoryList.length > 0 && (
+                                                        <Button
+                                                            className="btn btn-primary btn-sm btn-rounded me-3 mb-2"
+                                                            text={export_btn_Text}
+                                                            icons={"fa fa-file-excel me-2"}
+                                                        />
+                                                    )}
+                                                </CSVLink>
+                                            )}
                                     </div>
                                 </div>
                             </div>
@@ -160,8 +196,9 @@ const PromotionalList = () => {
                                                         </td>
                                                         <td>
                                                             <Link
-                                                                to=""
+                                                                to="/lc-admin/promotional-allocate-brand"
                                                                 className="allocateBtn btn btn-primary btn-sm float-right font-size"
+                                                                state={{ id: item.clientId ,promotionalId:item?.id }}
                                                             >
                                                                 <i className="fa fa-plus mr-2"></i>
                                                                 {allocateBrands}

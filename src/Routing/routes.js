@@ -25,6 +25,7 @@ import OfferMasterList from "../Pages/ClientAdmin/OfferMaster/OfferMasterList";
 import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/ClientCommissionReport";
 import CustomerList from "../Pages/ClientAdmin/CustomerList/CustomerList";
 import PromotionalList from "../Pages/Promotional/PromotionalList";
+import PromotionalAllocateBrand from "../Pages/Promotional/PromotionalAllocateBrand";
 function RouteConfiq() {
   return (
     <Router>
@@ -118,6 +119,10 @@ function RouteConfiq() {
         <Route
           path="/lc-user-admin/allocate-brand"
           element={<Layout Component={AllocateBrand} />}
+        />
+        <Route
+          path="/lc-admin/promotional-allocate-brand"
+          element={<Layout Component={PromotionalAllocateBrand} />}
         />
         <Route
           path="/lc-user-admin/faq"
