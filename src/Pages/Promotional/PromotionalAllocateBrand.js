@@ -3,22 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom/dist";
 import Loader from "../../Components/Loader/Loader";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import { onGetAllPromotionalAllocateBrand, onGetPromotionalAllocateBrandByPromotionalId, onPutPromotionalAllocateBrand, onPutPromotionalAllocateBrandReset } from "../../Store/Slices/promotionalAllocateBrandSlice";
-
+import { onGetPromotionalAllocateBrandByPromotionalId, onPutPromotionalAllocateBrand, onPutPromotionalAllocateBrandReset } from "../../Store/Slices/promotionalAllocateBrandSlice";
+import NoRecord from "../../Components/NoRecord/NoRecord";
 const PromotionalAllocateBrand = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const getAllocateBrands = useSelector((state) => state?.promotionalAllocateBrandReducer);
   const [copyClientMapping, setCopyClientMapping] = useState([]);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
-  const allocateBrands = GetTranslationData("UIClient", "allocateBrands");
+  const promotional_Allocate_Brands = GetTranslationData("UIClient", "promotional_Allocate_Brands");
   const brand_name = GetTranslationData("UIClient", "brand_name");
   const displayOrder = GetTranslationData("UIClient", "display-order");
   const action = GetTranslationData("UIClient", "actionLabel");
@@ -32,16 +30,9 @@ const PromotionalAllocateBrand = () => {
     setPage(selected.selected + 1);
   };
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
+  const productByIdReducer = useSelector((state) => state.productReducer);
 
-  const SupplierBrandList = useSelector(
-    (state) => state.supplierBrandListReducer.data
-  );
-  const productByIdReducer = useSelector((state) => state.productReducer );
-  const clientProductMapping = useSelector((state) => state.promotionalAllocateBrandReducer.getAllData );
-  
-
-  
-  useEffect(() => { 
+  useEffect(() => {
     dispatch(
       onProductByIdSubmit({
         id: location?.state?.id,
@@ -49,18 +40,17 @@ const PromotionalAllocateBrand = () => {
         pageSize: rowsPerPage,
       })
     );
-    dispatch(onGetSupplierBrandList());
     dispatch(onGetPromotionalAllocateBrandByPromotionalId(location?.state?.promotionalId));
   }, []);
-  
-  useEffect(() => { 
+
+  useEffect(() => {
     if (getAllocateBrands?.update_status_code === "201") {
       toast.success(getAllocateBrands?.updateMessage);
       setShowLoader(false);
       dispatch(onPutPromotionalAllocateBrandReset());
       dispatch(onGetPromotionalAllocateBrandByPromotionalId(location?.state?.promotionalId));
-    } else if (getAllocateBrands?.update_status_code === 400) { 
-      toast.error(getAllocateBrands?.updateMessage);
+    } else if (getAllocateBrands?.update_status_code === 400) {
+      toast.error(getAllocateBrands?.updateMessage.data.ErrorMessage);
       setShowLoader(false);
       dispatch(onPutPromotionalAllocateBrandReset());
     }
@@ -77,13 +67,13 @@ const PromotionalAllocateBrand = () => {
 
   const filteredBrandCatalogueList = Array.isArray(filteredProducts)
     ? filteredProducts.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
 
   useEffect(() => {
@@ -96,11 +86,11 @@ const PromotionalAllocateBrand = () => {
     }
   }, [getAllocateBrands?.getAllocateBrandData]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (Array.isArray(getAllocateBrands?.getAllDataById)) {
       const copyData = getAllocateBrands.getAllDataById.map((item) => ({
         ...item,
-        enabled: item.enabled, 
+        enabled: item.enabled,
       }));
       setCopyClientMapping(copyData);
     } else {
@@ -119,18 +109,29 @@ const PromotionalAllocateBrand = () => {
     }
   };
 
-  const handleToggle = (id) => {
-    const updatedMappings = copyClientMapping.map((item) => {
-      if (item.productId === id) {
-        return { ...item, enabled: !item.enabled }; 
-      }
-      return item;
-    });
-    setCopyClientMapping(updatedMappings);
+  const handleToggle = (id, name, e) => {
+    debugger
+    const existingIndex = copyClientMapping.findIndex(
+      (item) => item.productId === id
+    );
+
+    if (existingIndex !== -1) {
+      copyClientMapping[existingIndex] = {
+        ...copyClientMapping[existingIndex],
+        [name]: e.target.checked
+      };
+    } else {
+      copyClientMapping.push({
+        promotionalStripId: location?.state?.promotionalId,
+        productId: id,
+        [name]: e.target.checked,
+      });
+    }
+    setCopyClientMapping([...copyClientMapping]);
   };
 
   const handleInputChange = (e, ids, name) => {
-    const newValue = Math.max(0, e.target.value); 
+    const newValue = Math.max(0, e.target.value);
     const existingIndex = copyClientMapping.findIndex(
       (item) => item.productId === ids
     );
@@ -142,26 +143,17 @@ const PromotionalAllocateBrand = () => {
       };
     } else {
       copyClientMapping.push({
+        promotionalStripId: location?.state?.promotionalId,
         productId: ids,
         [name]: parseInt(newValue),
-        enabled: false,
       });
     }
     setCopyClientMapping([...copyClientMapping]);
   };
 
   const handleSubmit = () => {
-    const updates = copyClientMapping.map((product) => ({
-      productId: product.productId,
-      displayOrder: product.displayOrder,
-      promotionalStripId: location?.state?.promotionalId,
-      enabled: product?.enabled,
-      id: product?.id,
-      deleted: false,
-    }));
-    
     setShowLoader(true);
-    dispatch(onPutPromotionalAllocateBrand(updates));
+    dispatch(onPutPromotionalAllocateBrand(copyClientMapping));
   };
 
   return (
@@ -173,7 +165,7 @@ const PromotionalAllocateBrand = () => {
               <div className="container-fluid pt-1">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="card-header">
-                    <h4 className="card-title">{allocateBrands}</h4>
+                    <h4 className="card-title">{promotional_Allocate_Brands}</h4>
                   </div>
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
@@ -185,17 +177,16 @@ const PromotionalAllocateBrand = () => {
                         onChange={handleSearch}
                       />
                       <span className="input-group-text">
-                        <Link>
-                          <i className="flaticon-381-search-2"></i>
-                        </Link>
+                        <i className="fa fa-search"></i>
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
-              {showLoader ? (
+              {showLoader || productByIdReducer.isLoading ? (
                 <Loader />
               ) : (
+                filteredBrandCatalogueList?.length>0 ? 
                 <div className="card-body pt-0 card-body-user">
                   <div className="table-responsive">
                     <table className="table header-border table-responsive-sm">
@@ -239,7 +230,7 @@ const PromotionalAllocateBrand = () => {
                                     id={generateUniqueId(index)}
                                     type="checkbox"
                                     checked={getValues(data?.id, "enabled")}
-                                    onChange={() => handleToggle(data.id)}
+                                    onChange={(e) => handleToggle(data.id, "enabled", e)}
                                   />
                                   <label htmlFor={generateUniqueId(index)}>
                                     <div
@@ -281,6 +272,7 @@ const PromotionalAllocateBrand = () => {
                     onClick={handleSubmit}
                   />
                 </div>
+                :( <NoRecord />)
               )}
               <ToastContainer />
             </div>

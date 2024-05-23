@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import InputField from '../../Components/InputField/InputField';
 import Dropdown from '../../Components/Dropdown/Dropdown';
 import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
-import { onGetPromtional, onPromtionalSubmit, onPromtionalSubmitReset, onUpdatePromotional, onUpdatePromotionalReset } from '../../Store/Slices/promotionalSlice';
+import {  onGetPromtional, onPromtionalSubmit, onPromtionalSubmitReset, onUpdatePromotional, onUpdatePromotionalReset } from '../../Store/Slices/promotionalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { DatePicker, InputGroup } from 'rsuite';
 import Button from '../../Components/Button/Button';
@@ -22,6 +22,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
   const link_text = GetTranslationData("UIClient", "link_text");
   const link_label = GetTranslationData("UIClient", "link_label");
   const promotional_Strip_Master = GetTranslationData("UIAdmin", "promotional_Strip_Master");
+  const overlap_date_error_msg = GetTranslationData("UIAdmin", "overlap_date_error_msg");
   const dispatch = useDispatch();
   const clientList = useSelector((state) => state.clientMasterReducer.clientData);
   const promotionalData = useSelector((state) => state.promotionalReducer);
@@ -165,8 +166,17 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
         newErrors[key] = "";
       }
     }
+    if (!formData.startDate) {
+      newErrors.startDate = " ";
+      isValid = false;
+    }
+
+    if (!formData.endDate) {
+      newErrors.endDate = " ";
+      isValid = false;
+    }
     if (formData.enabled && checkDateOverlap(formData.startDate, formData.endDate)) {
-      toast.error("The chosen date range overlaps with an existing active promotional period.");
+      toast.error({overlap_date_error_msg});
       isValid = false;
     }
     setErrors(newErrors);
@@ -276,7 +286,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                         </div>
                         <div className="col-sm-4">
                           <div className="example">
-                            <label className="mb-1">{start_and_enddate}</label>
+                            <label>{start_and_enddate}</label>
 
                             <InputGroup
                               className={`${(errors.startDate || errors.endDate) ? "border-danger" : "dateInput"}`}
