@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const DatePickerInput = ({ id, placeholderText, selectsRange, dateFormat, showTimeSelect, timeFormat, className, showDisabledMonthNavigation }) => {
+const DatePickerInput = ({ id, placeholderText, selectsRange, dateFormat, showTimeSelect, timeFormat, className, showDisabledMonthNavigation ,onChange}) => {
     const [dateStart, setDateStart] = useState();
     const [dateEnd, setDateEnd] = useState();
     const onChangeHandler = (value) => {
@@ -16,7 +16,7 @@ const DatePickerInput = ({ id, placeholderText, selectsRange, dateFormat, showTi
             selectsRange={selectsRange}
             startDate={dateStart}
             endDate={dateEnd}
-            onChange={onChangeHandler}
+            onChange={onChange}
             dateFormat={dateFormat}
             showTimeSelect={showTimeSelect}
             timeFormat={timeFormat}

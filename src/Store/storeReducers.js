@@ -25,6 +25,8 @@ import clientProductMappingReducer from "./Slices/clientProductMappingSlice";
 import emailEventMasterReducer from "./Slices/ClientAdmin/emailEventMasterSlice";
 import allocateBrandReducer from "./Slices/ClientAdmin/allocateBrandSlice";
 import productReducer from "./Slices/productSlice";
+import promotionalReducer from "./Slices/promotionalSlice";
+import promotionalAllocateBrandReducer from "./Slices/promotionalAllocateBrandSlice";
 
 const reducers = combineReducers({
   loginReducer: loginReducer,
@@ -52,7 +54,9 @@ const reducers = combineReducers({
   clientProductMappingReducer:clientProductMappingReducer,
   emailEventMasterReducer:emailEventMasterReducer,
   allocateBrandReducer:allocateBrandReducer,
-  productReducer:productReducer
+  productReducer:productReducer,
+  promotionalReducer:promotionalReducer,
+  promotionalAllocateBrandReducer:promotionalAllocateBrandReducer,
 });
 
 export default reducers;
