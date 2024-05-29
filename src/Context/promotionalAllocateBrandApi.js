@@ -2,7 +2,6 @@ import API from "../Common/EndPoint/serviceConstrants";
 import axiosInstance from "../Common/Axios/axiosInstance";
 
 export const getByPromotionalIdApi = async (payload) => {
-    debugger
   const { data = [] } = await axiosInstance.get(
     `${API.promotional_Allocate_brand_by_promotionalId}?PromotionalStripId=${payload}`
   );

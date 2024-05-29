@@ -111,7 +111,6 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
     let newErrors = { ...errors };
-    console.log(value);
     if (fieldName === 'linkText' || fieldName === 'link') {
       const urlRegex = /https?:\/\/(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\S*)?/;
       const isValidUrl = urlRegex.test(value);

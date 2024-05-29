@@ -16,7 +16,10 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlice";
 import Button from "../../Components/Button/Button";
-import { onUploadImage, onUploadImageReset } from "../../Store/Slices/ClientAdmin/offerMasterSlice";
+import {
+  onUploadImage,
+  onUploadImageReset,
+} from "../../Store/Slices/ClientAdmin/offerMasterSlice";
 
 const CategoryForm = () => {
   const dispatch = useDispatch();
@@ -41,28 +44,29 @@ const CategoryForm = () => {
     supplierId: "",
     supplierBrandId: "",
     image: "",
-
   });
   const [createCategory, setCreateCategory] = useState({
     supplierId: "",
     supplierBrandId: "",
     name: "",
     image: "",
-    displayIsOrder:false
-
+    displayIsOrder: false,
   });
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
 
   const getCategoriesData = useSelector((state) => state.createCategoryReducer);
-  const getSuppliermasterData = useSelector((state) => state.supplierMasterReducer);
-  const getSupplierBrandListLoadingData = useSelector((state) => state.supplierBrandListReducer);
+  const getSuppliermasterData = useSelector(
+    (state) => state.supplierMasterReducer
+  );
+  const getSupplierBrandListLoadingData = useSelector(
+    (state) => state.supplierBrandListReducer
+  );
   const resetCategoryFields = {
     name: "",
     supplierId: "",
     supplierBrandId: "",
     image: "",
-    displayIsOrder:false
-
+    displayIsOrder: false,
   };
 
   // To get the Supplier Brand from redux store
@@ -93,39 +97,37 @@ const CategoryForm = () => {
   );
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const field_Required = GetTranslationData("UIAdmin", "field_Required");
+  const displayHeader = GetTranslationData("UIAdmin", "Display_In_Header_Text");
+
 
   const handleChange = (e, fieldName) => {
-    const { type, checked,value } = e.target;
+    const { type, checked, value } = e.target;
     if (type === "checkbox") {
-      debugger
       setCreateCategory({
         ...createCategory,
         displayIsOrder: checked,
       });
-    } 
-   else if (fieldName === "image") {
-    debugger
-      const file = e?.target?.files?.[0]; 
+    } else if (fieldName === "image") {
+      const file = e?.target?.files?.[0];
       if (file) {
         const formData = new FormData();
         formData?.append("file", file);
         setGetImagePath(formData);
         setCreateCategory({
-          ...createCategory, image:formData
-        })
-
+          ...createCategory,
+          image: formData,
+        });
       } else {
-        e.target.value = ""; 
+        e.target.value = "";
       }
-    }
-    else if (fieldName === "supplierId") {
+    } else if (fieldName === "supplierId") {
       let supplierList = [];
       Array.isArray(supplierBrandData) &&
         supplierBrandData
           ?.filter((item) => {
             return (
               item.supplierCode ===
-              e.target.selectedOptions.item("").getAttribute("name") &&
+                e.target.selectedOptions.item("").getAttribute("name") &&
               item.enabled !== false
             );
           })
@@ -156,8 +158,7 @@ const CategoryForm = () => {
     const newErrors = { ...errors };
     for (const key in createCategory) {
       if (createCategory[key] === "") {
-        debugger
-        newErrors[key] = field_Required;
+          newErrors[key] = field_Required;
         isValid = false;
       } else if (createCategory[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
@@ -169,27 +170,23 @@ const CategoryForm = () => {
     setErrors(newErrors);
     if (isValid) {
       dispatch(onUploadImage(getImagePath));
-
-     
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     if (offerMasterData?.status_code_Image === "201") {
-      debugger
-      dispatch(onUploadImageReset()); 
-         try {
-      dispatch(
-        onPostCategory({
-          ...createCategory,
-          supplierId: parseInt(createCategory?.supplierId),
-          supplierBrandId: parseInt(createCategory?.supplierBrandId),
-          image: offerMasterData?.imageUpload,
-
-        })
-      );
-    } catch (error) { }
-  }
-  },[offerMasterData])
+      dispatch(onUploadImageReset());
+      try {
+        dispatch(
+          onPostCategory({
+            ...createCategory,
+            supplierId: parseInt(createCategory?.supplierId),
+            supplierBrandId: parseInt(createCategory?.supplierBrandId),
+            image: offerMasterData?.imageUpload,
+          })
+        );
+      } catch (error) {}
+    }
+  }, [offerMasterData]);
 
   useEffect(() => {
     if (getCategoriesData?.post_status_code === "500") {
@@ -223,7 +220,9 @@ const CategoryForm = () => {
               </div>
 
               <div className="card-body">
-                {(getCategoriesData?.postLoading || (getSuppliermasterData?.getSupplierLoading && getSupplierBrandListLoadingData?.supplierBrandListLoading)) ? (
+                {getCategoriesData?.postLoading ||
+                (getSuppliermasterData?.getSupplierLoading &&
+                  getSupplierBrandListLoadingData?.supplierBrandListLoading) ? (
                   <div style={{ height: "200px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -238,15 +237,18 @@ const CategoryForm = () => {
                           </label>
                           <InputField
                             type="text"
-                            className={` ${errors.name ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.name ? "border-danger" : "form-control"
+                            }`}
                             name="categoryNam"
                             id="name-f"
                             placeholder=""
                             value={createCategory.name}
                             onChange={(e) => handleChange(e, "name")}
                           />
-                          {createCategory.name.length > 250 && <p className="text-danger">{errors.name}</p>}
+                          {createCategory.name.length > 250 && (
+                            <p className="text-danger">{errors.name}</p>
+                          )}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="vendor-category">
@@ -258,22 +260,22 @@ const CategoryForm = () => {
                             error={errors.supplierId}
                             ariaLabel="Select"
                             value={createCategory.supplierId}
-                            className={` ${errors.supplierId
-                              ? "border-danger"
-                              : "form-select"
-                              }`}
+                            className={` ${
+                              errors.supplierId
+                                ? "border-danger"
+                                : "form-select"
+                            }`}
                             options={
                               Array.isArray(supplierMasterData)
                                 ? supplierMasterData
-                                  .filter(supplier => supplier.enabled)  // Filter to keep only enabled suppliers
-                                  .map(supplier => ({
-                                    label: supplier.name,
-                                    value: supplier.id,
-                                    data: supplier.code,
-                                  }))
+                                    .filter((supplier) => supplier.enabled) // Filter to keep only enabled suppliers
+                                    .map((supplier) => ({
+                                      label: supplier.name,
+                                      value: supplier.id,
+                                      data: supplier.code,
+                                    }))
                                 : []
                             }
-
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
@@ -286,27 +288,26 @@ const CategoryForm = () => {
                             error={errors.supplierBrandId}
                             value={createCategory.supplierBrandId}
                             ariaLabel="Select"
-                            className={` ${errors.supplierBrandId
-                              ? "border-danger"
-                              : "form-select"
-                              }`}
+                            className={` ${
+                              errors.supplierBrandId
+                                ? "border-danger"
+                                : "form-select"
+                            }`}
                             options={supplierBrandListData}
                           />
                         </div>
                         <div className="col-sm-6 form-group mb-2">
                           <label htmlFor="image">
                             {upload_image}
-                            <span className="text-danger">
-                            </span>
+                            <span className="text-danger"></span>
                           </label>
                           <div className="input-group">
                             <div className="form-file">
                               <InputField
                                 type="file"
                                 accept="image/jpg,image/png"
-                                  // value={createCategory.displayIsOrder}
+                                // value={createCategory.displayIsOrder}
                                 onChange={(e) => handleChange(e, "image")}
-
                               />
                             </div>
 
@@ -316,21 +317,21 @@ const CategoryForm = () => {
                         </div>
                         <div className="col-sm-4">
                           <div className="form-check mt-4 padd">
-                            {console.log(createCategory?.displayIsOrder)}
                             <InputField
                               className="form-check-input"
                               type="checkbox"
-                              name="displayIsOrder"                            
+                              name="displayIsOrder"
                               checked={createCategory?.displayIsOrder}
                               id="flexCheckDefault1"
-                              onChange={(e) => handleChange(e, "displayIsOrder")}
-
+                              onChange={(e) =>
+                                handleChange(e, "displayIsOrder")
+                              }
                             />
                             <label
                               className="form-check-label fnt-15"
                               htmlFor="flexCheckDefault1"
                             >
-                              Display In Header
+                              {displayHeader}
                             </label>
                           </div>
                         </div>
