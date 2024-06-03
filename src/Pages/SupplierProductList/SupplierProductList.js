@@ -30,7 +30,6 @@ const SupplierProductList = () => {
   const getProductListData = useSelector(
     (state) => state.supplierBrandListReducer
   );
-  console.log(getProductListData, getProductListData?.supplierBrandListLoading);
   const activeUsersCount =
     Array.isArray(SupplierBrandList) &&
     SupplierBrandList?.[0]?.products?.filter((item) => item?.enabled)?.length;
