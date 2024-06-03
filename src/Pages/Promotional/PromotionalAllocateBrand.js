@@ -110,7 +110,6 @@ const PromotionalAllocateBrand = () => {
   };
 
   const handleToggle = (id, name, e) => {
-    debugger
     const existingIndex = copyClientMapping.findIndex(
       (item) => item.productId === id
     );
@@ -186,93 +185,93 @@ const PromotionalAllocateBrand = () => {
               {showLoader || productByIdReducer.isLoading ? (
                 <Loader />
               ) : (
-                filteredBrandCatalogueList?.length>0 ? 
-                <div className="card-body pt-0 card-body-user">
-                  <div className="table-responsive">
-                    <table className="table header-border table-responsive-sm">
-                      <thead>
-                        <tr>
-                          <th>{brand_name}</th>
-                          <th>{displayOrder}</th>
-                          <th>{action}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {filteredBrandCatalogueList
-                          .slice(startIndex, endIndex)
-                          .map((data, index) => (
-                            <tr key={index}>
-                              <td>{data?.name}</td>
-                              <td>
-                                <div className="input-group mb-2 w-11">
-                                  <InputField
-                                    type="number"
-                                    className="form-control htt"
-                                    placeholder={data.displayOrder}
-                                    pattern="/^-?\d+\.?\d*$/"
-                                    value={getValues(data.id, "displayOrder")}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        e,
-                                        data.id,
-                                        "displayOrder"
-                                      )
-                                    }
-                                    onKeyPress={(e) =>
-                                      handleKeyPress(e, index)
-                                    }
-                                  />
-                                </div>
-                              </td>
-                              <td>
-                                <div className="can-toggle">
-                                  <input
-                                    id={generateUniqueId(index)}
-                                    type="checkbox"
-                                    checked={getValues(data?.id, "enabled")}
-                                    onChange={(e) => handleToggle(data.id, "enabled", e)}
-                                  />
-                                  <label htmlFor={generateUniqueId(index)}>
-                                    <div
-                                      className="can-toggle__switch"
-                                      data-unchecked={"OFF"}
-                                      data-checked={"ON"}
-                                    ></div>
-                                  </label>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                    {filteredBrandCatalogueList?.length > 5 && (
-                      <div className="pagination-container">
-                        <ReactPaginate
-                          previousLabel={"<"}
-                          nextLabel={" >"}
-                          breakLabel={"..."}
-                          pageCount={Math.ceil(
-                            filteredProducts.length / rowsPerPage
-                          )}
-                          marginPagesDisplayed={2}
-                          onPageChange={handlePageChange}
-                          containerClassName={"pagination"}
-                          activeClassName={"active"}
-                          initialPage={page - 1}
-                          previousClassName={page === 1 ? "disabled" : ""}
-                        />
-                        <ToastContainer />
-                      </div>
-                    )}
+                filteredBrandCatalogueList?.length > 0 ?
+                  <div className="card-body pt-0 card-body-user">
+                    <div className="table-responsive">
+                      <table className="table header-border table-responsive-sm">
+                        <thead>
+                          <tr>
+                            <th>{brand_name}</th>
+                            <th>{displayOrder}</th>
+                            <th>{action}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredBrandCatalogueList
+                            .slice(startIndex, endIndex)
+                            .map((data, index) => (
+                              <tr key={index}>
+                                <td>{data?.name}</td>
+                                <td>
+                                  <div className="input-group mb-2 w-11">
+                                    <InputField
+                                      type="number"
+                                      className="form-control htt"
+                                      placeholder={data.displayOrder}
+                                      pattern="/^-?\d+\.?\d*$/"
+                                      value={getValues(data.id, "displayOrder")}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          e,
+                                          data.id,
+                                          "displayOrder"
+                                        )
+                                      }
+                                      onKeyPress={(e) =>
+                                        handleKeyPress(e, index)
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="can-toggle">
+                                    <input
+                                      id={generateUniqueId(index)}
+                                      type="checkbox"
+                                      checked={getValues(data?.id, "enabled")}
+                                      onChange={(e) => handleToggle(data.id, "enabled", e)}
+                                    />
+                                    <label htmlFor={generateUniqueId(index)}>
+                                      <div
+                                        className="can-toggle__switch"
+                                        data-unchecked={"OFF"}
+                                        data-checked={"ON"}
+                                      ></div>
+                                    </label>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                      {filteredBrandCatalogueList?.length > 5 && (
+                        <div className="pagination-container">
+                          <ReactPaginate
+                            previousLabel={"<"}
+                            nextLabel={" >"}
+                            breakLabel={"..."}
+                            pageCount={Math.ceil(
+                              filteredProducts.length / rowsPerPage
+                            )}
+                            marginPagesDisplayed={2}
+                            onPageChange={handlePageChange}
+                            containerClassName={"pagination"}
+                            activeClassName={"active"}
+                            initialPage={page - 1}
+                            previousClassName={page === 1 ? "disabled" : ""}
+                          />
+                          <ToastContainer />
+                        </div>
+                      )}
+                    </div>
+                    <Button
+                      text="Submit"
+                      icon={"fa fa-arrow-right"}
+                      className="btn btn-primary float-right pad-aa"
+                      onClick={handleSubmit}
+                    />
                   </div>
-                  <Button
-                    text="Submit"
-                    icon={"fa fa-arrow-right"}
-                    className="btn btn-primary float-right pad-aa"
-                    onClick={handleSubmit}
-                  />
-                </div>
-                :( <NoRecord />)
+                  : (<NoRecord />)
               )}
               <ToastContainer />
             </div>
