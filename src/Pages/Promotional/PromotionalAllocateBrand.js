@@ -8,15 +8,24 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import { onGetPromotionalAllocateBrandByPromotionalId, onPutPromotionalAllocateBrand, onPutPromotionalAllocateBrandReset } from "../../Store/Slices/promotionalAllocateBrandSlice";
+import {
+  onGetPromotionalAllocateBrandByPromotionalId,
+  onPutPromotionalAllocateBrand,
+  onPutPromotionalAllocateBrandReset,
+} from "../../Store/Slices/promotionalAllocateBrandSlice";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 const PromotionalAllocateBrand = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const getAllocateBrands = useSelector((state) => state?.promotionalAllocateBrandReducer);
+  const getAllocateBrands = useSelector(
+    (state) => state?.promotionalAllocateBrandReducer
+  );
   const [copyClientMapping, setCopyClientMapping] = useState([]);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
-  const promotional_Allocate_Brands = GetTranslationData("UIClient", "promotional_Allocate_Brands");
+  const promotional_Allocate_Brands = GetTranslationData(
+    "UIAdmin",
+    "promotional_Allocate_Brands"
+  );
   const brand_name = GetTranslationData("UIClient", "brand_name");
   const displayOrder = GetTranslationData("UIClient", "display-order");
   const action = GetTranslationData("UIClient", "actionLabel");
@@ -40,7 +49,11 @@ const PromotionalAllocateBrand = () => {
         pageSize: rowsPerPage,
       })
     );
-    dispatch(onGetPromotionalAllocateBrandByPromotionalId(location?.state?.promotionalId));
+    dispatch(
+      onGetPromotionalAllocateBrandByPromotionalId(
+        location?.state?.promotionalId
+      )
+    );
   }, []);
 
   useEffect(() => {
@@ -48,7 +61,11 @@ const PromotionalAllocateBrand = () => {
       toast.success(getAllocateBrands?.updateMessage);
       setShowLoader(false);
       dispatch(onPutPromotionalAllocateBrandReset());
-      dispatch(onGetPromotionalAllocateBrandByPromotionalId(location?.state?.promotionalId));
+      dispatch(
+        onGetPromotionalAllocateBrandByPromotionalId(
+          location?.state?.promotionalId
+        )
+      );
     } else if (getAllocateBrands?.update_status_code === 400) {
       toast.error(getAllocateBrands?.updateMessage.data.ErrorMessage);
       setShowLoader(false);
@@ -67,13 +84,13 @@ const PromotionalAllocateBrand = () => {
 
   const filteredBrandCatalogueList = Array.isArray(filteredProducts)
     ? filteredProducts.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(vendor).some(
+          (value) =>
+            value &&
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchQuery.toLowerCase())
+        )
       )
-    )
     : [];
 
   useEffect(() => {
@@ -117,7 +134,7 @@ const PromotionalAllocateBrand = () => {
     if (existingIndex !== -1) {
       copyClientMapping[existingIndex] = {
         ...copyClientMapping[existingIndex],
-        [name]: e.target.checked
+        [name]: e.target.checked,
       };
     } else {
       copyClientMapping.push({
@@ -164,7 +181,9 @@ const PromotionalAllocateBrand = () => {
               <div className="container-fluid pt-1">
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                   <div className="card-header">
-                    <h4 className="card-title">{promotional_Allocate_Brands}</h4>
+                    <h4 className="card-title">
+                      {promotional_Allocate_Brands}
+                    </h4>
                   </div>
                   <div className="customer-search mb-sm-0 mb-3">
                     <div className="input-group search-area">
@@ -184,94 +203,94 @@ const PromotionalAllocateBrand = () => {
               </div>
               {showLoader || productByIdReducer.isLoading ? (
                 <Loader />
-              ) : (
-                filteredBrandCatalogueList?.length > 0 ?
-                  <div className="card-body pt-0 card-body-user">
-                    <div className="table-responsive">
-                      <table className="table header-border table-responsive-sm">
-                        <thead>
-                          <tr>
-                            <th>{brand_name}</th>
-                            <th>{displayOrder}</th>
-                            <th>{action}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {filteredBrandCatalogueList
-                            .slice(startIndex, endIndex)
-                            .map((data, index) => (
-                              <tr key={index}>
-                                <td>{data?.name}</td>
-                                <td>
-                                  <div className="input-group mb-2 w-11">
-                                    <InputField
-                                      type="number"
-                                      className="form-control htt"
-                                      placeholder={data.displayOrder}
-                                      pattern="/^-?\d+\.?\d*$/"
-                                      value={getValues(data.id, "displayOrder")}
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          e,
-                                          data.id,
-                                          "displayOrder"
-                                        )
-                                      }
-                                      onKeyPress={(e) =>
-                                        handleKeyPress(e, index)
-                                      }
-                                    />
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="can-toggle">
-                                    <input
-                                      id={generateUniqueId(index)}
-                                      type="checkbox"
-                                      checked={getValues(data?.id, "enabled")}
-                                      onChange={(e) => handleToggle(data.id, "enabled", e)}
-                                    />
-                                    <label htmlFor={generateUniqueId(index)}>
-                                      <div
-                                        className="can-toggle__switch"
-                                        data-unchecked={"OFF"}
-                                        data-checked={"ON"}
-                                      ></div>
-                                    </label>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                      {filteredBrandCatalogueList?.length > 5 && (
-                        <div className="pagination-container">
-                          <ReactPaginate
-                            previousLabel={"<"}
-                            nextLabel={" >"}
-                            breakLabel={"..."}
-                            pageCount={Math.ceil(
-                              filteredProducts.length / rowsPerPage
-                            )}
-                            marginPagesDisplayed={2}
-                            onPageChange={handlePageChange}
-                            containerClassName={"pagination"}
-                            activeClassName={"active"}
-                            initialPage={page - 1}
-                            previousClassName={page === 1 ? "disabled" : ""}
-                          />
-                          <ToastContainer />
-                        </div>
-                      )}
-                    </div>
-                    <Button
-                      text="Submit"
-                      icon={"fa fa-arrow-right"}
-                      className="btn btn-primary float-right pad-aa"
-                      onClick={handleSubmit}
-                    />
+              ) : filteredBrandCatalogueList?.length > 0 ? (
+                <div className="card-body pt-0 card-body-user">
+                  <div className="table-responsive">
+                    <table className="table header-border table-responsive-sm">
+                      <thead>
+                        <tr>
+                          <th>{brand_name}</th>
+                          <th>{displayOrder}</th>
+                          <th>{action}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredBrandCatalogueList
+                          .slice(startIndex, endIndex)
+                          .map((data, index) => (
+                            <tr key={index}>
+                              <td>{data?.name}</td>
+                              <td>
+                                <div className="input-group mb-2 w-11">
+                                  <InputField
+                                    type="number"
+                                    className="form-control htt"
+                                    placeholder={data.displayOrder}
+                                    pattern="/^-?\d+\.?\d*$/"
+                                    value={getValues(data.id, "displayOrder")}
+                                    onChange={(e) =>
+                                      handleInputChange(
+                                        e,
+                                        data.id,
+                                        "displayOrder"
+                                      )
+                                    }
+                                    onKeyPress={(e) => handleKeyPress(e, index)}
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <div className="can-toggle">
+                                  <input
+                                    id={generateUniqueId(index)}
+                                    type="checkbox"
+                                    checked={getValues(data?.id, "enabled")}
+                                    onChange={(e) =>
+                                      handleToggle(data.id, "enabled", e)
+                                    }
+                                  />
+                                  <label htmlFor={generateUniqueId(index)}>
+                                    <div
+                                      className="can-toggle__switch"
+                                      data-unchecked={"OFF"}
+                                      data-checked={"ON"}
+                                    ></div>
+                                  </label>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                    {filteredBrandCatalogueList?.length > 5 && (
+                      <div className="pagination-container">
+                        <ReactPaginate
+                          previousLabel={"<"}
+                          nextLabel={" >"}
+                          breakLabel={"..."}
+                          pageCount={Math.ceil(
+                            filteredProducts.length / rowsPerPage
+                          )}
+                          marginPagesDisplayed={2}
+                          onPageChange={handlePageChange}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                          initialPage={page - 1}
+                          previousClassName={page === 1 ? "disabled" : ""}
+                        />
+                        <ToastContainer />
+                      </div>
+                    )}
                   </div>
-                  : (<NoRecord />)
+                  <Button
+                    text="Submit"
+                    icon={"fa fa-arrow-right"}
+                    className="btn btn-primary float-right pad-aa"
+                    onClick={handleSubmit}
+                  />
+                </div>
+              ) : (
+                <NoRecord />
               )}
               <ToastContainer />
             </div>
