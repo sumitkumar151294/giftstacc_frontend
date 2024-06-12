@@ -111,7 +111,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
     let newErrors = { ...errors };
-    if (fieldName === 'linkText' || fieldName === 'link') {
+    if (fieldName === 'link') {
       const urlRegex = /https?:\/\/(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\S*)?/;
       const isValidUrl = urlRegex.test(value);
       newErrors[fieldName] = isValidUrl ? "" : " ";
@@ -266,7 +266,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                             name="linkText"
                             className={`${errors.linkText ? "border-danger" : "form-control"}`}
                             id="linkText"
-                            placeholder=".com"
+                            placeholder=""
                             value={formData.linkText}
                             onChange={(e) => handleChange(e, "linkText")}
                           />
@@ -278,7 +278,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                             name="link"
                             className={`${errors.link ? "border-danger" : "form-control"}`}
                             id="link"
-                            placeholder=".com"
+                            placeholder=""
                             value={formData.link}
                             onChange={(e) => handleChange(e, "link")}
                           />
