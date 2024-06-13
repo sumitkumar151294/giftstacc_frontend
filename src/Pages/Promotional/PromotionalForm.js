@@ -144,15 +144,16 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
   };
   const checkDateOverlap = (newStartDate, newEndDate) => {
     const existingPromotionalData = promotionalData.getData || [];
+    if (!Array.isArray(existingPromotionalData)) return false; 
     return existingPromotionalData.some((promo) => {
       const start = new Date(promo.startDate);
       const end = new Date(promo.endDate);
       const newStart = new Date(newStartDate);
       const newEnd = new Date(newEndDate);
-
       return promo.enabled && ((newStart >= start && newStart <= end) || (newEnd >= start && newEnd <= end));
     });
   };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
@@ -175,7 +176,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
       isValid = false;
     }
     if (formData.enabled && checkDateOverlap(formData.startDate, formData.endDate)) {
-      toast.error({overlap_date_error_msg});
+      toast.error(overlap_date_error_msg);
       isValid = false;
     }
     setErrors(newErrors);
@@ -183,6 +184,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
       if (!prefilledValues?.titleText) {
         try {
           dispatch(onPromtionalSubmit(formData))
+          setPrefilledValues("")
         } catch (error) {
           // Handle any errors during dispatch
         }
@@ -191,6 +193,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
           const updateData = { ...formData };
           updateData.id = prefilledValues.id;
           dispatch(onUpdatePromotional(updateData));
+          setPrefilledValues("")
         } catch (error) {
           // Handle any errors during dispatch
         }
