@@ -43,14 +43,13 @@ const CategoryForm = () => {
     name: "",
     supplierId: "",
     supplierBrandId: "",
-    image: "",
   });
   const [createCategory, setCreateCategory] = useState({
     supplierId: "",
     supplierBrandId: "",
     name: "",
-    image: "",
-    displayIsOrder: false,
+    image: false,
+    displayHeader: false,
   });
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
 
@@ -66,7 +65,7 @@ const CategoryForm = () => {
     supplierId: "",
     supplierBrandId: "",
     image: "",
-    displayIsOrder: false,
+    displayHeader: false,
   };
 
   // To get the Supplier Brand from redux store
@@ -97,15 +96,14 @@ const CategoryForm = () => {
   );
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const field_Required = GetTranslationData("UIAdmin", "field_Required");
-  const displayHeader = GetTranslationData("UIAdmin", "Display_In_Header_Text");
-
+  const displayHeader = GetTranslationData("UIAdmin", "display_Header");
 
   const handleChange = (e, fieldName) => {
     const { type, checked, value } = e.target;
     if (type === "checkbox") {
       setCreateCategory({
         ...createCategory,
-        displayIsOrder: checked,
+        displayHeader: checked,
       });
     } else if (fieldName === "image") {
       const file = e?.target?.files?.[0];
@@ -157,8 +155,8 @@ const CategoryForm = () => {
     let isValid = true;
     const newErrors = { ...errors };
     for (const key in createCategory) {
-      if (createCategory[key] === "") {
-          newErrors[key] = field_Required;
+      if (createCategory[key] ==="") {
+        newErrors[key] = field_Required;
         isValid = false;
       } else if (createCategory[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
@@ -168,8 +166,18 @@ const CategoryForm = () => {
       }
     }
     setErrors(newErrors);
-    if (isValid) {
+    if (isValid && createCategory.image !==false) {
       dispatch(onUploadImage(getImagePath));
+    }
+    else if (isValid && createCategory.image ===false)  {
+      dispatch(
+      onPostCategory({
+        ...createCategory,
+        supplierId: parseInt(createCategory?.supplierId),
+        supplierBrandId: parseInt(createCategory?.supplierBrandId),
+        image: "false",
+        })
+      )
     }
   };
   useEffect(() => {
@@ -306,22 +314,21 @@ const CategoryForm = () => {
                               <InputField
                                 type="file"
                                 accept="image/jpg,image/png"
-                                // value={createCategory.displayIsOrder}
+                                // value={createCategory.displayHeader}
                                 onChange={(e) => handleChange(e, "image")}
                               />
                             </div>
 
                             <span className="input-group-text">{upload}</span>
                           </div>
-                          {<p className="text-danger">{errors.image}</p>}
                         </div>
                         <div className="col-sm-4">
                           <div className="form-check mt-4 padd">
                             <InputField
                               className="form-check-input"
                               type="checkbox"
-                              name="displayIsOrder"
-                              checked={createCategory?.displayIsOrder}
+                              name="displayHeader"
+                              checked={createCategory?.displayHeader}
                               id="flexCheckDefault1"
                               onChange={(e) =>
                                 handleChange(e, "displayIsOrder")
