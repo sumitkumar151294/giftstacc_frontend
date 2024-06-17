@@ -205,13 +205,13 @@ const Users = () => {
               </div>
               <div className="card-body pb-2">
                 <div className="tab-pane fade show active mt-3" id="Monthly">
-                  <ReactApexChart
+                   <ReactApexChart
                     options={chartTimeline.options}
                     series={chartTimeline.series}
                     type="bar"
                     height={250}
                     className="chart-timeline"
-                  />
+                  /> 
                 </div>
               </div>
             </div>

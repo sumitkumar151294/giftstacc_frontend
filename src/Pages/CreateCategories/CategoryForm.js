@@ -42,6 +42,7 @@ const CategoryForm = () => {
   const [errors, setErrors] = useState({
     name: "",
     supplierId: "",
+    displayOrder:"",
     supplierBrandId: "",
   });
   const [createCategory, setCreateCategory] = useState({
@@ -49,6 +50,7 @@ const CategoryForm = () => {
     supplierBrandId: "",
     name: "",
     image: false,
+    displayOrder:"",
     displayHeader: false,
   });
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
@@ -65,6 +67,7 @@ const CategoryForm = () => {
     supplierId: "",
     supplierBrandId: "",
     image: "",
+    displayOrder:"",
     displayHeader: false,
   };
 
@@ -86,6 +89,8 @@ const CategoryForm = () => {
     "UIAdmin",
     "Supplier_name_Label"
   );
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+
   const supplierBrandTranslation = GetTranslationData(
     "UIAdmin",
     "supplierBrand"
@@ -99,13 +104,15 @@ const CategoryForm = () => {
   const displayHeader = GetTranslationData("UIAdmin", "display_Header");
 
   const handleChange = (e, fieldName) => {
+    debugger
     const { type, checked, value } = e.target;
     if (type === "checkbox") {
       setCreateCategory({
         ...createCategory,
         displayHeader: checked,
       });
-    } else if (fieldName === "image") {
+    }
+     else if (fieldName === "image") {
       const file = e?.target?.files?.[0];
       if (file) {
         const formData = new FormData();
@@ -123,6 +130,7 @@ const CategoryForm = () => {
       Array.isArray(supplierBrandData) &&
         supplierBrandData
           ?.filter((item) => {
+            debugger
             return (
               item.supplierCode ===
                 e.target.selectedOptions.item("").getAttribute("name") &&
@@ -155,10 +163,15 @@ const CategoryForm = () => {
     let isValid = true;
     const newErrors = { ...errors };
     for (const key in createCategory) {
-      if (createCategory[key] ==="") {
-        newErrors[key] = field_Required;
+      debugger
+      if (createCategory[key] ===""  ) {
+        newErrors[key] = " ";
         isValid = false;
-      } else if (createCategory[key].length > 250) {
+      } else if (createCategory.supplierId ==="Select" && createCategory.supplierBrandId ==="" ) {
+        newErrors[key] = " ";
+        isValid = false;
+      }
+     else if (createCategory[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
       } else {
@@ -175,6 +188,7 @@ const CategoryForm = () => {
         ...createCategory,
         supplierId: parseInt(createCategory?.supplierId),
         supplierBrandId: parseInt(createCategory?.supplierBrandId),
+        DisplayOrder: parseInt(createCategory?.displayOrder),
         image: "false",
         })
       )
@@ -189,6 +203,7 @@ const CategoryForm = () => {
             ...createCategory,
             supplierId: parseInt(createCategory?.supplierId),
             supplierBrandId: parseInt(createCategory?.supplierBrandId),
+            DisplayOrder: parseInt(createCategory?.displayOrder),
             image: offerMasterData?.imageUpload,
           })
         );
@@ -250,7 +265,7 @@ const CategoryForm = () => {
                             }`}
                             name="categoryNam"
                             id="name-f"
-                            placeholder=""
+                            placeholder="Enter your category name"
                             value={createCategory.name}
                             onChange={(e) => handleChange(e, "name")}
                           />
@@ -295,7 +310,7 @@ const CategoryForm = () => {
                             onChange={(e) => handleChange(e, "supplierBrandId")}
                             error={errors.supplierBrandId}
                             value={createCategory.supplierBrandId}
-                            ariaLabel="Select"
+                            ariaLabel={supplierBrandListData.length === 0 ? "No Record Found" : "Select"}
                             className={` ${
                               errors.supplierBrandId
                                 ? "border-danger"
@@ -322,7 +337,23 @@ const CategoryForm = () => {
                             <span className="input-group-text">{upload}</span>
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-sm-3 form-group mb-2">
+                          <label htmlFor="name-f">
+                            {displayOrder}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <InputField
+                            type="number"
+                            className={`form-control ${errors.displayOrder ? "border-danger" : ""
+                              }`}
+                            id="displayOrder"
+                            placeholder="Display order"
+                            value={createCategory.displayOrder}
+                            onChange={(e) => handleChange(e, "displayOrder")}
+                          />
+                          {<p className="text-danger">{errors.displayOrder}</p>}
+                        </div>
+                        <div className="col-sm-3 form-group mb-2">
                           <div className="form-check mt-4 padd">
                             <InputField
                               className="form-check-input"
