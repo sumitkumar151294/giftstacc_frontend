@@ -12,12 +12,10 @@ import { CSVLink } from "react-csv";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import DatePickerInput from "../../Components/DatePicker/DatePicker";
-
 import { Link } from "react-router-dom/dist";
-
 import PageError from "../../Components/PageError/PageError";
 import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
+import { DatePicker, InputGroup } from "rsuite";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -509,19 +507,32 @@ const Orders = () => {
                               />
                             </div>
                           )}
-                          <div className="col-xl-3">
-                            <div className="example">
-                              <p className="mb-1">{date}</p>
-                              <DatePickerInput
-                                placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
-                                selectsRange={true}
-                                dateFormat="dd MMM yyyy h:mm aa"
-                                timeFormat="HH:mm"
-                                className={"form-control form-control-sm"}
-                                showDisabledMonthNavigation
+                          <div className="col-sm-4 mt-4">
+                          <div className="example">
+                            {/* <label>{start_and_enddate}</label> */}
+
+                            <InputGroup
+                              className="dateInput"
+                            >
+                              <DatePicker
+                                format="yyyy-MM-dd HH:mm:ss"
+                                placeholder="Start Date"
+                                // value={formData.startDate ? new Date(formData.startDate) : null}
+                                // onChange={(e) => handleDateChange(e, 'startDate')}
+                                block
+                                appearance="subtle"
                               />
-                            </div>
+                              <DatePicker
+                                format="yyyy-MM-dd HH:mm:ss"
+                                placeholder="End Date"
+                                // value={formData.endDate ? new Date(formData.endDate) : null}
+                                // onChange={(e) => handleDateChange(e, 'endDate')}
+                                block
+                                appearance="subtle"
+                              />
+                            </InputGroup>
                           </div>
+                        </div>
                         </div>
                       </div>
                       <div className="card-body">

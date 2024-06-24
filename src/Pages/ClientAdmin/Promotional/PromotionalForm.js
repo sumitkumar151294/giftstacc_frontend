@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import InputField from '../../Components/InputField/InputField';
-import Dropdown from '../../Components/Dropdown/Dropdown';
-import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
-import {  onGetPromtional, onPromtionalSubmit, onPromtionalSubmitReset, onUpdatePromotional, onUpdatePromotionalReset } from '../../Store/Slices/promotionalSlice';
+import InputField from '../../../Components/InputField/InputField';
+import Dropdown from '../../../Components/Dropdown/Dropdown';
+import { GetTranslationData } from '../../../Components/GetTranslationData/GetTranslationData ';
+import {  onGetPromtional, onPromtionalSubmit, onPromtionalSubmitReset, onUpdatePromotional, onUpdatePromotionalReset } from '../../../Store/Slices/ClientAdmin/promotionalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { DatePicker, InputGroup } from 'rsuite';
-import Button from '../../Components/Button/Button';
+import Button from '../../../Components/Button/Button';
 import { ToastContainer, toast } from 'react-toastify';
-import Loader from '../../Components/Loader/Loader';
-import { onClientMasterSubmit } from '../../Store/Slices/clientMasterSlice';
+import Loader from '../../../Components/Loader/Loader';
+import { onClientMasterSubmit } from '../../../Store/Slices/clientMasterSlice';
 
 const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsDelete }) => {
   const active = GetTranslationData("UIAdmin", "active");
