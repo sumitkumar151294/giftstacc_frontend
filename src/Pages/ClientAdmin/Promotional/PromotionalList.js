@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PromotionalForm from './PromotionalForm';
-import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
+import { GetTranslationData } from '../../../Components/GetTranslationData/GetTranslationData ';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { onUpdatePromotional } from '../../Store/Slices/promotionalSlice';
-import NoRecord from '../../Components/NoRecord/NoRecord';
-import Loader from '../../Components/Loader/Loader';
+import { onUpdatePromotional } from '../../../Store/Slices/ClientAdmin/promotionalSlice';
+import NoRecord from '../../../Components/NoRecord/NoRecord';
+import Loader from '../../../Components/Loader/Loader';
 import ReactPaginate from 'react-paginate';
-import InputField from '../../Components/InputField/InputField';
-import Button from '../../Components/Button/Button';
+import InputField from '../../../Components/InputField/InputField';
+import Button from '../../../Components/Button/Button';
 import { CSVLink } from 'react-csv';
 
 const PromotionalList = () => {

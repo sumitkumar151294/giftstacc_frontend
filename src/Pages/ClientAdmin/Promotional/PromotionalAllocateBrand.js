@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { useLocation } from "react-router-dom";
-import Loader from "../../Components/Loader/Loader";
-import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
-import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
-import InputField from "../../Components/InputField/InputField";
-import Button from "../../Components/Button/Button";
+import Loader from "../../../Components/Loader/Loader";
+import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { onProductByIdSubmit } from "../../../Store/Slices/productSlice";
+import InputField from "../../../Components/InputField/InputField";
+import Button from "../../../Components/Button/Button";
 import {
   onGetPromotionalAllocateBrandByPromotionalId,
   onPutPromotionalAllocateBrand,
   onPutPromotionalAllocateBrandReset,
-} from "../../Store/Slices/promotionalAllocateBrandSlice";
-import NoRecord from "../../Components/NoRecord/NoRecord";
+} from "../../../Store/Slices/promotionalAllocateBrandSlice";
+import NoRecord from "../../../Components/NoRecord/NoRecord";
 const PromotionalAllocateBrand = () => {
   const dispatch = useDispatch();
   const location = useLocation();

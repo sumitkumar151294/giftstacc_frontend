@@ -25,7 +25,7 @@ import clientProductMappingReducer from "./Slices/clientProductMappingSlice";
 import emailEventMasterReducer from "./Slices/ClientAdmin/emailEventMasterSlice";
 import allocateBrandReducer from "./Slices/ClientAdmin/allocateBrandSlice";
 import productReducer from "./Slices/productSlice";
-import promotionalReducer from "./Slices/promotionalSlice";
+import promotionalReducer from "./Slices/ClientAdmin/promotionalSlice";
 import promotionalAllocateBrandReducer from "./Slices/promotionalAllocateBrandSlice";
 
 const reducers = combineReducers({

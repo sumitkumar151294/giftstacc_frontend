@@ -24,8 +24,8 @@ import FaqMaster from "../Pages/ClientAdmin/FaqMaster/FaqMaster";
 import OfferMasterList from "../Pages/ClientAdmin/OfferMaster/OfferMasterList";
 import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/ClientCommissionReport";
 import CustomerList from "../Pages/ClientAdmin/CustomerList/CustomerList";
-import PromotionalList from "../Pages/Promotional/PromotionalList";
-import PromotionalAllocateBrand from "../Pages/Promotional/PromotionalAllocateBrand";
+import PromotionalList from  '../Pages/ClientAdmin/Promotional/PromotionalList'
+import PromotionalAllocateBrand from "../Pages/ClientAdmin/Promotional/PromotionalAllocateBrand";
 function RouteConfiq() {
   return (
     <Router>
@@ -80,7 +80,7 @@ function RouteConfiq() {
           element={<Layout Component={BrandCatalogue} />}
         />
          <Route
-          path="/lc-admin/promotional"
+          path="/lc-user-admin/promotional"
           element={<Layout Component={PromotionalList} />}
         />
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
@@ -121,7 +121,7 @@ function RouteConfiq() {
           element={<Layout Component={AllocateBrand} />}
         />
         <Route
-          path="/lc-admin/promotional-allocate-brand"
+          path="/lc-user-admin/promotional-allocate-brand"
           element={<Layout Component={PromotionalAllocateBrand} />}
         />
         <Route

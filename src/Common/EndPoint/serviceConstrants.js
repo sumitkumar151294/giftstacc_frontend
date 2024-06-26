@@ -41,8 +41,11 @@ const API = {
   add_special: "add-special",
   //banner-master
   banner_master: "/banner-master",
-  // promotional 
+  // promotional post /update
   promotional_api: "/promotionalStrip",
+    // promotional get
+    promotional_api_Get: "/promotional-strip-current-active",
+
   //prootional Allocate barnd
   promotional_Allocate_brand:"promotional-allocate-brands",
   promotional_Allocate_brand_by_promotionalId:"/promotional-allocate-brands-by-promotionalStrip-id",

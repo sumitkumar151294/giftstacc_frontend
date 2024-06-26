@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { onGetPromtional, onGetPromtionalError, onGetPromtionalSuccess, onPromtionalSubmit, onPromtionalSubmitError, onPromtionalSubmitSuccess, onUpdatePromotional, onUpdatePromotionalError, onUpdatePromotionalSuccess } from "../Store/Slices/promotionalSlice";
-import { promotionalGetApi, promotionalPostApi, promotionalUpdateApi } from "../Context/promotionalApi";
+import { onGetPromtional, onGetPromtionalError, onGetPromtionalSuccess, onPromtionalSubmit, onPromtionalSubmitError, onPromtionalSubmitSuccess, onUpdatePromotional, onUpdatePromotionalError, onUpdatePromotionalSuccess } from "../../Store/Slices/ClientAdmin/promotionalSlice";
+import { promotionalGetApi, promotionalPostApi, promotionalUpdateApi } from "../../Context/ClientAdmin/promotionalApi";
 
 function* getPromotional() {
     try {

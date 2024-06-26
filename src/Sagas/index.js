@@ -22,7 +22,7 @@ import FaqMasterSaga from "./ClientAdmin/faqMasterSaga";
 import FaqCategorySaga from "./ClientAdmin/faqCategorySaga";
 import clientMappingSaga from "./clientProductMappingSaga";
 import productApiSaga from "./productSaga";
-import promotionalSaga from "./promotionalSaga";
+import promotionalSaga from "./ClientAdmin/promotionalSaga";
 import promotionalAllocateBrandSaga from "./promotionalAllocateBrandSaga";
 export default function* rootSaga() {
   yield all([
