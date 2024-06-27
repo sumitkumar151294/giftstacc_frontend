@@ -18,6 +18,7 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import PageError from "../../Components/PageError/PageError";
+import defaultImage from "../../Assets/img/image 880.png"
 
 const CategoryList = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,9 @@ const CategoryList = () => {
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const displayHeader = GetTranslationData("UIAdmin", "Display_In_Header_Text");
+  const image = GetTranslationData("UIAdmin", "image_Text");
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+
 
   // To get the Supplier Name in the Category List
   const getSupplierName = (supplierId) => {
@@ -211,8 +215,8 @@ const CategoryList = () => {
                                 <th>{categoryName}</th>
                                 <th>{supplierName}</th>
                                 <th>{supplierBrand}</th>
-                                <th>image</th>
-
+                                <th>{displayOrder}</th>
+                                <th>{image}</th>
                                 <th>{displayHeader}</th>
 
                                 {getRoleAccess[0]?.editAccess && (
@@ -230,9 +234,12 @@ const CategoryList = () => {
                                     <td>
                                       {getSupplierBrand(data.supplierBrandId)}
                                     </td>
+                                    <td>                                      {data.displayOrder}
+
+                                    </td>
                                     <td>
                                               <img
-                                               src={ `${process.env.REACT_APP_CLIENT_URL}${data.image}`}
+                                               src={data.image ==="false" ?defaultImage: `${process.env.REACT_APP_CLIENT_URL}${data.image}`}
                                                 style={{ width: "50px" }}
                                                 alt={data?.image === "false" ? "" :data.image}
                                               />

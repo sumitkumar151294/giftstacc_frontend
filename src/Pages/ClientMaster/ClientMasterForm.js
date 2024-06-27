@@ -245,6 +245,22 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         [fieldName]: isValidnumber ? "" : validNumber,
       });
     }
+    else if (fieldName === "platformDomainUrl") {
+      const domainRegex = /^(https?:\/\/)?([\da-z.-]+\.[a-z.]{2,6})(\/[\w .-]*)*\/?$/;
+      const isValidDomain = domainRegex.test(e.target.value);
+      setErrors({
+        ...errors,
+        [fieldName]: isValidDomain ? "" : " ",
+      });
+    }
+    else if (fieldName === "logoUrl") {
+      const domainRegex = /^(https?:\/\/)?([\da-z.-]+\.[a-z.]{2,6})(\/[\w .-]*)*\/?$/;
+      const isValidDomain = domainRegex.test(e.target.value);
+      setErrors({
+        ...errors,
+        [fieldName]: isValidDomain ? "" : " ",
+      });
+    }
 
     // Remove the error message when the user starts typing
     else {
@@ -280,11 +296,36 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     setAdditionalFields(updatedFields);
   };
   const handleSubmit = (e) => { 
+    debugger
     e.preventDefault();
     let isValid = true;
+   
     const newErrors = { ...errors };
+    for (const key in clientData) {
+      if (clientData[key] === "") {
+        debugger
+        newErrors[key] = " ";
+        isValid = false;
+      } else if (
+        
+        clientData.enabled === ""
+      ) {
+        newErrors[key] = " ";
+        isValid = false;
+      }}
     const newAdditionalFieldsError = [...additionalFieldsError];
-
+    for (const key in additionalFields) {
+      if (clientData[key] === "") {
+        debugger
+        newErrors[key] = " ";
+        isValid = false;
+      } else if (
+        
+        clientData.enabled === ""
+      ) {
+        newErrors[key] = " ";
+        isValid = false;
+      }}
     additionalFields?.forEach((field, index) => {
       if (field.resourceKey === "") {
         setAdditionalFieldsError((prevErrors) => {
@@ -366,7 +407,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].resourceKey =
-            "All fields are required";
+            " ";
           return newAdditionalFieldsError;
         });
         isValid = false;
@@ -383,7 +424,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].resourceValue =
-            "All fields are required";
+            " ";
           return newAdditionalFieldsError;
         });
         isValid = false;
@@ -399,7 +440,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       if (field.mode === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
-          newAdditionalFieldsError[index].mode = "All fields are required";
+          newAdditionalFieldsError[index].mode = " ";
           return newAdditionalFieldsError;
         });
         isValid = false;
@@ -520,6 +561,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           type="text"
                           className={` ${errors.name ? "border-danger" : "form-control"
                             }`}
+                            placeholder="Enter your contact name"
                           name="contactName"
                           id="contact-name"
                           error={errors.name}
@@ -537,6 +579,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           type="number"
                           className={` ${errors.number ? "border-danger" : "form-control"
                             }`}
+                            placeholder="Enter your contact number"
+
                           name="contactNumber"
                           id="contact-number"
                           value={clientData.number}
@@ -554,6 +598,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           type="email"
                           className={` ${errors.email ? "border-danger" : "form-control"
                             }`}
+                            placeholder="Enter your email"
+
                           name="contactEmail"
                           id="contact-email"
                           value={clientData.email}
@@ -562,27 +608,23 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         />
                         {<p className="text-danger">{errors.email}</p>}
                       </div>
-                      <div className="col-sm-6 form-group ">
-                        <label htmlFor="platformDomainUrl">
-                          {platformDomainUrl}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <InputField
-                          type="platformDomainUrl"
-                          className={` ${errors.platformDomainUrl
-                              ? "border-danger"
-                              : "form-control"
-                            }`}
-                          name="contactplatformDomainUrl"
-                          id="contact-platformDomainUrl"
-                          value={clientData.platformDomainUrl}
-                          error={errors.platformDomainUrl}
-                          onChange={(e) => handleChange(e, "platformDomainUrl")}
-                        />
-                        <p className="text-danger">
-                          {errors.platformDomainUrl}
-                        </p>
-                      </div>
+                      <div className="col-sm-6 form-group">
+      <label htmlFor="platformDomainUrl">
+        {platformDomainUrl}
+        <span className="text-danger">*</span>
+      </label>
+      <InputField
+        type="text"
+        className={` ${errors.platformDomainUrl ? "border-danger" : "form-control"}`}
+        name="platformDomainUrl"
+        id="contact-platformDomainUrl"
+        placeholder="Platform Domain URL"
+        value={clientData.platformDomainUrl}
+        error={errors.platformDomainUrl}
+        onChange={(e) => handleChange(e, "platformDomainUrl")}
+      />
+      <p className="text-danger">{errors.platformDomainUrl}</p>
+    </div>
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="status">
                           {status}
@@ -626,6 +668,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           className={` ${errors.logoUrl ? "border-danger" : "form-control"
                             }`}
                           name="logo"
+                          placeholder="Logo Url"
+
                           id="logo"
                           error={errors.logoUrl}
                           value={clientData.logoUrl}
@@ -641,6 +685,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         <Dropdown
                           onChange={(e) => handleChange(e, "themes")}
                           error={errors.themes}
+                          placeholder="Themes"
+
                           value={clientData.themes || ""}
                           key={clientData.themes}
                           className="form-select"

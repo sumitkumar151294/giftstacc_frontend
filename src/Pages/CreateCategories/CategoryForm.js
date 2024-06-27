@@ -42,6 +42,7 @@ const CategoryForm = () => {
   const [errors, setErrors] = useState({
     name: "",
     supplierId: "",
+    displayOrder: "",
     supplierBrandId: "",
   });
   const [createCategory, setCreateCategory] = useState({
@@ -49,6 +50,7 @@ const CategoryForm = () => {
     supplierBrandId: "",
     name: "",
     image: false,
+    displayOrder: "",
     displayHeader: false,
   });
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
@@ -65,6 +67,7 @@ const CategoryForm = () => {
     supplierId: "",
     supplierBrandId: "",
     image: "",
+    displayOrder: "",
     displayHeader: false,
   };
 
@@ -86,6 +89,8 @@ const CategoryForm = () => {
     "UIAdmin",
     "Supplier_name_Label"
   );
+  const displayOrder = GetTranslationData("UIClient", "display-order");
+
   const supplierBrandTranslation = GetTranslationData(
     "UIAdmin",
     "supplierBrand"
@@ -123,7 +128,7 @@ const CategoryForm = () => {
       Array.isArray(supplierBrandData) &&
         supplierBrandData
           ?.filter((item) => {
-            return (
+                  return (
               item.supplierCode ===
                 e.target.selectedOptions.item("").getAttribute("name") &&
               item.enabled !== false
@@ -155,8 +160,14 @@ const CategoryForm = () => {
     let isValid = true;
     const newErrors = { ...errors };
     for (const key in createCategory) {
-      if (createCategory[key] ==="") {
-        newErrors[key] = field_Required;
+      if (createCategory[key] === "") {
+        newErrors[key] = " ";
+        isValid = false;
+      } else if (
+        createCategory.supplierId === "Select" &&
+        createCategory.supplierBrandId === ""
+      ) {
+        newErrors[key] = " ";
         isValid = false;
       } else if (createCategory[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
@@ -166,18 +177,18 @@ const CategoryForm = () => {
       }
     }
     setErrors(newErrors);
-    if (isValid && createCategory.image !==false) {
+    if (isValid &&(createCategory.image !== false && createCategory.image !== "")) {
       dispatch(onUploadImage(getImagePath));
-    }
-    else if (isValid && createCategory.image ===false)  {
+    } else if (isValid && createCategory.image === false ||createCategory.image==="") {
       dispatch(
-      onPostCategory({
-        ...createCategory,
-        supplierId: parseInt(createCategory?.supplierId),
-        supplierBrandId: parseInt(createCategory?.supplierBrandId),
-        image: "false",
+        onPostCategory({
+          ...createCategory,
+          supplierId: parseInt(createCategory?.supplierId),
+          supplierBrandId: parseInt(createCategory?.supplierBrandId),
+          displayOrder: parseInt(createCategory?.displayOrder),
+          image: "false",
         })
-      )
+      );
     }
   };
   useEffect(() => {
@@ -189,6 +200,7 @@ const CategoryForm = () => {
             ...createCategory,
             supplierId: parseInt(createCategory?.supplierId),
             supplierBrandId: parseInt(createCategory?.supplierBrandId),
+            displayOrder: parseInt(createCategory?.displayOrder),
             image: offerMasterData?.imageUpload,
           })
         );
@@ -250,7 +262,7 @@ const CategoryForm = () => {
                             }`}
                             name="categoryNam"
                             id="name-f"
-                            placeholder=""
+                            placeholder="Enter your category name"
                             value={createCategory.name}
                             onChange={(e) => handleChange(e, "name")}
                           />
@@ -295,13 +307,27 @@ const CategoryForm = () => {
                             onChange={(e) => handleChange(e, "supplierBrandId")}
                             error={errors.supplierBrandId}
                             value={createCategory.supplierBrandId}
-                            ariaLabel="Select"
+                            ariaLabel={
+                              supplierBrandListData.length === 0
+                                ? "No Record Found"
+                                : "Select"
+                            }
                             className={` ${
                               errors.supplierBrandId
                                 ? "border-danger"
                                 : "form-select"
                             }`}
-                            options={supplierBrandListData}
+                            options={
+                              supplierBrandListData.length === 0
+                                ? [
+                                    {
+                                      label: "No Record Found",
+                                      value: "",
+                                      disabled: true,
+                                    },
+                                  ]
+                                : supplierBrandListData
+                            }
                           />
                         </div>
                         <div className="col-sm-3 form-group mb-2">
