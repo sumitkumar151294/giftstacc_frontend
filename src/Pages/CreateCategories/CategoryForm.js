@@ -304,6 +304,23 @@ const CategoryForm = () => {
                             options={supplierBrandListData}
                           />
                         </div>
+                        <div className="col-sm-3 form-group mb-2">
+                          <label htmlFor="name-f">
+                            {displayOrder}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <InputField
+                            type="number"
+                            className={`form-control ${
+                              errors.displayOrder ? "border-danger" : ""
+                            }`}
+                            id="displayOrder"
+                            placeholder="Display order"
+                            value={createCategory.displayOrder}
+                            onChange={(e) => handleChange(e, "displayOrder")}
+                          />
+                          {<p className="text-danger">{errors.displayOrder}</p>}
+                        </div>
                         <div className="col-sm-6 form-group mb-2">
                           <label htmlFor="image">
                             {upload_image}
@@ -322,7 +339,8 @@ const CategoryForm = () => {
                             <span className="input-group-text">{upload}</span>
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        
+                        <div className="col-sm-3 form-group mb-2">
                           <div className="form-check mt-4 padd">
                             <InputField
                               className="form-check-input"
