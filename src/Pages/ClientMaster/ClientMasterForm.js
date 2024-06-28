@@ -215,10 +215,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 
   const handleChange = (e, fieldName) => {
     let values = e.target.value;
-    // if (fieldName === "enabled") {
-    //   values = values ? values === "true" : "";
-    // }
-    if (fieldName === "enabled") {
+    if (fieldName === "enabled") { debugger
       if (values === "true" || values === "false") {
         values = values === "true";
       } else {
@@ -307,19 +304,9 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         isValid = false;
       } else {
         newErrors[key] = "";
-        isValid = true;
       }
     }
     const newAdditionalFieldsError = [...additionalFieldsError];
-    // for (const key in additionalFields) {
-    //   if (clientData[key] === ""){
-    //     newErrors[key] = " ";
-    //     isValid = false;
-    //   } else {
-    //     newErrors[key] = "";
-    //     isValid = false;
-    //   }
-    // }
     additionalFields?.forEach((field, index) => {
       if (field.resourceKey === "") {
         setAdditionalFieldsError((prevErrors) => {
@@ -430,8 +417,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         });
         isValid = false;
       }
-      if (field.mode === "" ||field.mode=== "Select") {
-        debugger
+      if (field.mode === "" || field.mode === "Select") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].mode = " ";
