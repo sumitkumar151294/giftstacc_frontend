@@ -307,7 +307,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         isValid = false;
       } else {
         newErrors[key] = "";
-        isValid = false;
+        isValid = true;
       }
     }
     const newAdditionalFieldsError = [...additionalFieldsError];
