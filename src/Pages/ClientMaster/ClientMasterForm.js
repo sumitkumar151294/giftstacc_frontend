@@ -145,7 +145,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       id: data?.id,
       email: data?.email || "",
       dbIpAddress: data?.dbIpAddress || "",
-      color: data?.color||"#000",
+      color: data?.color || "#000",
       logoUrl: data?.logoUrl || "",
       themes: data?.themes || "",
       enabled: data?.enabled !== undefined ? data.enabled : "",
@@ -295,37 +295,31 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     updatedFields.splice(index, 1);
     setAdditionalFields(updatedFields);
   };
-  const handleSubmit = (e) => { 
+  const handleSubmit = (e) => {
     debugger
     e.preventDefault();
     let isValid = true;
-   
+
     const newErrors = { ...errors };
     for (const key in clientData) {
-      if (clientData[key] === "") {
-        debugger
+      if (clientData[key] === "" || clientData[key] === "Select") {
         newErrors[key] = " ";
         isValid = false;
-      } else if (
-        
-        clientData.enabled === ""
-      ) {
-        newErrors[key] = " ";
+      } else {
+        newErrors[key] = "";
         isValid = false;
-      }}
+      }
+    }
     const newAdditionalFieldsError = [...additionalFieldsError];
-    for (const key in additionalFields) {
-      if (clientData[key] === "") {
-        debugger
-        newErrors[key] = " ";
-        isValid = false;
-      } else if (
-        
-        clientData.enabled === ""
-      ) {
-        newErrors[key] = " ";
-        isValid = false;
-      }}
+    // for (const key in additionalFields) {
+    //   if (clientData[key] === ""){
+    //     newErrors[key] = " ";
+    //     isValid = false;
+    //   } else {
+    //     newErrors[key] = "";
+    //     isValid = false;
+    //   }
+    // }
     additionalFields?.forEach((field, index) => {
       if (field.resourceKey === "") {
         setAdditionalFieldsError((prevErrors) => {
@@ -333,7 +327,6 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
           newAdditionalFieldsError[index].resourceKey = fieldNameNotEmpty;
           return newAdditionalFieldsError;
         });
-
         isValid = false;
       }
 
@@ -449,7 +442,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 
     setErrors(newErrors);
 
-    if (isValid) { 
+    if (isValid) {
       if (!data) {
         try {
           setShowLoader(true);
@@ -561,7 +554,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           type="text"
                           className={` ${errors.name ? "border-danger" : "form-control"
                             }`}
-                            placeholder="Enter your contact name"
+                          placeholder="Enter your contact name"
                           name="contactName"
                           id="contact-name"
                           error={errors.name}
@@ -579,7 +572,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           type="number"
                           className={` ${errors.number ? "border-danger" : "form-control"
                             }`}
-                            placeholder="Enter your contact number"
+                          placeholder="Enter your contact number"
 
                           name="contactNumber"
                           id="contact-number"
@@ -598,7 +591,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           type="email"
                           className={` ${errors.email ? "border-danger" : "form-control"
                             }`}
-                            placeholder="Enter your email"
+                          placeholder="Enter your email"
 
                           name="contactEmail"
                           id="contact-email"
@@ -609,22 +602,22 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         {<p className="text-danger">{errors.email}</p>}
                       </div>
                       <div className="col-sm-6 form-group">
-      <label htmlFor="platformDomainUrl">
-        {platformDomainUrl}
-        <span className="text-danger">*</span>
-      </label>
-      <InputField
-        type="text"
-        className={` ${errors.platformDomainUrl ? "border-danger" : "form-control"}`}
-        name="platformDomainUrl"
-        id="contact-platformDomainUrl"
-        placeholder="Platform Domain URL"
-        value={clientData.platformDomainUrl}
-        error={errors.platformDomainUrl}
-        onChange={(e) => handleChange(e, "platformDomainUrl")}
-      />
-      <p className="text-danger">{errors.platformDomainUrl}</p>
-    </div>
+                        <label htmlFor="platformDomainUrl">
+                          {platformDomainUrl}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <InputField
+                          type="text"
+                          className={` ${errors.platformDomainUrl ? "border-danger" : "form-control"}`}
+                          name="platformDomainUrl"
+                          id="contact-platformDomainUrl"
+                          placeholder="Platform Domain URL"
+                          value={clientData.platformDomainUrl}
+                          error={errors.platformDomainUrl}
+                          onChange={(e) => handleChange(e, "platformDomainUrl")}
+                        />
+                        <p className="text-danger">{errors.platformDomainUrl}</p>
+                      </div>
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="status">
                           {status}
@@ -703,8 +696,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           <InputField
                             type="text"
                             className={` ${errors.dbIpAddress
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             name="ipAddress"
                             id="ipAddress"
@@ -723,8 +716,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           <InputField
                             type="text"
                             className={` ${errors.dbLoginId
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             name="username"
                             id="user-name"
@@ -743,8 +736,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           <InputField
                             type="password"
                             className={` ${errors.dbLoginPwd
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             name="password"
                             id="password"
@@ -763,8 +756,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           <InputField
                             type="text"
                             className={` ${errors.dbLoginPwd
-                                ? "border-danger"
-                                : "form-control"
+                              ? "border-danger"
+                              : "form-control"
                               }`}
                             name="dbName"
                             id="dbName"
@@ -793,9 +786,9 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                     <InputField
                                       type="text"
                                       className={` ${additionalFieldsError[index]
-                                          ?.resourceKey
-                                          ? "border-danger"
-                                          : "form-control"
+                                        ?.resourceKey
+                                        ? "border-danger"
+                                        : "form-control"
                                         }`}
                                       name="resourceKey"
                                       id="resourceKey"
@@ -828,9 +821,9 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                     <InputField
                                       type="text"
                                       className={` ${additionalFieldsError[index]
-                                          ?.resourceValue
-                                          ? "border-danger"
-                                          : "form-control"
+                                        ?.resourceValue
+                                        ? "border-danger"
+                                        : "form-control"
                                         }`}
                                       name="resourceValue"
                                       id="production-key"
@@ -865,8 +858,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                     <Dropdown
                                       type="text"
                                       className={` ${additionalFieldsError[index]?.mode
-                                          ? "border-danger"
-                                          : "form-select"
+                                        ? "border-danger"
+                                        : "form-select"
                                         }`}
                                       name="mode"
                                       id="mode"
@@ -884,7 +877,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                               {index < additionalFields.length - 1 && (
                                 <div
                                   className="col-lg-3 mt-4"
-                                  key={delete-`${index}`  }
+                                  key={delete -`${index}`}
                                 >
                                   <div className="col-sm-12 form-group mb-7">
                                     <Button
