@@ -7,3 +7,12 @@ $background-color_1: var( --bs-secondary);
 .role_name_bold{
 	font-weight: 500;
 }
+.user-box {
+	border: 1px solid grey;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding shadow */
+	padding: 20px; /* Adding some padding */
+	margin: 20px; /* Adding some margin */
+	background-color: #ffffff; /* Setting background color */
+	transition: box-shadow 0.3s ease; /* Adding transition for smooth effect */
+  }
