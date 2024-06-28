@@ -430,7 +430,8 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         });
         isValid = false;
       }
-      if (field.mode === "") {
+      if (field.mode === "" ||field.mode=== "Select") {
+        debugger
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
           newAdditionalFieldsError[index].mode = " ";
