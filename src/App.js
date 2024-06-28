@@ -1,8 +1,11 @@
+import Auth from "./Pages/Auth/Auth";
+import './scss/index.scss'
 
-import RouteConfiq from './Routing/routes';
 function App() {
   return (
-    <RouteConfiq/>
+    <>
+      <Auth/>
+    </>
   );
 }
 export default App;
