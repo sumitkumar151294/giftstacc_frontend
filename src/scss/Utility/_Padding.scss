@@ -32,3 +32,8 @@ $color_1: var(--primary-black);
 .pad-aa {
     padding: 10px 30px!important;
 }
+@media only screen and (max-width: 1400px) {
+	.pt-1400{
+	  padding-top: 0px !important;
+	}
+  }

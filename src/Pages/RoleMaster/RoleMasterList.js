@@ -77,7 +77,7 @@ const RoleMasterList = () => {
                 <h4 className="card-title">{roleModuleAccessList}</h4>
               </div>
               <div className="card-body position-relative">
-                {roleAccessListLoading && (
+                {roleAccessListLoading&& (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
