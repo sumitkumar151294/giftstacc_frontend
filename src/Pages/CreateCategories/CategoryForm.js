@@ -156,6 +156,7 @@ const CategoryForm = () => {
   };
 
   const handleSubmit = async (e) => {
+    debugger
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -330,7 +331,7 @@ const CategoryForm = () => {
                             }
                           />
                         </div>
-                        <div className="col-sm-3 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">
                             {displayOrder}
                             <span className="text-danger">*</span>
@@ -347,7 +348,7 @@ const CategoryForm = () => {
                           />
                           {<p className="text-danger">{errors.displayOrder}</p>}
                         </div>
-                        <div className="col-sm-6 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="image">
                             {upload_image}
                             <span className="text-danger"></span>
