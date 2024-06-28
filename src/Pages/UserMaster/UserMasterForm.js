@@ -399,7 +399,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                         <div className="col-lg-12 br pt-2">
                           <label htmlFor="name-f">{role}</label>
                           {/* client  */}
-                          <div className="row ml-4">
+                          <div className="row ml-4 user-box">
                             <label className="role_name_bold" htmlFor="name-f">
                               {client1}
                             </label>
@@ -436,7 +436,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                               )}
                           </div>
                           {/* admin */}
-                          <div className="row ml-4">
+                          <div className="row ml-4 user-box">
                             <label className="role_name_bold" htmlFor="name-f">
                               {admin}
                             </label>
