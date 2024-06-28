@@ -92,7 +92,7 @@ const CMS = () => {
             setCmsprefilled={setCmsprefilled}
           />
         )}
-        <div className="container-fluid mt-2 mb-2 pt-1">
+        <div className="container-fluid pt-1 pt-1400">
           <div className="row">
             <div className="col-lg-12">
               <div className="card">

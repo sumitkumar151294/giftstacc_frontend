@@ -313,6 +313,7 @@ const RoleMasterForm = ({ data, setData }) => {
   return (
     <>
       <ScrollToTop />
+      <ToastContainer />
       <div className="container-fluid">
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
@@ -510,7 +511,6 @@ const RoleMasterForm = ({ data, setData }) => {
                               icon="fa fa-arrow-right"
                               className="btn btn-primary btn-sm float-right p-btn mt-2"
                             />
-                            <ToastContainer />
                           </div>
                         </div>
                       </div>
