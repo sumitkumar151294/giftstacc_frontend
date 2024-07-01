@@ -10,6 +10,55 @@ $border-color_2: inherit;
 $border-color_3: var(--primary);
 $border-color_4: var(--rgba-primary-2);
 
+.dateInput {
+	border-radius: 1rem !important;
+}
+.rs-input-group:not(.rs-input-group-disabled):hover, .rs-input-group:not(.rs-input-group-disabled).rs-input-group-focus, .rs-input-group:focus-within {
+    border-color: red; 
+}
+.rs-input-group.rs-input-group-inside {
+	width: 100%;
+	background-color: #fff;
+	background-color: var(--rs-input-bg);
+	height: 33px;
+}
+
+.rs-input-group.rs-input-group-inside:focus {
+	border-color: transparent;
+}
+
+.rs-picker-error>.rs-input-group {
+	border-color: transparent !important;
+}
+
+.rs-picker-block {
+	display: block;
+	margin: 0px 5px;
+}
+
+.dateInput {
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1.5;
+	appearance: none;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	background: var(--primary-white);
+	border: 3px solid var(--primary-greyish) !important;
+	color: $color_3;
+
+	&:focus {
+		color: $color_1;
+		background-color: $background-color_1;
+		box-shadow: none;
+		border-color: $border-color_3;
+	}
+
+	&::placeholder {
+		color: $color_2;
+		opacity: 1;
+	}
+}
+
 .form-control {
 	display: block;
 	font-size: 0.875rem;
@@ -51,9 +100,9 @@ $border-color_4: var(--rgba-primary-2);
 	}
 }
 
-@media only screen and (min-width: 1400px){
+@media only screen and (min-width: 1400px) {
 	.form-control {
-	//    height: 3rem; 
-	 width: var(--w100); 
+		//    height: 3rem; 
+		width: var(--w100);
 	}
-	}
+}

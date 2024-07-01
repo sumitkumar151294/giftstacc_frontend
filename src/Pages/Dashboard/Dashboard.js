@@ -11,22 +11,20 @@ const Dashboard = () => {
   const getRoleAccess = useSelector((state) => state.moduleReducer);
   return (
     <div className="container-fluid">
-      {getRoleAccess?.filteredData[0] === undefined ? (
+      {getRoleAccess?.filteredData[0] === undefined && (
         <div style={{ height: "400px" }}>
           <Loader classType={"absoluteLoader"} />
         </div>
-      ) : (
-        <>
-          <>
-            {getRoleAccess?.filteredData[0] !== undefined && (
-              <div className="row">
-                <ScrollToTop />
-                <Chart />
-                <Revenue />
-                <Users />
-              </div>
-            )}
-          </>
+      )}
+      <>
+        {getRoleAccess?.filteredData[0] !== undefined ? (
+          <div className="row">
+            <ScrollToTop />
+            <Chart />
+            <Revenue />
+            <Users />
+          </div>
+        ) : (
           <PageError
             pageError={{
               StatusCode: "401",
@@ -37,8 +35,8 @@ const Dashboard = () => {
               buttonText: "Back to Home",
             }}
           />
-        </>
-      )}
+        )}
+      </>
     </div>
   );
 };

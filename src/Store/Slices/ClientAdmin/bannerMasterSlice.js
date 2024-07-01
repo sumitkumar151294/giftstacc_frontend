@@ -11,7 +11,7 @@ export const bannerMaster = createSlice({
     onbannerMasterSubmit: (state) => {
       return {
         ...state,
-        isLoading: true,
+        postLoading: true,
         postdata: {},
         message: "",
         status_code: null,
@@ -22,7 +22,7 @@ export const bannerMaster = createSlice({
       const { postData = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        postLoading: false,
         postdata: postData,
         message,
         status_code,
@@ -34,7 +34,7 @@ export const bannerMaster = createSlice({
         ...state,
         status_code: null,
         data: {},
-
+        postLoading: false,
       };
     },
 
@@ -45,7 +45,7 @@ export const bannerMaster = createSlice({
         postdata: postData,
         message,
         status_code,
-        isLoading: false,
+        postLoading: false,
       };
     },
 
@@ -87,37 +87,37 @@ export const bannerMaster = createSlice({
     },
 
     onUpdateBannerMaster: (state) => {
-        return { ...state, isLoading: true, updateData: {}, message: '', error: {}, isError: false, update_status_code: null };
-      },
-      onUpdateBannerMasterSuccess: (state, { payload }) => {
-        const { data = {}, message = '', status_code } = payload;
-        return {
-          ...state,
-          isLoading: false,
-          updateData: data,
-          message,
-          update_status_code: status_code
-        };
-      },
-      onUpdateBannerMasterError: (state, { payload }) => {
-        const { data = {}, message = '', status_code } = payload;
-        return {
-          ...state,
-          isLoading: false,
-          updateData: data,
-          message,
-          update_status_code: status_code
-        };
-      },
-      onUpdateBannerMasterReset: (state, { payload }) => {
-        return {
-          ...state,
-          isLoading: false,
-          data: {},
-          message: "",
-          update_status_code: null
-        };
-      },
+      return { ...state, putLoading: true, updateData: {}, message: '', error: {}, isError: false, update_status_code: null };
+    },
+    onUpdateBannerMasterSuccess: (state, { payload }) => {
+      const { data = {}, message = '', status_code } = payload;
+      return {
+        ...state,
+        putLoading: false,
+        updateData: data,
+        message,
+        update_status_code: status_code
+      };
+    },
+    onUpdateBannerMasterError: (state, { payload }) => {
+      const { data = {}, message = '', status_code } = payload;
+      return {
+        ...state,
+        putLoading: false,
+        updateData: data,
+        message,
+        update_status_code: status_code
+      };
+    },
+    onUpdateBannerMasterReset: (state, { payload }) => {
+      return {
+        ...state,
+        putLoading: false,
+        data: {},
+        message: "",
+        update_status_code: null
+      };
+    },
   },
 });
 export const {

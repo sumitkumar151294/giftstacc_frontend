@@ -42,13 +42,13 @@ const SupplierMasterList = () => {
   const active = GetTranslationData("UIAdmin", "active");
   const nonActive = GetTranslationData("UIAdmin", "nonActive");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const servicePath = GetTranslationData("UIAdmin", "service_Path_Text");
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer.filteredData
   );
   const supplierMasterData = useSelector(
     (state) => state.supplierMasterReducer
   );
-
   const headers = [
     { label: "Id", key: "id" },
     { label: "Name", key: "name" },
@@ -109,20 +109,20 @@ const SupplierMasterList = () => {
   }, []);
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
     ? supplierMasterData?.data.filter(
-      (vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery)
-        ) ||
-        vendor.id.toString().toLowerCase().includes(searchQuery) ||
-        vendor.creditAmount.toString().toLowerCase().includes(searchQuery) ||
-        vendor.balanceThresholdAmount
-          .toString()
-          .toLowerCase()
-          .includes(searchQuery)
-    )
+        (vendor) =>
+          Object.values(vendor).some(
+            (value) =>
+              value &&
+              typeof value === "string" &&
+              value.toLowerCase().includes(searchQuery)
+          ) ||
+          vendor.id.toString().toLowerCase().includes(searchQuery) ||
+          vendor.creditAmount.toString().toLowerCase().includes(searchQuery) ||
+          vendor.balanceThresholdAmount
+            .toString()
+            .toLowerCase()
+            .includes(searchQuery)
+      )
     : [];
 
   // excel data
@@ -138,6 +138,11 @@ const SupplierMasterList = () => {
 
   return (
     <div>
+      {getRoleAccess[0] === undefined && (
+        <div style={{ height: "100px" }}>
+          <Loader classType={"absoluteLoader"} />
+        </div>
+      )}
       {getRoleAccess[0] !== undefined ? (
         <>
           {getRoleAccess[0]?.addAccess && (
@@ -194,90 +199,105 @@ const SupplierMasterList = () => {
                     </div>
                   </div>
                   <div className="card-body position-relative">
-                    {(isDelete ? isDelete : supplierMasterData?.getSupplierLoading) ? (
+                    {(
+                      isDelete
+                        ? isDelete
+                        : supplierMasterData?.getSupplierLoading
+                    ) ? (
                       <div style={{ height: "400px" }}>
                         <Loader classType={"absoluteLoader"} />
                       </div>
-                    ) :
-                      filteredVendorList.length > 0 ? (
-                        <div className="table-responsive">
-                          <table className="table header-border table-responsive-sm">
-                            <thead>
-                              <tr>
-                                <th>{supplierName}</th>
-                                <th>{supplierClientID}</th>
-                                <th>{balance_Available}</th>
-                                <th>{minThresholdAmount}</th>
-                                <th>{status}</th>
-                                {getRoleAccess[0]?.editAccess && <th>{action}</th>}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {Array.isArray(filteredVendorList) &&
-                                filteredVendorList
-                                  .slice(startIndex, endIndex)
-                                  .map((vendor, index) => (
-                                    <tr key={index}>
-                                      <td>{vendor.name}</td>
-                                      <td>{vendor.id}</td>
+                    ) : filteredVendorList.length > 0 ? (
+                      <div className="table-responsive">
+                        <table className="table header-border table-responsive-sm">
+                          <thead>
+                            <tr>
+                              <th>{supplierName}</th>
+                              <th>{supplierClientID}</th>
+                              <th>{balance_Available}</th>
+                              <th>{minThresholdAmount}</th>
+                              <th>{servicePath}</th>
+                              <th>{status}</th>
+                              {getRoleAccess[0]?.editAccess && (
+                                <th>{action}</th>
+                              )}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {Array.isArray(filteredVendorList) &&
+                              filteredVendorList
+                                .slice(startIndex, endIndex)
+                                .map((vendor, index) => (
+                                  <tr key={index}>
+                                    <td>{vendor.name}</td>
+                                    <td>{vendor.id}</td>
+                                    <td>
+                                      <span className="text-muted">
+                                        {vendor.creditAmount}
+                                      </span>
+                                    </td>
+                                    <td>{vendor.balanceThresholdAmount}</td>
+                                    <td>{vendor.servicePath}</td>
+
+                                    <td>
+                                      <span
+                                        className={`badge ${
+                                          vendor.enabled
+                                            ? "badge-success"
+                                            : "badge-danger"
+                                        }`}
+                                      >
+                                        {vendor.enabled ? active : nonActive}
+                                      </span>
+                                    </td>
+                                    {getRoleAccess[0]?.editAccess && (
                                       <td>
-                                        <span className="text-muted">
-                                          {vendor.creditAmount}
-                                        </span>
+                                        <div className="d-flex">
+                                          <button
+                                            className="btn btn-primary shadow btn-xs sharp me-1"
+                                            icon={"fas fa-pencil-alt"}
+                                            onClick={() => handleEdit(vendor)}
+                                          >
+                                            <i className="fas fa-pencil-alt"></i>
+                                          </button>
+                                          <button
+                                            className="btn btn-danger shadow btn-xs sharp"
+                                            icon={"fa fa-trash"}
+                                            onClick={() => handleDelete(vendor)}
+                                          >
+                                            <i className="fa fa-trash"></i>
+                                          </button>
+                                        </div>
                                       </td>
-                                      <td>{vendor.balanceThresholdAmount}</td>
-                                      <td>
-                                        <span
-                                          className={`badge ${vendor.enabled ? "badge-success" : "badge-danger"
-                                            }`}
-                                        >
-                                          {vendor.enabled ? active : nonActive}
-                                        </span>
-                                      </td>
-                                      {getRoleAccess[0]?.editAccess && (
-                                        <td>
-                                          <div className="d-flex">
-                                            <button
-                                              className="btn btn-primary shadow btn-xs sharp me-1"
-                                              icon={"fas fa-pencil-alt"}
-                                              onClick={() => handleEdit(vendor)}
-                                            >
-                                              <i className="fas fa-pencil-alt"></i>
-                                            </button>
-                                            <button
-                                              className="btn btn-danger shadow btn-xs sharp"
-                                              icon={"fa fa-trash"}
-                                              onClick={() => handleDelete(vendor)}
-                                            >
-                                              <i className="fa fa-trash"></i>
-                                            </button>
-                                          </div>
-                                        </td>
-                                      )}
-                                    </tr>
-                                  ))}
-                            </tbody>
-                          </table>
-                          {filteredVendorList.length > 5 && (
-                            <div className="pagination-container">
-                              <ReactPaginate
-                                previousLabel={"<"}
-                                nextLabel={" >"}
-                                breakLabel={"..."}
-                                pageCount={Math.ceil(
-                                  filteredVendorList.length / rowsPerPage
-                                )}
-                                marginPagesDisplayed={2}
-                                onPageChange={handlePageChange}
-                                containerClassName={"pagination"}
-                                activeClassName={"active"}
-                                initialPage={page - 1}
-                                previousClassName={page === 0 ? disabled_Text : ""}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      ) : (<NoRecord />)}
+                                    )}
+                                  </tr>
+                                ))}
+                          </tbody>
+                        </table>
+                        {filteredVendorList.length > 5 && (
+                          <div className="pagination-container">
+                            <ReactPaginate
+                              previousLabel={"<"}
+                              nextLabel={" >"}
+                              breakLabel={"..."}
+                              pageCount={Math.ceil(
+                                filteredVendorList.length / rowsPerPage
+                              )}
+                              marginPagesDisplayed={2}
+                              onPageChange={handlePageChange}
+                              containerClassName={"pagination"}
+                              activeClassName={"active"}
+                              initialPage={page - 1}
+                              previousClassName={
+                                page === 0 ? disabled_Text : ""
+                              }
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <NoRecord />
+                    )}
                   </div>
                 </div>
               </div>

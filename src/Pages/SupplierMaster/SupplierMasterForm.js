@@ -20,12 +20,7 @@ import {
   onUpdateSupplierResource,
 } from "../../Store/Slices/supplierResourceSlice";
 
-const SupplierMasterForm = ({
-  data,
-  setData,
-  isDelete,
-  setIsDelete
-}) => {
+const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
   const submit = GetTranslationData("UIAdmin", "submit_label");
@@ -47,6 +42,11 @@ const SupplierMasterForm = ({
   const service_Path = GetTranslationData("UIAdmin", "service_Path");
   const active = GetTranslationData("UIAdmin", "active");
   const nonActive = GetTranslationData("UIAdmin", "nonActive");
+  const negaiveValueError = GetTranslationData(
+    "UIAdmin",
+    "negative_Value_Text"
+  );
+
   const fieldValueNotEmpty = GetTranslationData(
     "UIAdmin",
     "fieldValueNotEmpty"
@@ -95,7 +95,13 @@ const SupplierMasterForm = ({
       creditAmount: "",
       servicePath: "",
     });
-    setVendorData({});
+    setVendorData({
+      name: "",
+      balanceThresholdAmount: "",
+      creditAmount: "",
+      servicePath: "",
+      enabled: "",
+    });
     setAdditionalFields([
       {
         fieldName: "",
@@ -105,6 +111,7 @@ const SupplierMasterForm = ({
       },
     ]);
   };
+
   const getAdditionalFIeldData = (del = false, supplierId) => {
     let tempAdditionField = [...additionalFields];
     const additionalData = tempAdditionField.map((item) => ({
@@ -139,7 +146,7 @@ const SupplierMasterForm = ({
         toast.success(supplyPostData?.message);
         dispatch(onGetSupplierList());
         dispatch(onGetSupplierResource());
-        setIsDelete(false)
+        setIsDelete(false);
       } else {
         dispatch(
           onUpdateSupplierResource(getAdditionalFIeldData(false, data?.id))
@@ -154,7 +161,6 @@ const SupplierMasterForm = ({
       dispatch(onVendorReset());
       toast.error(supplyPostData?.message);
     }
-
   }, [supplyPostData]);
   useEffect(() => {
     if (supplyResource?.status_code === "201" && !supplyResource?.isLoading) {
@@ -183,11 +189,13 @@ const SupplierMasterForm = ({
         servicePath: "",
         enabled: "",
       });
-      setAdditionalFieldsError([{
-        fieldName: "",
-        fieldValue: "",
-        fieldDescription: "",
-      }])
+      setAdditionalFieldsError([
+        {
+          fieldName: "",
+          fieldValue: "",
+          fieldDescription: "",
+        },
+      ]);
       const filterSupplierApiCred = supplyResource?.data?.filter(
         (item) => item?.supplierId === data?.id
       );
@@ -203,12 +211,17 @@ const SupplierMasterForm = ({
     ) {
       setErrors({
         ...errors,
-        [fieldName]: "Value cannot be negative",
+        [fieldName]: negaiveValueError,
       });
     } else if (fieldName === "status") {
       setVendorData({
         ...vendorData,
-        enabled: e.target.value === active ? true : false,
+        enabled:
+          e.target.value === active
+            ? true
+            : e.target.value === nonActive
+            ? false
+            : "",
       });
       setErrors({
         ...errors,
@@ -264,7 +277,7 @@ const SupplierMasterForm = ({
       if (field?.fieldName === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
-          newAdditionalFieldsError[index].fieldName = fieldNameNotEmpty;
+          newAdditionalFieldsError[index].fieldName = " ";
           return newAdditionalFieldsError;
         });
         isValid = false;
@@ -281,7 +294,7 @@ const SupplierMasterForm = ({
       if (field?.fieldValue === "") {
         setAdditionalFieldsError((prevErrors) => {
           const newAdditionalFieldsError = [...prevErrors];
-          newAdditionalFieldsError[index].fieldValue = fieldValueNotEmpty;
+          newAdditionalFieldsError[index].fieldValue = " ";
           return newAdditionalFieldsError;
         });
         isValid = false;
@@ -355,7 +368,8 @@ const SupplierMasterForm = ({
                 <h4 className="card-title">{supplierMaster}</h4>
               </div>
               <div className="card-body">
-                {supplyPostData?.isLoading || (!isDelete && supplyPostData?.putSupplierLoading) ? (
+                {supplyPostData?.isLoading ||
+                (!isDelete && supplyPostData?.putSupplierLoading) ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -371,11 +385,12 @@ const SupplierMasterForm = ({
                           <InputField
                             type="text"
                             value={vendorData?.name}
-                            className={` ${errors.name ? "border-danger" : "form-control"
-                              }`}
+                            className={` ${
+                              errors.name ? "border-danger" : "form-control"
+                            }`}
                             name="fname"
                             id="name-f"
-                            placeholder=""
+                            placeholder="Enter the supplier name"
                             onChange={(e) => handleChange(e, "name")}
                           />
                           {<p className="text-danger">{errors.name}</p>}
@@ -393,13 +408,14 @@ const SupplierMasterForm = ({
                                 ? active
                                 : vendorData?.enabled === undefined ||
                                   vendorData?.enabled === ""
-                                  ? ""
-                                  : nonActive
+                                ? ""
+                                : nonActive
                             }
-                            className={`${errors.enabled
-                              ? "border-danger-select"
-                              : "form-select"
-                              }`}
+                            className={`${
+                              errors.enabled
+                                ? "border-danger-select"
+                                : "form-select"
+                            }`}
                             options={statusoptions}
                           />
                         </div>
@@ -412,10 +428,11 @@ const SupplierMasterForm = ({
                             type="number"
                             name="text"
                             value={vendorData?.balanceThresholdAmount}
-                            className={` ${errors.balanceThresholdAmount
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.balanceThresholdAmount
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             id="amominThresholdAmountunt"
                             placeholder="₹500000"
                             onChange={(e) =>
@@ -433,10 +450,11 @@ const SupplierMasterForm = ({
                             type="number"
                             name="text"
                             value={vendorData.creditAmount}
-                            className={` ${errors.creditAmount
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.creditAmount
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             id="creditAmount"
                             placeholder="₹500000"
                             onChange={(e) => handleChange(e, "creditAmount")}
@@ -451,12 +469,13 @@ const SupplierMasterForm = ({
                             type="text"
                             name="servicePath"
                             value={vendorData?.servicePath}
-                            className={` ${errors.servicePath
-                              ? "border-danger"
-                              : "form-control"
-                              }`}
+                            className={` ${
+                              errors.servicePath
+                                ? "border-danger"
+                                : "form-control"
+                            }`}
                             id="servicePath"
-                            placeholder=""
+                            placeholder="service path"
                             onChange={(e) => handleChange(e, "servicePath")}
                           />
                           {<p className="text-danger">{errors.servicePath}</p>}
@@ -474,10 +493,11 @@ const SupplierMasterForm = ({
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${additionalFieldsError[index]?.fieldName
-                                        ? "border-danger"
-                                        : "form-control"
-                                        }`}
+                                      className={` ${
+                                        additionalFieldsError[index]?.fieldName
+                                          ? "border-danger"
+                                          : "form-control"
+                                      }`}
                                       name="fname"
                                       placeholder="Key"
                                       value={additionalFields[index]?.fieldName}
@@ -496,13 +516,16 @@ const SupplierMasterForm = ({
                                   <div className="col-sm-12 form-group mb-2">
                                     <InputField
                                       type="text"
-                                      className={` ${additionalFieldsError[index]?.fieldValue
-                                        ? "border-danger"
-                                        : "form-control"
-                                        }`}
+                                      className={` ${
+                                        additionalFieldsError[index]?.fieldValue
+                                          ? "border-danger"
+                                          : "form-control"
+                                      }`}
                                       name="fname"
                                       placeholder="Value"
-                                      value={additionalFields[index]?.fieldValue}
+                                      value={
+                                        additionalFields[index]?.fieldValue
+                                      }
                                       onChange={(e) =>
                                         handleAddMoreData(
                                           "fieldValue",
@@ -522,7 +545,7 @@ const SupplierMasterForm = ({
                                     <br />
                                     <div className="col-sm-12 form-group mb-7">
                                       <Button
-                                        className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                                        className="btn btn-primary btn-sm float-right pad-aa mt-03"
                                         text={delete_Button}
                                         icon={"fa fa-trash"}
                                         onClick={() => handleDelete(index)}
@@ -536,7 +559,7 @@ const SupplierMasterForm = ({
                           <div className="col-lg-3">
                             <div className="col-sm-12 form-group mb-7 btn-m">
                               <Button
-                                className="btn btn-primary btn-sm float-right pad-aa mt-2"
+                                className="btn btn-primary btn-sm float-right pad-aa mt-03"
                                 text={add_More}
                                 icon={"fa fa-plus"}
                                 onClick={(e) => handleAddMore(e)}

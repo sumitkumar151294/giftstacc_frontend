@@ -13,7 +13,7 @@ export const userRoleSlice = createSlice({
     onGetUserRole: (state) => {
       return {
         ...state,
-        isLoading: true,
+        getUserRoleLoading: true,
         isError: false,
         userRoleData: {},  
         error: {},
@@ -25,7 +25,7 @@ export const userRoleSlice = createSlice({
       const { data = {}, message = "", status_code = 200 } = payload;
       return {
         ...state,
-        isLoading: false,
+        getUserRoleLoading: false,
         isError: false,
         userRoleData: data,  
         message,
@@ -41,7 +41,7 @@ export const userRoleSlice = createSlice({
         userRoleData: data,  
         message,
         status_code,
-        isLoading: false,
+        getUserRoleLoading: false,
         isError: true,
         error: {},
       };

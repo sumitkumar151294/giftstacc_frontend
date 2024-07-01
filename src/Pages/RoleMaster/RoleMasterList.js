@@ -25,6 +25,9 @@ const RoleMasterList = () => {
   const roleAccessListData = useSelector(
     (state) => state.userRoleReducer.userRoleData
   );
+  const roleAccessListLoading = useSelector(
+    (state) => state.userRoleReducer.getUserRoleLoading
+  );
   const userRoleAccessListData = useSelector(
     (state) => state.userRoleModuleAccessReducer.data
   );
@@ -74,7 +77,7 @@ const RoleMasterList = () => {
                 <h4 className="card-title">{roleModuleAccessList}</h4>
               </div>
               <div className="card-body position-relative">
-                {isLoading && (
+                {roleAccessListLoading&& (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>

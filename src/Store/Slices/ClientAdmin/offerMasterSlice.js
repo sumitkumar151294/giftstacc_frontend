@@ -115,6 +115,7 @@ export const offerMasterSlice = createSlice({
         imageUpload: {},
         message: "",
         status_code_Image: null,
+        imgLoading:true,
       };
     },
 
@@ -125,6 +126,7 @@ export const offerMasterSlice = createSlice({
         imageUpload: data,
         message,
         status_code_Image,
+        imgLoading:false,
       };
     },
 
@@ -135,6 +137,7 @@ export const offerMasterSlice = createSlice({
         imageUpload: data,
         message,
         status_code_Image,
+        imgLoading:false,
       };
     },
     onUploadImageReset: (state) => {
@@ -143,6 +146,7 @@ export const offerMasterSlice = createSlice({
         imageUpload: {},
         message: "",
         status_code_Image: null,
+        imgLoading:false,
       };
     },
   },

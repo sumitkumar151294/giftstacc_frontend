@@ -87,6 +87,7 @@ const ClientMasterList = () => {
     { label: "Contact Email", key: "contactEmail" },
     { label: "Status", key: "status" },
   ];
+  
 
   // excel data to print
   const excelData =
@@ -101,15 +102,15 @@ const ClientMasterList = () => {
 
   const filteredClientList = Array.isArray(clientList?.clientData)
     ? clientList?.clientData.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      Object.values(vendor).some(
+        (value) =>
+          value &&
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
+    )
     : [];
-    
+
   useEffect(() => {
     if (clientList?.clientData?.status_code === "200") {
       const totalItems = clientList?.clientData?.data.length;
@@ -129,6 +130,12 @@ const ClientMasterList = () => {
   const endIndex = startIndex + rowsPerPage;
   return (
     <div>
+      {getRoleAccess[0] === undefined && (
+          <div style={{ height: "100px" }}>
+          <Loader classType={"absoluteLoader"} />
+        </div>
+      )}
+      <>
       {getRoleAccess[0] !== undefined ? (
         <>
           {getRoleAccess[0]?.addAccess && (
@@ -191,7 +198,7 @@ const ClientMasterList = () => {
                     ) : (
                       <>
                         {Array.isArray(filteredClientList) &&
-                        filteredClientList.length > 0 ? (
+                          filteredClientList.length > 0 ? (
                           <div className="table-responsive scroll-Table-x">
                             <>
                               <table className="table header-border table-responsive-sm">
@@ -226,11 +233,10 @@ const ClientMasterList = () => {
                                         <td>{data.id}</td>
                                         <td>
                                           <span
-                                            className={`badge ${
-                                              data.enabled
+                                            className={`badge ${data.enabled
                                                 ? "badge-success"
                                                 : "badge-danger"
-                                            }`}
+                                              }`}
                                           >
                                             {data.enabled ? active : nonActive}
                                           </span>
@@ -275,8 +281,7 @@ const ClientMasterList = () => {
                                             state={{ id: data.id }}
                                             className="btn btn-primary btn-sm float-right client_Btn"
                                           >
-                                            <i className="fa fa-eye"></i>&nbsp;
-                                            {brands}
+                                            <i className="fa fa-eye"></i>&nbsp;{brands}
                                           </Link>
                                         </td>
                                       </tr>
@@ -328,6 +333,7 @@ const ClientMasterList = () => {
           }}
         />
       )}
+      </>
     </div>
   );
 };

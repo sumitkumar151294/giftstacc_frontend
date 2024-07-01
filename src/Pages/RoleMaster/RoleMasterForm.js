@@ -177,24 +177,29 @@ const RoleMasterForm = ({ data, setData }) => {
         [name]: e.target.value,
       });
     }
+    setErrors({});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let isvalid = true;
     const newErrors = { ...errors };
     setErrors(newErrors);
     if (formData.name.trim() === "") {
       newErrors.name = mandatory_Req_Label;
       setErrors(newErrors);
+      isvalid = false;
     } else if (formData.name.length > 250) {
       newErrors.name = "Length must be 250 or fewer";
       setErrors(newErrors);
+      isvalid = false;
     } else {
       newErrors.name = "";
     }
     if (formData.description.length > 250) {
       newErrors.description = "Length must be 250 or fewer";
       setErrors(newErrors);
+      isvalid = false;
     }
 
     //At least one Module should be selected
@@ -204,7 +209,6 @@ const RoleMasterForm = ({ data, setData }) => {
       setCheckBoxError(true);
       return;
     }
-
     const postData = {
       createdBy: 0,
       deleted: false,
@@ -214,17 +218,19 @@ const RoleMasterForm = ({ data, setData }) => {
       name: formData.name,
       updatedBy: 0,
     };
-    try {
-      //To Submit the data
-      if (!data) {
-        setIsFormLoading(true);
-        dispatch(onPostUserRole(JSON.stringify(postData)));
-      } else if (data) {
-        postData.id = data.id;
-        setIsFormLoading(true);
-        dispatch(onUpdateUserRole(JSON.stringify(postData)));
-      }
-    } catch (error) {}
+    if (isvalid) {
+      try {
+        //To Submit the data
+        if (!data) {
+          setIsFormLoading(true);
+          dispatch(onPostUserRole(JSON.stringify(postData)));
+        } else if (data) {
+          postData.id = data.id;
+          setIsFormLoading(true);
+          dispatch(onUpdateUserRole(JSON.stringify(postData)));
+        }
+      } catch (error) {}
+    }
   };
 
   useEffect(() => {
@@ -307,6 +313,7 @@ const RoleMasterForm = ({ data, setData }) => {
   return (
     <>
       <ScrollToTop />
+      <ToastContainer />
       <div className="container-fluid">
         <div className="row">
           <div className="col-xl-12 col-xxl-12">
@@ -504,7 +511,6 @@ const RoleMasterForm = ({ data, setData }) => {
                               icon="fa fa-arrow-right"
                               className="btn btn-primary btn-sm float-right p-btn mt-2"
                             />
-                            <ToastContainer />
                           </div>
                         </div>
                       </div>
