@@ -333,7 +333,7 @@ label {
 
 @media only screen and (max-width: 1400px) {
   .btn {
-    padding: 0.325rem 13px;
+    padding: 0.525rem 13px;
   }
 }
 
@@ -504,4 +504,9 @@ cursor {
   background: var(--primary-alice-2);
   height: 44px;
   border-radius: 12px 12px 12px;
+}
+.rs-input {
+  font-size: 12px;
+  border-radius: 5px !important;
+
 }
