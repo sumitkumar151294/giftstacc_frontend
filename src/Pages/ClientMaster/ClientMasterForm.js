@@ -215,7 +215,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 
   const handleChange = (e, fieldName) => {
     let values = e.target.value;
-    if (fieldName === "enabled") { debugger
+    if (fieldName === "enabled") { 
       if (values === "true" || values === "false") {
         values = values === "true";
       } else {
@@ -248,6 +248,14 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
       setErrors({
         ...errors,
         [fieldName]: isValidDomain ? "" : " ",
+      });
+    }
+    else if (fieldName === "dbIpAddress") {
+      const ipRegex = /^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$/;
+      const isValidIp = ipRegex.test(e.target.value);
+      setErrors({
+        ...errors,
+        [fieldName]: isValidIp ? "" : "Invalid IP address",
       });
     }
     else if (fieldName === "logoUrl") {
@@ -293,7 +301,6 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     setAdditionalFields(updatedFields);
   };
   const handleSubmit = (e) => {
-    debugger
     e.preventDefault();
     let isValid = true;
 
@@ -713,7 +720,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_userId}
                             onChange={(e) => handleChange(e, "dbLoginId")}
                           />
-                          <p className="text-danger">{errors.dbIpAddress}</p>
+                          <p className="text-danger">{errors.dbLoginId}</p>
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">

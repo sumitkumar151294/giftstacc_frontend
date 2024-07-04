@@ -118,6 +118,7 @@ const CategoryList = () => {
   };
   //To delete the data
   const handleDelete = (data) => {
+  
     const deletedData = {
       enabled: false,
       deleted: true,

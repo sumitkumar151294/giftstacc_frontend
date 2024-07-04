@@ -2,7 +2,7 @@ import API from '../../Common/EndPoint/serviceConstrants';
 import axiosInstanceClient from "../../Common/Axios/axiosInstanceClient";
 
 export const promotionalGetApi = async () => {
-  const { data = [] } = await axiosInstanceClient.get(API.promotional_api_Get);
+  const { data = [] } = await axiosInstanceClient.get(API.promotional_Get_api);
   return data;
 };
 
