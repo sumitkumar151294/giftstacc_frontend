@@ -508,7 +508,7 @@ const Orders = () => {
                             </div>
                           )}
                           <div className="col-sm-4 mt-4">
-                          <div className="example">
+                          {/* <div className="example"> */}
                             {/* <label>{start_and_enddate}</label> */}
 
                             <InputGroup
@@ -531,7 +531,7 @@ const Orders = () => {
                                 appearance="subtle"
                               />
                             </InputGroup>
-                          </div>
+                          {/* </div> */}
                         </div>
                         </div>
                       </div>

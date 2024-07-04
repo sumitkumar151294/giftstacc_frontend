@@ -22,6 +22,7 @@ import {
   onUploadImageReset,
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import Loader from "../../../Components/Loader/Loader";
+import { DatePicker, InputGroup } from "rsuite";
 const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
@@ -51,6 +52,8 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
     enabled: "",
     image: "",
     buttonText: "",
+    startDate: '',
+    endDate: ''
   });
   const resetField = {
     bannerTitle: "",
@@ -60,6 +63,8 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
     enabled: "",
     image: "",
     buttonText: "",
+    startDate: '',
+    endDate: ''
   };
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -72,6 +77,9 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
         bannerLink: prefilledData.bannerLink || "",
         displayOrder: prefilledData.displayOrder || "",
         buttonText: prefilledData?.buttonText,
+        startDate: prefilledData?.startDate,
+        endDate: prefilledData?.endDate,
+
         enabled:
           prefilledData?.enabled !== undefined ? prefilledData?.enabled : "", // image: prefilledData.image || "",
       });
@@ -173,7 +181,16 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       [fieldName]: "",
     });
   };
-
+  const handleDateChange = (dates, fieldName) => {
+    setBannerMaster({
+      ...bannerMaster,
+      [fieldName]: dates,
+    });
+    setErrors({
+      ...errors,
+      [fieldName]: '',
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -362,7 +379,30 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                           </div>
                           {<p className="text-danger">{errors.image}</p>}
                         </div>
+                        <div className="col-sm-4 mt-5">
 
+                        <InputGroup
+                              className={`${(errors.startDate || errors.endDate) ? "border-danger-date" : "dateInput"}`}
+                              >
+                              <DatePicker
+                                format="yyyy-MM-dd HH:mm:ss"
+                                placeholder="Start Date"
+                                value={bannerMaster.startDate ? new Date(bannerMaster.startDate) : null}
+                                onChange={(e) => handleDateChange(e, 'startDate')}
+                                block
+                                appearance="subtle"
+                              />
+                              <DatePicker
+                              
+                                format="yyyy-MM-dd HH:mm:ss"
+                                placeholder="End Date"
+                                value={bannerMaster.endDate ? new Date(bannerMaster.endDate) : null}
+                                onChange={(e) => handleDateChange(e, 'endDate')}
+                                block
+                                appearance="subtle"
+                              />
+                            </InputGroup>
+                            </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="status">
                             {status}

@@ -16,6 +16,7 @@ import {
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
+import { DatePicker, InputGroup } from "rsuite";
 
 const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const [showLoader, setShowLoader] = useState(false);
@@ -28,6 +29,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     image: "",
     enabled: true,
     linkText: "",
+    startDate:"",
+    endDate:""
   });
   const [errors, setErrors] = useState({
     placement: "",
@@ -38,6 +41,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     image: "",
     linkText: "",
     enabled: "",
+    startDate:"",
+    endDate:""
   });
   // To reset the Input Field
   const resetAddData = {
@@ -49,6 +54,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     image: "",
     enabled: "",
     linkText: "",
+    startDate:"",
+    endDate:""
   };
 
   // To get the label from translation API
@@ -165,6 +172,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
           "imagePlacement",
           "enabled",
           "linkText",
+          "startDate",
+          "endDate"
         ]
       : [
           "placement",
@@ -175,11 +184,13 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
           "image",
           "enabled",
           "linkText",
+          "startDate",
+          "endDate"
         ];
 
     for (const key of requiredFields) {
       if (addData[key] === "" || addData[key] === undefined) {
-        newErrors[key] = field_Required;
+        newErrors[key] = " ";
         isValid = false;
       } else if (addData[key].length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
@@ -245,6 +256,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       imagePlacement: data?.imagePlacement || "",
       linkText: data?.linkText || "",
       enabled: data?.enabled !== undefined ? data?.enabled : "",
+      startDate: data?.startDate || "",
+      endDate: data?.endDate || "",
     });
     setErrors({
       StatusCode: "",
@@ -253,6 +266,9 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       ErrorDesription: "",
       url: "",
       buttonText: "",
+      startDate:"",
+      endDate:""
+      
     });
   }, [data]);
   // useEffect(() => {
@@ -296,7 +312,16 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
      // setAddData(resetAddData);
     }
   }, [offerMasterData]);
-
+  const handleDateChange = (dates, fieldName) => {
+    setAddData({
+      ...addData,
+      [fieldName]: dates,
+    });
+    setErrors({
+      ...errors,
+      [fieldName]: '',
+    });
+  };
   return (
     <>
       <div className="container-fluid">
@@ -418,7 +443,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             options={imagePlacementOptions}
                           />
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-5 form-group mb-2">
                           <label htmlFor="image">
                             {upload_image}
                             <span className="text-danger">
@@ -445,6 +470,30 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             <span className="input-group-text">{upload}</span>
                           </div>
                         </div>
+                        <div className="col-sm-4 mt-5">
+
+<InputGroup
+      className={`${(errors.startDate || errors.endDate) ? "border-danger-date" : "dateInput"}`}
+      >
+      <DatePicker
+        format="yyyy-MM-dd HH:mm:ss"
+        placeholder="Start Date"
+        value={addData.startDate ? new Date(addData.startDate) : null}
+        onChange={(e) => handleDateChange(e, 'startDate')}
+        block
+        appearance="subtle"
+      />
+      <DatePicker
+      
+        format="yyyy-MM-dd HH:mm:ss"
+        placeholder="End Date"
+        value={addData.endDate ? new Date(addData.endDate) : null}
+        onChange={(e) => handleDateChange(e, 'endDate')}
+        block
+        appearance="subtle"
+      />
+    </InputGroup>
+    </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="enabled">
                             {status}

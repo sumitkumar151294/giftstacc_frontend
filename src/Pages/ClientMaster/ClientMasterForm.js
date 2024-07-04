@@ -215,7 +215,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 
   const handleChange = (e, fieldName) => {
     let values = e.target.value;
-    if (fieldName === "enabled") { debugger
+    if (fieldName === "enabled") { 
       if (values === "true" || values === "false") {
         values = values === "true";
       } else {
@@ -301,7 +301,6 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
     setAdditionalFields(updatedFields);
   };
   const handleSubmit = (e) => {
-    debugger
     e.preventDefault();
     let isValid = true;
 

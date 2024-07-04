@@ -66,7 +66,7 @@ const CategoryForm = () => {
     name: "",
     supplierId: "",
     supplierBrandId: "",
-    image: "",
+    image: false,
     displayOrder: "",
     displayHeader: false,
   };
@@ -156,7 +156,6 @@ const CategoryForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    debugger
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -180,7 +179,7 @@ const CategoryForm = () => {
     setErrors(newErrors);
     if (isValid &&(createCategory.image !== false && createCategory.image !== "")) {
       dispatch(onUploadImage(getImagePath));
-    } else if (isValid && createCategory.image === false ||createCategory.image==="") {
+    } else if (isValid && createCategory.image === false)  {
       dispatch(
         onPostCategory({
           ...createCategory,

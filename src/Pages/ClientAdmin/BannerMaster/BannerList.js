@@ -19,6 +19,8 @@ const BannerMasterList = () => {
   const non_active_option = GetTranslationData("UIClient", "non_active_option");
   const active = GetTranslationData("UIAdmin", "active");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const startDate = GetTranslationData("UIAdmin", "startDate");
+  const endDate = GetTranslationData("UIAdmin", "endDate");
   const [isDelete, setIsDelete]= useState(false);
   const dispatch = useDispatch();
   const getBannerMasterState = useSelector(
@@ -57,6 +59,8 @@ const BannerMasterList = () => {
       displayOrder: data.displayOrder,
       buttonText: data.buttonText,
       image: data.image,
+      endDate:data?.endDate,
+      startDate:data?.startDate,
       id: data?.id,
       enabled: false,
       deleted: true,
@@ -107,10 +111,13 @@ const BannerMasterList = () => {
                             <table className="table header-border table-responsive-sm">
                               <thead>
                                 <tr>
+                                  <th>Image</th>
                                   <th>{title_label}</th>
                                   <th>{sub_title}</th>
                                   <th>{link_label}</th>
                                   <th>{display_order}</th>
+                                  <th>{startDate}</th>
+                                                    <th>{endDate}</th>
                                   <th>{status}</th>
                                   <th>{actionLabel}</th>
                                 </tr>
@@ -120,10 +127,18 @@ const BannerMasterList = () => {
                                   .slice(startIndex, endIndex)
                                   .map((banner) => (
                                     <tr key={banner.id}>
+                                       <img
+                                                src={`${process.env.REACT_APP_CLIENT_URL}${banner.image}`}
+                                                style={{ width: "50px" }}
+                                                alt={`${process.env.REACT_APP_CLIENT_URL}${banner.image}`}
+                                              />
                                       <td>{banner.bannerTitle}</td>
                                       <td>{banner.bannerSubtitle}</td>
                                       <td>{banner.bannerLink}</td>
                                       <td>{banner.displayOrder}</td>
+                                      <td>{banner.startDate}</td>
+                                      <td>{banner.endDate}</td>
+
                                       <td>
                                         <span
                                           className={
