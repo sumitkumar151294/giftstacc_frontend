@@ -484,10 +484,10 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   useEffect(() => {
     if (getClientPaymentdata.post_status_code === "201") {
       setShowLoader(false);
-      toast.success(getClientPaymentdata.postMessage);
       dispatch(onPostClientPaymentReset());
       dispatch(onClientMasterSubmit());
       dispatch(onClientPaymentSubmit());
+      toast.success(getClientPaymentdata.postMessage);
       setClientData(resetFields);
       setAdditionalFields(resetAdditionalFields);
     }
