@@ -18,7 +18,7 @@ import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import PageError from "../../Components/PageError/PageError";
-import defaultImage from "../../Assets/img/image 880.png"
+import defaultImage from "../../Assets/img/image 880.png";
 
 const CategoryList = () => {
   const dispatch = useDispatch();
@@ -40,6 +40,9 @@ const CategoryList = () => {
     { label: "Category Name", key: "name" },
     { label: "Supplier Name", key: "supplierId" },
     { label: "Supplier Brand Name", key: "supplierBrandId" },
+    { label: "Display Order", key: "displayOrder" },
+    { label: "Image	", key: "image" },
+    { label: "Display Header", key: "displayHeader" },
   ];
 
   // To get the categories
@@ -64,7 +67,6 @@ const CategoryList = () => {
   const image = GetTranslationData("UIAdmin", "image_Text");
   const displayOrder = GetTranslationData("UIClient", "display-order");
 
-
   // To get the Supplier Name in the Category List
   const getSupplierName = (supplierId) => {
     const supplier =
@@ -85,28 +87,33 @@ const CategoryList = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
+  //filter category list
   const filteredCategoryList = Array.isArray(getCategoryData)
-    ? getCategoryData.filter(
-        (item) =>
-          Object.values(item).some(
-            (value) =>
-              value &&
-              typeof value === "string" &&
-              value.toLowerCase().includes(searchQuery)
-          ) ||
-          getSupplierName(item.supplierId)
-            .toLowerCase()
-            .includes(searchQuery) ||
-          getSupplierBrand(item.supplierBrandId)
-            .toLowerCase()
-            .includes(searchQuery)
-      )
+    ? getCategoryData.filter((item) => {
+        const supplierName = getSupplierName(item.supplierId).toLowerCase();
+        const supplierBrand = getSupplierBrand(
+          item.supplierBrandId
+        ).toLowerCase();
+        const displayOrder = item.displayOrder.toString();
+
+        return (
+          item.name.toLowerCase().includes(searchQuery) ||
+          supplierName.includes(searchQuery) ||
+          supplierBrand.includes(searchQuery) ||
+          displayOrder.includes(searchQuery)
+        );
+      })
     : [];
 
   const namesArray = filteredCategoryList.map((data) => ({
     name: data.name,
     supplierId: getSupplierName(data.supplierId),
     supplierBrandId: getSupplierBrand(data.supplierBrandId),
+    displayOrder:data.displayOrder,
+    image:data.image === "false"
+        ? "falsegtgttgtg y445665"
+        : `${process.env.REACT_APP_CLIENT_URL}${data.image}`,
+    displayHeader:data.displayHeader
   }));
 
   // For Pagination
@@ -118,11 +125,10 @@ const CategoryList = () => {
   };
   //To delete the data
   const handleDelete = (data) => {
-  
     const deletedData = {
       enabled: false,
       deleted: true,
-      image:data?.image,
+      image: data?.image,
       supplierId: data?.supplierId,
       supplierBrandId: data?.supplierBrandId,
       name: data?.name,
@@ -210,6 +216,7 @@ const CategoryList = () => {
                       ) : Array.isArray(filteredCategoryList) &&
                         filteredCategoryList.length > 0 ? (
                         <div className="table-responsive">
+                          {console.log(filteredCategoryList)}
                           <table className="table header-border table-responsive-sm">
                             <thead>
                               <tr>
@@ -235,16 +242,22 @@ const CategoryList = () => {
                                     <td>
                                       {getSupplierBrand(data.supplierBrandId)}
                                     </td>
-                                    <td>                                      {data.displayOrder}
-
-                                    </td>
+                                    <td> {data.displayOrder}</td>
                                     <td>
-                                              <img
-                                               src={data.image ==="false" ?defaultImage: `${process.env.REACT_APP_CLIENT_URL}${data.image}`}
-                                                style={{ width: "50px" }}
-                                                alt={data?.image === "false" ? "" :data.image}
-                                              />
-                                              </td>
+                                      <img
+                                        src={
+                                          data.image === "false"
+                                            ? defaultImage
+                                            : `${process.env.REACT_APP_CLIENT_URL}${data.image}`
+                                        }
+                                        style={{ width: "50px" }}
+                                        alt={
+                                          data?.image === "false"
+                                            ? ""
+                                            : data.image
+                                        }
+                                      />
+                                    </td>
                                     <td>
                                       <span
                                         className={

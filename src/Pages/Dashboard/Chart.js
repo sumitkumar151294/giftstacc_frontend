@@ -115,7 +115,7 @@ console.log(SupplierBrandList)
                         <span className="font-w500 fs-16 d-block mb-2">
                         {clients_name_label}
                         </span>
-                        <h2>{clientList.length}</h2>
+                        <h2>{clientList?.length}</h2>
                       </div>
                       <div className="d-inline-block position-relative donut-chart-sale ">
                       <ReactApexChart

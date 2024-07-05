@@ -14,12 +14,14 @@ import {
   onPutPromotionalAllocateBrandReset,
 } from "../../../Store/Slices/promotionalAllocateBrandSlice";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
+import Dropdown from "../../../Components/Dropdown/Dropdown";
 const PromotionalAllocateBrand = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const getAllocateBrands = useSelector(
     (state) => state?.promotionalAllocateBrandReducer
   );
+  const modulesName = useSelector((state) => state.moduleReducer?.data);
   const [copyClientMapping, setCopyClientMapping] = useState([]);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const promotional_Allocate_Brands = GetTranslationData(
@@ -40,7 +42,6 @@ const PromotionalAllocateBrand = () => {
   };
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
   const productByIdReducer = useSelector((state) => state.productReducer);
-
   useEffect(() => {
     dispatch(
       onProductByIdSubmit({
@@ -172,6 +173,8 @@ const PromotionalAllocateBrand = () => {
     dispatch(onPutPromotionalAllocateBrand(copyClientMapping));
   };
 
+  const moduleData = modulesName.map((data) => data.name);
+  console.log(moduleData);
   return (
     <>
       <div className="container-fluid">
@@ -198,6 +201,26 @@ const PromotionalAllocateBrand = () => {
                         <i className="fa fa-search"></i>
                       </span>
                     </div>
+                  </div>
+                </div>
+              </div>
+              <div className="container-fluid pt-1">
+                <div className="row">
+                  <div className="col-sm-4 form-group mb-2">
+                    <label for="name-f">Select Module</label>
+                    <Dropdown
+                      name="modules"
+                      className="form-select"
+                      options={moduleData}
+                    />
+                  </div>
+                  <div className="col-sm-4 form-group mb-2">
+                    <label for="name-f">Select Module Data</label>
+                    <Dropdown
+                      name="modules"
+                      className="form-select"
+                      options={moduleData}
+                    />
                   </div>
                 </div>
               </div>
