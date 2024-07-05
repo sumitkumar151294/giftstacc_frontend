@@ -84,8 +84,8 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
     },
   ]);
   const statusoptions = [
-    { value: "Active", label: active },
-    { value: "Non-Active", label: nonActive },
+    { value: true, label: active },
+    { value: false, label: nonActive },
   ];
 
   const resetData = () => {
@@ -203,7 +203,15 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
     }
   }, [data]);
 
-  const handleChange = (e, fieldName) => {
+  const handleChange = (e, fieldName) => { 
+    setVendorData({
+      ...vendorData,
+      [fieldName]: e.target.value,
+    });
+    setErrors({
+      ...errors,
+      [fieldName]: "",
+    });
     if (
       (fieldName === "balanceThresholdAmount" ||
         fieldName === "creditAmount") &&
@@ -212,31 +220,6 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
       setErrors({
         ...errors,
         [fieldName]: negaiveValueError,
-      });
-    } else if (fieldName === "status") {
-      setVendorData({
-        ...vendorData,
-        enabled:
-          e.target.value === active
-            ? true
-            : e.target.value === nonActive
-            ? false
-            : "",
-      });
-      setErrors({
-        ...errors,
-        enabled: "",
-      });
-    } else {
-      setVendorData({
-        ...vendorData,
-        [fieldName]: e.target.value,
-      });
-
-      // Remove the error message when the user starts typing
-      setErrors({
-        ...errors,
-        [fieldName]: "",
       });
     }
   };
@@ -263,7 +246,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
 
     // Check if fields are empty and set corresponding error messages
     for (const key in vendorData) {
-      if (vendorData[key] === "") {
+      if (vendorData[key] === ""||vendorData[key] === "Select") {
         newErrors[key] = " ";
         isValid = false;
       } else if (vendorData[key].length > 250) {
@@ -314,6 +297,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
       if (!data.name) {
         try {
           vendorData.deleted = false;
+          vendorData.enabled = JSON.parse(vendorData.enabled);
           dispatch(onVendorSubmit(vendorData));
         } catch (error) {
           // Handle any errors during dispatch
@@ -322,6 +306,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
         try {
           const updateData = { ...vendorData };
           updateData.id = data.id;
+          updateData.enabled = JSON.parse(vendorData.enabled);
           dispatch(onUpdateSupplierList(updateData));
           // Define a function to show a toast notification based on loginDetails
         } catch (error) {
@@ -397,20 +382,12 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="status">
+                          <label htmlFor="enabled">
                             {status} <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-                            onChange={(e) => handleChange(e, "status")}
-                            error={errors?.enabled}
-                            value={
-                              vendorData?.enabled
-                                ? active
-                                : vendorData?.enabled === undefined ||
-                                  vendorData?.enabled === ""
-                                ? ""
-                                : nonActive
-                            }
+                            onChange={(e) => handleChange(e, "enabled")}
+                            value={vendorData?.enabled}
                             className={`${
                               errors.enabled
                                 ? "border-danger-select"
