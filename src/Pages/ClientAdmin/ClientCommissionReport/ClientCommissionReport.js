@@ -9,10 +9,10 @@ import { onGetCommissionReport } from "../../../Store/Slices/ClientAdmin/clientC
 import { CSVLink } from "react-csv";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
 import Button from "../../../Components/Button/Button";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PageError from "../../../Components/PageError/PageError";
 import { onGetSupplierBrandList } from "../../../Store/Slices/supplierBrandListSlice";
+import { DatePicker, InputGroup } from "rsuite";
 
 const ClientCommissionReport = () => {
   const [page, setPage] = useState(1);
@@ -129,7 +129,9 @@ const ClientCommissionReport = () => {
                       <div className="card-header">
                         <h4 className="card-title">{client_Commission_Report}</h4>
                       </div>
-                      <div className="ddop">
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center  flex-wrap">
+                        <div className="ddop col-sm-3 mt-8">
                         <Dropdown
                           onChange={(e) => handleChange(e, "supplierId")}
                           ariaLabel="Select"
@@ -149,7 +151,7 @@ const ClientCommissionReport = () => {
 
                         />
                       </div>
-                      <div className="ddop">
+                      <div className="ddop col-sm-3 mt-8">
                         <Dropdown
                           onChange={(e) => handleChange(e, "supplierBrandId")}
                           value={createCategory.supplierBrandId}
@@ -158,21 +160,32 @@ const ClientCommissionReport = () => {
                           options={supplierBrandListData}
                         />
                       </div>
+                      <div className="col-sm-4 mt-8">
+
                       <div className="example">
-                        <DatePicker
-                          id="dateStartEnd"
-                          placeholderText="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"
-                          selectsRange={true}
-                          startDate={dateStart}
-                          endDate={dateEnd}
-                          onChange={onChangeHandler}
-                          dateFormat="dd MMM yyyy h:mm aa" // Date format including time
-                          // showTimeSelect // Enable time selection
-                          timeFormat="HH:mm" // Time format
-                          className={"form-control form-control-sm"}
-                          showDisabledMonthNavigation
-                        />
+                      <InputGroup
+                              className="dateInput"
+                            >
+                              <DatePicker
+                                format="yyyy-MM-dd HH:mm:ss"
+                                placeholder="Start Date"
+                                // value={formData.startDate ? new Date(formData.startDate) : null}
+                                // onChange={(e) => handleDateChange(e, 'startDate')}
+                                block
+                                appearance="subtle"
+                              />
+                              <DatePicker
+                                format="yyyy-MM-dd HH:mm:ss"
+                                placeholder="End Date"
+                                // value={formData.endDate ? new Date(formData.endDate) : null}
+                                // onChange={(e) => handleDateChange(e, 'endDate')}
+                                block
+                                appearance="subtle"
+                              />
+                            </InputGroup>
                       </div>
+                      </div>
+                      
                       <div className="d-flex align-items-center flex-wrap">
                         {clientCommissionReport &&
                           clientCommissionReport.length > 0 && (

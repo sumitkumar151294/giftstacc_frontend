@@ -110,7 +110,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
 
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
-    let newErrors = { ...errors };
+        let newErrors = { ...errors };
     if (fieldName === 'link') {
       const urlRegex = /https?:\/\/(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\S*)?/;
       const isValidUrl = urlRegex.test(value);
@@ -291,7 +291,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                             <label>{start_and_enddate}</label>
 
                             <InputGroup
-                              className={`${(errors.startDate || errors.endDate) ? "border-danger" : "dateInput"}`}
+                              className={`${(errors.startDate || errors.endDate) ? "border-danger-date" : "dateInput"}`}
                             >
                               <DatePicker
                                 format="yyyy-MM-dd HH:mm:ss"

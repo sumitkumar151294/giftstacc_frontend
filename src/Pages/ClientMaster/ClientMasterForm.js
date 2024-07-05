@@ -250,6 +250,14 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
         [fieldName]: isValidDomain ? "" : " ",
       });
     }
+    else if (fieldName === "dbIpAddress") {
+      const ipRegex = /^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$/;
+      const isValidIp = ipRegex.test(e.target.value);
+      setErrors({
+        ...errors,
+        [fieldName]: isValidIp ? "" : "Invalid IP address",
+      });
+    }
     else if (fieldName === "logoUrl") {
       const domainRegex = /^(https?:\/\/)?([\da-z.-]+\.[a-z.]{2,6})(\/[\w .-]*)*\/?$/;
       const isValidDomain = domainRegex.test(e.target.value);

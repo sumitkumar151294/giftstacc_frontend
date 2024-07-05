@@ -196,7 +196,7 @@ const PromotionalList = () => {
                                                         </td>
                                                         <td>
                                                             <Link
-                                                                to="/lc-admin/promotional-allocate-brand"
+                                                                to="/lc-user-admin/promotional-allocate-brand"
                                                                 className="allocateBtn btn btn-primary btn-sm float-right font-size"
                                                                 state={{ id: item.clientId ,promotionalId:item?.id }}
                                                             >
