@@ -21,6 +21,7 @@ const PromotionalAllocateBrand = () => {
   const getAllocateBrands = useSelector(
     (state) => state?.promotionalAllocateBrandReducer
   );
+  const LoginId = useSelector((state) => state?.loginReducer);
   const modulesName = useSelector((state) => state.moduleReducer?.data);
   const [copyClientMapping, setCopyClientMapping] = useState([]);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
@@ -34,12 +35,15 @@ const PromotionalAllocateBrand = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [showLoader, setShowLoader] = useState(false);
+  const [selectedModule, setSelectedModule] = useState(null);
+  const [selectedModuleData, setSelectedModuleData] = useState([]);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
+
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
   const productByIdReducer = useSelector((state) => state.productReducer);
   useEffect(() => {
@@ -172,9 +176,9 @@ const PromotionalAllocateBrand = () => {
     setShowLoader(true);
     dispatch(onPutPromotionalAllocateBrand(copyClientMapping));
   };
-
-  const moduleData = modulesName.map((data) => data.name);
-  console.log(moduleData);
+  // to filter client modules
+const filteredModuleData=modulesName.filter((module)=>module?.isClientPlatformModule===true);
+console.log(selectedModule);
   return (
     <>
       <div className="container-fluid">
@@ -210,8 +214,12 @@ const PromotionalAllocateBrand = () => {
                     <label for="name-f">Select Module</label>
                     <Dropdown
                       name="modules"
+                      onChange={(e) => setSelectedModule(e.target.value)}
                       className="form-select"
-                      options={moduleData}
+                      options={filteredModuleData.map((module) => ({
+                        label: module.name,
+                        value: module.id,
+                      }))}
                     />
                   </div>
                   <div className="col-sm-4 form-group mb-2">
@@ -219,7 +227,7 @@ const PromotionalAllocateBrand = () => {
                     <Dropdown
                       name="modules"
                       className="form-select"
-                      options={moduleData}
+                      options={selectedModuleData}
                     />
                   </div>
                 </div>
