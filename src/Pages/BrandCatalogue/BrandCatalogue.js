@@ -99,6 +99,7 @@ const BrandCatalogue = () => {
   ];
   const handlePageChange = ({ selected }) => {
     setPage(selected + 1);
+    
   };
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -149,6 +150,7 @@ const BrandCatalogue = () => {
           return item?.id;
         }
       });
+      setPage(1);
       dispatch(
         onProductByIdSubmit({
           id: id[0]?.id,
