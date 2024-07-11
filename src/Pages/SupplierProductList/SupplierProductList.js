@@ -26,7 +26,6 @@ const SupplierProductList = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data
   );
-
   const getProductListData = useSelector(
     (state) => state.supplierBrandListReducer
   );
@@ -81,15 +80,15 @@ const SupplierProductList = () => {
   }, [SupplierBrandListUpdate, dispatch]);
 
   const handlePageChange = ({ selected }) => {
-    setPage(selected + 1);
-  };
+    const newPage = selected + 1;
+    setPage(newPage);
 
-  // for changing the page calling api to fetch the data
-  useEffect(() => {
-    dispatch(
-      onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
-    );
-  }, [page]);
+    if (newPage !== page) {
+      dispatch(
+        onGetSupplierBrandList({ pageNumber: newPage, pageSize: rowsPerPage })
+      );
+    }
+  };
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -441,11 +440,7 @@ const SupplierProductList = () => {
                                       onPageChange={(e) => handlePageChange(e)}
                                       containerClassName={"pagination"}
                                       activeClassName={"active"}
-                                      initialPage={
-                                        rowsPerPage !== 5
-                                          ? page === 0
-                                          : page - 1
-                                      }
+                                      initialPage={page - 1}
                                       previousClassName={
                                         page === 0 ? disabled_Text : ""
                                       }
@@ -459,11 +454,12 @@ const SupplierProductList = () => {
                                         const newSize = parseInt(
                                           e.target.value
                                         );
+                                        setPage(1);
                                         if (!isNaN(newSize)) {
                                           setRowsPerPage(e.target.value);
                                           dispatch(
                                             onGetSupplierBrandList({
-                                              pageNumber: page,
+                                              pageNumber: 1,
                                               pageSize: newSize,
                                             })
                                           );
@@ -476,8 +472,7 @@ const SupplierProductList = () => {
                               </div>
                             </div>
                           ) : (
-                            copySupplierBrandList?.length === 0 &&
-                            searchQuery && <NoRecord />
+                             <NoRecord />
                           )}
                         </div>
                       )}
