@@ -21,8 +21,8 @@ const Dropdown = ({
       >
         <option>{defaultSelected}</option>
         {options?.map((option, index) => (
-          <option key={index} value={option.value} name={option?.data}>
-            {option.label}
+          <option key={index} value={option?.value} name={option?.data}>
+            {option?.label}
           </option>
         ))}
       </select>
