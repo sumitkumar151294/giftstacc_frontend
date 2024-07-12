@@ -605,7 +605,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           className={` ${errors.platformDomainUrl ? "border-danger" : "form-control"}`}
                           name="platformDomainUrl"
                           id="contact-platformDomainUrl"
-                          placeholder="Platform Domain URL"
+                          placeholder="Platform domain url"
                           value={clientData.platformDomainUrl}
                           error={errors.platformDomainUrl}
                           onChange={(e) => handleChange(e, "platformDomainUrl")}
@@ -655,7 +655,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           className={` ${errors.logoUrl ? "border-danger" : "form-control"
                             }`}
                           name="logo"
-                          placeholder="Logo Url"
+                          placeholder="Logo url"
 
                           id="logo"
                           error={errors.logoUrl}

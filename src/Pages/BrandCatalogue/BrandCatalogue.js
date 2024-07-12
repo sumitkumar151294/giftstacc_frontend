@@ -400,13 +400,13 @@ const BrandCatalogue = () => {
                                     onChange={(e) => {
                                       setRowsPerPageValue(e.target.value);
                                       const newSize = parseInt(e.target.value);
+                                      setPage(1);
                                       if (!isNaN(newSize)) {
                                         setRowsPerPage(newSize);
-                                        setPage(1);
                                         dispatch(
                                           onProductByIdSubmit({
                                             clientCode,
-                                            pageNumber: page,
+                                            pageNumber: 1,
                                             pageSize: parseInt(e.target.value),
                                             enable: 1
                                           })

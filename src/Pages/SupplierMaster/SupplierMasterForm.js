@@ -475,7 +475,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                 : "form-control"
                             }`}
                             id="servicePath"
-                            placeholder="service path"
+                            placeholder="Service path"
                             onChange={(e) => handleChange(e, "servicePath")}
                           />
                           {<p className="text-danger">{errors.servicePath}</p>}
