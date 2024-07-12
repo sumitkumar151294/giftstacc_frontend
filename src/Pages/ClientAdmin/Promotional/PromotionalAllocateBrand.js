@@ -14,11 +14,25 @@ import {
   onPutPromotionalAllocateBrandReset,
 } from "../../../Store/Slices/promotionalAllocateBrandSlice";
 import NoRecord from "../../../Components/NoRecord/NoRecord";
+import Dropdown from "../../../Components/Dropdown/Dropdown";
+import { onGetAddSpecial } from "../../../Store/Slices/ClientAdmin/addSpecialListSlice";
+import { onGetPromtional } from "../../../Store/Slices/ClientAdmin/promotionalSlice";
+import { onGetAllocateBrand } from "../../../Store/Slices/ClientAdmin/allocateBrandSlice";
 const PromotionalAllocateBrand = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const getAllocateBrands = useSelector(
     (state) => state?.promotionalAllocateBrandReducer
+  );
+  const modulesName = useSelector((state) => state.moduleReducer?.data);
+  const getAllocateAddSpecial = useSelector(
+    (state) => state.addSpecialReducer?.getData
+  );
+  const getAllocatePromotional = useSelector(
+    (state) => state.promotionalReducer?.getData
+  );
+  const clientList = useSelector(
+    (state) => state.clientMasterReducer.clientData
   );
   const [copyClientMapping, setCopyClientMapping] = useState([]);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
@@ -32,15 +46,21 @@ const PromotionalAllocateBrand = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [showLoader, setShowLoader] = useState(false);
+  const [modules, setModules] = useState({
+    moduleName: "",
+    moduleDatas: "",
+  });
+  const [selectedModuleData, setSelectedModuleData] = useState([]);
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
+
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
   const productByIdReducer = useSelector((state) => state.productReducer);
-
+ 
   useEffect(() => {
     dispatch(
       onProductByIdSubmit({
@@ -54,6 +74,9 @@ const PromotionalAllocateBrand = () => {
         location?.state?.promotionalId
       )
     );
+    dispatch(onGetAddSpecial());
+    dispatch(onGetPromtional());
+    dispatch(onGetAllocateBrand());
   }, []);
 
   useEffect(() => {
@@ -171,6 +194,57 @@ const PromotionalAllocateBrand = () => {
     setShowLoader(true);
     dispatch(onPutPromotionalAllocateBrand(copyClientMapping));
   };
+  // to filter client modules
+  const filteredModuleData = modulesName.filter(
+    (module) => 
+      module?.isClientPlatformModule === true && 
+      ["Add Special", "Banner Master", "Offer Master", "Promotional"].includes(module.name)
+  );
+  // here get client name by match with id
+  const getNameById = (id) => {
+    const result =
+      Array.isArray(clientList) && clientList?.find((item) => item?.id === id);
+    return result ? result?.name : "";
+  };
+  // to handle dropdown change
+  const handleChange = (e, fieldName) => {
+    if (fieldName === "moduleName") {
+      let moduleData = [];
+      if (
+        e.target.selectedOptions.item("").getAttribute("name") === "Add Special"
+      ) {
+        
+        Array.isArray(getAllocateAddSpecial) &&
+          getAllocateAddSpecial.map((item) => {
+            moduleData.push({ label: item?.sectionName, value: item?.id });
+          });
+        setSelectedModuleData(moduleData);
+      } else if (
+        e.target.selectedOptions.item("").getAttribute("name") === "Promotional"
+      ) {
+        Array.isArray(getAllocatePromotional) &&
+          getAllocatePromotional.map((item) => {
+            moduleData.push({
+              label: getNameById(item.clientId),
+              value: item?.id,
+            });
+          });
+        setSelectedModuleData(moduleData);
+      }
+      setSelectedModuleData(moduleData);
+      setModules({
+        ...modules,
+        moduleDatas: "",
+        [fieldName]: e.target.value,
+      });
+    }
+    else {
+      setModules({
+        ...modules,
+        [fieldName]: e.target.value,
+      });
+    }
+  };
 
   return (
     <>
@@ -198,6 +272,41 @@ const PromotionalAllocateBrand = () => {
                         <i className="fa fa-search"></i>
                       </span>
                     </div>
+                  </div>
+                </div>
+              </div>
+              <div className="container-fluid pt-1">
+                <div className="row">
+                  <div className="col-sm-4 form-group mb-2">
+                    <label for="name-f">Select Module</label>
+                    <Dropdown
+                      onChange={(e) => handleChange(e, "moduleName")}
+                      value={modules.moduleName}
+                      className="form-select"
+                      options={filteredModuleData.map((module) => ({
+                        data: module.name,
+                        label: module.name,
+                        value: module.id,
+                      }))}
+                    />
+                  </div>
+                  <div className="col-sm-4 form-group mb-2">
+                    <label for="name-f">Select Module Data</label>
+                    <Dropdown
+                      onChange={(e) => handleChange(e, "moduleDatas")}
+                      value={modules.moduleDatas}
+                      className="form-select"
+                      options={
+                        selectedModuleData.length === 0
+                          ? [
+                              {
+                                label: "No Record Found",
+                                value: "",
+                              },
+                            ]
+                          : selectedModuleData
+                      }
+                    />
                   </div>
                 </div>
               </div>

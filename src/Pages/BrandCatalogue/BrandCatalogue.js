@@ -12,7 +12,6 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import ReactPaginate from "react-paginate";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
-import { onGetAllClientProductMapping } from "../../Store/Slices/clientProductMappingSlice";
 import { CSVLink } from "react-csv";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
@@ -40,6 +39,7 @@ const BrandCatalogue = () => {
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
   const [page, setPage] = useState(1);
   const [copyBrandCatalogue, setCopyBrandCatalogue] = useState();
+  const [selectedClientId, setSelectedClientId] = useState(null);
   const supplierMaster = useSelector((state) => state.supplierMasterReducer);
   const productByIdReducer = useSelector((state) => state.productReducer);
   const getRoleAccess = useSelector(
@@ -48,9 +48,6 @@ const BrandCatalogue = () => {
   const LoginId = useSelector((state) => state?.loginReducer);
   const clientList = useSelector(
     (state) => state?.clientMasterReducer?.clientData
-  );
-  const client_ID = useSelector(
-    (state) => state.loginAuthReducer.data[0]?.clientId
   );
   const [supplierLists, setSupplierLists] = useState({
     supplier: "",
@@ -64,7 +61,7 @@ const BrandCatalogue = () => {
         sku: data.sku,
         name: data.name,
         minPrice: data.minPrice,
-        maxPrice: data.maxPrice, // Assuming you want to correct the casing here
+        maxPrice: data.maxPrice, // assuming you want to correct the casing here
         price: data.price,
       }))
     : [];
@@ -97,9 +94,36 @@ const BrandCatalogue = () => {
       label: 100,
     },
   ];
+ 
   const handlePageChange = ({ selected }) => {
-    setPage(selected + 1);
+    if (selected !== false) {
+      const newPage = selected + 1;
+      setPage(newPage);
+
+      // dispatch API call only when the page number changes
+      if (newPage !== page) {
+        if (selectedClientId !== null) {
+          dispatch(
+            onProductByIdSubmit({
+              id: selectedClientId,
+              pageNumber: newPage,
+              pageSize: rowsPerPage,
+              enable: 1,
+            })
+          );
+        } else {
+          dispatch(
+            onProductByIdSubmit({
+              pageNumber: newPage,
+              pageSize: rowsPerPage,
+              enable: 1,
+            })
+          );
+        }
+      }
+    }
   };
+
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1);
@@ -136,10 +160,13 @@ const BrandCatalogue = () => {
       setCopyBrandCatalogue(filteredSupplierList);
     }
     if (selectedSupplierName === "Select" && fieldName === "client") {
+      setSelectedClientId(null);
+      setPage(1);
       dispatch(
         onProductByIdSubmit({
-          pageNumber: page,
+          pageNumber: 1,
           pageSize: rowsPerPage,
+          enable: 1,
         })
       );
       setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
@@ -149,12 +176,14 @@ const BrandCatalogue = () => {
           return item?.id;
         }
       });
+      setSelectedClientId(id[0]?.id);
+      setPage(1);
       dispatch(
         onProductByIdSubmit({
           id: id[0]?.id,
-          pageNumber: page,
+          pageNumber: 1,
           pageSize: rowsPerPage,
-          enable:1
+          enable: 1,
         })
       );
       setCopyBrandCatalogue(productByIdReducer?.productById?.[0]?.products);
@@ -186,24 +215,7 @@ const BrandCatalogue = () => {
       setSupplierList(tempSupplier);
     }
   }, [supplierMaster]);
-  useEffect(() => {
-    if (!LoginId.isAdminLogin && client_ID) {
-      dispatch(
-        onProductByIdSubmit({
-          id: client_ID,
-          pageNumber: page,
-          pageSize: rowsPerPage,
-        })
-      );
-    } else {
-      dispatch(
-        onProductByIdSubmit({
-          pageNumber: page,
-          pageSize: rowsPerPage,
-        })
-      );
-    }
-  }, [page, rowsPerPage, LoginId.isAdminLogin, client_ID]);
+
   // Make sure to include all variables your effect depends on
   useEffect(() => {
     if (
@@ -313,7 +325,7 @@ const BrandCatalogue = () => {
                     ) : (
                       <>
                         <div className="table-responsive">
-                          {clientProductMapping?.length > 0 && (
+                          {clientProductMapping?.length > 0 ? (
                             <>
                               <table className="table header-border table-responsive-sm">
                                 <thead>
@@ -376,9 +388,7 @@ const BrandCatalogue = () => {
                                     onPageChange={(e) => handlePageChange(e)}
                                     containerClassName={"pagination"}
                                     activeClassName={"active"}
-                                    initialPage={
-                                      rowsPerPage !== 5 ? page === 0 : page - 1
-                                    }
+                                    initialPage={page - 1}
                                     previousClassName={
                                       page === 0 ? disabled_Text : ""
                                     }
@@ -392,11 +402,13 @@ const BrandCatalogue = () => {
                                       const newSize = parseInt(e.target.value);
                                       if (!isNaN(newSize)) {
                                         setRowsPerPage(newSize);
+                                        setPage(1);
                                         dispatch(
                                           onProductByIdSubmit({
                                             clientCode,
                                             pageNumber: page,
                                             pageSize: parseInt(e.target.value),
+                                            enable: 1
                                           })
                                         );
                                       }
@@ -406,9 +418,7 @@ const BrandCatalogue = () => {
                                 </div>
                               )}
                             </>
-                          )}
-                          {clientProductMapping?.length === 0 &&
-                            searchQuery && <NoRecord />}
+                          ): <NoRecord />}
                         </div>
                       </>
                     )}
