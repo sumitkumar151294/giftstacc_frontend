@@ -59,6 +59,10 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const select_role = GetTranslationData("UIAdmin", "select_role");
   const admin = GetTranslationData("UIAdmin", "admin_Label");
   const client1 = GetTranslationData("UIAdmin", "client");
+  const placeholder_enter_your_email = GetTranslationData("UIAdmin", "placeholder_enter_your_email");
+  const placeholder_mobile_number = GetTranslationData("UIAdmin", "placeholder_mobile_number");
+  const placeholder_firstName = GetTranslationData("UIAdmin", "placeholder_firstName");
+  const placeholder_lastName = GetTranslationData("UIAdmin", "placeholder_lastName");
 
   // user-role get api call
   useEffect(() => {
@@ -292,7 +296,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                               errors.email ? "border-danger" : "form-control"
                             }`}
                             onChange={(e) => handleChange(e, "email")}
-                            placeholder=""
+                            placeholder={placeholder_enter_your_email}
                             error={errors.email}
                             value={userData.email}
                           />
@@ -309,7 +313,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                               errors.mobile ? "border-danger" : "form-control"
                             }`}
                             onChange={(e) => handleChange(e, "mobile")}
-                            placeholder=""
+                            placeholder={placeholder_mobile_number}
                             error={errors.mobile}
                             value={userData.mobile}
                           />
@@ -329,7 +333,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                             }`}
                             name="fname"
                             id="name-f"
-                            placeholder=""
+                            placeholder={placeholder_firstName}
                             onChange={(e) => handleChange(e, "firstName")}
                             error={errors.firstName}
                             value={userData.firstName}
@@ -348,7 +352,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                             }`}
                             name="lname"
                             id="name-f"
-                            placeholder=""
+                            placeholder={placeholder_lastName}
                             onChange={(e) => handleChange(e, "lastName")}
                             error={errors.lastName}
                             value={userData.lastName}

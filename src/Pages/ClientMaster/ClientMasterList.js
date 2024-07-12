@@ -100,16 +100,20 @@ const ClientMasterList = () => {
       status: data.enabled ? active : nonActive,
     }));
 
-  const filteredClientList = Array.isArray(clientList?.clientData)
-    ? clientList?.clientData.filter((vendor) =>
-      Object.values(vendor).some(
-        (value) =>
-          value &&
-          typeof value === "string" &&
-          value.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    )
-    : [];
+    const filteredClientList = Array.isArray(clientList?.clientData)
+    ? clientList?.clientData.filter((vendor) =>{
+         const contactName=vendor.name.toLowerCase();
+         const contactNumber=vendor.number.toLowerCase();
+         const contactEmail=vendor.email.toLowerCase();
+         const clientId=vendor.id.toString();
+         return(
+          contactName.includes(searchQuery)||
+          contactNumber.includes(searchQuery)||
+          contactEmail.includes(searchQuery)||
+          clientId.includes(searchQuery)
+         )
+    })
+    : [];
 
   useEffect(() => {
     if (clientList?.clientData?.status_code === "200") {
