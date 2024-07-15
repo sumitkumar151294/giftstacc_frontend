@@ -54,9 +54,7 @@ const BrandCatalogue = () => {
     client: "",
   });
   const [supplierList, setSupplierList] = useState([]);
-  const excelData = Array.isArray(
-    productByIdReducer?.productById?.[0]?.products
-  )
+  const excelData = Array.isArray(productByIdReducer?.productById?.[0]?.products)
     ? productByIdReducer?.productById?.[0]?.products.map((data) => ({
         sku: data.sku,
         name: data.name,
@@ -128,16 +126,14 @@ const BrandCatalogue = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
-  const clientProductMapping = Array.isArray(copyBrandCatalogue)
-    ? copyBrandCatalogue.filter((vendor) =>
+  const clientProductMapping = copyBrandCatalogue?.filter((vendor) =>
         Object.values(vendor).some(
           (value) =>
             value &&
             typeof value === "string" &&
             value.toLowerCase().includes(searchQuery.toLowerCase())
         )
-      )
-    : [];
+      );
   const handleChange = (e, fieldName) => {
     const selectedSupplierName = e.target.value;
     let data =
@@ -197,6 +193,13 @@ const BrandCatalogue = () => {
   useEffect(() => {
     dispatch(onGetSupplierList());
     dispatch(onClientMasterSubmit());
+    dispatch(
+      onProductByIdSubmit({
+        pageNumber: 1,
+        pageSize: rowsPerPage,
+        enable: 1,
+      })
+    );
   }, []);
   const handleClick = (data) => {
     LoginId.isAdminLogin
@@ -341,8 +344,8 @@ const BrandCatalogue = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {Array.isArray(copyBrandCatalogue) &&
-                                    copyBrandCatalogue
+                                  {Array.isArray(clientProductMapping) &&
+                                    clientProductMapping
                                       .filter((item) => item.enabled)
                                       .map((data, index) => (
                                         <tr key={index}>

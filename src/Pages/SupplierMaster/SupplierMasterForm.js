@@ -42,15 +42,16 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
   const service_Path = GetTranslationData("UIAdmin", "service_Path");
   const active = GetTranslationData("UIAdmin", "active");
   const nonActive = GetTranslationData("UIAdmin", "nonActive");
+  const supplier_name = GetTranslationData("UIAdmin", "supplier_name_placeholder");
+  const thresholdAmount = GetTranslationData("UIAdmin", "thresholdAmount");
+  const service_path = GetTranslationData("UIAdmin", "service_path");
+  const key_placeholder = GetTranslationData("UIAdmin", "key_placeholder");
+  const value_placeholder = GetTranslationData("UIAdmin", "value_placeholder");
   const negaiveValueError = GetTranslationData(
     "UIAdmin",
     "negative_Value_Text"
   );
 
-  const fieldValueNotEmpty = GetTranslationData(
-    "UIAdmin",
-    "fieldValueNotEmpty"
-  );
   const [vendorData, setVendorData] = useState({
     name: "",
     balanceThresholdAmount: "",
@@ -390,7 +391,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                             }`}
                             name="fname"
                             id="name-f"
-                            placeholder="Enter the supplier name"
+                            placeholder={supplier_name}
                             onChange={(e) => handleChange(e, "name")}
                           />
                           {<p className="text-danger">{errors.name}</p>}
@@ -434,7 +435,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                 : "form-control"
                             }`}
                             id="amominThresholdAmountunt"
-                            placeholder="₹500000"
+                            placeholder={thresholdAmount}
                             onChange={(e) =>
                               handleChange(e, "balanceThresholdAmount")
                             }
@@ -456,7 +457,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                 : "form-control"
                             }`}
                             id="creditAmount"
-                            placeholder="₹500000"
+                            placeholder={thresholdAmount}
                             onChange={(e) => handleChange(e, "creditAmount")}
                           />
                         </div>
@@ -475,7 +476,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                 : "form-control"
                             }`}
                             id="servicePath"
-                            placeholder="Service path"
+                            placeholder={service_path}
                             onChange={(e) => handleChange(e, "servicePath")}
                           />
                           {<p className="text-danger">{errors.servicePath}</p>}
@@ -499,7 +500,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                           : "form-control"
                                       }`}
                                       name="fname"
-                                      placeholder="Key"
+                                      placeholder={key_placeholder}
                                       value={additionalFields[index]?.fieldName}
                                       onChange={(e) =>
                                         handleAddMoreData("fieldName", index, e)
@@ -522,7 +523,7 @@ const SupplierMasterForm = ({ data, setData, isDelete, setIsDelete }) => {
                                           : "form-control"
                                       }`}
                                       name="fname"
-                                      placeholder="Value"
+                                      placeholder={value_placeholder}
                                       value={
                                         additionalFields[index]?.fieldValue
                                       }
