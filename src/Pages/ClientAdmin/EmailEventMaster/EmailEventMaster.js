@@ -170,6 +170,7 @@ const EmailEventMaster = () => {
   const meaning = GetTranslationData("UIAdmin", "meaning");
   const variable = GetTranslationData("UIAdmin", "variable");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const event_name_placeholder = GetTranslationData("UIClient", "event_name_placeholder");
 
   useEffect(() => {
     dispatch(onGetEmailEventMaster());
@@ -215,6 +216,7 @@ const EmailEventMaster = () => {
                               <InputField
                                 type="text"
                                 value={name.eventName}
+                                placeholder={event_name_placeholder}
                                 onChange={(e) => handleChange(e, "eventName")}
                                 className={` ${
                                   errors.eventName

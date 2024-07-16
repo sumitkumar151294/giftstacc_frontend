@@ -33,6 +33,10 @@ const FaqMaster = () => {
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const question = GetTranslationData("UIClient", "question");
+  const answer = GetTranslationData("UIClient", "answer");
+  const question_placeholder = GetTranslationData("UIClient", "question_placeholder");
+  const answer_placeholder = GetTranslationData("UIClient", "answer_placeholder");
   const [faqInfo, setFaqInfo] = useState({
     categoryId: "",
     question: "",
@@ -163,7 +167,7 @@ const FaqMaster = () => {
                     </div>
                     <div className="col-sm-12 form-group mb-2">
                       <label htmlFor="name-f">
-                        Question <span className="text-danger">*</span>
+                        {question} <span className="text-danger">*</span>
                       </label>
                       <InputField
                         type="text"
@@ -171,7 +175,7 @@ const FaqMaster = () => {
                           errors.question ? "border-danger" : ""
                         }`}
                         id="name-f"
-                        placeholder=""
+                        placeholder={question_placeholder}
                         value={faqInfo.question}
                         onChange={(e) => handleChange(e, "question")}
                       />
@@ -179,7 +183,7 @@ const FaqMaster = () => {
                     </div>
                     <div className="col-sm-12 form-group mb-2">
                       <label htmlFor="textarea">
-                        Answer <span className="text-danger">*</span>
+                        {answer} <span className="text-danger">*</span>
                       </label>
                       <textarea
                         id="textarea"
@@ -188,7 +192,7 @@ const FaqMaster = () => {
                         className={`form-control bg-transparent ${
                           errors.answer ? "border-danger" : ""
                         }`}
-                        placeholder=""
+                        placeholder={answer_placeholder}
                         value={faqInfo.answer}
                         onChange={(e) => handleChange(e, "answer")}
                       ></textarea>

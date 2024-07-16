@@ -22,6 +22,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
   const ShortDescription = GetTranslationData("UIClient", "short_description");
   const LongDescription = GetTranslationData("UIClient", "long_description");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const short_description_placeholder = GetTranslationData("UIClient", "short_description_placeholder");
   const dispatch = useDispatch();
   const getCmsData = useSelector((state) => state.cmsReducer);
   const [cmsData, setCmsData] = useState({
@@ -206,7 +207,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                         cols="60"
                         rows="10"
                         className="form-control bg-transparent"
-                        placeholder=""
+                        placeholder={short_description_placeholder}
                         value={cmsData.shortDescription}
                         onChange={(e) => handleChange(e, "shortDescription")}
                       ></textarea>

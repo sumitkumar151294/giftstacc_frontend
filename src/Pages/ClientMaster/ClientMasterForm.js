@@ -78,7 +78,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   const number_placeholder = GetTranslationData("UIAdmin", "number_placeholder");
   const email_placeholder = GetTranslationData("UIAdmin", "placeholder_enter_your_email");
   const logo_url_placeholder = GetTranslationData("UIAdmin", "logo_url_placeholder");
-  const platform_domain_url = GetTranslationData("UIAdmin", "platform_domain_url");
+  const platform_domain_url = GetTranslationData("UIAdmin", "platform_domain_url_placeholder");
   const statusoptions = [
     { value: true, label: active },
     { value: false, label: nonActive },

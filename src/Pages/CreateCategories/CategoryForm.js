@@ -32,7 +32,7 @@ const CategoryForm = () => {
   );
   const upload = GetTranslationData("UIClient", "upload");
   const upload_image = GetTranslationData("UIClient", "uploadImage");
-  const category_name = GetTranslationData("UIClient", "category_name");
+  const category_name = GetTranslationData("UIAdmin", "category_name");
   const [getImagePath, setGetImagePath] = useState("");
   // const getModules = useSelector((state) => state.moduleReducer);
   // const getModulesRoleId = getModules?.data;
@@ -91,7 +91,7 @@ const CategoryForm = () => {
     "Supplier_name_Label"
   );
   const displayOrder = GetTranslationData("UIClient", "display-order");
-  const display_order_placeholder = GetTranslationData("UIClient", "display_order_placeholder");
+  const display_order_placeholder = GetTranslationData("UIAdmin", "display_order_placeholder");
   const supplierBrandTranslation = GetTranslationData(
     "UIAdmin",
     "supplierBrand"
