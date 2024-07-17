@@ -105,16 +105,29 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     if (fieldName === "image") {
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-        setGetImagePath(formData);
-        setGetImage(true);
-
+        const img = new Image();
+        img.onload = () => {
+          if (img.width === 582 && img.height === 336) {
+            const formData = new FormData();
+            formData.append("file", file);
+            setGetImagePath(formData);
+            setGetImage(true);
+            setErrors({
+              ...errors,
+              [fieldName]: "",
+            });
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "Image should be 582px by 336px",
+            });
+          }
+        };
+        img.src = URL.createObjectURL(file);
         setAddData({
           ...addData,
           [fieldName]: e.target.value,
         });
-
         // dispatch(onUploadImage(formData));
       }
     } else if (fieldName === enabled_Text) {
@@ -162,7 +175,6 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       });
     }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -476,6 +488,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             </div>
                             <span className="input-group-text">{upload}</span>
                           </div>
+                          {<p className="text-danger">{errors.image}</p>}
                         </div>
                         <div className="col-sm-4 mt-5">
                           <InputGroup

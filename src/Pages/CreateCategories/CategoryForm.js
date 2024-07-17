@@ -114,13 +114,24 @@ const CategoryForm = () => {
     } else if (fieldName === "image") {
       const file = e?.target?.files?.[0];
       if (file) {
-        const formData = new FormData();
-        formData?.append("file", file);
-        setGetImagePath(formData);
-        setCreateCategory({
-          ...createCategory,
-          image: formData,
-        });
+        const img = new Image();
+        img.onload = () => {
+          if (img.width === 128 && img.height === 128) {
+            const formData = new FormData();
+            formData.append("file", file);
+            setGetImagePath(formData);
+            setErrors({
+              ...errors,
+              [fieldName]: "",
+            });
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "Image should be 582px by 336px",
+            });
+          }
+        };
+        img.src = URL.createObjectURL(file);
       } else {
         e.target.value = "";
       }
@@ -362,9 +373,9 @@ const CategoryForm = () => {
                                 onChange={(e) => handleChange(e, "image")}
                               />
                             </div>
-
                             <span className="input-group-text">{upload}</span>
                           </div>
+                          {<p className="text-danger">{errors.image}</p>}
                         </div>
                         
                         <div className="col-sm-3 form-group mb-2">
