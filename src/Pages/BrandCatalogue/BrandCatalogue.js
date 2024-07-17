@@ -34,6 +34,7 @@ const BrandCatalogue = () => {
   const supplier = GetTranslationData("UIAdmin", "supplier");
   const client = GetTranslationData("UIAdmin", "client_label");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const client_label = GetTranslationData("UIAdmin", "client_label");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
@@ -336,7 +337,7 @@ const BrandCatalogue = () => {
                                     <th>{image}</th>
                                     <th>{sku}</th>
                                     <th>{name}</th>
-                                    <th>Client</th>
+                                    <th>{client_label}</th>
                                     <th>{minprice}</th>
                                     <th>{maxprice}</th>
                                     <th>{price}</th>
@@ -359,7 +360,7 @@ const BrandCatalogue = () => {
                                           </td>
                                           <td>{data.sku}</td>
                                           <td>{data.name}</td>
-                                          <td>Client</td>
+                                          <td>{client_label}</td>
                                           <td>{data.minPrice}</td>
                                           <td>{data.maxPrice}</td>
                                           <td>{data.price}</td>

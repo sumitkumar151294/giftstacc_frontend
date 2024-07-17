@@ -164,10 +164,25 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
     if (fieldName === "image") {
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-        setGetImagePath(formData);
-        setGetImage(true);
+        const img = new Image();
+        img.onload = () => {
+          if (img.width === 582 && img.height === 336) {
+            const formData = new FormData();
+            formData.append("file", file);
+            setGetImagePath(formData);
+            setGetImage(true);
+            setErrors({
+              ...errors,
+              [fieldName]: "",
+            });
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "Image should be 582px by 336px",
+            });
+          }
+        };
+        img.src = URL.createObjectURL(file);
       } else {
         value = ""; // or value = null;
       }
