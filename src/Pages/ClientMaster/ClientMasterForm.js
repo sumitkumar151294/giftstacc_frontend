@@ -74,7 +74,11 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   const dc_userPassword = GetTranslationData("UIAdmin", "user_password");
   const dc_name = GetTranslationData("UIAdmin", "name");
   const dc_value = GetTranslationData("UIAdmin", "value");
-
+  const name_placeholder = GetTranslationData("UIAdmin", "name_placeholder");
+  const number_placeholder = GetTranslationData("UIAdmin", "number_placeholder");
+  const email_placeholder = GetTranslationData("UIAdmin", "placeholder_enter_your_email");
+  const logo_url_placeholder = GetTranslationData("UIAdmin", "logo_url_placeholder");
+  const platform_domain_url = GetTranslationData("UIAdmin", "platform_domain_url_placeholder");
   const statusoptions = [
     { value: true, label: active },
     { value: false, label: nonActive },
@@ -548,7 +552,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           type="text"
                           className={` ${errors.name ? "border-danger" : "form-control"
                             }`}
-                          placeholder="Enter your contact name"
+                          placeholder={name_placeholder}
                           name="contactName"
                           id="contact-name"
                           error={errors.name}
@@ -566,8 +570,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           type="number"
                           className={` ${errors.number ? "border-danger" : "form-control"
                             }`}
-                          placeholder="Enter your contact number"
-
+                          placeholder={number_placeholder}
                           name="contactNumber"
                           id="contact-number"
                           value={clientData.number}
@@ -585,7 +588,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           type="email"
                           className={` ${errors.email ? "border-danger" : "form-control"
                             }`}
-                          placeholder="Enter your email"
+                          placeholder={email_placeholder}
 
                           name="contactEmail"
                           id="contact-email"
@@ -605,7 +608,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           className={` ${errors.platformDomainUrl ? "border-danger" : "form-control"}`}
                           name="platformDomainUrl"
                           id="contact-platformDomainUrl"
-                          placeholder="Platform Domain URL"
+                          placeholder={platform_domain_url}
                           value={clientData.platformDomainUrl}
                           error={errors.platformDomainUrl}
                           onChange={(e) => handleChange(e, "platformDomainUrl")}
@@ -655,7 +658,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           className={` ${errors.logoUrl ? "border-danger" : "form-control"
                             }`}
                           name="logo"
-                          placeholder="Logo Url"
+                          placeholder={logo_url_placeholder}
 
                           id="logo"
                           error={errors.logoUrl}
@@ -672,8 +675,6 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                         <Dropdown
                           onChange={(e) => handleChange(e, "themes")}
                           error={errors.themes}
-                          placeholder="Themes"
-
                           value={clientData.themes || ""}
                           key={clientData.themes}
                           className="form-select"

@@ -60,10 +60,9 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
   const admin = GetTranslationData("UIAdmin", "admin_Label");
   const client1 = GetTranslationData("UIAdmin", "client");
   const placeholder_enter_your_email = GetTranslationData("UIAdmin", "placeholder_enter_your_email");
-  const placeholder_mobile_number = GetTranslationData("UIAdmin", "placeholder_mobile_number");
   const placeholder_firstName = GetTranslationData("UIAdmin", "placeholder_firstName");
   const placeholder_lastName = GetTranslationData("UIAdmin", "placeholder_lastName");
-
+  const placeholder_mobile_number = GetTranslationData("UIAdmin", "placeholder_mobile_number");
   // user-role get api call
   useEffect(() => {
     dispatch(onGetUserRole());

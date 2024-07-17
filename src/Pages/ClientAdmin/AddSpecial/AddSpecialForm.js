@@ -28,6 +28,10 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const Max_Brands = GetTranslationData("UIClient", "Max_Brands  ");
   const Is_Special = GetTranslationData("UIClient", "Is_Special ");
   const Button_Text = GetTranslationData("UIAdmin", "button_Text");
+  const display_order =GetTranslationData("UIAdmin", "display_order_placeholder");
+  const section_name_placeholder =GetTranslationData("UIClient", "section_name_placeholder");
+  const brands_placeholder =GetTranslationData("UIClient", "brands_placeholder");
+  const button_text_placeholder =GetTranslationData("UIClient", "button_text_placeholder");
 
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -218,6 +222,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             }`}
                             name="fname"
                             id="name-f"
+                            placeholder={section_name_placeholder}
                             onChange={(e) => handleInput(e, "sectionName")}
                           />
                           {/* {<p className="text-danger">{error.sectionName}</p>} */}
@@ -238,6 +243,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             name="displayOrder"
                             id="displayOrder"
                             onChange={(e) => handleInput(e, "displayOrder")}
+                            placeholder={display_order}
                           />
                         </div>
 
@@ -272,6 +278,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             }`}
                             name="maximumNumberOfBrands"
                             id="maximumNumberOfBrands"
+                            placeholder={brands_placeholder}
                             onChange={(e) =>
                               handleInput(e, "maximumNumberOfBrands")
                             }
@@ -288,6 +295,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             }`}
                             id="buttonText"
                             value={formData.buttonText}
+                            placeholder={button_text_placeholder}
                             onChange={(e) => handleInput(e, "buttonText")}
                           />
                           {/* {<p className="text-danger">{error.buttonText}</p>} */}
@@ -307,6 +315,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             }`}
                             name="description"
                             id="description"
+                            placeholder={description}
                             onChange={(e) => handleInput(e, "description")}
                           />
                           {/* {<p className="text-danger">{error.description}</p>} */}

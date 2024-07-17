@@ -38,6 +38,11 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const banner_subtitle = GetTranslationData("UIClient", "banner-subTitle");
   const banner_link = GetTranslationData("UIClient", "banner-link");
   const status = GetTranslationData("UIClient", "status");
+  const title_placeholder = GetTranslationData("UIClient", "title_placeholder");
+  const subtitle_placeholder = GetTranslationData("UIClient", "subtitle_placeholder");
+  const link_placeholder = GetTranslationData("UIClient", "link_placeholder");
+  const link_text_placeholder = GetTranslationData("UIClient", "button_text_placeholder");
+  const display_order_placeholder = GetTranslationData("UIAdmin", "display_order_placeholder");
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const bannerMasterUploadImg = useSelector((state) => state.offerMasterReducer?.imgLoading);
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
@@ -286,6 +291,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                               }`}
                             id="bannerTitle"
                             value={bannerMaster.bannerTitle}
+                            placeholder={title_placeholder}
                             onChange={(e) => handleChange(e, "bannerTitle")}
                           />
                           {<p className="text-danger">{errors.bannerTitle}</p>}
@@ -302,6 +308,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                               }`}
                             id="bannerSubtitle"
                             value={bannerMaster.bannerSubtitle}
+                            placeholder={subtitle_placeholder}
                             onChange={(e) => handleChange(e, "bannerSubtitle")}
                           />
                           {<p className="text-danger">{errors.bannerSubtitle}</p>}
@@ -317,6 +324,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                               }`}
                             id="bannerLink"
                             value={bannerMaster.bannerLink}
+                            placeholder={link_placeholder}
                             onChange={(e) => handleChange(e, "bannerLink")}
                           />
                           {<p className="text-danger">{errors.bannerLink}</p>}
@@ -331,6 +339,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                               }`}
                             id="buttonText"
                             value={bannerMaster.buttonText}
+                            placeholder={link_text_placeholder}
                             onChange={(e) => handleChange(e, "buttonText")}
                           />
                           {<p className="text-danger">{errors.buttonText}</p>}
@@ -345,6 +354,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                               }`}
                             id="displayOrder"
                             value={bannerMaster.displayOrder}
+                            placeholder={display_order_placeholder}
                             onChange={(e) => handleChange(e, "displayOrder")}
                           />
                           {<p className="text-danger">{errors.displayOrder}</p>}

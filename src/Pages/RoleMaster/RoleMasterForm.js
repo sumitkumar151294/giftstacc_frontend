@@ -39,6 +39,7 @@ const RoleMasterForm = ({ data, setData }) => {
   const edit = GetTranslationData("UIAdmin", "edit");
   const description_Label = GetTranslationData("UIAdmin", "description");
   const mandatory_Req_Label = GetTranslationData("UIAdmin", "role_Req_Label");
+  const role_name = GetTranslationData("UIAdmin", "role_name");
   const dispatch = useDispatch();
   const [isformLoading, setIsFormLoading] = useState(false);
   const [checkBoxError, setCheckBoxError] = useState(false);
@@ -342,7 +343,7 @@ const RoleMasterForm = ({ data, setData }) => {
                             }`}
                             name="name"
                             id="name-f"
-                            placeholder=""
+                            placeholder={role_name}
                             value={formData.name}
                             error={errors.name}
                             onChange={handleInputChange}
@@ -362,7 +363,7 @@ const RoleMasterForm = ({ data, setData }) => {
                             }`}
                             name="description"
                             id="description"
-                            placeholder=""
+                            placeholder={description_Label}
                             value={formData.description}
                             error={errors.description}
                             onChange={handleInputChange}

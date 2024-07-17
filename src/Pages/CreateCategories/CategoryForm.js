@@ -36,6 +36,7 @@ const CategoryForm = () => {
   );
   const upload = GetTranslationData("UIClient", "upload");
   const upload_image = GetTranslationData("UIClient", "uploadImage");
+  const category_name = GetTranslationData("UIAdmin", "category_name");
   const [getImagePath, setGetImagePath] = useState("");
   const [getimagePhone, setGetImagePhone] = useState("");
   // const getModules = useSelector((state) => state.moduleReducer);
@@ -105,7 +106,7 @@ const CategoryForm = () => {
     "Supplier_name_Label"
   );
   const displayOrder = GetTranslationData("UIClient", "display-order");
-
+  const display_order_placeholder = GetTranslationData("UIAdmin", "display_order_placeholder");
   const supplierBrandTranslation = GetTranslationData(
     "UIAdmin",
     "supplierBrand"
@@ -315,8 +316,8 @@ const CategoryForm = () => {
                             }`}
                             name="categoryNam"
                             id="name-f"
-                            placeholder="Enter your category name"
-                            value={createCategory?.name}
+                            placeholder={category_name}
+                            value={createCategory.name}
                             onChange={(e) => handleChange(e, "name")}
                           />
                           {createCategory?.name?.length > 250 && (
@@ -413,7 +414,7 @@ const CategoryForm = () => {
                               errors.displayOrder ? "border-danger" : ""
                             }`}
                             id="displayOrder"
-                            placeholder="Display order"
+                            placeholder={display_order_placeholder}
                             value={createCategory.displayOrder}
                             onChange={(e) => handleChange(e, "displayOrder")}
                           />

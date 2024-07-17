@@ -29,8 +29,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     image: "",
     enabled: true,
     linkText: "",
-    startDate:"",
-    endDate:""
+    startDate: "",
+    endDate: "",
   });
   const [errors, setErrors] = useState({
     placement: "",
@@ -41,8 +41,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     image: "",
     linkText: "",
     enabled: "",
-    startDate:"",
-    endDate:""
+    startDate: "",
+    endDate: "",
   });
   // To reset the Input Field
   const resetAddData = {
@@ -54,8 +54,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     image: "",
     enabled: "",
     linkText: "",
-    startDate:"",
-    endDate:""
+    startDate: "",
+    endDate: "",
   };
 
   // To get the label from translation API
@@ -79,6 +79,10 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const enabled_Text = GetTranslationData("UIAdmin", "enabled_Text");
   const link_text = GetTranslationData("UIClient", "link_text");
+  const title_placeholder = GetTranslationData("UIClient", "title_placeholder");
+  const subtitle_placeholder = GetTranslationData("UIClient", "subtitle_placeholder");
+  const link_placeholder = GetTranslationData("UIClient", "link_placeholder");
+  const link_text_placeholder = GetTranslationData("UIClient", "link_text_placeholder");
 
   const [getImage, setGetImage] = useState(false);
   const dispatch = useDispatch();
@@ -159,7 +163,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     }
   };
 
-  const handleSubmit = (e) => { 
+  const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -173,7 +177,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
           "enabled",
           "linkText",
           "startDate",
-          "endDate"
+          "endDate",
         ]
       : [
           "placement",
@@ -185,7 +189,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
           "enabled",
           "linkText",
           "startDate",
-          "endDate"
+          "endDate",
         ];
 
     for (const key of requiredFields) {
@@ -201,7 +205,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     }
 
     setErrors(newErrors);
-    if (isValid) { 
+    if (isValid) {
       if (data?.image && !getImage) {
         const tempData = {
           ...addData,
@@ -216,7 +220,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       }
     }
   };
-  useEffect(() => { 
+  useEffect(() => {
     if (offerMasterData?.status_code_Image === "201") {
       if (!data) {
         try {
@@ -230,7 +234,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         } catch (error) {
           console.error("Error submitting offer:", error);
         }
-      } else { 
+      } else {
         try {
           const tempData = {
             ...addData,
@@ -266,9 +270,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       ErrorDesription: "",
       url: "",
       buttonText: "",
-      startDate:"",
-      endDate:""
-      
+      startDate: "",
+      endDate: "",
     });
   }, [data]);
   // useEffect(() => {
@@ -283,17 +286,17 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   //     toast.error(offerMasterData.message);
   //   }
   // }, [offerMasterData]);
-  useEffect(() => { 
+  useEffect(() => {
     if (offerMasterData.postStatus_code === "201") {
       setShowLoader(false);
       toast.success(offerMasterData?.message);
-     setAddData(resetAddData);
+      setAddData(resetAddData);
       dispatch(onPostOfferMasterReset());
       dispatch(onGetOfferMaster());
     } else if (offerMasterData.update_status_code === "201") {
       setShowLoader(false);
       toast.success(offerMasterData?.updateMessage);
-     setAddData(resetAddData);
+      setAddData(resetAddData);
       dispatch(onUpdateOfferMasterReset());
       dispatch(onGetOfferMaster());
     }
@@ -304,12 +307,12 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       setShowLoader(false);
       toast.error(offerMasterData.message);
       dispatch(onPostOfferMasterReset());
-     // setAddData(resetAddData);
+      // setAddData(resetAddData);
     } else if (offerMasterData.update_status_code === "400") {
       setShowLoader(false);
       toast.error(offerMasterData.updateMessage);
       dispatch(onUpdateOfferMasterReset());
-     // setAddData(resetAddData);
+      // setAddData(resetAddData);
     }
   }, [offerMasterData]);
   const handleDateChange = (dates, fieldName) => {
@@ -319,7 +322,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     });
     setErrors({
       ...errors,
-      [fieldName]: '',
+      [fieldName]: "",
     });
   };
   return (
@@ -372,6 +375,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             }`}
                             name="title"
                             id="title"
+                            placeholder={title_placeholder}
                           />
                           {<p className="text-danger">{errors.title}</p>}
                         </div>
@@ -389,6 +393,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             }`}
                             name="subtitle"
                             id="subtitle"
+                            placeholder={subtitle_placeholder}
                           />
                           {<p className="text-danger">{errors.subtitle}</p>}
                         </div>
@@ -406,6 +411,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             }`}
                             name="link"
                             id="link"
+                            placeholder={link_placeholder}
                           />
                           {errors.link && (
                             <small className="text-danger">{errors.link}</small>
@@ -422,6 +428,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             className={` ${
                               errors.linkText ? "border-danger" : "form-control"
                             }`}
+                            placeholder={link_text_placeholder}
                           />
                           {<p className="text-danger">{errors.linkText}</p>}
                         </div>
@@ -471,29 +478,39 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                           </div>
                         </div>
                         <div className="col-sm-4 mt-5">
-
-<InputGroup
-      className={`${(errors.startDate || errors.endDate) ? "border-danger-date" : "dateInput"}`}
-      >
-      <DatePicker
-        format="yyyy-MM-dd HH:mm:ss"
-        placeholder="Start Date"
-        value={addData.startDate ? new Date(addData.startDate) : null}
-        onChange={(e) => handleDateChange(e, 'startDate')}
-        block
-        appearance="subtle"
-      />
-      <DatePicker
-      
-        format="yyyy-MM-dd HH:mm:ss"
-        placeholder="End Date"
-        value={addData.endDate ? new Date(addData.endDate) : null}
-        onChange={(e) => handleDateChange(e, 'endDate')}
-        block
-        appearance="subtle"
-      />
-    </InputGroup>
-    </div>
+                          <InputGroup
+                            className={`${
+                              errors.startDate || errors.endDate
+                                ? "border-danger-date"
+                                : "dateInput"
+                            }`}
+                          >
+                            <DatePicker
+                              format="yyyy-MM-dd HH:mm:ss"
+                              placeholder="Start Date"
+                              value={
+                                addData.startDate
+                                  ? new Date(addData.startDate)
+                                  : null
+                              }
+                              onChange={(e) => handleDateChange(e, "startDate")}
+                              block
+                              appearance="subtle"
+                            />
+                            <DatePicker
+                              format="yyyy-MM-dd HH:mm:ss"
+                              placeholder="End Date"
+                              value={
+                                addData.endDate
+                                  ? new Date(addData.endDate)
+                                  : null
+                              }
+                              onChange={(e) => handleDateChange(e, "endDate")}
+                              block
+                              appearance="subtle"
+                            />
+                          </InputGroup>
+                        </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="enabled">
                             {status}
