@@ -50,10 +50,11 @@ const SupplierMasterList = () => {
     (state) => state.supplierMasterReducer
   );
   const headers = [
-    { label: "Id", key: "id" },
-    { label: "Name", key: "name" },
+    { label: "Supplier Client ID", key: "id" },
+    { label: "Supplier Name", key: "name" },
     { label: "Balance Available", key: "creditAmount" },
     { label: "Min Threshold Amount", key: "balanceThresholdAmount" },
+    { label: "Service Path", key: "servicePath" },
     { label: "Status", key: "status" },
   ];
 
@@ -108,23 +109,23 @@ const SupplierMasterList = () => {
     dispatch(onGetSupplierResource());
   }, []);
   const filteredVendorList = Array.isArray(supplierMasterData?.data)
-    ? supplierMasterData?.data.filter(
-        (vendor) =>
-          Object.values(vendor).some(
-            (value) =>
-              value &&
+  ? supplierMasterData?.data.filter(
+    (vendor) =>
+      Object.values(vendor).some(
+        (value) =>
+          value &&
               typeof value === "string" &&
               value.toLowerCase().includes(searchQuery)
-          ) ||
-          vendor.id.toString().toLowerCase().includes(searchQuery) ||
-          vendor.creditAmount.toString().toLowerCase().includes(searchQuery) ||
-          vendor.balanceThresholdAmount
+            ) ||
+            vendor.id.toString().toLowerCase().includes(searchQuery) ||
+            vendor.creditAmount.toString().toLowerCase().includes(searchQuery) ||
+            vendor.balanceThresholdAmount
             .toString()
             .toLowerCase()
             .includes(searchQuery)
-      )
-    : [];
-
+          )
+          : [];
+          
   // excel data
   const excelData =
     Array.isArray(supplierMasterData?.data) &&
@@ -133,6 +134,7 @@ const SupplierMasterList = () => {
       name: data.name,
       creditAmount: data.creditAmount,
       balanceThresholdAmount: data.balanceThresholdAmount,
+      servicePath: data.servicePath,
       status: data.enabled ? active : nonActive,
     }));
 
@@ -237,7 +239,7 @@ const SupplierMasterList = () => {
                                       </span>
                                     </td>
                                     <td>{vendor.balanceThresholdAmount}</td>
-                                    <td>{vendor.servicePath}</td>
+                                    <td className="truncate">{vendor.servicePath}</td>
 
                                     <td>
                                       <span

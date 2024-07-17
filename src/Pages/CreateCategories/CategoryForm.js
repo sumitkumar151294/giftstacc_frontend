@@ -23,6 +23,10 @@ import {
 
 const CategoryForm = () => {
   const dispatch = useDispatch();
+  const [Data, setData] = useState("");
+  const [filterData, setFilterData] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
   const [supplierBrandListData, setSupplierBrandListData] = useState([]);
   const supplierBrandData = useSelector(
     (state) => state.supplierBrandListReducer.data
@@ -34,12 +38,22 @@ const CategoryForm = () => {
   const upload_image = GetTranslationData("UIClient", "uploadImage");
   const category_name = GetTranslationData("UIAdmin", "category_name");
   const [getImagePath, setGetImagePath] = useState("");
+  const [getimagePhone, setGetImagePhone] = useState("");
   // const getModules = useSelector((state) => state.moduleReducer);
   // const getModulesRoleId = getModules?.data;
   // const getRolesAccess = getModules?.filteredData;
 
   // const findRoleAccess = getRolesAccess.filte(r)
   // const supplierBrandListData = useSelector((state)=> state?.supplierBrandListReducer?.data);
+
+  const handleSelect = (name) => {
+    setCreateCategory({
+      ...createCategory,
+      name,
+    });
+
+    setIsOpen(!isOpen);
+  };
   const [errors, setErrors] = useState({
     name: "",
     supplierId: "",
@@ -51,6 +65,7 @@ const CategoryForm = () => {
     supplierBrandId: "",
     name: "",
     image: false,
+    imagephone: false,
     displayOrder: "",
     displayHeader: false,
   });
@@ -101,7 +116,6 @@ const CategoryForm = () => {
     "required_label"
   );
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
-  const field_Required = GetTranslationData("UIAdmin", "field_Required");
   const displayHeader = GetTranslationData("UIAdmin", "display_Header");
 
   const handleChange = (e, fieldName) => {
@@ -124,12 +138,25 @@ const CategoryForm = () => {
       } else {
         e.target.value = "";
       }
+    } else if (fieldName === "imagePhone") {
+      const file = e?.target?.files?.[0];
+      if (file) {
+        const formData = new FormData();
+        formData?.append("file", file);
+        setGetImagePhone(formData);
+        setCreateCategory({
+          ...createCategory,
+          imagephone: formData,
+        });
+      } else {
+        e.target.value = "";
+      }
     } else if (fieldName === "supplierId") {
       let supplierList = [];
       Array.isArray(supplierBrandData) &&
         supplierBrandData
           ?.filter((item) => {
-                  return (
+            return (
               item.supplierCode ===
                 e.target.selectedOptions.item("").getAttribute("name") &&
               item.enabled !== false
@@ -142,6 +169,21 @@ const CategoryForm = () => {
       setCreateCategory({
         ...createCategory,
         supplierBrandId: "",
+        [fieldName]: value,
+      });
+    } else if (fieldName === "name") {
+      const filterData =
+        Array.isArray(getCategoriesData?.categoryData) &&
+        getCategoriesData?.categoryData?.filter((category) => {
+          return (
+            category.name &&
+            category.name.toLowerCase().includes(value.toLowerCase())
+          );
+        });
+      setData(value);
+      setFilterData(filterData);
+      setCreateCategory({
+        ...createCategory,
         [fieldName]: value,
       });
     } else {
@@ -178,9 +220,13 @@ const CategoryForm = () => {
       }
     }
     setErrors(newErrors);
-    if (isValid &&(createCategory.image !== false && createCategory.image !== "")) {
-      dispatch(onUploadImage(getImagePath));
-    } else if (isValid && createCategory.image === false)  {
+    if (
+      isValid &&
+      createCategory.image !== false &&
+      createCategory.image !== ""
+    ) {
+      dispatch(onUploadImage(getImagePath,getimagePhone));
+    } else if (isValid && createCategory.image === false) {
       dispatch(
         onPostCategory({
           ...createCategory,
@@ -188,6 +234,7 @@ const CategoryForm = () => {
           supplierBrandId: parseInt(createCategory?.supplierBrandId),
           displayOrder: parseInt(createCategory?.displayOrder),
           image: "false",
+          imagephone:"false"
         })
       );
     }
@@ -227,7 +274,13 @@ const CategoryForm = () => {
       setCreateCategory(resetCategoryFields);
     }
   }, [getCategoriesData]);
-
+  useEffect(() => {
+    if (Data) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [Data]);
   return (
     <>
       <ScrollToTop />
@@ -267,8 +320,27 @@ const CategoryForm = () => {
                             value={createCategory.name}
                             onChange={(e) => handleChange(e, "name")}
                           />
-                          {createCategory.name.length > 250 && (
+                          {createCategory?.name?.length > 250 && (
                             <p className="text-danger">{errors.name}</p>
+                          )}
+
+                          {isOpen && filterData.length > 0 && (
+                            <span className="form-select">
+                              <ul>
+                                {[
+                                  ...new Set(
+                                    filterData.map((item) => item.name)
+                                  ),
+                                ].map((uniqueName, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => handleSelect(uniqueName)}
+                                  >
+                                    {uniqueName}
+                                  </li>
+                                ))}
+                              </ul>
+                            </span>
                           )}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
@@ -350,7 +422,7 @@ const CategoryForm = () => {
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="image">
-                            {upload_image}
+                            {upload_image} for web
                             <span className="text-danger"></span>
                           </label>
                           <div className="input-group">
@@ -358,7 +430,6 @@ const CategoryForm = () => {
                               <InputField
                                 type="file"
                                 accept="image/jpg,image/png"
-                                // value={createCategory.displayHeader}
                                 onChange={(e) => handleChange(e, "image")}
                               />
                             </div>
@@ -366,7 +437,23 @@ const CategoryForm = () => {
                             <span className="input-group-text">{upload}</span>
                           </div>
                         </div>
-                        
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="image">
+                            {upload_image} for phone
+                            <span className="text-danger"></span>
+                          </label>
+                          <div className="input-group">
+                            <div className="form-file">
+                              <InputField
+                                type="file"
+                                accept="image/jpg,image/png"
+                                onChange={(e) => handleChange(e, "imagephone")}
+                              />
+                            </div>
+
+                            <span className="input-group-text">{upload}</span>
+                          </div>
+                        </div>
                         <div className="col-sm-3 form-group mb-2">
                           <div className="form-check mt-4 padd">
                             <InputField
