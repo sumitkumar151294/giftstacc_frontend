@@ -29,7 +29,6 @@ export const Chart = () => {
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data?.[0]?.totalCount
   );
-console.log(SupplierBrandList)
     const donutChartOptions = {
       labels: ['Progress', 'Remaining'],
       plotOptions: {

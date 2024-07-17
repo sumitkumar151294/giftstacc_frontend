@@ -219,7 +219,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
 
   const handleChange = (e, fieldName) => {
     let values = e.target.value;
-    if (fieldName === "enabled") { 
+    if (fieldName === "enabled") {
       if (values === "true" || values === "false") {
         values = values === "true";
       } else {
@@ -488,10 +488,10 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   useEffect(() => {
     if (getClientPaymentdata.post_status_code === "201") {
       setShowLoader(false);
-      toast.success(getClientPaymentdata.postMessage);
       dispatch(onPostClientPaymentReset());
       dispatch(onClientMasterSubmit());
       dispatch(onClientPaymentSubmit());
+      toast.success(getClientPaymentdata.postMessage);
       setClientData(resetFields);
       setAdditionalFields(resetAdditionalFields);
     }
@@ -500,11 +500,11 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
   useEffect(() => {
     if (clientMasterDetails.update_status_code === "201") {
       setShowLoader(false);
-      toast.success(clientMasterDetails?.updateMessage);
       dispatch(onClientMasterSubmit());
       dispatch(onClientPaymentSubmit());
       dispatch(onUpdateClientMasterReset());
       setClientData(resetFields);
+      toast.success(clientMasterDetails?.updateMessage);
       setdata("");
       setAdditionalFields(resetAdditionalFields);
     }
@@ -559,7 +559,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           value={clientData.name}
                           onChange={(e) => handleChange(e, "name")}
                         />
-                        <p className="text-danger">{errors.name}</p>
+                        {/* <p className="text-danger">{errors.name}</p> */}
                       </div>
                       <div className="col-sm-6 form-group ">
                         <label htmlFor="contact-number">
@@ -596,7 +596,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           error={errors.email}
                           onChange={(e) => handleChange(e, "email")}
                         />
-                        {<p className="text-danger">{errors.email}</p>}
+                        {/* {<p className="text-danger">{errors.email}</p>} */}
                       </div>
                       <div className="col-sm-6 form-group">
                         <label htmlFor="platformDomainUrl">
@@ -613,7 +613,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           error={errors.platformDomainUrl}
                           onChange={(e) => handleChange(e, "platformDomainUrl")}
                         />
-                        <p className="text-danger">{errors.platformDomainUrl}</p>
+                        {/* <p className="text-danger">{errors.platformDomainUrl}</p> */}
                       </div>
                       <div className="col-sm-6 form-group mb-2">
                         <label htmlFor="status">
@@ -665,7 +665,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           value={clientData.logoUrl}
                           onChange={(e) => handleChange(e, "logoUrl")}
                         />
-                        <p className="text-danger">{errors.logoUrl}</p>
+                        {/* <p className="text-danger">{errors.logoUrl}</p> */}
                       </div>
                       <div className="col-sm-3 form-group mb-2">
                         <label htmlFor="status">
@@ -701,7 +701,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_ipAddress}
                             onChange={(e) => handleChange(e, "dbIpAddress")}
                           />
-                          <p className="text-danger">{errors.dbIpAddress}</p>
+                          {/* <p className="text-danger">{errors.dbIpAddress}</p> */}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">
@@ -721,7 +721,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_userId}
                             onChange={(e) => handleChange(e, "dbLoginId")}
                           />
-                          <p className="text-danger">{errors.dbLoginId}</p>
+                          {/* <p className="text-danger">{errors.dbIpAddress}</p> */}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">
@@ -741,7 +741,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_userPassword}
                             onChange={(e) => handleChange(e, "dbLoginPwd")}
                           />
-                          <p className="text-danger">{errors.dbLoginPwd}</p>
+                          {/* <p className="text-danger">{errors.dbLoginPwd}</p> */}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <h4 htmlFor="contact-name">
@@ -761,7 +761,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                             placeholder={dc_name}
                             onChange={(e) => handleChange(e, "dbName")}
                           />
-                          <p className="text-danger">{errors.dbName}</p>
+                          {/* <p className="text-danger">{errors.dbName}</p> */}
                         </div>
                       </div>
 
@@ -799,9 +799,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                         );
                                       }}
                                     />
-                                    <p className="text-danger">
-                                      {additionalFieldsError[index].resourceKey}
-                                    </p>
+                                    {/* <p className="text-danger">{additionalFieldsError[index].resourceKey}</p> */}
                                   </div>
                                 </div>
                               </div>
@@ -834,12 +832,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                         );
                                       }}
                                     />
-                                    <p className="text-danger">
-                                      {
-                                        additionalFieldsError[index]
-                                          .resourceValue
-                                      }
-                                    </p>
+                                    {/* <p className="text-danger"> {additionalFieldsError[index].resourceValue} </p> */}
                                   </div>
                                 </div>
                               </div>
@@ -853,7 +846,7 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                                     <Dropdown
                                       type="text"
                                       className={` ${additionalFieldsError[index]?.mode
-                                        ? "border-danger"
+                                        ? "border-danger-select"
                                         : "form-select"
                                         }`}
                                       name="mode"
@@ -904,12 +897,12 @@ const ClientMaster = ({ data, clientPayData, setdata }) => {
                           onClick={handleSubmit}
                           className="btn btn-primary btn-sm float-right p-btn mb-5 mt-2"
                         />
-                        <ToastContainer />
                       </div>
                     </div>
                   </div>
                 )}
               </div>
+              <ToastContainer />
             </div>
           </div>
         </div>
