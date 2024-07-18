@@ -18,7 +18,10 @@ import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlic
 import Button from "../../Components/Button/Button";
 import {
   onUploadImage,
+  onUploadImageMobile,
+  onUploadImageMobileReset,
   onUploadImageReset,
+
 } from "../../Store/Slices/ClientAdmin/offerMasterSlice";
 
 const CategoryForm = () => {
@@ -64,11 +67,12 @@ const CategoryForm = () => {
     supplierBrandId: "",
     name: "",
     image: false,
-    imagephone: false,
+    mobileImage: false,
     displayOrder: "",
     displayHeader: false,
   });
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
+  
 
   const getCategoriesData = useSelector((state) => state.createCategoryReducer);
   const getSuppliermasterData = useSelector(
@@ -137,7 +141,7 @@ const CategoryForm = () => {
       } else {
         e.target.value = "";
       }
-    } else if (fieldName === "imagePhone") {
+    }  else if (fieldName === "mobileImage") {
       const file = e?.target?.files?.[0];
       if (file) {
         const formData = new FormData();
@@ -145,7 +149,7 @@ const CategoryForm = () => {
         setGetImagePhone(formData);
         setCreateCategory({
           ...createCategory,
-          imagephone: formData,
+          mobileImage: formData,
         });
       } else {
         e.target.value = "";
@@ -219,13 +223,11 @@ const CategoryForm = () => {
       }
     }
     setErrors(newErrors);
-    if (
-      isValid &&
-      createCategory.image !== false &&
-      createCategory.image !== ""
-    ) {
-      dispatch(onUploadImage(getImagePath,getimagePhone));
-    } else if (isValid && createCategory.image === false) {
+    if (isValid &&  createCategory.image ) {
+      dispatch(onUploadImage(getImagePath));
+    }  if(isValid &&  createCategory.mobileImage){
+      dispatch(onUploadImageMobile(getimagePhone));
+    } else if (isValid && !createCategory.image) {
       dispatch(
         onPostCategory({
           ...createCategory,
@@ -233,14 +235,13 @@ const CategoryForm = () => {
           supplierBrandId: parseInt(createCategory?.supplierBrandId),
           displayOrder: parseInt(createCategory?.displayOrder),
           image: "false",
-          imagephone:"false"
+          mobileImage:"false"
         })
       );
     }
   };
   useEffect(() => {
     if (offerMasterData?.status_code_Image === "201") {
-      dispatch(onUploadImageReset());
       try {
         dispatch(
           onPostCategory({
@@ -249,6 +250,7 @@ const CategoryForm = () => {
             supplierBrandId: parseInt(createCategory?.supplierBrandId),
             displayOrder: parseInt(createCategory?.displayOrder),
             image: offerMasterData?.imageUpload,
+            mobileImage: offerMasterData?.imageMobileUpload,
           })
         );
       } catch (error) {}
@@ -260,6 +262,8 @@ const CategoryForm = () => {
       toast.error(getCategoriesData?.postMessage);
       dispatch(onPostCategoryReset());
       dispatch(onGetCategory());
+      dispatch(onUploadImageReset());
+      dispatch(onUploadImageMobileReset())
       setCreateCategory(resetCategoryFields);
     } else if (getCategoriesData.update_status_code === "201") {
       toast.success(getCategoriesData?.updateMessage);
@@ -446,7 +450,7 @@ const CategoryForm = () => {
                               <InputField
                                 type="file"
                                 accept="image/jpg,image/png"
-                                onChange={(e) => handleChange(e, "imagephone")}
+                                onChange={(e) => handleChange(e, "mobileImage")}
                               />
                             </div>
 

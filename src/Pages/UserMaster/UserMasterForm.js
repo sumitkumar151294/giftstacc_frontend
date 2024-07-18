@@ -260,9 +260,13 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
     if (onSubmitData?.status_code === "201") {
       toast.success(onSubmitData?.message);
       dispatch(onUserSubmitReset());
-      setTimeout(() => {
+
         dispatch(onGetUser());
-      }, 1000);
+
+      resetData();
+    }else if(onSubmitData?.status_code){
+      toast.error(onSubmitData?.message);
+      dispatch(onUserSubmitReset())
       resetData();
     }
   }, [onSubmitData, dispatch]);
@@ -277,7 +281,8 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                 <h4 className="card-title">{userMaster}</h4>
               </div>
               <div className="card-body">
-                {roleList?.isLoading ? (
+                {console.log(onSubmitData?.isLoading)}
+                {onSubmitData?.isLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>

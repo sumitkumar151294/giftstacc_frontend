@@ -27,7 +27,7 @@ export const onUploadImageApi = async (payload) => {
       },
     };
 
-    const { data = {} } = await axiosInstanceClient.post(
+    const { data = [] } = await axiosInstanceClient.post(
       API.upload_Img,
       payload,
       config
