@@ -19,6 +19,9 @@ import {
   onUploadImageError,
   onUploadImageSuccess,
   onUploadImage,
+  onUploadImageMobileSuccess,
+  onUploadImageMobileError,
+  onUploadImageMobile,
 } from "../../Store/Slices/ClientAdmin/offerMasterSlice";
 
 function* PostOfferMaster({ payload }) {
@@ -44,7 +47,7 @@ function* PostOfferMaster({ payload }) {
   } catch (error) {
     yield put(
       onPostOfferMasterError({
-        postData: {},
+        postData: [],
         message: error?.response?.data?.ErrorMessage,
         postStatus_code: error?.response?.data?.HttpStatusCode,
       })
@@ -76,7 +79,7 @@ function* GetOfferMaster() {
     const message = error.message || "Something went wrong";
     yield put(
       onGetOfferMasterError({
-        getData: {},
+        getData: [],
         message,
         status_code: error.response.status,
       })
@@ -110,7 +113,7 @@ function* PutOfferMaster({ payload }) {
   } catch (error) {
     yield put(
       onUpdateOfferMasterError({
-        updateData: {},
+        updateData: [],
         updateMessage: error?.response?.data?.ErrorMessage,
         update_status_code: error?.response?.data?.HttpStatusCode,
       })
@@ -139,13 +142,38 @@ function* OnImageUpload({ payload }) {
     }
   } catch (error) {
     const message = error.response || "Something went wrong";
-    yield put(onUploadImageError({ data: {}, message, status_code: 400 }));
+    yield put(onUploadImageError({ data: [], message, status_code: 400 }));
   }
 }
-
+function* OnImageMobileUpload({ payload }) {
+  try {
+    const ImageMobileUpload = yield call(onUploadImageApi, payload);
+    if (ImageMobileUpload.httpStatusCode === "201") {
+      yield put(
+        onUploadImageMobileSuccess({
+          data: ImageMobileUpload.response,
+          message: ImageMobileUpload.errorMessage,
+          status_code_Image: ImageMobileUpload.httpStatusCode,
+        })
+      );
+    } else {
+      yield put(
+        onUploadImageMobileError({
+          data: ImageMobileUpload.response,
+          message: ImageMobileUpload.errorMessage,
+          status_code_Image: ImageMobileUpload.httpStatusCode,
+        })
+      );
+    }
+  } catch (error) {
+    const message = error.response || "Something went wrong";
+    yield put(onUploadImageError({ data: [], message, status_code: 400 }));
+  }
+}
 export default function* offerMasterSaga() {
   yield takeLatest(onPostOfferMasterSubmit.type, PostOfferMaster);
   yield takeLatest(onGetOfferMaster.type, GetOfferMaster);
   yield takeLatest(onUploadImage.type, OnImageUpload);
+  yield takeLatest(onUploadImageMobile.type, OnImageMobileUpload);
   yield takeLatest(onUpdateOfferMaster.type, PutOfferMaster);
 }

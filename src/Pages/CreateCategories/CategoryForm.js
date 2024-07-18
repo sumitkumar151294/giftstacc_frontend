@@ -18,7 +18,10 @@ import { onGetSupplierBrandList } from "../../Store/Slices/supplierBrandListSlic
 import Button from "../../Components/Button/Button";
 import {
   onUploadImage,
+  onUploadImageMobile,
+  onUploadImageMobileReset,
   onUploadImageReset,
+
 } from "../../Store/Slices/ClientAdmin/offerMasterSlice";
 
 const CategoryForm = () => {
@@ -36,7 +39,6 @@ const CategoryForm = () => {
   );
   const upload = GetTranslationData("UIClient", "upload");
   const upload_image = GetTranslationData("UIClient", "uploadImage");
-  const category_name = GetTranslationData("UIAdmin", "category_name");
   const [getImagePath, setGetImagePath] = useState("");
   const [getimagePhone, setGetImagePhone] = useState("");
   // const getModules = useSelector((state) => state.moduleReducer);
@@ -65,11 +67,12 @@ const CategoryForm = () => {
     supplierBrandId: "",
     name: "",
     image: false,
-    imagephone: false,
+    mobileImage: false,
     displayOrder: "",
     displayHeader: false,
   });
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
+  
 
   const getCategoriesData = useSelector((state) => state.createCategoryReducer);
   const getSuppliermasterData = useSelector(
@@ -106,7 +109,7 @@ const CategoryForm = () => {
     "Supplier_name_Label"
   );
   const displayOrder = GetTranslationData("UIClient", "display-order");
-  const display_order_placeholder = GetTranslationData("UIAdmin", "display_order_placeholder");
+
   const supplierBrandTranslation = GetTranslationData(
     "UIAdmin",
     "supplierBrand"
@@ -128,28 +131,17 @@ const CategoryForm = () => {
     } else if (fieldName === "image") {
       const file = e?.target?.files?.[0];
       if (file) {
-        const img = new Image();
-        img.onload = () => {
-          if (img.width === 128 && img.height === 128) {
-            const formData = new FormData();
-            formData.append("file", file);
-            setGetImagePath(formData);
-            setErrors({
-              ...errors,
-              [fieldName]: "",
-            });
-          } else {
-            setErrors({
-              ...errors,
-              [fieldName]: "Image should be 582px by 336px",
-            });
-          }
-        };
-        img.src = URL.createObjectURL(file);
+        const formData = new FormData();
+        formData?.append("file", file);
+        setGetImagePath(formData);
+        setCreateCategory({
+          ...createCategory,
+          image: formData,
+        });
       } else {
         e.target.value = "";
       }
-    } else if (fieldName === "imagePhone") {
+    }  else if (fieldName === "mobileImage") {
       const file = e?.target?.files?.[0];
       if (file) {
         const formData = new FormData();
@@ -157,7 +149,7 @@ const CategoryForm = () => {
         setGetImagePhone(formData);
         setCreateCategory({
           ...createCategory,
-          imagephone: formData,
+          mobileImage: formData,
         });
       } else {
         e.target.value = "";
@@ -231,13 +223,11 @@ const CategoryForm = () => {
       }
     }
     setErrors(newErrors);
-    if (
-      isValid &&
-      createCategory.image !== false &&
-      createCategory.image !== ""
-    ) {
-      dispatch(onUploadImage(getImagePath,getimagePhone));
-    } else if (isValid && createCategory.image === false) {
+    if (isValid &&  createCategory.image ) {
+      dispatch(onUploadImage(getImagePath));
+    }  if(isValid &&  createCategory.mobileImage){
+      dispatch(onUploadImageMobile(getimagePhone));
+    } else if (isValid && !createCategory.image) {
       dispatch(
         onPostCategory({
           ...createCategory,
@@ -245,14 +235,13 @@ const CategoryForm = () => {
           supplierBrandId: parseInt(createCategory?.supplierBrandId),
           displayOrder: parseInt(createCategory?.displayOrder),
           image: "false",
-          imagephone:"false"
+          mobileImage:"false"
         })
       );
     }
   };
   useEffect(() => {
     if (offerMasterData?.status_code_Image === "201") {
-      dispatch(onUploadImageReset());
       try {
         dispatch(
           onPostCategory({
@@ -261,6 +250,7 @@ const CategoryForm = () => {
             supplierBrandId: parseInt(createCategory?.supplierBrandId),
             displayOrder: parseInt(createCategory?.displayOrder),
             image: offerMasterData?.imageUpload,
+            mobileImage: offerMasterData?.imageMobileUpload,
           })
         );
       } catch (error) {}
@@ -272,6 +262,8 @@ const CategoryForm = () => {
       toast.error(getCategoriesData?.postMessage);
       dispatch(onPostCategoryReset());
       dispatch(onGetCategory());
+      dispatch(onUploadImageReset());
+      dispatch(onUploadImageMobileReset())
       setCreateCategory(resetCategoryFields);
     } else if (getCategoriesData.update_status_code === "201") {
       toast.success(getCategoriesData?.updateMessage);
@@ -327,8 +319,8 @@ const CategoryForm = () => {
                             }`}
                             name="categoryNam"
                             id="name-f"
-                            placeholder={category_name}
-                            value={createCategory.name}
+                            placeholder="Enter your category name"
+                            value={createCategory?.name}
                             onChange={(e) => handleChange(e, "name")}
                           />
                           {createCategory?.name?.length > 250 && (
@@ -425,7 +417,7 @@ const CategoryForm = () => {
                               errors.displayOrder ? "border-danger" : ""
                             }`}
                             id="displayOrder"
-                            placeholder={display_order_placeholder}
+                            placeholder="Display order"
                             value={createCategory.displayOrder}
                             onChange={(e) => handleChange(e, "displayOrder")}
                           />
@@ -444,9 +436,9 @@ const CategoryForm = () => {
                                 onChange={(e) => handleChange(e, "image")}
                               />
                             </div>
+
                             <span className="input-group-text">{upload}</span>
                           </div>
-                          {<p className="text-danger">{errors.image}</p>}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="image">
@@ -458,7 +450,7 @@ const CategoryForm = () => {
                               <InputField
                                 type="file"
                                 accept="image/jpg,image/png"
-                                onChange={(e) => handleChange(e, "imagephone")}
+                                onChange={(e) => handleChange(e, "mobileImage")}
                               />
                             </div>
 

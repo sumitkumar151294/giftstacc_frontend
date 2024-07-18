@@ -13,7 +13,7 @@ export const userRoleSlice = createSlice({
     onGetUserRole: (state) => {
       return {
         ...state,
-        getUserRoleLoading: true,
+        getUserRoleLoading: false,
         isError: false,
         userRoleData: {},  
         error: {},

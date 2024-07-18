@@ -66,6 +66,7 @@ const CategoryList = () => {
   const displayHeader = GetTranslationData("UIAdmin", "Display_In_Header_Text");
   const image = GetTranslationData("UIAdmin", "image_Text");
   const displayOrder = GetTranslationData("UIClient", "display-order");
+  const mobileImage = GetTranslationData("UIClient", "mobil_image");
 
   // To get the Supplier Name in the Category List
   const getSupplierName = (supplierId) => {
@@ -225,6 +226,7 @@ const CategoryList = () => {
                                 <th>{supplierBrand}</th>
                                 <th>{displayOrder}</th>
                                 <th>{image}</th>
+                                <th>{mobileImage}</th>
                                 <th>{displayHeader}</th>
 
                                 {getRoleAccess[0]?.editAccess && (
@@ -255,6 +257,21 @@ const CategoryList = () => {
                                           data?.image === "false"
                                             ? ""
                                             : data.image
+                                        }
+                                      />
+                                    </td>
+                                    <td>
+                                      <img
+                                        src={
+                                          data.mobileImage === "false"
+                                            ? defaultImage
+                                            : `${process.env.REACT_APP_CLIENT_URL}${data.mobileImage}`
+                                        }
+                                        style={{ width: "50px" }}
+                                        alt={
+                                          data?.mobileImage === "false"
+                                            ? ""
+                                            : data.mobileImage
                                         }
                                       />
                                     </td>
