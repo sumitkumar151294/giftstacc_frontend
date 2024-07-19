@@ -143,7 +143,7 @@ export const offerMasterSlice = createSlice({
     onUploadImageReset: (state) => {
       return {
         ...state,
-        imageUpload: [],
+        imageUpload: "",
         message: "",
         status_code_Image: null,
         imgLoading:false,
@@ -154,38 +154,38 @@ export const offerMasterSlice = createSlice({
         ...state,
         imageMobileUpload: [],
         message: "",
-        status_code_Image: null,
+        status_code_MobileImage: null,
         imgLoading:true,
       };
     },
 
     onUploadImageMobileSuccess: (state, { payload }) => {
-      const { data = [], message = "", status_code_Image = 200 } = payload;
+      const { data = [], message = "", status_code_MobileImage = 200 } = payload;
       return {
         ...state,
         imageMobileUpload: data,
         message,
-        status_code_Image,
+        status_code_MobileImage,
         imgLoading:false,
       };
     },
 
     onUploadImageMobileError: (state, { payload }) => {
-      const { data = [], message = "", status_code_Image = 400 } = payload;
+      const { data = [], message = "", status_code_MobileImage = 400 } = payload;
       return {
         ...state,
         imageMobileUpload: data,
         message,
-        status_code_Image,
+        status_code_MobileImage,
         imgLoading:false,
       };
     },
     onUploadImageMobileReset: (state) => {
       return {
         ...state,
-        imageMobileUpload: [],
+        imageMobileUpload: "",
         message: "",
-        status_code_Image: null,
+        status_code_MobileImage: null,
         imgLoading:false,
       };
     },

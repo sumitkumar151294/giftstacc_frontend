@@ -153,7 +153,7 @@ function* OnImageMobileUpload({ payload }) {
         onUploadImageMobileSuccess({
           data: ImageMobileUpload.response,
           message: ImageMobileUpload.errorMessage,
-          status_code_Image: ImageMobileUpload.httpStatusCode,
+          status_code_MobileImage: ImageMobileUpload.httpStatusCode,
         })
       );
     } else {
@@ -161,7 +161,7 @@ function* OnImageMobileUpload({ payload }) {
         onUploadImageMobileError({
           data: ImageMobileUpload.response,
           message: ImageMobileUpload.errorMessage,
-          status_code_Image: ImageMobileUpload.httpStatusCode,
+          status_code_MobileImage: ImageMobileUpload.httpStatusCode,
         })
       );
     }

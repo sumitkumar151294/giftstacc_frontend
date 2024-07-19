@@ -21,7 +21,6 @@ import {
   onUploadImageMobile,
   onUploadImageMobileReset,
   onUploadImageReset,
-
 } from "../../Store/Slices/ClientAdmin/offerMasterSlice";
 
 const CategoryForm = () => {
@@ -29,7 +28,8 @@ const CategoryForm = () => {
   const [Data, setData] = useState("");
   const [filterData, setFilterData] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [visible, setVisible] = useState(false);
+  const [webvisible, setwebVisible] = useState(false);
   const [supplierBrandListData, setSupplierBrandListData] = useState([]);
   const supplierBrandData = useSelector(
     (state) => state.supplierBrandListReducer.data
@@ -72,7 +72,6 @@ const CategoryForm = () => {
     displayHeader: false,
   });
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
-  
 
   const getCategoriesData = useSelector((state) => state.createCategoryReducer);
   const getSuppliermasterData = useSelector(
@@ -141,7 +140,7 @@ const CategoryForm = () => {
       } else {
         e.target.value = "";
       }
-    }  else if (fieldName === "mobileImage") {
+    } else if (fieldName === "mobileImage") {
       const file = e?.target?.files?.[0];
       if (file) {
         const formData = new FormData();
@@ -223,37 +222,61 @@ const CategoryForm = () => {
       }
     }
     setErrors(newErrors);
-    if (isValid &&  createCategory.image ) {
+    if (isValid && createCategory.image) {
       dispatch(onUploadImage(getImagePath));
-    }  if(isValid &&  createCategory.mobileImage){
+    }
+    if (isValid && createCategory.mobileImage) {
       dispatch(onUploadImageMobile(getimagePhone));
-    } else if (isValid && !createCategory.image) {
-      dispatch(
-        onPostCategory({
-          ...createCategory,
-          supplierId: parseInt(createCategory?.supplierId),
-          supplierBrandId: parseInt(createCategory?.supplierBrandId),
-          displayOrder: parseInt(createCategory?.displayOrder),
-          image: "false",
-          mobileImage:"false"
-        })
-      );
     }
   };
   useEffect(() => {
-    if (offerMasterData?.status_code_Image === "201") {
-      try {
-        dispatch(
-          onPostCategory({
-            ...createCategory,
-            supplierId: parseInt(createCategory?.supplierId),
-            supplierBrandId: parseInt(createCategory?.supplierBrandId),
-            displayOrder: parseInt(createCategory?.displayOrder),
-            image: offerMasterData?.imageUpload,
-            mobileImage: offerMasterData?.imageMobileUpload,
-          })
-        );
-      } catch (error) {}
+    if(createCategory.image && createCategory.mobileImage){
+
+      if (offerMasterData?.status_code_Image === "201" && offerMasterData?.status_code_MobileImage === "201") {
+        try {
+          dispatch(
+            onPostCategory({
+              ...createCategory,
+              supplierId: parseInt(createCategory?.supplierId),
+              supplierBrandId: parseInt(createCategory?.supplierBrandId),
+              displayOrder: parseInt(createCategory?.displayOrder),
+              image: offerMasterData?.imageUpload ,
+              mobileImage: offerMasterData?.imageMobileUpload ,
+            })
+          );
+        } catch (error) {}
+      }
+    }else if(createCategory.image && !createCategory.mobileImage){
+      if (offerMasterData?.status_code_Image === "201") {
+        try {
+          dispatch(
+            onPostCategory({
+              ...createCategory,
+              supplierId: parseInt(createCategory?.supplierId),
+              supplierBrandId: parseInt(createCategory?.supplierBrandId),
+              displayOrder: parseInt(createCategory?.displayOrder),
+              image: offerMasterData?.imageUpload  ,
+              mobileImage: offerMasterData?.imageMobileUpload ,
+            })
+          );
+        } catch (error) {}
+      }
+    }
+    else if(!createCategory.image && createCategory.mobileImage){
+      if (offerMasterData?.status_code_MobileImage === "201") {
+        try {
+          dispatch(
+            onPostCategory({
+              ...createCategory,
+              supplierId: parseInt(createCategory?.supplierId),
+              supplierBrandId: parseInt(createCategory?.supplierBrandId),
+              displayOrder: parseInt(createCategory?.displayOrder),
+              image: offerMasterData?.imageUpload  ,
+              mobileImage: offerMasterData?.imageMobileUpload ,
+            })
+          );
+        } catch (error) {}
+      }
     }
   }, [offerMasterData]);
 
@@ -263,7 +286,7 @@ const CategoryForm = () => {
       dispatch(onPostCategoryReset());
       dispatch(onGetCategory());
       dispatch(onUploadImageReset());
-      dispatch(onUploadImageMobileReset())
+      dispatch(onUploadImageMobileReset());
       setCreateCategory(resetCategoryFields);
     } else if (getCategoriesData.update_status_code === "201") {
       toast.success(getCategoriesData?.updateMessage);
@@ -274,7 +297,15 @@ const CategoryForm = () => {
       toast.success(getCategoriesData?.postMessage);
       dispatch(onPostCategoryReset());
       dispatch(onGetCategory());
+      dispatch(onUploadImageReset());
+      dispatch(onUploadImageMobileReset());
       setCreateCategory(resetCategoryFields);
+    }else if(getCategoriesData?.post_status_code){
+      toast.error(getCategoriesData?.postMessage)
+      dispatch(onPostCategoryReset());
+      dispatch(onGetCategory());
+      dispatch(onUploadImageReset());
+      dispatch(onUploadImageMobileReset());
     }
   }, [getCategoriesData]);
   useEffect(() => {
@@ -307,7 +338,7 @@ const CategoryForm = () => {
                   <div className="container-fluid">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
-                        <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-4">
                           <label htmlFor="name-f">
                             {categoryNameTranslation}
                             <span className="text-danger">*</span>
@@ -323,12 +354,13 @@ const CategoryForm = () => {
                             value={createCategory?.name}
                             onChange={(e) => handleChange(e, "name")}
                           />
+
                           {createCategory?.name?.length > 250 && (
                             <p className="text-danger">{errors.name}</p>
                           )}
 
                           {isOpen && filterData.length > 0 && (
-                            <span className="form-select">
+                            <span className="">
                               <ul>
                                 {[
                                   ...new Set(
@@ -346,7 +378,7 @@ const CategoryForm = () => {
                             </span>
                           )}
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-4">
                           <label htmlFor="vendor-category">
                             {supplierNameLabelTranslation}
                             <span className="text-danger">*</span>
@@ -384,9 +416,9 @@ const CategoryForm = () => {
                             error={errors.supplierBrandId}
                             value={createCategory.supplierBrandId}
                             ariaLabel={
-                              supplierBrandListData.length === 0
-                                ? "No Record Found"
-                                : "Select"
+                              supplierBrandListData.length
+                                ? "Select"
+                                : "No Record Found"
                             }
                             className={` ${
                               errors.supplierBrandId
@@ -394,15 +426,15 @@ const CategoryForm = () => {
                                 : "form-select"
                             }`}
                             options={
-                              supplierBrandListData.length === 0
-                                ? [
+                              supplierBrandListData.length
+                                ? supplierBrandListData
+                                : [
                                     {
                                       label: "No Record Found",
                                       value: "",
                                       disabled: true,
                                     },
                                   ]
-                                : supplierBrandListData
                             }
                           />
                         </div>
@@ -424,8 +456,23 @@ const CategoryForm = () => {
                           {<p className="text-danger">{errors.displayOrder}</p>}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="image">
+                          <label htmlFor="image" className="flex">
                             {upload_image} for web
+                            <div
+                              className="info-icon"
+                              onMouseEnter={() => setwebVisible(true)}
+                              onMouseLeave={() => setwebVisible(false)}
+                            >
+                              <i
+                                className="fa fa-info-circle"
+                                aria-hidden="true"
+                              ></i>
+                              {webvisible && (
+                                <div className="tooltip">
+                                  Image size Should be 128<sup>*</sup>128px
+                                </div>
+                              )}
+                            </div>
                             <span className="text-danger"></span>
                           </label>
                           <div className="input-group">
@@ -440,11 +487,26 @@ const CategoryForm = () => {
                             <span className="input-group-text">{upload}</span>
                           </div>
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="image">
+                        <div className="col-sm-4 form-group mb-2 ">
+                          <label htmlFor="image" className="flex">
                             {upload_image} for phone
-                            <span className="text-danger"></span>
+                            <div
+                              className="info-icon"
+                              onMouseEnter={() => setVisible(true)}
+                              onMouseLeave={() => setVisible(false)}
+                            >
+                              <i
+                                className="fa fa-info-circle"
+                                aria-hidden="true"
+                              ></i>
+                              {visible && (
+                                <div className="tooltip" modalKey="Mobile">
+                                  Image size Should be 83<sup>*</sup>83px
+                                </div>
+                              )}
+                            </div>
                           </label>
+
                           <div className="input-group">
                             <div className="form-file">
                               <InputField
@@ -458,7 +520,7 @@ const CategoryForm = () => {
                           </div>
                         </div>
                         <div className="col-sm-3 form-group mb-2">
-                          <div className="form-check mt-4 padd">
+                          <div className="form-check padd">
                             <InputField
                               className="form-check-input"
                               type="checkbox"

@@ -277,7 +277,7 @@ const UserMasterForm = ({ prefilledValues, setPrefilledValues }) => {
                 <h4 className="card-title">{userMaster}</h4>
               </div>
               <div className="card-body">
-                {roleList?.isLoading ? (
+                {onSubmitData?.isLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
