@@ -110,11 +110,12 @@ const CategoryList = () => {
     name: data.name,
     supplierId: getSupplierName(data.supplierId),
     supplierBrandId: getSupplierBrand(data.supplierBrandId),
-    displayOrder:data.displayOrder,
-    image:data.image === "false"
+    displayOrder: data.displayOrder,
+    image:
+      data.image === "false"
         ? "falsegtgttgtg y445665"
         : `${process.env.REACT_APP_CLIENT_URL}${data.image}`,
-    displayHeader:data.displayHeader
+    displayHeader: data.displayHeader,
   }));
 
   // For Pagination
@@ -217,7 +218,6 @@ const CategoryList = () => {
                       ) : Array.isArray(filteredCategoryList) &&
                         filteredCategoryList.length > 0 ? (
                         <div className="table-responsive">
-                          {console.log(filteredCategoryList)}
                           <table className="table header-border table-responsive-sm">
                             <thead>
                               <tr>

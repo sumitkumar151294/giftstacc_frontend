@@ -72,7 +72,6 @@ const CategoryForm = () => {
     displayHeader: false,
   });
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
-
   const getCategoriesData = useSelector((state) => state.createCategoryReducer);
   const getSuppliermasterData = useSelector(
     (state) => state.supplierMasterReducer
@@ -119,7 +118,11 @@ const CategoryForm = () => {
   );
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const displayHeader = GetTranslationData("UIAdmin", "display_Header");
-
+  const upload_image_phone = GetTranslationData(
+    "UIAdmin",
+    "upload_image_phone"
+  );
+  const upload_image_web = GetTranslationData("UIAdmin", "upload_image_web");
   const handleChange = (e, fieldName) => {
     const { type, checked, value } = e.target;
     if (type === "checkbox") {
@@ -130,26 +133,56 @@ const CategoryForm = () => {
     } else if (fieldName === "image") {
       const file = e?.target?.files?.[0];
       if (file) {
-        const formData = new FormData();
-        formData?.append("file", file);
-        setGetImagePath(formData);
-        setCreateCategory({
-          ...createCategory,
-          image: formData,
-        });
+        const img = new Image();
+        img.onload = () => {
+          if (img.width === 128 && img.height === 128) {
+            const formData = new FormData();
+            formData?.append("file", file);
+            setGetImagePath(formData);
+            setCreateCategory({
+              ...createCategory,
+              image: formData,
+            });
+            setErrors({
+              ...errors,
+              [fieldName]: "",
+            });
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "Image should be 128px by 128px",
+            });
+          }
+        };
+        img.src = URL.createObjectURL(file);
       } else {
         e.target.value = "";
       }
     } else if (fieldName === "mobileImage") {
       const file = e?.target?.files?.[0];
       if (file) {
-        const formData = new FormData();
-        formData?.append("file", file);
-        setGetImagePhone(formData);
-        setCreateCategory({
-          ...createCategory,
-          mobileImage: formData,
-        });
+        const img = new Image();
+        img.onload = () => {
+          if (img.width === 83 && img.height === 83) {
+            const formData = new FormData();
+            formData?.append("file", file);
+            setGetImagePhone(formData);
+            setCreateCategory({
+              ...createCategory,
+              mobileImage: formData,
+            });
+            setErrors({
+              ...errors,
+              [fieldName]: "",
+            });
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "Image should be 83px by 83px",
+            });
+          }
+        };
+        img.src = URL.createObjectURL(file);
       } else {
         e.target.value = "";
       }
@@ -343,6 +376,24 @@ const CategoryForm = () => {
                             {categoryNameTranslation}
                             <span className="text-danger">*</span>
                           </label>
+                            {isOpen && filterData.length > 0 && (
+                            <span className="">
+                              <ul>
+                                {[
+                                  ...new Set(
+                                    filterData.map((item) => item.name)
+                                  ),
+                                ].map((uniqueName, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => handleSelect(uniqueName)}
+                                  >
+                                    {uniqueName}
+                                  </li>
+                                ))}
+                              </ul>
+                            </span>
+                          )}
                           <InputField
                             type="text"
                             className={` ${
@@ -457,7 +508,7 @@ const CategoryForm = () => {
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="image" className="flex">
-                            {upload_image} for web
+                            {upload_image_web}
                             <div
                               className="info-icon"
                               onMouseEnter={() => setwebVisible(true)}
@@ -483,13 +534,13 @@ const CategoryForm = () => {
                                 onChange={(e) => handleChange(e, "image")}
                               />
                             </div>
-
                             <span className="input-group-text">{upload}</span>
                           </div>
+                          {<p className="text-danger">{errors.image}</p>}
                         </div>
                         <div className="col-sm-4 form-group mb-2 ">
                           <label htmlFor="image" className="flex">
-                            {upload_image} for phone
+                           {upload_image_phone}
                             <div
                               className="info-icon"
                               onMouseEnter={() => setVisible(true)}
@@ -513,11 +564,11 @@ const CategoryForm = () => {
                                 type="file"
                                 accept="image/jpg,image/png"
                                 onChange={(e) => handleChange(e, "mobileImage")}
-                              />
-                            </div>
+                              />                            </div>
 
                             <span className="input-group-text">{upload}</span>
                           </div>
+                          {<p className="text-danger">{errors.mobileImage}</p>}
                         </div>
                         <div className="col-sm-3 form-group mb-2">
                           <div className="form-check padd">

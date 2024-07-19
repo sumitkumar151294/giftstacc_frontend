@@ -8,7 +8,7 @@ export const callProductByIdApi = async (payload) => {
         payload.pageNumber
       }&pageSize=${payload.pageSize}&enable=${1}`
      
-      : `${API.product_By_Id}?pageNumber=${payload.pageNumber}&pageSize=${payload.pageSize}`
+      : payload?.enable ? `${API.product_By_Id}?pageNumber=${payload.pageNumber}&pageSize=${payload.pageSize}&enable=${1}`: `${API.product_By_Id}?pageNumber=${payload.pageNumber}&pageSize=${payload.pageSize}`
   );
   return data;
 };

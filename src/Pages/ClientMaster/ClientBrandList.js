@@ -79,7 +79,7 @@ const ClientBrandList = () => {
       })
     );
     dispatch(onClientProductMappingSubmit(location?.state?.id));
-  }, [page, rowsPerPage,]);
+  }, [page, rowsPerPage]);
 
   useEffect(() => {
     if (ClientProducts?.post_status_code === "201") {
@@ -331,7 +331,6 @@ const ClientBrandList = () => {
       {location.state ? (
         <div>
           <div className="container-fluid">
-            
             <div className="row">
               <div className="col-xl-12 col-xxl-12">
                 <div className="card d-flex justify-content-between ">
@@ -390,7 +389,7 @@ const ClientBrandList = () => {
                       </div>
                     </form>
                     <div className="row px-1">
-                      {ClientProducts?.postClientLoading  ||
+                      {ClientProducts?.postClientLoading ||
                       ClientProducts?.updateLoading ? (
                         <div style={{ height: "200px" }}>
                           <Loader classType={"absoluteLoader"} />
@@ -604,14 +603,13 @@ const ClientBrandList = () => {
                                 </div>
                               </div>
                             ) : (
-                              !ClientProducts?.isLoading 
-                              // (ClientProducts.clientDataById[0]
+                              !ClientProducts?.isLoading && (
+                                // (ClientProducts.clientDataById[0]
                                 // .clientProductMapping.length <= 0 ||
                                 // copySupplierBrandList?.length <= 0 ||
                                 // copySupplierBrandList?.length < 0 ||
                                 // ClientProducts.clientDataById[0]
-                                //   .clientProductMapping.length < 0) 
-                                && (
+                                //   .clientProductMapping.length < 0)
                                 <NoRecord />
                               )
                             )}
