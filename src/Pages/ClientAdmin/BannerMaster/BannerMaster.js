@@ -166,7 +166,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       if (file) {
         const img = new Image();
         img.onload = () => {
-          if (img.width === 582 && img.height === 336) {
+          if (img.width === 590 && img.height === 230) {
             const formData = new FormData();
             formData.append("file", file);
             setGetImagePath(formData);

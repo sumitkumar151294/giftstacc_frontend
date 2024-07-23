@@ -55,7 +55,9 @@ const BrandCatalogue = () => {
     client: "",
   });
   const [supplierList, setSupplierList] = useState([]);
-  const excelData = Array.isArray(productByIdReducer?.productById?.[0]?.products)
+  const excelData = Array.isArray(
+    productByIdReducer?.productById?.[0]?.products
+  )
     ? productByIdReducer?.productById?.[0]?.products.map((data) => ({
         sku: data.sku,
         name: data.name,
@@ -93,7 +95,7 @@ const BrandCatalogue = () => {
       label: 100,
     },
   ];
- 
+
   const handlePageChange = ({ selected }) => {
     if (selected !== false) {
       const newPage = selected + 1;
@@ -128,13 +130,13 @@ const BrandCatalogue = () => {
     setPage(1);
   };
   const clientProductMapping = copyBrandCatalogue?.filter((vendor) =>
-        Object.values(vendor).some(
-          (value) =>
-            value &&
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
+    Object.values(vendor).some(
+      (value) =>
+        value &&
+        typeof value === "string" &&
+        value.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
   const handleChange = (e, fieldName) => {
     const selectedSupplierName = e.target.value;
     let data =
@@ -231,6 +233,7 @@ const BrandCatalogue = () => {
       setCopyBrandCatalogue([]);
     }
   }, [productByIdReducer.productById]);
+  console.log(clientProductMapping);
   return (
     <div>
       {getRoleAccess[0] === undefined && (
@@ -412,7 +415,7 @@ const BrandCatalogue = () => {
                                             clientCode,
                                             pageNumber: 1,
                                             pageSize: parseInt(e.target.value),
-                                            enable: 1
+                                            enable: 1,
                                           })
                                         );
                                       }
@@ -422,7 +425,9 @@ const BrandCatalogue = () => {
                                 </div>
                               )}
                             </>
-                          ): <NoRecord />}
+                          ) : (
+                            <NoRecord />
+                          )}
                         </div>
                       </>
                     )}
