@@ -19,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { onbannerMasterSubmitReset } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
 import {
   onUploadImage,
+  onUploadImageMobile,
   onUploadImageReset,
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import Loader from "../../../Components/Loader/Loader";
@@ -29,7 +30,8 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
-  const upload_image = GetTranslationData("UIClient", "uploadImage");
+  const upload_image_web = GetTranslationData("UIAdmin", "upload_image_web");
+  const upload_image_phone = GetTranslationData("UIAdmin", "upload_image_phone");
   const upload = GetTranslationData("UIClient", "upload");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const displayOrder = GetTranslationData("UIClient", "display-order");
@@ -46,16 +48,21 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const bannerMasterUploadImg = useSelector((state) => state.offerMasterReducer?.imgLoading);
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
+  console.log(offerMasterData?.imageMobileUpload,"image")
   const [getImagePath, setGetImagePath] = useState("");
+  const [getImagePathMobile, setGetImagePathMobile] = useState("");
   const [getImage, setGetImage] = useState(false);
-
+  useEffect(()=>{
+    dispatch(onUploadImageMobile())
+  },[])
   const [bannerMaster, setBannerMaster] = useState({
     bannerTitle: "",
     bannerSubtitle: "",
-    bannerLink: "",
+    // bannerLink: "",
     displayOrder: "",
     enabled: "",
-    image: "",
+    webImage: "",
+    mobileImage: "",
     buttonText: "",
     startDate: '',
     endDate: ''
@@ -63,10 +70,11 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const resetField = {
     bannerTitle: "",
     bannerSubtitle: "",
-    bannerLink: "",
+    // bannerLink: "",
     displayOrder: "",
     enabled: "",
-    image: "",
+    webImage: "",
+    mobileImage: "",
     buttonText: "",
     startDate: '',
     endDate: ''
@@ -79,7 +87,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
         // bannerPlacement: prefilledData.bannerPlacement || "",
         bannerTitle: prefilledData.bannerTitle || "",
         bannerSubtitle: prefilledData.bannerSubtitle || "",
-        bannerLink: prefilledData.bannerLink || "",
+        // bannerLink: prefilledData.bannerLink || "",
         displayOrder: prefilledData.displayOrder || "",
         buttonText: prefilledData?.buttonText,
         startDate: prefilledData?.startDate,
@@ -92,10 +100,11 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       setErrors({
         bannerTitle: "",
         bannerSubtitle: "",
-        bannerLink: "",
+        // bannerLink: "",
         displayOrder: "",
         // status: "",
-        image: "",
+        webImage: "",
+        mobileImage: "",
         buttonText: "",
       });
     }
@@ -107,8 +116,8 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       dispatch(onbannerMasterSubmitReset());
       setPrefilledData("");
       dispatch(onGetbannerMaster());
-    } else if (getBannerMaster.update_status_code === "201") {
-      if (isDelete) {
+    } else if (getBannerMaster.update_status_code === "201" ) {  
+      if (isDelete ) { 
         toast.success(getBannerMaster.message);
         dispatch(onUpdateBannerMasterReset());
         setIsDelete(false)
@@ -140,10 +149,11 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const [errors, setErrors] = useState({
     bannerTitle: "",
     bannerSubtitle: "",
-    bannerLink: "",
+    // bannerLink: "",
     displayOrder: "",
     enabled: "",
-    image: "",
+    webImage: "",
+    mobileImage: "",
     buttonText: "",
   });
 
@@ -160,8 +170,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   // Add more states for other form fields as necessary
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
-
-    if (fieldName === "image") {
+    if (fieldName === "webImage") {
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
         const img = new Image();
@@ -178,7 +187,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
           } else {
             setErrors({
               ...errors,
-              [fieldName]: "Image should be 582px by 336px",
+              [fieldName]: "Image should be 590px by 230px",
             });
           }
         };
@@ -186,7 +195,33 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       } else {
         value = ""; // or value = null;
       }
-    } else if (fieldName === "enabled") {
+    } else if (fieldName === "mobileImage") {
+      const file = e?.target?.files[0]; // Assuming only one file is selected
+      if (file) {
+        const img = new Image();
+        img.onload = () => {
+          if (img.width === 396 && img.height === 400) {
+            const formData = new FormData();
+            formData.append("file", file);
+            setGetImagePathMobile(formData);
+            setGetImage(true);
+            setErrors({
+              ...errors,
+              [fieldName]: "",
+            });
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "Image should be 396px by 400px",
+            });
+          }
+        };
+        img.src = URL.createObjectURL(file);
+      } else {
+        value = ""; // or value = null;
+      }
+    } 
+     else if (fieldName === "enabled") {
       value = e.target.value === "true" ? true : false;
     }
     // Update the bannerMaster state with the new value
@@ -201,6 +236,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       [fieldName]: "",
     });
   };
+  
   const handleDateChange = (dates, fieldName) => {
     setBannerMaster({
       ...bannerMaster,
@@ -211,7 +247,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       [fieldName]: '',
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { 
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -230,44 +266,50 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
     }
     setErrors(newErrors);
 
-    if (isValid) {
-      if (prefilledData?.image && !getImage) {
+    if (isValid) { 
+      if (prefilledData?.webImage && prefilledData?.mobileImage && !getImage) {
         dispatch(
           onUpdateBannerMaster({
             ...bannerMaster,
             id: prefilledData?.id,
-            clientId: "strisng",
-            image: prefilledData?.image,
+            clientId: sessionStorage.getItem("clientCode"),
+            webImage: prefilledData?.imageUpload,
+            mobileImage: prefilledData?.imageMobileUpload,
             displayOrder: parseInt(bannerMaster.displayOrder),
             enabled: bannerMaster.enabled,
           })
         );
       } else if (getImage) {
         dispatch(onUploadImage(getImagePath));
+        dispatch(onUploadImageMobile(getImagePathMobile));
       }
     }
   };
-  useEffect(() => {
-    if (offerMasterData?.status_code_Image === "201") {
+  useEffect(() => { 
+    if (offerMasterData?.status_code_Image === "201" && offerMasterData?.status_code_MobileImage ==="201") {
       dispatch(onUploadImageReset());
 
       if (!prefilledData) {
+        
         dispatch(
           onbannerMasterSubmit({
             ...bannerMaster,
             enabled: bannerMaster.enabled,
-            image: offerMasterData?.imageUpload,
+            clientId: sessionStorage.getItem("clientCode"),
+            webImage: offerMasterData?.imageUpload,
+            mobileImage: offerMasterData?.imageMobileUpload,
             displayOrder: parseInt(bannerMaster.displayOrder),
             // Convert status to boolean based on selection
           })
         );
-      } else {
+      } else { 
         dispatch(
           onUpdateBannerMaster({
             ...bannerMaster,
             id: prefilledData?.id,
-            clientId: "strisng",
-            image: offerMasterData?.imageUpload || "",
+            clientId:prefilledData.clientId,
+            webImage: offerMasterData?.imageUpload || "",
+            mobileImage: offerMasterData?.imageMobileUpload || "",
             displayOrder: parseInt(bannerMaster.displayOrder),
             enabled: bannerMaster.enabled,
           })
@@ -288,7 +330,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                 <h4 className="card-title">{banner_master}</h4>
               </div>
               <div className="card-body pt-2 ml-6  mb-4  ">
-                {getBannerMaster?.postLoading || bannerMasterUploadImg|| (!isDelete && getBannerMaster?.putLoading) ? (
+                {getBannerMaster?.postLoading || bannerMasterUploadImg || (!isDelete && getBannerMaster?.putLoading) ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -329,7 +371,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                           {<p className="text-danger">{errors.bannerSubtitle}</p>}
                         </div>
 
-                        <div className="col-sm-4 form-group mb-2">
+                        {/* <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="bannerLink">
                             {banner_link} <span className="text-danger">*</span>
                           </label>
@@ -343,6 +385,35 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                             onChange={(e) => handleChange(e, "bannerLink")}
                           />
                           {<p className="text-danger">{errors.bannerLink}</p>}
+                        </div> */}
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="image">
+                            {upload_image_phone}
+                            <span className="text-danger">
+                              {" "}
+                              {!prefilledData ? "*" : ""}
+                            </span>
+                          </label>
+                          <div className="input-group">
+                            <div className="form-file">
+                              <InputField
+                                type="file"
+                                accept="image/jpg,image/png"
+                                // value={bannerMaster.image}
+                                className={
+                                  !prefilledData
+                                    ? errors.mobileImage
+                                      ? "border-danger"
+                                      : "form-file-input form-control"
+                                    : ""
+                                }
+                                onChange={(e) => handleChange(e, "mobileImage")}
+                              />
+                            </div>
+
+                            <span className="input-group-text">{upload}</span>
+                          </div>
+                          {<p className="text-danger">{errors.mobileImage}</p>}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="buttonText">
@@ -377,7 +448,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="image">
-                            {upload_image}
+                           {upload_image_web}
                             <span className="text-danger">
                               {" "}
                               {!prefilledData ? "*" : ""}
@@ -391,43 +462,43 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                                 // value={bannerMaster.image}
                                 className={
                                   !prefilledData
-                                    ? errors.image
+                                    ? errors.webImage
                                       ? "border-danger"
                                       : "form-file-input form-control"
                                     : ""
                                 }
-                                onChange={(e) => handleChange(e, "image")}
+                                onChange={(e) => handleChange(e, "webImage")}
                               />
                             </div>
 
                             <span className="input-group-text">{upload}</span>
                           </div>
-                          {<p className="text-danger">{errors.image}</p>}
+                          {<p className="text-danger">{errors.webImage}</p>}
                         </div>
                         <div className="col-sm-4 mt-5">
 
-                        <InputGroup
-                              className={`${(errors.startDate || errors.endDate) ? "border-danger-date" : "dateInput"}`}
-                              >
-                              <DatePicker
-                                format="yyyy-MM-dd HH:mm:ss"
-                                placeholder="Start Date"
-                                value={bannerMaster.startDate ? new Date(bannerMaster.startDate) : null}
-                                onChange={(e) => handleDateChange(e, 'startDate')}
-                                block
-                                appearance="subtle"
-                              />
-                              <DatePicker
-                              
-                                format="yyyy-MM-dd HH:mm:ss"
-                                placeholder="End Date"
-                                value={bannerMaster.endDate ? new Date(bannerMaster.endDate) : null}
-                                onChange={(e) => handleDateChange(e, 'endDate')}
-                                block
-                                appearance="subtle"
-                              />
-                            </InputGroup>
-                            </div>
+                          <InputGroup
+                            className={`${(errors.startDate || errors.endDate) ? "border-danger-date" : "dateInput"}`}
+                          >
+                            <DatePicker
+                              format="yyyy-MM-dd HH:mm:ss"
+                              placeholder="Start Date"
+                              value={bannerMaster.startDate ? new Date(bannerMaster.startDate) : null}
+                              onChange={(e) => handleDateChange(e, 'startDate')}
+                              block
+                              appearance="subtle"
+                            />
+                            <DatePicker
+
+                              format="yyyy-MM-dd HH:mm:ss"
+                              placeholder="End Date"
+                              value={bannerMaster.endDate ? new Date(bannerMaster.endDate) : null}
+                              onChange={(e) => handleDateChange(e, 'endDate')}
+                              block
+                              appearance="subtle"
+                            />
+                          </InputGroup>
+                        </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="status">
                             {status}
@@ -435,8 +506,8 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                           </label>
                           <Dropdown
                             className={`${errors.enabled
-                                ? "border-danger-select"
-                                : "form-select"
+                              ? "border-danger-select"
+                              : "form-select"
                               }`}
                             id="status"
                             value={bannerMaster?.enabled}
@@ -444,6 +515,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                             options={statusoptions}
                           ></Dropdown>
                         </div>
+                      
                         <span
                           className="form-check-label"
                           htmlFor="basic_checkbox_1"
@@ -461,7 +533,8 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                         </div>
                       </div>
                     </form>
-                  </div>)}
+                  </div>
+                  )}
               </div>
             </div>
           </div>

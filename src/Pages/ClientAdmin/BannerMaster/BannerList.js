@@ -48,17 +48,18 @@ const BannerMasterList = () => {
     const prefilled = { ...data };
     setPrefilledData(prefilled);
   };
-  const handleDelete = (data) => {
+  const handleDelete = (data) => { 
     setIsDelete(true)
     const deletedData = {
-      clientId: "strisng",
-      bannerPlacement: data.bannerPlacement,
+      clientId: data.clientId,
+      // bannerPlacement: data.bannerPlacement,
       bannerTitle: data.bannerTitle,
       bannerSubtitle: data.bannerSubtitle,
-      bannerLink: data.bannerLink,
+      // bannerLink: data.bannerLink,
       displayOrder: data.displayOrder,
       buttonText: data.buttonText,
-      image: data.image,
+      webImage: data.webImage,
+      mobileImage: data.mobileImage,
       endDate:data?.endDate,
       startDate:data?.startDate,
       id: data?.id,
@@ -111,10 +112,11 @@ const BannerMasterList = () => {
                             <table className="table header-border table-responsive-sm">
                               <thead>
                                 <tr>
-                                  <th>Image</th>
+                                  <th>WebImage</th>
+                                  <th>MobileImage</th>
                                   <th>{title_label}</th>
                                   <th>{sub_title}</th>
-                                  <th>{link_label}</th>
+                                  <th>Button Text</th>
                                   <th>{display_order}</th>
                                   <th>{startDate}</th>
                                                     <th>{endDate}</th>
@@ -128,13 +130,20 @@ const BannerMasterList = () => {
                                   .map((banner) => (
                                     <tr key={banner.id}>
                                        <img
-                                                src={`${process.env.REACT_APP_CLIENT_URL}${banner.image}`}
+                                                src={`${process.env.REACT_APP_CLIENT_URL}${banner.webImage}`}
                                                 style={{ width: "50px" }}
-                                                alt={`${process.env.REACT_APP_CLIENT_URL}${banner.image}`}
+                                                alt={`${process.env.REACT_APP_CLIENT_URL}${banner.webImage}`}
                                               />
+                                      <td>
+                                      <img
+                                                src={`${process.env.REACT_APP_CLIENT_URL}${banner?.mobileImage}`}
+                                                style={{ width: "50px" }}
+                                                alt={`${process.env.REACT_APP_CLIENT_URL}${banner?.mobileImage}`}
+                                              />
+                                      </td>
                                       <td>{banner.bannerTitle}</td>
                                       <td>{banner.bannerSubtitle}</td>
-                                      <td>{banner.bannerLink}</td>
+                                      <td>{banner.buttonText}</td>
                                       <td>{banner.displayOrder}</td>
                                       <td>{banner.startDate}</td>
                                       <td>{banner.endDate}</td>
