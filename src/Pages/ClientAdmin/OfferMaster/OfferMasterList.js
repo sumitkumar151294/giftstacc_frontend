@@ -134,10 +134,9 @@ const OfferMasterList = () => {
                                     <thead>
                                       <tr>
                                         <th>{image}</th>
-                                        <th>{title}</th>
-                                        <th>{subtitle}</th>
-                                        <th>{link_level}</th>
-                                        <th>{imagePlacement}</th>
+                                        <th>MobileImage</th>
+                                        <th>Start Date</th>
+                                        <th>Ed Date</th>
                                         <th>{status}</th>
                                         {getRoleAccess[0]?.editAccess && (
                                           <th>{action}</th>
@@ -156,10 +155,16 @@ const OfferMasterList = () => {
                                                 alt={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
                                               />
                                             </td>
-                                            <td>{data.title}</td>
-                                            <td>{data.subtitle}</td>
-                                            <td>{data.link}</td>
-                                            <td>{data.imagePlacement}</td>
+                                            <td>
+                                              <img
+                                                src={`${process.env.REACT_APP_CLIENT_URL}${data.mobileImage}`}
+                                                style={{ width: "50px" }}
+                                                alt={`${process.env.REACT_APP_CLIENT_URL}${data.mobileImage}`}
+                                              />
+                                            </td>
+                                           
+                                            <td>{data.startDate}</td>
+                                            <td>{data.endDate}</td>
                                             <td>
                                               <span
                                                 className={`badge ${

@@ -13,6 +13,8 @@ import {
   onUpdateOfferMasterReset,
   onUploadImage,
   onUploadImageReset,
+  onUploadImageMobile,
+  onUploadImageMobileReset,
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
@@ -22,24 +24,16 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const [showLoader, setShowLoader] = useState(false);
   const [addData, setAddData] = useState({
     placement: "",
-    title: "",
-    subtitle: "",
-    link: "",
-    imagePlacement: "",
     image: "",
+    mobileImage: "",
     enabled: true,
-    linkText: "",
     startDate: "",
     endDate: "",
   });
   const [errors, setErrors] = useState({
     placement: "",
-    title: "",
-    subtitle: "",
-    link: "",
-    imagePlacement: "",
     image: "",
-    linkText: "",
+    mobileImage: "",
     enabled: "",
     startDate: "",
     endDate: "",
@@ -47,13 +41,9 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   // To reset the Input Field
   const resetAddData = {
     placement: "",
-    title: "",
-    subtitle: "",
-    link: "",
-    imagePlacement: "",
     image: "",
+    mobileImage: "",
     enabled: "",
-    linkText: "",
     startDate: "",
     endDate: "",
   };
@@ -61,33 +51,36 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   // To get the label from translation API
   const top = GetTranslationData("UIClient", "top");
   const bottom = GetTranslationData("UIClient", "bottom");
-  const left = GetTranslationData("UIClient", "left_option");
-  const right = GetTranslationData("UIClient", "right_option");
+  // const left = GetTranslationData("UIClient", "left_option");
+  // const right = GetTranslationData("UIClient", "right_option");
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
-  const field_Required = GetTranslationData("UIAdmin", "field_Required");
+  // const field_Required = GetTranslationData("UIAdmin", "field_Required");
   const placement = GetTranslationData("UIClient", "placement");
-  const title = GetTranslationData("UIClient", "title");
-  const subtitle = GetTranslationData("UIClient", "sub-title");
-  const link_label = GetTranslationData("UIClient", "link_label");
-  const imagePlacement = GetTranslationData("UIClient", "image_placement");
-  const upload_image = GetTranslationData("UIClient", "uploadImage");
+  // const title = GetTranslationData("UIClient", "title");
+  // const subtitle = GetTranslationData("UIClient", "sub-title");
+  // const link_label = GetTranslationData("UIClient", "link_label");
+  // const imagePlacement = GetTranslationData("UIClient", "image_placement");
+  // const upload_image = GetTranslationData("UIClient", "uploadImage");
   const upload = GetTranslationData("UIClient", "upload");
   const status = GetTranslationData("UIClient", "status");
   const submit = GetTranslationData("UIClient", "submitLabel");
   const update = GetTranslationData("UIAdmin", "update_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const enabled_Text = GetTranslationData("UIAdmin", "enabled_Text");
-  const link_text = GetTranslationData("UIClient", "link_text");
-  const title_placeholder = GetTranslationData("UIClient", "title_placeholder");
-  const subtitle_placeholder = GetTranslationData("UIClient", "subtitle_placeholder");
-  const link_placeholder = GetTranslationData("UIClient", "link_placeholder");
-  const link_text_placeholder = GetTranslationData("UIClient", "link_text_placeholder");
+  // const link_text = GetTranslationData("UIClient", "link_text");
+  // const title_placeholder = GetTranslationData("UIClient", "title_placeholder");
+  // const subtitle_placeholder = GetTranslationData("UIClient", "subtitle_placeholder");
+  // const link_placeholder = GetTranslationData("UIClient", "link_placeholder");
+  // const link_text_placeholder = GetTranslationData("UIClient", "link_text_placeholder");
+  const upload_image_web = GetTranslationData("UIAdmin", "upload_image_web");
+  const upload_image_phone = GetTranslationData("UIAdmin", "upload_image_phone");
 
   const [getImage, setGetImage] = useState(false);
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
   const [getImagePath, setGetImagePath] = useState("");
+  const [getImagePathMobile, setGetImagePathMobile] = useState("");
   const placementoptions = [
     { value: "Top", label: top },
     { value: "Bottom", label: bottom },
@@ -95,10 +88,6 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const statusoptions = [
     { value: true, label: active },
     { value: false, label: non_active },
-  ];
-  const imagePlacementOptions = [
-    { value: "Left", label: left },
-    { value: "Right", label: right },
   ];
 
   const handleInputChange = (e, fieldName) => {
@@ -130,6 +119,34 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         });
         // dispatch(onUploadImage(formData));
       }
+    } else if (fieldName === "mobileImage") {
+      const file = e?.target?.files[0]; // Assuming only one file is selected
+      if (file) {
+        const img = new Image();
+        img.onload = () => {
+          if (img.width === 582 && img.height === 336) {
+            const formData = new FormData();
+            formData.append("file", file);
+            setGetImagePathMobile(formData);
+            setGetImage(true);
+            setErrors({
+              ...errors,
+              [fieldName]: "",
+            });
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "Image should be 582px by 336px",
+            });
+          }
+        };
+        img.src = URL.createObjectURL(file);
+        setAddData({
+          ...addData,
+          [fieldName]: e.target.value,
+        });
+        // dispatch(onUploadImage(formData));
+      }
     } else if (fieldName === enabled_Text) {
       setAddData({
         ...addData,
@@ -140,30 +157,6 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         [fieldName]: "",
       });
     }
-
-    // else if(fieldName==="image"){
-    //   let img = new Image()
-    //   img.src = window.URL.createObjectURL(e.target.files[0])
-
-    //     setAddData({
-    //       ...addData,
-    //       [fieldName]: e.target.value,
-    //     });
-
-    //   img.onload = () => {
-    //     if(img.width > 100 || img.height > 100){
-    //       setErrors({
-    //         ...errors,
-    //         [fieldName]: "Image size should be less than 500 KB",
-    //       });
-    //       setAddData({
-    //         ...addData,
-    //         [fieldName]: e.target.value,
-    //       });
-    //     }
-
-    //   }
-    // }
     else {
       setAddData({
         ...addData,
@@ -181,28 +174,19 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     const newErrors = { ...errors };
     const requiredFields = data
       ? [
-          "placement",
-          "title",
-          "subtitle",
-          "link",
-          "imagePlacement",
-          "enabled",
-          "linkText",
-          "startDate",
-          "endDate",
-        ]
+        "placement",
+        "enabled",
+        "startDate",
+        "endDate",
+      ]
       : [
-          "placement",
-          "title",
-          "subtitle",
-          "link",
-          "imagePlacement",
-          "image",
-          "enabled",
-          "linkText",
-          "startDate",
-          "endDate",
-        ];
+        "placement",
+        "image",
+        "mobileImage",
+        "enabled",
+        "startDate",
+        "endDate",
+      ];
 
     for (const key of requiredFields) {
       if (addData[key] === "" || addData[key] === undefined) {
@@ -217,32 +201,43 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     }
 
     setErrors(newErrors);
-    if (isValid) {
-      if (data?.image && !getImage) {
+    if (isValid) { debugger
+      if (data?.image&& data?.mobileImage && !getImage) {
         const tempData = {
           ...addData,
           id: data?.id,
+          clientId: sessionStorage.getItem("clientCode"),
           image: data?.image,
+          mobileImage: data?.imageMobileUpload,
         };
         setShowLoader(true);
         dispatch(onUpdateOfferMaster(tempData));
       } else if (getImage) {
         setShowLoader(true);
         dispatch(onUploadImage(getImagePath));
+        dispatch(onUploadImageMobile(getImagePathMobile));
       }
     }
   };
+  console.log(offerMasterData?.status_code_MobileImage)
+  console.log(offerMasterData?.status_code_Image)
+
   useEffect(() => {
-    if (offerMasterData?.status_code_Image === "201") {
+    if (offerMasterData?.status_code_Image === "201" && offerMasterData?.status_code_MobileImage ==="201") { 
       if (!data) {
+        debugger
         try {
-          dispatch(onUploadImageReset());
+        
           dispatch(
             onPostOfferMasterSubmit({
               ...addData,
+              clientId: sessionStorage.getItem("clientCode"),
               image: offerMasterData?.imageUpload,
+              mobileImage: offerMasterData?.imageMobileUpload,
             })
           );
+          dispatch(onUploadImageReset());
+          dispatch(onUploadImageMobileReset());
         } catch (error) {
           console.error("Error submitting offer:", error);
         }
@@ -251,7 +246,9 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
           const tempData = {
             ...addData,
             id: data?.id,
+            clientId: sessionStorage.getItem("clientCode"),
             image: offerMasterData?.imageUpload,
+            mobileImage: offerMasterData?.imageMobileUpload,
           };
           dispatch(onUpdateOfferMaster(tempData));
         } catch (error) {
@@ -266,11 +263,6 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     setAddData({
       ...addData,
       placement: data?.placement || "",
-      title: data?.title || "",
-      subtitle: data?.subtitle || "",
-      link: data?.link || "",
-      imagePlacement: data?.imagePlacement || "",
-      linkText: data?.linkText || "",
       enabled: data?.enabled !== undefined ? data?.enabled : "",
       startDate: data?.startDate || "",
       endDate: data?.endDate || "",
@@ -365,106 +357,16 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                           <Dropdown
                             value={addData.placement || ""}
                             onChange={(e) => handleInputChange(e, "placement")}
-                            className={` ${
-                              errors.placement
-                                ? "border-danger-select"
-                                : "form-select"
-                            }`}
+                            className={` ${errors.placement
+                              ? "border-danger-select"
+                              : "form-select"
+                              }`}
                             options={placementoptions}
                           />
                         </div>
                         <div className="col-sm-5 form-group mb-2">
-                          <label htmlFor="title">
-                            {title}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={addData.title}
-                            onChange={(e) => handleInputChange(e, "title")}
-                            className={` ${
-                              errors.title ? "border-danger" : "form-control"
-                            }`}
-                            name="title"
-                            id="title"
-                            placeholder={title_placeholder}
-                          />
-                          {<p className="text-danger">{errors.title}</p>}
-                        </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="subtitle">
-                            {subtitle}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={addData.subtitle}
-                            onChange={(e) => handleInputChange(e, "subtitle")}
-                            className={` ${
-                              errors.subtitle ? "border-danger" : "form-control"
-                            }`}
-                            name="subtitle"
-                            id="subtitle"
-                            placeholder={subtitle_placeholder}
-                          />
-                          {<p className="text-danger">{errors.subtitle}</p>}
-                        </div>
-                        <div className="col-sm-5 form-group mb-2">
-                          <label htmlFor="link">
-                            {link_label}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={addData.link}
-                            onChange={(e) => handleInputChange(e, "link")}
-                            className={` ${
-                              errors.link ? "border-danger" : "form-control"
-                            }`}
-                            name="link"
-                            id="link"
-                            placeholder={link_placeholder}
-                          />
-                          {errors.link && (
-                            <small className="text-danger">{errors.link}</small>
-                          )}
-                        </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="linkText">
-                            {link_text} <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={addData.linkText}
-                            onChange={(e) => handleInputChange(e, "linkText")}
-                            className={` ${
-                              errors.linkText ? "border-danger" : "form-control"
-                            }`}
-                            placeholder={link_text_placeholder}
-                          />
-                          {<p className="text-danger">{errors.linkText}</p>}
-                        </div>
-                        <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="imagePlacement">
-                            {imagePlacement}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <Dropdown
-                            value={addData.imagePlacement || ""}
-                            onChange={(e) =>
-                              handleInputChange(e, "imagePlacement")
-                            }
-                            className={` ${
-                              errors.imagePlacement
-                                ? "border-danger-select"
-                                : "form-select"
-                            }`}
-                            options={imagePlacementOptions}
-                          />
-                        </div>
-                        <div className="col-sm-5 form-group mb-2">
                           <label htmlFor="image">
-                            {upload_image}
+                            {upload_image_web}
                             <span className="text-danger">
                               {" "}
                               {!data ? "*" : ""}
@@ -492,11 +394,10 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                         </div>
                         <div className="col-sm-4 mt-5">
                           <InputGroup
-                            className={`${
-                              errors.startDate || errors.endDate
-                                ? "border-danger-date"
-                                : "dateInput"
-                            }`}
+                            className={`${errors.startDate || errors.endDate
+                              ? "border-danger-date"
+                              : "dateInput"
+                              }`}
                           >
                             <DatePicker
                               format="yyyy-MM-dd HH:mm:ss"
@@ -532,13 +433,40 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                           <Dropdown
                             value={addData.enabled}
                             onChange={(e) => handleInputChange(e, "enabled")}
-                            className={` ${
-                              errors.enabled
-                                ? "border-danger-select"
-                                : "form-select"
-                            }`}
+                            className={` ${errors.enabled
+                              ? "border-danger-select"
+                              : "form-select"
+                              }`}
                             options={statusoptions}
                           />
+                        </div>
+                        <div className="col-sm-5 form-group mb-2">
+                          <label htmlFor="image">
+                            {upload_image_phone}
+                            <span className="text-danger">
+                              {" "}
+                              {!data ? "*" : ""}
+                            </span>
+                          </label>
+                          <div className="input-group">
+                            <div className="form-file">
+                              <InputField
+                                type="file"
+                                accept="image/jpg,image/png"
+                                value={addData.mobileImage}
+                                className={
+                                  !data
+                                    ? errors.mobileImage
+                                      ? "border-danger"
+                                      : "form-file-input form-control"
+                                    : ""
+                                }
+                                onChange={(e) => handleInputChange(e, "mobileImage")}
+                              />
+                            </div>
+                            <span className="input-group-text">{upload}</span>
+                          </div>
+                          {<p className="text-danger">{errors.mobileImage}</p>}
                         </div>
                         <span
                           className="form-check-label"
