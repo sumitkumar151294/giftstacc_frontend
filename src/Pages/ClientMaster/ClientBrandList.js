@@ -89,7 +89,7 @@ const ClientBrandList = () => {
     } else if (ClientProducts?.update_status_code === "201") {
       toast.success(ClientProducts?.updateMessage);
       dispatch(onUpdateClientProductMappingReset());
-      dispatch(onClientProductMappingSubmit(location?.state?.id));
+      //dispatch(onClientProductMappingSubmit(location?.state?.id));
     }
   }, [
     ClientProducts?.post_status_code,
@@ -389,8 +389,8 @@ const ClientBrandList = () => {
                       </div>
                     </form>
                     <div className="row px-1">
-                      {ClientProducts?.postClientLoading ||
-                      ClientProducts?.updateLoading ? (
+                      {ClientProducts?.postClientLoading 
+                      ?(
                         <div style={{ height: "200px" }}>
                           <Loader classType={"absoluteLoader"} />
                         </div>

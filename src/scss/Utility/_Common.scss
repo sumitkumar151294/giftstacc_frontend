@@ -527,3 +527,14 @@ cursor {
   border-radius: 5px !important;
 
 }
+.li-suggest{
+  min-width: 300px;
+  position: absolute;
+  max-height: 200px;
+  overflow: auto;
+  background-color: var(--primary-white);
+}
+.suggest-ul-li{
+  padding: 10px;
+  cursor: pointer;
+}
