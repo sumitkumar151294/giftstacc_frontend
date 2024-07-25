@@ -248,6 +248,10 @@ const SupplierProductList = () => {
       label: 100,
     },
   ];
+const [imageChange, setImageChange] = useState(false)
+  const handleImageChange = () =>{
+    setImageChange(!imageChange)
+  }
   return (
     <>
       <ScrollToTop />
@@ -344,6 +348,8 @@ const SupplierProductList = () => {
                                   <thead>
                                     <tr>
                                       <th>{id}</th>
+                                      <th>images</th>
+                                      <th>default Image</th>
                                       <th>{brands}</th>
                                       <th>{supplierMargin}</th>
                                       <th>{status}</th>
@@ -355,6 +361,7 @@ const SupplierProductList = () => {
                                       (data, index) => (
                                         <tr key={index}>
                                           <td>{data?.id}</td>
+                                          <td><img src= {data.small} onError={()=>console.log("nulll")}/></td>
                                           <td>{data?.name}</td>
                                           <td>
                                             <div className="input-group mb-2 w-11">
@@ -373,6 +380,8 @@ const SupplierProductList = () => {
                                                   handleKeyPress(e, index)
                                                 }
                                               />
+                                              
+                                              
                                               <div className="input-group-append">
                                                 <Button
                                                   onClick={() =>
