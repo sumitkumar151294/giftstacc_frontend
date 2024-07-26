@@ -320,7 +320,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                           />
                           {/* {<p className="text-danger">{error.description}</p>} */}
                         </div>
-                        <div className="col-sm-3 form-group   mt-2 isSpecial">
+                        {/* <div className="col-sm-3 form-group   mt-2 isSpecial">
                           <InputField
                             className="form-check-input mt-3"
                             type="checkbox"
@@ -336,7 +336,7 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                           >
                             {Is_Special}{" "}
                           </label>
-                        </div>
+                        </div> */}
                         <span
                           className="form-check-label"
                           htmlFor="basic_checkbox_1"
