@@ -8,26 +8,27 @@ import { DatePicker, InputGroup } from 'rsuite';
 import Button from '../../../Components/Button/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from '../../../Components/Loader/Loader';
-import { onClientMasterSubmit } from '../../../Store/Slices/clientMasterSlice';
+import { GetClientId } from '../../../Common/commonSlice/CommonSlice';
 
 const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsDelete }) => {
   const active = GetTranslationData("UIAdmin", "active");
   const nonActive = GetTranslationData("UIAdmin", "nonActive");
   const submit = GetTranslationData("UIAdmin", "submit_label");
   const update = GetTranslationData("UIAdmin", "update_label");
-  const client_label = GetTranslationData("UIAdmin", "client_label");
   const title_Text = GetTranslationData("UIAdmin", "title_Text");
   const Status_label = GetTranslationData("UIAdmin", "Status_label");
   const start_and_enddate = GetTranslationData("UIAdmin", "start_and_enddate");
   const link_text = GetTranslationData("UIClient", "link_text");
+  const link_placeholder = GetTranslationData("UIClient", "link_placeholder");
+  const link_text_placeholder = GetTranslationData("UIClient", "link_text");
+  const title_placeholder = GetTranslationData("UIClient", "title_placeholder");
   const link_label = GetTranslationData("UIClient", "link_label");
   const promotional_Strip_Master = GetTranslationData("UIAdmin", "promotional_Strip_Master");
   const overlap_date_error_msg = GetTranslationData("UIAdmin", "overlap_date_error_msg");
   const dispatch = useDispatch();
-  const clientList = useSelector((state) => state.clientMasterReducer.clientData);
+  const clientId = GetClientId();
   const promotionalData = useSelector((state) => state.promotionalReducer);
   const [formData, setFormData] = useState({
-    clientId: '',
     titleText: '',
     enabled: '',
     linkText: '',
@@ -37,7 +38,6 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
   });
 
   const [errors, setErrors] = useState({
-    clientId: '',
     titleText: '',
     enabled: '',
     linkText: '',
@@ -47,7 +47,6 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
   });
   const resetData = () => {
     setFormData({
-      clientId: '',
       titleText: '',
       enabled: '',
       linkText: '',
@@ -63,7 +62,6 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
   ];
   useEffect(() => {
     dispatch(onGetPromtional());
-    dispatch(onClientMasterSubmit());
   }, [])
   useEffect(() => {
     if (promotionalData.post_status_code === "201") {
@@ -89,7 +87,6 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setFormData({
-      clientId: prefilledValues?.clientId || "",
       titleText: prefilledValues?.titleText || "",
       enabled: prefilledValues?.enabled !== undefined ? prefilledValues.enabled : "",
       linkText: prefilledValues?.linkText || "",
@@ -98,7 +95,6 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
       endDate: prefilledValues?.endDate || "",
     });
     setErrors({
-      clientId: '',
       titleText: '',
       enabled: '',
       linkText: '',
@@ -183,7 +179,9 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
     if (isValid) {
       if (!prefilledValues?.titleText) {
         try {
-          dispatch(onPromtionalSubmit(formData))
+          const updateData = { ...formData };
+          updateData.clientId = clientId;
+          dispatch(onPromtionalSubmit(updateData))
           setPrefilledValues("")
         } catch (error) {
           // Handle any errors during dispatch
@@ -192,6 +190,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
         try {
           const updateData = { ...formData };
           updateData.id = prefilledValues.id;
+          updateData.clientId = clientId;
           dispatch(onUpdatePromotional(updateData));
           setPrefilledValues("")
         } catch (error) {
@@ -219,47 +218,15 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                     <form onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="client">{client_label}</label>
-                          <Dropdown
-                            name="clientId"
-                            id="clientId"
-                            onChange={(e) => handleChange(e, "clientId")}
-                            error={errors.clientId}
-                            value={formData.clientId}
-                            className={`${errors?.clientId ? "border-danger-select" : "form-select"}`}
-                            options={
-                              clientList ?
-                                clientList
-                                  .filter((item) => item.enabled === true)
-                                  ?.map((item) => ({
-                                    label: item.name,
-                                    value: item.id,
-                                  }))
-                                : []
-                            }
-                          />
-                        </div>
-                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="name-f">{title_Text}</label>
                           <InputField
                             type="text"
                             className={`${errors.titleText ? "border-danger" : "form-control"}`}
                             name="titleText"
                             id="name-f"
-                            placeholder=""
+                            placeholder={title_placeholder}
                             value={formData.titleText}
                             onChange={(e) => handleChange(e, "titleText")}
-                          />
-                        </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="status">{Status_label}</label>
-                          <Dropdown
-                            onChange={(e) => handleChange(e, "enabled")}
-                            value={formData.enabled !== undefined
-                              ? formData.enabled
-                              : ""}
-                            className={`${errors?.enabled ? "border-danger-select" : "form-select"}`}
-                            options={statusOptions}
                           />
                         </div>
                         <div className="col-sm-4 form-group mb-2">
@@ -269,7 +236,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                             name="linkText"
                             className={`${errors.linkText ? "border-danger" : "form-control"}`}
                             id="linkText"
-                            placeholder=""
+                            placeholder={link_text_placeholder}
                             value={formData.linkText}
                             onChange={(e) => handleChange(e, "linkText")}
                           />
@@ -281,7 +248,7 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                             name="link"
                             className={`${errors.link ? "border-danger" : "form-control"}`}
                             id="link"
-                            placeholder=""
+                            placeholder={link_placeholder}
                             value={formData.link}
                             onChange={(e) => handleChange(e, "link")}
                           />
@@ -311,6 +278,17 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
                               />
                             </InputGroup>
                           </div>
+                        </div>
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="status">{Status_label}</label>
+                          <Dropdown
+                            onChange={(e) => handleChange(e, "enabled")}
+                            value={formData.enabled !== undefined
+                              ? formData.enabled
+                              : ""}
+                            className={`${errors?.enabled ? "border-danger-select" : "form-select"}`}
+                            options={statusOptions}
+                          />
                         </div>
                         <div className="row">
                           <div className="col-sm-12 form-group mb-0 mt-2">
