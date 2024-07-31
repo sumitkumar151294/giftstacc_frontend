@@ -11,11 +11,11 @@ import {
   onUpdateCmsReset,
 } from "../../../Store/Slices/ClientAdmin/cmsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
 import Dropdown from "../../../Components/Dropdown/Dropdown";
 import Button from "../../../Components/Button/Button";
-const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
+const CMSForm = ({ Cmsprefilled, setCmsprefilled, getData }) => {
   const submit = GetTranslationData("UIClient", "submitLabel");
   const update = GetTranslationData("UIAdmin", "update_label");
   const cms = GetTranslationData("UIClient", "cms");
@@ -41,18 +41,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     shortDescription: "",
     longDescription: "",
   });
-  const handleChange = (e, fieldName, html) => {
-    setCmsData({
-      ...cmsData,
-      [fieldName]: e.target?.value,
-      [html]: e.target?.value,
-    });
-    // Remove the error message when the user starts typing
-    setErrors({
-      ...errors,
-      [fieldName]: "",
-    });
-  };
+  
   const handleHTMLChange = (html, fieldName) => {
     setCmsData((prevCmsData) => ({
       ...prevCmsData,
@@ -62,7 +51,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
       ...errors,
       [fieldName]: "",
     });
-  };
+  };  
   const PageNames = [
     "Our Story",
     "Privacy Policy",
@@ -70,8 +59,13 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
     "Cancellation & Returns Policy",
     "Vendor Panel",
   ];
+  const isDuplicateTitle = Array.isArray(getData) && getData.find(page => page.title === cmsData.title);
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isDuplicateTitle){
+      toast.warning('Cannot add the same page');
+      return;
+    }
     let isValid = true;
     const newErrors = { ...errors };
     // Check if fields are empty and set corresponding error messages
@@ -112,6 +106,19 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
         dispatch(onUpdateCms(updateusers));
       }
     }
+  };
+
+  const handleChange = (e, fieldName, html) => {
+    setCmsData({
+      ...cmsData,
+      [fieldName]: e.target?.value,
+      [html]: e.target?.value,
+    });
+    // Remove the error message when the user starts typing
+    setErrors({
+      ...errors,
+      [fieldName]: "",
+    });
   };
   useEffect(() => {
     if (getCmsData.postMessage?.data?.HttpStatusCode === "500") {
@@ -241,7 +248,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled }) => {
                         className="btn btn-primary btn-sm float-right p-btn mt-2"
                         onClick={handleSubmit}
                       />
-                      <ToastContainer />
+                     
                     </div>
                   </div>
                 </>

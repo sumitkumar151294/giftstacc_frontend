@@ -78,7 +78,8 @@ const CMS = () => {
   };
   return (
     <div>
-    {getRoleAccess[0] !== undefined ? (
+<ToastContainer />
+    {getRoleAccess[0] !== undefined ? ( 
     <>
       <ScrollToTop />
       {showError ? (
@@ -87,7 +88,7 @@ const CMS = () => {
       <>
         {getRoleAccess[0]?.addAccess && (
           <CMSForm
-
+          getData={getData}
             Cmsprefilled={Cmsprefilled}
             setCmsprefilled={setCmsprefilled}
           />
@@ -163,7 +164,7 @@ const CMS = () => {
                                 page === 1 ? disabled_Text : ""
                               }
                             />
-                            <ToastContainer />
+                            
                           </div>
                         )}
                       </div>
