@@ -89,7 +89,7 @@ const ClientBrandList = () => {
     } else if (ClientProducts?.update_status_code === "201") {
       toast.success(ClientProducts?.updateMessage);
       dispatch(onUpdateClientProductMappingReset());
-      //dispatch(onClientProductMappingSubmit(location?.state?.id));
+      dispatch(onClientProductMappingSubmit(location?.state?.id));
     }
   }, [
     ClientProducts?.post_status_code,
@@ -206,6 +206,7 @@ const ClientBrandList = () => {
         productId: ids,
         clientId: location?.state?.id,
         customerDiscount: 0,
+        isFeatured:"true",
         clientCommission: 0,
         enabled: false,
       });
@@ -231,6 +232,7 @@ const ClientBrandList = () => {
         clientId: location?.state?.id,
         enabled: isUpdate?.enabled,
         productId: data?.id,
+        isFeatured:"true",
         id: isUpdate?.id,
       };
       dispatch(onUpdateClientProductMappingSubmit(updatedValues));
@@ -240,6 +242,7 @@ const ClientBrandList = () => {
         customerDiscount: isUpdate?.customerDiscount,
         clientId: location?.state?.id,
         enabled: false,
+        isFeatured:"true",
         productId: data?.id,
       };
       dispatch(onPostClientProductMappingSubmit(updatedValues));
@@ -256,6 +259,7 @@ const ClientBrandList = () => {
         customerDiscount: isUpdate?.customerDiscount,
         clientId: location?.state?.id,
         enabled: !isUpdate?.enabled,
+        isFeatured: "true",
         productId: data?.id,
         id: isUpdate?.id,
       };
@@ -266,6 +270,7 @@ const ClientBrandList = () => {
         customerDiscount: 0,
         clientId: location?.state?.id,
         enabled: true,
+        isFeatured: "true",
         productId: data?.id,
       };
       dispatch(onPostClientProductMappingSubmit(updatedValues));
@@ -389,7 +394,7 @@ const ClientBrandList = () => {
                       </div>
                     </form>
                     <div className="row px-1">
-                      {ClientProducts?.postClientLoading 
+                      {ClientProducts?.postClientLoading  || ClientProducts?.updateLoading
                       ?(
                         <div style={{ height: "200px" }}>
                           <Loader classType={"absoluteLoader"} />
@@ -408,6 +413,7 @@ const ClientBrandList = () => {
                                         <th>{supplierBrandName}</th>
                                         <th>{clientbrandlistdiscount}</th>
                                         <th>{clientbrandlistcommission}</th>
+                                        <th>Is Featured</th>
                                         <th>{supplierMargin}</th>
                                         <th>{status}</th>
                                         <th>{action}</th>
@@ -501,6 +507,7 @@ const ClientBrandList = () => {
                                                 </div>
                                               </div>
                                             </td>
+                                            <td><input type="checkbox" className="isFeaturd"/></td>
                                             <td>{data.supplierMargin}</td>
                                             <td>
                                               <span

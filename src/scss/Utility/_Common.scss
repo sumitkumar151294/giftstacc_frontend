@@ -543,3 +543,16 @@ cursor {
   left: 2.3rem;
   top: -0.5rem;
 }
+.isFeaturd{
+  width: 20px;
+  height: 20px;
+}
+.height-400{
+  max-height: 500px;
+}
+.fixed-header{
+  background-color: var(--primary-white);
+  top: 0;
+  position: sticky;
+  z-index: 9999;
+}
