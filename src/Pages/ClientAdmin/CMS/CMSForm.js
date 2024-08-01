@@ -62,9 +62,11 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled, getData }) => {
   const isDuplicateTitle = Array.isArray(getData) && getData.find(page => page.title === cmsData.title);
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isDuplicateTitle){
-      toast.warning('Cannot add the same page');
-      return;
+    if(!Cmsprefilled){
+      if (isDuplicateTitle){
+        toast.warning('Cannot add the same page');
+        return;
+      }
     }
     let isValid = true;
     const newErrors = { ...errors };
@@ -185,6 +187,7 @@ const CMSForm = ({ Cmsprefilled, setCmsprefilled, getData }) => {
                         error={errors.title}
                         defaultSelected="Select Page Name"
                         value={cmsData.title}
+                        disabled={Cmsprefilled}
                         className={` ${
                           errors.title ? "border-danger" : "form-select"
                         }`}

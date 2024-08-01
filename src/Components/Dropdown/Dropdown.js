@@ -8,6 +8,7 @@ const Dropdown = ({
   defaultSelected = "Select",
   className,
   options,
+  disabled
 }) => {
   return (
     <div>
@@ -15,6 +16,7 @@ const Dropdown = ({
         value={value}
         onChange={onChange}
         aria-label={ariaLabel}
+        disabled={disabled}
         className={` ${
           error ? "border-danger border-danger-select" : className
         }`}
