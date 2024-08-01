@@ -21,3 +21,19 @@ $border-color_2: var(--bs-secondary-border);
 .can-toggle {
 	position: relative;
   }  
+   .makescoll {
+	display: block;
+	max-height: 490px; /* Adjust based on your needs */
+	overflow-y: auto;
+	// border: 1px solid #ddd;
+	border-radius: 4px;
+  }
+  
+   .makescoll>thead {
+	position: sticky;
+	top: 0;
+	background-color: #f9f9f9; /* Match with your table header background */
+	z-index: 1; /* Ensure the header stays on top of the body */
+  }
+ 
+  

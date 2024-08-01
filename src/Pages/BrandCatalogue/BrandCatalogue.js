@@ -340,7 +340,7 @@ const BrandCatalogue = () => {
                       </div>
                     ) : (
                       <>
-                        <div className="table-responsive">
+                        <div className="table-responsive table-wrapper">
                           {clientProductMapping?.length > 0 ? (
                             <>
                               <table className="table header-border table-responsive-sm">
