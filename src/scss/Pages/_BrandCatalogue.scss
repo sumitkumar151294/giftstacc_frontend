@@ -1,5 +1,24 @@
 .bt-link {
 	font-size: 0.813rem !important;
-	padding: 0.625rem 1rem Im !important;
+	padding: 0.625rem 1rem !important;
 	border-radius: 1.125rem !important;
+}
+
+/* BrandCatalogue.css */
+.table-wrapper {
+	height: 450px;
+	/* Set the desired height for the table wrapper */
+	overflow-y: auto;
+	/* Enable vertical scrolling */
+	overflow-x: hidden;
+	/* Disable horizontal scrolling */
+}
+
+.table thead th {
+	position: sticky;
+	top: 0;
+	background: white;
+	/* Set background to ensure headers are visible */
+	z-index: 1;
+	/* Ensure headers are above the table rows */
 }
