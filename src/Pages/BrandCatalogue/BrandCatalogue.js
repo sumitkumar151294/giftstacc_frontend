@@ -331,7 +331,7 @@ const BrandCatalogue = () => {
                       </div>
                     ) : (
                       <>
-                        <div className="table-responsive">
+                        <div className="table-responsive table-wrapper">
                           {clientProductMapping?.length > 0 ? (
                             <>
                               <table className="table header-border table-responsive-sm">
@@ -357,7 +357,6 @@ const BrandCatalogue = () => {
                                             <img
                                               src={data.small}
                                               style={{ width: "50px" }}
-                                              x
                                             />
                                             <br />
                                           </td>

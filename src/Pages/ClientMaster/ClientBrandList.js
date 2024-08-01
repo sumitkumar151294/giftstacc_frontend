@@ -399,8 +399,8 @@ const ClientBrandList = () => {
                           <div>
                             {Array.isArray(copySupplierBrandList) &&
                             copySupplierBrandList.length > 0 ? (
-                              <div className="card-body">
-                                <div className="table-responsive">
+                              <div className="card-body p-0">
+                                <div className="table-responsive makescoll">
                                   <table className="table header-border table-responsive-sm">
                                     <thead>
                                       <tr>
