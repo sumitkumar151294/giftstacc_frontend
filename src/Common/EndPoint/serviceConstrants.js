@@ -66,6 +66,9 @@ promotional_api: "/promotionalStrip",
   //upload
   upload_Img: "/upload",
   //All productsapi
-  getAllproduct:"/product/all"
+  getAllproduct:"/product/all",
+  //points
+  pointsApi: "/client-configuration",
+
 };
 export default API;
