@@ -138,17 +138,17 @@ const PromotionalForm = ({ prefilledValues, setPrefilledValues, isDelete, setIsD
       [fieldName]: '',
     });
   };
-  const checkDateOverlap = (newStartDate, newEndDate) => {
-    const existingPromotionalData = promotionalData.getData || [];
-    if (!Array.isArray(existingPromotionalData)) return false; 
-    return existingPromotionalData.some((promo) => {
-      const start = new Date(promo.startDate);
-      const end = new Date(promo.endDate);
-      const newStart = new Date(newStartDate);
-      const newEnd = new Date(newEndDate);
-      return promo.enabled && ((newStart >= start && newStart <= end) || (newEnd >= start && newEnd <= end));
-    });
-  };
+const checkDateOverlap = (newStartDate, newEndDate, id) => {
+  const existingPromotionalData = promotionalData.getData || [];
+  if (!Array.isArray(existingPromotionalData)) return false;
+  return existingPromotionalData.some((promo) => {
+    const start = new Date(promo.startDate);
+    const end = new Date(promo.endDate);
+    const newStart = new Date(newStartDate);
+    const newEnd = new Date(newEndDate);
+    return promo.enabled && promo.id !== id && !(newEnd < start || newStart > end);
+  });
+};
   
   const handleSubmit = async (e) => {
     e.preventDefault();
