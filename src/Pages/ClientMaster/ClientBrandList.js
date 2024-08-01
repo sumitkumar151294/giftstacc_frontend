@@ -22,6 +22,7 @@ import {
 } from "../../Store/Slices/clientProductMappingSlice";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import Loader from "../../Components/Loader/Loader";
+import { onClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
 
 const ClientBrandList = () => {
   const location = useLocation();
@@ -37,6 +38,7 @@ const ClientBrandList = () => {
   const ClientProducts = useSelector(
     (state) => state.clientProductMappingReducer || []
   );
+
 
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
