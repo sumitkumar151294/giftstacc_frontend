@@ -27,6 +27,7 @@ import allocateBrandReducer from "./Slices/ClientAdmin/allocateBrandSlice";
 import productReducer from "./Slices/productSlice";
 import promotionalReducer from "./Slices/ClientAdmin/promotionalSlice";
 import promotionalAllocateBrandReducer from "./Slices/promotionalAllocateBrandSlice";
+import  clientConfigurationSliceReducer from "./Slices/clientConfiqurationSlice";
 
 const reducers = combineReducers({
   loginReducer: loginReducer,
@@ -57,6 +58,7 @@ const reducers = combineReducers({
   productReducer:productReducer,
   promotionalReducer:promotionalReducer,
   promotionalAllocateBrandReducer:promotionalAllocateBrandReducer,
+  clientConfigurationSliceReducer:clientConfigurationSliceReducer
 });
 
 export default reducers;

@@ -58,7 +58,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const [bannerMaster, setBannerMaster] = useState({
     bannerTitle: "",
     bannerSubtitle: "",
-    // bannerLink: "",
+    bannerLink: "",
     displayOrder: "",
     enabled: "",
     webImage: "",
@@ -70,7 +70,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const resetField = {
     bannerTitle: "",
     bannerSubtitle: "",
-    // bannerLink: "",
+    bannerLink: "",
     displayOrder: "",
     enabled: "",
     webImage: "",
@@ -83,11 +83,12 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
     if (prefilledData) {
+      debugger
       setBannerMaster({
         // bannerPlacement: prefilledData.bannerPlacement || "",
         bannerTitle: prefilledData.bannerTitle || "",
         bannerSubtitle: prefilledData.bannerSubtitle || "",
-        // bannerLink: prefilledData.bannerLink || "",
+        bannerLink: prefilledData.buttonLink || "",
         displayOrder: prefilledData.displayOrder || "",
         buttonText: prefilledData?.buttonText,
         startDate: prefilledData?.startDate,
@@ -100,7 +101,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       setErrors({
         bannerTitle: "",
         bannerSubtitle: "",
-        // bannerLink: "",
+        bannerLink: "",
         displayOrder: "",
         // status: "",
         webImage: "",
@@ -149,7 +150,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const [errors, setErrors] = useState({
     bannerTitle: "",
     bannerSubtitle: "",
-    // bannerLink: "",
+    bannerLink: "",
     displayOrder: "",
     enabled: "",
     webImage: "",
@@ -170,72 +171,75 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   // Add more states for other form fields as necessary
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
+  
     if (fieldName === "webImage") {
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
         const img = new Image();
         img.onload = () => {
-          if (img.width === 590 && img.height === 230) {
+          // if (img.width === 590 && img.height === 230) { // Commented out width and height validation
             const formData = new FormData();
             formData.append("file", file);
-            setGetImagePath(formData);
-            setGetImage(true);
+            setGetImagePath(formData); // Set the formData to state
+            setGetImage(true); // Indicate that the image has been set
             setErrors({
               ...errors,
-              [fieldName]: "",
+              [fieldName]: "", // Clear any existing errors for this field
             });
-          } else {
-            setErrors({
-              ...errors,
-              [fieldName]: "Image should be 590px by 230px",
-            });
-          }
+          // } else {
+          //   setErrors({
+          //     ...errors,
+          //     [fieldName]: "Image should be 590px by 230px", // Set an error if dimensions do not match
+          //   });
+          // }
         };
-        img.src = URL.createObjectURL(file);
+        img.src = URL.createObjectURL(file); // Create a URL for the image file
       } else {
-        value = ""; // or value = null;
+        value = ""; // Reset the value if no file is selected
       }
     } else if (fieldName === "mobileImage") {
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
         const img = new Image();
         img.onload = () => {
-          if (img.width === 396 && img.height === 400) {
+          // if (img.width === 396 && img.height === 400) { // Commented out width and height validation
             const formData = new FormData();
             formData.append("file", file);
-            setGetImagePathMobile(formData);
-            setGetImage(true);
+            setGetImagePathMobile(formData); // Set the formData to state
+            setGetImage(true); // Indicate that the image has been set
             setErrors({
               ...errors,
-              [fieldName]: "",
+              [fieldName]: "", // Clear any existing errors for this field
             });
-          } else {
-            setErrors({
-              ...errors,
-              [fieldName]: "Image should be 396px by 400px",
-            });
-          }
+          // } else {
+          //   setErrors({
+          //     ...errors,
+          //     [fieldName]: "Image should be 396px by 400px", // Set an error if dimensions do not match
+          //   });
+          // }
         };
-        img.src = URL.createObjectURL(file);
+        img.src = URL.createObjectURL(file); // Create a URL for the image file
       } else {
-        value = ""; // or value = null;
-      }
-    } 
-     else if (fieldName === "enabled") {
+        value = ""; // Reset the value if no file is selected
+      } 
+    } else if (fieldName === "enabled") {
       value = e.target.value === "true" ? true : false;
     }
+  
     // Update the bannerMaster state with the new value
     setBannerMaster({
       ...bannerMaster,
       [fieldName]: value,
     });
-
+  
     // Remove the error message for the field being edited
     setErrors({
       ...errors,
       [fieldName]: "",
     });
   };
+  
+  
   
   const handleDateChange = (dates, fieldName) => {
     setBannerMaster({
@@ -277,6 +281,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
             mobileImage: prefilledData?.imageMobileUpload,
             displayOrder: parseInt(bannerMaster.displayOrder),
             enabled: bannerMaster.enabled,
+            buttonLink:prefilledData.buttonLink,
           })
         );
       } else if (getImage) {
@@ -299,6 +304,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
             webImage: offerMasterData?.imageUpload,
             mobileImage: offerMasterData?.imageMobileUpload,
             displayOrder: parseInt(bannerMaster.displayOrder),
+            buttonLink:bannerMaster.bannerLink,
             // Convert status to boolean based on selection
           })
         );
@@ -312,6 +318,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
             mobileImage: offerMasterData?.imageMobileUpload || "",
             displayOrder: parseInt(bannerMaster.displayOrder),
             enabled: bannerMaster.enabled,
+            buttonLink:prefilledData.buttonLink,
           })
         );
       }
@@ -371,7 +378,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                           {<p className="text-danger">{errors.bannerSubtitle}</p>}
                         </div>
 
-                        {/* <div className="col-sm-4 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="bannerLink">
                             {banner_link} <span className="text-danger">*</span>
                           </label>
@@ -385,7 +392,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                             onChange={(e) => handleChange(e, "bannerLink")}
                           />
                           {<p className="text-danger">{errors.bannerLink}</p>}
-                        </div> */}
+                        </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="image">
                             {upload_image_phone}
