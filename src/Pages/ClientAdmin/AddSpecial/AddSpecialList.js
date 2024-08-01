@@ -108,7 +108,7 @@ const AddSpecialList = () => {
                             </div>
                           ) : (
                             <div className="card-body card-body-user">
-                              {getAddSpecial?.getData?.length > 0 ? (
+                              {getAddSpecial?.getData?.length ? (
                                 <div className="table-responsive">
                                   <table className="table header-border table-responsive-sm  allocateBrandTable">
                                     <thead>
@@ -116,7 +116,7 @@ const AddSpecialList = () => {
                                         <th>{section_name}</th>
                                         <th>{displayOrder}</th>
                                         <th>{maxNoOfbrands}</th>
-                                        <th>{Is_Special}</th>
+                                        {/* <th>{Is_Special}</th> */}
                                         <th>{status}</th>
                                         {getRoleAccess[0]?.editAccess && (
                                           <th>{action}</th>
@@ -139,7 +139,7 @@ const AddSpecialList = () => {
                                               <td>
                                                 {Special.maximumNumberOfBrands}
                                               </td>
-                                              <td>
+                                              {/* <td>
                                                 {" "}
                                                 <span
                                                   className={
@@ -152,16 +152,16 @@ const AddSpecialList = () => {
                                                     ? active
                                                     : non_active_option}
                                                 </span>
-                                              </td>
+                                              </td> */}
                                               <td>
                                                 <span
                                                   className={
-                                                    Special.enabled === true
+                                                    Special.enabled
                                                       ? "badge badge-success"
                                                       : "badge badge-danger"
                                                   }
                                                 >
-                                                  {Special.enabled === true
+                                                  {Special.enabled
                                                     ? active
                                                     : non_active_option}
                                                 </span>

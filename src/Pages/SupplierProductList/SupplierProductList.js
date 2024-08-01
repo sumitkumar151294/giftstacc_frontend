@@ -17,7 +17,7 @@ import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/Button/Button";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../Components/Loader/Loader";
-
+import notFoundImage from "../../../src/Assets/img/notFound.png";
 const SupplierProductList = () => {
   const dispatch = useDispatch();
   const [selectedSupplierCode, setSelectedSupplierCode] = useState("Select");
@@ -61,7 +61,8 @@ const SupplierProductList = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [rowsPerPageValue, setRowsPerPageValue] = useState("Page Size");
-
+  const [notFoundStates, setNotFoundStates] = useState([]);
+  const [info, setInfo] = useState(false);
   useEffect(() => {
     dispatch(
       onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
@@ -72,9 +73,9 @@ const SupplierProductList = () => {
   useEffect(() => {
     if (SupplierBrandListUpdate?.updateStatusCode === "201") {
       toast.success(SupplierBrandListUpdate?.message);
-      dispatch(
-        onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
-      );
+      // dispatch(
+      //   onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
+      // );
       dispatch(onUpdateSupplierBrandListReset());
     }
   }, [SupplierBrandListUpdate, dispatch]);
@@ -94,7 +95,13 @@ const SupplierProductList = () => {
     setSearchQuery(e.target.value);
     setPage(1);
   };
-
+  const handleImageError = (index) => {
+    setNotFoundStates((prevState) => {
+      const newState = [...prevState];
+      newState[index] = true;
+      return newState;
+    });
+  };
   const headers = [
     { label: "Id", key: "id" },
     { label: "Brands", key: "brands" },
@@ -248,6 +255,8 @@ const SupplierProductList = () => {
       label: 100,
     },
   ];
+  // const [imageChange, setImageChange] = useState(false);
+
   return (
     <>
       <ScrollToTop />
@@ -344,6 +353,8 @@ const SupplierProductList = () => {
                                   <thead>
                                     <tr>
                                       <th>{id}</th>
+                                      <th>images</th>
+                                      <th>default Image</th>
                                       <th>{brands}</th>
                                       <th>{supplierMargin}</th>
                                       <th>{status}</th>
@@ -355,12 +366,52 @@ const SupplierProductList = () => {
                                       (data, index) => (
                                         <tr key={index}>
                                           <td>{data?.id}</td>
+                                          <td>
+                                            {notFoundStates[index] && (
+                                              <div
+                                                className="info-icon"
+                                                onMouseEnter={() =>
+                                                  setInfo(true)
+                                                }
+                                                onMouseLeave={() =>
+                                                  setInfo(false)
+                                                }
+                                              >
+                                                <i
+                                                  className="fa fa-info-circle imginfo"
+                                                  aria-hidden="true"
+                                                ></i>
+                                                {info && (
+                                                  <div className="tooltip tooltipimg" style={
+                                                    {color:"black",bottom:"1rem",borderRadius:"1rem"
+                                                    }
+                                                  }>
+                                                  Error in image path
+
+                                                  </div>
+                                                )}
+                                              </div>
+                                            )}
+
+                                            <img
+                                              src={
+                                                notFoundStates[index]
+                                                  ? notFoundImage
+                                                  : data.small
+                                              }
+                                              onError={() =>
+                                                handleImageError(index)
+                                              }
+                                              style={{ width: "50px" }}
+                                              alt={data?.name}
+                                            />
+                                          </td>
                                           <td>{data?.name}</td>
                                           <td>
                                             <div className="input-group mb-2 w-11">
                                               <InputField
                                                 type="number"
-                                                className="form-control htt  border-Radius"
+                                                className="form-control htt border-Radius"
                                                 placeholder={
                                                   data.supplier_Margin
                                                 }
@@ -404,7 +455,7 @@ const SupplierProductList = () => {
                                                 id={generateUniqueId(index)}
                                                 type="checkbox"
                                                 checked={data?.enabled}
-                                              ></input>
+                                              />
                                               <label
                                                 htmlFor={generateUniqueId(
                                                   index
@@ -472,7 +523,7 @@ const SupplierProductList = () => {
                               </div>
                             </div>
                           ) : (
-                             <NoRecord />
+                            <NoRecord />
                           )}
                         </div>
                       )}

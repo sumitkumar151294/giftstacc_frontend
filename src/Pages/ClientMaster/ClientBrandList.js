@@ -22,6 +22,7 @@ import {
 } from "../../Store/Slices/clientProductMappingSlice";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import Loader from "../../Components/Loader/Loader";
+import { onClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
 
 const ClientBrandList = () => {
   const location = useLocation();
@@ -37,6 +38,7 @@ const ClientBrandList = () => {
   const ClientProducts = useSelector(
     (state) => state.clientProductMappingReducer || []
   );
+
 
   const suppliers = useSelector((state) => state.supplierMasterReducer);
   const search_here_label = GetTranslationData("UIAdmin", "search_here_label");
@@ -206,6 +208,7 @@ const ClientBrandList = () => {
         productId: ids,
         clientId: location?.state?.id,
         customerDiscount: 0,
+        isFeatured:"true",
         clientCommission: 0,
         enabled: false,
       });
@@ -231,6 +234,7 @@ const ClientBrandList = () => {
         clientId: location?.state?.id,
         enabled: isUpdate?.enabled,
         productId: data?.id,
+        isFeatured:"true",
         id: isUpdate?.id,
       };
       dispatch(onUpdateClientProductMappingSubmit(updatedValues));
@@ -240,6 +244,7 @@ const ClientBrandList = () => {
         customerDiscount: isUpdate?.customerDiscount,
         clientId: location?.state?.id,
         enabled: false,
+        isFeatured:"true",
         productId: data?.id,
       };
       dispatch(onPostClientProductMappingSubmit(updatedValues));
@@ -256,6 +261,7 @@ const ClientBrandList = () => {
         customerDiscount: isUpdate?.customerDiscount,
         clientId: location?.state?.id,
         enabled: !isUpdate?.enabled,
+        isFeatured: "true",
         productId: data?.id,
         id: isUpdate?.id,
       };
@@ -266,6 +272,7 @@ const ClientBrandList = () => {
         customerDiscount: 0,
         clientId: location?.state?.id,
         enabled: true,
+        isFeatured: "true",
         productId: data?.id,
       };
       dispatch(onPostClientProductMappingSubmit(updatedValues));
@@ -389,8 +396,8 @@ const ClientBrandList = () => {
                       </div>
                     </form>
                     <div className="row px-1">
-                      {ClientProducts?.postClientLoading ||
-                      ClientProducts?.updateLoading ? (
+                      {ClientProducts?.postClientLoading  || ClientProducts?.updateLoading
+                      ?(
                         <div style={{ height: "200px" }}>
                           <Loader classType={"absoluteLoader"} />
                         </div>
@@ -408,6 +415,7 @@ const ClientBrandList = () => {
                                         <th>{supplierBrandName}</th>
                                         <th>{clientbrandlistdiscount}</th>
                                         <th>{clientbrandlistcommission}</th>
+                                        <th>Is Featured</th>
                                         <th>{supplierMargin}</th>
                                         <th>{status}</th>
                                         <th>{action}</th>
@@ -501,6 +509,7 @@ const ClientBrandList = () => {
                                                 </div>
                                               </div>
                                             </td>
+                                            <td><input type="checkbox" className="isFeaturd"/></td>
                                             <td>{data.supplierMargin}</td>
                                             <td>
                                               <span

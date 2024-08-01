@@ -24,6 +24,7 @@ import clientMappingSaga from "./clientProductMappingSaga";
 import productApiSaga from "./productSaga";
 import promotionalSaga from "./ClientAdmin/promotionalSaga";
 import promotionalAllocateBrandSaga from "./promotionalAllocateBrandSaga";
+import ClientConfigurationSaga from "./clientConfiqurationSaga";
 export default function* rootSaga() {
   yield all([
     loginSaga(),
@@ -50,6 +51,7 @@ export default function* rootSaga() {
     offerMasterSaga(),
     productApiSaga(),
     promotionalSaga(),
-    promotionalAllocateBrandSaga()
+    promotionalAllocateBrandSaga(),
+    ClientConfigurationSaga()
   ]);
 }

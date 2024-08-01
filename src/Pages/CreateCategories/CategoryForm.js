@@ -376,24 +376,6 @@ const CategoryForm = () => {
                             {categoryNameTranslation}
                             <span className="text-danger">*</span>
                           </label>
-                            {isOpen && filterData.length > 0 && (
-                            <span className="">
-                              <ul>
-                                {[
-                                  ...new Set(
-                                    filterData.map((item) => item.name)
-                                  ),
-                                ].map((uniqueName, index) => (
-                                  <li
-                                    key={index}
-                                    onClick={() => handleSelect(uniqueName)}
-                                  >
-                                    {uniqueName}
-                                  </li>
-                                ))}
-                              </ul>
-                            </span>
-                          )}
                           <InputField
                             type="text"
                             className={` ${
@@ -411,7 +393,7 @@ const CategoryForm = () => {
                           )}
 
                           {isOpen && filterData.length > 0 && (
-                            <span className="">
+                            <span className="li-suggest">
                               <ul>
                                 {[
                                   ...new Set(
@@ -420,6 +402,7 @@ const CategoryForm = () => {
                                 ].map((uniqueName, index) => (
                                   <li
                                     key={index}
+                                    className="suggest-ul-li"
                                     onClick={() => handleSelect(uniqueName)}
                                   >
                                     {uniqueName}
