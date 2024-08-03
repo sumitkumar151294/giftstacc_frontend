@@ -58,7 +58,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const [bannerMaster, setBannerMaster] = useState({
     bannerTitle: "",
     bannerSubtitle: "",
-    bannerLink: "",
+    buttonLink: "",
     displayOrder: "",
     enabled: "",
     webImage: "",
@@ -70,7 +70,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const resetField = {
     bannerTitle: "",
     bannerSubtitle: "",
-    bannerLink: "",
+    buttonLink: "",
     displayOrder: "",
     enabled: "",
     webImage: "",
@@ -88,7 +88,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
         // bannerPlacement: prefilledData.bannerPlacement || "",
         bannerTitle: prefilledData.bannerTitle || "",
         bannerSubtitle: prefilledData.bannerSubtitle || "",
-        bannerLink: prefilledData.buttonLink || "",
+        buttonLink: prefilledData.buttonLink || "",
         displayOrder: prefilledData.displayOrder || "",
         buttonText: prefilledData?.buttonText,
         startDate: prefilledData?.startDate,
@@ -101,7 +101,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       setErrors({
         bannerTitle: "",
         bannerSubtitle: "",
-        bannerLink: "",
+        buttonLink: "",
         displayOrder: "",
         // status: "",
         webImage: "",
@@ -150,7 +150,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const [errors, setErrors] = useState({
     bannerTitle: "",
     bannerSubtitle: "",
-    bannerLink: "",
+    buttonLink: "",
     displayOrder: "",
     enabled: "",
     webImage: "",
@@ -269,9 +269,11 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       }
     }
     setErrors(newErrors);
-
+    console.log(bannerMaster,prefilledData,isValid)
     if (isValid) { 
+      console.log(bannerMaster,prefilledData, getImage)
       if (prefilledData?.webImage && prefilledData?.mobileImage && !getImage) {
+        console.log(bannerMaster,prefilledData)
         dispatch(
           onUpdateBannerMaster({
             ...bannerMaster,
@@ -281,7 +283,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
             mobileImage: prefilledData?.imageMobileUpload,
             displayOrder: parseInt(bannerMaster.displayOrder),
             enabled: bannerMaster.enabled,
-            buttonLink:prefilledData.buttonLink,
+            buttonLink:bannerMaster.buttonLink,
           })
         );
       } else if (getImage) {
@@ -304,7 +306,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
             webImage: offerMasterData?.imageUpload,
             mobileImage: offerMasterData?.imageMobileUpload,
             displayOrder: parseInt(bannerMaster.displayOrder),
-            buttonLink:bannerMaster.bannerLink,
+            buttonLink:bannerMaster.buttonLink,
             // Convert status to boolean based on selection
           })
         );
@@ -318,7 +320,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
             mobileImage: offerMasterData?.imageMobileUpload || "",
             displayOrder: parseInt(bannerMaster.displayOrder),
             enabled: bannerMaster.enabled,
-            buttonLink:prefilledData.buttonLink,
+            buttonLink:bannerMaster.buttonLink,
           })
         );
       }
@@ -379,19 +381,19 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="bannerLink">
+                          <label htmlFor="buttonLink">
                             {banner_link} <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
-                            className={`form-control ${errors.bannerLink ? "border-danger" : ""
+                            className={`form-control ${errors.buttonLink ? "border-danger" : ""
                               }`}
-                            id="bannerLink"
-                            value={bannerMaster.bannerLink}
+                            id="buttonLink"
+                            value={bannerMaster.buttonLink}
                             placeholder={link_placeholder}
-                            onChange={(e) => handleChange(e, "bannerLink")}
+                            onChange={(e) => handleChange(e, "buttonLink")}
                           />
-                          {<p className="text-danger">{errors.bannerLink}</p>}
+                          {<p className="text-danger">{errors.buttonLink}</p>}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="image">

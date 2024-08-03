@@ -133,11 +133,12 @@ const OfferMasterList = () => {
                                   <table className="table header-border table-responsive-sm">
                                     <thead>
                                       <tr>
-                                        <th>{image}</th>
-                                        <th>{title}</th>
-                                        <th>{subtitle}</th>
+                                        <th>Web Image</th>
+                                        <th>Mobile Image</th>
+                                        
+                                        
                                         <th>{link_level}</th>
-                                        <th>{imagePlacement}</th>
+                                        
                                         <th>{status}</th>
                                         {getRoleAccess[0]?.editAccess && (
                                           <th>{action}</th>
@@ -156,10 +157,17 @@ const OfferMasterList = () => {
                                                 alt={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
                                               />
                                             </td>
-                                            <td>{data.title}</td>
-                                            <td>{data.subtitle}</td>
+                                            <td>
+                                              <img
+                                                src={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
+                                                style={{ width: "50px" }}
+                                                alt={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
+                                              />
+                                            </td>
+                                            
+                                           
                                             <td>{data.link}</td>
-                                            <td>{data.imagePlacement}</td>
+                                           
                                             <td>
                                               <span
                                                 className={`badge ${

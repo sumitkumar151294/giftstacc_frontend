@@ -60,6 +60,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
 
   // To get the label from translation API
   const top = GetTranslationData("UIClient", "top");
+  const start_and_enddate = GetTranslationData("UIAdmin", "start_and_enddate");
   const bottom = GetTranslationData("UIClient", "bottom");
   const left = GetTranslationData("UIClient", "left_option");
   const right = GetTranslationData("UIClient", "right_option");
@@ -83,6 +84,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const subtitle_placeholder = GetTranslationData("UIClient", "subtitle_placeholder");
   const link_placeholder = GetTranslationData("UIClient", "link_placeholder");
   const link_text_placeholder = GetTranslationData("UIClient", "link_text_placeholder");
+  const upload_image_web = GetTranslationData("UIAdmin", "upload_image_web");
+  const upload_image_phone = GetTranslationData("UIAdmin", "upload_image_phone");
 
   const [getImage, setGetImage] = useState(false);
   const dispatch = useDispatch();
@@ -182,24 +185,15 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     const requiredFields = data
       ? [
           "placement",
-          "title",
-          "subtitle",
           "link",
-          "imagePlacement",
           "enabled",
-          "linkText",
           "startDate",
           "endDate",
         ]
       : [
           "placement",
-          "title",
-          "subtitle",
           "link",
-          "imagePlacement",
-          "image",
           "enabled",
-          "linkText",
           "startDate",
           "endDate",
         ];
@@ -266,11 +260,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     setAddData({
       ...addData,
       placement: data?.placement || "",
-      title: data?.title || "",
-      subtitle: data?.subtitle || "",
       link: data?.link || "",
-      imagePlacement: data?.imagePlacement || "",
-      linkText: data?.linkText || "",
       enabled: data?.enabled !== undefined ? data?.enabled : "",
       startDate: data?.startDate || "",
       endDate: data?.endDate || "",
@@ -286,18 +276,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       endDate: "",
     });
   }, [data]);
-  // useEffect(() => {
-  //   if (offerMasterData?.status_code === "201") {
-  //     setShowLoader(false);
-  //     toast.success(offerMasterData?.message);
-  //     setAddData(resetAddData);
-  //     dispatch(onPostOfferMasterReset());
-  //     dispatch(onGetOfferMaster());
-  //   } else if (offerMasterData.status_code === 404) {
-  //     dispatch(onPostOfferMasterReset());
-  //     toast.error(offerMasterData.message);
-  //   }
-  // }, [offerMasterData]);
+
   useEffect(() => {
     if (offerMasterData.postStatus_code === "201") {
       setShowLoader(false);
@@ -357,7 +336,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                   <div className="container-fluid">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
-                        <div className="col-sm-3 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="placement">
                             {placement}
                             <span className="text-danger">*</span>
@@ -373,43 +352,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             options={placementoptions}
                           />
                         </div>
-                        <div className="col-sm-5 form-group mb-2">
-                          <label htmlFor="title">
-                            {title}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={addData.title}
-                            onChange={(e) => handleInputChange(e, "title")}
-                            className={` ${
-                              errors.title ? "border-danger" : "form-control"
-                            }`}
-                            name="title"
-                            id="title"
-                            placeholder={title_placeholder}
-                          />
-                          {<p className="text-danger">{errors.title}</p>}
-                        </div>
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="subtitle">
-                            {subtitle}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={addData.subtitle}
-                            onChange={(e) => handleInputChange(e, "subtitle")}
-                            className={` ${
-                              errors.subtitle ? "border-danger" : "form-control"
-                            }`}
-                            name="subtitle"
-                            id="subtitle"
-                            placeholder={subtitle_placeholder}
-                          />
-                          {<p className="text-danger">{errors.subtitle}</p>}
-                        </div>
-                        <div className="col-sm-5 form-group mb-2">
                           <label htmlFor="link">
                             {link_label}
                             <span className="text-danger">*</span>
@@ -430,41 +373,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                           )}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="linkText">
-                            {link_text} <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            value={addData.linkText}
-                            onChange={(e) => handleInputChange(e, "linkText")}
-                            className={` ${
-                              errors.linkText ? "border-danger" : "form-control"
-                            }`}
-                            placeholder={link_text_placeholder}
-                          />
-                          {<p className="text-danger">{errors.linkText}</p>}
-                        </div>
-                        <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="imagePlacement">
-                            {imagePlacement}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <Dropdown
-                            value={addData.imagePlacement || ""}
-                            onChange={(e) =>
-                              handleInputChange(e, "imagePlacement")
-                            }
-                            className={` ${
-                              errors.imagePlacement
-                                ? "border-danger-select"
-                                : "form-select"
-                            }`}
-                            options={imagePlacementOptions}
-                          />
-                        </div>
-                        <div className="col-sm-5 form-group mb-2">
                           <label htmlFor="image">
-                            {upload_image}
+                            {upload_image_web}
                             <span className="text-danger">
                               {" "}
                               {!data ? "*" : ""}
@@ -490,7 +400,39 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                           </div>
                           {<p className="text-danger">{errors.image}</p>}
                         </div>
-                        <div className="col-sm-4 mt-5">
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="image">
+                            {upload_image_phone}
+                            <span className="text-danger">
+                              {" "}
+                              {!data ? "*" : ""}
+                            </span>
+                          </label>
+                          <div className="input-group">
+                            <div className="form-file">
+                              <InputField
+                                type="file"
+                                accept="image/jpg,image/png"
+                                value={addData.image}
+                                className={
+                                  !data
+                                    ? errors.image
+                                      ? "border-danger"
+                                      : "form-file-input form-control"
+                                    : ""
+                                }
+                                onChange={(e) => handleInputChange(e, "image")}
+                              />
+                            </div>
+                            <span className="input-group-text">{upload}</span>
+                          </div>
+                          {<p className="text-danger">{errors.image}</p>}
+                        </div>
+                        <div className="col-sm-4">
+                        <label htmlFor="enabled">
+                          {start_and_enddate}
+                            <span className="text-danger">*</span>
+                          </label>
                           <InputGroup
                             className={`${
                               errors.startDate || errors.endDate
@@ -524,7 +466,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             />
                           </InputGroup>
                         </div>
-                        <div className="col-sm-3 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="enabled">
                             {status}
                             <span className="text-danger">*</span>

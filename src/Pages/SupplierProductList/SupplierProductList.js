@@ -73,9 +73,9 @@ const SupplierProductList = () => {
   useEffect(() => {
     if (SupplierBrandListUpdate?.updateStatusCode === "201") {
       toast.success(SupplierBrandListUpdate?.message);
-      // dispatch(
-      //   onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
-      // );
+      dispatch(
+        onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
+      );
       dispatch(onUpdateSupplierBrandListReset());
     }
   }, [SupplierBrandListUpdate, dispatch]);

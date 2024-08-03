@@ -208,7 +208,7 @@ const ClientBrandList = () => {
         productId: ids,
         clientId: location?.state?.id,
         customerDiscount: 0,
-        isFeatured:"true",
+        isFeatured:false,
         clientCommission: 0,
         enabled: false,
       });
@@ -234,7 +234,7 @@ const ClientBrandList = () => {
         clientId: location?.state?.id,
         enabled: isUpdate?.enabled,
         productId: data?.id,
-        isFeatured:"true",
+        isFeatured:true,
         id: isUpdate?.id,
       };
       dispatch(onUpdateClientProductMappingSubmit(updatedValues));
@@ -244,7 +244,7 @@ const ClientBrandList = () => {
         customerDiscount: isUpdate?.customerDiscount,
         clientId: location?.state?.id,
         enabled: false,
-        isFeatured:"true",
+        isFeatured:true,
         productId: data?.id,
       };
       dispatch(onPostClientProductMappingSubmit(updatedValues));
@@ -261,7 +261,7 @@ const ClientBrandList = () => {
         customerDiscount: isUpdate?.customerDiscount,
         clientId: location?.state?.id,
         enabled: !isUpdate?.enabled,
-        isFeatured: "true",
+        isFeatured: true,
         productId: data?.id,
         id: isUpdate?.id,
       };
@@ -272,7 +272,7 @@ const ClientBrandList = () => {
         customerDiscount: 0,
         clientId: location?.state?.id,
         enabled: true,
-        isFeatured: "true",
+        isFeatured: true,
         productId: data?.id,
       };
       dispatch(onPostClientProductMappingSubmit(updatedValues));
@@ -509,7 +509,7 @@ const ClientBrandList = () => {
                                                 </div>
                                               </div>
                                             </td>
-                                            <td><input type="checkbox" className="isFeaturd"/></td>
+                                            <td><input type="checkbox" className="isFeaturd" /></td>
                                             <td>{data.supplierMargin}</td>
                                             <td>
                                               <span
