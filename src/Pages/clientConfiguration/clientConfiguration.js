@@ -10,6 +10,7 @@ import {
   onbannerMasterSubmit,
   onUpdateBannerMasterReset,
   onUpdateBannerMaster,
+  onbannerMasterSubmitReset,
 } from "../../Store/Slices/ClientAdmin/bannerMasterSlice";
 import Button from "../../Components/Button/Button";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";

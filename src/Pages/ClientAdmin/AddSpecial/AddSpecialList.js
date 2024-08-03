@@ -10,6 +10,7 @@ import { onAddSpecialUpdate } from "../../../Store/Slices/ClientAdmin/addSpecial
 import NoRecord from "../../../Components/NoRecord/NoRecord";
 import PageError from "../../../Components/PageError/PageError";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { GetClientId } from "../../../Common/commonSlice/CommonSlice";
 
 const AddSpecialList = () => {
   const section_name = GetTranslationData("UIClient", "section_name");
@@ -24,7 +25,7 @@ const AddSpecialList = () => {
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const non_active_option = GetTranslationData("UIClient", "non_active_option");
   const active = GetTranslationData("UIAdmin", "active");
-
+const getId = GetClientId();
   const dispatch = useDispatch();
   const [prefilledValues, setPrefilledValues] = useState();
   const getAddSpecial = useSelector((state) => state?.addSpecialReducer);
@@ -71,6 +72,7 @@ const AddSpecialList = () => {
       id: data.id,
       enabled: false,
       deleted: true,
+      clientId : getId,
       buttonText: data?.buttonText,
     };
     dispatch(onAddSpecialUpdate(deletedData));
