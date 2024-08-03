@@ -17,7 +17,7 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../Components/Loader/Loader";
-import { onPostClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
+import { onPostClientConfiqurationSubmit, onUpdateClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
 
 const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) => {
   const dispatch = useDispatch();
@@ -182,26 +182,29 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
       }
     }
     setErrors(newErrors);
-
+debugger
     if (isValid) { 
-    //   if (prefilledData) {
-    //     dispatch(
-    //       onUpdateBannerMaster({
-    //         ...clientConfiguration,
-    //         id: prefilledData?.id,
-    //         clientId: sessionStorage.getItem("clientCode"),
-    //       })
-    //     );
-    //   } else {
+      if (prefilledData) {
+        dispatch(
+          onUpdateClientConfiqurationSubmit({
+            ...clientConfiguration,
+            id: prefilledData?.id,
+            clientId: sessionStorage.getItem("clientCode"),
+            price:1
+          })
+        );
+      } else {
         debugger
         dispatch(
             onPostClientConfiqurationSubmit({
             ...clientConfiguration,points:parseInt(clientConfiguration?.points),
+            price:1,
             clientId: sessionStorage.getItem("clientCode"),
           })
         );
       }
     }
+  }
   
 
   return (

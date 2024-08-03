@@ -98,59 +98,59 @@ export const clientConfigurationSlice = createSlice({
         isError: false,
       };
     },
-    // onUpdateClientConfiqurationSubmit: (state) => {
-    //   return {
-    //     ...state,
-    //     updateLoading: true,
-    //     updateClientConfiqurationData: [],
-    //     updateMessage: "",
-    //     error: [],
-    //     isError: false,
-    //     update_status_code:null
-    //   };
-    // },
-    // onUpdateClientConfiqurationSubmitSuccess: (state, { payload }) => {
-    //   const { updateData = [], message = "", status_code = 200 } = payload;
-    //   return {
-    //     ...state,
-    //     updateLoading: false,
-    //     isError: false,
-    //     updateClientConfiqurationData:updateData,
-    //     error: [],
-    //     updateMessage:message,
-    //     update_status_code:status_code,
-    //   };
-    // },
-    // onUpdateClientConfiqurationSubmitError: (state, { payload }) => {
-    //   const { updateData = [], message = "", status_code = 400 } = payload;
-    //   return {
-    //     ...state,
-    //     updateLoading: false,
-    //     isError: true,
-    //     updateClientConfiqurationData: updateData,
-    //     updateMessage:message,
-    //     update_status_code:status_code,
-    //   };
-    // },
-    // onUpdateClientConfiqurationReset: (state) => {
-    //   return {
-    //     ...state,
-    //     updateLoading: false,
-    //     updateClientConfiqurationData: [],
-    //     updateMessage: "",
-    //     error: [],
-    //     update_status_code: null,
-    //     isError: false,
-    //   };
-    // },
+    onUpdateClientConfiqurationSubmit: (state) => {
+      return {
+        ...state,
+        updateLoading: true,
+        updateClientConfiqurationData: [],
+        updateMessage: "",
+        error: [],
+        isError: false,
+        update_status_code:null
+      };
+    },
+    onUpdateClientConfiqurationSubmitSuccess: (state, { payload }) => {
+      const { updateData = [], message = "", status_code = 200 } = payload;
+      return {
+        ...state,
+        updateLoading: false,
+        isError: false,
+        updateClientConfiqurationData:updateData,
+        error: [],
+        updateMessage:message,
+        update_status_code:status_code,
+      };
+    },
+    onUpdateClientConfiqurationSubmitError: (state, { payload }) => {
+      const { updateData = [], message = "", status_code = 400 } = payload;
+      return {
+        ...state,
+        updateLoading: false,
+        isError: true,
+        updateClientConfiqurationData: updateData,
+        updateMessage:message,
+        update_status_code:status_code,
+      };
+    },
+    onUpdateClientConfiqurationReset: (state) => {
+      return {
+        ...state,
+        updateLoading: false,
+        updateClientConfiqurationData: [],
+        updateMessage: "",
+        error: [],
+        update_status_code: null,
+        isError: false,
+      };
+    },
   },
 });
 
 export const {
-//   onUpdateClientConfiqurationReset,
-//   onUpdateClientConfiqurationSubmitError,
-//   onUpdateClientConfiqurationSubmitSuccess,
-//   onUpdateClientConfiqurationSubmit,
+  onUpdateClientConfiqurationReset,
+  onUpdateClientConfiqurationSubmitError,
+  onUpdateClientConfiqurationSubmitSuccess,
+  onUpdateClientConfiqurationSubmit,
   onPostClientConfiqurationSubmit,
   onPostClientConfiqurationSubmitSuccess,
   onPostClientConfiqurationSubmitError,

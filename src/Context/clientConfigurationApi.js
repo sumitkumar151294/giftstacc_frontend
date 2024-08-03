@@ -5,8 +5,13 @@ export const getPointsApi = async () => {
   return data;
 };
 
-export const postPointsApi = async () => {
-    const { data = {} } = await api.get(API.pointsApi);
+export const postPointsApi = async (payload) => {
+    const { data = {} } = await api.get(API.pointsApi,payload);
+    return data;
+  };
+
+  export const updatePointsApi = async (payload) => {
+    const { data = {} } = await api.put(API.pointsApi,payload);
     return data;
   };
 
