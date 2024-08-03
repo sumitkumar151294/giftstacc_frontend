@@ -171,13 +171,13 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   // Add more states for other form fields as necessary
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
-  
+
     if (fieldName === "webImage") {
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
         const img = new Image();
         img.onload = () => {
-          // if (img.width === 590 && img.height === 230) { // Commented out width and height validation
+          if (fieldName === "webImage" && img.width === 590 && img.height === 300) { // Commented out width and height validation
             const formData = new FormData();
             formData.append("file", file);
             setGetImagePath(formData); // Set the formData to state
@@ -186,12 +186,12 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
               ...errors,
               [fieldName]: "", // Clear any existing errors for this field
             });
-          // } else {
-          //   setErrors({
-          //     ...errors,
-          //     [fieldName]: "Image should be 590px by 230px", // Set an error if dimensions do not match
-          //   });
-          // }
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "Image should be 590px by 230px", // Set an error if dimensions do not match
+            });
+          }
         };
         img.src = URL.createObjectURL(file); // Create a URL for the image file
       } else {
@@ -202,7 +202,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       if (file) {
         const img = new Image();
         img.onload = () => {
-          // if (img.width === 396 && img.height === 400) { // Commented out width and height validation
+          if (img.width === 396 && img.height === 400) { // Commented out width and height validation
             const formData = new FormData();
             formData.append("file", file);
             setGetImagePathMobile(formData); // Set the formData to state
@@ -211,12 +211,12 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
               ...errors,
               [fieldName]: "", // Clear any existing errors for this field
             });
-          // } else {
-          //   setErrors({
-          //     ...errors,
-          //     [fieldName]: "Image should be 396px by 400px", // Set an error if dimensions do not match
-          //   });
-          // }
+          } else {
+            setErrors({
+              ...errors,
+              [fieldName]: "Image should be 396px by 400px", // Set an error if dimensions do not match
+            });
+          }
         };
         img.src = URL.createObjectURL(file); // Create a URL for the image file
       } else {
@@ -496,15 +496,22 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                               onChange={(e) => handleDateChange(e, 'startDate')}
                               block
                               appearance="subtle"
+                              disabledDate={(date) => {
+                                const today = new Date();
+                                return date < today.setHours(0, 0, 0, 0);
+                              }}
                             />
                             <DatePicker
-
                               format="yyyy-MM-dd HH:mm:ss"
                               placeholder="End Date"
                               value={bannerMaster.endDate ? new Date(bannerMaster.endDate) : null}
                               onChange={(e) => handleDateChange(e, 'endDate')}
                               block
                               appearance="subtle"
+                              disabledDate={(date) => {
+                                const today = new Date();
+                                return date < today.setHours(0, 0, 0, 0);
+                              }}
                             />
                           </InputGroup>
                         </div>
