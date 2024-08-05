@@ -24,10 +24,12 @@ import {
   onUploadImageMobile,
 } from "../../Store/Slices/ClientAdmin/offerMasterSlice";
 
-function* PostOfferMaster({ payload }) {
+function* PostOfferMaster({ payload }) {debugger
   try {
     const postOfferMasterResponse = yield call(callOfferMasterPostApi, payload);
     if (postOfferMasterResponse.httpStatusCode === "201") {
+    
+      debugger
       yield put(
         onPostOfferMasterSuccess({
           postData: postOfferMasterResponse.response,

@@ -15,6 +15,7 @@ export const offerMasterSlice = createSlice({
       };
     },
     onPostOfferMasterSuccess: (state, { payload }) => {
+      debugger
       const { postData = [], message = "", postStatus_code = 200 } = payload;
       return {
         ...state,

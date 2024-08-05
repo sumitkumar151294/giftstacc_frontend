@@ -133,12 +133,10 @@ const OfferMasterList = () => {
                                   <table className="table header-border table-responsive-sm">
                                     <thead>
                                       <tr>
-                                        <th>Web Image</th>
-                                        <th>Mobile Image</th>
-                                        
-                                        
-                                        <th>{link_level}</th>
-                                        
+                                        <th>{image}</th>
+                                        <th>MobileImage</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
                                         <th>{status}</th>
                                         {getRoleAccess[0]?.editAccess && (
                                           <th>{action}</th>
@@ -159,15 +157,14 @@ const OfferMasterList = () => {
                                             </td>
                                             <td>
                                               <img
-                                                src={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
+                                                src={`${process.env.REACT_APP_CLIENT_URL}${data.mobileImage}`}
                                                 style={{ width: "50px" }}
-                                                alt={`${process.env.REACT_APP_CLIENT_URL}${data.image}`}
+                                                alt={`${process.env.REACT_APP_CLIENT_URL}${data.mobileImage}`}
                                               />
                                             </td>
-                                            
                                            
-                                            <td>{data.link}</td>
-                                           
+                                            <td>{data.startDate}</td>
+                                            <td>{data.endDate}</td>
                                             <td>
                                               <span
                                                 className={`badge ${
