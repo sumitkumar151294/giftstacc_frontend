@@ -12,6 +12,7 @@ import {
 import Loader from "../../../Components/Loader/Loader";
 import { ToastContainer, toast } from "react-toastify";
 import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
+import { GetClientId } from "../../../Common/commonSlice/CommonSlice";
 
 const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const active = GetTranslationData("UIClient", "active_option");
@@ -32,16 +33,16 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
   const section_name_placeholder =GetTranslationData("UIClient", "section_name_placeholder");
   const brands_placeholder =GetTranslationData("UIClient", "brands_placeholder");
   const button_text_placeholder =GetTranslationData("UIClient", "button_text_placeholder");
-
+  const getClientId = GetClientId();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     sectionName: "",
     displayOrder: "",
     maximumNumberOfBrands: "",
-    description: "",
+    description: "fadsfadsf",
     IsSpecial: "",
     enabled: "",
-    buttonText: "",
+    buttonText: "fassdf",
   });
   const [error, setError] = useState({
     sectionName: "",
@@ -56,10 +57,10 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     sectionName: "",
     displayOrder: "",
     maximumNumberOfBrands: "",
-    description: "",
+    description: "fsdafads",
     IsSpecial: "",
     enabled: "",
-    buttonText: "",
+    buttonText: "fdsfads",
   };
   const statusoptions = [
     { value: true, label: active },
@@ -70,12 +71,11 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
     setFormData({
       sectionName: prefilledValues?.sectionName || "",
       displayOrder: prefilledValues?.displayOrder || "",
-      enabled:
-        prefilledValues?.enabled !== undefined ? prefilledValues?.enabled : "",
+      enabled:prefilledValues?.enabled !== undefined ? prefilledValues?.enabled : "",
       maximumNumberOfBrands: prefilledValues?.maximumNumberOfBrands || "",
-      description: prefilledValues?.description || "",
+      description: "dsfasdfasd",
       IsSpecial: prefilledValues?.isSpecial, // Use boolean value directly
-      buttonText: prefilledValues?.buttonText,
+      buttonText: "Afasdf",
     });
     setError({
       sectionName: "",
@@ -180,10 +180,11 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
       }
 
       if (prefilledValues) {
-        const updatedData = { ...submissionData, id: prefilledValues?.id };
+        const updatedData = { ...submissionData, id: prefilledValues?.id , clientId : getClientId};
         dispatch(onAddSpecialUpdate(updatedData));
       } else {
-        dispatch(onAddSpecialSubmit(submissionData));
+        const updatedData = { ...submissionData, clientId : getClientId};
+        dispatch(onAddSpecialSubmit(updatedData));
       }
     }
   };
@@ -246,23 +247,6 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             placeholder={display_order}
                           />
                         </div>
-
-                        <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="enabled">
-                            {status} <span className="text-danger">*</span>
-                          </label>
-                          <Dropdown
-                            aria-label="Default select example"
-                            onChange={(e) => handleInput(e, "enabled")}
-                            value={formData?.enabled}
-                            className={`${
-                              error.enabled
-                                ? "border-danger-select"
-                                : "form-select"
-                            }`}
-                            options={statusoptions}
-                          />
-                        </div>
                         <div className="col-sm-3 form-group mb-2">
                           <label htmlFor="maxNumBrand">
                             {Max_Brands}
@@ -284,60 +268,24 @@ const AddSpecialForm = ({ prefilledValues, setPrefilledValues }) => {
                             }
                           />
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="buttonText">
-                            {Button_Text} <span className="text-danger">*</span>
-                          </label>
-                          <InputField
-                            type="text"
-                            className={`form-control ${
-                              error.buttonText ? "border-danger" : ""
-                            }`}
-                            id="buttonText"
-                            value={formData.buttonText}
-                            placeholder={button_text_placeholder}
-                            onChange={(e) => handleInput(e, "buttonText")}
-                          />
-                          {/* {<p className="text-danger">{error.buttonText}</p>} */}
-                        </div>
                         <div className="col-sm-3 form-group mb-2">
-                          <label htmlFor="maxNumBrand">
-                            {description}
-                            <span className="text-danger">*</span>
+                          <label htmlFor="enabled">
+                            {status} <span className="text-danger">*</span>
                           </label>
-                          <InputField
-                            type="text"
-                            value={formData?.description}
+                          <Dropdown
+                            aria-label="Default select example"
+                            onChange={(e) => handleInput(e, "enabled")}
+                            value={formData?.enabled}
                             className={`${
-                              error.description
-                                ? "border-danger"
-                                : "form-control"
+                              error.enabled
+                                ? "border-danger-select"
+                                : "form-select"
                             }`}
-                            name="description"
-                            id="description"
-                            placeholder={description}
-                            onChange={(e) => handleInput(e, "description")}
+                            options={statusoptions}
                           />
-                          {/* {<p className="text-danger">{error.description}</p>} */}
                         </div>
-                        <div className="col-sm-3 form-group   mt-2 isSpecial">
-                          <InputField
-                            className="form-check-input mt-3"
-                            type="checkbox"
-                            name="IsSpecial"
-                            value={formData?.IsSpecial}
-                            checked={formData.IsSpecial} // Use checked attribute with boolean value
-                            id="flexCheckDefault1"
-                            onChange={handleInputChange}
-                          />
-                          <label
-                            className="form-check-label mt-3 fnt-15"
-                            htmlFor="flexCheckDefault1"
-                          >
-                            {Is_Special}{" "}
-                          </label>
-                        </div>
-                        <span
+                      
+                      <span
                           className="form-check-label"
                           htmlFor="basic_checkbox_1"
                           style={{ marginLeft: "5px", marginTop: "10px" }}

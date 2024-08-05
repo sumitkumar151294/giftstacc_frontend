@@ -527,3 +527,32 @@ cursor {
   border-radius: 5px !important;
 
 }
+.li-suggest{
+  min-width: 300px;
+  position: absolute;
+  max-height: 200px;
+  overflow: auto;
+  background-color: var(--primary-white);
+}
+.suggest-ul-li{
+  padding: 10px;
+  cursor: pointer;
+}
+.imginfo{
+  position: absolute;
+  left: 2.3rem;
+  top: -0.5rem;
+}
+.isFeaturd{
+  width: 20px;
+  height: 20px;
+}
+.height-400{
+  max-height: 500px;
+}
+.fixed-header{
+  background-color: var(--primary-white);
+  top: 0;
+  position: sticky;
+  z-index: 9999;
+}

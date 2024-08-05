@@ -1,46 +1,50 @@
 .info-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-  
-  .info-icon {
-    margin-left: 8px;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .tooltip {
-    display: inline-block;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 8px;
-    background-color: var(--bs-white);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
 
-    font-size: 0.8rem;
+.info-icon {
+  margin-left: 8px;
+  cursor: pointer;
+  position: relative;
+}
 
-    border-radius: 4px;
-    box-shadow: 0 2px 8px var( --rgba-primary-25);
-    white-space: nowrap;
-  }
-  
-  .tooltip::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px;
-    border-style: solid;
-    border-color: var(--bs-white) transparent transparent transparent;
-    font-size: 0.8rem;
-  }
-  
-  .info-icon i {
-    color:black
-  }
-  .flex{
-    display: flex;
-  }
+.tooltip {
+  display: inline-block;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px;
+  background-color: var(--bs-white);
+
+  font-size: 0.8rem;
+
+  border-radius: 4px;
+  box-shadow: 0 2px 8px var(--rgba-primary-25);
+  white-space: nowrap;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--bs-white) transparent transparent transparent;
+  font-size: 0.8rem;
+}
+
+
+.tooltipimg::after {
+  left: 60%;
+}
+.info-icon i {
+  color: black;
+}
+.flex {
+  display: flex;
+}

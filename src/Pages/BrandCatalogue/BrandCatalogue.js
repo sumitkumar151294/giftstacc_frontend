@@ -16,6 +16,7 @@ import { CSVLink } from "react-csv";
 import { onClientMasterSubmit } from "../../Store/Slices/clientMasterSlice";
 import { onProductByIdSubmit } from "../../Store/Slices/productSlice";
 import PageError from "../../Components/PageError/PageError";
+import notFoundImage from "../../../src/Assets/img/notFound.png";
 
 const BrandCatalogue = () => {
   const navigate = useNavigate();
@@ -43,6 +44,8 @@ const BrandCatalogue = () => {
   const [selectedClientId, setSelectedClientId] = useState(null);
   const supplierMaster = useSelector((state) => state.supplierMasterReducer);
   const productByIdReducer = useSelector((state) => state.productReducer);
+  const [notFoundStates, setNotFoundStates] = useState([]);
+  const [info, setInfo] = useState(false);
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer?.filteredData
   );
@@ -233,7 +236,13 @@ const BrandCatalogue = () => {
       setCopyBrandCatalogue([]);
     }
   }, [productByIdReducer.productById]);
-  console.log(clientProductMapping);
+  const handleImageError = (index) => {
+    setNotFoundStates((prevState) => {
+      const newState = [...prevState];
+      newState[index] = true;
+      return newState;
+    });
+  };
   return (
     <div>
       {getRoleAccess[0] === undefined && (
@@ -331,7 +340,7 @@ const BrandCatalogue = () => {
                       </div>
                     ) : (
                       <>
-                        <div className="table-responsive">
+                        <div className="table-responsive table-wrapper">
                           {clientProductMapping?.length > 0 ? (
                             <>
                               <table className="table header-border table-responsive-sm">
@@ -354,10 +363,44 @@ const BrandCatalogue = () => {
                                       .map((data, index) => (
                                         <tr key={index}>
                                           <td>
+                                          {notFoundStates[index] && (
+                                              <div
+                                                className="info-icon"
+                                                onMouseEnter={() =>
+                                                  setInfo(true)
+                                                }
+                                                onMouseLeave={() =>
+                                                  setInfo(false)
+                                                }
+                                              >
+                                                <i
+                                                  className="fa fa-info-circle imginfo"
+                                                  aria-hidden="true"
+                                                ></i>
+                                                {info && (
+                                                  <div className="tooltip tooltipimg" style={
+                                                    {color:"black",bottom:"1rem",borderRadius:"1rem"
+                                                    }
+                                                  }>
+                                                  Error in image path
+
+                                                  </div>
+                                                )}
+                                              </div>
+                                            )}
                                             <img
-                                              src={data.small}
+                                             src={
+                                              notFoundStates[index]
+                                                ? notFoundImage
+                                                : data.small
+                                            }
+                                            onError={() =>
+                                              handleImageError(index)
+                                            }
+
+
                                               style={{ width: "50px" }}
-                                              x
+                                              alt={data?.name}
                                             />
                                             <br />
                                           </td>

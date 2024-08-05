@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import BannerForm from "./BannerMaster";
 import ReactPaginate from "react-paginate";
-import Button from "../../../Components/Button/Button";
+import Button from "../../Components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
-import NoRecord from "../../../Components/NoRecord/NoRecord";
-import Loader from "../../../Components/Loader/Loader";
-import { onUpdateBannerMaster } from "../../../Store/Slices/ClientAdmin/bannerMasterSlice";
-import { GetTranslationData } from "../../../Components/GetTranslationData/GetTranslationData ";
-import PageError from "../../../Components/PageError/PageError";
-const BannerMasterList = () => {
+import NoRecord from "../../Components/NoRecord/NoRecord";
+import Loader from "../../Components/Loader/Loader";
+import { onUpdateBannerMaster } from "../../Store/Slices/ClientAdmin/bannerMasterSlice";
+import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
+import PageError from "../../Components/PageError/PageError";
+import ClientConfiguration from "./clientConfiguration";
+import { onClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
+const ClientConfigurationList = () => {
   const title_label = GetTranslationData("UIClient", "title");
   const sub_title = GetTranslationData("UIClient", "sub-title");
   const link_label = GetTranslationData("UIClient", "link_label");
@@ -21,6 +22,7 @@ const BannerMasterList = () => {
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const startDate = GetTranslationData("UIAdmin", "startDate");
   const endDate = GetTranslationData("UIAdmin", "endDate");
+  const banner_link = GetTranslationData("UIClient", "banner-link");
   const [isDelete, setIsDelete]= useState(false);
   const dispatch = useDispatch();
   const getBannerMasterState = useSelector(
@@ -45,6 +47,7 @@ const BannerMasterList = () => {
     setPage(selected.selected + 1);
   };
   const handleEdit = (data) => {
+    debugger
     const prefilled = { ...data };
     setPrefilledData(prefilled);
   };
@@ -55,7 +58,7 @@ const BannerMasterList = () => {
       // bannerPlacement: data.bannerPlacement,
       bannerTitle: data.bannerTitle,
       bannerSubtitle: data.bannerSubtitle,
-      buttonLink: data.buttonLink,
+      bannerLink: data.buttonLink,
       displayOrder: data.displayOrder,
       buttonText: data.buttonText,
       webImage: data.webImage,
@@ -68,6 +71,13 @@ const BannerMasterList = () => {
     };
     dispatch(onUpdateBannerMaster(deletedData));
   };
+  useEffect(()=>{
+    dispatch(onClientConfiqurationSubmit())
+      },[]);
+    
+      const pointData = useSelector((state) => state.clientConfigurationSliceReducer?.clientConfiqurationData)
+      console.log(pointData,"pointData");
+    
   useEffect(() => {
     if (getBannerMaster) {
       const totalItems = getBannerMaster?.length;
@@ -86,7 +96,7 @@ const BannerMasterList = () => {
 
           {getRoleAccess[0]?.addAccess && (
 
-            <BannerForm
+            <ClientConfiguration
               prefilledData={prefilledData}
               setPrefilledData={setPrefilledData}
               isDelete={isDelete}
@@ -99,7 +109,7 @@ const BannerMasterList = () => {
                 <div className="card">
                   <div className="container-fluid pt-0">
                     <div className="card-header">
-                      <h4 className="card-title">Banner List</h4>
+                      <h4 className="card-title">client Configuration List</h4>
                     </div>
                     {(isDelete ? isDelete : getListData)? (
                       <div style={{ height: "400px" }}>
@@ -107,72 +117,70 @@ const BannerMasterList = () => {
                       </div>
                     ) : (
                       <div className="card-body">
-                        {getBannerMaster && getBannerMaster.length > 0 ? (
+                        {pointData && pointData.length > 0 ? (
                           <div className="table-responsive">
                             <table className="table header-border table-responsive-sm">
                               <thead>
                                 <tr>
-                                  <th>WebImage</th>
-                                  <th>MobileImage</th>
-                                  <th>{title_label}</th>
-                                  <th>{sub_title}</th>
-                                  <th>Button Text</th>
-                                  <th>{display_order}</th>
-                                  <th>{startDate}</th>
-                                                    <th>{endDate}</th>
-                                  <th>{status}</th>
-                                  <th>{actionLabel}</th>
+                                  <th>Email</th>
+                                  <th>Phone</th>
+                                  <th>Display Item Info Message </th>
+                                  <th>Display Item Info Status</th>
+                                  <th>Display Consonant</th>
+                                  <th>Display Consonant Status</th>
+                                  <th>Price Per Point</th>
+                                 
                                 </tr>
                               </thead>
                               <tbody>
-                                {getBannerMaster
+                                {pointData
                                   .slice(startIndex, endIndex)
-                                  .map((banner) => (
-                                    <tr key={banner.id}>
-                                       <img
-                                                src={`${process.env.REACT_APP_CLIENT_URL}${banner.webImage}`}
-                                                style={{ width: "50px" }}
-                                                alt={`${process.env.REACT_APP_CLIENT_URL}${banner.webImage}`}
-                                              />
-                                      <td>
-                                      <img
-                                                src={`${process.env.REACT_APP_CLIENT_URL}${banner?.mobileImage}`}
-                                                style={{ width: "50px" }}
-                                                alt={`${process.env.REACT_APP_CLIENT_URL}${banner?.mobileImage}`}
-                                              />
-                                      </td>
-                                      <td>{banner.bannerTitle}</td>
-                                      <td>{banner.bannerSubtitle}</td>
-                                      <td>{banner.buttonText}</td>
-                                      <td>{banner.displayOrder}</td>
-                                      <td>{banner.startDate}</td>
-                                      <td>{banner.endDate}</td>
-
+                                  .map((points) => (
+                                    <tr key={points.id}>
+                                    
+                                      <td>{points.email}</td>
+                                      <td>{points.phoneNumber}</td>
+                                      <td>{points.cartInfoMessage}</td>
                                       <td>
                                         <span
                                           className={
-                                            banner.enabled
+                                            points.cartInfo
                                               ? "badge badge-success"
                                               : "badge badge-danger"
                                           }
                                         >
-                                          {banner.enabled
+                                          {points.cartInfo
                                             ? active
                                             : non_active_option}
                                         </span>
                                       </td>
+                                      <td>{points.consentRequired}</td>
+                                      <td>
+                                        <span
+                                          className={
+                                            points.consentMessage
+                                              ? "badge badge-success"
+                                              : "badge badge-danger"
+                                          }
+                                        >
+                                          {points.consentMessage
+                                            ? active
+                                            : non_active_option}
+                                        </span>
+                                      </td>
+                                      <td>{points.points}</td>
                                       {getRoleAccess[0]?.editAccess && (
                                         <td>
                                           <div className="d-flex">
                                             <Button
                                               className="btn btn-primary shadow btn-xs sharp me-1"
                                               icon={"fas fa-pencil-alt"}
-                                              onClick={() => handleEdit(banner)}
+                                              onClick={() => handleEdit(points)}
                                             ></Button>
                                             <Button
                                               className="btn btn-danger shadow btn-xs sharp"
                                               icon={"fa fa-trash"}
-                                              onClick={() => handleDelete(banner)}
+                                              onClick={() => handleDelete(points)}
                                             />
                                           </div>
                                         </td>
@@ -230,5 +238,5 @@ const BannerMasterList = () => {
 
   );
 };
-export default BannerMasterList;
+export default ClientConfigurationList;
 /* eslint-enable react-hooks/exhaustive-deps */

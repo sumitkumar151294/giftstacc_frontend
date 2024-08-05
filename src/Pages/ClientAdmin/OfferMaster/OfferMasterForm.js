@@ -50,6 +50,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
 
   // To get the label from translation API
   const top = GetTranslationData("UIClient", "top");
+  const start_and_enddate = GetTranslationData("UIAdmin", "start_and_enddate");
   const bottom = GetTranslationData("UIClient", "bottom");
   // const left = GetTranslationData("UIClient", "left_option");
   // const right = GetTranslationData("UIClient", "right_option");
@@ -278,18 +279,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       endDate: "",
     });
   }, [data]);
-  // useEffect(() => {
-  //   if (offerMasterData?.status_code === "201") {
-  //     setShowLoader(false);
-  //     toast.success(offerMasterData?.message);
-  //     setAddData(resetAddData);
-  //     dispatch(onPostOfferMasterReset());
-  //     dispatch(onGetOfferMaster());
-  //   } else if (offerMasterData.status_code === 404) {
-  //     dispatch(onPostOfferMasterReset());
-  //     toast.error(offerMasterData.message);
-  //   }
-  // }, [offerMasterData]);
+
   useEffect(() => {
     if (offerMasterData.postStatus_code === "201") {
       setShowLoader(false);
@@ -349,7 +339,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                   <div className="container-fluid">
                     <form onSubmit={handleSubmit}>
                       <div className="row">
-                        <div className="col-sm-3 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="placement">
                             {placement}
                             <span className="text-danger">*</span>
@@ -392,7 +382,39 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                           </div>
                           {<p className="text-danger">{errors.image}</p>}
                         </div>
-                        <div className="col-sm-4 mt-5">
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="image">
+                            {upload_image_phone}
+                            <span className="text-danger">
+                              {" "}
+                              {!data ? "*" : ""}
+                            </span>
+                          </label>
+                          <div className="input-group">
+                            <div className="form-file">
+                              <InputField
+                                type="file"
+                                accept="image/jpg,image/png"
+                                value={addData.image}
+                                className={
+                                  !data
+                                    ? errors.image
+                                      ? "border-danger"
+                                      : "form-file-input form-control"
+                                    : ""
+                                }
+                                onChange={(e) => handleInputChange(e, "image")}
+                              />
+                            </div>
+                            <span className="input-group-text">{upload}</span>
+                          </div>
+                          {<p className="text-danger">{errors.image}</p>}
+                        </div>
+                        <div className="col-sm-4">
+                        <label htmlFor="enabled">
+                          {start_and_enddate}
+                            <span className="text-danger">*</span>
+                          </label>
                           <InputGroup
                             className={`${errors.startDate || errors.endDate
                               ? "border-danger-date"
@@ -425,7 +447,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             />
                           </InputGroup>
                         </div>
-                        <div className="col-sm-3 form-group mb-2">
+                        <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="enabled">
                             {status}
                             <span className="text-danger">*</span>

@@ -167,7 +167,6 @@ const PromotionalList = () => {
                                         <table className="table header-border table-responsive-sm">
                                             <thead>
                                                 <tr>
-                                                    <th>{client_label}</th>
                                                     <th>{title_Text}</th>
                                                     <th>{link_text}</th>
                                                     <th>{link_label}</th>
@@ -175,13 +174,12 @@ const PromotionalList = () => {
                                                     <th>{endDate}</th>
                                                     <th>{Status_label}</th>
                                                     <th>{actionLabel}</th>
-                                                    <th></th>
+                                                   
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {displayedItems.map((item, index) => (
                                                     <tr key={index}>
-                                                        <td>{getNameById(item.clientId)}</td>
                                                         <td>{item.titleText}</td>
                                                         <td>{item.linkText}</td>
                                                         <td>{item.link}</td>
@@ -194,16 +192,7 @@ const PromotionalList = () => {
                                                                 <Link className="btn btn-danger shadow btn-xs sharp" onClick={() => handleDelete(item)}><i className="fa fa-trash"></i></Link>
                                                             </div>
                                                         </td>
-                                                        <td>
-                                                            <Link
-                                                                to="/lc-user-admin/promotional-allocate-brand"
-                                                                className="allocateBtn btn btn-primary btn-sm float-right font-size"
-                                                                state={{ id: item.clientId ,promotionalId:item?.id }}
-                                                            >
-                                                                <i className="fa fa-plus mr-2"></i>
-                                                                {allocateBrands}
-                                                            </Link>
-                                                        </td>
+                                                       
                                                     </tr>
                                                 ))}
                                             </tbody>

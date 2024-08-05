@@ -136,7 +136,7 @@ const OfferMasterList = () => {
                                         <th>{image}</th>
                                         <th>MobileImage</th>
                                         <th>Start Date</th>
-                                        <th>Ed Date</th>
+                                        <th>End Date</th>
                                         <th>{status}</th>
                                         {getRoleAccess[0]?.editAccess && (
                                           <th>{action}</th>

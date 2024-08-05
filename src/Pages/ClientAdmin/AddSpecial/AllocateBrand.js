@@ -35,6 +35,7 @@ const AllocateBrand = () => {
   const [rowsPerPage] = useState(5);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
+  const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
@@ -50,9 +51,9 @@ const AllocateBrand = () => {
     dispatch(
       onProductByIdSubmit({
         id: loginAuthData?.data[0]?.clientId,
-        pageNumber: page,
-        pageSize: rowsPerPage,
-      })
+        pageNumber: 1,
+        pageSize: 200,
+      })  
     );
     dispatch(onGetSupplierBrandList());
     dispatch(onAllocateBrandById(location?.state?.data?.id));
@@ -197,6 +198,11 @@ const AllocateBrand = () => {
   };
   const handleSubmit = () => {
     setShowLoader(true);
+    
+    copyClientMapping.forEach(item => {
+      item.clientId =  loginAuthData?.data[0]?.clientId;
+  });
+  
     dispatch(onUpdateAllocateBrandById(copyClientMapping));
   };
 
@@ -295,25 +301,31 @@ const AllocateBrand = () => {
                             ))}
                         </tbody>
                       </table>
-                      {filteredBrandCatalogueList?.length > 5 && (
-                        <div className="pagination-container">
-                          <ReactPaginate
-                            previousLabel={"<"}
-                            nextLabel={" >"}
-                            breakLabel={"..."}
-                            pageCount={Math.ceil(
-                              filteredProducts.length / rowsPerPage
-                            )}
-                            marginPagesDisplayed={2}
-                            onPageChange={handlePageChange}
-                            containerClassName={"pagination"}
-                            activeClassName={"active"}
-                            initialPage={page - 1}
-                            previousClassName={page === 1 ? "disabled" : ""}
-                          />
-                          <ToastContainer />
-                        </div>
-                      )}
+                      
+                     
+
+                      {productByIdReducer.productById[0]?.totalCount >
+                                5 && (
+                                <div className="pagination-container">
+                                  <ReactPaginate
+                                    previousLabel={"<"}
+                                    nextLabel={" >"}
+                                    breakLabel={"..."}
+                                    pageCount={Math.ceil(
+                                      productByIdReducer.productById[0]
+                                        ?.totalCount / rowsPerPage
+                                    )}
+                                    marginPagesDisplayed={2}
+                                    onPageChange={(e) => handlePageChange(e)}
+                                    containerClassName={"pagination"}
+                                    activeClassName={"active"}
+                                    initialPage={page - 1}
+                                    previousClassName={
+                                      page === 0 ? disabled_Text : ""
+                                    }
+                                  />
+                                </div>
+                              )}
                     </div>
                     <Button
                       text="Submit"
