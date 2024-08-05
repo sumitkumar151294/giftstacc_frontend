@@ -24,14 +24,23 @@ import {
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import Loader from "../../../Components/Loader/Loader";
 import { DatePicker, InputGroup } from "rsuite";
-const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) => {
+import { GetClientId } from "../../../Common/commonSlice/CommonSlice";
+const BannerForm = ({
+  prefilledData,
+  setPrefilledData,
+  isDelete,
+  setIsDelete,
+}) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const upload_image_web = GetTranslationData("UIAdmin", "upload_image_web");
-  const upload_image_phone = GetTranslationData("UIAdmin", "upload_image_phone");
+  const upload_image_phone = GetTranslationData(
+    "UIAdmin",
+    "upload_image_phone"
+  );
   const upload = GetTranslationData("UIClient", "upload");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const displayOrder = GetTranslationData("UIClient", "display-order");
@@ -41,20 +50,35 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const banner_link = GetTranslationData("UIClient", "banner-link");
   const status = GetTranslationData("UIClient", "status");
   const title_placeholder = GetTranslationData("UIClient", "title_placeholder");
-  const subtitle_placeholder = GetTranslationData("UIClient", "subtitle_placeholder");
+  const subtitle_placeholder = GetTranslationData(
+    "UIClient",
+    "subtitle_placeholder"
+  );
   const link_placeholder = GetTranslationData("UIClient", "link_placeholder");
-  const link_text_placeholder = GetTranslationData("UIClient", "button_text_placeholder");
-  const display_order_placeholder = GetTranslationData("UIAdmin", "display_order_placeholder");
+  const link_text_placeholder = GetTranslationData(
+    "UIClient",
+    "button_text_placeholder"
+  );
+  const display_order_placeholder = GetTranslationData(
+    "UIAdmin",
+    "display_order_placeholder"
+  );
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
-  const bannerMasterUploadImg = useSelector((state) => state.offerMasterReducer?.imgLoading);
+  const bannerMasterUploadImg = useSelector(
+    (state) => state.offerMasterReducer?.imgLoading
+  );
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
-  console.log(offerMasterData?.imageMobileUpload,"image")
+  console.log(offerMasterData?.imageMobileUpload, "image");
   const [getImagePath, setGetImagePath] = useState("");
   const [getImagePathMobile, setGetImagePathMobile] = useState("");
   const [getImage, setGetImage] = useState(false);
-  useEffect(()=>{
-    dispatch(onUploadImageMobile())
-  },[])
+  const [webvisible, setwebVisible] = useState(false);
+  const [webvisibleMob, setwebVisibleMob] = useState(false);
+  useEffect(() => {
+    dispatch(onUploadImageMobile());
+  }, []);
+  var clientId = GetClientId();
+
   const [bannerMaster, setBannerMaster] = useState({
     bannerTitle: "",
     bannerSubtitle: "",
@@ -64,8 +88,8 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
     webImage: "",
     mobileImage: "",
     buttonText: "",
-    startDate: '',
-    endDate: ''
+    startDate: "",
+    endDate: "",
   });
   const resetField = {
     bannerTitle: "",
@@ -76,14 +100,14 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
     webImage: "",
     mobileImage: "",
     buttonText: "",
-    startDate: '',
-    endDate: ''
+    startDate: "",
+    endDate: "",
   };
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
     if (prefilledData) {
-      debugger
+      debugger;
       setBannerMaster({
         // bannerPlacement: prefilledData.bannerPlacement || "",
         bannerTitle: prefilledData.bannerTitle || "",
@@ -117,11 +141,11 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       dispatch(onbannerMasterSubmitReset());
       setPrefilledData("");
       dispatch(onGetbannerMaster());
-    } else if (getBannerMaster.update_status_code === "201" ) {  
-      if (isDelete ) { 
+    } else if (getBannerMaster.update_status_code === "201") {
+      if (isDelete) {
         toast.success(getBannerMaster.message);
         dispatch(onUpdateBannerMasterReset());
-        setIsDelete(false)
+        setIsDelete(false);
         dispatch(onGetbannerMaster());
       } else {
         toast.success(getBannerMaster.message);
@@ -177,7 +201,12 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       if (file) {
         const img = new Image();
         img.onload = () => {
-          if (fieldName === "webImage" && img.width === 590 && img.height === 300) { // Commented out width and height validation
+          if (
+            fieldName === "webImage" &&
+            img.width === 590 &&
+            img.height === 300
+          ) {
+            // Commented out width and height validation
             const formData = new FormData();
             formData.append("file", file);
             setGetImagePath(formData); // Set the formData to state
@@ -202,7 +231,8 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       if (file) {
         const img = new Image();
         img.onload = () => {
-          if (img.width === 396 && img.height === 400) { // Commented out width and height validation
+          if (img.width === 396 && img.height === 400) {
+            // Commented out width and height validation
             const formData = new FormData();
             formData.append("file", file);
             setGetImagePathMobile(formData); // Set the formData to state
@@ -221,26 +251,24 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
         img.src = URL.createObjectURL(file); // Create a URL for the image file
       } else {
         value = ""; // Reset the value if no file is selected
-      } 
+      }
     } else if (fieldName === "enabled") {
       value = e.target.value === "true" ? true : false;
     }
-  
+
     // Update the bannerMaster state with the new value
     setBannerMaster({
       ...bannerMaster,
       [fieldName]: value,
     });
-  
+
     // Remove the error message for the field being edited
     setErrors({
       ...errors,
       [fieldName]: "",
     });
   };
-  
-  
-  
+
   const handleDateChange = (dates, fieldName) => {
     setBannerMaster({
       ...bannerMaster,
@@ -248,10 +276,10 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
     });
     setErrors({
       ...errors,
-      [fieldName]: '',
+      [fieldName]: "",
     });
   };
-  const handleSubmit = (e) => { 
+  const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
@@ -269,21 +297,23 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       }
     }
     setErrors(newErrors);
-    console.log(bannerMaster,prefilledData,isValid)
-    if (isValid) { 
-      console.log(bannerMaster,prefilledData, getImage)
+    console.log(bannerMaster, prefilledData, isValid);
+    if (isValid) {
+      console.log(bannerMaster, prefilledData, getImage);
       if (prefilledData?.webImage && prefilledData?.mobileImage && !getImage) {
-        console.log(bannerMaster,prefilledData)
+        debugger;
+        console.log(bannerMaster, prefilledData);
         dispatch(
           onUpdateBannerMaster({
             ...bannerMaster,
             id: prefilledData?.id,
             clientId: sessionStorage.getItem("clientCode"),
-            webImage: prefilledData?.imageUpload,
-            mobileImage: prefilledData?.imageMobileUpload,
+            webImage: prefilledData?.webImage,
+            mobileImage: prefilledData?.mobileImage,
             displayOrder: parseInt(bannerMaster.displayOrder),
             enabled: bannerMaster.enabled,
-            buttonLink:bannerMaster.buttonLink,
+            buttonLink: bannerMaster.buttonLink,
+            clientId: clientId,
           })
         );
       } else if (getImage) {
@@ -292,12 +322,14 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       }
     }
   };
-  useEffect(() => { 
-    if (offerMasterData?.status_code_Image === "201" && offerMasterData?.status_code_MobileImage ==="201") {
+  useEffect(() => {
+    if (
+      offerMasterData?.status_code_Image === "201" &&
+      offerMasterData?.status_code_MobileImage === "201"
+    ) {
       dispatch(onUploadImageReset());
 
       if (!prefilledData) {
-        
         dispatch(
           onbannerMasterSubmit({
             ...bannerMaster,
@@ -306,21 +338,25 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
             webImage: offerMasterData?.imageUpload,
             mobileImage: offerMasterData?.imageMobileUpload,
             displayOrder: parseInt(bannerMaster.displayOrder),
-            buttonLink:bannerMaster.buttonLink,
+            buttonLink: bannerMaster.buttonLink,
+            clientId: clientId,
             // Convert status to boolean based on selection
           })
         );
-      } else { 
+      } else {
+        debugger;
+
         dispatch(
           onUpdateBannerMaster({
             ...bannerMaster,
             id: prefilledData?.id,
-            clientId:prefilledData.clientId,
-            webImage: offerMasterData?.imageUpload || "",
-            mobileImage: offerMasterData?.imageMobileUpload || "",
+            clientId: prefilledData.clientId,
+            webImage: offerMasterData?.imageUpload,
+            mobileImage: offerMasterData?.imageMobileUpload,
             displayOrder: parseInt(bannerMaster.displayOrder),
             enabled: bannerMaster.enabled,
-            buttonLink:bannerMaster.buttonLink,
+            buttonLink: bannerMaster.buttonLink,
+            clientId: clientId,
           })
         );
       }
@@ -339,7 +375,9 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                 <h4 className="card-title">{banner_master}</h4>
               </div>
               <div className="card-body pt-2 ml-6  mb-4  ">
-                {getBannerMaster?.postLoading || bannerMasterUploadImg || (!isDelete && getBannerMaster?.putLoading) ? (
+                {getBannerMaster?.postLoading ||
+                bannerMasterUploadImg ||
+                (!isDelete && getBannerMaster?.putLoading) ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -349,12 +387,14 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                       <div className="row">
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="bannerTitle">
-                            {banner_title} <span className="text-danger">*</span>
+                            {banner_title}{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
-                            className={`form-control ${errors.bannerTitle ? "border-danger" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.bannerTitle ? "border-danger" : ""
+                            }`}
                             id="bannerTitle"
                             value={bannerMaster.bannerTitle}
                             placeholder={title_placeholder}
@@ -370,14 +410,19 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                           </label>
                           <InputField
                             type="text"
-                            className={`form-control ${errors.bannerSubtitle ? "border-danger" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.bannerSubtitle ? "border-danger" : ""
+                            }`}
                             id="bannerSubtitle"
                             value={bannerMaster.bannerSubtitle}
                             placeholder={subtitle_placeholder}
                             onChange={(e) => handleChange(e, "bannerSubtitle")}
                           />
-                          {<p className="text-danger">{errors.bannerSubtitle}</p>}
+                          {
+                            <p className="text-danger">
+                              {errors.bannerSubtitle}
+                            </p>
+                          }
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
@@ -386,8 +431,9 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                           </label>
                           <InputField
                             type="text"
-                            className={`form-control ${errors.buttonLink ? "border-danger" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.buttonLink ? "border-danger" : ""
+                            }`}
                             id="buttonLink"
                             value={bannerMaster.buttonLink}
                             placeholder={link_placeholder}
@@ -397,11 +443,29 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="image">
-                            {upload_image_phone}
-                            <span className="text-danger">
+                            <div className="d-flex">
                               {" "}
-                              {!prefilledData ? "*" : ""}
-                            </span>
+                              {upload_image_phone}
+                              <div
+                                className="info-icon"
+                                onMouseEnter={() => setwebVisibleMob(true)}
+                                onMouseLeave={() => setwebVisibleMob(false)}
+                              >
+                                <i
+                                  className="fa fa-info-circle"
+                                  aria-hidden="true"
+                                ></i>
+                                {webvisibleMob && (
+                                  <div className="tooltip">
+                                    Image size Should be 396 <sup>*</sup>400px
+                                  </div>
+                                )}
+                              </div>
+                              <span className="text-danger">
+                                {" "}
+                                {!prefilledData ? "*" : ""}
+                              </span>
+                            </div>
                           </label>
                           <div className="input-group">
                             <div className="form-file">
@@ -430,8 +494,9 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                           </label>
                           <InputField
                             type="text"
-                            className={`form-control ${errors.buttonText ? "border-danger" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.buttonText ? "border-danger" : ""
+                            }`}
                             id="buttonText"
                             value={bannerMaster.buttonText}
                             placeholder={link_text_placeholder}
@@ -441,12 +506,14 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="displayOrder">
-                            {displayOrder} <span className="text-danger">*</span>
+                            {displayOrder}{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="number"
-                            className={`form-control ${errors.displayOrder ? "border-danger" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.displayOrder ? "border-danger" : ""
+                            }`}
                             id="displayOrder"
                             value={bannerMaster.displayOrder}
                             placeholder={display_order_placeholder}
@@ -456,12 +523,29 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="image">
-                           {upload_image_web}
-                            <span className="text-danger">
-                              {" "}
-                              {!prefilledData ? "*" : ""}
-                            </span>
+                          <label htmlFor="image ">
+                            <div className="d-flex">
+                              {upload_image_web}
+                              <div
+                                className="info-icon"
+                                onMouseEnter={() => setwebVisible(true)}
+                                onMouseLeave={() => setwebVisible(false)}
+                              >
+                                <i
+                                  className="fa fa-info-circle"
+                                  aria-hidden="true"
+                                ></i>
+                                {webvisible && (
+                                  <div className="tooltip">
+                                    Image size Should be 590 <sup>*</sup>300px
+                                  </div>
+                                )}
+                              </div>
+                              <span className="text-danger">
+                                {" "}
+                                {!prefilledData ? "*" : ""}
+                              </span>
+                            </div>
                           </label>
                           <div className="input-group">
                             <div className="form-file">
@@ -485,15 +569,22 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                           {<p className="text-danger">{errors.webImage}</p>}
                         </div>
                         <div className="col-sm-4 mt-5">
-
                           <InputGroup
-                            className={`${(errors.startDate || errors.endDate) ? "border-danger-date" : "dateInput"}`}
+                            className={`${
+                              errors.startDate || errors.endDate
+                                ? "border-danger-date"
+                                : "dateInput"
+                            }`}
                           >
                             <DatePicker
                               format="yyyy-MM-dd HH:mm:ss"
                               placeholder="Start Date"
-                              value={bannerMaster.startDate ? new Date(bannerMaster.startDate) : null}
-                              onChange={(e) => handleDateChange(e, 'startDate')}
+                              value={
+                                bannerMaster.startDate
+                                  ? new Date(bannerMaster.startDate)
+                                  : null
+                              }
+                              onChange={(e) => handleDateChange(e, "startDate")}
                               block
                               appearance="subtle"
                               disabledDate={(date) => {
@@ -504,8 +595,12 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                             <DatePicker
                               format="yyyy-MM-dd HH:mm:ss"
                               placeholder="End Date"
-                              value={bannerMaster.endDate ? new Date(bannerMaster.endDate) : null}
-                              onChange={(e) => handleDateChange(e, 'endDate')}
+                              value={
+                                bannerMaster.endDate
+                                  ? new Date(bannerMaster.endDate)
+                                  : null
+                              }
+                              onChange={(e) => handleDateChange(e, "endDate")}
                               block
                               appearance="subtle"
                               disabledDate={(date) => {
@@ -521,17 +616,18 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                             <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-                            className={`${errors.enabled
-                              ? "border-danger-select"
-                              : "form-select"
-                              }`}
+                            className={`${
+                              errors.enabled
+                                ? "border-danger-select"
+                                : "form-select"
+                            }`}
                             id="status"
                             value={bannerMaster?.enabled}
                             onChange={(e) => handleChange(e, "enabled")}
                             options={statusoptions}
                           ></Dropdown>
                         </div>
-                      
+
                         <span
                           className="form-check-label"
                           htmlFor="basic_checkbox_1"
@@ -550,7 +646,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
                       </div>
                     </form>
                   </div>
-                  )}
+                )}
               </div>
             </div>
           </div>

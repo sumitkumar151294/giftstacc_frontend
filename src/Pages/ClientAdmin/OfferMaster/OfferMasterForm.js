@@ -13,33 +13,40 @@ import {
   onUpdateOfferMasterReset,
   onUploadImage,
   onUploadImageReset,
+  onUploadImageMobile,
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
+import { GetClientId } from "../../../Common/commonSlice/CommonSlice";
 import { DatePicker, InputGroup } from "rsuite";
 
 const OfferMasterForm = ({ data, setPrefilledValues }) => {
+  const [webvisible, setwebVisible] = useState(false);
+  const [webvisibleMob, setwebVisibleMob] = useState(false);
+
+
   const [showLoader, setShowLoader] = useState(false);
   const [addData, setAddData] = useState({
     placement: "",
-    title: "",
-    subtitle: "",
+    // title: "",
+    mobileImage: "",
     link: "",
-    imagePlacement: "",
+    // imagePlacement: "",
     image: "",
     enabled: true,
-    linkText: "",
+    // linkText: "",
     startDate: "",
     endDate: "",
   });
   const [errors, setErrors] = useState({
     placement: "",
-    title: "",
-    subtitle: "",
+    // title: "",
+    // subtitle: "",
+    mobileImage: "",
     link: "",
-    imagePlacement: "",
+    // imagePlacement: "",
     image: "",
-    linkText: "",
+    // linkText: "",
     enabled: "",
     startDate: "",
     endDate: "",
@@ -47,13 +54,13 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   // To reset the Input Field
   const resetAddData = {
     placement: "",
-    title: "",
-    subtitle: "",
+    mobileImage: "",
+    // subtitle: "",
     link: "",
-    imagePlacement: "",
+    // imagePlacement: "",
     image: "",
     enabled: "",
-    linkText: "",
+    // linkText: "",
     startDate: "",
     endDate: "",
   };
@@ -81,12 +88,21 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const enabled_Text = GetTranslationData("UIAdmin", "enabled_Text");
   const link_text = GetTranslationData("UIClient", "link_text");
   const title_placeholder = GetTranslationData("UIClient", "title_placeholder");
-  const subtitle_placeholder = GetTranslationData("UIClient", "subtitle_placeholder");
+  const subtitle_placeholder = GetTranslationData(
+    "UIClient",
+    "subtitle_placeholder"
+  );
   const link_placeholder = GetTranslationData("UIClient", "link_placeholder");
-  const link_text_placeholder = GetTranslationData("UIClient", "link_text_placeholder");
+  const link_text_placeholder = GetTranslationData(
+    "UIClient",
+    "link_text_placeholder"
+  );
   const upload_image_web = GetTranslationData("UIAdmin", "upload_image_web");
-  const upload_image_phone = GetTranslationData("UIAdmin", "upload_image_phone");
-
+  const upload_image_phone = GetTranslationData(
+    "UIAdmin",
+    "upload_image_phone"
+  );
+  const [getImagePathMobile, setGetImagePathMobile] = useState("");
   const [getImage, setGetImage] = useState(false);
   const dispatch = useDispatch();
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
@@ -105,79 +121,80 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   ];
 
   const handleInputChange = (e, fieldName) => {
-    if (fieldName === "image") {
+    let value = e.target.value;
+
+    if (fieldName === "webImage" || fieldName === "mobileImage") {
+      debugger;
       const file = e?.target?.files[0]; // Assuming only one file is selected
       if (file) {
         const img = new Image();
         img.onload = () => {
-          if (img.width === 582 && img.height === 336) {
+          let expectedWidth, expectedHeight;
+
+          if (addData.placement === "Top") {
+            if (fieldName === "webImage") {
+              expectedWidth = 582;
+              expectedHeight = 336;
+            } else if (fieldName === "mobileImage") {
+              expectedWidth = 398;
+              expectedHeight = 230;
+            }
+          } else if (addData.placement === "Bottom") {
+            if (fieldName === "webImage") {
+              expectedWidth = 589;
+              expectedHeight = 294;
+            } else if (fieldName === "mobileImage") {
+              expectedWidth = 395;
+              expectedHeight = 197;
+            }
+          }
+
+          if (img.width === expectedWidth && img.height === expectedHeight) {
             const formData = new FormData();
             formData.append("file", file);
-            setGetImagePath(formData);
-            setGetImage(true);
+
+            if (fieldName === "webImage") {
+              debugger;
+              setGetImagePath(formData); // Set the formData to state
+            } else if (fieldName === "mobileImage") {
+              setGetImagePathMobile(formData); // Set the formData to state
+            }
+
+            setGetImage(true); // Indicate that the image has been set
             setErrors({
               ...errors,
-              [fieldName]: "",
+              [fieldName]: "", // Clear any existing errors for this field
             });
           } else {
             setErrors({
               ...errors,
-              [fieldName]: "Image should be 582px by 336px",
+              [fieldName]: `Image should be ${expectedWidth}px by ${expectedHeight}px`, // Set an error if dimensions do not match
             });
           }
         };
-        img.src = URL.createObjectURL(file);
-        setAddData({
-          ...addData,
-          [fieldName]: e.target.value,
-        });
-        // dispatch(onUploadImage(formData));
+        img.src = URL.createObjectURL(file); // Create a URL for the image file
+      } else {
+        value = ""; // Reset the value if no file is selected
       }
-    } else if (fieldName === enabled_Text) {
+    } else if (fieldName === "enabled") {
+      value = e.target.value === "true" ? true : false;
       setAddData({
         ...addData,
-        [fieldName]: e.target.value === "true" ? true : false,
+        [fieldName]: value,
       });
-      setErrors({
-        ...errors,
-        [fieldName]: "",
+    } else {
+      setAddData({
+        ...addData,
+        [fieldName]: value,
       });
     }
 
-    // else if(fieldName==="image"){
-    //   let img = new Image()
-    //   img.src = window.URL.createObjectURL(e.target.files[0])
-
-    //     setAddData({
-    //       ...addData,
-    //       [fieldName]: e.target.value,
-    //     });
-
-    //   img.onload = () => {
-    //     if(img.width > 100 || img.height > 100){
-    //       setErrors({
-    //         ...errors,
-    //         [fieldName]: "Image size should be less than 500 KB",
-    //       });
-    //       setAddData({
-    //         ...addData,
-    //         [fieldName]: e.target.value,
-    //       });
-    //     }
-
-    //   }
-    // }
-    else {
-      setAddData({
-        ...addData,
-        [fieldName]: e.target.value,
-      });
-      setErrors({
-        ...errors,
-        [fieldName]: "",
-      });
-    }
+    setErrors({
+      ...errors,
+      [fieldName]: "",
+    });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -189,6 +206,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
           "enabled",
           "startDate",
           "endDate",
+          "image",
+          "mobileImage",
         ]
       : [
           "placement",
@@ -196,6 +215,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
           "enabled",
           "startDate",
           "endDate",
+          "image",
+          "mobileImage",
         ];
 
     for (const key of requiredFields) {
@@ -212,22 +233,39 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
 
     setErrors(newErrors);
     if (isValid) {
+      debugger;
       if (data?.image && !getImage) {
+        debugger;
         const tempData = {
           ...addData,
           id: data?.id,
           image: data?.image,
+          mobileImage: data?.mobileImage,
+          clientId: clientId,
         };
         setShowLoader(true);
         dispatch(onUpdateOfferMaster(tempData));
       } else if (getImage) {
-        setShowLoader(true);
         dispatch(onUploadImage(getImagePath));
+        dispatch(onUploadImageMobile(getImagePathMobile));
+        debugger;
+        setShowLoader(true);
+        const tempData = {
+          ...addData,
+          id: data?.id,
+          image: offerMasterData?.imageUpload,
+          mobileImage: offerMasterData?.imageMobileUpload,
+          clientId: clientId,
+        };
+        dispatch(onUpdateOfferMaster(tempData));
       }
     }
   };
+  const clientId = GetClientId();
+
   useEffect(() => {
     if (offerMasterData?.status_code_Image === "201") {
+      debugger;
       if (!data) {
         try {
           dispatch(onUploadImageReset());
@@ -235,6 +273,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
             onPostOfferMasterSubmit({
               ...addData,
               image: offerMasterData?.imageUpload,
+              mobileImage: offerMasterData?.imageMobileUpload,
+              clientId: clientId,
             })
           );
         } catch (error) {
@@ -242,6 +282,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         }
       } else {
         try {
+          debugger;
           const tempData = {
             ...addData,
             id: data?.id,
@@ -256,11 +297,14 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   }, [offerMasterData?.status_code_Image, data]);
 
   useEffect(() => {
+    debugger;
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setAddData({
       ...addData,
       placement: data?.placement || "",
       link: data?.link || "",
+      image: data?.image,
+      mobileImage: data?.mobileImage,
       enabled: data?.enabled !== undefined ? data?.enabled : "",
       startDate: data?.startDate || "",
       endDate: data?.endDate || "",
@@ -372,65 +416,88 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             <small className="text-danger">{errors.link}</small>
                           )}
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="image">
-                            {upload_image_web}
-                            <span className="text-danger">
-                              {" "}
-                              {!data ? "*" : ""}
-                            </span>
-                          </label>
-                          <div className="input-group">
-                            <div className="form-file">
-                              <InputField
-                                type="file"
-                                accept="image/jpg,image/png"
-                                value={addData.image}
-                                className={
-                                  !data
-                                    ? errors.image
-                                      ? "border-danger"
-                                      : "form-file-input form-control"
-                                    : ""
-                                }
-                                onChange={(e) => handleInputChange(e, "image")}
-                              />
+                        <div className="col-12 col-sm-6 col-md-4 col-lg-4">
+                          <label className="control-label d-flex">
+                            {upload_image_web}{" "}
+                            <div
+                              className="info-icon"
+                              onMouseEnter={() => setwebVisible(true)}
+                              onMouseLeave={() => setwebVisible(false)}
+                            >
+                              <i
+                                className="fa fa-info-circle"
+                                aria-hidden="true"
+                              ></i>
+                              {webvisible && addData.placement ==="Top" ?(
+                                <div className="tooltip">
+                                  Image size Should be 582  <sup>*</sup>336px
+                                </div>
+                              ): webvisible && addData.placement ==="Bottom" ?
+                             ( <div className="tooltip">
+                              Image size Should be 589  <sup>*</sup>294px
+                            </div>)
+                            :(
+                             <></>
+                            
+                          )}
                             </div>
-                            <span className="input-group-text">{upload}</span>
-                          </div>
-                          {<p className="text-danger">{errors.image}</p>}
+                          </label>
+
+                          <InputField
+                            type="file"
+                            placeholder={upload_image_web}
+                            onChange={(e) => handleInputChange(e, "webImage")}
+                            accept="image/*"
+                            className={` ${errors.link ? "border-danger" : ""}`}
+                          />
+                          {errors?.image && (
+                            <span className="text-danger">{errors?.image}</span>
+                          )}
                         </div>
-                        <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="image">
+                        <div className="col-12 col-sm-6 col-md-4 col-lg-4">
+                          <label className="control-label d-flex">
                             {upload_image_phone}
-                            <span className="text-danger">
-                              {" "}
-                              {!data ? "*" : ""}
-                            </span>
-                          </label>
-                          <div className="input-group">
-                            <div className="form-file">
-                              <InputField
-                                type="file"
-                                accept="image/jpg,image/png"
-                                value={addData.image}
-                                className={
-                                  !data
-                                    ? errors.image
-                                      ? "border-danger"
-                                      : "form-file-input form-control"
-                                    : ""
-                                }
-                                onChange={(e) => handleInputChange(e, "image")}
-                              />
+                            <div
+                              className="info-icon"
+                              onMouseEnter={() => setwebVisibleMob(true)}
+                              onMouseLeave={() => setwebVisibleMob(false)}
+                            >
+                              <i
+                                className="fa fa-info-circle"
+                                aria-hidden="true"
+                              ></i>
+                            {webvisibleMob && addData.placement ==="Top" ?(
+                                <div className="tooltip">
+                                  Image size Should be 398  <sup>*</sup>230px
+                                </div>
+                              ): webvisibleMob && addData.placement ==="Bottom" ?
+                             ( <div className="tooltip">
+                              Image size Should be 395  <sup>*</sup>197px
+                            </div>)
+                            :(
+                             <></>
+                            
+                          )}
                             </div>
-                            <span className="input-group-text">{upload}</span>
-                          </div>
-                          {<p className="text-danger">{errors.image}</p>}
+                          </label>
+                          <InputField
+                            type="file"
+                            placeholder={upload_image_phone}
+                            onChange={(e) =>
+                              handleInputChange(e, "mobileImage")
+                            }
+                            accept="image/*"
+                            className={` ${errors.link ? "border-danger" : ""}`}
+                          />
+                          {errors?.mobileImage && (
+                            <span className="text-danger">
+                              {errors?.mobileImage}
+                            </span>
+                          )}
                         </div>
                         <div className="col-sm-4">
-                        <label htmlFor="enabled">
-                          {start_and_enddate}
+                          <label htmlFor="enabled">
+                            {start_and_enddate}
                             <span className="text-danger">*</span>
                           </label>
                           <InputGroup
