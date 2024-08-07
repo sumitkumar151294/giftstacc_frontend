@@ -203,6 +203,14 @@ const RoleMasterForm = ({ data, setData }) => {
       isvalid = false;
     }
 
+  // Check for duplicate name
+  const isDuplicateName = getRoleDataId?.userRoleData.some((item) => item.name === formData.name);
+  if (isDuplicateName) {
+    toast.error("A role with this name already exists");
+    isvalid = false;
+  }
+
+    
     //At least one Module should be selected
     if (formData.modules.some((module) => module.checked)) {
       setCheckBoxError(false);

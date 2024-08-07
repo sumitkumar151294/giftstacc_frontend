@@ -117,7 +117,7 @@ const ClientConfigurationList = () => {
                       </div>
                     ) : (
                       <div className="card-body">
-                        {pointData && pointData.length > 0 ? (
+                        {pointData && pointData?.length > 0 ? (
                           <div className="table-responsive">
                             <table className="table header-border table-responsive-sm">
                               <thead>
@@ -129,6 +129,8 @@ const ClientConfigurationList = () => {
                                   <th>Display Consonant</th>
                                   <th>Display Consonant Status</th>
                                   <th>Price Per Point</th>
+                                  <th>Points</th>
+
                                  
                                 </tr>
                               </thead>
@@ -168,7 +170,9 @@ const ClientConfigurationList = () => {
                                             : non_active_option}
                                         </span>
                                       </td>
+                                      <td>{points.price}</td>
                                       <td>{points.points}</td>
+
                                       {getRoleAccess[0]?.editAccess && (
                                         <td>
                                           <div className="d-flex">
@@ -189,14 +193,14 @@ const ClientConfigurationList = () => {
                                   ))}
                               </tbody>
                             </table>
-                            {getBannerMaster.length > 5 && (
+                            {getBannerMaster?.length > 5 && (
                               <div className="pagination-container">
                                 <ReactPaginate
                                   previousLabel={"<"}
                                   nextLabel={" >"}
                                   breakLabel={"..."}
                                   pageCount={Math.ceil(
-                                    getBannerMaster.length / rowsPerPage
+                                    getBannerMaster?.length / rowsPerPage
                                   )}
                                   marginPagesDisplayed={2}
                                   onPageChange={handlePageChange}

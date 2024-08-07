@@ -20,6 +20,7 @@ const BannerMasterList = () => {
   const active = GetTranslationData("UIAdmin", "active");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const startDate = GetTranslationData("UIAdmin", "startDate");
+  const banner_List = GetTranslationData("UIClient", "banner_List");
   const endDate = GetTranslationData("UIAdmin", "endDate");
   const [isDelete, setIsDelete]= useState(false);
   const dispatch = useDispatch();
@@ -99,7 +100,7 @@ const BannerMasterList = () => {
                 <div className="card">
                   <div className="container-fluid pt-0">
                     <div className="card-header">
-                      <h4 className="card-title">Banner List</h4>
+                      <h4 className="card-title">{banner_List}</h4>
                     </div>
                     {(isDelete ? isDelete : getListData)? (
                       <div style={{ height: "400px" }}>

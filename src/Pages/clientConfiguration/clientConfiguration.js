@@ -1,23 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import InputField from "../../Components/InputField/InputField";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Dropdown from "../../Components/Dropdown/Dropdown";
-
-import {
-  onGetbannerMaster,
-  onbannerMasterSubmit,
-  onUpdateBannerMasterReset,
-  onUpdateBannerMaster,
-  onbannerMasterSubmitReset,
-} from "../../Store/Slices/ClientAdmin/bannerMasterSlice";
 import Button from "../../Components/Button/Button";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../Components/Loader/Loader";
-import { onPostClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
+import { onPostClientConfiqurationSubmit, onUpdateClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
+import { GetClientId } from "../../Common/commonSlice/CommonSlice";
 
 const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) => {
   const dispatch = useDispatch();
@@ -34,18 +26,22 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
     cartInfoMessage: "",
     cartInfo: "",
     consentMessage: "",
-    consentRequired: "",
-    points: "",
+    consentRequired:"",
+    price: "",
+    points:""
+
   });
 
   const resetField = {
     email: "",
     phoneNumber: "",
     cartInfoMessage: "",
-    cartInfo: "",
+    cartInfo: false,
     consentMessage: "",
-    consentRequired: "",
-    points: "",
+    consentRequired: false,
+    price: "",
+    points:""
+
   };
 
   useEffect(() => {
@@ -55,23 +51,23 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
       setClientConfiguration({
         email: prefilledData.email || "",
         phoneNumber: prefilledData.phoneNumber || "",
-        cartInfo: prefilledData.cartInfo || "",
-        cartInfoMessage: prefilledData.cartInfoMessage|| "",
-        consentRequired: prefilledData.consentRequired || "",
+        cartInfo: prefilledData.cartInfo || false,
+        cartInfoMessage: prefilledData.cartInfoMessage || "",
+        consentRequired: prefilledData.consentRequired || false,
         consentMessage: prefilledData.consentMessage || "",
+        price: prefilledData.price || "",
         points: prefilledData.points || "",
-     
       });
 
       setErrors({
         email: "",
-    phoneNumber: "",
-    cartInfoMessage: "",
-    cartInfo: "",
-    consentMessage: "",
-    consentRequired: "",
-    points: "",
-    
+        phoneNumber: "",
+        cartInfoMessage: "",
+        cartInfo: "",
+        consentMessage: "",
+        consentRequired: "",
+        price: "",
+        points:""
       });
     }
   }, [prefilledData]);
@@ -83,11 +79,11 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
       dispatch(onbannerMasterSubmitReset());
       setPrefilledData("");
       dispatch(onGetbannerMaster());
-    } else if (getBannerMaster.update_status_code === "201" ) {  
-      if (isDelete ) { 
+    } else if (getBannerMaster.update_status_code === "201") {
+      if (isDelete) {
         toast.success(getBannerMaster.message);
         dispatch(onUpdateBannerMasterReset());
-        setIsDelete(false)
+        setIsDelete(false);
         dispatch(onGetbannerMaster());
       } else {
         toast.success(getBannerMaster.message);
@@ -103,12 +99,10 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
     if (getBannerMaster.status_code === "201") {
       toast.success(getBannerMaster.message);
       setClientConfiguration(resetField);
-    //   dispatch(onbannerMasterSubmitReset());
       dispatch(onGetbannerMaster());
     } else if (getBannerMaster?.status_code === "500") {
       toast.error(getBannerMaster.message);
     } else if (getBannerMaster.status_code === 404) {
-    //   dispatch(onbannerMasterSubmitReset());
       toast.error(getBannerMaster.getmessage);
     }
   }, [getBannerMaster]);
@@ -120,35 +114,34 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
     cartInfo: "",
     consentMessage: "",
     consentRequired: "",
-    points: "",
+    price: "",
+    points:""
   });
 
-  const statusoptions = [
-    { value: true, label: active },
-    { value: false, label: non_active },
+  const statusOptions = [
+    { value: true, label: "True" },
+    { value: false, label: "False" },
   ];
-
-  useEffect(() => {
-    dispatch(onGetbannerMaster());
-  }, []);
 
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
-  
+
     if (fieldName === "enabled") {
       value = e.target.value === "true" ? true : false;
     }
-  
+
     setClientConfiguration({
       ...clientConfiguration,
       [fieldName]: value,
     });
-  
+
     setErrors({
       ...errors,
       [fieldName]: "",
     });
   };
+
+  const clientId = GetClientId();
 
   const handleDropdownChange = (value, fieldName) => {
     setClientConfiguration({
@@ -160,21 +153,17 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
       [fieldName]: "",
     });
   };
-  
 
-
-  const handleSubmit = (e) => { 
-    debugger
+  const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
 
     for (const key in clientConfiguration) {
-        debugger
-      if (clientConfiguration[key] === "") {
+      if (clientConfiguration[key] === "" || clientConfiguration[key] === "Select") {
         newErrors[key] = " ";
         isValid = false;
-      } else if (clientConfiguration[key].length > 250) {
+      } else if (clientConfiguration[key]?.length > 250) {
         newErrors[key] = "Length must be 250 or fewer";
         isValid = false;
       } else {
@@ -183,27 +172,30 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
     }
     setErrors(newErrors);
 
-    if (isValid) { 
-    //   if (prefilledData) {
-    //     dispatch(
-    //       onUpdateBannerMaster({
-    //         ...clientConfiguration,
-    //         id: prefilledData?.id,
-    //         clientId: sessionStorage.getItem("clientCode"),
-    //       })
-    //     );
-    //   } else {
-        debugger
-        dispatch(
-            onPostClientConfiqurationSubmit({
-            ...clientConfiguration,points:parseInt(clientConfiguration?.points),
-            clientId: sessionStorage.getItem("clientCode"),
-          })
-        );
-      }
+    if (isValid) {
+      if(!prefilledData){
+      dispatch(
+        onPostClientConfiqurationSubmit({
+          ...clientConfiguration,
+          price: parseInt(clientConfiguration?.price),
+          clientId: clientId,
+        })
+      );
     }
-  
 
+
+    else{
+      dispatch(
+        onUpdateClientConfiqurationSubmit({
+          ...clientConfiguration,
+          price: parseInt(clientConfiguration?.price),
+          clientId: clientId,
+          id:prefilledData?.id
+        })
+      );
+    }
+  };
+  }
   return (
     <>
       <ScrollToTop />
@@ -213,9 +205,9 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
           <div className="col-xl-12 col-xxl-12">
             <div className="card">
               <div className="card-header">
-                <h4 className="card-title"> Client Configuration</h4>
+                <h4 className="card-title">Client Configuration</h4>
               </div>
-              <div className="card-body pt-2 ml-6  mb-4  ">
+              <div className="card-body pt-2 ml-6 mb-4">
                 {getBannerMaster?.postLoading || (!isDelete && getBannerMaster?.putLoading) ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
@@ -251,10 +243,9 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
                             placeholder="Enter phone number"
                             onChange={(e) => handleChange(e, "phoneNumber")}
                           />
-                          {<p className="text-danger">{errors.phone}</p>}
+                          {<p className="text-danger">{errors.phoneNumber}</p>}
                         </div>
 
-                       
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="displayItemInfoMessage">
                             Display Item Info Message <span className="text-danger">*</span>
@@ -269,33 +260,34 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
                           />
                           {<p className="text-danger">{errors.cartInfoMessage}</p>}
                         </div>
+
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="displayItemInfo">
                             Display Item Info Status <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-  className={errors.cartInfo ? "border-danger-select" : "form-select"}
-  id="displayItemInfo"
-  value={clientConfiguration?.cartInfo}
-  onChange={(event) => handleDropdownChange(event.target.value, "cartInfo")}
-  options={statusoptions}
-/>
+                            className={errors.cartInfo ? "border-danger-select" : "form-select"}
+                            id="displayItemInfo"
+                            value={clientConfiguration.cartInfo}
+                            onChange={(event) => handleDropdownChange(event.target.value === "true", "cartInfo")}
+                            options={statusOptions}
+                          />
                           {<p className="text-danger">{errors.cartInfo}</p>}
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="displayConsonantMessage">
-                            Display Consonant  <span className="text-danger">*</span>
+                            Display Consonant <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
-                            className={`form-control ${errors.consentMessage ? "border-danger" : ""}`}
+                            className={`form-control ${errors.consentRequired ? "border-danger" : ""}`}
                             id="displayConsonantMessage"
-                            value={clientConfiguration.consentMessage}
+                            value={clientConfiguration.consentRequired}
                             placeholder="Enter display consonant message"
-                            onChange={(e) => handleChange(e, "consentMessage")}
+                            onChange={(e) => handleChange(e, "consentRequired")}
                           />
-                          {<p className="text-danger">{errors.consentMessage}</p>}
+                          {<p className="text-danger">{errors.consentRequired}</p>}
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
@@ -303,14 +295,13 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
                             Display Consonant Status <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-  className={errors.consentRequired ? "border-danger-select" : "form-select"}
-  id="displayConsonant"
-  value={clientConfiguration?.consentRequired}
-  onChange={(event) => handleDropdownChange(event.target.value, "consentRequired")}
-  options={statusoptions}
-/>
-
-                          {<p className="text-danger">{errors.consentRequired}</p>}
+                            className={errors.consentMessage ? "border-danger-select" : "form-select"}
+                            id="displayConsonant"
+                            value={clientConfiguration.consentMessage}
+                            onChange={(event) => handleDropdownChange(event.target.value === "true", "consentMessage")}
+                            options={statusOptions}
+                          />
+                          {<p className="text-danger">{errors.consentMessage}</p>}
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
@@ -319,10 +310,24 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
                           </label>
                           <InputField
                             type="number"
+                            className={`form-control ${errors.price ? "border-danger" : ""}`}
+                            id="pricePerPoint"
+                            value={clientConfiguration.price}
+                            placeholder="Enter price per point"
+                            onChange={(e) => handleChange(e, "price")}
+                          />
+                          {<p className="text-danger">{errors.price}</p>}
+                        </div>
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="pricePerPoint">
+                             Points <span className="text-danger">*</span>
+                          </label>
+                          <InputField
+                            type="number"
                             className={`form-control ${errors.points ? "border-danger" : ""}`}
                             id="pricePerPoint"
                             value={clientConfiguration.points}
-                            placeholder="Enter price per point"
+                            placeholder=" points"
                             onChange={(e) => handleChange(e, "points")}
                           />
                           {<p className="text-danger">{errors.points}</p>}
@@ -330,13 +335,13 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
                       </div>
 
                       <div className="col-sm-12 form-group mb-0 mt-2">
-                          <Button
-                            type="submit"
-                            className="btn btn-primary btn-sm float-right p-btn mt-2"
-                            icon={"fa fa-arrow-right"}
-                            text={prefilledData ? update : submitTranslation}
-                          ></Button>
-                        </div>
+                        <Button
+                          type="submit"
+                          className="btn btn-primary btn-sm float-right p-btn mt-2"
+                          icon={"fa fa-arrow-right"}
+                          text={prefilledData ? update : submitTranslation}
+                        ></Button>
+                      </div>
                     </form>
                   </div>
                 )}

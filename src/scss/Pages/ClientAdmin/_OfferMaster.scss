@@ -71,3 +71,9 @@
 	border-radius: 1.03125rem;
 	border: 0.0625rem solid transparent;
   }
+
+  .disabled-class {
+    opacity: 0.5; /* Makes the field appear disabled */
+    cursor: not-allowed; /* Shows a "not allowed" cursor */
+    pointer-events: none; /* Prevents any mouse interactions */
+  }

@@ -12,6 +12,7 @@ import {
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import Loader from "../../../Components/Loader/Loader";
 import PageError from "../../../Components/PageError/PageError";
+import { GetClientId } from "../../../Common/commonSlice/CommonSlice";
 
 const OfferMasterList = () => {
   // const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +54,8 @@ const OfferMasterList = () => {
 
   const OfferMasterState = useSelector((state) => state.offerMasterReducer);
   const getListData = OfferMasterState?.isLoading;
+  const clientId = GetClientId();
+
   useEffect(() => {
     dispatch(onGetOfferMaster());
     // setIsLoading(true);
@@ -75,7 +78,9 @@ const OfferMasterList = () => {
     const prefilled = { ...data };
     setPrefilledValues(prefilled);
   };
+
   const handleDelete = (data) => {
+    debugger
     const deletedData = {
       deleted: true,
       enabled: false,
@@ -83,10 +88,13 @@ const OfferMasterList = () => {
       placement: data.placement,
       title: data.title,
       subtitle: data.subtitle,
+      startDate: data?.startDate,
+      endDate: data?.endDate,
       link: data.link,
       linkText: data?.linkText,
       imagePlacement: data.imagePlacement,
       image: data.image,
+      clientId: clientId,
     };
     dispatch(onUpdateOfferMaster(deletedData));
   };

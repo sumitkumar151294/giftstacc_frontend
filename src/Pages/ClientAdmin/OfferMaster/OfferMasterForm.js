@@ -92,6 +92,10 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
     "UIClient",
     "subtitle_placeholder"
   );
+  const overlap_date_error_msg = GetTranslationData(
+    "UIAdmin",
+    "overlap_date_error_msg"
+  );
   const link_placeholder = GetTranslationData("UIClient", "link_placeholder");
   const link_text_placeholder = GetTranslationData(
     "UIClient",
@@ -264,8 +268,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
   const clientId = GetClientId();
 
   useEffect(() => {
+    debugger;
     if (offerMasterData?.status_code_Image === "201") {
-      debugger;
       if (!data) {
         try {
           dispatch(onUploadImageReset());
@@ -287,6 +291,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
             ...addData,
             id: data?.id,
             image: offerMasterData?.imageUpload,
+            clientId: clientId,
           };
           dispatch(onUpdateOfferMaster(tempData));
         } catch (error) {
@@ -360,6 +365,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
       [fieldName]: "",
     });
   };
+
   return (
     <>
       <div className="container-fluid">
@@ -428,18 +434,18 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                                 className="fa fa-info-circle"
                                 aria-hidden="true"
                               ></i>
-                              {webvisible && addData.placement ==="Top" ?(
+                              {webvisible && addData.placement === "Top" ? (
                                 <div className="tooltip">
-                                  Image size Should be 582  <sup>*</sup>336px
+                                  Image size Should be 582 <sup>*</sup>336px
                                 </div>
-                              ): webvisible && addData.placement ==="Bottom" ?
-                             ( <div className="tooltip">
-                              Image size Should be 589  <sup>*</sup>294px
-                            </div>)
-                            :(
-                             <></>
-                            
-                          )}
+                              ) : webvisible &&
+                                addData.placement === "Bottom" ? (
+                                <div className="tooltip">
+                                  Image size Should be 589 <sup>*</sup>294px
+                                </div>
+                              ) : (
+                                <></>
+                              )}
                             </div>
                           </label>
 
@@ -448,7 +454,14 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             placeholder={upload_image_web}
                             onChange={(e) => handleInputChange(e, "webImage")}
                             accept="image/*"
-                            className={` ${errors.link ? "border-danger" : ""}`}
+                            className={` ${
+                              errors.link ? "border-danger" : ""
+                            } ${
+                              addData?.placement === "" ||
+                              addData?.placement === "Select"
+                                ? "disabled-class"
+                                : ""
+                            }`}
                           />
                           {errors?.image && (
                             <span className="text-danger">{errors?.image}</span>
@@ -466,18 +479,18 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                                 className="fa fa-info-circle"
                                 aria-hidden="true"
                               ></i>
-                            {webvisibleMob && addData.placement ==="Top" ?(
+                              {webvisibleMob && addData.placement === "Top" ? (
                                 <div className="tooltip">
-                                  Image size Should be 398  <sup>*</sup>230px
+                                  Image size Should be 398 <sup>*</sup>230px
                                 </div>
-                              ): webvisibleMob && addData.placement ==="Bottom" ?
-                             ( <div className="tooltip">
-                              Image size Should be 395  <sup>*</sup>197px
-                            </div>)
-                            :(
-                             <></>
-                            
-                          )}
+                              ) : webvisibleMob &&
+                                addData.placement === "Bottom" ? (
+                                <div className="tooltip">
+                                  Image size Should be 395 <sup>*</sup>197px
+                                </div>
+                              ) : (
+                                <></>
+                              )}
                             </div>
                           </label>
                           <InputField
@@ -486,8 +499,15 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             onChange={(e) =>
                               handleInputChange(e, "mobileImage")
                             }
+                            className={` ${
+                              errors.link ? "border-danger" : ""
+                            } ${
+                              addData?.placement === "" ||
+                              addData?.placement === "Select"
+                                ? "disabled-class"
+                                : ""
+                            }`}
                             accept="image/*"
-                            className={` ${errors.link ? "border-danger" : ""}`}
                           />
                           {errors?.mobileImage && (
                             <span className="text-danger">
