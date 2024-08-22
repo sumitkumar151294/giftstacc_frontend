@@ -22,6 +22,7 @@
   .input-group > .form-select,
   .input-group > .form-file {
 	position: relative;
+	cursor: not-allowed;
 	flex: 1 1 auto;
 	width: 1%;
 	margin-bottom: 0;
@@ -76,4 +77,7 @@
     opacity: 0.5; /* Makes the field appear disabled */
     cursor: not-allowed; /* Shows a "not allowed" cursor */
     pointer-events: none; /* Prevents any mouse interactions */
+    // border: 3px solid var(--primary-greyish);
+	// 	border-radius: 0.75rem		;
+		width: 100%;
   }

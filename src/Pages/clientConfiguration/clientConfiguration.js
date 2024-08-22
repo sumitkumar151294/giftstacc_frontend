@@ -8,18 +8,14 @@ import { GetTranslationData } from "../../Components/GetTranslationData/GetTrans
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../Components/Loader/Loader";
-import { onPostClientConfiqurationSubmit, onUpdateClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
+import { onClientConfiqurationSubmit, onPostClientConfiqurationReset, onPostClientConfiqurationSubmit, onUpdateClientConfiqurationReset, onUpdateClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
 import { GetClientId } from "../../Common/commonSlice/CommonSlice";
 
 const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) => {
   const dispatch = useDispatch();
   const update = GetTranslationData("UIAdmin", "update_label");
-  const active = GetTranslationData("UIClient", "active_option");
-  const non_active = GetTranslationData("UIClient", "non_active_option");
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
-  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
-  const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
-
+  const clientConfigurationSliceReducer = useSelector((state) => state.clientConfigurationSliceReducer);
   const [clientConfiguration, setClientConfiguration] = useState({
     email: "",
     phoneNumber: "",
@@ -36,9 +32,9 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
     email: "",
     phoneNumber: "",
     cartInfoMessage: "",
-    cartInfo: false,
+    cartInfo: "",
     consentMessage: "",
-    consentRequired: false,
+    consentRequired: "",
     price: "",
     points:""
 
@@ -51,9 +47,9 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
       setClientConfiguration({
         email: prefilledData.email || "",
         phoneNumber: prefilledData.phoneNumber || "",
-        cartInfo: prefilledData.cartInfo || false,
+        cartInfo: prefilledData.cartInfo || "",
         cartInfoMessage: prefilledData.cartInfoMessage || "",
-        consentRequired: prefilledData.consentRequired || false,
+        consentRequired: prefilledData.consentRequired || "",
         consentMessage: prefilledData.consentMessage || "",
         price: prefilledData.price || "",
         points: prefilledData.points || "",
@@ -73,39 +69,44 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
   }, [prefilledData]);
 
   useEffect(() => {
-    if (getBannerMaster.post_Status_code === "201") {
-      toast.success(getBannerMaster.message);
+    debugger
+    if (clientConfigurationSliceReducer.post_status_code === 200 ) {
+      toast.success(clientConfigurationSliceReducer.postMessage);
       setClientConfiguration(resetField);
-      dispatch(onbannerMasterSubmitReset());
-      setPrefilledData("");
-      dispatch(onGetbannerMaster());
-    } else if (getBannerMaster.update_status_code === "201") {
+      dispatch(onPostClientConfiqurationReset());
+      dispatch(onClientConfiqurationSubmit()) 
+    } else if (clientConfigurationSliceReducer.update_status_code === "201") {
       if (isDelete) {
-        toast.success(getBannerMaster.message);
-        dispatch(onUpdateBannerMasterReset());
-        setIsDelete(false);
-        dispatch(onGetbannerMaster());
-      } else {
-        toast.success(getBannerMaster.message);
-        setClientConfiguration(resetField);
-        dispatch(onUpdateBannerMasterReset());
+        debugger
+        toast.success(clientConfigurationSliceReducer.updateMessage);
+        dispatch(onUpdateClientConfiqurationReset());
         setPrefilledData("");
-        dispatch(onGetbannerMaster());
+        setIsDelete(false);
+        dispatch(onClientConfiqurationSubmit())
+      } else {
+        debugger
+        toast.success(clientConfigurationSliceReducer.updateMessage);
+        dispatch(onUpdateClientConfiqurationReset());
+        setPrefilledData("");
+        setClientConfiguration(resetField);
+        setIsDelete(false);
+        dispatch(onClientConfiqurationSubmit())
       }
     }
-  }, [getBannerMaster]);
+  }, [clientConfigurationSliceReducer]);
 
-  useEffect(() => {
-    if (getBannerMaster.status_code === "201") {
-      toast.success(getBannerMaster.message);
-      setClientConfiguration(resetField);
-      dispatch(onGetbannerMaster());
-    } else if (getBannerMaster?.status_code === "500") {
-      toast.error(getBannerMaster.message);
-    } else if (getBannerMaster.status_code === 404) {
-      toast.error(getBannerMaster.getmessage);
-    }
-  }, [getBannerMaster]);
+  // useEffect(() => {
+  //   debugger
+  //   if (clientConfigurationSliceReducer.post_status_code === "201",clientConfigurationSliceReducer.post_status_code === "200") {
+  //     toast.success(clientConfigurationSliceReducer.postMessage);
+  //     setClientConfiguration(resetField);
+  //     dispatch(onClientConfiqurationSubmit())
+  //   } else if (clientConfigurationSliceReducer?.status_code === "500") {
+  //     toast.error(clientConfigurationSliceReducer.postMessage);
+  //   } else if (clientConfigurationSliceReducer.status_code === 404) {
+  //     toast.error(clientConfigurationSliceReducer.getmessage);
+  //   }
+  // }, [clientConfigurationSliceReducer]);
 
   const [errors, setErrors] = useState({
     email: "",
@@ -125,21 +126,76 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
 
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
-
+    let isValid = true;
+    const newErrors = { ...errors };
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const mobileRegex = /^[0-9]{10}$/;
+  
+    if (fieldName === "email") {
+      if (!emailRegex.test(value)) {
+        isValid = false;
+        newErrors.email = "Invalid email address";
+      } else {
+        newErrors.email = "";
+      }
+    }
+  
+    if (fieldName === "phoneNumber") {
+      if (!mobileRegex.test(value)) {
+        isValid = false;
+        newErrors.phoneNumber = "Invalid phone number";
+      } else {
+        newErrors.phoneNumber = "";
+      }
+    }
+  
     if (fieldName === "enabled") {
       value = e.target.value === "true" ? true : false;
     }
-
+    if (fieldName === "consentRequired") {
+      if (value.trim() === "") {
+        isValid = false;
+        newErrors.consentRequired = " ";
+      } else {
+        newErrors.consentRequired = "";
+      }
+    }
+    if (fieldName === "cartInfoMessage") {
+      if (value.trim() === "") {
+        isValid = false;
+        newErrors.cartInfoMessage = " ";
+      } else {
+        newErrors.cartInfoMessage = "";
+      }
+    }  if (fieldName === "price") {
+      const priceValue = parseFloat(value);
+      if (isNaN(priceValue) || priceValue <= 0) {
+        isValid = false;
+        newErrors.price = "Price must be a positive number";
+      } else {
+        newErrors.price = "";
+      }
+    }
+  
+    // Points validation (assuming it's a non-negative integer)
+    if (fieldName === "points") {   
+      const pointsValue = parseInt(value, 10);
+      if (isNaN(pointsValue) || pointsValue < 0) {
+        isValid = false;
+        newErrors.points = "Points must be a non-negative integer";
+      } else {
+        newErrors.points = "";
+      }
+    }
+  
     setClientConfiguration({
       ...clientConfiguration,
       [fieldName]: value,
     });
-
-    setErrors({
-      ...errors,
-      [fieldName]: "",
-    });
+  
+    setErrors(newErrors);
   };
+  
 
   const clientId = GetClientId();
 
@@ -208,7 +264,7 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
                 <h4 className="card-title">Client Configuration</h4>
               </div>
               <div className="card-body pt-2 ml-6 mb-4">
-                {getBannerMaster?.postLoading || (!isDelete && getBannerMaster?.putLoading) ? (
+                {clientConfigurationSliceReducer?.postClientLoading ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
@@ -226,6 +282,7 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
                             id="email"
                             value={clientConfiguration.email}
                             placeholder="Enter email"
+                            
                             onChange={(e) => handleChange(e, "email")}
                           />
                           {<p className="text-danger">{errors.email}</p>}

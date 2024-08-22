@@ -126,7 +126,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
 
   const handleInputChange = (e, fieldName) => {
     let value = e.target.value;
-
+ 
     if (fieldName === "webImage" || fieldName === "mobileImage") {
       debugger;
       const file = e?.target?.files[0]; // Assuming only one file is selected
@@ -186,17 +186,27 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
         ...addData,
         [fieldName]: value,
       });
+      
     } else {
       setAddData({
         ...addData,
         [fieldName]: value,
       });
     }
-
+  
     setErrors({
       ...errors,
       [fieldName]: "",
     });
+    if (fieldName === "link") {
+      const urlRegex = /https?:\/\/(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\S*)?/;
+      const isValidUrl = urlRegex.test(value);
+      // Update the error state based on the URL validity
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: isValidUrl ? "" : " ",
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -411,9 +421,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             type="text"
                             value={addData.link}
                             onChange={(e) => handleInputChange(e, "link")}
-                            className={` ${
-                              errors.link ? "border-danger" : "form-control"
-                            }`}
+                            className={`${errors.link ? "border-danger" : "form-control"}`}
                             name="link"
                             id="link"
                             placeholder={link_placeholder}
@@ -448,14 +456,15 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                               )}
                             </div>
                           </label>
-
+                          <div className="input-group">
+                            <div className="form-file">
                           <InputField
                             type="file"
                             placeholder={upload_image_web}
                             onChange={(e) => handleInputChange(e, "webImage")}
-                            accept="image/*"
+                            accept="image/jpg,image/png"
                             className={` ${
-                              errors.link ? "border-danger" : ""
+                              errors.link ? "border-danger" : "form-file-input form-control"
                             } ${
                               addData?.placement === "" ||
                               addData?.placement === "Select"
@@ -463,6 +472,10 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                                 : ""
                             }`}
                           />
+                          </div>
+                          <span className="input-group-text">{upload}</span>
+
+                          </div>
                           {errors?.image && (
                             <span className="text-danger">{errors?.image}</span>
                           )}
@@ -493,6 +506,8 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                               )}
                             </div>
                           </label>
+                          <div className="input-group">
+                            <div className="form-file">
                           <InputField
                             type="file"
                             placeholder={upload_image_phone}
@@ -500,7 +515,7 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                               handleInputChange(e, "mobileImage")
                             }
                             className={` ${
-                              errors.link ? "border-danger" : ""
+                              errors.link ? "border-danger" : "form-file-input form-control "
                             } ${
                               addData?.placement === "" ||
                               addData?.placement === "Select"
@@ -509,6 +524,10 @@ const OfferMasterForm = ({ data, setPrefilledValues }) => {
                             }`}
                             accept="image/*"
                           />
+                          </div>
+                          <span className="input-group-text">{upload}</span>
+
+                          </div>
                           {errors?.mobileImage && (
                             <span className="text-danger">
                               {errors?.mobileImage}

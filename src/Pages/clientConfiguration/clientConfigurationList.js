@@ -9,7 +9,7 @@ import { onUpdateBannerMaster } from "../../Store/Slices/ClientAdmin/bannerMaste
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import PageError from "../../Components/PageError/PageError";
 import ClientConfiguration from "./clientConfiguration";
-import { onClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
+import { onClientConfiqurationSubmit, onUpdateClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
 const ClientConfigurationList = () => {
   const title_label = GetTranslationData("UIClient", "title");
   const sub_title = GetTranslationData("UIClient", "sub-title");
@@ -25,14 +25,8 @@ const ClientConfigurationList = () => {
   const banner_link = GetTranslationData("UIClient", "banner-link");
   const [isDelete, setIsDelete]= useState(false);
   const dispatch = useDispatch();
-  const getBannerMasterState = useSelector(
-    (state) => state.bannerMasterReducer
-  );
-
-  const getBannerMaster = useSelector(
-    (state) => state.bannerMasterReducer?.getData
-  );
-  const getListData = getBannerMasterState?.isLoading;
+  const pointData = useSelector((state) => state.clientConfigurationSliceReducer?.clientConfiqurationData)
+  const getListData = useSelector((state) => state.clientConfigurationSliceReducer?.isLoading)
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer.filteredData
   );
@@ -55,39 +49,35 @@ const ClientConfigurationList = () => {
     setIsDelete(true)
     const deletedData = {
       clientId: data.clientId,
-      // bannerPlacement: data.bannerPlacement,
-      bannerTitle: data.bannerTitle,
-      bannerSubtitle: data.bannerSubtitle,
-      bannerLink: data.buttonLink,
-      displayOrder: data.displayOrder,
-      buttonText: data.buttonText,
-      webImage: data.webImage,
-      mobileImage: data.mobileImage,
-      endDate:data?.endDate,
-      startDate:data?.startDate,
+      email: data?.email,
+    phoneNumber: data?.phoneNumber,
+    cartInfoMessage: data?.cartInfoMessage,
+    cartInfo: data?.cartInfo,
+    consentMessage: data?.consentMessage,
+    consentRequired: data?.consentRequired,
+    price: data?.price,
+    points:data?.points,
       id: data?.id,
       enabled: false,
       deleted: true,
     };
-    dispatch(onUpdateBannerMaster(deletedData));
+    dispatch(onUpdateClientConfiqurationSubmit(deletedData));
   };
   useEffect(()=>{
     dispatch(onClientConfiqurationSubmit())
       },[]);
     
-      const pointData = useSelector((state) => state.clientConfigurationSliceReducer?.clientConfiqurationData)
-      console.log(pointData,"pointData");
     
   useEffect(() => {
-    if (getBannerMaster) {
-      const totalItems = getBannerMaster?.length;
+    if (pointData) {
+      const totalItems = pointData?.length;
       const totalPages = Math.ceil(totalItems / rowsPerPage);
       if (page > totalPages && page > 1) {
         setPage(page - 1);
       }
     } else {
     }
-  }, [getBannerMaster]);
+  }, [pointData]);
 
   return (
     <div>
@@ -193,14 +183,14 @@ const ClientConfigurationList = () => {
                                   ))}
                               </tbody>
                             </table>
-                            {getBannerMaster?.length > 5 && (
+                            {pointData?.length > 5 && (
                               <div className="pagination-container">
                                 <ReactPaginate
                                   previousLabel={"<"}
                                   nextLabel={" >"}
                                   breakLabel={"..."}
                                   pageCount={Math.ceil(
-                                    getBannerMaster?.length / rowsPerPage
+                                    pointData?.length / rowsPerPage
                                   )}
                                   marginPagesDisplayed={2}
                                   onPageChange={handlePageChange}

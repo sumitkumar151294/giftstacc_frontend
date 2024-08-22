@@ -32,6 +32,8 @@ const OfferMasterList = () => {
   const active = GetTranslationData("UIAdmin", "active");
   const nonActive = GetTranslationData("UIAdmin", "nonActive");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
+  const mobileImage = GetTranslationData("UIAdmin", "mobile_image");
+  const webImage = GetTranslationData("UIClient", "webImage_Label");
   const dispatch = useDispatch();
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -141,8 +143,9 @@ const OfferMasterList = () => {
                                   <table className="table header-border table-responsive-sm">
                                     <thead>
                                       <tr>
-                                        <th>Web Image</th>
-                                        <th>Mobile Image</th>
+                                        <th>{webImage}</th>
+
+                                        <th>{mobileImage}</th>
                                         
                                         
                                         <th>{link_level}</th>

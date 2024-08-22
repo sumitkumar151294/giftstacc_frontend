@@ -22,6 +22,9 @@ const BannerMasterList = () => {
   const startDate = GetTranslationData("UIAdmin", "startDate");
   const banner_List = GetTranslationData("UIClient", "banner_List");
   const endDate = GetTranslationData("UIAdmin", "endDate");
+  const mobileImage = GetTranslationData("UIAdmin", "mobile_image");
+  const webImage = GetTranslationData("UIClient", "webImage_Label");
+
   const [isDelete, setIsDelete]= useState(false);
   const dispatch = useDispatch();
   const getBannerMasterState = useSelector(
@@ -113,8 +116,9 @@ const BannerMasterList = () => {
                             <table className="table header-border table-responsive-sm">
                               <thead>
                                 <tr>
-                                  <th>WebImage</th>
-                                  <th>MobileImage</th>
+
+                                  <th>{webImage}</th>
+                                  <th>{mobileImage}</th>
                                   <th>{title_label}</th>
                                   <th>{sub_title}</th>
                                   <th>Button Text</th>

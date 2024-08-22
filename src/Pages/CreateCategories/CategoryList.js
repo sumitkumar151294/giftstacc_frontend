@@ -66,7 +66,9 @@ const CategoryList = () => {
   const displayHeader = GetTranslationData("UIAdmin", "Display_In_Header_Text");
   const image = GetTranslationData("UIAdmin", "image_Text");
   const displayOrder = GetTranslationData("UIClient", "display-order");
-  const mobileImage = GetTranslationData("UIClient", "mobil_image");
+  const mobileImage = GetTranslationData("UIAdmin", "mobile_image");
+  const webImage = GetTranslationData("UIClient", "webImage_Label");
+
 
   // To get the Supplier Name in the Category List
   const getSupplierName = (supplierId) => {
@@ -225,7 +227,7 @@ const CategoryList = () => {
                                 <th>{supplierName}</th>
                                 <th>{supplierBrand}</th>
                                 <th>{displayOrder}</th>
-                                <th>{image}</th>
+                                <th>{webImage}</th>
                                 <th>{mobileImage}</th>
                                 <th>{displayHeader}</th>
 
