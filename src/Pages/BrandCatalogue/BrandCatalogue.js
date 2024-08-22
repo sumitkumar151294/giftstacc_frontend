@@ -62,12 +62,12 @@ const BrandCatalogue = () => {
     productByIdReducer?.productById?.[0]?.products
   )
     ? productByIdReducer?.productById?.[0]?.products.map((data) => ({
-        sku: data.sku,
-        name: data.name,
-        minPrice: data.minPrice,
-        maxPrice: data.maxPrice, // assuming you want to correct the casing here
-        price: data.price,
-      }))
+      sku: data.sku,
+      name: data.name,
+      minPrice: data.minPrice,
+      maxPrice: data.maxPrice, // assuming you want to correct the casing here
+      price: data.price,
+    }))
     : [];
   const headers = [
     { label: "Sku", key: "sku" },
@@ -156,7 +156,7 @@ const BrandCatalogue = () => {
           (vendor) =>
             vendor?.enabled === true &&
             vendor?.supplierCode?.toLowerCase() ===
-              selectedSupplierName?.toLowerCase()
+            selectedSupplierName?.toLowerCase()
         );
       // setCopyBrandCatalogue(productByIdReducer?.productById[0]?.products);
       setCopyBrandCatalogue(filteredSupplierList);
@@ -243,6 +243,18 @@ const BrandCatalogue = () => {
       return newState;
     });
   };
+
+  const getClientNames = (product) => {
+    if (selectedClientId) {
+      const client = clientList.find(client => client.id === selectedClientId);
+      return client.name;
+    } else {
+      const associatedClients = clientList.filter(client =>
+        product.clientIds?.includes(client.id)
+      );
+      return associatedClients.map(client => client.name).join(', ');
+    }
+  };
   return (
     <div>
       {getRoleAccess[0] === undefined && (
@@ -285,12 +297,12 @@ const BrandCatalogue = () => {
                         >
                           {productByIdReducer?.productById?.[0]?.products
                             ?.length >= +0 && (
-                            <Button
-                              className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
-                              icons={"fa fa-file-excel me-2"}
-                              text={`${exportLabel}`}
-                            />
-                          )}
+                              <Button
+                                className="btn btn-primary btn-sm btn-rounded mb-2 me-3"
+                                icons={"fa fa-file-excel me-2"}
+                                text={`${exportLabel}`}
+                              />
+                            )}
                         </CSVLink>
                       </div>
                     </div>
@@ -318,12 +330,12 @@ const BrandCatalogue = () => {
                             options={
                               Array.isArray(clientList)
                                 ? clientList
-                                    .filter((item) => item.enabled === true)
-                                    .map((item) => ({
-                                      label: item.name,
-                                      value: item.name,
-                                      data: item.id,
-                                    }))
+                                  .filter((item) => item.enabled === true)
+                                  .map((item) => ({
+                                    label: item.name,
+                                    value: item.name,
+                                    data: item.id,
+                                  }))
                                 : []
                             }
                           />
@@ -334,7 +346,7 @@ const BrandCatalogue = () => {
 
                   <div className="card-body">
                     {productByIdReducer?.isLoading &&
-                    copyBrandCatalogue?.length === 0 ? (
+                      copyBrandCatalogue?.length === 0 ? (
                       <div style={{ height: "400px" }}>
                         <Loader classType={"absoluteLoader"} />
                       </div>
@@ -363,7 +375,7 @@ const BrandCatalogue = () => {
                                       .map((data, index) => (
                                         <tr key={index}>
                                           <td>
-                                          {notFoundStates[index] && (
+                                            {notFoundStates[index] && (
                                               <div
                                                 className="info-icon"
                                                 onMouseEnter={() =>
@@ -379,24 +391,25 @@ const BrandCatalogue = () => {
                                                 ></i>
                                                 {info && (
                                                   <div className="tooltip tooltipimg" style={
-                                                    {color:"black",bottom:"1rem",borderRadius:"1rem"
+                                                    {
+                                                      color: "black", bottom: "1rem", borderRadius: "1rem"
                                                     }
                                                   }>
-                                                  Error in image path
+                                                    Error in image path
 
                                                   </div>
                                                 )}
                                               </div>
                                             )}
                                             <img
-                                             src={
-                                              notFoundStates[index]
-                                                ? notFoundImage
-                                                : data.small
-                                            }
-                                            onError={() =>
-                                              handleImageError(index)
-                                            }
+                                              src={
+                                                notFoundStates[index]
+                                                  ? notFoundImage
+                                                  : data.small
+                                              }
+                                              onError={() =>
+                                                handleImageError(index)
+                                              }
 
 
                                               style={{ width: "50px" }}
@@ -406,7 +419,7 @@ const BrandCatalogue = () => {
                                           </td>
                                           <td>{data.sku}</td>
                                           <td>{data.name}</td>
-                                          <td>{client_label}</td>
+                                          <td>{getClientNames(data)}</td>
                                           <td>{data.minPrice}</td>
                                           <td>{data.maxPrice}</td>
                                           <td>{data.price}</td>
@@ -425,48 +438,48 @@ const BrandCatalogue = () => {
                               </table>
                               {productByIdReducer.productById[0]?.totalCount >
                                 5 && (
-                                <div className="pagination-container">
-                                  <ReactPaginate
-                                    previousLabel={"<"}
-                                    nextLabel={" >"}
-                                    breakLabel={"..."}
-                                    pageCount={Math.ceil(
-                                      productByIdReducer.productById[0]
-                                        ?.totalCount / rowsPerPage
-                                    )}
-                                    marginPagesDisplayed={2}
-                                    onPageChange={(e) => handlePageChange(e)}
-                                    containerClassName={"pagination"}
-                                    activeClassName={"active"}
-                                    initialPage={page - 1}
-                                    previousClassName={
-                                      page === 0 ? disabled_Text : ""
-                                    }
-                                  />
-                                  <Dropdown
-                                    defaultSelected="Page Size"
-                                    className="paginationDropdown"
-                                    value={rowsPerPageValue || ""}
-                                    onChange={(e) => {
-                                      setRowsPerPageValue(e.target.value);
-                                      const newSize = parseInt(e.target.value);
-                                      setPage(1);
-                                      if (!isNaN(newSize)) {
-                                        setRowsPerPage(newSize);
-                                        dispatch(
-                                          onProductByIdSubmit({
-                                            clientCode,
-                                            pageNumber: 1,
-                                            pageSize: parseInt(e.target.value),
-                                            enable: 1,
-                                          })
-                                        );
+                                  <div className="pagination-container">
+                                    <ReactPaginate
+                                      previousLabel={"<"}
+                                      nextLabel={" >"}
+                                      breakLabel={"..."}
+                                      pageCount={Math.ceil(
+                                        productByIdReducer.productById[0]
+                                          ?.totalCount / rowsPerPage
+                                      )}
+                                      marginPagesDisplayed={2}
+                                      onPageChange={(e) => handlePageChange(e)}
+                                      containerClassName={"pagination"}
+                                      activeClassName={"active"}
+                                      initialPage={page - 1}
+                                      previousClassName={
+                                        page === 0 ? disabled_Text : ""
                                       }
-                                    }}
-                                    options={paginationValue}
-                                  />
-                                </div>
-                              )}
+                                    />
+                                    <Dropdown
+                                      defaultSelected="Page Size"
+                                      className="paginationDropdown"
+                                      value={rowsPerPageValue || ""}
+                                      onChange={(e) => {
+                                        setRowsPerPageValue(e.target.value);
+                                        const newSize = parseInt(e.target.value);
+                                        setPage(1);
+                                        if (!isNaN(newSize)) {
+                                          setRowsPerPage(newSize);
+                                          dispatch(
+                                            onProductByIdSubmit({
+                                              clientCode,
+                                              pageNumber: 1,
+                                              pageSize: parseInt(e.target.value),
+                                              enable: 1,
+                                            })
+                                          );
+                                        }
+                                      }}
+                                      options={paginationValue}
+                                    />
+                                  </div>
+                                )}
                             </>
                           ) : (
                             <NoRecord />

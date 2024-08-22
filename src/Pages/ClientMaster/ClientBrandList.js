@@ -418,7 +418,7 @@ const ClientBrandList = () => {
                                         <th>Is Featured</th>
                                         <th>{supplierMargin}</th>
                                         <th>{status}</th>
-                                        <th>{action}</th>
+                                        <th className="paddingRight">{action}</th>
                                       </tr>
                                     </thead>
                                     <tbody>
