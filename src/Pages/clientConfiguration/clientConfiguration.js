@@ -56,22 +56,22 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
         email: prefilledData.email || "",
         phoneNumber: prefilledData.phoneNumber || "",
         cartInfo: prefilledData.cartInfo || "",
-        cartInfoMessage: prefilledData.cartInfoMessage|| "",
+        cartInfoMessage: prefilledData.cartInfoMessage || "",
         consentRequired: prefilledData.consentRequired || "",
         consentMessage: prefilledData.consentMessage || "",
         points: prefilledData.points || "",
-     
+
       });
 
       setErrors({
         email: "",
-    phoneNumber: "",
-    cartInfoMessage: "",
-    cartInfo: "",
-    consentMessage: "",
-    consentRequired: "",
-    points: "",
-    
+        phoneNumber: "",
+        cartInfoMessage: "",
+        cartInfo: "",
+        consentMessage: "",
+        consentRequired: "",
+        points: "",
+
       });
     }
   }, [prefilledData]);
@@ -83,8 +83,8 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
       dispatch(onbannerMasterSubmitReset());
       setPrefilledData("");
       dispatch(onGetbannerMaster());
-    } else if (getBannerMaster.update_status_code === "201" ) {  
-      if (isDelete ) { 
+    } else if (getBannerMaster.update_status_code === "201") {
+      if (isDelete) {
         toast.success(getBannerMaster.message);
         dispatch(onUpdateBannerMasterReset());
         setIsDelete(false)
@@ -103,12 +103,12 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
     if (getBannerMaster.status_code === "201") {
       toast.success(getBannerMaster.message);
       setClientConfiguration(resetField);
-    //   dispatch(onbannerMasterSubmitReset());
+      //   dispatch(onbannerMasterSubmitReset());
       dispatch(onGetbannerMaster());
     } else if (getBannerMaster?.status_code === "500") {
       toast.error(getBannerMaster.message);
     } else if (getBannerMaster.status_code === 404) {
-    //   dispatch(onbannerMasterSubmitReset());
+      //   dispatch(onbannerMasterSubmitReset());
       toast.error(getBannerMaster.getmessage);
     }
   }, [getBannerMaster]);
@@ -134,16 +134,16 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
 
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
-  
+
     if (fieldName === "enabled") {
       value = e.target.value === "true" ? true : false;
     }
-  
+
     setClientConfiguration({
       ...clientConfiguration,
       [fieldName]: value,
     });
-  
+
     setErrors({
       ...errors,
       [fieldName]: "",
@@ -160,17 +160,17 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
       [fieldName]: "",
     });
   };
-  
 
 
-  const handleSubmit = (e) => { 
+
+  const handleSubmit = (e) => {
     debugger
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
 
     for (const key in clientConfiguration) {
-        debugger
+      debugger
       if (clientConfiguration[key] === "") {
         newErrors[key] = " ";
         isValid = false;
@@ -182,30 +182,30 @@ const ClientConfiguration = ({ prefilledData, setPrefilledData, isDelete, setIsD
       }
     }
     setErrors(newErrors);
-debugger
-    if (isValid) { 
+    debugger
+    if (isValid) {
       if (prefilledData) {
         dispatch(
           onUpdateClientConfiqurationSubmit({
             ...clientConfiguration,
             id: prefilledData?.id,
             clientId: sessionStorage.getItem("clientCode"),
-            price:1
+            price: 1
           })
         );
       } else {
         debugger
         dispatch(
-            onPostClientConfiqurationSubmit({
-            ...clientConfiguration,points:parseInt(clientConfiguration?.points),
-            price:1,
+          onPostClientConfiqurationSubmit({
+            ...clientConfiguration, points: parseInt(clientConfiguration?.points),
+            price: 1,
             clientId: sessionStorage.getItem("clientCode"),
           })
         );
       }
     }
   }
-  
+
 
   return (
     <>
@@ -257,7 +257,7 @@ debugger
                           {<p className="text-danger">{errors.phone}</p>}
                         </div>
 
-                       
+
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="displayItemInfoMessage">
                             Display Item Info Message <span className="text-danger">*</span>
@@ -277,12 +277,12 @@ debugger
                             Display Item Info Status <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-  className={errors.cartInfo ? "border-danger-select" : "form-select"}
-  id="displayItemInfo"
-  value={clientConfiguration?.cartInfo}
-  onChange={(event) => handleDropdownChange(event.target.value, "cartInfo")}
-  options={statusoptions}
-/>
+                            className={errors.cartInfo ? "border-danger-select" : "form-select"}
+                            id="displayItemInfo"
+                            value={clientConfiguration?.cartInfo}
+                            onChange={(event) => handleDropdownChange(event.target.value, "cartInfo")}
+                            options={statusoptions}
+                          />
                           {<p className="text-danger">{errors.cartInfo}</p>}
                         </div>
 
@@ -306,12 +306,12 @@ debugger
                             Display Consonant Status <span className="text-danger">*</span>
                           </label>
                           <Dropdown
-  className={errors.consentRequired ? "border-danger-select" : "form-select"}
-  id="displayConsonant"
-  value={clientConfiguration?.consentRequired}
-  onChange={(event) => handleDropdownChange(event.target.value, "consentRequired")}
-  options={statusoptions}
-/>
+                            className={errors.consentRequired ? "border-danger-select" : "form-select"}
+                            id="displayConsonant"
+                            value={clientConfiguration?.consentRequired}
+                            onChange={(event) => handleDropdownChange(event.target.value, "consentRequired")}
+                            options={statusoptions}
+                          />
 
                           {<p className="text-danger">{errors.consentRequired}</p>}
                         </div>
@@ -333,13 +333,13 @@ debugger
                       </div>
 
                       <div className="col-sm-12 form-group mb-0 mt-2">
-                          <Button
-                            type="submit"
-                            className="btn btn-primary btn-sm float-right p-btn mt-2"
-                            icon={"fa fa-arrow-right"}
-                            text={prefilledData ? update : submitTranslation}
-                          ></Button>
-                        </div>
+                        <Button
+                          type="submit"
+                          className="btn btn-primary btn-sm float-right p-btn mt-2"
+                          icon={"fa fa-arrow-right"}
+                          text={prefilledData ? update : submitTranslation}
+                        ></Button>
+                      </div>
                     </form>
                   </div>
                 )}

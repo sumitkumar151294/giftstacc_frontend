@@ -24,6 +24,8 @@ const AllocateBrand = () => {
   const location = useLocation();
   const getAllocateBrands = useSelector((state) => state?.allocateBrandReducer);
   const [copyClientMapping, setCopyClientMapping] = useState([]);
+  const [maxBrands, setMaxBrands] = useState();
+  const [activeBrandsCount, setActiveBrandsCount] = useState(0);
   const searchLabel = GetTranslationData("UIAdmin", "search_here_label");
   const allocateBrands = GetTranslationData("UIClient", "allocateBrands");
   const brand_name = GetTranslationData("UIClient", "brand_name");
@@ -41,19 +43,33 @@ const AllocateBrand = () => {
   };
   const generateUniqueId = (index) => `toggleSwitch-${index}`;
   const productByIdReducer = useSelector((state) => state.productReducer);
-  const SupplierBrandList = useSelector( (state) => state.supplierBrandListReducer.data);
+  const SupplierBrandList = useSelector((state) => state.supplierBrandListReducer.data);
   const [getProduct, setGetProduct] = useState();
   const clientProductMapping = useSelector(
     (state) => state.clientProductMappingReducer?.clientData
   );
   const loginAuthData = useSelector((state) => state.loginAuthReducer);
+
+  useEffect(() => {
+    if (location?.state?.maxBrands) {
+      setMaxBrands(location.state.maxBrands);
+    }
+    // other effect code...
+  }, [location?.state?.maxBrands]);
+  useEffect(() => {
+    // Count the number of active brands
+    const countActiveBrands = copyClientMapping.filter(item => item.enabled).length;
+    setActiveBrandsCount(countActiveBrands);
+  }, [copyClientMapping]);
+
+
   useEffect(() => {
     dispatch(
       onProductByIdSubmit({
         id: loginAuthData?.data[0]?.clientId,
         pageNumber: 1,
         pageSize: 200,
-      })  
+      })
     );
     dispatch(onGetSupplierBrandList());
     dispatch(onAllocateBrandById(location?.state?.data?.id));
@@ -160,23 +176,35 @@ const AllocateBrand = () => {
   }, [getAllocateBrands]);
 
   const handleToggle = (id, name, e) => {
-    const existingIndex = copyClientMapping.findIndex(
-      (item) => item.productId === id
-    );
-    if (existingIndex !== -1) {
-      copyClientMapping[existingIndex] = {
-        ...copyClientMapping[existingIndex],
-        [name]: e.target.checked
-      };
-    } else {
-      copyClientMapping.push({
+    // Check if the toggle is enabling a brand and if it exceeds the maximum allowed
+    const isChecked = e.target.checked;
+    const countActiveBrands = copyClientMapping.filter(item => item.enabled).length;
+
+    if (name === "enabled" && isChecked && countActiveBrands >= maxBrands) {
+      toast.warning(`You can only activate up to ${maxBrands} brands.`);
+      e.target.checked = false;
+      return;
+    }
+    // Update the client mapping state
+    const updatedMapping = copyClientMapping.map((item) => {
+      if (item.productId === id) {
+        return { ...item, [name]: isChecked };
+      }
+      return item;
+    });
+
+    // If brand is not already in the mapping, add it
+    if (!updatedMapping.find(item => item.productId === id)) {
+      updatedMapping.push({
         addSpecialId: location.state.data.id,
         productId: id,
-        [name]: e.target.checked,
+        [name]: isChecked,
       });
     }
-    setCopyClientMapping([...copyClientMapping]);
+
+    setCopyClientMapping(updatedMapping);
   };
+
   const handleInputChange = (e, ids, name) => {
     const newValue = Math.max(0, e.target.value);
     const existingIndex = copyClientMapping.findIndex(
@@ -197,14 +225,20 @@ const AllocateBrand = () => {
     setCopyClientMapping([...copyClientMapping]);
   };
   const handleSubmit = () => {
+    if (activeBrandsCount > maxBrands) {
+      toast.warning(`You can only activate up to ${maxBrands} brands.`);
+      return;
+    }
+
     setShowLoader(true);
-    
+
     copyClientMapping.forEach(item => {
-      item.clientId =  loginAuthData?.data[0]?.clientId;
-  });
-  
+      item.clientId = loginAuthData?.data[0]?.clientId;
+    });
+
     dispatch(onUpdateAllocateBrandById(copyClientMapping));
   };
+
 
   return (
     <>
@@ -226,7 +260,7 @@ const AllocateBrand = () => {
                         value={searchQuery}
                         onChange={handleSearch}
                       />{" "}
-                       <span className="input-group-text">
+                      <span className="input-group-text">
                         <i className="fa fa-search"></i>
                       </span>
                     </div>
@@ -301,31 +335,31 @@ const AllocateBrand = () => {
                             ))}
                         </tbody>
                       </table>
-                      
-                     
+
+
 
                       {productByIdReducer.productById[0]?.totalCount >
-                                5 && (
-                                <div className="pagination-container">
-                                  <ReactPaginate
-                                    previousLabel={"<"}
-                                    nextLabel={" >"}
-                                    breakLabel={"..."}
-                                    pageCount={Math.ceil(
-                                      productByIdReducer.productById[0]
-                                        ?.totalCount / rowsPerPage
-                                    )}
-                                    marginPagesDisplayed={2}
-                                    onPageChange={(e) => handlePageChange(e)}
-                                    containerClassName={"pagination"}
-                                    activeClassName={"active"}
-                                    initialPage={page - 1}
-                                    previousClassName={
-                                      page === 0 ? disabled_Text : ""
-                                    }
-                                  />
-                                </div>
+                        5 && (
+                          <div className="pagination-container">
+                            <ReactPaginate
+                              previousLabel={"<"}
+                              nextLabel={" >"}
+                              breakLabel={"..."}
+                              pageCount={Math.ceil(
+                                productByIdReducer.productById[0]
+                                  ?.totalCount / rowsPerPage
                               )}
+                              marginPagesDisplayed={2}
+                              onPageChange={(e) => handlePageChange(e)}
+                              containerClassName={"pagination"}
+                              activeClassName={"active"}
+                              initialPage={page - 1}
+                              previousClassName={
+                                page === 0 ? disabled_Text : ""
+                              }
+                            />
+                          </div>
+                        )}
                     </div>
                     <Button
                       text="Submit"
