@@ -25,7 +25,7 @@ const AddSpecialList = () => {
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
   const non_active_option = GetTranslationData("UIClient", "non_active_option");
   const active = GetTranslationData("UIAdmin", "active");
-const getId = GetClientId();
+  const getId = GetClientId();
   const dispatch = useDispatch();
   const [prefilledValues, setPrefilledValues] = useState();
   const getAddSpecial = useSelector((state) => state?.addSpecialReducer);
@@ -72,7 +72,7 @@ const getId = GetClientId();
       id: data.id,
       enabled: false,
       deleted: true,
-      clientId : getId,
+      clientId: getId,
       buttonText: data?.buttonText,
     };
     dispatch(onAddSpecialUpdate(deletedData));
@@ -104,7 +104,7 @@ const getId = GetClientId();
                             </div>
                           </div>
                           {getAddSpecial?.isLoading ||
-                          getRoleAccessData?.isLoading ? (
+                            getRoleAccessData?.isLoading ? (
                             <div style={{ height: "400px" }}>
                               <Loader classNameType={"absoluteLoader"} />
                             </div>
@@ -191,12 +191,13 @@ const getId = GetClientId();
                                               <td>
                                                 <Link
                                                   to="/lc-user-admin/allocate-brand"
-                                                  state={{ data: Special }}
-                                                  className="allocateBtn btn btn-primary btn-sm float-right font-size "
+                                                  state={{ data: Special, maxBrands: Special.maximumNumberOfBrands }}
+                                                  className="allocateBtn btn btn-primary btn-sm float-right font-size"
                                                 >
                                                   <i className="fa fa-plus mr-2"></i>
                                                   {allocateBrands}
                                                 </Link>
+
                                               </td>
                                             </tr>
                                           ))}
@@ -210,7 +211,7 @@ const getId = GetClientId();
                                         breakLabel={"..."}
                                         pageCount={Math.ceil(
                                           getAddSpecial?.getData?.length /
-                                            rowsPerPage
+                                          rowsPerPage
                                         )}
                                         marginPagesDisplayed={2}
                                         onPageChange={handlePageChange}

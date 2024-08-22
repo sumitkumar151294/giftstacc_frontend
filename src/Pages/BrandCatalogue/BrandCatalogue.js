@@ -361,7 +361,7 @@ const BrandCatalogue = () => {
                                     <th>{image}</th>
                                     <th>{sku}</th>
                                     <th>{name}</th>
-                                    <th>{client_label}</th>
+                                    {selectedClientId && <th>{client}</th>}
                                     <th>{minprice}</th>
                                     <th>{maxprice}</th>
                                     <th>{price}</th>
@@ -419,7 +419,7 @@ const BrandCatalogue = () => {
                                           </td>
                                           <td>{data.sku}</td>
                                           <td>{data.name}</td>
-                                          <td>{getClientNames(data)}</td>
+                                          {selectedClientId && <td>{getClientNames(data)}</td>}
                                           <td>{data.minPrice}</td>
                                           <td>{data.maxPrice}</td>
                                           <td>{data.price}</td>
