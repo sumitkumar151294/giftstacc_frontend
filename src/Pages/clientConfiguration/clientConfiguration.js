@@ -173,7 +173,6 @@ const ClientConfiguration = ({
   console.log(getClientConfiguration);
   useEffect(() => {
     if (!prefilledData) {
-      debugger
       if (getClientConfiguration?.post_status_code === "201") {
         toast.success(getClientConfiguration.postMessage);
         setFormData(resetField);

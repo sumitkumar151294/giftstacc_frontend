@@ -43,7 +43,6 @@ function* clientConfiguration() {
 }
 function* postClientConfiguration({ payload }) {
   try {
-    debugger;
     const postClientConfigurationResponse = yield call(
       postClientConfigureApi,
       payload
