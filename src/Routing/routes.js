@@ -26,8 +26,9 @@ import ClientCommissionReport from "../Pages/ClientAdmin/ClientCommissionReport/
 import CustomerList from "../Pages/ClientAdmin/CustomerList/CustomerList";
 import PromotionalList from  '../Pages/ClientAdmin/Promotional/PromotionalList'
 import PromotionalAllocateBrand from "../Pages/ClientAdmin/Promotional/PromotionalAllocateBrand";
-import ClientConfiguration from "../Pages/clientConfiguration/clientConfiguration";
-import ClientConfigurationList from "../Pages/clientConfiguration/clientConfigurationList";
+import UnlockPointsList from "../Pages/ClientAdmin/UnlockPoints/UnlockPointsList";
+import ClientConfigurationList from "../Pages/ClientConfiguration/ClientConfigurationList";
+
 function RouteConfiq() {
   return (
     <Router>
@@ -153,6 +154,10 @@ function RouteConfiq() {
          <Route
           path="/lc-user-admin/clientConfiguration"
           element={<Layout Component={ClientConfigurationList} />}
+        />
+        <Route
+          path="/lc-user-admin/unlockPoints"
+          element={<Layout Component={UnlockPointsList} />}
         />
         <Route
           path="*"

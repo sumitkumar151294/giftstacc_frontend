@@ -1,106 +1,80 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import Button from "../../Components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import NoRecord from "../../Components/NoRecord/NoRecord";
 import Loader from "../../Components/Loader/Loader";
-import { onUpdateBannerMaster } from "../../Store/Slices/ClientAdmin/bannerMasterSlice";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import PageError from "../../Components/PageError/PageError";
-import ClientConfiguration from "./clientConfiguration";
-import { onClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
+import { onUpdateClientConfigurationSubmit } from "../../Store/Slices/ClientAdmin/clientConfigurationSlice";
+import ClientConfiguration from "./ClientConfiguration";
+
 const ClientConfigurationList = () => {
-  const title_label = GetTranslationData("UIClient", "title");
-  const sub_title = GetTranslationData("UIClient", "sub-title");
-  const link_label = GetTranslationData("UIClient", "link_label");
-  const display_order = GetTranslationData("UIClient", "display-order");
-  const status = GetTranslationData("UIClient", "status");
-  const actionLabel = GetTranslationData("UIClient", "actionLabel");
+  const dispatch = useDispatch();
+  const [prefilledData, setPrefilledData] = useState();
+  const [page, setPage] = useState(1);
+  const [rowsPerPage] = useState(5);
+  // to get data from translation
   const non_active_option = GetTranslationData("UIClient", "non_active_option");
   const active = GetTranslationData("UIAdmin", "active");
   const disabled_Text = GetTranslationData("UIAdmin", "disabled_Text");
-  const startDate = GetTranslationData("UIAdmin", "startDate");
-  const endDate = GetTranslationData("UIAdmin", "endDate");
-  const banner_link = GetTranslationData("UIClient", "banner-link");
-  const [isDelete, setIsDelete]= useState(false);
-  const dispatch = useDispatch();
-  const getBannerMasterState = useSelector(
-    (state) => state.bannerMasterReducer
-  );
-
-  const getBannerMaster = useSelector(
-    (state) => state.bannerMasterReducer?.getData
-  );
-  const getListData = getBannerMasterState?.isLoading;
+  // to get data from redux store
+  const getClientConfiguration = useSelector(
+    (state) => state.clientConfigurationReducer
+  );console.log(getClientConfiguration);
+  const getClientConfigurationData = getClientConfiguration?.clientConfigurationData;
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer.filteredData
   );
-
-  const [page, setPage] = useState(1);
-  const [rowsPerPage] = useState(5);
-  const startIndex = (page - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-
-  const [prefilledData, setPrefilledData] = useState();
+  // to handle page change
   const handlePageChange = (selected) => {
     setPage(selected.selected + 1);
   };
+  // to handle edit
   const handleEdit = (data) => {
-    debugger
     const prefilled = { ...data };
     setPrefilledData(prefilled);
   };
-  const handleDelete = (data) => { 
-    setIsDelete(true)
+  //to handle delete
+  const handleDelete = (data) => {
     const deletedData = {
-      clientId: data.clientId,
-      // bannerPlacement: data.bannerPlacement,
-      bannerTitle: data.bannerTitle,
-      bannerSubtitle: data.bannerSubtitle,
-      bannerLink: data.buttonLink,
-      displayOrder: data.displayOrder,
-      buttonText: data.buttonText,
-      webImage: data.webImage,
-      mobileImage: data.mobileImage,
-      endDate:data?.endDate,
-      startDate:data?.startDate,
-      id: data?.id,
+      id:data?.id,
+      clientId: data?.clientId,
       enabled: false,
       deleted: true,
+      price: data?.price,
+      points: data?.points,
+      phoneNumber: data?.phoneNumber,
+      email:data?.email,
+      cartInfoMessage: data?.cartInfoMessage,
+      cartInfo: data?.cartInfo,
+      consentRequired: data?.consentRequired,
+      consentMessage: data?.consentMessage,
     };
-    dispatch(onUpdateBannerMaster(deletedData));
+    dispatch(onUpdateClientConfigurationSubmit(deletedData));
   };
-  useEffect(()=>{
-    dispatch(onClientConfiqurationSubmit())
-      },[]);
-    
-      const pointData = useSelector((state) => state.clientConfigurationSliceReducer?.clientConfiqurationData)
-      console.log(pointData,"pointData");
-    
+  // to handle pagination
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
   useEffect(() => {
-    if (getBannerMaster) {
-      const totalItems = getBannerMaster?.length;
+    if (getClientConfigurationData) {
+      const totalItems = getClientConfigurationData?.length;
       const totalPages = Math.ceil(totalItems / rowsPerPage);
       if (page > totalPages && page > 1) {
         setPage(page - 1);
       }
     } else {
     }
-  }, [getBannerMaster]);
+  }, [getClientConfigurationData]);
 
   return (
     <div>
       {getRoleAccess[0] !== undefined ? (
         <>
-
           {getRoleAccess[0]?.addAccess && (
-
             <ClientConfiguration
               prefilledData={prefilledData}
               setPrefilledData={setPrefilledData}
-              isDelete={isDelete}
-              setIsDelete={setIsDelete}
             />
           )}
           <div className="container-fluid pt-0">
@@ -111,13 +85,14 @@ const ClientConfigurationList = () => {
                     <div className="card-header">
                       <h4 className="card-title">client Configuration List</h4>
                     </div>
-                    {(isDelete ? isDelete : getListData)? (
+                    {getClientConfiguration?.isLoading ? (
                       <div style={{ height: "400px" }}>
                         <Loader classType={"absoluteLoader"} />
                       </div>
                     ) : (
                       <div className="card-body">
-                        {pointData && pointData.length > 0 ? (
+                        {getClientConfigurationData &&
+                        getClientConfigurationData?.length > 0 ? (
                           <div className="table-responsive">
                             <table className="table header-border table-responsive-sm">
                               <thead>
@@ -129,15 +104,13 @@ const ClientConfigurationList = () => {
                                   <th>Display Consonant</th>
                                   <th>Display Consonant Status</th>
                                   <th>Price Per Point</th>
-                                 
                                 </tr>
                               </thead>
                               <tbody>
-                                {pointData
+                                {getClientConfigurationData
                                   .slice(startIndex, endIndex)
                                   .map((points) => (
                                     <tr key={points.id}>
-                                    
                                       <td>{points.email}</td>
                                       <td>{points.phoneNumber}</td>
                                       <td>{points.cartInfoMessage}</td>
@@ -180,7 +153,9 @@ const ClientConfigurationList = () => {
                                             <Button
                                               className="btn btn-danger shadow btn-xs sharp"
                                               icon={"fa fa-trash"}
-                                              onClick={() => handleDelete(points)}
+                                              onClick={() =>
+                                                handleDelete(points)
+                                              }
                                             />
                                           </div>
                                         </td>
@@ -189,14 +164,15 @@ const ClientConfigurationList = () => {
                                   ))}
                               </tbody>
                             </table>
-                            {getBannerMaster.length > 5 && (
+                            {getClientConfigurationData?.length > 5 && (
                               <div className="pagination-container">
                                 <ReactPaginate
                                   previousLabel={"<"}
                                   nextLabel={" >"}
                                   breakLabel={"..."}
                                   pageCount={Math.ceil(
-                                    getBannerMaster.length / rowsPerPage
+                                    getClientConfigurationData?.length /
+                                      rowsPerPage
                                   )}
                                   marginPagesDisplayed={2}
                                   onPageChange={handlePageChange}
@@ -223,7 +199,6 @@ const ClientConfigurationList = () => {
         </>
       ) : (
         <PageError
-
           pageError={{
             StatusCode: "401",
             ErrorName: "Permission Denied",
@@ -235,8 +210,6 @@ const ClientConfigurationList = () => {
         />
       )}
     </div>
-
   );
 };
 export default ClientConfigurationList;
-/* eslint-enable react-hooks/exhaustive-deps */
