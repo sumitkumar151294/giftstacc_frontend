@@ -12,6 +12,7 @@ import ClientConfiguration from "./ClientConfiguration";
 const ClientConfigurationList = () => {
   const dispatch = useDispatch();
   const [prefilledData, setPrefilledData] = useState();
+  const [isDelete, setIsDelete]= useState(false);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
   // to get data from translation
@@ -21,7 +22,7 @@ const ClientConfigurationList = () => {
   // to get data from redux store
   const getClientConfiguration = useSelector(
     (state) => state.clientConfigurationReducer
-  );console.log(getClientConfiguration);
+  );
   const getClientConfigurationData = getClientConfiguration?.clientConfigurationData;
   const getRoleAccess = useSelector(
     (state) => state.moduleReducer.filteredData
@@ -37,6 +38,7 @@ const ClientConfigurationList = () => {
   };
   //to handle delete
   const handleDelete = (data) => {
+    setIsDelete(true);
     const deletedData = {
       id:data?.id,
       clientId: data?.clientId,
@@ -75,6 +77,8 @@ const ClientConfigurationList = () => {
             <ClientConfiguration
               prefilledData={prefilledData}
               setPrefilledData={setPrefilledData}
+              isDelete={isDelete}
+              setIsDelete={setIsDelete}
             />
           )}
           <div className="container-fluid pt-0">
@@ -85,7 +89,7 @@ const ClientConfigurationList = () => {
                     <div className="card-header">
                       <h4 className="card-title">client Configuration List</h4>
                     </div>
-                    {getClientConfiguration?.isLoading ? (
+                    {(isDelete ? isDelete : getClientConfiguration?.isLoading) ? (
                       <div style={{ height: "400px" }}>
                         <Loader classType={"absoluteLoader"} />
                       </div>
@@ -99,11 +103,13 @@ const ClientConfigurationList = () => {
                                 <tr>
                                   <th>Email</th>
                                   <th>Phone</th>
+                                  <th>Price</th>
+                                  <th>Points</th>
                                   <th>Display Item Info Message </th>
                                   <th>Display Item Info Status</th>
-                                  <th>Display Consonant</th>
-                                  <th>Display Consonant Status</th>
-                                  <th>Price Per Point</th>
+                                  <th>Display Consent Message</th>
+                                  <th>Display Consent Status</th>
+                                  <th>Action</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -113,6 +119,8 @@ const ClientConfigurationList = () => {
                                     <tr key={points.id}>
                                       <td>{points.email}</td>
                                       <td>{points.phoneNumber}</td>
+                                      <td>{points.price}</td>
+                                      <td>{points.points}</td>
                                       <td>{points.cartInfoMessage}</td>
                                       <td>
                                         <span
@@ -141,7 +149,6 @@ const ClientConfigurationList = () => {
                                             : non_active_option}
                                         </span>
                                       </td>
-                                      <td>{points.points}</td>
                                       {getRoleAccess[0]?.editAccess && (
                                         <td>
                                           <div className="d-flex">

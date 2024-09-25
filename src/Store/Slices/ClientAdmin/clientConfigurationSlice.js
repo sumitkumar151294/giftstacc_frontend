@@ -65,7 +65,7 @@ export const clientConfigurationSlice = createSlice({
       };
     },
     onPostClientConfigurationSubmitSuccess: (state, { payload }) => {
-      const { postData = [], message = "", status_code } = payload;
+      const { postData = [], message = "", status_code= 200 } = payload;
       return {
         ...state,
         postClientLoading: false,
@@ -110,7 +110,7 @@ export const clientConfigurationSlice = createSlice({
       };
     },
     onUpdateClientConfigurationSubmitSuccess: (state, { payload }) => {
-      const { updateData = [], message = "", status_code } = payload;
+      const { updateData = [], message = "", status_code= 200 } = payload;
       return {
         ...state,
         updateLoading: false,

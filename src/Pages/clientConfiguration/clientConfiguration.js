@@ -13,13 +13,16 @@ import {
   onClientConfigurationSubmit,
   onPostClientConfigurationReset,
   onPostClientConfigurationSubmit,
+  onUpdateClientConfigurationReset,
   onUpdateClientConfigurationSubmit,
 } from "../../Store/Slices/ClientAdmin/clientConfigurationSlice";
 import { GetClientId } from "../../Common/commonSlice/CommonSlice";
 
 const ClientConfiguration = ({
   prefilledData,
-  setPrefilledData
+  setPrefilledData,
+  isDelete,
+  setIsDelete
 }) => {
   const dispatch = useDispatch();
   const getClientId = GetClientId();
@@ -54,7 +57,6 @@ const ClientConfiguration = ({
     consentRequired: "",
     points: "",
     price: "",
-    enabled:""
   };
   // state for error handling
   const [errors, setErrors] = useState({
@@ -84,6 +86,7 @@ const ClientConfiguration = ({
         consentRequired: prefilledData.consentRequired || "",
         consentMessage: prefilledData.consentMessage || "",
         points: prefilledData.points || "",
+        price:prefilledData.price || ""
       });
 
       setErrors({
@@ -100,10 +103,6 @@ const ClientConfiguration = ({
   // to handle input change
   const handleChange = (e, fieldName) => {
     let value = e.target.value;
-
-    if (fieldName === "enabled") {
-      value = e.target.value === "true" ? true : false;
-    }
 
     setFormData({
       ...formData,
@@ -133,11 +132,11 @@ const ClientConfiguration = ({
     const newErrors = { ...errors };
 
     for (const key in formData) {
-      if (formData[key] === "") {
-        newErrors[key] = " ";
+      if (formData[key] === "" || formData[key] === undefined) {
+        newErrors[key] = "This field is required";
         isValid = false;
       } else if (formData[key].length > 250) {
-        newErrors[key] = "Length must be 250 or fewer";
+        newErrors[key] = "Length must be 250 characters or fewer";
         isValid = false;
       } else {
         newErrors[key] = "";
@@ -150,15 +149,17 @@ const ClientConfiguration = ({
           onUpdateClientConfigurationSubmit({
             ...formData,
             id: prefilledData?.id,
-            clientId: sessionStorage.getItem("clientCode"),
-            price: 1,
+            clientId: prefilledData?.clientId,
+            price: parseInt(formData?.price),
+            points: parseInt(formData?.points),
+            cartInfo: formData?.cartInfo === "true" ? true : false,
+            consentMessage: formData?.consentMessage === "true" ? true : false,
           })
         );
       } else {
         const postData = {
           ...formData,
           clientId: getClientId,
-          enabled:true,
           points: parseInt(formData?.points),
           price: parseInt(formData?.price),
           cartInfo: formData?.cartInfo === "true" ? true : false,
@@ -170,10 +171,23 @@ const ClientConfiguration = ({
     }
   };
   // to handle toast notifications based on post and update status code
-  console.log(getClientConfiguration);
   useEffect(() => {
-    if (!prefilledData) {
-      if (getClientConfiguration?.post_status_code === "201") {
+      if (getClientConfiguration?.update_status_code === "201") {
+        if (isDelete ){
+          toast.success(getClientConfiguration.updateMessage);
+          dispatch(onUpdateClientConfigurationReset());
+          setIsDelete(false);
+          dispatch(onClientConfigurationSubmit());
+        }
+        else{
+        toast.success(getClientConfiguration.updateMessage);
+        setFormData(resetField);
+        dispatch(onUpdateClientConfigurationReset());
+        setPrefilledData("");
+        dispatch(onClientConfigurationSubmit());
+        }
+      }
+      else if (getClientConfiguration?.post_status_code === 200) {
         toast.success(getClientConfiguration.postMessage);
         setFormData(resetField);
         dispatch(onClientConfigurationSubmit());
@@ -182,15 +196,7 @@ const ClientConfiguration = ({
         toast.error(getClientConfiguration?.message?.data?.ErrorMessage);
         dispatch(onPostClientConfigurationReset());
       }
-    } else if (prefilledData) {
-      if (getClientConfiguration?.update_status_code === "201") {
-        toast.success(getClientConfiguration.updateMessage);
-        setFormData(resetField);
-        setPrefilledData("");
-        dispatch(onClientConfigurationSubmit());
-      }
-    }
-  }, [getClientConfiguration?.status_code]);
+  }, [getClientConfiguration?.post_status_code,getClientConfiguration?.update_status_code]);
   // to fetch the data on mount
   useEffect(() => {
     dispatch(onClientConfigurationSubmit());
@@ -208,7 +214,7 @@ const ClientConfiguration = ({
                 <h4 className="card-title"> Client Configuration</h4>
               </div>
               <div className="card-body pt-2 ml-6  mb-4  ">
-                {getClientConfiguration?.postClientLoading || getClientConfiguration?.updateLoading? (
+                {(getClientConfiguration?.postClientLoading) || (!isDelete && getClientConfiguration?.updateLoading) ? (
                   <div style={{ height: "400px" }}>
                     <Loader classType={"absoluteLoader"} />
                   </div>
