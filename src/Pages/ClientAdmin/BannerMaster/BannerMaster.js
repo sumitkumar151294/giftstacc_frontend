@@ -48,7 +48,6 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
   const getBannerMaster = useSelector((state) => state.bannerMasterReducer);
   const bannerMasterUploadImg = useSelector((state) => state.offerMasterReducer?.imgLoading);
   const offerMasterData = useSelector((state) => state.offerMasterReducer);
-  console.log(offerMasterData?.imageMobileUpload,"image")
   const [getImagePath, setGetImagePath] = useState("");
   const [getImagePathMobile, setGetImagePathMobile] = useState("");
   const [getImage, setGetImage] = useState(false);
@@ -83,7 +82,6 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
     if (prefilledData) {
-      debugger
       setBannerMaster({
         // bannerPlacement: prefilledData.bannerPlacement || "",
         bannerTitle: prefilledData.bannerTitle || "",
@@ -237,9 +235,7 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       ...errors,
       [fieldName]: "",
     });
-  };
-  
-  
+  }; 
   
   const handleDateChange = (dates, fieldName) => {
     setBannerMaster({
@@ -269,11 +265,8 @@ const BannerForm = ({ prefilledData, setPrefilledData, isDelete, setIsDelete }) 
       }
     }
     setErrors(newErrors);
-    console.log(bannerMaster,prefilledData,isValid)
     if (isValid) { 
-      console.log(bannerMaster,prefilledData, getImage)
       if (prefilledData?.webImage && prefilledData?.mobileImage && !getImage) {
-        console.log(bannerMaster,prefilledData)
         dispatch(
           onUpdateBannerMaster({
             ...bannerMaster,

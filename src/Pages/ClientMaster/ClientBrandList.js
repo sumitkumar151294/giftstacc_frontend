@@ -22,7 +22,6 @@ import {
 } from "../../Store/Slices/clientProductMappingSlice";
 import { onGetSupplierList } from "../../Store/Slices/supplierMasterSlice";
 import Loader from "../../Components/Loader/Loader";
-import { onClientConfiqurationSubmit } from "../../Store/Slices/clientConfiqurationSlice";
 
 const ClientBrandList = () => {
   const location = useLocation();

@@ -1,96 +1,96 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const clientConfigurationSlice = createSlice({
-  name: "clientConfiquration",
+  name: "clientConfiguration",
   initialState: {
     isLoading: false,
     isError: false,
-    clientConfiqurationData: [],
+    clientConfigurationData: [],
     error: [],
     message: "",
   },
   reducers: {
-    onClientConfiqurationSubmit: (state) => {
+    onClientConfigurationSubmit: (state) => {
       return {
         ...state,
         isLoading: true,
-        clientConfiqurationData: [],
+        clientConfigurationData: [],
         message: "",
         error: [],
         isError: false,
       };
     },
-    onClientConfiqurationSubmitSuccess: (state, { payload }) => {
+    onClientConfigurationSubmitSuccess: (state, { payload }) => {
       const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: false,
-        clientConfiqurationData:data,
+        clientConfigurationData: data,
         error: [],
         message,
         status_code,
       };
     },
-    onClientConfiqurationSubmitError: (state, { payload }) => {
+    onClientConfigurationSubmitError: (state, { payload }) => {
       const { data = [], message = "", status_code = 200 } = payload;
       return {
         ...state,
         isLoading: false,
         isError: true,
-        clientConfiqurationData: data,
+        clientConfigurationData: data,
         message,
         status_code,
       };
     },
-    onClientConfiqurationReset: (state) => {
+    onClientConfigurationReset: (state) => {
       return {
         ...state,
         isLoading: false,
-        clientConfiqurationData: [],
+        clientConfigurationData: [],
         message: "",
         error: [],
         status_code: null,
         isError: false,
       };
     },
-    onPostClientConfiqurationSubmit: (state) => {
-            return {
+    onPostClientConfigurationSubmit: (state) => {
+      return {
         ...state,
         postClientLoading: true,
-        postClientConfiqurationData: [],
+        postClientConfigurationData: [],
         postMessage: "",
         error: [],
         isError: false,
       };
     },
-    onPostClientConfiqurationSubmitSuccess: (state, { payload }) => {
-      const { postData = [], message = "", status_code = 200 } = payload;
+    onPostClientConfigurationSubmitSuccess: (state, { payload }) => {
+      const { postData = [], message = "", status_code= 200 } = payload;
       return {
         ...state,
         postClientLoading: false,
         isError: false,
-        postClientConfiqurationData:postData,
+        postClientConfigurationData: postData,
         error: [],
-        postMessage:message,
-        post_status_code:status_code,
+        postMessage: message,
+        post_status_code: status_code,
       };
     },
-    onPostClientConfiqurationSubmitError: (state, { payload }) => {
+    onPostClientConfigurationSubmitError: (state, { payload }) => {
       const { postData = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         postClientLoading: false,
         isError: true,
-        postClientConfiqurationData: postData,
-        postMessage:message,
-        post_status_code:status_code,
+        postClientConfigurationData: postData,
+        postMessage: message,
+        post_status_code: status_code,
       };
     },
-    onPostClientConfiqurationReset: (state) => {
+    onPostClientConfigurationReset: (state) => {
       return {
         ...state,
-        postClientConfiqurationData: [],
+        postClientConfigurationData: [],
         postMessage: "",
         post_status_code: null,
         postClientLoading: false,
@@ -98,45 +98,45 @@ export const clientConfigurationSlice = createSlice({
         isError: false,
       };
     },
-    onUpdateClientConfiqurationSubmit: (state) => {
+    onUpdateClientConfigurationSubmit: (state) => {
       return {
         ...state,
         updateLoading: true,
-        updateClientConfiqurationData: [],
+        updateClientConfigurationData: [],
         updateMessage: "",
         error: [],
         isError: false,
-        update_status_code:null
+        update_status_code: null,
       };
     },
-    onUpdateClientConfiqurationSubmitSuccess: (state, { payload }) => {
-      const { updateData = [], message = "", status_code = 200 } = payload;
+    onUpdateClientConfigurationSubmitSuccess: (state, { payload }) => {
+      const { updateData = [], message = "", status_code= 200 } = payload;
       return {
         ...state,
         updateLoading: false,
         isError: false,
-        updateClientConfiqurationData:updateData,
+        updateClientConfigurationData: updateData,
         error: [],
-        updateMessage:message,
-        update_status_code:status_code,
+        updateMessage: message,
+        update_status_code: status_code,
       };
     },
-    onUpdateClientConfiqurationSubmitError: (state, { payload }) => {
+    onUpdateClientConfigurationSubmitError: (state, { payload }) => {
       const { updateData = [], message = "", status_code = 400 } = payload;
       return {
         ...state,
         updateLoading: false,
         isError: true,
-        updateClientConfiqurationData: updateData,
-        updateMessage:message,
-        update_status_code:status_code,
+        updateClientConfigurationData: updateData,
+        updateMessage: message,
+        update_status_code: status_code,
       };
     },
-    onUpdateClientConfiqurationReset: (state) => {
+    onUpdateClientConfigurationReset: (state) => {
       return {
         ...state,
         updateLoading: false,
-        updateClientConfiqurationData: [],
+        updateClientConfigurationData: [],
         updateMessage: "",
         error: [],
         update_status_code: null,
@@ -147,18 +147,18 @@ export const clientConfigurationSlice = createSlice({
 });
 
 export const {
-  onUpdateClientConfiqurationReset,
-  onUpdateClientConfiqurationSubmitError,
-  onUpdateClientConfiqurationSubmitSuccess,
-  onUpdateClientConfiqurationSubmit,
-  onPostClientConfiqurationSubmit,
-  onPostClientConfiqurationSubmitSuccess,
-  onPostClientConfiqurationSubmitError,
-  onPostClientConfiqurationReset,
-  onClientConfiqurationSubmit,
-  onClientConfiqurationSubmitError,
-  onClientConfiqurationSubmitSuccess,
-  onClientConfiqurationReset,
+  onUpdateClientConfigurationReset,
+  onUpdateClientConfigurationSubmitError,
+  onUpdateClientConfigurationSubmitSuccess,
+  onUpdateClientConfigurationSubmit,
+  onPostClientConfigurationSubmit,
+  onPostClientConfigurationSubmitSuccess,
+  onPostClientConfigurationSubmitError,
+  onPostClientConfigurationReset,
+  onClientConfigurationSubmit,
+  onClientConfigurationSubmitError,
+  onClientConfigurationSubmitSuccess,
+  onClientConfigurationReset,
 } = clientConfigurationSlice.actions;
 
 export default clientConfigurationSlice.reducer;

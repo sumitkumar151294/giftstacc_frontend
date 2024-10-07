@@ -42,14 +42,15 @@ const API = {
   //banner-master
   banner_master: "/banner-master",
   // promotional post /update
-promotional_api: "/promotionalStrip",
-  
-    // promotional get
-    promotional_Get_api: "/promotional-strip",
+  promotional_api: "/promotionalStrip",
+
+  // promotional get
+  promotional_Get_api: "/promotional-strip",
 
   //prootional Allocate barnd
-  promotional_Allocate_brand:"promotional-allocate-brands",
-  promotional_Allocate_brand_by_promotionalId:"/promotional-allocate-brands-by-promotionalStrip-id",
+  promotional_Allocate_brand: "promotional-allocate-brands",
+  promotional_Allocate_brand_by_promotionalId:
+    "/promotional-allocate-brands-by-promotionalStrip-id",
   //CMS
   cms_api: "/cms",
   //offer-master
@@ -66,9 +67,10 @@ promotional_api: "/promotionalStrip",
   //upload
   upload_Img: "/upload",
   //All productsapi
-  getAllproduct:"/product/all",
+  getAllproduct: "/product/all",
   //points
-  pointsApi: "/client-configuration",
-
+  clientconfiguration: "/client-configuration",
+  //static Points
+  staticpoints: "/static-points",
 };
 export default API;
