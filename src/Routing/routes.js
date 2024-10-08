@@ -27,7 +27,7 @@ import CustomerList from "../Pages/ClientAdmin/CustomerList/CustomerList";
 import PromotionalList from  '../Pages/ClientAdmin/Promotional/PromotionalList'
 import PromotionalAllocateBrand from "../Pages/ClientAdmin/Promotional/PromotionalAllocateBrand";
 import UnlockPointsList from "../Pages/ClientAdmin/UnlockPoints/UnlockPointsList";
-import ClientConfigurationList from "../Pages/ClientConfiguration/ClientConfigurationList";
+import ClientConfigurationList from "../Pages/clientConfiguration/clientConfigurationList";
 
 function RouteConfiq() {
   return (

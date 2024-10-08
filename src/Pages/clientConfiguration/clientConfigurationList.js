@@ -7,11 +7,12 @@ import Loader from "../../Components/Loader/Loader";
 import { GetTranslationData } from "../../Components/GetTranslationData/GetTranslationData ";
 import PageError from "../../Components/PageError/PageError";
 import { onUpdateClientConfigurationSubmit } from "../../Store/Slices/ClientAdmin/clientConfigurationSlice";
-import ClientConfiguration from "./ClientConfiguration";
+import ClientConfiguration from "./clientConfiguration";
 
 const ClientConfigurationList = () => {
   const dispatch = useDispatch();
   const [prefilledData, setPrefilledData] = useState();
+  
   const [isDelete, setIsDelete]= useState(false);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -52,6 +53,8 @@ const ClientConfigurationList = () => {
       cartInfo: data?.cartInfo,
       consentRequired: data?.consentRequired,
       consentMessage: data?.consentMessage,
+      enableQuickBy: data?.enableQuickBy,
+      otpRedeem: data?.otpRedeem,
     };
     dispatch(onUpdateClientConfigurationSubmit(deletedData));
   };
@@ -81,6 +84,7 @@ const ClientConfigurationList = () => {
               setIsDelete={setIsDelete}
             />
           )}
+          
           <div className="container-fluid pt-0">
             <div className="row">
               <div className="col-lg-12">
@@ -109,6 +113,8 @@ const ClientConfigurationList = () => {
                                   <th>Display Item Info Status</th>
                                   <th>Display Consent Message</th>
                                   <th>Display Consent Status</th>
+                                  <th>Quick Buy</th>
+                                  <th>OTP Redeem</th>
                                   <th>Action</th>
                                 </tr>
                               </thead>
@@ -145,6 +151,32 @@ const ClientConfigurationList = () => {
                                           }
                                         >
                                           {points.consentMessage
+                                            ? active
+                                            : non_active_option}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span
+                                          className={
+                                            points.enableQuickBy
+                                              ? "badge badge-success"
+                                              : "badge badge-danger"
+                                          }
+                                        >
+                                          {points.enableQuickBy
+                                            ? active
+                                            : non_active_option}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span
+                                          className={
+                                            points.otpRedeem
+                                              ? "badge badge-success"
+                                              : "badge badge-danger"
+                                          }
+                                        >
+                                          {points.otpRedeem
                                             ? active
                                             : non_active_option}
                                         </span>
