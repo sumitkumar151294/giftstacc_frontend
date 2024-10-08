@@ -32,10 +32,14 @@ const ClientConfiguration = ({
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
   const requiredLevel = GetTranslationData("UIAdmin", "required_label");
+  const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
+  const validNumber = GetTranslationData("UIAdmin", "number_Digit_Label");
   // to get data from redux store
   const getClientConfiguration = useSelector(
     (state) => state.clientConfigurationReducer
   );
+
+  
   // initial state of input fields
   const [formData, setFormData] = useState({
     email: "",
@@ -46,6 +50,8 @@ const ClientConfiguration = ({
     consentRequired: "",
     points: "",
     price: "",
+    enableQuickBy:"",
+    otpRedeem:""
   });
   // reset input fields for form
   const resetField = {
@@ -57,6 +63,8 @@ const ClientConfiguration = ({
     consentRequired: "",
     points: "",
     price: "",
+    enableQuickBy:"",
+    otpRedeem:""
   };
   // state for error handling
   const [errors, setErrors] = useState({
@@ -68,6 +76,8 @@ const ClientConfiguration = ({
     consentRequired: "",
     points: "",
     price: "",
+    enableQuickBy:"",
+    otpRedeem:""
   });
   // options for status
   const statusoptions = [
@@ -75,18 +85,20 @@ const ClientConfiguration = ({
     { value: false, label: non_active },
   ];
   // to handle edit
-  useEffect(() => {
+  useEffect(() => { 
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     if (prefilledData) {
       setFormData({
         email: prefilledData.email || "",
         phoneNumber: prefilledData.phoneNumber || "",
-        cartInfo: prefilledData.cartInfo || "",
+        cartInfo: prefilledData.cartInfo === true ? "true" : "false",
         cartInfoMessage: prefilledData.cartInfoMessage || "",
         consentRequired: prefilledData.consentRequired || "",
-        consentMessage: prefilledData.consentMessage || "",
+        consentMessage: prefilledData.consentMessage === true ? "true" : "false",
         points: prefilledData.points || "",
-        price:prefilledData.price || ""
+        price:prefilledData.price || "",
+        enableQuickBy: prefilledData.enableQuickBy === true ? "true" : "false",
+      otpRedeem: prefilledData.otpRedeem === true ? "true" : "false",
       });
 
       setErrors({
@@ -97,6 +109,8 @@ const ClientConfiguration = ({
         consentMessage: "",
         consentRequired: "",
         points: "",
+        enableQuickBy:"",
+        otpRedeem:""
       });
     }
   }, [prefilledData]);
@@ -108,11 +122,27 @@ const ClientConfiguration = ({
       ...formData,
       [fieldName]: value,
     });
+    if (fieldName === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValidEmail = emailRegex.test(e.target.value);
+      setErrors({
+        ...errors,
+        [fieldName]: isValidEmail ? "" : invalidEmail,
+      });
+    } else if (fieldName === "phoneNumber") {
+      const phoneRegex = /^\d{10}$/;
+      const isValidnumber = phoneRegex.test(e.target.value);
+      setErrors({
+        ...errors,
+        [fieldName]: isValidnumber ? "" : validNumber,
+      });
+    } else {
 
     setErrors({
       ...errors,
       [fieldName]: "",
     });
+  }
   };
   // to handle dropdown
   const handleDropdownChange = (value, fieldName) => {
@@ -126,13 +156,13 @@ const ClientConfiguration = ({
     });
   };
   // to handle submit
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { 
     e.preventDefault();
     let isValid = true;
     const newErrors = { ...errors };
 
     for (const key in formData) {
-      if (formData[key] === "" || formData[key] === undefined) {
+      if (formData[key] === "" || formData[key] === "Select") {
         newErrors[key] = "This field is required";
         isValid = false;
       } else if (formData[key].length > 250) {
@@ -143,8 +173,8 @@ const ClientConfiguration = ({
       }
     }
     setErrors(newErrors);
-    if (isValid) {
-      if (prefilledData) {
+    if (isValid) {  
+      if (prefilledData) { 
         dispatch(
           onUpdateClientConfigurationSubmit({
             ...formData,
@@ -154,9 +184,11 @@ const ClientConfiguration = ({
             points: parseInt(formData?.points),
             cartInfo: formData?.cartInfo === "true" ? true : false,
             consentMessage: formData?.consentMessage === "true" ? true : false,
+            enableQuickBy: formData?.enableQuickBy === "true" ? true : false,
+            otpRedeem: formData?.otpRedeem === "true" ? true : false,
           })
         );
-      } else {
+      } else { 
         const postData = {
           ...formData,
           clientId: getClientId,
@@ -164,6 +196,8 @@ const ClientConfiguration = ({
           price: parseInt(formData?.price),
           cartInfo: formData?.cartInfo === "true" ? true : false,
           consentMessage: formData?.consentMessage === "true" ? true : false,
+          enableQuickBy: formData?.enableQuickBy === "true" ? true : false,
+          otpRedeem: formData?.otpRedeem === "true" ? true : false,
         };
         dispatch(onPostClientConfigurationSubmit(postData));
       }
@@ -179,7 +213,7 @@ const ClientConfiguration = ({
           setIsDelete(false);
           dispatch(onClientConfigurationSubmit());
         }
-        else{
+        else{ 
         toast.success(getClientConfiguration.updateMessage);
         setFormData(resetField);
         dispatch(onUpdateClientConfigurationReset());
@@ -196,7 +230,7 @@ const ClientConfiguration = ({
         toast.error(getClientConfiguration?.message?.data?.ErrorMessage);
         dispatch(onPostClientConfigurationReset());
       }
-  }, [getClientConfiguration?.post_status_code,getClientConfiguration?.update_status_code]);
+  }, [getClientConfiguration?.post_status_code, getClientConfiguration?.update_status_code]);
   // to fetch the data on mount
   useEffect(() => {
     dispatch(onClientConfigurationSubmit());
@@ -240,7 +274,7 @@ const ClientConfiguration = ({
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="phone">
+                          <label htmlFor="phoneNumber">
                             Phone <span className="text-danger">*</span>
                           </label>
                           <InputField
@@ -248,12 +282,12 @@ const ClientConfiguration = ({
                             className={`form-control ${
                               errors.phoneNumber ? "border-danger" : ""
                             }`}
-                            id="phone"
+                            id="phoneNumber"
                             value={formData.phoneNumber}
                             placeholder="Enter phone number"
                             onChange={(e) => handleChange(e, "phoneNumber")}
                           />
-                          {<p className="text-danger">{errors.phone}</p>}
+                          {<p className="text-danger">{errors.phoneNumber}</p>}
                         </div>
                         <div className="col-sm-4 form-group mb-2">
                           <label htmlFor="pricePerPoint">
@@ -333,23 +367,23 @@ const ClientConfiguration = ({
                         </div>
 
                         <div className="col-sm-4 form-group mb-2">
-                          <label htmlFor="displayConsonantMessage">
+                          <label htmlFor="displayConsonant">
                             Display Consonant{" "}
                             <span className="text-danger">*</span>
                           </label>
                           <InputField
                             type="text"
                             className={`form-control ${
-                              errors.consentMessage ? "border-danger" : ""
+                              errors.consentRequired ? "border-danger" : ""
                             }`}
-                            id="displayConsonantMessage"
-                            value={formData.consentMessage}
+                            id="displayConsonant"
+                            value={formData.consentRequired}
                             placeholder="Enter display consonant message"
-                            onChange={(e) => handleChange(e, "consentMessage")}
+                            onChange={(e) => handleChange(e, "consentRequired")}
                           />
                           {
                             <p className="text-danger">
-                              {errors.consentMessage}
+                              {errors.consentRequired}
                             </p>
                           }
                         </div>
@@ -361,16 +395,16 @@ const ClientConfiguration = ({
                           </label>
                           <Dropdown
                             className={
-                              errors.consentRequired
+                              errors.consentMessage
                                 ? "border-danger-select"
                                 : "form-select"
                             }
                             id="displayConsonant"
-                            value={formData?.consentRequired}
+                            value={formData?.consentMessage}
                             onChange={(event) =>
                               handleDropdownChange(
                                 event.target.value,
-                                "consentRequired"
+                                "consentMessage"
                               )
                             }
                             options={statusoptions}
@@ -378,10 +412,67 @@ const ClientConfiguration = ({
 
                           {
                             <p className="text-danger">
-                              {errors.consentRequired}
+                              {errors.consentMessage}
                             </p>
                           }
                         </div>
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="enableQuickBy">
+                            Enable Quick Buy
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Dropdown
+                            className={
+                              errors.enableQuickBy
+                                ? "border-danger-select"
+                                : "form-select"
+                            }
+                            id="enableQuickBy"
+                            value={formData?.enableQuickBy}
+                            onChange={(event) =>
+                              handleDropdownChange(
+                                event.target.value,
+                                "enableQuickBy"
+                              )
+                            }
+                            options={statusoptions}
+                          />
+
+                          {
+                            <p className="text-danger">
+                              {errors.enableQuickBy}
+                            </p>
+                          }
+                        </div>
+                        <div className="col-sm-4 form-group mb-2">
+                          <label htmlFor="otpRedeem">
+                            Otp Redeem
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Dropdown
+                            className={
+                              errors.otpRedeem
+                                ? "border-danger-select"
+                                : "form-select"
+                            }
+                            id="otpRedeem"
+                            value={formData?.otpRedeem}
+                            onChange={(event) =>
+                              handleDropdownChange(
+                                event.target.value,
+                                "otpRedeem"
+                              )
+                            }
+                            options={statusoptions}
+                          />
+
+                          {
+                            <p className="text-danger">
+                              {errors.otpRedeem}
+                            </p>
+                          }
+                        </div>
+
                       </div>
                       <div className="col-sm-12 form-group mb-0 mt-2">
                         <Button
