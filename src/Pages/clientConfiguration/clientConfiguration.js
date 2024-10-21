@@ -226,7 +226,11 @@ const ClientConfiguration = ({
         setFormData(resetField);
         dispatch(onClientConfigurationSubmit());
         dispatch(onPostClientConfigurationReset());
-      } else if (getClientConfiguration?.status_code) {
+      } else if(getClientConfiguration?.post_status_code === "500"){
+        toast.error(getClientConfiguration?.postMessage);
+        dispatch(onPostClientConfigurationReset());
+      }
+      else if (getClientConfiguration?.status_code) {
         toast.error(getClientConfiguration?.message?.data?.ErrorMessage);
         dispatch(onPostClientConfigurationReset());
       }

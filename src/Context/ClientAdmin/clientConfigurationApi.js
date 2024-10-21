@@ -6,7 +6,9 @@ export const getClientConfigureApi = async () => {
 };
 
 export const postClientConfigureApi = async (payload) => {
+  debugger
   const { data = {} } = await api.post(API.clientconfiguration,payload);
+  debugger
   return data;
 };
 

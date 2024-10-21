@@ -35,7 +35,8 @@ function* clientConfiguration() {
       );
     }
   } catch (error) {
-    const message = error.response || "Something went wrong";
+    debugger
+    const message = error?.response || "Something went wrong";
     yield put(
       onClientConfigurationSubmitError({ data: [], message, status_code: 400 })
     );
@@ -47,6 +48,7 @@ function* postClientConfiguration({ payload }) {
       postClientConfigureApi,
       payload
     );
+    debugger
     if (postClientConfigurationResponse.httpStatusCode === "201") {
       yield put(
         onPostClientConfigurationSubmitSuccess({
@@ -64,6 +66,7 @@ function* postClientConfiguration({ payload }) {
       );
     }
   } catch (error) {
+    debugger
     yield put(
       onPostClientConfigurationSubmitError({
         data: [],
