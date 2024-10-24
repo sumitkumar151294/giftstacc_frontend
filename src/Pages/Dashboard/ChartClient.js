@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import category from '../../Assets/img/category.png'
 import product from '../../Assets/img/product1.png'
-import customer from '../../Assets/img/customer1.png'
 import ReactApexChart from 'react-apexcharts';
 import { GetTranslationData } from '../../Components/GetTranslationData/GetTranslationData ';
 import { onGetCategory } from '../../Store/Slices/createCategorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { onClientMasterSubmit } from '../../Store/Slices/clientMasterSlice';
-import { onGetSupplierList } from '../../Store/Slices/supplierMasterSlice';
 import { onGetSupplierBrandList } from '../../Store/Slices/supplierBrandListSlice';
-export const Chart = () => {
+export const ChartClient = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const donutChartData = [5, 3];
   const productDonutChartData =[5, 1];
-  const customerDonutChartData =[5, 3];
   const orderDonutChartData =[5, 2];
   useEffect(() => {
     dispatch(onGetCategory());
@@ -24,8 +21,7 @@ export const Chart = () => {
       onGetSupplierBrandList({ pageNumber: page, pageSize: rowsPerPage })
     );
   }, []);
-  const getCreateCategory = useSelector((state) => state.createCategoryReducer?.categoryData);
-  const clientList = useSelector((state) => state.clientMasterReducer?.clientData);
+
   const SupplierBrandList = useSelector(
     (state) => state.supplierBrandListReducer.data?.[0]?.totalCount
   );
@@ -58,30 +54,7 @@ export const Chart = () => {
     <>
      <div className="col-xl-6">
               <div className="row">
-                <div className="col-xl-6 col-sm-6">
-                  <div className="card">
-                    <div className="card-body d-flex align-items-center justify-content-between cardnav">
-                      <div className="menu">
-                        <span className="font-w500 fs-16 d-block mb-2">{categories}</span>
-                        <h2>{getCreateCategory.length}</h2>
-                      </div>
-                      <div className="d-inline-block position-relative donut-chart-sale">
-                        <ReactApexChart
-                          options={donutChartOptions}
-                          series={donutChartData}
-                          type="donut"
-                        />
-                        <small className="text-black">
-                          <img
-                            className="w-35px"
-                            src={category}
-                            alt="file not exist"
-                          />
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+             
                 <div className="col-xl-6 col-sm-6">
                   <div className="card">
                     <div className="card-body d-flex align-items-center justify-content-between cardnav ">
@@ -107,32 +80,7 @@ export const Chart = () => {
                   </div>
                 </div>
                 
-                <div className="col-xl-6 col-sm-6">
-                  <div className="card">
-                    <div className="card-body d-flex align-items-center justify-content-between cardnav">
-                      <div className="menu">
-                        <span className="font-w500 fs-16 d-block mb-2">
-                        {clients_name_label}
-                        </span>
-                        <h2>{clientList?.length}</h2>
-                      </div>
-                      <div className="d-inline-block position-relative donut-chart-sale ">
-                      <ReactApexChart
-                          options={donutChartOptions}
-                          series={customerDonutChartData}
-                          type="donut"
-                        />
-                        <small className="text-black">
-                          <img
-                            className="w-35px"
-                            src={customer}
-                            alt="file not exist"
-                          />
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            
                 <div className="col-xl-6 col-sm-6">
                   <div className="card">
                     <div className="card-body d-flex align-items-center justify-content-between cardnav">

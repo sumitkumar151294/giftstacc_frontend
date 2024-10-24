@@ -31,7 +31,6 @@ const ClientConfiguration = ({
   const active = GetTranslationData("UIClient", "active_option");
   const non_active = GetTranslationData("UIClient", "non_active_option");
   const submitTranslation = GetTranslationData("UIAdmin", "submit_label");
-  const requiredLevel = GetTranslationData("UIAdmin", "required_label");
   const invalidEmail = GetTranslationData("UIAdmin", "invalid_Email");
   const validNumber = GetTranslationData("UIAdmin", "number_Digit_Label");
   // to get data from redux store
@@ -181,7 +180,7 @@ const ClientConfiguration = ({
             id: prefilledData?.id,
             clientId: prefilledData?.clientId,
             price: parseInt(formData?.price),
-            points: parseInt(formData?.points),
+            points: parseFloat(formData?.points),
             cartInfo: formData?.cartInfo === "true" ? true : false,
             consentMessage: formData?.consentMessage === "true" ? true : false,
             enableQuickBy: formData?.enableQuickBy === "true" ? true : false,
@@ -192,7 +191,7 @@ const ClientConfiguration = ({
         const postData = {
           ...formData,
           clientId: getClientId,
-          points: parseInt(formData?.points),
+          points: parseFloat(formData?.points),
           price: parseInt(formData?.price),
           cartInfo: formData?.cartInfo === "true" ? true : false,
           consentMessage: formData?.consentMessage === "true" ? true : false,
@@ -206,6 +205,7 @@ const ClientConfiguration = ({
   };
   // to handle toast notifications based on post and update status code
   useEffect(() => {
+    debugger
       if (getClientConfiguration?.update_status_code === "201") {
         if (isDelete ){
           toast.success(getClientConfiguration.updateMessage);
@@ -228,10 +228,6 @@ const ClientConfiguration = ({
         dispatch(onPostClientConfigurationReset());
       } else if(getClientConfiguration?.post_status_code === "500"){
         toast.error(getClientConfiguration?.postMessage);
-        dispatch(onPostClientConfigurationReset());
-      }
-      else if (getClientConfiguration?.status_code) {
-        toast.error(getClientConfiguration?.message?.data?.ErrorMessage);
         dispatch(onPostClientConfigurationReset());
       }
   }, [getClientConfiguration?.post_status_code, getClientConfiguration?.update_status_code]);

@@ -12,20 +12,18 @@ import {
 } from "../../../Store/Slices/ClientAdmin/offerMasterSlice";
 import Loader from "../../../Components/Loader/Loader";
 import PageError from "../../../Components/PageError/PageError";
+import { GetClientId } from "../../../Common/commonSlice/CommonSlice";
 
 const OfferMasterList = () => {
   // const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(5);
+  const clientid = GetClientId();
 
   // To get the label from translation API
   const [prefilledValues, setPrefilledValues] = useState();
   const offer_list = GetTranslationData("UIClient", "offer_list");
   const image = GetTranslationData("UIClient", "imageLabel");
-  const title = GetTranslationData("UIClient", "title");
-  const subtitle = GetTranslationData("UIClient", "sub-title");
-  const link_level = GetTranslationData("UIClient", "link_label");
-  const imagePlacement = GetTranslationData("UIClient", "image_placement");
   const status = GetTranslationData("UIClient", "status");
   const action = GetTranslationData("UIClient", "actionLabel");
   const active = GetTranslationData("UIAdmin", "active");
@@ -87,6 +85,9 @@ const OfferMasterList = () => {
       linkText: data?.linkText,
       imagePlacement: data.imagePlacement,
       image: data.image,
+      startDate:data.startDate,
+      endDate:data?.endDate,
+      clientid:clientid
     };
     dispatch(onUpdateOfferMaster(deletedData));
   };

@@ -23,13 +23,25 @@ export const config = [{
     PARTNER_KEY: "UIClient",
   },
   {
-    API_URL: "http://localhost:3000",
+    API_URL: "https://uat-cc-admin.giftstacc.com",
+    ACCESS_KEY: "2",
+    SECRET_KEY: "2",
+    PARTNER_KEY: "UIAdmin",
+  },
+  {
+    API_URL: "https://uat-cc-admin.giftstacc.com",
     ACCESS_KEY: "3",
     SECRET_KEY: "3",
     PARTNER_KEY: "UIClient",
   },
   {
-    API_URL: "http://localhost:3000",
+    API_URL: "http://localhost:3001",
+    ACCESS_KEY: "3",
+    SECRET_KEY: "3",
+    PARTNER_KEY: "UIClient",
+  },
+  {
+    API_URL: "http://localhost:3001",
     ACCESS_KEY: "2",
     SECRET_KEY: "2",
     PARTNER_KEY: "UIAdmin",

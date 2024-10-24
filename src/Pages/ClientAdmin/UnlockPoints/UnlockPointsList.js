@@ -107,11 +107,11 @@ const UnlockPointsList = () => {
                           <thead>
                             <tr>
                               <th>{section_name}</th>
-                              <th>{"Mobile Icon "}</th>
-                              <th>{"Web Icon"}</th>
+                              {/* <th>{"Mobile Icon "}</th>
+                              <th>{"Web Icon"}</th> */}
                               <th>{"Title"}</th>
-                              <th>{displayOrder}</th>
-                              <th>{status}</th>
+                              {/* <th>{displayOrder}</th>
+                              <th>{status}</th> */}
                               {getRoleAccess[0]?.editAccess && (
                                 <th>{action}</th>
                               )}
@@ -127,11 +127,11 @@ const UnlockPointsList = () => {
                                     <td className="list-Width">
                                       <strong>{points.title}</strong>
                                     </td>
-                                    <td>{""}</td>
-                                    <td>{""}</td>
+                                    {/* <td>{""}</td>
+                                    <td>{""}</td> */}
                                     <td>{points.description}</td>
-                                    <td>{points.displayOrder}</td>
-                                    <td>
+                                    {/* <td>{points.displayOrder}</td> */}
+                                    {/* <td>
                                       <span
                                         className={
                                           points.enabled
@@ -143,7 +143,7 @@ const UnlockPointsList = () => {
                                           ? active
                                           : non_active_option}
                                       </span>
-                                    </td>{" "}
+                                    </td>{" "} */}
                                     {getRoleAccess[0]?.editAccess && (
                                       <td>
                                         <div className="d-flex">

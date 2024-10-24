@@ -28,6 +28,7 @@ import PromotionalList from  '../Pages/ClientAdmin/Promotional/PromotionalList'
 import PromotionalAllocateBrand from "../Pages/ClientAdmin/Promotional/PromotionalAllocateBrand";
 import UnlockPointsList from "../Pages/ClientAdmin/UnlockPoints/UnlockPointsList";
 import ClientConfigurationList from "../Pages/clientConfiguration/clientConfigurationList";
+import DashboardClient from "../Pages/Dashboard/Dashboard-client";
 
 function RouteConfiq() {
   return (
@@ -89,7 +90,7 @@ function RouteConfiq() {
         <Route path="/lc-user-admin/login" element={<LoginPage />} />
         <Route
           path="/lc-user-admin/dashboard"
-          element={<Layout Component={Dashboard} />}
+          element={<Layout Component={DashboardClient} />}
         />
         <Route
           path="/lc-user-admin/orders"
